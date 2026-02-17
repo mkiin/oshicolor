@@ -1,5 +1,9 @@
 import { faker } from '@faker-js/faker'
 
+const MAX_AGE = 40
+const MAX_VISITS = 1000
+const MAX_PROGRESS = 100
+
 export type Person = {
   id: number
   firstName: string
@@ -24,9 +28,9 @@ const newPerson = (num: number): Person => {
     id: num,
     firstName: faker.person.firstName(),
     lastName: faker.person.lastName(),
-    age: faker.number.int(40),
-    visits: faker.number.int(1000),
-    progress: faker.number.int(100),
+    age: faker.number.int(MAX_AGE),
+    visits: faker.number.int(MAX_VISITS),
+    progress: faker.number.int(MAX_PROGRESS),
     status: faker.helpers.shuffle<Person['status']>([
       'relationship',
       'complicated',

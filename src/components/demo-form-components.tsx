@@ -1,11 +1,19 @@
 import { useStore } from '@tanstack/react-form'
 
-import { useFieldContext, useFormContext } from '@/hooks/demo.form-context'
+import { useFieldContext, useFormContext } from '@/hooks/demo-form-context'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea as ShadcnTextarea } from '@/components/ui/textarea'
-import * as ShadcnSelect from '@/components/ui/select'
+import {
+  Select as ShadcnSelectRoot,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { Slider as ShadcnSlider } from '@/components/ui/slider'
 import { Switch as ShadcnSwitch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
@@ -109,25 +117,25 @@ export function Select({
 
   return (
     <div>
-      <ShadcnSelect.Select
+      <ShadcnSelectRoot
         name={field.name}
         value={field.state.value}
         onValueChange={(value) => field.handleChange(value)}
       >
-        <ShadcnSelect.SelectTrigger className="w-full">
-          <ShadcnSelect.SelectValue placeholder={placeholder} />
-        </ShadcnSelect.SelectTrigger>
-        <ShadcnSelect.SelectContent>
-          <ShadcnSelect.SelectGroup>
-            <ShadcnSelect.SelectLabel>{label}</ShadcnSelect.SelectLabel>
+        <SelectTrigger className="w-full">
+          <SelectValue placeholder={placeholder} />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            <SelectLabel>{label}</SelectLabel>
             {values.map((value) => (
-              <ShadcnSelect.SelectItem key={value.value} value={value.value}>
+              <SelectItem key={value.value} value={value.value}>
                 {value.label}
-              </ShadcnSelect.SelectItem>
+              </SelectItem>
             ))}
-          </ShadcnSelect.SelectGroup>
-        </ShadcnSelect.SelectContent>
-      </ShadcnSelect.Select>
+          </SelectGroup>
+        </SelectContent>
+      </ShadcnSelectRoot>
       {field.state.meta.isTouched && <ErrorMessages errors={errors} />}
     </div>
   )
