@@ -218,8 +218,8 @@ import { useQuery } from "@tanstack/react-query";
 import { atom, useAtom } from "jotai";
 
 // 3. プロジェクト内のエイリアスパス（~ は src/ を指す）
-import { db } from "~/db";
-import { themes } from "~/db/schema";
+import { db } from "@/db";
+import { themes } from "@/db/schema";
 
 // 4. 相対パス
 import { extractColors } from "../utils/color-extractor";
@@ -288,8 +288,8 @@ oshicolor/
 
 ```typescript
 // src/features/gallery/themes.server.ts - サーバー専用ヘルパー
-import { db } from "~/db";
-import { themes } from "~/db/schema";
+import { db } from "@/db";
+import { themes } from "@/db/schema";
 import { desc, eq } from "drizzle-orm";
 
 export const findPublishedThemes = async (page: number) => {
