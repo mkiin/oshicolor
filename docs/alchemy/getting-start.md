@@ -356,12 +356,29 @@ export const Route = createFileRoute("/api/webhooks")({
 
 | 種類 | ツール | 用途 |
 |---|---|---|
-| サーバー状態 | TanStack Query | API データのフェッチ・キャッシュ・再検証 |
+| サーバー状態 | TanStack Query (via Jotai) | API データのフェッチ・キャッシュ・再検証 |
 | クライアント状態 | Jotai | UI 状態、カラーエディタ、テーマプレビュー設定 |
 | URL 状態 | TanStack Router | ページネーション、フィルタ、検索パラメータ |
 
 - サーバーから取得したデータを Jotai アトムにコピーしない。TanStack Query のキャッシュを信頼する
 - URL に反映すべき状態（ページ番号、検索条件）は Router の search params を使う
+
+### Jotai + TanStack Query の統合
+
+TanStack Query との統合には **`jotai-tanstack-query`** を使用する。`useQuery` / `useMutation` を直接使わず、`atomWithQuery` / `atomWithMutation` 等の Jotai 拡張を通じてデータ取得を行う。
+
+- QueryClient インスタンスの共有には `QueryClientAtomProvider` を使用する
+- 派生データは derived atom（`atom((get) => get(queryAtom).data)`）で表現し、不要な再レンダリングを防ぐ
+- `useQuery` を直接使用するのは、既存コードの段階的移行時のみ許容する。新規コードでは `atomWithQuery` 系を使う
+
+### Suspense 設計
+
+データフェッチには Suspense を前提とした設計を行う。
+
+- クエリアトムは `atomWithSuspenseQuery` / `atomWithSuspenseInfiniteQuery` を優先して使用する
+- Route 単位で `<Suspense>` 境界を設け、ローディング表示を制御する
+- エラーハンドリングは `ErrorBoundary` で捕捉する
+- `isPending` による条件分岐でのローディング表示は、Suspense が使えない場合の代替手段として扱う
 
 ## DB / ORM
 
