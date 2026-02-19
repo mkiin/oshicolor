@@ -364,6 +364,60 @@ export const Route = createFileRoute("/api/webhooks")({
   - `feat:`, `fix:`, `refactor:`, `docs:`, `chore:`, `test:`
 - 1 コミット = 1 論理的変更
 
+## Git・デプロイ戦略
+
+### ブランチ構成
+
+| ブランチ | 役割 | デプロイ先 |
+|---|---|---|
+| `main` | 本番リリース用 | `prod`（本番環境） |
+| `dev` | 開発・検証用 | `dev`（開発環境） |
+
+- feature ブランチは切らない
+- 開発は `dev` ブランチで行い、動作確認後に `main` へマージする
+
+### デプロイフロー
+
+```
+dev ブランチで開発
+  └→ push → GitHub Actions → alchemy deploy --stage dev
+       └→ 動作確認 OK
+            └→ main へマージ → GitHub Actions → alchemy deploy --stage prod
+```
+
+### GitHub Actions
+
+`main` または `dev` への push で自動デプロイが走る。
+
+| push 先 | STAGE | 環境 |
+|---|---|---|
+| `main` | `prod` | 本番 |
+| `dev` | `dev` | 開発 |
+
+### Alchemy Stage とリソースの対応
+
+`alchemy.run.ts` 内で stage によりリソース名を分離する。
+
+```typescript
+const app = await alchemy("oshicolor");
+
+const db = await D1Database("db", {
+  name: app.stage === "prod" ? "oshicolor-db" : `oshicolor-db-${app.stage}`,
+});
+```
+
+これにより本番と開発の D1・R2 等が完全に独立する。
+
+### 必要な GitHub Secrets
+
+| Secret | 説明 |
+|---|---|
+| `ALCHEMY_PASSWORD` | Alchemy の暗号化パスワード |
+| `ALCHEMY_STATE_TOKEN` | Alchemy State Store の認証トークン（自分で生成） |
+| `CLOUDFLARE_API_TOKEN` | Cloudflare API トークン |
+| `CLOUDFLARE_EMAIL` | Cloudflare アカウントのメールアドレス |
+| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare アカウント ID |
+
 ## その他
 
 ### Effective TypeScript 準拠
