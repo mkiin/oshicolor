@@ -8,6 +8,7 @@ count.txt
 .nitro
 .tanstack
 .wrangler
+.alchemy
 .output
 .vinxi
 __unconfig*
