@@ -12,4 +12,6 @@ export type ColorPoint = {
     color: string;
     /** color-name-list による色名 */
     name?: string;
+    /** 画像内での出現割合（%）。中央値カット法実装時のみ付与される */
+    percent?: number;
 };

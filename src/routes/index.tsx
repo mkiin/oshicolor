@@ -1,8 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useRef, useState } from "react";
-
 import { extractColors } from "@/features/color-extractor/color-extractor";
+import { extractColorsAnicolors } from "@/features/color-extractor/color-extractor-anicolors";
 import type { ColorPoint } from "@/features/color-extractor/types";
+
+type ExtractorMode = "oklab" | "anicolors";
 
 export const Route = createFileRoute("/")({ component: App });
 
@@ -10,7 +12,10 @@ export function App() {
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [isDragging, setIsDragging] = useState(false);
     const [palette, setPalette] = useState<ColorPoint[]>([]);
-    const [isExtracting, setIsExtracting] = useState(false);
+    const [extractingMode, setExtractingMode] = useState<ExtractorMode | null>(
+        null,
+    );
+    const [usedMode, setUsedMode] = useState<ExtractorMode | null>(null);
 
     const inputRef = useRef<HTMLInputElement>(null);
     const imgRef = useRef<HTMLImageElement>(null);
@@ -21,6 +26,7 @@ export function App() {
         const url = URL.createObjectURL(file);
         setPreviewUrl(url);
         setPalette([]);
+        setUsedMode(null);
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,15 +53,16 @@ export function App() {
     const handleReset = () => {
         setPreviewUrl(null);
         setPalette([]);
+        setUsedMode(null);
         if (inputRef.current) inputRef.current.value = "";
     };
 
-    const handleExtract = () => {
+    const handleExtract = (mode: ExtractorMode) => {
         const img = imgRef.current;
         const canvas = canvasRef.current;
         if (!img || !canvas) return;
 
-        setIsExtracting(true);
+        setExtractingMode(mode);
 
         // 次のフレームに処理を遅延させてローディング表示を確実に反映する
         requestAnimationFrame(() => {
@@ -65,7 +72,7 @@ export function App() {
 
             const ctx = canvas.getContext("2d");
             if (!ctx) {
-                setIsExtracting(false);
+                setExtractingMode(null);
                 return;
             }
 
@@ -77,15 +84,25 @@ export function App() {
                 naturalHeight,
             );
 
-            const result = extractColors(
+            const extractor =
+                mode === "anicolors" ? extractColorsAnicolors : extractColors;
+            const result = extractor(
                 imageData,
                 naturalWidth,
                 naturalHeight,
-                20,
+                mode === "anicolors" ? 12 : 20,
             );
             setPalette(result);
-            setIsExtracting(false);
+            setUsedMode(mode);
+            setExtractingMode(null);
         });
+    };
+
+    const isExtracting = extractingMode !== null;
+
+    const modeLabel: Record<ExtractorMode, string> = {
+        oklab: "OKLab（20色）",
+        anicolors: "Cinematic（12色）",
     };
 
     return (
@@ -142,11 +159,23 @@ export function App() {
                         <div className="flex gap-3">
                             <button
                                 type="button"
-                                onClick={handleExtract}
+                                onClick={() => handleExtract("oklab")}
                                 disabled={isExtracting}
                                 className="flex-1 py-2.5 rounded-lg bg-violet-600 text-white text-sm font-medium hover:bg-violet-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                             >
-                                {isExtracting ? "抽出中..." : "色を抽出する"}
+                                {extractingMode === "oklab"
+                                    ? "抽出中..."
+                                    : "OKLab で抽出"}
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => handleExtract("anicolors")}
+                                disabled={isExtracting}
+                                className="flex-1 py-2.5 rounded-lg bg-sky-600 text-white text-sm font-medium hover:bg-sky-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            >
+                                {extractingMode === "anicolors"
+                                    ? "抽出中..."
+                                    : "Cinematic で抽出"}
                             </button>
                             <button
                                 type="button"
@@ -164,6 +193,11 @@ export function App() {
                     <div className="space-y-3">
                         <p className="text-gray-400 text-sm">
                             抽出された色: {palette.length}色
+                            {usedMode && (
+                                <span className="ml-2 text-gray-600">
+                                    ({modeLabel[usedMode]})
+                                </span>
+                            )}
                         </p>
                         <div className="grid grid-cols-4 gap-3">
                             {palette.map((point) => (
@@ -184,6 +218,11 @@ export function App() {
                                         {point.name && (
                                             <p className="text-gray-500 text-xs truncate">
                                                 {point.name}
+                                            </p>
+                                        )}
+                                        {point.percent !== undefined && (
+                                            <p className="text-gray-600 text-xs">
+                                                {point.percent}%
                                             </p>
                                         )}
                                     </div>

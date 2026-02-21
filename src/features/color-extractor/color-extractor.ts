@@ -16,25 +16,28 @@ const MIN_ALPHA = 128; // 半透明以下を除外
 const MIN_BRIGHTNESS = 30; // エディタで使いにくい極暗色を除外
 const MAX_BRIGHTNESS = 225; // エディタで使いにくい極明色を除外
 const MIN_FREQUENCY = 10; // ノイズ色を除去するための最低出現回数
-const MAX_CANDIDATES = 20; // 貪欲法の計算コスト抑制
+const MAX_CANDIDATES = 100; // 貪欲法の計算コスト抑制。count の最大想定値（20）の 5 倍を確保する
 
 // color-name-list の nearest 検索（初回呼び出し時に lazy 初期化）
 let _finder: ((color: Color | string, n?: number) => Color[]) | null = null;
-const _parsedColors: Color[] = [];
-const _colorMeta: Array<{ hex: string; name: string }> = [];
+// formatHex(parsed) をキーとして色名を引くテーブル
+const _nameByHex = new Map<string, string>();
 
 const getNameFinder = () => {
     if (_finder) return _finder;
 
+    const parsedColors: Color[] = [];
+
     for (const c of colornames) {
         const parsed = parse(c.hex);
-        if (parsed) {
-            _parsedColors.push(parsed);
-            _colorMeta.push({ hex: c.hex, name: c.name });
-        }
+        if (!parsed) continue;
+        const hex = formatHex(parsed);
+        if (!hex) continue;
+        parsedColors.push(parsed);
+        _nameByHex.set(hex, c.name);
     }
 
-    _finder = nearest(_parsedColors, differenceEuclidean("oklab"));
+    _finder = nearest(parsedColors, differenceEuclidean("oklab"));
     return _finder;
 };
 
@@ -52,8 +55,9 @@ const findColorName = (hex: string): string | undefined => {
     const results = finder(target, 1);
     if (!results.length) return undefined;
 
-    const idx = _parsedColors.indexOf(results[0]);
-    return idx >= 0 ? _colorMeta[idx]?.name : undefined;
+    // formatHex でキーを統一し Map から色名を引く（参照同一性に依存しない）
+    const resultHex = formatHex(results[0]);
+    return resultHex ? _nameByHex.get(resultHex) : undefined;
 };
 
 const toHex = (r: number, g: number, b: number): string => {
@@ -69,23 +73,32 @@ const toHex = (r: number, g: number, b: number): string => {
  * OKLab 知覚距離を使った貪欲法により、視覚的に多様な色を選択する。
  *
  * @param imageData - Canvas から取得した ImageData
- * @param imageWidth - 元画像の幅（正規化座標の分母）
+ * @param imageWidth - 元画像の幅（正規化座標の分母）。ImageData と元画像のサイズが
+ *   異なる場合（縮小キャンバス等）に正しい正規化のために必要。
  * @param imageHeight - 元画像の高さ（正規化座標の分母）
- * @param count - 抽出する色の数（デフォルト: 20）
+ * @param count - 抽出する色の数（デフォルト: 5）
  * @returns 抽出された ColorPoint の配列
  */
 export const extractColors = (
     imageData: ImageData,
     imageWidth: number,
     imageHeight: number,
-    count = 20,
+    count = 5,
 ): ColorPoint[] => {
     const { data, width, height } = imageData;
 
     // ステップ1: サンプリング → 量子化 → グルーピング
+    // x, y は重心計算のためにグループ内の合計値を蓄積し、最後に count で割る
     const colorMap = new Map<
         string,
-        { r: number; g: number; b: number; count: number; x: number; y: number }
+        {
+            r: number;
+            g: number;
+            b: number;
+            count: number;
+            xSum: number;
+            ySum: number;
+        }
     >();
 
     for (let py = 0; py < height; py += SAMPLING_STEP) {
@@ -111,14 +124,16 @@ export const extractColors = (
             const existing = colorMap.get(key);
             if (existing) {
                 existing.count += 1;
+                existing.xSum += px;
+                existing.ySum += py;
             } else {
                 colorMap.set(key, {
                     r: qr,
                     g: qg,
                     b: qb,
                     count: 1,
-                    x: px / imageWidth,
-                    y: py / imageHeight,
+                    xSum: px,
+                    ySum: py,
                 });
             }
         }
@@ -128,20 +143,26 @@ export const extractColors = (
     const candidates = Array.from(colorMap.values())
         .filter((c) => c.count >= MIN_FREQUENCY)
         .sort((a, b) => b.count - a.count)
-        .slice(0, MAX_CANDIDATES);
+        .slice(0, MAX_CANDIDATES)
+        .map((c) => ({
+            ...c,
+            // 重心座標を正規化（グループ内の平均ピクセル位置 → 元画像基準で 0-1 に変換）
+            x: c.xSum / c.count / imageWidth,
+            y: c.ySum / c.count / imageHeight,
+        }));
 
     if (candidates.length === 0) return [];
 
     // ステップ3: 貪欲法で OKLab 知覚距離が最大の色を順次選択
     const diffOklab = differenceEuclidean("oklab");
 
-    const parsedCandidates = candidates.map((c) => ({
-        ...c,
-        hex: toHex(c.r, c.g, c.b),
-        parsed: parse(toHex(c.r, c.g, c.b)),
-    }));
+    const parsedCandidates = candidates.map((c) => {
+        const hex = toHex(c.r, c.g, c.b);
+        return { ...c, hex, parsed: parse(hex) };
+    });
 
-    const selected: typeof parsedCandidates = [parsedCandidates[0]];
+    const selectedIndices = new Set<number>([0]);
+    const selected = [parsedCandidates[0]];
 
     while (
         selected.length < count &&
@@ -151,8 +172,7 @@ export const extractColors = (
         let bestIdx = -1;
 
         for (let i = 0; i < parsedCandidates.length; i++) {
-            if (selected.some((s) => s.hex === parsedCandidates[i].hex))
-                continue;
+            if (selectedIndices.has(i)) continue;
 
             const candidate = parsedCandidates[i].parsed;
             if (!candidate) continue;
@@ -172,6 +192,7 @@ export const extractColors = (
         }
 
         if (bestIdx === -1) break;
+        selectedIndices.add(bestIdx);
         selected.push(parsedCandidates[bestIdx]);
     }
 

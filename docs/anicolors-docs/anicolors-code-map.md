@@ -2,6 +2,10 @@
 
 Claude Codeへの引き渡し用ドキュメント。色抽出に関連するファイルと、その役割・原理をまとめたもの。
 
+**関連ドキュメント**:
+- 髪色抽出アルゴリズムの詳細 → [hair-color-extraction.md](./hair-color-extraction.md)
+- oshicolor との color-extractor 実装比較 → [color-extractor-comparison.md](./color-extractor-comparison.md)
+
 ---
 
 ## 全体アーキテクチャ
