@@ -6,17 +6,23 @@ import {
     nearest,
     parse,
 } from "culori";
+import { extractColorsFromImageData } from "extract-colors";
 
 import type { ColorPoint } from "./types";
 
 // アルゴリズム定数
-const SAMPLING_STEP = 8; // サンプリング間隔（px）
-const QUANTIZE_STEP = 24; // RGB量子化ステップ
+const PIXELS = 64000; // extract-colors へ渡すリサイズ後総ピクセル数（パフォーマンス制御）
+// デフォルト(0.22)は色のマージが強すぎて12色に届かないため低めに設定
+const DISTANCE = 0.08;
+const HUE_DISTANCE = 0.05; // デフォルト: 1/12 ≈ 0.083
+const SATURATION_DISTANCE = 0.12; // デフォルト: 1/5 = 0.2
+const LIGHTNESS_DISTANCE = 0.12; // デフォルト: 1/5 = 0.2
 const MIN_ALPHA = 128; // 半透明以下を除外
-const MIN_BRIGHTNESS = 30; // エディタで使いにくい極暗色を除外
-const MAX_BRIGHTNESS = 225; // エディタで使いにくい極明色を除外
-const MIN_FREQUENCY = 10; // ノイズ色を除去するための最低出現回数
-const MAX_CANDIDATES = 100; // 貪欲法の計算コスト抑制。count の最大想定値（20）の 5 倍を確保する
+const MIN_BRIGHTNESS = 30; // エディタで使いにくい極暗色を除外（ピクセルレベル）
+const MAX_BRIGHTNESS = 225; // エディタで使いにくい極明色を除外（ピクセルレベル）
+// 結果レベルのフィルタ: ピクセル単位フィルタをすり抜けた極端色を除外（FinalColor.lightness は HSL 0-1）
+const MIN_LIGHTNESS = 0.08;
+const MAX_LIGHTNESS = 0.92;
 
 // color-name-list の nearest 検索（初回呼び出し時に lazy 初期化）
 let _finder: ((color: Color | string, n?: number) => Color[]) | null = null;
@@ -42,7 +48,7 @@ const getNameFinder = () => {
 };
 
 /**
- * HEX文字列から最近傍の色名を返す
+ * HEX文字列から最近傍の色名を返す（OKLab 知覚距離）
  *
  * @param hex - 検索対象の HEX 文字列
  * @returns color-name-list の色名、見つからない場合は undefined
@@ -60,148 +66,51 @@ const findColorName = (hex: string): string | undefined => {
     return resultHex ? _nameByHex.get(resultHex) : undefined;
 };
 
-const toHex = (r: number, g: number, b: number): string => {
-    return (
-        formatHex({ mode: "rgb", r: r / 255, g: g / 255, b: b / 255 }) ??
-        "#000000"
-    );
-};
-
 /**
  * 画像データからドミナントカラーを抽出する
  *
- * OKLab 知覚距離を使った貪欲法により、視覚的に多様な色を選択する。
+ * extract-colors ライブラリ（HSL距離ベースクラスタリング）で色を量子化し、
+ * OKLab 知覚距離で色名を付与する。
  *
  * @param imageData - Canvas から取得した ImageData
- * @param imageWidth - 元画像の幅（正規化座標の分母）。ImageData と元画像のサイズが
- *   異なる場合（縮小キャンバス等）に正しい正規化のために必要。
- * @param imageHeight - 元画像の高さ（正規化座標の分母）
- * @param count - 抽出する色の数（デフォルト: 5）
+ * @param _imageWidth - 未使用（インターフェース統一のために保持）
+ * @param _imageHeight - 未使用（インターフェース統一のために保持）
+ * @param count - 抽出する色の数（デフォルト: 12）
  * @returns 抽出された ColorPoint の配列
  */
 export const extractColors = (
     imageData: ImageData,
-    imageWidth: number,
-    imageHeight: number,
-    count = 5,
+    _imageWidth: number,
+    _imageHeight: number,
+    count = 12,
 ): ColorPoint[] => {
-    const { data, width, height } = imageData;
-
-    // ステップ1: サンプリング → 量子化 → グルーピング
-    // x, y は重心計算のためにグループ内の合計値を蓄積し、最後に count で割る
-    const colorMap = new Map<
-        string,
-        {
-            r: number;
-            g: number;
-            b: number;
-            count: number;
-            xSum: number;
-            ySum: number;
-        }
-    >();
-
-    for (let py = 0; py < height; py += SAMPLING_STEP) {
-        for (let px = 0; px < width; px += SAMPLING_STEP) {
-            const idx = (py * width + px) * 4;
-            const r = data[idx];
-            const g = data[idx + 1];
-            const b = data[idx + 2];
-            const a = data[idx + 3];
-
-            if (a < MIN_ALPHA) continue;
-
-            // 明度が極端な色はエディタテーマで使いにくいため除外する
-            const brightness = 0.299 * r + 0.587 * g + 0.114 * b;
-            if (brightness < MIN_BRIGHTNESS || brightness > MAX_BRIGHTNESS)
-                continue;
-
-            const qr = Math.round(r / QUANTIZE_STEP) * QUANTIZE_STEP;
-            const qg = Math.round(g / QUANTIZE_STEP) * QUANTIZE_STEP;
-            const qb = Math.round(b / QUANTIZE_STEP) * QUANTIZE_STEP;
-            const key = `${qr},${qg},${qb}`;
-
-            const existing = colorMap.get(key);
-            if (existing) {
-                existing.count += 1;
-                existing.xSum += px;
-                existing.ySum += py;
-            } else {
-                colorMap.set(key, {
-                    r: qr,
-                    g: qg,
-                    b: qb,
-                    count: 1,
-                    xSum: px,
-                    ySum: py,
-                });
-            }
-        }
-    }
-
-    // ステップ2: 出現回数でフィルタリングし上位 MAX_CANDIDATES 色に絞る
-    const candidates = Array.from(colorMap.values())
-        .filter((c) => c.count >= MIN_FREQUENCY)
-        .sort((a, b) => b.count - a.count)
-        .slice(0, MAX_CANDIDATES)
-        .map((c) => ({
-            ...c,
-            // 重心座標を正規化（グループ内の平均ピクセル位置 → 元画像基準で 0-1 に変換）
-            x: c.xSum / c.count / imageWidth,
-            y: c.ySum / c.count / imageHeight,
-        }));
-
-    if (candidates.length === 0) return [];
-
-    // ステップ3: 貪欲法で OKLab 知覚距離が最大の色を順次選択
-    const diffOklab = differenceEuclidean("oklab");
-
-    const parsedCandidates = candidates.map((c) => {
-        const hex = toHex(c.r, c.g, c.b);
-        return { ...c, hex, parsed: parse(hex) };
+    const colors = extractColorsFromImageData(imageData, {
+        pixels: PIXELS,
+        distance: DISTANCE,
+        hueDistance: HUE_DISTANCE,
+        saturationDistance: SATURATION_DISTANCE,
+        lightnessDistance: LIGHTNESS_DISTANCE,
+        // 明度が極端な色はエディタテーマで使いにくいため除外する
+        colorValidator: (red, green, blue, alpha) => {
+            if (alpha < MIN_ALPHA) return false;
+            const brightness = 0.299 * red + 0.587 * green + 0.114 * blue;
+            return brightness >= MIN_BRIGHTNESS && brightness <= MAX_BRIGHTNESS;
+        },
     });
 
-    const selectedIndices = new Set<number>([0]);
-    const selected = [parsedCandidates[0]];
-
-    while (
-        selected.length < count &&
-        selected.length < parsedCandidates.length
-    ) {
-        let maxDist = -1;
-        let bestIdx = -1;
-
-        for (let i = 0; i < parsedCandidates.length; i++) {
-            if (selectedIndices.has(i)) continue;
-
-            const candidate = parsedCandidates[i].parsed;
-            if (!candidate) continue;
-
-            // 既選択色との最小距離が最大の候補を選ぶ（多様性最大化）
-            let minDist = Number.POSITIVE_INFINITY;
-            for (const s of selected) {
-                if (!s.parsed) continue;
-                const dist = diffOklab(candidate, s.parsed);
-                if (dist < minDist) minDist = dist;
-            }
-
-            if (minDist > maxDist) {
-                maxDist = minDist;
-                bestIdx = i;
-            }
-        }
-
-        if (bestIdx === -1) break;
-        selectedIndices.add(bestIdx);
-        selected.push(parsedCandidates[bestIdx]);
-    }
-
-    // ステップ4: ColorPoint に変換し色名を付与
-    return selected.map((c, i) => ({
-        id: i + 1,
-        x: c.x,
-        y: c.y,
-        color: c.hex,
-        name: findColorName(c.hex),
-    }));
+    // ライブラリのデフォルトは鮮やかさ優先ソートのため、面積降順（支配的な色が先頭）に並び替える
+    return colors
+        .filter(
+            (c) => c.lightness >= MIN_LIGHTNESS && c.lightness <= MAX_LIGHTNESS,
+        )
+        .sort((a, b) => b.area - a.area)
+        .slice(0, count)
+        .map((color, i) => ({
+            id: i + 1,
+            x: 0,
+            y: 0,
+            color: color.hex,
+            name: findColorName(color.hex),
+            percent: Math.round(color.area * 10000) / 100,
+        }));
 };

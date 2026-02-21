@@ -1,10 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import { extractColors } from "@/features/color-extractor/color-extractor";
-import { extractColorsAnicolors } from "@/features/color-extractor/color-extractor-anicolors";
 import type { ColorPoint } from "@/features/color-extractor/types";
-
-type ExtractorMode = "oklab" | "anicolors";
+import { mapColorsToTheme } from "@/features/theme-generator/color-mapper";
+import type { ThemeVariants } from "@/features/theme-generator/types";
 
 export const Route = createFileRoute("/")({ component: App });
 
@@ -12,10 +11,9 @@ export function App() {
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [isDragging, setIsDragging] = useState(false);
     const [palette, setPalette] = useState<ColorPoint[]>([]);
-    const [extractingMode, setExtractingMode] = useState<ExtractorMode | null>(
-        null,
-    );
-    const [usedMode, setUsedMode] = useState<ExtractorMode | null>(null);
+    const [isExtracting, setIsExtracting] = useState(false);
+    const [theme, setTheme] = useState<ThemeVariants | null>(null);
+    const [variant, setVariant] = useState<"dark" | "light">("dark");
 
     const inputRef = useRef<HTMLInputElement>(null);
     const imgRef = useRef<HTMLImageElement>(null);
@@ -26,7 +24,7 @@ export function App() {
         const url = URL.createObjectURL(file);
         setPreviewUrl(url);
         setPalette([]);
-        setUsedMode(null);
+        setTheme(null);
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,16 +51,16 @@ export function App() {
     const handleReset = () => {
         setPreviewUrl(null);
         setPalette([]);
-        setUsedMode(null);
+        setTheme(null);
         if (inputRef.current) inputRef.current.value = "";
     };
 
-    const handleExtract = (mode: ExtractorMode) => {
+    const handleExtract = () => {
         const img = imgRef.current;
         const canvas = canvasRef.current;
         if (!img || !canvas) return;
 
-        setExtractingMode(mode);
+        setIsExtracting(true);
 
         // 次のフレームに処理を遅延させてローディング表示を確実に反映する
         requestAnimationFrame(() => {
@@ -72,7 +70,7 @@ export function App() {
 
             const ctx = canvas.getContext("2d");
             if (!ctx) {
-                setExtractingMode(null);
+                setIsExtracting(false);
                 return;
             }
 
@@ -84,26 +82,35 @@ export function App() {
                 naturalHeight,
             );
 
-            const extractor =
-                mode === "anicolors" ? extractColorsAnicolors : extractColors;
-            const result = extractor(
+            const result = extractColors(
                 imageData,
                 naturalWidth,
                 naturalHeight,
-                mode === "anicolors" ? 12 : 20,
+                12,
             );
             setPalette(result);
-            setUsedMode(mode);
-            setExtractingMode(null);
+            setTheme(mapColorsToTheme(result));
+            setIsExtracting(false);
         });
     };
 
-    const isExtracting = extractingMode !== null;
+    const [isCopied, setIsCopied] = useState(false);
 
-    const modeLabel: Record<ExtractorMode, string> = {
-        oklab: "OKLab（20色）",
-        anicolors: "Cinematic（12色）",
+    const handleCopyPalette = () => {
+        const text = palette
+            .map(
+                (p) =>
+                    `${p.color}${p.name ? `  ${p.name}` : ""}${p.percent !== undefined ? `  ${p.percent}%` : ""}`,
+            )
+            .join("\n");
+        navigator.clipboard.writeText(text).then(() => {
+            setIsCopied(true);
+            setTimeout(() => setIsCopied(false), 2000);
+        });
     };
+
+    const currentHighlightMap = theme?.[variant] ?? {};
+    const highlightEntries = Object.entries(currentHighlightMap);
 
     return (
         <div className="min-h-screen bg-gray-950 flex items-center justify-center p-8">
@@ -159,23 +166,11 @@ export function App() {
                         <div className="flex gap-3">
                             <button
                                 type="button"
-                                onClick={() => handleExtract("oklab")}
+                                onClick={handleExtract}
                                 disabled={isExtracting}
                                 className="flex-1 py-2.5 rounded-lg bg-violet-600 text-white text-sm font-medium hover:bg-violet-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                             >
-                                {extractingMode === "oklab"
-                                    ? "抽出中..."
-                                    : "OKLab で抽出"}
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => handleExtract("anicolors")}
-                                disabled={isExtracting}
-                                className="flex-1 py-2.5 rounded-lg bg-sky-600 text-white text-sm font-medium hover:bg-sky-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                            >
-                                {extractingMode === "anicolors"
-                                    ? "抽出中..."
-                                    : "Cinematic で抽出"}
+                                {isExtracting ? "抽出中..." : "カラーを抽出"}
                             </button>
                             <button
                                 type="button"
@@ -191,14 +186,18 @@ export function App() {
                 {/* カラーパレット */}
                 {palette.length > 0 && (
                     <div className="space-y-3">
-                        <p className="text-gray-400 text-sm">
-                            抽出された色: {palette.length}色
-                            {usedMode && (
-                                <span className="ml-2 text-gray-600">
-                                    ({modeLabel[usedMode]})
-                                </span>
-                            )}
-                        </p>
+                        <div className="flex items-center justify-between">
+                            <p className="text-gray-400 text-sm">
+                                抽出された色: {palette.length}色
+                            </p>
+                            <button
+                                type="button"
+                                onClick={handleCopyPalette}
+                                className="px-3 py-1.5 rounded-lg bg-gray-800 text-gray-300 text-xs hover:bg-gray-700 transition-colors"
+                            >
+                                {isCopied ? "コピーしました" : "コピー"}
+                            </button>
+                        </div>
                         <div className="grid grid-cols-4 gap-3">
                             {palette.map((point) => (
                                 <div
@@ -225,6 +224,83 @@ export function App() {
                                                 {point.percent}%
                                             </p>
                                         )}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {/* テーマプレビュー */}
+                {theme && (
+                    <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                            <p className="text-gray-400 text-sm">
+                                テーマプレビュー
+                            </p>
+                            {/* dark / light 切り替えタブ */}
+                            <div className="flex rounded-lg overflow-hidden border border-gray-700">
+                                <button
+                                    type="button"
+                                    onClick={() => setVariant("dark")}
+                                    className={`px-3 py-1.5 text-xs font-medium transition-colors ${
+                                        variant === "dark"
+                                            ? "bg-gray-700 text-white"
+                                            : "bg-gray-900 text-gray-400 hover:text-gray-300"
+                                    }`}
+                                >
+                                    Dark
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setVariant("light")}
+                                    className={`px-3 py-1.5 text-xs font-medium transition-colors ${
+                                        variant === "light"
+                                            ? "bg-gray-700 text-white"
+                                            : "bg-gray-900 text-gray-400 hover:text-gray-300"
+                                    }`}
+                                >
+                                    Light
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* グループ一覧グリッド */}
+                        <div className="grid grid-cols-2 gap-2">
+                            {highlightEntries.map(([group, attr]) => (
+                                <div
+                                    key={group}
+                                    className="rounded-lg bg-gray-900 p-3 flex items-center gap-3"
+                                >
+                                    {/* fg / bg 色サンプル */}
+                                    <div className="flex gap-1.5 shrink-0">
+                                        {attr.fg && (
+                                            <div
+                                                className="w-5 h-5 rounded-full border border-gray-700"
+                                                style={{
+                                                    backgroundColor: attr.fg,
+                                                }}
+                                                title={`fg: ${attr.fg}`}
+                                            />
+                                        )}
+                                        {attr.bg && (
+                                            <div
+                                                className="w-5 h-5 rounded border border-gray-700"
+                                                style={{
+                                                    backgroundColor: attr.bg,
+                                                }}
+                                                title={`bg: ${attr.bg}`}
+                                            />
+                                        )}
+                                    </div>
+                                    {/* グループ名と hex 値 */}
+                                    <div className="min-w-0">
+                                        <p className="text-white text-xs font-medium">
+                                            {group}
+                                        </p>
+                                        <p className="text-gray-500 text-xs font-mono truncate">
+                                            {attr.fg ?? attr.bg ?? ""}
+                                        </p>
                                     </div>
                                 </div>
                             ))}

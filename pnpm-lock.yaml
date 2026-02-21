@@ -65,9 +65,6 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
-      color:
-        specifier: ^5.0.3
-        version: 5.0.3
       color-name-list:
         specifier: ^14.32.0
         version: 14.32.0
@@ -80,6 +77,9 @@ importers:
       drizzle-orm:
         specifier: ^0.45.0
         version: 0.45.1(@cloudflare/workers-types@4.20260217.0)(@types/better-sqlite3@7.6.13)(better-sqlite3@12.6.2)
+      extract-colors:
+        specifier: ^4.2.1
+        version: 4.2.1
       jotai:
         specifier: ^2.17.1
         version: 2.17.1(@babel/core@7.29.0)(@babel/template@7.28.6)(@types/react@19.2.14)(react@19.2.4)
@@ -89,12 +89,6 @@ importers:
       lucide-react:
         specifier: ^0.561.0
         version: 0.561.0(react@19.2.4)
-      nearest-color:
-        specifier: ^0.4.4
-        version: 0.4.4
-      quantize:
-        specifier: ^1.0.2
-        version: 1.0.2
       radix-ui:
         specifier: ^1.4.3
         version: 1.4.3(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -135,21 +129,12 @@ importers:
       '@types/better-sqlite3':
         specifier: ^7.6.0
         version: 7.6.13
-      '@types/color':
-        specifier: ^4.2.0
-        version: 4.2.0
       '@types/culori':
         specifier: ^4.0.1
         version: 4.0.1
-      '@types/nearest-color':
-        specifier: ^0.4.1
-        version: 0.4.1
       '@types/node':
         specifier: ^22.10.2
         version: 22.19.11
-      '@types/quantize':
-        specifier: ^1.0.2
-        version: 1.0.2
       '@types/react':
         specifier: ^19.2.0
         version: 19.2.14
@@ -2783,15 +2768,6 @@ packages:
   '@types/chai@5.2.3':
     resolution: {integrity: sha512-Mw558oeA9fFbv65/y4mHtXDs9bPnFMZAL/jxdPFUpOHHIXX91mcgEHbS5Lahr+pwZFR8A7GQleRWeI6cGFC2UA==}
 
-  '@types/color-convert@2.0.4':
-    resolution: {integrity: sha512-Ub1MmDdyZ7mX//g25uBAoH/mWGd9swVbt8BseymnaE18SU4po/PjmCrHxqIIRjBo3hV/vh1KGr0eMxUhp+t+dQ==}
-
-  '@types/color-name@1.1.5':
-    resolution: {integrity: sha512-j2K5UJqGTxeesj6oQuGpMgifpT5k9HprgQd8D1Y0lOFqKHl3PJu5GMeS4Y5EgjS55AE6OQxf8mPED9uaGbf4Cg==}
-
-  '@types/color@4.2.0':
-    resolution: {integrity: sha512-6+xrIRImMtGAL2X3qYkd02Mgs+gFGs+WsK0b7VVMaO4mYRISwyTjcqNrO0mNSmYEoq++rSLDB2F5HDNmqfOe+A==}
-
   '@types/culori@4.0.1':
     resolution: {integrity: sha512-43M51r/22CjhbOXyGT361GZ9vncSVQ39u62x5eJdBQFviI8zWp2X5jzqg7k4M6PVgDQAClpy2bUe2dtwEgEDVQ==}
 
@@ -2801,14 +2777,8 @@ packages:
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
 
-  '@types/nearest-color@0.4.1':
-    resolution: {integrity: sha512-nxe9cdPrS0Gh3FRxDSHyB6Ep3OCCKqqBAYTj0EyT21aInkNESV9Vm0IS+ibeqkycSjadlAHmworjBgqz266S3w==}
-
   '@types/node@22.19.11':
     resolution: {integrity: sha512-BH7YwL6rA93ReqeQS1c4bsPpcfOmJasG+Fkr6Y59q83f9M1WcBRHR2vM+P9eOisYRcN3ujQoiZY8uk5W+1WL8w==}
-
-  '@types/quantize@1.0.2':
-    resolution: {integrity: sha512-dABtiRbR6TY6ViDvzPj9etP49GRBNGr8tFF2E08a4wgF6l+UdVjuNGemZj7kOcdbO8Mz3ER+LONw2Z7stsN5Kg==}
 
   '@types/react-dom@19.2.3':
     resolution: {integrity: sha512-jp2L/eY6fn+KgVVQAOqYItbF0VY/YApe5Mz2F0aykSO8gx31bYCZyvSeYxCHKvzHG5eZjc+zyaS5BrBWya2+kQ==}
@@ -3084,28 +3054,12 @@ packages:
     resolution: {integrity: sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ==}
     engines: {node: '>=7.0.0'}
 
-  color-convert@3.1.3:
-    resolution: {integrity: sha512-fasDH2ont2GqF5HpyO4w0+BcewlhHEZOFn9c1ckZdHpJ56Qb7MHhH/IcJZbBGgvdtwdwNbLvxiBEdg336iA9Sg==}
-    engines: {node: '>=14.6'}
-
   color-name-list@14.32.0:
     resolution: {integrity: sha512-xPKhWxqYNRlKkeEhSMJCyUVj0AHocAhib71JeXdMdk5AuVV6mbAjwDy7DYCBi23X4wXCNDLWxOo4mkpbGUkekg==}
     engines: {node: ^22.14.0 || >=24.10.0, npm: '>=10.2.0'}
 
   color-name@1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
-
-  color-name@2.1.0:
-    resolution: {integrity: sha512-1bPaDNFm0axzE4MEAzKPuqKWeRaT43U/hyxKPBdqTfmPF+d6n7FSoTFxLVULUJOmiLp01KjhIPPH+HrXZJN4Rg==}
-    engines: {node: '>=12.20'}
-
-  color-string@2.1.4:
-    resolution: {integrity: sha512-Bb6Cq8oq0IjDOe8wJmi4JeNn763Xs9cfrBcaylK1tPypWzyoy2G3l90v9k64kjphl/ZJjPIShFztenRomi8WTg==}
-    engines: {node: '>=18'}
-
-  color@5.0.3:
-    resolution: {integrity: sha512-ezmVcLR3xAVp8kYOm4GS45ZLLgIE6SPAFoduLr6hTDajwb3KZ2F46gulK3XpcwRFb5KKGCSezCBAY4Dw4HsyXA==}
-    engines: {node: '>=18'}
 
   commander@12.1.0:
     resolution: {integrity: sha512-Vw8qHK3bZM9y/P10u3Vib8o/DdkvA2OtPtZvD871QKjy74Wj1WSKFILMPRPSdUSx5RFK1arlJzEtA4PkFgnbuA==}
@@ -3414,6 +3368,9 @@ packages:
 
   exsolve@1.0.8:
     resolution: {integrity: sha512-LmDxfWXwcTArk8fUEnOfSZpHOJ6zOMUJKOtFLFqJLoKJetuQG874Uc7/Kki7zFLzYybmZhp1M7+98pfMqeX8yA==}
+
+  extract-colors@4.2.1:
+    resolution: {integrity: sha512-QAWcuwxnL9pisK7YfuG8qab6IF7UD6bbKTjiM+QTJ9Xvfi7fBymQd/xTFaPhkzkB5kyq+wla3AHanM7LInFLaQ==}
 
   fast-content-type-parse@2.0.1:
     resolution: {integrity: sha512-nGqtvLrj5w0naR6tDPfB4cUmYCqouzyQiz6C5y/LtcDllJdrcc6WaWW6iXyIIOErTa/XRybj28aasdn4LkVk6Q==}
@@ -3837,9 +3794,6 @@ packages:
   napi-build-utils@2.0.0:
     resolution: {integrity: sha512-GEbrYkbfF7MoNaoh2iGG84Mnf/WZfB0GdGEsM8wz7Expx/LlWf5U8t9nvJKXSp3qr5IsEbK04cBGhol/KwOsWA==}
 
-  nearest-color@0.4.4:
-    resolution: {integrity: sha512-orhcaIORC10tf41Ld2wwlcC+FaAavHG87JHWB3eHH5p7v2k9Tzym2XNEZzLAm5YJwGv6Q38WWc7SOb+Qfu/4NQ==}
-
   neverthrow@8.2.0:
     resolution: {integrity: sha512-kOCT/1MCPAxY5iUV3wytNFUMUolzuwd/VF/1KCx7kf6CutrOsTie+84zTGTpgQycjvfLdBBdvBvFLqFD2c0wkQ==}
     engines: {node: '>=18'}
@@ -3964,10 +3918,6 @@ packages:
   punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
-
-  quantize@1.0.2:
-    resolution: {integrity: sha512-25P7wI2UoDbIQsQp50ARkt+5pwPsOq7G/BqvT5xAbapnRoNWMN8/p55H9TXd5MuENiJnm5XICB2H2aDZGwts7w==}
-    engines: {node: '>=0.10.21'}
 
   radix-ui@1.4.3:
     resolution: {integrity: sha512-aWizCQiyeAenIdUbqEpXgRA1ya65P13NKn/W8rWkcN0OPkRDxdBVLWnIEDsS2RpwCK2nobI7oMUSmexzTDyAmA==}
@@ -7450,29 +7400,15 @@ snapshots:
       '@types/deep-eql': 4.0.2
       assertion-error: 2.0.1
 
-  '@types/color-convert@2.0.4':
-    dependencies:
-      '@types/color-name': 1.1.5
-
-  '@types/color-name@1.1.5': {}
-
-  '@types/color@4.2.0':
-    dependencies:
-      '@types/color-convert': 2.0.4
-
   '@types/culori@4.0.1': {}
 
   '@types/deep-eql@4.0.2': {}
 
   '@types/estree@1.0.8': {}
 
-  '@types/nearest-color@0.4.1': {}
-
   '@types/node@22.19.11':
     dependencies:
       undici-types: 6.21.0
-
-  '@types/quantize@1.0.2': {}
 
   '@types/react-dom@19.2.3(@types/react@19.2.14)':
     dependencies:
@@ -7788,24 +7724,9 @@ snapshots:
     dependencies:
       color-name: 1.1.4
 
-  color-convert@3.1.3:
-    dependencies:
-      color-name: 2.1.0
-
   color-name-list@14.32.0: {}
 
   color-name@1.1.4: {}
-
-  color-name@2.1.0: {}
-
-  color-string@2.1.4:
-    dependencies:
-      color-name: 2.1.0
-
-  color@5.0.3:
-    dependencies:
-      color-convert: 3.1.3
-      color-string: 2.1.4
 
   commander@12.1.0: {}
 
@@ -8076,6 +7997,8 @@ snapshots:
   expect-type@1.3.0: {}
 
   exsolve@1.0.8: {}
+
+  extract-colors@4.2.1: {}
 
   fast-content-type-parse@2.0.1: {}
 
@@ -8431,8 +8354,6 @@ snapshots:
 
   napi-build-utils@2.0.0: {}
 
-  nearest-color@0.4.4: {}
-
   neverthrow@8.2.0:
     optionalDependencies:
       '@rollup/rollup-linux-x64-gnu': 4.57.1
@@ -8560,8 +8481,6 @@ snapshots:
       once: 1.4.0
 
   punycode@2.3.1: {}
-
-  quantize@1.0.2: {}
 
   radix-ui@1.4.3(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
     dependencies:
