@@ -1,13 +1,21 @@
 /**
- * OKLch の Hue 値（0〜360°）からハイライトグループ名へのマッピングルール。
- * Special は赤系で 0° をまたぐため2エントリで表現する。
+ * Zone B 補完色生成のための target Hue 定義表。
+ * キャラクター色（Zone A）を補完する脇役色の Hue 目標値とレンジを定義する。
  */
-export const HUE_RULES: Array<{ min: number; max: number; group: string }> = [
-    { min: 330, max: 360, group: "Special" },
-    { min: 0, max: 30, group: "Special" },
-    { min: 30, max: 90, group: "Function" },
-    { min: 90, max: 150, group: "String" },
-    { min: 150, max: 210, group: "Type" },
-    { min: 210, max: 270, group: "Keyword" },
-    { min: 270, max: 330, group: "Keyword" },
+export const ZONE_B_TARGETS: ReadonlyArray<{
+    group: string;
+    targetHue: number;
+    hueRange: number;
+}> = [
+    { group: "String", targetHue: 130, hueRange: 45 }, // 緑系
+    { group: "Type", targetHue: 195, hueRange: 45 }, // 水色系
+    { group: "Number", targetHue: 55, hueRange: 45 }, // 黄金系
 ];
+
+/**
+ * Zone B 補完色生成の定数
+ */
+/** 補完色の最低彩度（パステルキャラクター対策） */
+export const C_FLOOR = 0.06;
+/** 象徴色の C に対する脇役の C の比率 */
+export const C_RATIO = 0.35;

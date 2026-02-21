@@ -2,8 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import { extractColors } from "@/features/color-extractor/color-extractor";
 import type { ColorPoint } from "@/features/color-extractor/types";
+import { CodePreview } from "@/features/theme-generator/code-preview";
 import { mapColorsToTheme } from "@/features/theme-generator/color-mapper";
-import type { ThemeVariants } from "@/features/theme-generator/types";
+import type { HighlightMap } from "@/features/theme-generator/types";
 
 export const Route = createFileRoute("/")({ component: App });
 
@@ -12,8 +13,8 @@ export function App() {
     const [isDragging, setIsDragging] = useState(false);
     const [palette, setPalette] = useState<ColorPoint[]>([]);
     const [isExtracting, setIsExtracting] = useState(false);
-    const [theme, setTheme] = useState<ThemeVariants | null>(null);
-    const [variant, setVariant] = useState<"dark" | "light">("dark");
+    const [theme, setTheme] = useState<HighlightMap | null>(null);
+    const [isCopied, setIsCopied] = useState(false);
 
     const inputRef = useRef<HTMLInputElement>(null);
     const imgRef = useRef<HTMLImageElement>(null);
@@ -94,8 +95,6 @@ export function App() {
         });
     };
 
-    const [isCopied, setIsCopied] = useState(false);
-
     const handleCopyPalette = () => {
         const text = palette
             .map(
@@ -108,9 +107,6 @@ export function App() {
             setTimeout(() => setIsCopied(false), 2000);
         });
     };
-
-    const currentHighlightMap = theme?.[variant] ?? {};
-    const highlightEntries = Object.entries(currentHighlightMap);
 
     return (
         <div className="min-h-screen bg-gray-950 flex items-center justify-center p-8">
@@ -231,80 +227,13 @@ export function App() {
                     </div>
                 )}
 
-                {/* テーマプレビュー */}
+                {/* テーマプレビュー（エディタ風コードハイライト） */}
                 {theme && (
                     <div className="space-y-3">
-                        <div className="flex items-center justify-between">
-                            <p className="text-gray-400 text-sm">
-                                テーマプレビュー
-                            </p>
-                            {/* dark / light 切り替えタブ */}
-                            <div className="flex rounded-lg overflow-hidden border border-gray-700">
-                                <button
-                                    type="button"
-                                    onClick={() => setVariant("dark")}
-                                    className={`px-3 py-1.5 text-xs font-medium transition-colors ${
-                                        variant === "dark"
-                                            ? "bg-gray-700 text-white"
-                                            : "bg-gray-900 text-gray-400 hover:text-gray-300"
-                                    }`}
-                                >
-                                    Dark
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => setVariant("light")}
-                                    className={`px-3 py-1.5 text-xs font-medium transition-colors ${
-                                        variant === "light"
-                                            ? "bg-gray-700 text-white"
-                                            : "bg-gray-900 text-gray-400 hover:text-gray-300"
-                                    }`}
-                                >
-                                    Light
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* グループ一覧グリッド */}
-                        <div className="grid grid-cols-2 gap-2">
-                            {highlightEntries.map(([group, attr]) => (
-                                <div
-                                    key={group}
-                                    className="rounded-lg bg-gray-900 p-3 flex items-center gap-3"
-                                >
-                                    {/* fg / bg 色サンプル */}
-                                    <div className="flex gap-1.5 shrink-0">
-                                        {attr.fg && (
-                                            <div
-                                                className="w-5 h-5 rounded-full border border-gray-700"
-                                                style={{
-                                                    backgroundColor: attr.fg,
-                                                }}
-                                                title={`fg: ${attr.fg}`}
-                                            />
-                                        )}
-                                        {attr.bg && (
-                                            <div
-                                                className="w-5 h-5 rounded border border-gray-700"
-                                                style={{
-                                                    backgroundColor: attr.bg,
-                                                }}
-                                                title={`bg: ${attr.bg}`}
-                                            />
-                                        )}
-                                    </div>
-                                    {/* グループ名と hex 値 */}
-                                    <div className="min-w-0">
-                                        <p className="text-white text-xs font-medium">
-                                            {group}
-                                        </p>
-                                        <p className="text-gray-500 text-xs font-mono truncate">
-                                            {attr.fg ?? attr.bg ?? ""}
-                                        </p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                        <p className="text-gray-400 text-sm">
+                            テーマプレビュー
+                        </p>
+                        <CodePreview highlightMap={theme} />
                     </div>
                 )}
             </div>

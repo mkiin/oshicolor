@@ -13,8 +13,3 @@ export type HighlightAttr = {
  * グループ名 → 属性 のマッピング
  */
 export type HighlightMap = Record<string, HighlightAttr>;
-
-/**
- * ダーク・ライト両テーマを保持するコンテナ
- */
-export type ThemeVariants = { dark: HighlightMap; light: HighlightMap };
