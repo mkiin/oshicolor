@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|MultiEdit|Write",
+        "hooks": [
+          {
+            "type": "command",
+           "command": "jaq -r '.tool_input.file_path' | xargs pnpm biome check --write"
+          }
+        ]
+      }
+    ]
+  }
+}
