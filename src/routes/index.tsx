@@ -4,6 +4,7 @@ import { extractColors } from "@/features/color-extractor/color-extractor";
 import type { ColorPoint } from "@/features/color-extractor/types";
 import { CodePreview } from "@/features/theme-generator/code-preview";
 import { mapColorsToTheme } from "@/features/theme-generator/color-mapper";
+import type { ConceptName } from "@/features/theme-generator/hue-rules";
 import type { HighlightMap } from "@/features/theme-generator/types";
 
 export const Route = createFileRoute("/")({ component: App });
@@ -15,6 +16,7 @@ export function App() {
     const [isExtracting, setIsExtracting] = useState(false);
     const [theme, setTheme] = useState<HighlightMap | null>(null);
     const [isCopied, setIsCopied] = useState(false);
+    const [concept, setConcept] = useState<ConceptName>("darkClassic");
 
     const inputRef = useRef<HTMLInputElement>(null);
     const imgRef = useRef<HTMLImageElement>(null);
@@ -90,7 +92,7 @@ export function App() {
                 12,
             );
             setPalette(result);
-            setTheme(mapColorsToTheme(result));
+            setTheme(mapColorsToTheme(result, concept));
             setIsExtracting(false);
         });
     };
@@ -158,6 +160,30 @@ export function App() {
                             alt="preview"
                             className="w-full rounded-xl object-contain max-h-72"
                         />
+
+                        {/* コンセプト選択 */}
+                        <div className="flex gap-2">
+                            {(
+                                [
+                                    ["darkClassic", "Dark Classic"],
+                                    ["darkMuted", "Dark Muted"],
+                                    ["lightPastel", "Light Pastel"],
+                                ] as const
+                            ).map(([key, label]) => (
+                                <button
+                                    key={key}
+                                    type="button"
+                                    onClick={() => setConcept(key)}
+                                    className={`flex-1 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                                        concept === key
+                                            ? "bg-violet-600 text-white"
+                                            : "bg-gray-800 text-gray-400 hover:bg-gray-700"
+                                    }`}
+                                >
+                                    {label}
+                                </button>
+                            ))}
+                        </div>
 
                         <div className="flex gap-3">
                             <button

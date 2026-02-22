@@ -1,6 +1,7 @@
 import { clampChroma, formatHex, oklch, parse } from "culori";
 import type { ColorPoint } from "@/features/color-extractor/types";
-import { C_FLOOR, C_RATIO, ZONE_B_TARGETS } from "./hue-rules";
+import type { ConceptName } from "./hue-rules";
+import { C_FLOOR, THEME_CONCEPTS, ZONE_B_TARGETS } from "./hue-rules";
 import type { HighlightMap } from "./types";
 
 type OklchColor = {
@@ -49,6 +50,20 @@ const toOklchColors = (points: ColorPoint[]): OklchColor[] => {
 };
 
 /**
+ * signatureHue を借用してニュートラル色を生成する。
+ * C=0.02 のほぼ無彩色にすることで、鮮やかな色が bg/fg に来るのを防ぐ。
+ * Hue だけ引き継ぐのでキャラクターの「空気感」が薄く残る。
+ */
+const generateNeutral = (l: number, h: number): string => {
+    const generated = clampChroma(
+        { mode: "oklch" as const, l, c: 0.02, h },
+        "oklch",
+        "rgb",
+    );
+    return formatHex(generated) ?? "#000000";
+};
+
+/**
  * Zone B 補完色を生成する。
  * accents[3] 以降に targetHue 付近の色があればそれを使い、
  * なければ象徴色（accents[0]）から補完色を生成する。
@@ -58,7 +73,10 @@ const generateSupplemental = (
     hueRange: number,
     zoneBCandidates: OklchColor[],
     signature: OklchColor,
+    isDark: boolean,
     bgL: number,
+    fgL: number,
+    cRatio: number,
 ): string => {
     // Step 1: zoneBCandidates に targetHue 付近の色があるか確認（抽出色優先）
     const found = zoneBCandidates.find(
@@ -69,9 +87,11 @@ const generateSupplemental = (
     }
 
     // Step 2: 象徴色を基準に補完色を生成
-    // bg より 0.35 明るく保証し、彩度は signature の C_RATIO 倍（脇役色）
-    const l = Math.max(bgL + 0.35, signature.l + 0.08);
-    const c = Math.max(signature.c * C_RATIO, C_FLOOR);
+    // コンセプトに応じて L の計算方向を変える（ライトテーマは反転）
+    const l = isDark
+        ? Math.max(bgL + 0.35, signature.l + 0.08)
+        : Math.max(fgL + 0.25, signature.l - 0.08);
+    const c = Math.max(signature.c * cRatio, C_FLOOR);
 
     const tryClamp = (h: number): { hex: string; chroma: number } | null => {
         const clamped = clampChroma(
@@ -124,63 +144,88 @@ const generateSupplemental = (
 
 /**
  * ColorPoint[] から Neovim ハイライトグループへのマッピングを行い
- * ダークテーマの HighlightMap を生成する。
+ * HighlightMap を生成する。
  *
  * Zone A: 抽出色を C 値ランクで直接割り当て（Hue 非依存）
  * Zone B: 不足 Hue を象徴色から補完色生成で補完
  *
- * 抽出色が少ない場合（count 未満）は fg の shiftL 派生でフォールバックする。
+ * bg は抽出色から取らず、象徴色（C最大）の Hue を借用したニュートラル色を生成する。
+ * fg は閾値チェックを行い、未達の場合はニュートラル色を生成する。
+ * これにより「鮮やかな暗色が bg になる」問題と「パステル系でのダークテーマ崩壊」を解消する。
  *
  * @param palette - R1 で抽出した ColorPoint の配列
+ * @param conceptName - テーマコンセプト（デフォルト: "darkClassic"）
  * @returns Neovim ハイライトグループのマッピング
  */
-export const mapColorsToTheme = (palette: ColorPoint[]): HighlightMap => {
+export const mapColorsToTheme = (
+    palette: ColorPoint[],
+    conceptName: ConceptName = "darkClassic",
+): HighlightMap => {
+    const concept = THEME_CONCEPTS[conceptName];
     const colors = toOklchColors(palette);
 
     if (colors.length === 0) {
         return { Normal: { fg: "#c8c093", bg: "#1f1f28" } };
     }
 
-    // Step 2: 基準色の確定（L 順ソート）
-    const sorted = [...colors].sort((a, b) => a.l - b.l);
-    const bgColor = sorted[0];
-    const fgColor = sorted[sorted.length - 1];
+    // Step 1: 象徴色（C 最大）の Hue を取得（signatureHue）
+    // bg・fg のニュートラル色生成に使う（キャラクターの「空気感」を薄く引き継ぐ）
+    // fallback は 270°（紫系）
+    const sortedByC = [...colors].sort((a, b) => b.c - a.c);
+    const signatureHue = sortedByC[0]?.h ?? 270;
 
-    const usedHexes = new Set<string>([bgColor.hex, fgColor.hex]);
-    const remaining = colors.filter((c) => !usedHexes.has(c.hex));
+    // Step 2: bg をニュートラル色として生成（抽出色から取らない）
+    // C=0.02 のほぼ無彩色なので鮮やかな色が bg に来ることがなくなる
+    const bgHex = generateNeutral(concept.bgL, signatureHue);
 
-    // C 最小 → Comment.fg（最もくすんだ色）
-    const commentColor =
-        remaining.length > 0
-            ? remaining.reduce(
-                  (min, c) => (c.c < min.c ? c : min),
-                  remaining[0],
-              )
-            : null;
+    // Step 3: fg の選択（閾値チェック）
+    // 閾値に達しない場合はニュートラル色を生成してテーマ成立を保証する
+    let fgHex: string;
+    if (concept.isDark) {
+        // ダークテーマ: L 最大の抽出色が fgThreshold 以上なら採用
+        const sortedByLDesc = [...colors].sort((a, b) => b.l - a.l);
+        const fgCandidate = sortedByLDesc[0];
+        fgHex =
+            fgCandidate && fgCandidate.l >= concept.fgThreshold
+                ? fgCandidate.hex
+                : generateNeutral(concept.fgL, signatureHue);
+    } else {
+        // ライトテーマ: L 最小の抽出色が fgThreshold 以下なら採用
+        const sortedByLAsc = [...colors].sort((a, b) => a.l - b.l);
+        const fgCandidate = sortedByLAsc[0];
+        fgHex =
+            fgCandidate && fgCandidate.l <= concept.fgThreshold
+                ? fgCandidate.hex
+                : generateNeutral(concept.fgL, signatureHue);
+    }
 
+    // Step 4: Comment（C 最小の抽出色）
+    const sortedByCasc = [...colors].sort((a, b) => a.c - b.c);
+    const commentColor = sortedByCasc[0] ?? null;
+
+    // Step 5: Zone A accents
+    // bg は生成色なので除外不要。fg の採用有無に関わらず除外しない。
+    // comment のみ除外 → 最大 11 色が accent 候補になる（v2 は最大 9 色）
+    const usedHexes = new Set<string>();
     if (commentColor) {
         usedHexes.add(commentColor.hex);
     }
 
-    // Zone A accents: used 以外を C 降順で列挙
     const accents = colors
         .filter((c) => !usedHexes.has(c.hex))
         .sort((a, b) => b.c - a.c);
 
     // Zone A 割り当て（C ランク直接）
-    // 抽出色不足時は fgColor を shiftL して代替する
-    const keywordColor =
-        accents[0] ??
-        ({ ...fgColor, hex: shiftL(fgColor.hex, -0.05) } satisfies OklchColor);
-    const functionColor =
-        accents[1] ??
-        ({ ...fgColor, hex: shiftL(fgColor.hex, -0.1) } satisfies OklchColor);
-    const specialColor =
-        accents[2] ??
-        ({ ...fgColor, hex: shiftL(fgColor.hex, -0.15) } satisfies OklchColor);
+    // 抽出色不足時は fgHex を shiftL して代替する
+    const keywordHex = accents[0]?.hex ?? shiftL(fgHex, -0.05);
+    const functionHex = accents[1]?.hex ?? shiftL(fgHex, -0.1);
+    const specialHex = accents[2]?.hex ?? shiftL(fgHex, -0.15);
 
     // Zone B: accents[3] 以降を候補として補完色を生成
-    // 象徴色（keywordColor）の L/C を基準に Hue だけ変えた脇役色を作る
+    // 象徴色（C 最大の accent = keyword の色）を基準にする
+    // colors が空でないことは上部で保証済み
+    const topCColor = colors.reduce((max, c) => (c.c > max.c ? c : max));
+    const signature = accents[0] ?? topCColor;
     const zoneBCandidates = accents.slice(3);
     const supplemental: Record<string, string> = {};
     for (const target of ZONE_B_TARGETS) {
@@ -188,32 +233,40 @@ export const mapColorsToTheme = (palette: ColorPoint[]): HighlightMap => {
             target.targetHue,
             target.hueRange,
             zoneBCandidates,
-            keywordColor,
-            bgColor.l,
+            signature,
+            concept.isDark,
+            concept.bgL,
+            concept.fgL,
+            concept.cRatio,
         );
     }
 
-    const commentHex = commentColor?.hex ?? shiftL(fgColor.hex, -0.2);
+    const commentHex = commentColor?.hex ?? shiftL(fgHex, -0.2);
     // PmenuSel は最も鮮やかな accent 色（キャラクター象徴色）
-    const pmenuSelHex = accents[0]?.hex ?? fgColor.hex;
+    const pmenuSelHex = accents[0]?.hex ?? fgHex;
+
+    // CursorLine / Visual / Pmenu: ダークテーマは明るく、ライトテーマは暗くシフト
+    const cursorLineBg = shiftL(bgHex, concept.isDark ? +0.04 : -0.04);
+    const visualBg = shiftL(bgHex, concept.isDark ? +0.08 : -0.08);
+    const pmenuBg = shiftL(bgHex, concept.isDark ? +0.03 : -0.03);
 
     return {
-        Normal: { fg: fgColor.hex, bg: bgColor.hex },
+        Normal: { fg: fgHex, bg: bgHex },
         Comment: { fg: commentHex, italic: true },
-        Keyword: { fg: keywordColor.hex, bold: true },
-        Function: { fg: functionColor.hex },
-        Special: { fg: specialColor.hex },
+        Keyword: { fg: keywordHex, bold: true },
+        Function: { fg: functionHex },
+        Special: { fg: specialHex },
         String: { fg: supplemental.String },
         Type: { fg: supplemental.Type },
         Number: { fg: supplemental.Number },
         Boolean: { fg: supplemental.Number },
-        Operator: { fg: keywordColor.hex },
-        Variable: { fg: fgColor.hex },
-        CursorLine: { bg: shiftL(bgColor.hex, 0.04) },
-        Visual: { bg: shiftL(bgColor.hex, 0.08) },
-        Pmenu: { bg: shiftL(bgColor.hex, 0.03) },
+        Operator: { fg: keywordHex },
+        Variable: { fg: fgHex },
+        CursorLine: { bg: cursorLineBg },
+        Visual: { bg: visualBg },
+        Pmenu: { bg: pmenuBg },
         PmenuSel: { bg: pmenuSelHex },
         LineNr: { fg: commentHex },
-        CursorLineNr: { fg: shiftL(fgColor.hex, -0.1) },
+        CursorLineNr: { fg: shiftL(fgHex, -0.1) },
     };
 };
