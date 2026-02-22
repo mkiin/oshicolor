@@ -21,7 +21,7 @@ export const C_FLOOR = 0.06;
 /**
  * テーマコンセプトの識別子
  */
-export type ConceptName = "darkClassic" | "darkMuted" | "lightPastel";
+export type ConceptName = "darkClassic" | "lightPastel";
 
 /**
  * テーマコンセプトの設定
@@ -50,13 +50,6 @@ export const THEME_CONCEPTS: Record<ConceptName, ConceptConfig> = {
         fgL: 0.88,
         fgThreshold: 0.7,
         cRatio: 0.35,
-    },
-    darkMuted: {
-        isDark: true,
-        bgL: 0.1,
-        fgL: 0.85,
-        fgThreshold: 0.7,
-        cRatio: 0.2,
     },
     lightPastel: {
         isDark: false,

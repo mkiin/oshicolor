@@ -166,7 +166,6 @@ export function App() {
                             {(
                                 [
                                     ["darkClassic", "Dark Classic"],
-                                    ["darkMuted", "Dark Muted"],
                                     ["lightPastel", "Light Pastel"],
                                 ] as const
                             ).map(([key, label]) => (
