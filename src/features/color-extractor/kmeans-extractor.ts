@@ -9,7 +9,7 @@ import {
 
 import type { ColorPoint } from "./types";
 
-// アルゴリズム定数
+// ─── アルゴリズム定数 ─────────────────────────────────────────────────────────
 const PIXELS = 64000;
 const MAX_ITER = 30;
 const TOLERANCE = 0.001;
@@ -19,10 +19,46 @@ const MAX_BRIGHTNESS = 245;
 const MIN_LIGHTNESS = 0.08;
 const MAX_LIGHTNESS = 0.96;
 
-// OKLab の各成分
+// ─── 彩度加重スコアリング定数 ─────────────────────────────────────────────────
+// OKLab chroma のおおよその範囲:
+//   0.00–0.04: 無彩色（グレー・黒・白）     → 強ペナルティ
+//   0.04–0.08: 近無彩色（くすんだ色）       → 軽ペナルティ
+//   0.08–0.12: 低中彩度                    → 中立
+//   0.12–0.18: 中彩度（落ち着いた印象色）   → 加点
+//   0.18+:     高彩度（ビビッド）            → 強加点
+const CHROMA_ACHROMATIC = 0.04;
+const CHROMA_LOW = 0.08;
+const CHROMA_MID = 0.12;
+const CHROMA_HIGH = 0.18;
+
+// ─── 高彩度クラスタ明暗分割定数 ──────────────────────────────────────────────
+// 人間は同色相の明暗ペア（例: 鮮やかな赤と深い赤）を意図的にパレットに入れる。
+// K-means が1クラスタにまとめた広範囲L色相を明/暗で2色に分割して再現する。
+const SPLIT_CHROMA_MIN = 0.08; // 分割対象の最小 chroma（無彩色は分割しない）
+const SPLIT_L_STD_MIN = 0.07; // 分割トリガー: L 標準偏差がこれを超えたら分割
+const SPLIT_MIN_PIXELS = 30; // 分割に必要な最小ピクセル数
+
+// ─── 重複除去定数 ─────────────────────────────────────────────────────────────
+// 視覚的に近すぎる色がパレットの複数席を占有するのを防ぐ。
+// グレー系クラスタ（#636166 と #7b7b7c など）がまとめられ、
+// その分の席が彩度の高い印象色に開放される。
+const DEDUP_BASE_DISTANCE = 0.09; // OKLab ユークリッド距離の基準値
+const DEDUP_ACHROMATIC_EXTRA = 0.04; // 低彩度ペアへの追加マージン
+const DEDUP_CHROMA_REF = 0.15; // この chroma 以上で追加マージン = 0
+
+// ─── 内部型定義 ──────────────────────────────────────────────────────────────
 type OklabPoint = { L: number; a: number; b: number };
 
-// color-name-list の nearest 検索（lazy 初期化）
+type Candidate = {
+    centroid: OklabPoint;
+    count: number;
+    chroma: number;
+    hex: string;
+    /** 明暗分割前の元クラスタの合計ピクセル数（分割されていなければ count と同値） */
+    parentCount: number;
+};
+
+// ─── color-name-list の lazy 初期化 ──────────────────────────────────────────
 let _finder: ((color: Color | string, n?: number) => Color[]) | null = null;
 const _nameByHex = new Map<string, string>();
 
@@ -62,30 +98,108 @@ const findColorName = (hex: string): string | undefined => {
     return resultHex ? _nameByHex.get(resultHex) : undefined;
 };
 
+// ─── 数値ヘルパー ────────────────────────────────────────────────────────────
+
 /** OKLab ユークリッド距離の二乗 */
 const distanceSq = (a: OklabPoint, b: OklabPoint): number => {
     return (a.L - b.L) ** 2 + (a.a - b.a) ** 2 + (a.b - b.b) ** 2;
 };
 
+/** OKLab 点群の算術平均（重心） */
+const averageOklab = (pixels: OklabPoint[]): OklabPoint => {
+    let sumL = 0;
+    let sumA = 0;
+    let sumB = 0;
+    for (const p of pixels) {
+        sumL += p.L;
+        sumA += p.a;
+        sumB += p.b;
+    }
+    return {
+        L: sumL / pixels.length,
+        a: sumA / pixels.length,
+        b: sumB / pixels.length,
+    };
+};
+
+/** 点群の L 成分の標準偏差 */
+const lStdDev = (pixels: OklabPoint[]): number => {
+    const mean = pixels.reduce((s, p) => s + p.L, 0) / pixels.length;
+    const variance =
+        pixels.reduce((s, p) => s + (p.L - mean) ** 2, 0) / pixels.length;
+    return Math.sqrt(Math.max(0, variance));
+};
+
+/** 点群の L 成分の中央値 */
+const medianL = (pixels: OklabPoint[]): number => {
+    const sorted = pixels.map((p) => p.L).sort((a, b) => a - b);
+    return sorted[Math.floor(sorted.length / 2)];
+};
+
+/** OKLab 点の chroma（彩度） */
+const chromaOf = (p: OklabPoint): number => {
+    return Math.sqrt(p.a ** 2 + p.b ** 2);
+};
+
+// ─── スコアリング ────────────────────────────────────────────────────────────
+
 /**
- * OKLab chroma（知覚彩度）から面積スコアへの加重係数を返す
+ * OKLab chroma から面積スコアへの加重係数を返す
  *
- * カラースキーマ用途では高彩度の色（キャラの印象色）を
- * グレー・無彩色より優先して上位に出したいため、chroma に応じてブーストをかける。
- * ブーストは面積に乗算されるので、面積ゼロの色が昇格することはない。
+ * ダーク系キャラクターでは画像の80%以上が低彩度（グレー・黒）だが、
+ * 人間はそれらを選ばず高彩度の印象色を優先する。
+ * この補正により、面積が小さくても彩度が高い色をパレット上位に昇格させる。
  *
- * OKLab chroma のおおよその範囲:
- *   0.00–0.04: 無彩色（グレー・黒・白）
- *   0.04–0.10: 低彩度（くすんだ色）
- *   0.10–0.18: 中彩度
- *   0.18+:     高彩度（ビビッド・鮮やか）
+ * スコア = count × (1 + boost) なので面積ゼロの色が昇格することはない。
  */
 const saturationBoost = (chroma: number): number => {
-    if (chroma < 0.04) return -0.5; // 無彩色ペナルティ: スコアを半減
-    if (chroma < 0.1) return 0.0; // 低彩度: 中立（面積そのまま）
-    if (chroma < 0.18) return 0.5; // 中彩度: 1.5 倍
-    return 1.5; // 高彩度: 2.5 倍
+    if (chroma < CHROMA_ACHROMATIC) return -0.7; // ×0.3: 無彩色を強く抑制
+    if (chroma < CHROMA_LOW) return -0.3; // ×0.7: くすみ色を軽く抑制
+    if (chroma < CHROMA_MID) return 0.0; // ×1.0: 中立
+    if (chroma < CHROMA_HIGH) return 0.8; // ×1.8: 中彩度を加点
+    return 1.5; // ×2.5: 高彩度を強く加点
 };
+
+/**
+ * 候補のスコアを計算する
+ *
+ * 明暗分割された候補は parentCount（元クラスタの合計ピクセル数）を
+ * 面積の代わりに使う。これにより分割によるスコア低下を防ぎ、
+ * 分割前と同等の面積的な重みを維持する。
+ *
+ * 例: 赤クラスタ(978px)を明(490px)/暗(488px)に分割した場合
+ *   分割前: 978 × 2.5 = 2445
+ *   改善前: 490 × 2.5 = 1225 ← 半減してグレーに負ける可能性
+ *   改善後: 978 × 2.5 = 2445 ← 元クラスタの面積で計算、順位を維持
+ */
+const candidateScore = (c: Candidate): number => {
+    return c.parentCount * (1 + saturationBoost(c.chroma));
+};
+
+// ─── 重複除去 ────────────────────────────────────────────────────────────────
+
+/**
+ * 2つの候補間の適応的な重複判定距離を返す
+ *
+ * 低彩度のペア（グレー同士など）は OKLab 距離が近くても知覚差が小さいため
+ * より広い閾値で集約する。高彩度のペアは色相が異なれば小さな距離でも
+ * 知覚差が大きいため閾値を狭くする。
+ *
+ * ```
+ * 両方 chroma >= 0.15 → 閾値 = 0.09（基準値のみ）
+ * 両方 chroma ≈ 0     → 閾値 = 0.09 + 0.04 = 0.13（グレーを積極集約）
+ * 片方だけ高彩度     → 中間値
+ * ```
+ */
+const dedupThreshold = (a: Candidate, b: Candidate): number => {
+    const minChroma = Math.min(a.chroma, b.chroma);
+    // chroma が DEDUP_CHROMA_REF 以上なら追加マージン = 0
+    // chroma が 0 に近いほど追加マージンが最大（DEDUP_ACHROMATIC_EXTRA）
+    const t = Math.min(1, minChroma / DEDUP_CHROMA_REF);
+    return DEDUP_BASE_DISTANCE + DEDUP_ACHROMATIC_EXTRA * (1 - t);
+};
+
+// ─── k-means 初期化 ──────────────────────────────────────────────────────────
 
 /**
  * k-means++ 初期化: d² 重み付き確率でセントロイドを k 個選ぶ
@@ -93,19 +207,14 @@ const saturationBoost = (chroma: number): number => {
 const initCentroids = (samples: OklabPoint[], k: number): OklabPoint[] => {
     const centroids: OklabPoint[] = [];
 
-    // 最初の1点はランダムに選択
     const firstIdx = Math.floor(Math.random() * samples.length);
     centroids.push({ ...samples[firstIdx] });
 
     for (let c = 1; c < k; c++) {
-        // 各サンプルの既存セントロイドへの最近傍距離² を計算
-        const weights = samples.map((s) => {
-            return Math.min(
-                ...centroids.map((centroid) => distanceSq(s, centroid)),
-            );
-        });
+        const weights = samples.map((s) =>
+            Math.min(...centroids.map((centroid) => distanceSq(s, centroid))),
+        );
 
-        // 重みの累積和でルーレット選択
         const totalWeight = weights.reduce((sum, w) => sum + w, 0);
         let rand = Math.random() * totalWeight;
         let chosen = 0;
@@ -122,28 +231,103 @@ const initCentroids = (samples: OklabPoint[], k: number): OklabPoint[] => {
     return centroids;
 };
 
-/**
- * sRGB 値 (0–1) を線形化する（ガンマ除去）
- */
+// ─── 色空間変換 ──────────────────────────────────────────────────────────────
+
+/** sRGB 値 (0–1) を線形化する（ガンマ除去） */
 const linearize = (v: number): number => {
     return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
 };
 
-/**
- * OKLab 点を HEX 文字列に変換する
- */
+/** OKLab 点を HEX 文字列に変換する */
 const oklabToHex = (point: OklabPoint): string | undefined => {
     const color = parse(`oklab(${point.L} ${point.a} ${point.b})`);
     if (!color) return undefined;
     return formatHex(color) ?? undefined;
 };
 
+// ─── 後処理ヘルパー ───────────────────────────────────────────────────────────
+
 /**
- * 画像データから k-means++ でドミナントカラーを抽出する（彩度加重版）
+ * クラスタの候補を candidates リストに追加する。
  *
- * OKLab 色空間でクラスタリングし、最終ソート段階で
- * OKLab chroma（知覚彩度）による加重スコアを適用することで、
- * キャラクターの印象色（高彩度）が面積の小さいグレーに埋もれるのを防ぐ。
+ * 高彩度クラスタの L 分散が SPLIT_L_STD_MIN を超える場合、
+ * 中央値で明/暗の2グループに分割して別々の候補として追加する。
+ * これにより「明るい赤・暗い赤」のような明暗ペアが自動的に生成される。
+ *
+ * 分割された各サブクラスタは parentCount に元クラスタの合計ピクセル数を持つ。
+ * スコア計算時にこの値を使うことで、分割によるスコア低下を防ぐ。
+ */
+const addClusterCandidates = (
+    candidates: Candidate[],
+    centroid: OklabPoint,
+    pixels: OklabPoint[],
+) => {
+    const chroma = chromaOf(centroid);
+    const totalCount = pixels.length;
+
+    // サブクラスタを candidates に追加するヘルパー
+    const pushCandidate = (pts: OklabPoint[], parent: number) => {
+        if (pts.length === 0) return;
+        const avg = averageOklab(pts);
+        if (avg.L < MIN_LIGHTNESS || avg.L > MAX_LIGHTNESS) return;
+        const hex = oklabToHex(avg);
+        if (!hex) return;
+        const c = chromaOf(avg);
+        candidates.push({
+            centroid: avg,
+            count: pts.length,
+            chroma: c,
+            hex,
+            parentCount: parent,
+        });
+    };
+
+    // 高彩度 + 十分なピクセル数 + L 分散が大きい → 明暗2分割
+    if (
+        chroma >= SPLIT_CHROMA_MIN &&
+        pixels.length >= SPLIT_MIN_PIXELS &&
+        lStdDev(pixels) >= SPLIT_L_STD_MIN
+    ) {
+        const median = medianL(pixels);
+        pushCandidate(
+            pixels.filter((p) => p.L >= median),
+            totalCount,
+        );
+        pushCandidate(
+            pixels.filter((p) => p.L < median),
+            totalCount,
+        );
+        return;
+    }
+
+    // 通常: クラスタ重心をそのまま追加
+    if (centroid.L < MIN_LIGHTNESS || centroid.L > MAX_LIGHTNESS) return;
+    const hex = oklabToHex(centroid);
+    if (!hex) return;
+    candidates.push({
+        centroid,
+        count: pixels.length,
+        chroma,
+        hex,
+        parentCount: totalCount,
+    });
+};
+
+// ─── 公開 API ────────────────────────────────────────────────────────────────
+
+/**
+ * 画像データから k-means++ でドミナントカラーを抽出する
+ *
+ * ## アルゴリズム概要
+ *
+ * 1. **サンプリング** — ImageData を間引き、sRGB → OKLab 変換
+ * 2. **k-means++** — OKLab 空間でクラスタリング（最大 MAX_ITER 回）
+ * 3. **明暗分割** — 高彩度クラスタの L 分散が大きい場合、明/暗の2色に分割
+ *    （同色相の明暗ペアをカラースキーマの syntax 色として使いやすくする）
+ * 4. **彩度加重スコアリング** — 分割前の面積(parentCount) × 彩度ブーストでソート
+ *    （グレーを強く抑制し、キャラの印象色を上位に昇格。分割でスコアが半減しない）
+ * 5. **適応的重複除去** — 低彩度ペアはより広い閾値で集約し、
+ *    高彩度ペアは色相差を尊重して狭い閾値で保持
  *
  * @param imageData - Canvas から取得した ImageData
  * @param imageWidth - 画像の幅（サンプリングステップ計算に使用）
@@ -158,10 +342,9 @@ export const extractColorsKmeans = (
     count = 12,
 ): ColorPoint[] => {
     const totalPixels = imageWidth * imageHeight;
-
-    // PIXELS に収まるよう step を自動調整（最小 1）
     const step = Math.max(1, Math.round(Math.sqrt(totalPixels / PIXELS)));
 
+    // ── Step 1: サンプリング & OKLab 変換 ────────────────────────────────
     const oklabSamples: OklabPoint[] = [];
 
     for (let y = 0; y < imageHeight; y += step) {
@@ -179,7 +362,7 @@ export const extractColorsKmeans = (
                 continue;
             }
 
-            // culori の oklab コンバータを都度呼ぶとコスト高のため sRGB → OKLab を直接計算
+            // sRGB → OKLab を直接計算（culori の変換を都度呼ぶよりも高速）
             // 参考: https://bottosson.github.io/posts/oklab/
             const rl = linearize(r / 255);
             const gl = linearize(g / 255);
@@ -206,13 +389,11 @@ export const extractColorsKmeans = (
 
     if (oklabSamples.length === 0) return [];
 
-    // k はサンプル数を超えない
+    // ── Step 2: k-means++ クラスタリング ─────────────────────────────────
     const k = Math.min(count, oklabSamples.length);
-
     let centroids = initCentroids(oklabSamples, k);
     const assignments = new Int32Array(oklabSamples.length);
 
-    // k-means 反復
     for (let iter = 0; iter < MAX_ITER; iter++) {
         // 割り当てステップ
         for (let i = 0; i < oklabSamples.length; i++) {
@@ -250,12 +431,11 @@ export const extractColorsKmeans = (
                 newCentroids[c].a /= counts[c];
                 newCentroids[c].b /= counts[c];
             } else {
-                // 空クラスタは旧セントロイドを維持
                 newCentroids[c] = { ...centroids[c] };
             }
         }
 
-        // 収束判定: 全重心の移動量が TOLERANCE 未満なら終了
+        // 収束判定
         const maxShift = Math.max(
             ...centroids.map((c, i) =>
                 Math.sqrt(distanceSq(c, newCentroids[i])),
@@ -265,57 +445,44 @@ export const extractColorsKmeans = (
         if (maxShift < TOLERANCE) break;
     }
 
-    // クラスタサイズを集計
-    const clusterCounts = new Int32Array(k);
-    for (let i = 0; i < assignments.length; i++) {
-        clusterCounts[assignments[i]]++;
+    // ── Step 3: クラスタ別ピクセルグループ化 ─────────────────────────────
+    const clusterPixels: OklabPoint[][] = Array.from({ length: k }, () => []);
+    for (let i = 0; i < oklabSamples.length; i++) {
+        clusterPixels[assignments[i]].push(oklabSamples[i]);
     }
 
-    // OKLab → hex 変換 → 彩度加重スコアでソート
-    return centroids
-        .map((centroid, idx) => {
-            const hex = oklabToHex(centroid);
-            if (!hex) return null;
+    // ── Step 4: 候補リスト構築（高彩度クラスタは明暗分割） ──────────────
+    const candidates: Candidate[] = [];
+    for (let idx = 0; idx < centroids.length; idx++) {
+        if (clusterPixels[idx].length === 0) continue;
+        addClusterCandidates(candidates, centroids[idx], clusterPixels[idx]);
+    }
 
-            // OKLab の L は 0–1 なのでそのまま明度フィルタに使える
-            if (centroid.L < MIN_LIGHTNESS || centroid.L > MAX_LIGHTNESS) {
-                return null;
-            }
+    // ── Step 5: 彩度加重スコアでソート ───────────────────────────────────
+    candidates.sort((a, b) => candidateScore(b) - candidateScore(a));
 
-            // OKLab chroma = sqrt(a² + b²)
-            // 追加の色空間変換なしに知覚彩度として使える
-            const chroma = Math.sqrt(centroid.a ** 2 + centroid.b ** 2);
+    // ── Step 6: 適応的重複除去 ───────────────────────────────────────────
+    // 高彩度ペアは閾値が狭く色相差を保存、低彩度ペアは閾値が広くグレーを集約。
+    const selected: Candidate[] = [];
+    for (const item of candidates) {
+        const tooClose = selected.some(
+            (s) =>
+                Math.sqrt(distanceSq(item.centroid, s.centroid)) <
+                dedupThreshold(item, s),
+        );
+        if (!tooClose) {
+            selected.push(item);
+        }
+        if (selected.length >= count) break;
+    }
 
-            return {
-                hex,
-                count: clusterCounts[idx],
-                chroma,
-            };
-        })
-        .filter(
-            (
-                item,
-            ): item is {
-                hex: string;
-                count: number;
-                chroma: number;
-            } => item !== null,
-        )
-        .sort((a, b) => {
-            // 彩度加重スコア: count × (1 + boost)
-            // 高彩度の印象色が低彩度グレーに埋もれるのを防ぐ
-            const scoreA = a.count * (1 + saturationBoost(a.chroma));
-            const scoreB = b.count * (1 + saturationBoost(b.chroma));
-            return scoreB - scoreA;
-        })
-        .slice(0, count)
-        .map((item, i) => ({
-            id: i + 1,
-            x: 0,
-            y: 0,
-            color: item.hex,
-            name: findColorName(item.hex),
-            percent:
-                Math.round((item.count / oklabSamples.length) * 10000) / 100,
-        }));
+    // ── Step 7: ColorPoint 形式に変換 ────────────────────────────────────
+    return selected.map((item, i) => ({
+        id: i + 1,
+        x: 0,
+        y: 0,
+        color: item.hex,
+        name: findColorName(item.hex),
+        percent: Math.round((item.count / oklabSamples.length) * 10000) / 100,
+    }));
 };

@@ -53,6 +53,7 @@ export function App() {
     const [isExtracting, setIsExtracting] = useState(false);
     const [theme, setTheme] = useState<HighlightMap | null>(null);
     const [isCopied, setIsCopied] = useState(false);
+    const [isKmeansCopied, setIsKmeansCopied] = useState(false);
     const [concept, setConcept] = useState<ConceptName>("darkClassic");
     const [extractionResults, setExtractionResults] = useState<{
         extractColors: ExtractionResult;
@@ -151,6 +152,20 @@ export function App() {
         navigator.clipboard.writeText(text).then(() => {
             setIsCopied(true);
             setTimeout(() => setIsCopied(false), 2000);
+        });
+    };
+
+    const handleCopyKmeansPalette = () => {
+        if (!extractionResults) return;
+        const text = extractionResults.kmeans.colors
+            .map(
+                (p) =>
+                    `${p.color}${p.name ? `  ${p.name}` : ""}${p.percent !== undefined ? `  ${p.percent}%` : ""}`,
+            )
+            .join("\n");
+        navigator.clipboard.writeText(text).then(() => {
+            setIsKmeansCopied(true);
+            setTimeout(() => setIsKmeansCopied(false), 2000);
         });
     };
 
@@ -299,10 +314,21 @@ export function App() {
                 {extractionResults &&
                     extractionResults.kmeans.colors.length > 0 && (
                         <div className="space-y-3">
-                            <p className="text-gray-400 text-sm">
-                                k-means++:{" "}
-                                {extractionResults.kmeans.colors.length}色
-                            </p>
+                            <div className="flex items-center justify-between">
+                                <p className="text-gray-400 text-sm">
+                                    k-means++:{" "}
+                                    {extractionResults.kmeans.colors.length}色
+                                </p>
+                                <button
+                                    type="button"
+                                    onClick={handleCopyKmeansPalette}
+                                    className="px-3 py-1.5 rounded-lg bg-gray-800 text-gray-300 text-xs hover:bg-gray-700 transition-colors"
+                                >
+                                    {isKmeansCopied
+                                        ? "コピーしました"
+                                        : "コピー"}
+                                </button>
+                            </div>
                             <PaletteGrid
                                 colors={extractionResults.kmeans.colors}
                             />
