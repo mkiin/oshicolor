@@ -46,6 +46,10 @@ const DEDUP_BASE_DISTANCE = 0.09; // OKLab ユークリッド距離の基準値
 const DEDUP_ACHROMATIC_EXTRA = 0.04; // 低彩度ペアへの追加マージン
 const DEDUP_CHROMA_REF = 0.15; // この chroma 以上で追加マージン = 0
 
+// ─── 乱数生成定数 ────────────────────────────────────────────────────────────
+// シード固定により同一画像で常に同じ結果を返す
+const DEFAULT_SEED = 42;
+
 // ─── 内部型定義 ──────────────────────────────────────────────────────────────
 type OklabPoint = { L: number; a: number; b: number };
 
@@ -96,6 +100,28 @@ const findColorName = (hex: string): string | undefined => {
 
     const resultHex = formatHex(results[0]);
     return resultHex ? _nameByHex.get(resultHex) : undefined;
+};
+
+// ─── 疑似乱数生成器 ───────────────────────────────────────────────────────────
+
+/**
+ * mulberry32 疑似乱数生成器
+ *
+ * Math.random() はシードを外部制御できないため、同一画像で毎回異なる
+ * クラスタ初期化が発生し結果が変わってしまう。mulberry32 は軽量かつ
+ * 統計的に良質な PRNG で、シード固定による再現性を実現する。
+ *
+ * @param seed - シード値
+ * @returns [0, 1) の範囲の乱数を返す関数
+ */
+const mulberry32 = (seed: number): (() => number) => {
+    let s = seed;
+    return () => {
+        s = (s + 0x6d2b79f5) | 0;
+        let t = Math.imul(s ^ (s >>> 15), 1 | s);
+        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
 };
 
 // ─── 数値ヘルパー ────────────────────────────────────────────────────────────
@@ -203,11 +229,19 @@ const dedupThreshold = (a: Candidate, b: Candidate): number => {
 
 /**
  * k-means++ 初期化: d² 重み付き確率でセントロイドを k 個選ぶ
+ *
+ * @param samples - クラスタリング対象の OKLab 点群
+ * @param k - クラスタ数
+ * @param rng - 疑似乱数生成器（mulberry32 などシード固定済みのもの）
  */
-const initCentroids = (samples: OklabPoint[], k: number): OklabPoint[] => {
+const initCentroids = (
+    samples: OklabPoint[],
+    k: number,
+    rng: () => number,
+): OklabPoint[] => {
     const centroids: OklabPoint[] = [];
 
-    const firstIdx = Math.floor(Math.random() * samples.length);
+    const firstIdx = Math.floor(rng() * samples.length);
     centroids.push({ ...samples[firstIdx] });
 
     for (let c = 1; c < k; c++) {
@@ -216,7 +250,7 @@ const initCentroids = (samples: OklabPoint[], k: number): OklabPoint[] => {
         );
 
         const totalWeight = weights.reduce((sum, w) => sum + w, 0);
-        let rand = Math.random() * totalWeight;
+        let rand = rng() * totalWeight;
         let chosen = 0;
         for (let i = 0; i < weights.length; i++) {
             rand -= weights[i];
@@ -333,6 +367,7 @@ const addClusterCandidates = (
  * @param imageWidth - 画像の幅（サンプリングステップ計算に使用）
  * @param imageHeight - 画像の高さ（サンプリングステップ計算に使用）
  * @param count - 抽出する色の数（デフォルト: 12）
+ * @param seed - PRNG のシード値。同じ画像 + 同じシードで常に同じ結果を返す（デフォルト: DEFAULT_SEED）
  * @returns 抽出された ColorPoint の配列（彩度加重スコア降順）
  */
 export const extractColorsKmeans = (
@@ -340,6 +375,7 @@ export const extractColorsKmeans = (
     imageWidth: number,
     imageHeight: number,
     count = 12,
+    seed = DEFAULT_SEED,
 ): ColorPoint[] => {
     const totalPixels = imageWidth * imageHeight;
     const step = Math.max(1, Math.round(Math.sqrt(totalPixels / PIXELS)));
@@ -391,7 +427,8 @@ export const extractColorsKmeans = (
 
     // ── Step 2: k-means++ クラスタリング ─────────────────────────────────
     const k = Math.min(count, oklabSamples.length);
-    let centroids = initCentroids(oklabSamples, k);
+    const rng = mulberry32(seed);
+    let centroids = initCentroids(oklabSamples, k, rng);
     const assignments = new Int32Array(oklabSamples.length);
 
     for (let iter = 0; iter < MAX_ITER; iter++) {
@@ -425,14 +462,43 @@ export const extractColorsKmeans = (
             counts[c]++;
         }
 
+        // 重心の正規化（先に全クラスタを確定させてから空クラスタ処理する）
         for (let c = 0; c < centroids.length; c++) {
             if (counts[c] > 0) {
                 newCentroids[c].L /= counts[c];
                 newCentroids[c].a /= counts[c];
                 newCentroids[c].b /= counts[c];
-            } else {
-                newCentroids[c] = { ...centroids[c] };
             }
+        }
+
+        // 空クラスタの再初期化
+        // 最大クラスタを「重心から最も遠いサンプル」で分割することで
+        // 常に k 個のクラスタを維持し、抽出色数の不足を防ぐ
+        for (let c = 0; c < centroids.length; c++) {
+            if (counts[c] > 0) continue;
+
+            // 最大クラスタを探す
+            let maxCount = 0;
+            let maxCluster = 0;
+            for (let j = 0; j < counts.length; j++) {
+                if (counts[j] > maxCount) {
+                    maxCount = counts[j];
+                    maxCluster = j;
+                }
+            }
+
+            // 最大クラスタの重心から最も遠いサンプルを新セントロイドに設定
+            let maxDist = -1;
+            let farthest = oklabSamples[0];
+            for (let i = 0; i < oklabSamples.length; i++) {
+                if (assignments[i] !== maxCluster) continue;
+                const d = distanceSq(oklabSamples[i], newCentroids[maxCluster]);
+                if (d > maxDist) {
+                    maxDist = d;
+                    farthest = oklabSamples[i];
+                }
+            }
+            newCentroids[c] = { ...farthest };
         }
 
         // 収束判定
