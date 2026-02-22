@@ -13,7 +13,7 @@ import type { ColorPoint } from "./types";
 // アルゴリズム定数
 const PIXELS = 64000; // extract-colors へ渡すリサイズ後総ピクセル数（パフォーマンス制御）
 // デフォルト(0.22)は色のマージが強すぎて12色に届かないため低めに設定
-const DISTANCE = 0.25; // デフォルト : 0.22
+const DISTANCE = 0.22; // デフォルト : 0.22
 const HUE_DISTANCE = 0.083; // デフォルト: 1/12 ≈ 0.083
 const SATURATION_DISTANCE = 0.2; // デフォルト: 1/5 = 0.2
 const LIGHTNESS_DISTANCE = 0.2; // デフォルト: 1/5 = 0.2

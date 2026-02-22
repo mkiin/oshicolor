@@ -12,6 +12,21 @@ export type ColorPoint = {
     color: string;
     /** color-name-list による色名 */
     name?: string;
-    /** 画像内での出現割合（%）。中央値カット法実装時のみ付与される */
+    /** 画像内での出現割合（%）。面積ベースの手法のみ付与される */
     percent?: number;
+};
+
+/**
+ * 色抽出アルゴリズムの種別
+ */
+export type ExtractMethod = "extract-colors" | "kmeans";
+
+/**
+ * 色抽出の実行結果（アルゴリズム・カラーリスト・計算時間）
+ */
+export type ExtractionResult = {
+    method: ExtractMethod;
+    colors: ColorPoint[];
+    /** 計算時間 (ms) */
+    elapsedMs: number;
 };

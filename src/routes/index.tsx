@@ -1,8 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useRef, useState } from "react";
-import { runExtraction } from "@/features/color-extract";
-import type { ExtractionResult } from "@/features/color-extract/types";
-import type { ColorPoint } from "@/features/color-extractor/types";
+import { runExtraction } from "@/features/color-extractor";
+import type {
+    ColorPoint,
+    ExtractionResult,
+} from "@/features/color-extractor/types";
 import { CodePreview } from "@/features/theme-generator/code-preview";
 import { mapColorsToTheme } from "@/features/theme-generator/color-mapper";
 import type { ConceptName } from "@/features/theme-generator/hue-rules";

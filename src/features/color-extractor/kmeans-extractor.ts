@@ -7,7 +7,7 @@ import {
     parse,
 } from "culori";
 
-import type { ColorPoint } from "@/features/color-extractor/types";
+import type { ColorPoint } from "./types";
 
 // アルゴリズム定数
 const PIXELS = 64000;
@@ -68,6 +68,26 @@ const distanceSq = (a: OklabPoint, b: OklabPoint): number => {
 };
 
 /**
+ * OKLab chroma（知覚彩度）から面積スコアへの加重係数を返す
+ *
+ * カラースキーマ用途では高彩度の色（キャラの印象色）を
+ * グレー・無彩色より優先して上位に出したいため、chroma に応じてブーストをかける。
+ * ブーストは面積に乗算されるので、面積ゼロの色が昇格することはない。
+ *
+ * OKLab chroma のおおよその範囲:
+ *   0.00–0.04: 無彩色（グレー・黒・白）
+ *   0.04–0.10: 低彩度（くすんだ色）
+ *   0.10–0.18: 中彩度
+ *   0.18+:     高彩度（ビビッド・鮮やか）
+ */
+const saturationBoost = (chroma: number): number => {
+    if (chroma < 0.04) return -0.5; // 無彩色ペナルティ: スコアを半減
+    if (chroma < 0.1) return 0.0; // 低彩度: 中立（面積そのまま）
+    if (chroma < 0.18) return 0.5; // 中彩度: 1.5 倍
+    return 1.5; // 高彩度: 2.5 倍
+};
+
+/**
  * k-means++ 初期化: d² 重み付き確率でセントロイドを k 個選ぶ
  */
 const initCentroids = (samples: OklabPoint[], k: number): OklabPoint[] => {
@@ -78,15 +98,14 @@ const initCentroids = (samples: OklabPoint[], k: number): OklabPoint[] => {
     centroids.push({ ...samples[firstIdx] });
 
     for (let c = 1; c < k; c++) {
-        // 各サンプルと既存セントロイドの最近傍距離² を計算
+        // 各サンプルの既存セントロイドへの最近傍距離² を計算
         const weights = samples.map((s) => {
-            const minDist = Math.min(
+            return Math.min(
                 ...centroids.map((centroid) => distanceSq(s, centroid)),
             );
-            return minDist;
         });
 
-        // 重みの累積和を作成してルーレット選択
+        // 重みの累積和でルーレット選択
         const totalWeight = weights.reduce((sum, w) => sum + w, 0);
         let rand = Math.random() * totalWeight;
         let chosen = 0;
@@ -104,15 +123,33 @@ const initCentroids = (samples: OklabPoint[], k: number): OklabPoint[] => {
 };
 
 /**
- * 画像データから k-means++ でドミナントカラーを抽出する
+ * sRGB 値 (0–1) を線形化する（ガンマ除去）
+ */
+const linearize = (v: number): number => {
+    return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+};
+
+/**
+ * OKLab 点を HEX 文字列に変換する
+ */
+const oklabToHex = (point: OklabPoint): string | undefined => {
+    const color = parse(`oklab(${point.L} ${point.a} ${point.b})`);
+    if (!color) return undefined;
+    return formatHex(color) ?? undefined;
+};
+
+/**
+ * 画像データから k-means++ でドミナントカラーを抽出する（彩度加重版）
  *
- * OKLab 色空間でクラスタリングを行い、知覚的に均等な色分類を実現する。
+ * OKLab 色空間でクラスタリングし、最終ソート段階で
+ * OKLab chroma（知覚彩度）による加重スコアを適用することで、
+ * キャラクターの印象色（高彩度）が面積の小さいグレーに埋もれるのを防ぐ。
  *
  * @param imageData - Canvas から取得した ImageData
  * @param imageWidth - 画像の幅（サンプリングステップ計算に使用）
  * @param imageHeight - 画像の高さ（サンプリングステップ計算に使用）
  * @param count - 抽出する色の数（デフォルト: 12）
- * @returns 抽出された ColorPoint の配列（面積降順）
+ * @returns 抽出された ColorPoint の配列（彩度加重スコア降順）
  */
 export const extractColorsKmeans = (
     imageData: ImageData,
@@ -148,21 +185,21 @@ export const extractColorsKmeans = (
             const gl = linearize(g / 255);
             const bl = linearize(b / 255);
 
-            const lms_l =
+            const lmsL =
                 0.4122214708 * rl + 0.5363325363 * gl + 0.0514459929 * bl;
-            const lms_m =
+            const lmsM =
                 0.2119034982 * rl + 0.6806995451 * gl + 0.1073969566 * bl;
-            const lms_s =
+            const lmsS =
                 0.0883024619 * rl + 0.2817188376 * gl + 0.6299787005 * bl;
 
-            const l_ = Math.cbrt(lms_l);
-            const m_ = Math.cbrt(lms_m);
-            const s_ = Math.cbrt(lms_s);
+            const lp = Math.cbrt(lmsL);
+            const mp = Math.cbrt(lmsM);
+            const sp = Math.cbrt(lmsS);
 
             oklabSamples.push({
-                L: 0.2104542553 * l_ + 0.793617785 * m_ - 0.0040720468 * s_,
-                a: 1.9779984951 * l_ - 2.428592205 * m_ + 0.4505937099 * s_,
-                b: 0.0259040371 * l_ + 0.7827717662 * m_ - 0.808675766 * s_,
+                L: 0.2104542553 * lp + 0.793617785 * mp - 0.0040720468 * sp,
+                a: 1.9779984951 * lp - 2.428592205 * mp + 0.4505937099 * sp,
+                b: 0.0259040371 * lp + 0.7827717662 * mp - 0.808675766 * sp,
             });
         }
     }
@@ -228,13 +265,13 @@ export const extractColorsKmeans = (
         if (maxShift < TOLERANCE) break;
     }
 
-    // クラスタサイズを集計して面積比を計算
+    // クラスタサイズを集計
     const clusterCounts = new Int32Array(k);
     for (let i = 0; i < assignments.length; i++) {
         clusterCounts[assignments[i]]++;
     }
 
-    // OKLab → hex 変換してフィルタ・ソート
+    // OKLab → hex 変換 → 彩度加重スコアでソート
     return centroids
         .map((centroid, idx) => {
             const hex = oklabToHex(centroid);
@@ -245,13 +282,32 @@ export const extractColorsKmeans = (
                 return null;
             }
 
+            // OKLab chroma = sqrt(a² + b²)
+            // 追加の色空間変換なしに知覚彩度として使える
+            const chroma = Math.sqrt(centroid.a ** 2 + centroid.b ** 2);
+
             return {
                 hex,
                 count: clusterCounts[idx],
+                chroma,
             };
         })
-        .filter((item): item is { hex: string; count: number } => item !== null)
-        .sort((a, b) => b.count - a.count)
+        .filter(
+            (
+                item,
+            ): item is {
+                hex: string;
+                count: number;
+                chroma: number;
+            } => item !== null,
+        )
+        .sort((a, b) => {
+            // 彩度加重スコア: count × (1 + boost)
+            // 高彩度の印象色が低彩度グレーに埋もれるのを防ぐ
+            const scoreA = a.count * (1 + saturationBoost(a.chroma));
+            const scoreB = b.count * (1 + saturationBoost(b.chroma));
+            return scoreB - scoreA;
+        })
         .slice(0, count)
         .map((item, i) => ({
             id: i + 1,
@@ -262,20 +318,4 @@ export const extractColorsKmeans = (
             percent:
                 Math.round((item.count / oklabSamples.length) * 10000) / 100,
         }));
-};
-
-/**
- * sRGB 値 (0–1) を線形化する（ガンマ除去）
- */
-const linearize = (v: number): number => {
-    return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
-};
-
-/**
- * OKLab 点を HEX 文字列に変換する
- */
-const oklabToHex = (point: OklabPoint): string | undefined => {
-    const color = parse(`oklab(${point.L} ${point.a} ${point.b})`);
-    if (!color) return undefined;
-    return formatHex(color) ?? undefined;
 };

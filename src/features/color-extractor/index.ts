@@ -1,7 +1,10 @@
-import { extractColors } from "@/features/color-extractor/color-extractor";
-
+import { extractColors } from "./color-extractor";
 import { extractColorsKmeans } from "./kmeans-extractor";
 import type { ExtractionResult } from "./types";
+
+export { extractColors } from "./color-extractor";
+export { extractColorsKmeans } from "./kmeans-extractor";
+export type { ColorPoint, ExtractionResult, ExtractMethod } from "./types";
 
 /**
  * 2種類の色抽出アルゴリズムを実行し、それぞれの結果と計算時間を返す
