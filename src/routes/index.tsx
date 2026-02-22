@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useRef, useState } from "react";
-import { extractColors } from "@/features/color-extractor/color-extractor";
+import { runExtraction } from "@/features/color-extract";
+import type { ExtractionResult } from "@/features/color-extract/types";
 import type { ColorPoint } from "@/features/color-extractor/types";
 import { CodePreview } from "@/features/theme-generator/code-preview";
 import { mapColorsToTheme } from "@/features/theme-generator/color-mapper";
@@ -8,6 +9,40 @@ import type { ConceptName } from "@/features/theme-generator/hue-rules";
 import type { HighlightMap } from "@/features/theme-generator/types";
 
 export const Route = createFileRoute("/")({ component: App });
+
+/** カラーパレットのグリッド表示 */
+function PaletteGrid({ colors }: { colors: ColorPoint[] }) {
+    return (
+        <div className="grid grid-cols-4 gap-3">
+            {colors.map((point) => (
+                <div
+                    key={point.id}
+                    className="rounded-lg overflow-hidden bg-gray-900"
+                >
+                    <div
+                        className="h-14 w-full"
+                        style={{ backgroundColor: point.color }}
+                    />
+                    <div className="p-2 space-y-0.5">
+                        <p className="text-white text-xs font-mono">
+                            {point.color}
+                        </p>
+                        {point.name && (
+                            <p className="text-gray-500 text-xs truncate">
+                                {point.name}
+                            </p>
+                        )}
+                        {point.percent !== undefined && (
+                            <p className="text-gray-600 text-xs">
+                                {point.percent}%
+                            </p>
+                        )}
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
+}
 
 export function App() {
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -17,6 +52,10 @@ export function App() {
     const [theme, setTheme] = useState<HighlightMap | null>(null);
     const [isCopied, setIsCopied] = useState(false);
     const [concept, setConcept] = useState<ConceptName>("darkClassic");
+    const [extractionResults, setExtractionResults] = useState<{
+        extractColors: ExtractionResult;
+        kmeans: ExtractionResult;
+    } | null>(null);
 
     const inputRef = useRef<HTMLInputElement>(null);
     const imgRef = useRef<HTMLImageElement>(null);
@@ -28,6 +67,7 @@ export function App() {
         setPreviewUrl(url);
         setPalette([]);
         setTheme(null);
+        setExtractionResults(null);
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,6 +95,7 @@ export function App() {
         setPreviewUrl(null);
         setPalette([]);
         setTheme(null);
+        setExtractionResults(null);
         if (inputRef.current) inputRef.current.value = "";
     };
 
@@ -85,14 +126,15 @@ export function App() {
                 naturalHeight,
             );
 
-            const result = extractColors(
+            const results = runExtraction(
                 imageData,
                 naturalWidth,
                 naturalHeight,
                 12,
             );
-            setPalette(result);
-            setTheme(mapColorsToTheme(result, concept));
+            setExtractionResults(results);
+            setPalette(results.extractColors.colors);
+            setTheme(mapColorsToTheme(results.extractColors.colors, concept));
             setIsExtracting(false);
         });
     };
@@ -204,53 +246,66 @@ export function App() {
                     </div>
                 )}
 
-                {/* カラーパレット */}
-                {palette.length > 0 && (
-                    <div className="space-y-3">
-                        <div className="flex items-center justify-between">
-                            <p className="text-gray-400 text-sm">
-                                抽出された色: {palette.length}色
-                            </p>
-                            <button
-                                type="button"
-                                onClick={handleCopyPalette}
-                                className="px-3 py-1.5 rounded-lg bg-gray-800 text-gray-300 text-xs hover:bg-gray-700 transition-colors"
-                            >
-                                {isCopied ? "コピーしました" : "コピー"}
-                            </button>
-                        </div>
-                        <div className="grid grid-cols-4 gap-3">
-                            {palette.map((point) => (
-                                <div
-                                    key={point.id}
-                                    className="rounded-lg overflow-hidden bg-gray-900"
-                                >
-                                    <div
-                                        className="h-14 w-full"
-                                        style={{
-                                            backgroundColor: point.color,
-                                        }}
-                                    />
-                                    <div className="p-2 space-y-0.5">
-                                        <p className="text-white text-xs font-mono">
-                                            {point.color}
-                                        </p>
-                                        {point.name && (
-                                            <p className="text-gray-500 text-xs truncate">
-                                                {point.name}
-                                            </p>
-                                        )}
-                                        {point.percent !== undefined && (
-                                            <p className="text-gray-600 text-xs">
-                                                {point.percent}%
-                                            </p>
-                                        )}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                {/* 計算時間バッジ */}
+                {extractionResults && (
+                    <div className="flex gap-3">
+                        <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-800 text-xs">
+                            <span className="text-gray-400">
+                                extract-colors
+                            </span>
+                            <span className="text-violet-400 font-mono">
+                                {extractionResults.extractColors.elapsedMs}ms
+                            </span>
+                        </span>
+                        <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-800 text-xs">
+                            <span className="text-gray-400">k-means++</span>
+                            <span className="text-violet-400 font-mono">
+                                {extractionResults.kmeans.elapsedMs}ms
+                            </span>
+                        </span>
                     </div>
                 )}
+
+                {/* extract-colors パレット */}
+                {extractionResults &&
+                    extractionResults.extractColors.colors.length > 0 && (
+                        <div className="space-y-3">
+                            <div className="flex items-center justify-between">
+                                <p className="text-gray-400 text-sm">
+                                    extract-colors:{" "}
+                                    {
+                                        extractionResults.extractColors.colors
+                                            .length
+                                    }
+                                    色
+                                </p>
+                                <button
+                                    type="button"
+                                    onClick={handleCopyPalette}
+                                    className="px-3 py-1.5 rounded-lg bg-gray-800 text-gray-300 text-xs hover:bg-gray-700 transition-colors"
+                                >
+                                    {isCopied ? "コピーしました" : "コピー"}
+                                </button>
+                            </div>
+                            <PaletteGrid
+                                colors={extractionResults.extractColors.colors}
+                            />
+                        </div>
+                    )}
+
+                {/* k-means++ パレット */}
+                {extractionResults &&
+                    extractionResults.kmeans.colors.length > 0 && (
+                        <div className="space-y-3">
+                            <p className="text-gray-400 text-sm">
+                                k-means++:{" "}
+                                {extractionResults.kmeans.colors.length}色
+                            </p>
+                            <PaletteGrid
+                                colors={extractionResults.kmeans.colors}
+                            />
+                        </div>
+                    )}
 
                 {/* テーマプレビュー（エディタ風コードハイライト） */}
                 {theme && (
