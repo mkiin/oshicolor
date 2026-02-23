@@ -1,44 +1,125 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useRef, useState } from "react";
-import { runExtraction } from "@/features/color-extractor";
-import type {
-    ColorPoint,
-    ExtractionResult,
-} from "@/features/color-extractor/types";
-import { CodePreview } from "@/features/theme-generator/code-preview";
-import { mapColorsToTheme } from "@/features/theme-generator/color-mapper";
-import type { ConceptName } from "@/features/theme-generator/hue-rules";
-import type { HighlightMap } from "@/features/theme-generator/types";
+import {
+    buildDebugText,
+    extractColorsVibrant,
+    type HueGroup,
+    type SlotRanking,
+    type VibrantColor,
+    type VibrantResult,
+    type VibrantSlot,
+} from "@/features/color-extractor/vibrant-extractor";
 
 export const Route = createFileRoute("/")({ component: App });
 
-/** カラーパレットのグリッド表示 */
-function PaletteGrid({ colors }: { colors: ColorPoint[] }) {
+/** Vibrant スロットごとの表示設定 */
+const SLOT_META: Record<
+    VibrantSlot,
+    { label: string; bg: string; text: string }
+> = {
+    Vibrant: { label: "Vibrant", bg: "bg-violet-500", text: "text-white" },
+    DarkVibrant: {
+        label: "Dark Vibrant",
+        bg: "bg-indigo-800",
+        text: "text-white",
+    },
+    LightVibrant: {
+        label: "Light Vibrant",
+        bg: "bg-violet-300",
+        text: "text-gray-900",
+    },
+    Muted: { label: "Muted", bg: "bg-slate-500", text: "text-white" },
+    DarkMuted: { label: "Dark Muted", bg: "bg-slate-700", text: "text-white" },
+    LightMuted: {
+        label: "Light Muted",
+        bg: "bg-slate-300",
+        text: "text-gray-900",
+    },
+};
+
+/** Vibrant が選んだ6色を表示するパレット */
+function VibrantPalette({ colors }: { colors: VibrantColor[] }) {
     return (
-        <div className="grid grid-cols-4 gap-3">
-            {colors.map((point) => (
+        <div className="grid grid-cols-3 gap-3">
+            {colors.map(({ hex, slot }) => (
                 <div
-                    key={point.id}
+                    key={slot}
                     className="rounded-lg overflow-hidden bg-gray-900"
                 >
                     <div
-                        className="h-14 w-full"
-                        style={{ backgroundColor: point.color }}
+                        className="h-16 w-full"
+                        style={{ backgroundColor: hex }}
                     />
                     <div className="p-2 space-y-0.5">
-                        <p className="text-white text-xs font-mono">
-                            {point.color}
+                        <p className="text-gray-400 text-xs">
+                            {SLOT_META[slot].label}
                         </p>
-                        {point.name && (
-                            <p className="text-gray-500 text-xs truncate">
-                                {point.name}
-                            </p>
-                        )}
-                        {point.percent !== undefined && (
-                            <p className="text-gray-600 text-xs">
-                                {point.percent}%
-                            </p>
-                        )}
+                        <p className="text-white text-xs font-mono">{hex}</p>
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
+}
+
+/**
+ * スロット別スコアランキングを表形式で表示する
+ *
+ * 各行がスロット名、列方向に1位・2位・3位... とスコア降順で並ぶ。
+ * 最終パレットに選ばれた色はリングでハイライトする。
+ */
+function SlotRankingTable({ rankings }: { rankings: SlotRanking[] }) {
+    return (
+        <div className="space-y-1.5">
+            {rankings.map(({ slot, candidates }) => (
+                <div key={slot} className="flex items-center gap-2">
+                    <span className="text-gray-500 text-xs w-24 shrink-0">
+                        {SLOT_META[slot].label}
+                    </span>
+                    <span className="text-gray-600 text-xs w-12 shrink-0">
+                        {candidates.length}色
+                    </span>
+                    <div className="flex gap-1 overflow-x-auto pb-0.5">
+                        {candidates.map(({ hex, isSelected }, i) => (
+                            <div
+                                key={hex}
+                                className={`shrink-0 w-7 h-7 rounded ${isSelected ? "ring-2 ring-violet-400" : ""}`}
+                                style={{ backgroundColor: hex }}
+                                title={`${i + 1}位 ${hex}${isSelected ? " ★選択" : ""}`}
+                            />
+                        ))}
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
+}
+
+/**
+ * Hue 別カラーグループを表示する
+ *
+ * 各行が色相帯名、右に population 降順で色スウォッチが並ぶ。
+ */
+function HueGroupDisplay({ hueGroups }: { hueGroups: HueGroup[] }) {
+    return (
+        <div className="space-y-1.5">
+            {hueGroups.map(({ label, swatches }) => (
+                <div key={label} className="flex items-center gap-2">
+                    <span className="text-gray-500 text-xs w-16 shrink-0">
+                        {label}
+                    </span>
+                    <span className="text-gray-600 text-xs w-12 shrink-0">
+                        {swatches.length}色
+                    </span>
+                    <div className="flex gap-1 flex-wrap">
+                        {swatches.map(({ hex }) => (
+                            <div
+                                key={hex}
+                                className="w-7 h-7 rounded shrink-0"
+                                style={{ backgroundColor: hex }}
+                                title={hex}
+                            />
+                        ))}
                     </div>
                 </div>
             ))}
@@ -49,28 +130,19 @@ function PaletteGrid({ colors }: { colors: ColorPoint[] }) {
 export function App() {
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [isDragging, setIsDragging] = useState(false);
-    const [palette, setPalette] = useState<ColorPoint[]>([]);
+    const [vibrantResult, setVibrantResult] = useState<VibrantResult | null>(
+        null,
+    );
     const [isExtracting, setIsExtracting] = useState(false);
-    const [theme, setTheme] = useState<HighlightMap | null>(null);
     const [isCopied, setIsCopied] = useState(false);
-    const [isKmeansCopied, setIsKmeansCopied] = useState(false);
-    const [concept, setConcept] = useState<ConceptName>("darkClassic");
-    const [extractionResults, setExtractionResults] = useState<{
-        extractColors: ExtractionResult;
-        kmeans: ExtractionResult;
-    } | null>(null);
 
     const inputRef = useRef<HTMLInputElement>(null);
-    const imgRef = useRef<HTMLImageElement>(null);
-    const canvasRef = useRef<HTMLCanvasElement>(null);
 
     const handleFile = (file: File) => {
         if (!file.type.startsWith("image/")) return;
         const url = URL.createObjectURL(file);
         setPreviewUrl(url);
-        setPalette([]);
-        setTheme(null);
-        setExtractionResults(null);
+        setVibrantResult(null);
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,76 +168,27 @@ export function App() {
 
     const handleReset = () => {
         setPreviewUrl(null);
-        setPalette([]);
-        setTheme(null);
-        setExtractionResults(null);
+        setVibrantResult(null);
         if (inputRef.current) inputRef.current.value = "";
     };
 
+    const handleCopy = () => {
+        if (!vibrantResult) return;
+        navigator.clipboard
+            .writeText(buildDebugText(vibrantResult))
+            .then(() => {
+                setIsCopied(true);
+                setTimeout(() => setIsCopied(false), 2000);
+            });
+    };
+
     const handleExtract = () => {
-        const img = imgRef.current;
-        const canvas = canvasRef.current;
-        if (!img || !canvas) return;
+        if (!previewUrl) return;
 
         setIsExtracting(true);
-
-        // 次のフレームに処理を遅延させてローディング表示を確実に反映する
-        requestAnimationFrame(() => {
-            const { naturalWidth, naturalHeight } = img;
-            canvas.width = naturalWidth;
-            canvas.height = naturalHeight;
-
-            const ctx = canvas.getContext("2d");
-            if (!ctx) {
-                setIsExtracting(false);
-                return;
-            }
-
-            ctx.drawImage(img, 0, 0, naturalWidth, naturalHeight);
-            const imageData = ctx.getImageData(
-                0,
-                0,
-                naturalWidth,
-                naturalHeight,
-            );
-
-            const results = runExtraction(
-                imageData,
-                naturalWidth,
-                naturalHeight,
-                12,
-            );
-            setExtractionResults(results);
-            setPalette(results.extractColors.colors);
-            setTheme(mapColorsToTheme(results.extractColors.colors, concept));
+        extractColorsVibrant(previewUrl).then((result) => {
+            setVibrantResult(result);
             setIsExtracting(false);
-        });
-    };
-
-    const handleCopyPalette = () => {
-        const text = palette
-            .map(
-                (p) =>
-                    `${p.color}${p.name ? `  ${p.name}` : ""}${p.percent !== undefined ? `  ${p.percent}%` : ""}`,
-            )
-            .join("\n");
-        navigator.clipboard.writeText(text).then(() => {
-            setIsCopied(true);
-            setTimeout(() => setIsCopied(false), 2000);
-        });
-    };
-
-    const handleCopyKmeansPalette = () => {
-        if (!extractionResults) return;
-        const text = extractionResults.kmeans.colors
-            .map(
-                (p) =>
-                    `${p.color}${p.name ? `  ${p.name}` : ""}${p.percent !== undefined ? `  ${p.percent}%` : ""}`,
-            )
-            .join("\n");
-        navigator.clipboard.writeText(text).then(() => {
-            setIsKmeansCopied(true);
-            setTimeout(() => setIsKmeansCopied(false), 2000);
         });
     };
 
@@ -207,41 +230,14 @@ export function App() {
                     onChange={handleChange}
                 />
 
-                {/* 処理用の非表示キャンバス */}
-                <canvas ref={canvasRef} className="hidden" />
-
                 {/* プレビューと操作ボタン */}
                 {previewUrl && (
                     <div className="space-y-4">
                         <img
-                            ref={imgRef}
                             src={previewUrl}
                             alt="preview"
                             className="w-full rounded-xl object-contain max-h-72"
                         />
-
-                        {/* コンセプト選択 */}
-                        <div className="flex gap-2">
-                            {(
-                                [
-                                    ["darkClassic", "Dark Classic"],
-                                    ["lightPastel", "Light Pastel"],
-                                ] as const
-                            ).map(([key, label]) => (
-                                <button
-                                    key={key}
-                                    type="button"
-                                    onClick={() => setConcept(key)}
-                                    className={`flex-1 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                                        concept === key
-                                            ? "bg-violet-600 text-white"
-                                            : "bg-gray-800 text-gray-400 hover:bg-gray-700"
-                                    }`}
-                                >
-                                    {label}
-                                </button>
-                            ))}
-                        </div>
 
                         <div className="flex gap-3">
                             <button
@@ -263,85 +259,47 @@ export function App() {
                     </div>
                 )}
 
-                {/* 計算時間バッジ */}
-                {extractionResults && (
-                    <div className="flex gap-3">
-                        <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-800 text-xs">
-                            <span className="text-gray-400">
-                                extract-colors
-                            </span>
-                            <span className="text-violet-400 font-mono">
-                                {extractionResults.extractColors.elapsedMs}ms
-                            </span>
-                        </span>
-                        <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-800 text-xs">
-                            <span className="text-gray-400">k-means++</span>
-                            <span className="text-violet-400 font-mono">
-                                {extractionResults.kmeans.elapsedMs}ms
-                            </span>
-                        </span>
+                {/* Vibrant パレット（6色） */}
+                {vibrantResult && vibrantResult.colors.length > 0 && (
+                    <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <p className="text-gray-400 text-sm">
+                                    パレット: {vibrantResult.colors.length}色
+                                </p>
+                                <p className="text-gray-400 text-sm">
+                                    抽出: {vibrantResult.swatchCount}色
+                                </p>
+                            </div>
+                            <button
+                                type="button"
+                                onClick={handleCopy}
+                                className="px-3 py-1 rounded bg-gray-800 text-gray-300 text-xs hover:bg-gray-700 transition-colors"
+                            >
+                                {isCopied ? "コピー済み ✓" : "デバッグコピー"}
+                            </button>
+                        </div>
+                        <VibrantPalette colors={vibrantResult.colors} />
                     </div>
                 )}
 
-                {/* extract-colors パレット */}
-                {extractionResults &&
-                    extractionResults.extractColors.colors.length > 0 && (
-                        <div className="space-y-3">
-                            <div className="flex items-center justify-between">
-                                <p className="text-gray-400 text-sm">
-                                    extract-colors:{" "}
-                                    {
-                                        extractionResults.extractColors.colors
-                                            .length
-                                    }
-                                    色
-                                </p>
-                                <button
-                                    type="button"
-                                    onClick={handleCopyPalette}
-                                    className="px-3 py-1.5 rounded-lg bg-gray-800 text-gray-300 text-xs hover:bg-gray-700 transition-colors"
-                                >
-                                    {isCopied ? "コピーしました" : "コピー"}
-                                </button>
-                            </div>
-                            <PaletteGrid
-                                colors={extractionResults.extractColors.colors}
-                            />
-                        </div>
-                    )}
-
-                {/* k-means++ パレット */}
-                {extractionResults &&
-                    extractionResults.kmeans.colors.length > 0 && (
-                        <div className="space-y-3">
-                            <div className="flex items-center justify-between">
-                                <p className="text-gray-400 text-sm">
-                                    k-means++:{" "}
-                                    {extractionResults.kmeans.colors.length}色
-                                </p>
-                                <button
-                                    type="button"
-                                    onClick={handleCopyKmeansPalette}
-                                    className="px-3 py-1.5 rounded-lg bg-gray-800 text-gray-300 text-xs hover:bg-gray-700 transition-colors"
-                                >
-                                    {isKmeansCopied
-                                        ? "コピーしました"
-                                        : "コピー"}
-                                </button>
-                            </div>
-                            <PaletteGrid
-                                colors={extractionResults.kmeans.colors}
-                            />
-                        </div>
-                    )}
-
-                {/* テーマプレビュー（エディタ風コードハイライト） */}
-                {theme && (
+                {/* スロット別スコアランキング */}
+                {vibrantResult && vibrantResult.rankings.length > 0 && (
                     <div className="space-y-3">
                         <p className="text-gray-400 text-sm">
-                            テーマプレビュー
+                            スロット別スコアランキング
                         </p>
-                        <CodePreview highlightMap={theme} />
+                        <SlotRankingTable rankings={vibrantResult.rankings} />
+                    </div>
+                )}
+
+                {/* Hue 別カラーグループ */}
+                {vibrantResult && vibrantResult.hueGroups.length > 0 && (
+                    <div className="space-y-3">
+                        <p className="text-gray-400 text-sm">
+                            Hue 別カラーグループ
+                        </p>
+                        <HueGroupDisplay hueGroups={vibrantResult.hueGroups} />
                     </div>
                 )}
             </div>

@@ -1,7 +1,7 @@
 # vimcolors.org 調査レポート
 
 > 調査日: 2026-02-22
-> リポジトリ: `sample-repo/vimcolors.org/`
+> リポジトリ: `sample-repo/nvim-generators/vimcolors.org/`
 > 言語: TypeScript (Next.js)
 
 ---

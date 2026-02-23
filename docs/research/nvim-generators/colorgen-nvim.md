@@ -1,7 +1,7 @@
 # colorgen-nvim 調査レポート
 
 > 調査日: 2026-02-22
-> リポジトリ: `sample-repo/colorgen-nvim/`
+> リポジトリ: `sample-repo/nvim-generators/colorgen-nvim/`
 > 言語: Rust（CLI ツール）
 
 ---

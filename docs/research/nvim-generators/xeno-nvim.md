@@ -1,7 +1,7 @@
 # xeno.nvim 調査レポート
 
 > 調査日: 2026-02-22
-> リポジトリ: `sample-repo/xeno.nvim/`
+> リポジトリ: `sample-repo/nvim-generators/xeno.nvim/`
 
 ---
 

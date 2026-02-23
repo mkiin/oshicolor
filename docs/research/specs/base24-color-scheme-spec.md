@@ -1,7 +1,7 @@
 # Base24 カラーテーマ仕様 調査メモ
 
 > 調査日: 2026-02-22
-> 調査対象: `sample-repo/base24/`
+> 調査対象: `sample-repo/specs/base24/`
 > 参照ファイル: `README.md`, `styling.md`, `builder.md`, `file.md`, `base24schema.json`, `future.md`
 
 ---

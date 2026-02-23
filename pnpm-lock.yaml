@@ -14,6 +14,15 @@ importers:
       '@faker-js/faker':
         specifier: ^10.0.0
         version: 10.3.0
+      '@oshicolor/color':
+        specifier: workspace:*
+        version: link:packages/color
+      '@oshicolor/core':
+        specifier: workspace:*
+        version: link:packages/core
+      '@oshicolor/image':
+        specifier: workspace:*
+        version: link:packages/image
       '@t3-oss/env-core':
         specifier: ^0.13.8
         version: 0.13.10(typescript@5.9.3)(zod@4.3.6)
@@ -168,6 +177,23 @@ importers:
       wrangler:
         specifier: ^4.40.3
         version: 4.66.0(@cloudflare/workers-types@4.20260217.0)
+
+  packages/color: {}
+
+  packages/core:
+    dependencies:
+      '@oshicolor/color':
+        specifier: workspace:*
+        version: link:../color
+      '@oshicolor/image':
+        specifier: workspace:*
+        version: link:../image
+
+  packages/image:
+    dependencies:
+      '@oshicolor/color':
+        specifier: workspace:*
+        version: link:../color
 
 packages:
 

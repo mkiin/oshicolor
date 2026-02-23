@@ -1,7 +1,7 @@
 # lush.nvim 調査レポート
 
 > 調査日: 2026-02-22
-> リポジトリ: `sample-repo/lush.nvim/`
+> リポジトリ: `sample-repo/nvim-generators/lush.nvim/`
 > 言語: Lua
 
 ---

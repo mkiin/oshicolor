@@ -1,5 +1,11 @@
 {
-  "include": [ "src/**/*.tsx", "src/**/*.ts", "tests/**/*.ts", "alchemy.run.ts"],
+  "include": [
+    "src/**/*.tsx",
+    "src/**/*.ts",
+    "tests/**/*.ts",
+    "alchemy.run.ts",
+    "packages/*/src/**/*.ts"
+  ],
   "compilerOptions": {
     "target": "ES2022",
     "jsx": "react-jsx",
@@ -22,7 +28,10 @@
     "noUncheckedSideEffectImports": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@oshicolor/color": ["./packages/color/src/index.ts"],
+      "@oshicolor/image": ["./packages/image/src/index.ts"],
+      "@oshicolor/core": ["./packages/core/src/index.ts"]
     }
   }
 }

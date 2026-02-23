@@ -1,7 +1,7 @@
 # nvim-highlite 調査レポート
 
 > 調査日: 2026-02-22
-> リポジトリ: `sample-repo/nvim-highlite/`
+> リポジトリ: `sample-repo/nvim-generators/nvim-highlite/`
 > 言語: Lua
 
 ---

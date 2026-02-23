@@ -19,6 +19,9 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@oshicolor/color": "workspace:*",
+    "@oshicolor/core": "workspace:*",
+    "@oshicolor/image": "workspace:*",
     "@cloudflare/vite-plugin": "^1.13.8",
     "@faker-js/faker": "^10.0.0",
     "@t3-oss/env-core": "^0.13.8",

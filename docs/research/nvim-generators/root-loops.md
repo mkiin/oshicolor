@@ -1,7 +1,7 @@
 # Root Loops 調査レポート
 
 > 調査日: 2026-02-22
-> リポジトリ: `sample-repo/root-loops/`
+> リポジトリ: `sample-repo/nvim-generators/root-loops/`
 > 言語: TypeScript (SvelteKit)
 
 ---

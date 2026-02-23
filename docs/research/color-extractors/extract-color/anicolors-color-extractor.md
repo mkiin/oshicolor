@@ -1,6 +1,6 @@
 # anicolors の色抽出実装
 
-**ファイル**: `sample-repo/anicolors/nextjs/src/components/palette/color-extractor.ts`
+**ファイル**: `sample-repo/color-extractors/anicolors/nextjs/src/components/palette/color-extractor.ts`
 
 シンプルな独自実装。Canvas API でピクセルデータを取得し、量子化 → 頻度集計 → 貪欲法による多様性選択という3ステップで代表色を決定する。
 

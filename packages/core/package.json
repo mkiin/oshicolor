@@ -1,0 +1,12 @@
+{
+    "name": "@oshicolor/core",
+    "private": true,
+    "type": "module",
+    "exports": {
+        ".": "./src/index.ts"
+    },
+    "dependencies": {
+        "@oshicolor/color": "workspace:*",
+        "@oshicolor/image": "workspace:*"
+    }
+}
