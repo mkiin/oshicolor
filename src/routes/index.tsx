@@ -3,8 +3,12 @@ import { useRef, useState } from "react";
 import {
     buildDebugText,
     extractColorsVibrant,
+    type HueCoverage,
     type HueGroup,
     type HueZoneColor,
+    type NamedPalette,
+    type SignatureColor,
+    type ToneProfile,
     type VibrantColor,
     type VibrantResult,
     type VibrantSlot,
@@ -158,6 +162,134 @@ function HueZonePalette({ hueZone }: { hueZone: HueZoneColor[] }) {
     );
 }
 
+// ── NamedPalette 表示 ─────────────────────────────────────────────────────────
+
+type NamedPaletteProps = {
+    namedPalette: NamedPalette;
+    signatureColor: SignatureColor | null;
+    toneProfile: ToneProfile;
+    hueCoverage: HueCoverage;
+};
+
+/** NamedPalette の1色スウォッチ */
+function PaletteChip({
+    hex,
+    label,
+    dark,
+}: {
+    hex: string;
+    label: string;
+    dark?: boolean;
+}) {
+    return (
+        <div className="flex flex-col items-center gap-0.5">
+            <div
+                className="w-10 h-10 rounded-md border border-gray-700"
+                style={{ backgroundColor: hex }}
+                title={hex}
+            />
+            <span
+                className={`text-xs font-mono ${dark ? "text-gray-500" : "text-gray-400"}`}
+            >
+                {label}
+            </span>
+        </div>
+    );
+}
+
+/**
+ * 役割ベース17色パレットを表示する
+ *
+ * bg / fg / accent / syntax / diag の5グループに分けてレイアウトする。
+ */
+function NamedPaletteDisplay({
+    namedPalette,
+    signatureColor,
+    toneProfile,
+    hueCoverage,
+}: NamedPaletteProps) {
+    const sat = toneProfile.characterSaturation;
+    const satLabel = sat >= 0.14 ? "鮮やか" : sat >= 0.08 ? "普通" : "くすみ";
+
+    return (
+        <div className="space-y-4">
+            {/* 診断サマリ */}
+            <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500">
+                {signatureColor && (
+                    <span className="flex items-center gap-1.5">
+                        <span
+                            className="inline-block w-3 h-3 rounded-sm"
+                            style={{ backgroundColor: signatureColor.hex }}
+                        />
+                        signature {signatureColor.hex}
+                    </span>
+                )}
+                <span>
+                    tone: {satLabel} (C={sat.toFixed(3)})
+                </span>
+                <span>coverage: {hueCoverage.coveredCount}/6 zones</span>
+                <span>temp: {toneProfile.temperatureSign}</span>
+            </div>
+
+            {/* bg / fg */}
+            <div className="space-y-2">
+                <p className="text-gray-500 text-xs">Background / Foreground</p>
+                <div className="flex gap-3 flex-wrap">
+                    <PaletteChip hex={namedPalette.bg} label="bg" dark />
+                    <PaletteChip
+                        hex={namedPalette.bgSubtle}
+                        label="subtle"
+                        dark
+                    />
+                    <PaletteChip
+                        hex={namedPalette.bgHighlight}
+                        label="highlight"
+                        dark
+                    />
+                    <div className="w-px bg-gray-800 self-stretch mx-1" />
+                    <PaletteChip hex={namedPalette.fg} label="fg" />
+                    <PaletteChip hex={namedPalette.fgDim} label="dim" />
+                    <PaletteChip hex={namedPalette.fgFaint} label="faint" />
+                    <div className="w-px bg-gray-800 self-stretch mx-1" />
+                    <PaletteChip hex={namedPalette.accent} label="accent" />
+                </div>
+            </div>
+
+            {/* syntax */}
+            <div className="space-y-2">
+                <p className="text-gray-500 text-xs">
+                    Syntax
+                    {hueCoverage.coveredCount < 4 && (
+                        <span className="ml-2 text-amber-400">
+                            ▲ 合成モード（coverage {hueCoverage.coveredCount}
+                            /6）
+                        </span>
+                    )}
+                </p>
+                <div className="flex gap-3 flex-wrap">
+                    <PaletteChip hex={namedPalette.synFunction} label="func" />
+                    <PaletteChip hex={namedPalette.synKeyword} label="kw" />
+                    <PaletteChip hex={namedPalette.synString} label="str" />
+                    <PaletteChip hex={namedPalette.synType} label="type" />
+                    <PaletteChip hex={namedPalette.synConstant} label="const" />
+                    <PaletteChip hex={namedPalette.synIdentifier} label="id" />
+                </div>
+            </div>
+
+            {/* diag */}
+            <div className="space-y-2">
+                <p className="text-gray-500 text-xs">Diagnostics（固定値）</p>
+                <div className="flex gap-3 flex-wrap">
+                    <PaletteChip hex={namedPalette.diagError} label="error" />
+                    <PaletteChip hex={namedPalette.diagWarn} label="warn" />
+                    <PaletteChip hex={namedPalette.diagInfo} label="info" />
+                    <PaletteChip hex={namedPalette.diagHint} label="hint" />
+                </div>
+            </div>
+        </div>
+    );
+}
+
 export function App() {
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [isDragging, setIsDragging] = useState(false);
@@ -287,6 +419,21 @@ export function App() {
                                 リセット
                             </button>
                         </div>
+                    </div>
+                )}
+
+                {/* NamedPalette: 役割ベース17色 */}
+                {vibrantResult && (
+                    <div className="space-y-3">
+                        <p className="text-white text-sm font-medium">
+                            NamedPalette
+                        </p>
+                        <NamedPaletteDisplay
+                            namedPalette={vibrantResult.namedPalette}
+                            signatureColor={vibrantResult.signatureColor}
+                            toneProfile={vibrantResult.toneProfile}
+                            hueCoverage={vibrantResult.hueCoverage}
+                        />
                     </div>
                 )}
 

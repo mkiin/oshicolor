@@ -1,6 +1,18 @@
 import type { Palette, Swatch } from "@oshicolor/color";
 import type { ProcessResult } from "@oshicolor/core";
 import { Extractor, ZONE_SPECS } from "@oshicolor/core";
+import { generateNamedPalette } from "@/features/palette-generator/named-palette";
+import {
+    analyzeSignatureColor,
+    analyzeToneProfile,
+    diagnoseHueCoverage,
+} from "@/features/palette-generator/palette-analyzer";
+import type {
+    HueCoverage,
+    NamedPalette,
+    SignatureColor,
+    ToneProfile,
+} from "@/features/palette-generator/types";
 
 /** Vibrant パレットの6スロット名 */
 export type VibrantSlot =
@@ -50,13 +62,23 @@ export type VibrantResult = {
     colors: VibrantColor[];
     /** 量子化全色を色相帯別にまとめたグループ（population 降順） */
     hueGroups: HueGroup[];
-    /** HueZoneGenerator で選ばれた syntax 6色（hex が null の場合はフォールバック合成が必要） */
+    /** HueZoneGenerator で選ばれた syntax 6色（hex が null の場合は合成で補完） */
     hueZone: HueZoneColor[];
     /** 量子化で抽出された色の総数 */
     swatchCount: number;
     /** 計算時間 (ms) */
     elapsedMs: number;
+    /** 役割ベースの17色パレット（Neovim カラースキーム生成の中間表現） */
+    namedPalette: NamedPalette;
+    /** 画像を代表するシグネチャカラー（null = 有彩色なし） */
+    signatureColor: SignatureColor | null;
+    /** 画像のトーンプロファイル（characterSaturation, temperatureSign） */
+    toneProfile: ToneProfile;
+    /** HueZone カバレッジ診断（何ゾーンが画像から直接取得できたか） */
+    hueCoverage: HueCoverage;
 };
+
+export type { NamedPalette, SignatureColor, ToneProfile, HueCoverage };
 
 const SLOTS: VibrantSlot[] = [
     "Vibrant",
@@ -163,11 +185,21 @@ export const buildResultFromSwatches = (
         slot,
         hex: hueZonePalette[slot]?.hex.toLowerCase() ?? null,
     }));
+
+    const signatureColor = analyzeSignatureColor(swatches);
+    const toneProfile = analyzeToneProfile(swatches);
+    const hueCoverage = diagnoseHueCoverage(hueZonePalette);
+    const namedPalette = generateNamedPalette(swatches, hueZonePalette);
+
     return {
         colors,
         hueGroups: buildHueGroups(swatches),
         hueZone,
         swatchCount: swatches.length,
+        namedPalette,
+        signatureColor,
+        toneProfile,
+        hueCoverage,
     };
 };
 

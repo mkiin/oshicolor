@@ -2,10 +2,13 @@ import type { Palette } from "@oshicolor/color";
 import type { ImageClass, ImageSource } from "@oshicolor/image";
 import { BrowserImage } from "@oshicolor/image";
 import { DefaultGenerator } from "./generator-default";
+import { HueZoneGenerator } from "./generator-hue-zone";
 import { MMCQ } from "./mmcq";
 import type { ProcessOptions, ProcessResult, StageOptions } from "./pipeline";
 import { BasicPipeline } from "./pipeline";
 
+export type { ZoneSpec } from "./generator-hue-zone";
+export { HueZoneGenerator, ZONE_SPECS } from "./generator-hue-zone";
 export type { ProcessResult, StageOptions } from "./pipeline";
 
 /** Extractor の設定オプション */
@@ -49,7 +52,8 @@ const defaultFilter = (r: number, g: number, b: number, a: number): boolean => {
 export const pipeline = new BasicPipeline().filter
     .register("default", defaultFilter)
     .quantizer.register("mmcq", MMCQ)
-    .generator.register("default", DefaultGenerator);
+    .generator.register("default", DefaultGenerator)
+    .generator.register("hue-zone", HueZoneGenerator);
 
 // ── Extractor ──────────────────────────────────────────────────────────────
 
@@ -150,7 +154,7 @@ export class Extractor {
             const loaded = await image.load(this._src);
             loaded.scaleDown(this.opts);
             const processOpts = buildProcessOptions(this.opts, {
-                generators: ["default"],
+                generators: ["default", "hue-zone"],
             });
             this._result = await pipeline.process(
                 loaded.getImageData(),
