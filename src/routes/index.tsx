@@ -5,7 +5,7 @@ import {
     buildCharacterPaletteDebugText,
     type CharacterPalette,
     deriveCharacterPalette,
-    type SyntaxColorName,
+    type SyntaxRole,
 } from "@/features/color-extractor/palette-from-vibrant";
 import {
     buildDebugText,
@@ -104,7 +104,7 @@ function NeovimFrame({ title, lines, palette }: NeovimFrameProps) {
                 style={{ backgroundColor: "#0a090a", borderColor: "#222" }}
             >
                 <div className="flex gap-1.5">
-                    {(["accent", "yellow", "green"] as const).map((key) => (
+                    {(["error", "const", "string"] as const).map((key) => (
                         <span
                             key={key}
                             className="w-2.5 h-2.5 rounded-full"
@@ -175,27 +175,23 @@ function NeovimFrame({ title, lines, palette }: NeovimFrameProps) {
 
 function RustCodeBlock({ palette }: { palette: CharacterPalette }) {
     const kw = (t: string) => (
-        <span style={{ color: palette.purple, fontStyle: "italic" }}>{t}</span>
+        <span style={{ color: palette.kw, fontStyle: "italic" }}>{t}</span>
     );
     const fn_ = (t: string) => (
-        <span style={{ color: palette.cyan, fontWeight: "bold" }}>{t}</span>
+        <span style={{ color: palette.fn, fontWeight: "bold" }}>{t}</span>
     );
-    const ty = (t: string) => <span style={{ color: palette.azure }}>{t}</span>;
-    const nu = (t: string) => (
-        <span style={{ color: palette.orange }}>{t}</span>
-    );
+    const ty = (t: string) => <span style={{ color: palette.type }}>{t}</span>;
+    const nu = (t: string) => <span style={{ color: palette.const }}>{t}</span>;
     const cm = (t: string) => (
-        <span style={{ color: "#555", fontStyle: "italic" }}>{t}</span>
+        <span style={{ color: palette.comment, fontStyle: "italic" }}>{t}</span>
     );
     const ac = (t: string) => (
         <span style={{ color: palette.accent }}>{t}</span>
     );
-    const fi = (t: string) => <span style={{ color: palette.red }}>{t}</span>;
-    const pa = (t: string) => (
-        <span style={{ color: palette.yellow }}>{t}</span>
-    );
+    const fi = (t: string) => <span style={{ color: palette.field }}>{t}</span>;
+    const pa = (t: string) => <span style={{ color: palette.op }}>{t}</span>;
     const pp = (t: string) => (
-        <span style={{ color: palette.accent }}>{t}</span>
+        <span style={{ color: palette.special }}>{t}</span>
     );
 
     const lines: React.ReactNode[] = [
@@ -207,7 +203,7 @@ function RustCodeBlock({ palette }: { palette: CharacterPalette }) {
         " ",
         <>
             {pp("#[derive(")} {ty("Debug")}, {ty("Clone")}
-            {pp(")]")}
+            {pp("])")}
         </>,
         <>
             {kw("pub struct")} {ty("Palette")} {"{"}
@@ -327,26 +323,24 @@ function RustCodeBlock({ palette }: { palette: CharacterPalette }) {
 
 function TypeScriptCodeBlock({ palette }: { palette: CharacterPalette }) {
     const kw = (t: string) => (
-        <span style={{ color: palette.purple, fontStyle: "italic" }}>{t}</span>
+        <span style={{ color: palette.kw, fontStyle: "italic" }}>{t}</span>
     );
     const fn_ = (t: string) => (
-        <span style={{ color: palette.cyan, fontWeight: "bold" }}>{t}</span>
+        <span style={{ color: palette.fn, fontWeight: "bold" }}>{t}</span>
     );
-    const ty = (t: string) => <span style={{ color: palette.azure }}>{t}</span>;
-    const nu = (t: string) => (
-        <span style={{ color: palette.orange }}>{t}</span>
+    const ty = (t: string) => <span style={{ color: palette.type }}>{t}</span>;
+    const nu = (t: string) => <span style={{ color: palette.const }}>{t}</span>;
+    const st = (t: string) => (
+        <span style={{ color: palette.string }}>{t}</span>
     );
-    const st = (t: string) => <span style={{ color: palette.green }}>{t}</span>;
     const ac = (t: string) => (
         <span style={{ color: palette.accent }}>{t}</span>
     );
-    const fi = (t: string) => <span style={{ color: palette.red }}>{t}</span>;
-    const pa = (t: string) => (
-        <span style={{ color: palette.yellow }}>{t}</span>
-    );
-    const tg = (t: string) => <span style={{ color: palette.cyan }}>{t}</span>;
+    const fi = (t: string) => <span style={{ color: palette.field }}>{t}</span>;
+    const pa = (t: string) => <span style={{ color: palette.op }}>{t}</span>;
+    const tg = (t: string) => <span style={{ color: palette.fn }}>{t}</span>;
     const at = (t: string) => (
-        <span style={{ color: palette.purple }}>{t}</span>
+        <span style={{ color: palette.special }}>{t}</span>
     );
 
     const lines: React.ReactNode[] = [
@@ -479,15 +473,15 @@ function TypeScriptCodeBlock({ palette }: { palette: CharacterPalette }) {
 
 // ── 生成パレットプレビュー ────────────────────────────────────────────────────
 
-const SYNTAX_ORDER: SyntaxColorName[] = [
-    "red",
-    "orange",
-    "yellow",
-    "green",
-    "cyan",
-    "azure",
-    "blue",
-    "purple",
+const SYNTAX_ORDER: SyntaxRole[] = [
+    "fn",
+    "kw",
+    "field",
+    "string",
+    "type",
+    "op",
+    "const",
+    "special",
 ];
 
 type CharacterPalettePreviewProps = {
@@ -516,12 +510,6 @@ function CharacterPalettePreview({
                 style={{ color: "#555" }}
             >
                 <span>
-                    ambientChroma:{" "}
-                    <span style={{ color: "#aaa" }}>
-                        {palette.ambientChroma.toFixed(3)}
-                    </span>
-                </span>
-                <span>
                     syntaxChroma:{" "}
                     <span style={{ color: "#aaa" }}>
                         {palette.syntaxChroma.toFixed(3)}
@@ -531,12 +519,6 @@ function CharacterPalettePreview({
                     vibrant.C:{" "}
                     <span style={{ color: "#aaa" }}>
                         {palette.vibrantC.toFixed(3)}
-                    </span>
-                </span>
-                <span>
-                    muted.C:{" "}
-                    <span style={{ color: "#aaa" }}>
-                        {palette.mutedC.toFixed(3)}
                     </span>
                 </span>
             </div>
@@ -574,26 +556,28 @@ function CharacterPalettePreview({
             {/* ベースカラー */}
             <div className="space-y-2">
                 {sectionTitle("Base colors")}
-                <div className="flex gap-1">
-                    {(["bg", "fg", "accent"] as const).map((key) => (
-                        <div
-                            key={key}
-                            className="rounded overflow-hidden flex-1"
-                            style={{ backgroundColor: "#151316" }}
-                        >
+                <div className="flex gap-1 flex-wrap">
+                    {(["bg", "fg", "accent", "comment", "error"] as const).map(
+                        (key) => (
                             <div
-                                className="h-9 w-full"
-                                style={{ backgroundColor: palette[key] }}
-                            />
-                            <div
-                                className="p-1.5 text-[9px]"
-                                style={{ color: "#777" }}
+                                key={key}
+                                className="rounded overflow-hidden flex-1 min-w-[80px]"
+                                style={{ backgroundColor: "#151316" }}
                             >
-                                <p>{key}</p>
-                                <p className="font-mono">{palette[key]}</p>
+                                <div
+                                    className="h-9 w-full"
+                                    style={{ backgroundColor: palette[key] }}
+                                />
+                                <div
+                                    className="p-1.5 text-[9px]"
+                                    style={{ color: "#777" }}
+                                >
+                                    <p>{key}</p>
+                                    <p className="font-mono">{palette[key]}</p>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ),
+                    )}
                 </div>
             </div>
 
@@ -601,13 +585,34 @@ function CharacterPalettePreview({
             <div className="space-y-2">
                 {sectionTitle("Syntax colors")}
                 <div className="grid grid-cols-4 gap-1">
-                    {SYNTAX_ORDER.map((name) => {
-                        const hex = palette[name];
+                    {SYNTAX_ORDER.map((role) => {
+                        const hex = palette[role];
                         const { l, c, h } = getOklch(hex);
-                        const isImage = palette.source[name] === "image";
+                        const src = palette.source[role];
+                        const srcLabel =
+                            src === "accent"
+                                ? "accent"
+                                : src === "image"
+                                  ? "画像"
+                                  : "生成";
+                        const srcStyle =
+                            src === "image"
+                                ? {
+                                      backgroundColor: "#1a3a1a",
+                                      color: "#6a9a6a",
+                                  }
+                                : src === "accent"
+                                  ? {
+                                        backgroundColor: "#2a1a3a",
+                                        color: "#9a6aaa",
+                                    }
+                                  : {
+                                        backgroundColor: "#1a1a2a",
+                                        color: "#6a6a9a",
+                                    };
                         return (
                             <div
-                                key={name}
+                                key={role}
                                 className="rounded overflow-hidden"
                                 style={{ backgroundColor: "#151316" }}
                             >
@@ -621,25 +626,13 @@ function CharacterPalettePreview({
                                             className="text-[9px]"
                                             style={{ color: "#777" }}
                                         >
-                                            {name}
+                                            {role}
                                         </span>
                                         <span
                                             className="text-[8px] px-1 rounded"
-                                            style={
-                                                isImage
-                                                    ? {
-                                                          backgroundColor:
-                                                              "#1a3a1a",
-                                                          color: "#6a9a6a",
-                                                      }
-                                                    : {
-                                                          backgroundColor:
-                                                              "#1a1a2a",
-                                                          color: "#6a6a9a",
-                                                      }
-                                            }
+                                            style={srcStyle}
                                         >
-                                            {isImage ? "画像" : "生成"}
+                                            {srcLabel}
                                         </span>
                                     </div>
                                     <p

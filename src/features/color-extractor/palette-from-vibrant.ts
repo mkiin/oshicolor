@@ -1,68 +1,130 @@
 import type { Oklch } from "culori";
 import { clampChroma, converter, formatHex } from "culori";
-import type {
-    HueSwatch,
-    VibrantResult,
-    VibrantSlot,
-} from "./vibrant-extractor";
+import type { VibrantResult, VibrantSlot } from "./vibrant-extractor";
 
-// ── 型定義 ─────────────────────────────────────────────────────────────────
+// ── 型定義 ────────────────────────────────────────────────────────────────────
 
-/** mini.hues が扱う8色相名 */
-export type SyntaxColorName =
-    | "red"
-    | "orange"
-    | "yellow"
-    | "green"
-    | "cyan"
-    | "azure"
-    | "blue"
-    | "purple";
+/** Neovim 構文ロール名 */
+export type SyntaxRole =
+    | "fn"
+    | "kw"
+    | "field"
+    | "string"
+    | "type"
+    | "op"
+    | "const"
+    | "special";
 
 /** 各 syntax 色の由来 */
-export type ColorSource = "image" | "generated";
+export type ColorSource = "accent" | "image" | "generated";
 
 /** 画像から生成した Neovim カラースキーム用パレット */
 export type CharacterPalette = {
-    /** 背景色（DarkMuted の色相で L=0.13 に固定） */
+    /** 背景色（DarkMuted の色相で L=0.15 に固定） */
     bg: string;
     /** 前景色（LightMuted の色相で L=0.90 に固定） */
     fg: string;
     /** アクセントカラー（Vibrant の hex そのまま） */
     accent: string;
-    /** syntax カラー（8色相） */
-    red: string;
-    orange: string;
-    yellow: string;
-    green: string;
-    cyan: string;
-    azure: string;
-    blue: string;
-    purple: string;
-    /** 各 syntax 色が画像由来か生成値かを示す */
-    source: Record<SyntaxColorName, ColorSource>;
-    /** syntax カラーに使った OKLch chroma */
+    /** コメント色（DarkMuted の色相で L=0.50、C=0.025） */
+    comment: string;
+    /** エラー色（赤固定: OKLch L=0.65, C=0.20, H=25°） */
+    error: string;
+    /** @function — accent から導出した最頻出構文色 */
+    fn: string;
+    /** @keyword — fn と最も対比的な画像色 */
+    kw: string;
+    /** @field — フィールド・プロパティ */
+    field: string;
+    /** @string — 文字列リテラル */
+    string: string;
+    /** @type — 型アノテーション */
+    type: string;
+    /** @operator — 演算子 */
+    op: string;
+    /** @constant — 定数・マクロ */
+    const: string;
+    /** @special — 特殊記法（デコレータ等） */
+    special: string;
+    /** 各 syntax 色が accent / 画像由来 / 生成値かを示す */
+    source: Record<SyntaxRole, ColorSource>;
+    /** 画像由来色の chroma 中央値（生成色の基準彩度） */
     syntaxChroma: number;
-    /** Vibrant(60%) + Muted(40%) の加重平均 chroma */
-    ambientChroma: number;
     /** Vibrant の OKLch C 値 */
     vibrantC: number;
-    /** Muted の OKLch C 値 */
-    mutedC: number;
-    /** make_hues に渡した n_hues */
-    nHues: number;
 };
 
-// ── OKLch ユーティリティ ───────────────────────────────────────────────────
+// ── 内部型 ────────────────────────────────────────────────────────────────────
+
+type Candidate = {
+    hex: string;
+    lch: Oklch;
+    groupSize: number;
+};
+
+// ── 定数 ──────────────────────────────────────────────────────────────────────
+
+const BG_L = 0.15;
+const FG_L = 0.9;
+const COMMENT_L = 0.5;
+const COMMENT_C = 0.025;
+const BG_C_FACTOR = 0.6;
+const FG_C_FACTOR = 0.3;
+
+/** error は業界慣習に従い常に赤固定（キャラクターに依存しない） */
+const ERROR_L = 0.65;
+const ERROR_C = 0.2;
+const ERROR_H = 25;
+
+const L_MIN = 0.45;
+const L_MAX = 0.82;
+const C_MIN = 0.04;
+const MIN_SW = 3;
+
+const FN_L_MIN = 0.58;
+const FN_L_MAX = 0.75;
+const FN_C_FACTOR = 0.85;
+/** fn_C の下限: accent が低彩度でも bg に対して視認できる最低限 */
+const C_FLOOR = 0.08;
+
+const KW_MIN_DIST = 60;
+const KW_L_MIN = 0.5;
+const KW_L_MAX = 0.78;
+const KW_FALLBACK_PRIMARY_H = 275;
+const KW_FALLBACK_MIN_DIST = 40;
+const KW_GROUP_BONUS = 0.3;
+
+const SYNTAX_L = 0.72;
+const MIN_HUE_SEP = 35;
+const PHASE1_MATCH_THRESHOLD = 50;
+/** 最大減衰率: キャラの色相から 180° 離れた生成色で 50% 減衰 */
+const DAMPING_FACTOR = 0.5;
+
+/** Phase 1 の業界標準 Hue（kanagawa / tokyonight / catppuccin の合意値） */
+const INDUSTRY_HUES: Partial<Record<SyntaxRole, number>> = {
+    string: 130,
+    type: 195,
+    const: 30,
+};
+
+/** fn / kw を除いた残りロール。Phase 1 は string/type/const を先に処理する */
+const REMAINING_ROLES: SyntaxRole[] = [
+    "string",
+    "type",
+    "const",
+    "field",
+    "op",
+    "special",
+];
+
+// ── OKLch ユーティリティ ──────────────────────────────────────────────────────
 
 const toOklch = converter("oklch");
 
-/** hex を OKLch に変換する（変換失敗時は L=0, C=0, h=0 を返す） */
+/** hex を OKLch に変換する（変換失敗時は L=0, C=0, H=0 を返す） */
 const hexToOklch = (hex: string): Oklch => {
     const result = toOklch(hex);
-    if (!result) {
-        return { mode: "oklch", l: 0, c: 0, h: 0 };
-    }
+    if (!result) return { mode: "oklch", l: 0, c: 0, h: 0 };
     return result;
 };
 
@@ -72,10 +134,8 @@ const oklchToHex = (l: number, c: number, h: number): string => {
     return formatHex(clamped) ?? "#000000";
 };
 
-// ── mini.hues make_hues ────────────────────────────────────────────────────
-
 /**
- * 2つの色相角（0–360°）の角度距離を計算する（最大180°）
+ * 2つの色相角（0–360°）の角度距離を計算する（最大 180°）
  *
  * @param a - 色相角 A
  * @param b - 色相角 B
@@ -85,261 +145,119 @@ const angularDistance = (a: number, b: number): number => {
     return Math.min(d, 360 - d);
 };
 
-/**
- * 循環距離を計算する
- *
- * @param x - 第1の値
- * @param y - 第2の値
- * @param period - 循環周期
- */
-const distPeriod = (x: number, y: number, period: number): number => {
-    const d = Math.abs((x % period) - (y % period));
-    return Math.min(d, period - d);
+/** 数値配列の中央値を返す */
+const median = (values: number[]): number => {
+    if (values.length === 0) return 0;
+    const sorted = [...values].sort((a, b) => a - b);
+    const mid = Math.floor(sorted.length / 2);
+    return sorted.length % 2 === 0
+        ? ((sorted[mid - 1] ?? 0) + (sorted[mid] ?? 0)) / 2
+        : (sorted[mid] ?? 0);
 };
 
 /**
- * リスト内で最も近い値を返す
+ * 新しい色相が割り当て済み色相リストと MIN_HUE_SEP 以上離れているか確認する
  *
- * @param x - 基準値
- * @param values - 比較対象リスト
- * @param distFn - 距離関数
+ * @param h - チェックする色相角
+ * @param assigned - 割り当て済み色相角リスト
  */
-const getClosest = (
-    x: number,
-    values: number[],
-    distFn: (a: number, b: number) => number,
+const isSeparated = (h: number, assigned: number[]): boolean => {
+    return assigned.every((ah) => angularDistance(h, ah) >= MIN_HUE_SEP);
+};
+
+/**
+ * キャラクターの色相から遠い生成色ほど chroma を減衰させる
+ *
+ * 画像にない色相の生成色が主張しすぎることを防ぐ。
+ * 距離 0° で damping=1.0、距離 180° で damping=0.5。
+ *
+ * @param h - 生成色の色相角
+ * @param chroma - 基準 chroma
+ * @param characterHues - キャラクターの主要色相リスト
+ */
+const dampedChroma = (
+    h: number,
+    chroma: number,
+    characterHues: number[],
 ): number => {
-    let bestVal = values[0];
-    let bestDist = Infinity;
-    for (const val of values) {
-        const d = distFn(x, val);
-        if (d <= bestDist) {
-            bestDist = d;
-            bestVal = val;
+    if (characterHues.length === 0) return chroma;
+    const minDist = Math.min(
+        ...characterHues.map((ch) => angularDistance(h, ch)),
+    );
+    const damping = 1.0 - (minDist / 180) * DAMPING_FACTOR;
+    return chroma * damping;
+};
+
+/**
+ * 割り当て済み色相リストの中で最も遠い色相角を 5° 刻みで探索する
+ *
+ * @param assigned - 割り当て済み色相角リスト
+ */
+const findMostDistantHue = (assigned: number[]): number => {
+    let bestH = 0;
+    let bestDist = -Infinity;
+    for (let h = 0; h < 360; h += 5) {
+        const minDist = Math.min(
+            ...assigned.map((ah) => angularDistance(h, ah)),
+        );
+        if (minDist > bestDist) {
+            bestDist = minDist;
+            bestH = h;
         }
     }
-    return bestVal;
+    return bestH;
 };
 
-/**
- * mini.hues の make_hues を TypeScript に移植
- *
- * bg/fg の色相から最も遠い等間隔グリッドを nHues 個生成し、
- * red(0°)/orange(45°)/yellow(90°)/green(135°)/cyan(180°)/azure(225°)/blue(270°)/purple(315°)
- * に最近点を割り当てる。
- *
- * @param bgH - 背景色の OKLch hue（度数、undefined 可）
- * @param fgH - 前景色の OKLch hue（度数、undefined 可）
- * @param nHues - グリッドの数（0–8）
- */
-const makeHues = (
-    bgH: number | undefined,
-    fgH: number | undefined,
-    nHues: number,
-): Partial<Record<SyntaxColorName, number>> => {
-    if (nHues === 0) return {};
-
-    const period = 360 / nHues;
-    const halfPeriod = 0.5 * period;
-
-    // bg/fg の色相から最も遠くなるオフセット d を求める
-    let d: number;
-    if (bgH === undefined && fgH === undefined) {
-        d = 0;
-    } else if (bgH !== undefined && fgH === undefined) {
-        d = ((bgH % period) + halfPeriod) % period;
-    } else if (bgH === undefined && fgH !== undefined) {
-        d = ((fgH % period) + halfPeriod) % period;
-    } else {
-        // bg/fg 両方あり: 中点の対極を選ぶ
-        // biome-ignore lint/style/noNonNullAssertion: else 節に到達する時点で両方 defined
-        const refBg = bgH! % period;
-        // biome-ignore lint/style/noNonNullAssertion: else 節に到達する時点で両方 defined
-        const refFg = fgH! % period;
-        const mid = 0.5 * (refBg + refFg);
-        const midAlt = (mid + halfPeriod) % period;
-        d =
-            distPeriod(mid, refBg, period) < distPeriod(midAlt, refBg, period)
-                ? midAlt
-                : mid;
-    }
-
-    // 等間隔グリッドを生成
-    const grid: number[] = [];
-    for (let i = 0; i < nHues; i++) {
-        grid.push(i * period + d);
-    }
-
-    // 各標準色相の最近点をグリッドから取得
-    const dist360 = (x: number, y: number) => distPeriod(x, y, 360);
-    const approx = (refHue: number) => getClosest(refHue, grid, dist360);
-
-    return {
-        red: approx(0),
-        orange: approx(45),
-        yellow: approx(90),
-        green: approx(135),
-        cyan: approx(180),
-        azure: approx(225),
-        blue: approx(270),
-        purple: approx(315),
-    };
-};
-
-// ── syntax chroma 決定 ────────────────────────────────────────────────────
-
-/**
- * Muted スウォッチの OKLch C 値から syntax カラーの chroma を決定する
- *
- * Muted の C は画像全体の ambient saturation を表す。
- * これを 5 段階の syntax chroma にマッピングする。
- *
- * @param mutedC - Muted スウォッチの OKLch C 値
- */
-const deriveSyntaxChroma = (mutedC: number): number => {
-    if (mutedC < 0.03) return 0.04; // low
-    if (mutedC < 0.06) return 0.06; // lowmedium
-    if (mutedC < 0.1) return 0.08; // medium
-    if (mutedC < 0.15) return 0.12; // mediumhigh
-    return 0.16; // high
-};
-
-// ── HueGroup → SyntaxColorName マッピング ─────────────────────────────────
-
-/**
- * HueGroup ラベルと SyntaxColorName の対応
- *
- * vibrant-extractor の HUE_BANDS（HSL 基準）と
- * mini.hues の OKLch 基準色相との近似マッピング。
- */
-const HUE_LABEL_TO_SYNTAX: Partial<Record<string, SyntaxColorName>> = {
-    Red: "red",
-    Orange: "orange",
-    Yellow: "yellow",
-    Green: "green",
-    Cyan: "cyan",
-    Blue: "azure", // HSL 200-255° ≈ OKLch azure 225°
-    Purple: "blue", // HSL 255-315° ≈ OKLch blue 270°
-    Magenta: "purple", // HSL 315-345° ≈ OKLch purple 315°
-};
-
-// ── 画像由来の syntax 色選定 ───────────────────────────────────────────────
-
-/** syntax 色として使いたい OKLch L の範囲 */
-const SYNTAX_L_MIN = 0.45;
-const SYNTAX_L_MAX = 0.78;
-
-/** 信頼できる HueGroup の最小スウォッチ数 */
-const MIN_SWATCHES_FOR_TRUST = 3;
-
-/**
- * HueGroup から最適な syntax 色の hex を選択する
- *
- * 最低限の彩度（ambientChroma × 0.7）を持つ候補を優先し、
- * その中で読みやすさの理想明度（TARGET_L=0.62）に最も近いものを選ぶ。
- *
- * @param swatches - Hue グループ内のスウォッチ列
- * @param ambientChroma - Vibrant と Muted の加重平均 chroma
- */
-const selectBestSyntaxSwatch = (
-    swatches: HueSwatch[],
-    ambientChroma: number,
-): string | undefined => {
-    // 読みやすい L 範囲に絞る
-    const candidates = swatches.filter((s) => {
-        const lch = hexToOklch(s.hex);
-        return lch.l >= SYNTAX_L_MIN && lch.l <= SYNTAX_L_MAX;
-    });
-
-    if (candidates.length === 0) return undefined;
-
-    // ambientChroma の 70% 以上の彩度を持つ候補を優先する
-    // → 最低限の鮮やかさを確保してくすんだ色を避ける
-    const minC = ambientChroma * 0.7;
-    const above = candidates.filter((s) => (hexToOklch(s.hex).c ?? 0) >= minC);
-    const pool = above.length > 0 ? above : candidates;
-
-    // pool の中で TARGET_L に最も近い明度のものを選ぶ
-    // → 読みやすさを最優先にする
-    const TARGET_L = 0.62;
-    let bestHex = pool[0].hex;
-    let bestDist = Infinity;
-    for (const { hex } of pool) {
-        const lch = hexToOklch(hex);
-        const d = Math.abs(lch.l - TARGET_L);
-        if (d < bestDist) {
-            bestDist = d;
-            bestHex = hex;
-        }
-    }
-    return bestHex;
-};
-
-// ── メイン関数 ────────────────────────────────────────────────────────────
+// ── メイン関数 ───────────────────────────────────────────────────────────────
 
 /**
  * node-vibrant の VibrantResult から Neovim カラースキーム用パレットを生成する
  *
- * Step 1: 6色（Vibrant/DarkVibrant/LightVibrant/Muted/DarkMuted/LightMuted）から
- *         mini.hues アルゴリズムでベースライン palette を生成する。
- * Step 2: MMCQ 48色の Hue グループを走査し、3色以上あるグループは
- *         画像の実際の色で syntax カラーを上書きする。
+ * アルゴリズム:
+ *   Step 1   : bg / fg / accent / comment / error を決定
+ *   Step 4   : hueGroups から候補色を抽出（L・C フィルタ）
+ *   Step 5   : fn = accent の L を読みやすい範囲に調整
+ *   Step 6   : kw = fn と最も色相が離れた画像色
+ *   Step 7.1 : 業界標準 Hue に近い画像色をマッチング（string/type/const）
+ *   Step 7.2 : 残りロールに色相が最も分散する画像色を割り当て
+ *   Step 7.25: syntaxChroma = 画像由来色の chroma 中央値
+ *   Step 7.3 : 未割り当てロールを OKLch 生成色で補完
  *
  * @param result - extractColorsVibrant の返り値
  */
 export const deriveCharacterPalette = (
     result: VibrantResult,
 ): CharacterPalette => {
-    // ── Step 0: 6スロットの hex を取り出す ────────────────────────────────
+    // ── Step 0: 6スロットの hex を取り出す ─────────────────────────────────────
     const slotMap: Partial<Record<VibrantSlot, string>> = {};
     for (const { slot, hex } of result.colors) {
         slotMap[slot] = hex;
     }
 
-    // フォールバック: スロットが存在しない場合はグレー系で補完
     const darkMutedHex = slotMap.DarkMuted ?? slotMap.DarkVibrant ?? "#1a1a1a";
     const lightMutedHex =
         slotMap.LightMuted ?? slotMap.LightVibrant ?? "#e0e0e0";
     const vibrantHex = slotMap.Vibrant ?? slotMap.LightVibrant ?? "#888888";
     const mutedHex = slotMap.Muted ?? "#888888";
 
-    // ── Step 1: ベースライン生成 ────────────────────────────────────────────
-
-    // bg: DarkMuted の色相で L=0.13 に固定（暗い背景）
-    // chroma は DarkMuted の 0.6 倍: 0.4 だと暗すぎて彩度が消えるため引き上げ
     const darkMutedLch = hexToOklch(darkMutedHex);
-    const bgH = darkMutedLch.h;
-    const bg = oklchToHex(0.13, (darkMutedLch.c ?? 0) * 0.6, bgH ?? 0);
-
-    // fg: LightMuted の色相で L=0.90 に固定（明るい前景）
     const lightMutedLch = hexToOklch(lightMutedHex);
-    const fgH = lightMutedLch.h;
-    const fg = oklchToHex(0.9, (lightMutedLch.c ?? 0) * 0.5, fgH ?? 0);
-
-    // accent: Vibrant そのまま
-    const accent = vibrantHex;
-
-    // ambientChroma: Vibrant(60%) と Muted(40%) の加重平均
-    // → Vibrant が高いキャラは鮮やかな色を、Muted なキャラはくすんだ色を選ぶ
     const vibrantLch = hexToOklch(vibrantHex);
     const mutedLch = hexToOklch(mutedHex);
-    const ambientChroma =
-        (mutedLch.c ?? 0.05) * 0.4 + (vibrantLch.c ?? 0.1) * 0.6;
 
-    // syntax chroma: ambientChroma から 5 段階に変換
-    const syntaxChroma = deriveSyntaxChroma(ambientChroma);
+    // ── Step 1: ベース色の決定 ─────────────────────────────────────────────────
+    const bgH = darkMutedLch.h ?? 0;
+    const bg = oklchToHex(BG_L, (darkMutedLch.c ?? 0) * BG_C_FACTOR, bgH);
+    const fg = oklchToHex(
+        FG_L,
+        (lightMutedLch.c ?? 0) * FG_C_FACTOR,
+        lightMutedLch.h ?? 0,
+    );
+    const accent = vibrantHex;
+    const comment = oklchToHex(COMMENT_L, COMMENT_C, bgH);
+    const error = oklchToHex(ERROR_L, ERROR_C, ERROR_H);
 
-    // syntax カラーの明度: bg(0.13) に対してコントラストが確保できる固定値
-    const syntaxL = 0.72;
-
-    // n_hues: 8 固定（常に最大グリッドで生成し、画像色で上書きする）
-    const nHues = 8;
-
-    // make_hues: bg/fg の色相から等間隔グリッドを生成
-    const generatedHues = makeHues(bgH, fgH, nHues);
-
-    // キャラクターの主要色相を収集（彩度が十分あるスロットのみ）
-    // 生成色がキャラから離れた色相のとき chroma を減衰させるために使う
+    // キャラクターの主要色相（生成色の chroma damping に使用）
     const characterHues: number[] = [];
     for (const lch of [darkMutedLch, vibrantLch, mutedLch, lightMutedLch]) {
         if ((lch.c ?? 0) > 0.01 && lch.h !== undefined) {
@@ -347,90 +265,214 @@ export const deriveCharacterPalette = (
         }
     }
 
-    // ベースライン: すべて生成値で埋める
-    const SYNTAX_NAMES: SyntaxColorName[] = [
-        "red",
-        "orange",
-        "yellow",
-        "green",
-        "cyan",
-        "azure",
-        "blue",
-        "purple",
-    ];
+    // ── Step 4: 候補色の抽出 ───────────────────────────────────────────────────
+    const seen = new Set<string>();
+    const candidates: Candidate[] = [];
 
-    const palette: Record<SyntaxColorName, string> = {} as Record<
-        SyntaxColorName,
-        string
-    >;
-    const source: Record<SyntaxColorName, ColorSource> = {} as Record<
-        SyntaxColorName,
-        ColorSource
-    >;
-
-    for (const name of SYNTAX_NAMES) {
-        const h = generatedHues[name] ?? 0;
-
-        // キャラクターの主要色相から遠い生成色ほど chroma を減衰させる
-        // → 暖色キャラに原色のシアンが生成されるような「浮き」を防ぐ
-        let effectiveChroma = syntaxChroma;
-        if (characterHues.length > 0) {
-            const minDist = Math.min(
-                ...characterHues.map((ch) => angularDistance(h, ch)),
-            );
-            // 距離 0° で damping=1.0、距離 180° で damping=0.5
-            const damping = 1.0 - (minDist / 180) * 0.5;
-            effectiveChroma = syntaxChroma * damping;
-        }
-
-        palette[name] = oklchToHex(syntaxL, effectiveChroma, h);
-        source[name] = "generated";
-    }
-
-    // ── Step 2: 画像由来の色で上書き ────────────────────────────────────────
     for (const { label, swatches } of result.hueGroups) {
-        // 信頼できる色数に満たないグループはスキップ
-        if (swatches.length < MIN_SWATCHES_FOR_TRUST) continue;
-
-        const syntaxName = HUE_LABEL_TO_SYNTAX[label];
-        if (!syntaxName) continue; // Neutral など対応なし
-
-        const bestHex = selectBestSyntaxSwatch(swatches, ambientChroma);
-        if (!bestHex) continue; // L 範囲に候補がない場合はスキップ
-
-        // 彩度が syntaxChroma の 50% 未満なら生成色のほうがまし
-        const bestLch = hexToOklch(bestHex);
-        if ((bestLch.c ?? 0) < syntaxChroma * 0.5) continue;
-
-        palette[syntaxName] = bestHex;
-        source[syntaxName] = "image";
+        if (label === "Neutral") continue;
+        if (swatches.length < MIN_SW) continue;
+        for (const { hex } of swatches) {
+            if (seen.has(hex)) continue;
+            const lch = hexToOklch(hex);
+            if (lch.l < L_MIN || lch.l > L_MAX) continue;
+            if ((lch.c ?? 0) < C_MIN) continue;
+            seen.add(hex);
+            candidates.push({ hex, lch, groupSize: swatches.length });
+        }
     }
+
+    // LightVibrant / DarkVibrant を追加（MMCQ とは別経路で得られた色）
+    for (const hex of [slotMap.LightVibrant, slotMap.DarkVibrant]) {
+        if (!hex || seen.has(hex)) continue;
+        const lch = hexToOklch(hex);
+        if (lch.l < L_MIN || lch.l > L_MAX) continue;
+        if ((lch.c ?? 0) < C_MIN) continue;
+        seen.add(hex);
+        candidates.push({ hex, lch, groupSize: 1 });
+    }
+
+    // ── Step 5: fn の決定 ──────────────────────────────────────────────────────
+    const fnH = vibrantLch.h ?? 0;
+    const fnL = Math.max(FN_L_MIN, Math.min(FN_L_MAX, vibrantLch.l));
+    const fnC = Math.max(C_FLOOR, (vibrantLch.c ?? 0) * FN_C_FACTOR);
+    const fnHex = oklchToHex(fnL, fnC, fnH);
+
+    // 割り当て済み色相（fn から始まり順次追加される）
+    const assignedHues: number[] = [fnH];
+
+    // ── Step 6: kw の決定 ──────────────────────────────────────────────────────
+    let kwHex = "";
+    let kwSource: ColorSource = "generated";
+    let kwBestScore = -Infinity;
+
+    for (const { hex, lch, groupSize } of candidates) {
+        const h = lch.h ?? 0;
+        if (angularDistance(h, fnH) <= KW_MIN_DIST) continue;
+        if (lch.l < KW_L_MIN || lch.l > KW_L_MAX) continue;
+        if ((lch.c ?? 0) < C_MIN) continue;
+        if (!isSeparated(h, assignedHues)) continue;
+
+        // スコア: fn からの距離 + グループ色数ボーナス（キャラに多い色を優先）
+        const score = angularDistance(h, fnH) + groupSize * KW_GROUP_BONUS;
+        if (score > kwBestScore) {
+            kwBestScore = score;
+            kwHex = hex;
+            kwSource = "image";
+        }
+    }
+
+    if (!kwHex) {
+        // 紫(275°)が fn と十分離れていれば紫、そうでなければ fn から 150°
+        const fallbackH =
+            angularDistance(KW_FALLBACK_PRIMARY_H, fnH) >= KW_FALLBACK_MIN_DIST
+                ? KW_FALLBACK_PRIMARY_H
+                : (fnH + 150) % 360;
+        kwHex = oklchToHex(SYNTAX_L, C_FLOOR, fallbackH);
+    }
+
+    assignedHues.push(hexToOklch(kwHex).h ?? 0);
+
+    // ── Step 7: 残りロールの割り当て ──────────────────────────────────────────
+    const palette: Partial<Record<SyntaxRole, string>> = {};
+    const roleSource: Partial<Record<SyntaxRole, ColorSource>> = {};
+    const usedHexes = new Set<string>([fnHex, kwHex]);
+
+    // Phase 1: 業界標準 Hue マッチング（string=130°, type=195°, const=30°）
+    for (const role of ["string", "type", "const"] as SyntaxRole[]) {
+        const targetH = INDUSTRY_HUES[role];
+        if (targetH === undefined) continue;
+
+        let bestHex = "";
+        let bestDist = Infinity;
+        for (const { hex, lch } of candidates) {
+            if (usedHexes.has(hex)) continue;
+            const h = lch.h ?? 0;
+            const dist = angularDistance(h, targetH);
+            if (dist >= PHASE1_MATCH_THRESHOLD) continue;
+            if ((lch.c ?? 0) < C_MIN) continue;
+            if (!isSeparated(h, assignedHues)) continue;
+            if (dist < bestDist) {
+                bestDist = dist;
+                bestHex = hex;
+            }
+        }
+        if (bestHex) {
+            palette[role] = bestHex;
+            roleSource[role] = "image";
+            assignedHues.push(hexToOklch(bestHex).h ?? 0);
+            usedHexes.add(bestHex);
+        }
+    }
+
+    // Phase 2: 多様性ピック（既存割り当て色から最も遠い画像色を残りロールに割り当てる）
+    for (const role of REMAINING_ROLES.filter((r) => !palette[r])) {
+        let bestHex = "";
+        let bestMinDist = -Infinity;
+        for (const { hex, lch } of candidates) {
+            if (usedHexes.has(hex)) continue;
+            const h = lch.h ?? 0;
+            if ((lch.c ?? 0) < C_MIN) continue;
+            if (!isSeparated(h, assignedHues)) continue;
+            const minDist =
+                assignedHues.length > 0
+                    ? Math.min(
+                          ...assignedHues.map((ah) => angularDistance(h, ah)),
+                      )
+                    : 180;
+            if (minDist > bestMinDist) {
+                bestMinDist = minDist;
+                bestHex = hex;
+            }
+        }
+        if (bestHex) {
+            palette[role] = bestHex;
+            roleSource[role] = "image";
+            assignedHues.push(hexToOklch(bestHex).h ?? 0);
+            usedHexes.add(bestHex);
+        }
+    }
+
+    // Phase 2.5: syntaxChroma 算出
+    // fn（accent source）と画像由来色の chroma の中央値が生成色の基準彩度になる
+    const imageChromas: number[] = [fnC];
+    if (kwSource === "image") imageChromas.push(hexToOklch(kwHex).c ?? 0);
+    for (const role of REMAINING_ROLES) {
+        if (roleSource[role] === "image" && palette[role]) {
+            // biome-ignore lint/style/noNonNullAssertion: 直前の if で palette[role] が truthy を確認済み
+            imageChromas.push(hexToOklch(palette[role]!).c ?? 0);
+        }
+    }
+    const syntaxChroma =
+        imageChromas.length > 0
+            ? median(imageChromas)
+            : (vibrantLch.c ?? 0.1) * 0.5;
+
+    // Phase 3: 生成色で補完（画像にない色相を OKLch で直接生成）
+    for (const role of REMAINING_ROLES.filter((r) => !palette[r])) {
+        const industryH = INDUSTRY_HUES[role];
+        const genH =
+            industryH !== undefined && isSeparated(industryH, assignedHues)
+                ? industryH
+                : findMostDistantHue(assignedHues);
+        palette[role] = oklchToHex(
+            SYNTAX_L,
+            dampedChroma(genH, syntaxChroma, characterHues),
+            genH,
+        );
+        roleSource[role] = "generated";
+        assignedHues.push(genH);
+    }
+
+    // ── 結果の結合 ─────────────────────────────────────────────────────────────
+    const source: Record<SyntaxRole, ColorSource> = {
+        fn: "accent",
+        kw: kwSource,
+        field: roleSource.field ?? "generated",
+        string: roleSource.string ?? "generated",
+        type: roleSource.type ?? "generated",
+        op: roleSource.op ?? "generated",
+        const: roleSource.const ?? "generated",
+        special: roleSource.special ?? "generated",
+    };
 
     return {
         bg,
         fg,
         accent,
-        ...palette,
+        comment,
+        error,
+        fn: fnHex,
+        kw: kwHex,
+        // biome-ignore lint/style/noNonNullAssertion: Phase 3 で全ての未割り当てロールが埋まることを保証
+        field: palette.field!,
+        // biome-ignore lint/style/noNonNullAssertion: Phase 3 で全ての未割り当てロールが埋まることを保証
+        string: palette.string!,
+        // biome-ignore lint/style/noNonNullAssertion: Phase 3 で全ての未割り当てロールが埋まることを保証
+        type: palette.type!,
+        // biome-ignore lint/style/noNonNullAssertion: Phase 3 で全ての未割り当てロールが埋まることを保証
+        op: palette.op!,
+        // biome-ignore lint/style/noNonNullAssertion: Phase 3 で全ての未割り当てロールが埋まることを保証
+        const: palette.const!,
+        // biome-ignore lint/style/noNonNullAssertion: Phase 3 で全ての未割り当てロールが埋まることを保証
+        special: palette.special!,
         source,
         syntaxChroma,
-        ambientChroma,
         vibrantC: vibrantLch.c ?? 0,
-        mutedC: mutedLch.c ?? 0,
-        nHues,
     };
 };
 
 // ── デバッグ出力 ──────────────────────────────────────────────────────────────
 
-const SYNTAX_NAMES_ORDERED: SyntaxColorName[] = [
-    "red",
-    "orange",
-    "yellow",
-    "green",
-    "cyan",
-    "azure",
-    "blue",
-    "purple",
+const SYNTAX_ROLES_ORDERED: SyntaxRole[] = [
+    "fn",
+    "kw",
+    "field",
+    "string",
+    "type",
+    "op",
+    "const",
+    "special",
 ];
 
 /**
@@ -444,19 +486,24 @@ export const buildCharacterPaletteDebugText = (
     const lines: string[] = [];
 
     lines.push("--- 生成パレット ---");
-    lines.push(
-        `syntaxChroma: ${palette.syntaxChroma.toFixed(3)}  n_hues: ${palette.nHues}`,
-    );
+    lines.push(`syntaxChroma: ${palette.syntaxChroma.toFixed(3)}`);
     lines.push("");
 
-    lines.push(`bg      ${palette.bg}`);
-    lines.push(`fg      ${palette.fg}`);
-    lines.push(`accent  ${palette.accent}`);
+    lines.push(`bg       ${palette.bg}`);
+    lines.push(`fg       ${palette.fg}`);
+    lines.push(`accent   ${palette.accent}`);
+    lines.push(`comment  ${palette.comment}`);
+    lines.push(`error    ${palette.error}`);
     lines.push("");
 
-    for (const name of SYNTAX_NAMES_ORDERED) {
-        const src = palette.source[name] === "image" ? "画像" : "生成";
-        lines.push(`${name.padEnd(7)}  ${palette[name]}  [${src}]`);
+    for (const role of SYNTAX_ROLES_ORDERED) {
+        const srcLabel =
+            palette.source[role] === "accent"
+                ? "accent"
+                : palette.source[role] === "image"
+                  ? "画像"
+                  : "生成";
+        lines.push(`${role.padEnd(7)}  ${palette[role]}  [${srcLabel}]`);
     }
 
     return lines.join("\n");
