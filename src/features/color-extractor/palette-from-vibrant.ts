@@ -18,6 +18,9 @@ export type SyntaxRole =
 /** 各 syntax 色の由来 */
 export type ColorSource = "accent" | "image" | "generated";
 
+/** キャラクタートーン分類 */
+export type ToneCategory = "dark" | "vivid" | "pastel" | "normal";
+
 /** 画像から生成した Neovim カラースキーム用パレット */
 export type CharacterPalette = {
     /** 背景色（DarkMuted の色相で L=0.15 に固定） */
@@ -32,7 +35,7 @@ export type CharacterPalette = {
     error: string;
     /** @function — accent から導出した最頻出構文色 */
     fn: string;
-    /** @keyword — fn と最も対比的な画像色 */
+    /** @keyword — キャラ色相世界内で fn と対比的な色 */
     kw: string;
     /** @field — フィールド・プロパティ */
     field: string;
@@ -52,6 +55,8 @@ export type CharacterPalette = {
     syntaxChroma: number;
     /** Vibrant の OKLch C 値 */
     vibrantC: number;
+    /** キャラクタートーン分類 */
+    toneCategory: ToneCategory;
 };
 
 // ── 内部型 ────────────────────────────────────────────────────────────────────
@@ -60,6 +65,20 @@ type Candidate = {
     hex: string;
     lch: Oklch;
     groupSize: number;
+};
+
+/** トーン別パラメータセット */
+type TonePreset = {
+    /** Phase 3 生成色の基準明度 */
+    syntaxL: number;
+    /** fn の明度下限 */
+    fnLMin: number;
+    /** fn の明度上限 */
+    fnLMax: number;
+    /** kw 専用候補プールの明度下限（一般候補より低め） */
+    kwLMin: number;
+    /** kw 専用候補プールの明度上限 */
+    kwLMax: number;
 };
 
 // ── 定数 ──────────────────────────────────────────────────────────────────────
@@ -76,29 +95,75 @@ const ERROR_L = 0.65;
 const ERROR_C = 0.2;
 const ERROR_H = 25;
 
+/** 一般候補プールの明度フィルタ */
 const L_MIN = 0.45;
 const L_MAX = 0.82;
 const C_MIN = 0.04;
 const MIN_SW = 3;
 
-const FN_L_MIN = 0.58;
-const FN_L_MAX = 0.75;
 const FN_C_FACTOR = 0.85;
 /** fn_C の下限: accent が低彩度でも bg に対して視認できる最低限 */
 const C_FLOOR = 0.08;
 
-const KW_MIN_DIST = 60;
-const KW_L_MIN = 0.5;
-const KW_L_MAX = 0.78;
-const KW_FALLBACK_PRIMARY_H = 275;
-const KW_FALLBACK_MIN_DIST = 40;
-const KW_GROUP_BONUS = 0.3;
+/** kw: fn からの最小色相分離（これ未満は失格） */
+const KW_SEP_MIN = 35;
+/** kw スコア: fn からの分離度の理想距離（山型の峰） */
+const KW_SEP_PEAK = 90;
+/** kw スコア: キャラ色相への近接スコアの有効半径 */
+const KW_CHAR_PROXIMITY_PEAK = 120;
 
-const SYNTAX_L = 0.72;
 const MIN_HUE_SEP = 35;
 const PHASE1_MATCH_THRESHOLD = 50;
 /** 最大減衰率: キャラの色相から 180° 離れた生成色で 50% 減衰 */
 const DAMPING_FACTOR = 0.5;
+
+// ── Step A: トーン分類の閾値 ──────────────────────────────────────────────────
+
+const TONE_DARK_L_MAX = 0.5;
+const TONE_PASTEL_L_MIN = 0.65;
+const TONE_PASTEL_C_MAX = 0.12;
+const TONE_VIVID_C_MIN = 0.17;
+
+// ── Step B: トーン別パラメータ ────────────────────────────────────────────────
+
+/**
+ * トーン別パラメータセット
+ *
+ * - dark  : 暗め・重厚系。L 全体を低め、kw は暗い色相でも拾えるよう下限を緩める
+ * - vivid : 鮮やか系（アニメ寄り）。L は標準より少し高め
+ * - pastel: 柔らか系。L 全体を高め
+ * - normal: それ以外の標準
+ */
+const TONE_PRESETS: Record<ToneCategory, TonePreset> = {
+    dark: {
+        syntaxL: 0.65,
+        fnLMin: 0.52,
+        fnLMax: 0.7,
+        kwLMin: 0.42,
+        kwLMax: 0.73,
+    },
+    vivid: {
+        syntaxL: 0.72,
+        fnLMin: 0.58,
+        fnLMax: 0.75,
+        kwLMin: 0.52,
+        kwLMax: 0.78,
+    },
+    pastel: {
+        syntaxL: 0.76,
+        fnLMin: 0.65,
+        fnLMax: 0.82,
+        kwLMin: 0.62,
+        kwLMax: 0.84,
+    },
+    normal: {
+        syntaxL: 0.72,
+        fnLMin: 0.58,
+        fnLMax: 0.75,
+        kwLMin: 0.52,
+        kwLMax: 0.78,
+    },
+};
 
 /** Phase 1 の業界標準 Hue（kanagawa / tokyonight / catppuccin の合意値） */
 const INDUSTRY_HUES: Partial<Record<SyntaxRole, number>> = {
@@ -208,20 +273,121 @@ const findMostDistantHue = (assigned: number[]): number => {
     return bestH;
 };
 
-// ── メイン関数 ───────────────────────────────────────────────────────────────
+// ── Step D: 面積加重平均 L ────────────────────────────────────────────────────
+
+/**
+ * 全有彩色スウォッチの面積（population）加重平均 OKLch L を計算する
+ *
+ * 背景・影色の歪みを補正するため Neutral グループを除外する。
+ * 48色単純中央値より背景の影響を受けにくく、キャラの明度感を正確に捉える。
+ *
+ * @param result - VibrantResult（hueGroups を使用）
+ */
+const computeWeightedMeanL = (result: VibrantResult): number => {
+    let sumL = 0;
+    let sumPop = 0;
+    for (const { label, swatches } of result.hueGroups) {
+        if (label === "Neutral") continue;
+        for (const { hex, population } of swatches) {
+            const lch = hexToOklch(hex);
+            sumL += lch.l * population;
+            sumPop += population;
+        }
+    }
+    return sumPop > 0 ? sumL / sumPop : 0.5;
+};
+
+// ── Step A: トーン分類 ────────────────────────────────────────────────────────
+
+/**
+ * Vibrant スロットの L/C と面積加重平均 L からキャラクタートーンを分類する
+ *
+ * Vibrant.L と面積加重 L の平均を「実効明度」とし、
+ * それに Vibrant.C（鮮やかさ）を組み合わせて 4 分類する。
+ *
+ * @param vibrantL - Vibrant スロットの OKLch L
+ * @param vibrantC - Vibrant スロットの OKLch C
+ * @param weightedL - 面積加重平均 OKLch L（有彩色のみ）
+ */
+const classifyTone = (
+    vibrantL: number,
+    vibrantC: number,
+    weightedL: number,
+): ToneCategory => {
+    // Vibrant.L と面積加重 L の平均を実効明度とする
+    // Vibrant 単体より背景・影の影響を受けにくい
+    const effectiveL = (vibrantL + weightedL) / 2;
+
+    if (effectiveL < TONE_DARK_L_MAX) return "dark";
+    if (effectiveL > TONE_PASTEL_L_MIN && vibrantC < TONE_PASTEL_C_MAX) {
+        return "pastel";
+    }
+    if (vibrantC > TONE_VIVID_C_MIN) return "vivid";
+    return "normal";
+};
+
+// ── Step C: kw スコア計算 ─────────────────────────────────────────────────────
+
+/**
+ * kw 候補色のスコアを計算する
+ *
+ * キャラの色相世界への近接度（重み 0.7）と fn からの分離度（重み 0.3）の加重和。
+ * fn から KW_SEP_MIN° 未満の候補は失格（-1 を返す）。
+ *
+ * 旧: 「fn から遠い = 高スコア」→ キャラに無関係な色が選ばれやすかった
+ * 新: 「キャラの色相内で fn と適度に離れた色」を優先
+ *
+ * @param h - 候補色の色相角
+ * @param fnH - fn の色相角
+ * @param characterHues - キャラクターの主要色相リスト（6スロット由来）
+ */
+const scoreKwCandidate = (
+    h: number,
+    fnH: number,
+    characterHues: number[],
+): number => {
+    const fnDist = angularDistance(h, fnH);
+    if (fnDist < KW_SEP_MIN) return -1;
+
+    // fn からの分離度スコア（山型: 峰=KW_SEP_PEAK°、両端に向かって線形減衰）
+    const sepScore = Math.max(
+        0,
+        1.0 - Math.abs(fnDist - KW_SEP_PEAK) / (180 - KW_SEP_PEAK),
+    );
+
+    // キャラ色相への近接スコア（峰: 0°、KW_CHAR_PROXIMITY_PEAK° で 0）
+    const proximityScore =
+        characterHues.length > 0
+            ? Math.max(
+                  0,
+                  1.0 -
+                      Math.min(
+                          ...characterHues.map((ch) => angularDistance(h, ch)),
+                      ) /
+                          KW_CHAR_PROXIMITY_PEAK,
+              )
+            : 0;
+
+    return proximityScore * 0.7 + sepScore * 0.3;
+};
+
+// ── メイン関数 ────────────────────────────────────────────────────────────────
 
 /**
  * node-vibrant の VibrantResult から Neovim カラースキーム用パレットを生成する
  *
  * アルゴリズム:
+ *   Step D   : 面積加重平均 L を算出（有彩色を population で重み付け）
+ *   Step A   : キャラクタートーンを分類（dark/vivid/pastel/normal）
+ *   Step B   : トーン別パラメータセットを取得
  *   Step 1   : bg / fg / accent / comment / error を決定
  *   Step 4   : hueGroups から候補色を抽出（L・C フィルタ）
- *   Step 5   : fn = accent の L を読みやすい範囲に調整
- *   Step 6   : kw = fn と最も色相が離れた画像色
+ *   Step 5   : fn = accent の L をトーン別範囲に調整
+ *   Step 6   : kw = キャラ近接スコア × fn 分離スコアで選出（Step B/C）
  *   Step 7.1 : 業界標準 Hue に近い画像色をマッチング（string/type/const）
  *   Step 7.2 : 残りロールに色相が最も分散する画像色を割り当て
  *   Step 7.25: syntaxChroma = 画像由来色の chroma 中央値
- *   Step 7.3 : 未割り当てロールを OKLch 生成色で補完
+ *   Step 7.3 : 未割り当てロールをトーン別 syntaxL で OKLch 生成色補完
  *
  * @param result - extractColorsVibrant の返り値
  */
@@ -245,6 +411,19 @@ export const deriveCharacterPalette = (
     const vibrantLch = hexToOklch(vibrantHex);
     const mutedLch = hexToOklch(mutedHex);
 
+    // ── Step D: 面積加重平均 L の算出 ──────────────────────────────────────────
+    const weightedL = computeWeightedMeanL(result);
+
+    // ── Step A: トーン分類 ─────────────────────────────────────────────────────
+    const toneCategory = classifyTone(
+        vibrantLch.l,
+        vibrantLch.c ?? 0,
+        weightedL,
+    );
+
+    // ── Step B: トーン別パラメータ取得 ─────────────────────────────────────────
+    const preset = TONE_PRESETS[toneCategory];
+
     // ── Step 1: ベース色の決定 ─────────────────────────────────────────────────
     const bgH = darkMutedLch.h ?? 0;
     const bg = oklchToHex(BG_L, (darkMutedLch.c ?? 0) * BG_C_FACTOR, bgH);
@@ -257,7 +436,7 @@ export const deriveCharacterPalette = (
     const comment = oklchToHex(COMMENT_L, COMMENT_C, bgH);
     const error = oklchToHex(ERROR_L, ERROR_C, ERROR_H);
 
-    // キャラクターの主要色相（生成色の chroma damping に使用）
+    // キャラクターの主要色相（kw scoring & chroma damping に使用）
     const characterHues: number[] = [];
     for (const lch of [darkMutedLch, vibrantLch, mutedLch, lightMutedLch]) {
         if ((lch.c ?? 0) > 0.01 && lch.h !== undefined) {
@@ -265,7 +444,7 @@ export const deriveCharacterPalette = (
         }
     }
 
-    // ── Step 4: 候補色の抽出 ───────────────────────────────────────────────────
+    // ── Step 4: 一般候補色の抽出 ──────────────────────────────────────────────
     const seen = new Set<string>();
     const candidates: Candidate[] = [];
 
@@ -292,29 +471,44 @@ export const deriveCharacterPalette = (
         candidates.push({ hex, lch, groupSize: 1 });
     }
 
-    // ── Step 5: fn の決定 ──────────────────────────────────────────────────────
+    // ── Step 5: fn の決定（Step B: トーン別 L 範囲を適用） ─────────────────────
     const fnH = vibrantLch.h ?? 0;
-    const fnL = Math.max(FN_L_MIN, Math.min(FN_L_MAX, vibrantLch.l));
+    const fnL = Math.max(preset.fnLMin, Math.min(preset.fnLMax, vibrantLch.l));
     const fnC = Math.max(C_FLOOR, (vibrantLch.c ?? 0) * FN_C_FACTOR);
     const fnHex = oklchToHex(fnL, fnC, fnH);
 
     // 割り当て済み色相（fn から始まり順次追加される）
     const assignedHues: number[] = [fnH];
 
-    // ── Step 6: kw の決定 ──────────────────────────────────────────────────────
+    // ── Step 6: kw の決定（Step B: トーン別 L 範囲 + Step C: キャラ近接スコア） ─
+    // 一般候補プールより L 下限を緩めた kw 専用候補を収集する
+    // （暗いキャラの場合、そのキャラの色相は L < 0.45 に集中しやすいため）
+    const kwSeen = new Set<string>();
+    const kwCandidates: { hex: string; lch: Oklch }[] = [];
+
+    for (const { label, swatches } of result.hueGroups) {
+        if (label === "Neutral") continue;
+        if (swatches.length < MIN_SW) continue;
+        for (const { hex } of swatches) {
+            if (kwSeen.has(hex)) continue;
+            const lch = hexToOklch(hex);
+            if (lch.l < preset.kwLMin || lch.l > preset.kwLMax) continue;
+            if ((lch.c ?? 0) < C_MIN) continue;
+            kwSeen.add(hex);
+            kwCandidates.push({ hex, lch });
+        }
+    }
+
     let kwHex = "";
     let kwSource: ColorSource = "generated";
     let kwBestScore = -Infinity;
 
-    for (const { hex, lch, groupSize } of candidates) {
+    for (const { hex, lch } of kwCandidates) {
         const h = lch.h ?? 0;
-        if (angularDistance(h, fnH) <= KW_MIN_DIST) continue;
-        if (lch.l < KW_L_MIN || lch.l > KW_L_MAX) continue;
-        if ((lch.c ?? 0) < C_MIN) continue;
         if (!isSeparated(h, assignedHues)) continue;
 
-        // スコア: fn からの距離 + グループ色数ボーナス（キャラに多い色を優先）
-        const score = angularDistance(h, fnH) + groupSize * KW_GROUP_BONUS;
+        const score = scoreKwCandidate(h, fnH, characterHues);
+        if (score < 0) continue;
         if (score > kwBestScore) {
             kwBestScore = score;
             kwHex = hex;
@@ -323,12 +517,19 @@ export const deriveCharacterPalette = (
     }
 
     if (!kwHex) {
-        // 紫(275°)が fn と十分離れていれば紫、そうでなければ fn から 150°
-        const fallbackH =
-            angularDistance(KW_FALLBACK_PRIMARY_H, fnH) >= KW_FALLBACK_MIN_DIST
-                ? KW_FALLBACK_PRIMARY_H
-                : (fnH + 150) % 360;
-        kwHex = oklchToHex(SYNTAX_L, C_FLOOR, fallbackH);
+        // フォールバック: キャラ色相の中で fn から最も離れた色相を選び、
+        // トーン別 L の中間値で生成色を作る
+        let fallbackH = (fnH + 120) % 360;
+        let bestFallbackDist = -Infinity;
+        for (const ch of characterHues) {
+            const dist = angularDistance(ch, fnH);
+            if (dist >= KW_SEP_MIN && dist > bestFallbackDist) {
+                bestFallbackDist = dist;
+                fallbackH = ch;
+            }
+        }
+        const kwL = (preset.kwLMin + preset.kwLMax) / 2;
+        kwHex = oklchToHex(kwL, C_FLOOR, fallbackH);
     }
 
     assignedHues.push(hexToOklch(kwHex).h ?? 0);
@@ -408,7 +609,7 @@ export const deriveCharacterPalette = (
             ? median(imageChromas)
             : (vibrantLch.c ?? 0.1) * 0.5;
 
-    // Phase 3: 生成色で補完（画像にない色相を OKLch で直接生成）
+    // Phase 3: 生成色で補完（Step B: トーン別 syntaxL を適用）
     for (const role of REMAINING_ROLES.filter((r) => !palette[r])) {
         const industryH = INDUSTRY_HUES[role];
         const genH =
@@ -416,7 +617,7 @@ export const deriveCharacterPalette = (
                 ? industryH
                 : findMostDistantHue(assignedHues);
         palette[role] = oklchToHex(
-            SYNTAX_L,
+            preset.syntaxL,
             dampedChroma(genH, syntaxChroma, characterHues),
             genH,
         );
@@ -459,6 +660,7 @@ export const deriveCharacterPalette = (
         source,
         syntaxChroma,
         vibrantC: vibrantLch.c ?? 0,
+        toneCategory,
     };
 };
 
@@ -486,6 +688,7 @@ export const buildCharacterPaletteDebugText = (
     const lines: string[] = [];
 
     lines.push("--- 生成パレット ---");
+    lines.push(`tone:         ${palette.toneCategory}`);
     lines.push(`syntaxChroma: ${palette.syntaxChroma.toFixed(3)}`);
     lines.push("");
 
