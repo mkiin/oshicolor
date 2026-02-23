@@ -4,13 +4,23 @@ import {
     buildDebugText,
     extractColorsVibrant,
     type HueGroup,
-    type SlotRanking,
+    type HueZoneColor,
     type VibrantColor,
     type VibrantResult,
     type VibrantSlot,
 } from "@/features/color-extractor/vibrant-extractor";
 
 export const Route = createFileRoute("/")({ component: App });
+
+/** Hue Zone の各スロットに対応する表示用メタデータ */
+const ZONE_META: Record<string, { desc: string; hueHint: string }> = {
+    Function: { desc: "関数名", hueHint: "Blue (220°)" },
+    Keyword: { desc: "予約語", hueHint: "Purple (275°)" },
+    String: { desc: "文字列", hueHint: "Green (115°)" },
+    Type: { desc: "型名", hueHint: "Cyan (172°)" },
+    Constant: { desc: "定数", hueHint: "Orange (28°)" },
+    Identifier: { desc: "変数名", hueHint: "Yellow (68°)" },
+};
 
 /** Vibrant スロットごとの表示設定 */
 const SLOT_META: Record<
@@ -63,39 +73,6 @@ function VibrantPalette({ colors }: { colors: VibrantColor[] }) {
 }
 
 /**
- * スロット別スコアランキングを表形式で表示する
- *
- * 各行がスロット名、列方向に1位・2位・3位... とスコア降順で並ぶ。
- * 最終パレットに選ばれた色はリングでハイライトする。
- */
-function SlotRankingTable({ rankings }: { rankings: SlotRanking[] }) {
-    return (
-        <div className="space-y-1.5">
-            {rankings.map(({ slot, candidates }) => (
-                <div key={slot} className="flex items-center gap-2">
-                    <span className="text-gray-500 text-xs w-24 shrink-0">
-                        {SLOT_META[slot].label}
-                    </span>
-                    <span className="text-gray-600 text-xs w-12 shrink-0">
-                        {candidates.length}色
-                    </span>
-                    <div className="flex gap-1 overflow-x-auto pb-0.5">
-                        {candidates.map(({ hex, isSelected }, i) => (
-                            <div
-                                key={hex}
-                                className={`shrink-0 w-7 h-7 rounded ${isSelected ? "ring-2 ring-violet-400" : ""}`}
-                                style={{ backgroundColor: hex }}
-                                title={`${i + 1}位 ${hex}${isSelected ? " ★選択" : ""}`}
-                            />
-                        ))}
-                    </div>
-                </div>
-            ))}
-        </div>
-    );
-}
-
-/**
  * Hue 別カラーグループを表示する
  *
  * 各行が色相帯名、右に population 降順で色スウォッチが並ぶ。
@@ -123,6 +100,60 @@ function HueGroupDisplay({ hueGroups }: { hueGroups: HueGroup[] }) {
                     </div>
                 </div>
             ))}
+        </div>
+    );
+}
+
+/**
+ * HueZoneGenerator が選んだ syntax 6色を表示するパレット
+ *
+ * hex が null のスロットは「フォールバック必要」として amber で強調表示する。
+ */
+function HueZonePalette({ hueZone }: { hueZone: HueZoneColor[] }) {
+    return (
+        <div className="grid grid-cols-3 gap-3">
+            {hueZone.map(({ slot, hex }) => {
+                const meta = ZONE_META[slot];
+                return (
+                    <div
+                        key={slot}
+                        className="rounded-lg overflow-hidden bg-gray-900"
+                    >
+                        {hex ? (
+                            <div
+                                className="h-16 w-full"
+                                style={{ backgroundColor: hex }}
+                            />
+                        ) : (
+                            // フォールバック必要: ストライプで「色なし」を示す
+                            <div
+                                className="h-16 w-full"
+                                style={{
+                                    background:
+                                        "repeating-linear-gradient(-45deg, #1f2937 0px, #1f2937 6px, #111827 6px, #111827 12px)",
+                                }}
+                            />
+                        )}
+                        <div className="p-2 space-y-0.5">
+                            <p className="text-white text-xs font-medium">
+                                {slot}
+                            </p>
+                            <p className="text-gray-500 text-xs">
+                                {meta?.desc} · {meta?.hueHint}
+                            </p>
+                            {hex ? (
+                                <p className="text-gray-300 text-xs font-mono">
+                                    {hex}
+                                </p>
+                            ) : (
+                                <p className="text-amber-400 text-xs">
+                                    フォールバック必要
+                                </p>
+                            )}
+                        </div>
+                    </div>
+                );
+            })}
         </div>
     );
 }
@@ -259,17 +290,24 @@ export function App() {
                     </div>
                 )}
 
-                {/* Vibrant パレット（6色） */}
-                {vibrantResult && vibrantResult.colors.length > 0 && (
+                {/* Syntax カラー（Hue Zone） */}
+                {vibrantResult && vibrantResult.hueZone.length > 0 && (
                     <div className="space-y-3">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
-                                <p className="text-gray-400 text-sm">
-                                    パレット: {vibrantResult.colors.length}色
+                                <p className="text-white text-sm font-medium">
+                                    Syntax カラー
                                 </p>
-                                <p className="text-gray-400 text-sm">
+                                <p className="text-gray-500 text-xs">
                                     抽出: {vibrantResult.swatchCount}色
                                 </p>
+                                {vibrantResult.hueZone.some(
+                                    (c) => c.hex === null,
+                                ) && (
+                                    <p className="text-amber-400 text-xs">
+                                        ▲ フォールバック必要あり
+                                    </p>
+                                )}
                             </div>
                             <button
                                 type="button"
@@ -279,17 +317,17 @@ export function App() {
                                 {isCopied ? "コピー済み ✓" : "デバッグコピー"}
                             </button>
                         </div>
-                        <VibrantPalette colors={vibrantResult.colors} />
+                        <HueZonePalette hueZone={vibrantResult.hueZone} />
                     </div>
                 )}
 
-                {/* スロット別スコアランキング */}
-                {vibrantResult && vibrantResult.rankings.length > 0 && (
+                {/* Vibrant パレット（6色）: DefaultGenerator の参考出力 */}
+                {vibrantResult && vibrantResult.colors.length > 0 && (
                     <div className="space-y-3">
-                        <p className="text-gray-400 text-sm">
-                            スロット別スコアランキング
+                        <p className="text-gray-500 text-xs">
+                            DefaultGenerator（参考）
                         </p>
-                        <SlotRankingTable rankings={vibrantResult.rankings} />
+                        <VibrantPalette colors={vibrantResult.colors} />
                     </div>
                 )}
 

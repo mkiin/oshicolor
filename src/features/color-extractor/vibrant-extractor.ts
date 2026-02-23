@@ -1,6 +1,6 @@
-import type { Swatch } from "@oshicolor/color";
+import type { Palette, Swatch } from "@oshicolor/color";
 import type { ProcessResult } from "@oshicolor/core";
-import { Extractor } from "@oshicolor/core";
+import { Extractor, ZONE_SPECS } from "@oshicolor/core";
 
 /** Vibrant パレットの6スロット名 */
 export type VibrantSlot =
@@ -17,6 +17,14 @@ export type VibrantColor = {
     hex: string;
     /** スロット名 */
     slot: VibrantSlot;
+};
+
+/** HueZoneGenerator が選んだ1スロット分の syntax color */
+export type HueZoneColor = {
+    /** ZONE_SPECS の slot 名（"Function" | "Keyword" | "String" | "Type" | "Constant" | "Identifier"） */
+    slot: string;
+    /** 選ばれた色の HEX文字列。null の場合はその Hue 帯に適合する色がなかった */
+    hex: string | null;
 };
 
 /** Hue グループ内の1色 */
@@ -36,101 +44,18 @@ export type HueGroup = {
 };
 
 /** スロットのランキング候補1色 */
-export type RankedSwatch = {
-    /** HEX文字列 "#rrggbb" */
-    hex: string;
-    /** DefaultGenerator と同じ加重平均スコア */
-    score: number;
-    /** 最終パレットでこのスロットに選ばれた色かどうか */
-    isSelected: boolean;
-};
-
-/** スロット別スコアランキング */
-export type SlotRanking = {
-    slot: VibrantSlot;
-    /** HSL 範囲内の全候補をスコア降順で並べたもの */
-    candidates: RankedSwatch[];
-};
-
 /** 色抽出の結果 */
 export type VibrantResult = {
     /** スコアリングで選ばれた最大6色 */
     colors: VibrantColor[];
-    /** 各スロットの全候補をスコア降順で並べたランキング */
-    rankings: SlotRanking[];
     /** 量子化全色を色相帯別にまとめたグループ（population 降順） */
     hueGroups: HueGroup[];
+    /** HueZoneGenerator で選ばれた syntax 6色（hex が null の場合はフォールバック合成が必要） */
+    hueZone: HueZoneColor[];
     /** 量子化で抽出された色の総数 */
     swatchCount: number;
     /** 計算時間 (ms) */
     elapsedMs: number;
-};
-
-// ── DefaultGenerator 準拠のスコアリング定数 ──────────────────────────────────
-// 出典: @oshicolor/generator-default DEFAULT_OPTS
-const WEIGHT_SATURATION = 3;
-const WEIGHT_LUMA = 6.5;
-const WEIGHT_POPULATION = 0.5;
-
-type SlotTarget = {
-    lMin: number;
-    lMax: number;
-    lTarget: number;
-    sMin: number;
-    sMax: number;
-    sTarget: number;
-};
-
-// 出典: @oshicolor/generator-default の findColorVariation 呼び出し引数
-const SLOT_TARGETS: Record<VibrantSlot, SlotTarget> = {
-    Vibrant: {
-        lMin: 0.3,
-        lMax: 0.7,
-        lTarget: 0.5,
-        sMin: 0.35,
-        sMax: 1.0,
-        sTarget: 1.0,
-    },
-    LightVibrant: {
-        lMin: 0.55,
-        lMax: 1.0,
-        lTarget: 0.74,
-        sMin: 0.35,
-        sMax: 1.0,
-        sTarget: 1.0,
-    },
-    DarkVibrant: {
-        lMin: 0,
-        lMax: 0.45,
-        lTarget: 0.26,
-        sMin: 0.35,
-        sMax: 1.0,
-        sTarget: 1.0,
-    },
-    Muted: {
-        lMin: 0.3,
-        lMax: 0.7,
-        lTarget: 0.5,
-        sMin: 0,
-        sMax: 0.4,
-        sTarget: 0.3,
-    },
-    LightMuted: {
-        lMin: 0.55,
-        lMax: 1.0,
-        lTarget: 0.74,
-        sMin: 0,
-        sMax: 0.4,
-        sTarget: 0.3,
-    },
-    DarkMuted: {
-        lMin: 0,
-        lMax: 0.45,
-        lTarget: 0.26,
-        sMin: 0,
-        sMax: 0.4,
-        sTarget: 0.3,
-    },
 };
 
 const SLOTS: VibrantSlot[] = [
@@ -141,59 +66,6 @@ const SLOTS: VibrantSlot[] = [
     "LightMuted",
     "DarkMuted",
 ];
-
-// value=0 または weight=0 のペアをスキップする加重平均
-const weightedMean = (...pairs: [number, number][]): number => {
-    let sum = 0;
-    let weightSum = 0;
-    for (const [value, weight] of pairs) {
-        if (!value || !weight) continue;
-        sum += value * weight;
-        weightSum += weight;
-    }
-    return weightSum === 0 ? 0 : sum / weightSum;
-};
-
-const calcScore = (
-    s: number,
-    l: number,
-    population: number,
-    maxPopulation: number,
-    target: SlotTarget,
-): number => {
-    return weightedMean(
-        [1 - Math.abs(s - target.sTarget), WEIGHT_SATURATION],
-        [1 - Math.abs(l - target.lTarget), WEIGHT_LUMA],
-        [population / maxPopulation, WEIGHT_POPULATION],
-    );
-};
-
-const buildRankings = (
-    swatches: Swatch[],
-    selectedHexBySlot: Map<VibrantSlot, string>,
-    maxPopulation: number,
-): SlotRanking[] => {
-    return SLOTS.map((slot) => {
-        const target = SLOT_TARGETS[slot];
-        const candidates: RankedSwatch[] = swatches
-            .filter(({ hsl: [, s, l] }) => {
-                return (
-                    s >= target.sMin &&
-                    s <= target.sMax &&
-                    l >= target.lMin &&
-                    l <= target.lMax
-                );
-            })
-            .map(({ hex, hsl: [, s, l], population }) => ({
-                hex: hex.toLowerCase(),
-                score: calcScore(s, l, population, maxPopulation, target),
-                isSelected: hex.toLowerCase() === selectedHexBySlot.get(slot),
-            }))
-            .sort((a, b) => b.score - a.score);
-
-        return { slot, candidates };
-    });
-};
 
 // ── Hue グループ ─────────────────────────────────────────────────────────────
 
@@ -267,13 +139,46 @@ const buildHueGroups = (swatches: Swatch[]): HueGroup[] => {
 };
 
 /**
+ * Palette と Swatch[] から VibrantResult の本体部分を構築する
+ *
+ * ブラウザ・Node.js 双方から呼べる純粋関数。
+ * elapsedMs は含まないため、呼び出し側で計測して付与する。
+ *
+ * @param palette - DefaultGenerator が生成した6スロットパレット
+ * @param hueZonePalette - HueZoneGenerator が生成した syntax 6スロットパレット
+ * @param swatches - 量子化器が返した全 Swatch
+ * @returns elapsedMs を除いた VibrantResult
+ */
+export const buildResultFromSwatches = (
+    palette: Palette,
+    hueZonePalette: Palette,
+    swatches: Swatch[],
+): Omit<VibrantResult, "elapsedMs"> => {
+    const colors: VibrantColor[] = SLOTS.flatMap((slot) => {
+        const swatch = palette[slot];
+        if (!swatch) return [];
+        return [{ hex: swatch.hex.toLowerCase(), slot }];
+    });
+    const hueZone: HueZoneColor[] = ZONE_SPECS.map(({ slot }) => ({
+        slot,
+        hex: hueZonePalette[slot]?.hex.toLowerCase() ?? null,
+    }));
+    return {
+        colors,
+        hueGroups: buildHueGroups(swatches),
+        hueZone,
+        swatchCount: swatches.length,
+    };
+};
+
+/**
  * 画像 URL からカラーパレットを抽出する
  *
- * @oshicolor/core の Extractor（自前 MMCQ + DefaultGenerator）を使い、
- * 6色パレットと各スロットのスコアランキングを返す。
+ * @oshicolor/core の Extractor（自前 MMCQ + DefaultGenerator + HueZoneGenerator）を使い、
+ * 6色パレット・Hue Zone syntax 6色・Hue 別グループを返す。
  *
  * @param url - 画像の URL（objectURL 可）
- * @returns 最終6色・スロット別スコアランキング・Hue 別グループ・計算時間
+ * @returns 最終6色・Hue 別グループ・syntax 6色・計算時間
  */
 export const extractColorsVibrant = async (
     url: string,
@@ -283,27 +188,23 @@ export const extractColorsVibrant = async (
     const extractor = Extractor.from(url).build();
     const palette = await extractor.getPalette();
 
+    const result = extractor.result as ProcessResult;
     // ProcessResult.colors は量子化後の全 Swatch（フィルタ適用済み）
-    const swatches: Swatch[] = (extractor.result as ProcessResult).colors;
+    const swatches: Swatch[] = result.colors;
+    // getPalette() が default と hue-zone を同時実行するため両方取得できる
+    const hueZonePalette: Palette = result.palettes["hue-zone"] ?? {
+        Vibrant: null,
+        DarkVibrant: null,
+        LightVibrant: null,
+        Muted: null,
+        DarkMuted: null,
+        LightMuted: null,
+    };
 
     const t1 = performance.now();
 
-    const colors: VibrantColor[] = SLOTS.flatMap((slot) => {
-        const swatch = palette[slot];
-        if (!swatch) return [];
-        return [{ hex: swatch.hex.toLowerCase(), slot }];
-    });
-
-    const selectedHexBySlot = new Map<VibrantSlot, string>(
-        colors.map(({ slot, hex }) => [slot, hex]),
-    );
-    const maxPopulation = Math.max(...swatches.map((s) => s.population), 1);
-
     return {
-        colors,
-        rankings: buildRankings(swatches, selectedHexBySlot, maxPopulation),
-        hueGroups: buildHueGroups(swatches),
-        swatchCount: swatches.length,
+        ...buildResultFromSwatches(palette, hueZonePalette, swatches),
         elapsedMs: Math.round(t1 - t0),
     };
 };
@@ -342,17 +243,11 @@ export const buildDebugText = (result: VibrantResult): string => {
     }
     lines.push("");
 
-    // スロット別スコアランキング
-    lines.push("--- スロット別スコアランキング ---");
-    for (const { slot, candidates } of result.rankings) {
-        if (candidates.length === 0) continue;
-        lines.push(`${SLOT_LABELS[slot]} (${candidates.length}色)`);
-        for (let i = 0; i < candidates.length; i++) {
-            // biome-ignore lint/style/noNonNullAssertion: candidates の有効なインデックス
-            const { hex, score, isSelected } = candidates[i]!;
-            const star = isSelected ? "  ★" : "";
-            lines.push(`  ${i + 1}. ${hex}  ${score.toFixed(3)}${star}`);
-        }
+    // Hue Zone syntax 6色
+    lines.push("--- Syntax カラー (Hue Zone) ---");
+    for (const { slot, hex } of result.hueZone) {
+        const value = hex ?? "(フォールバック必要)";
+        lines.push(`${slot.padEnd(12)}  ${value}`);
     }
     lines.push("");
 

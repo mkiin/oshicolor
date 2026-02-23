@@ -63,6 +63,7 @@ Alchemy IaC フレームワークのリファレンス。
 | ファイル | 内容 |
 |---|---|
 | **`color-scheme-master.md`** ⭐ | **kanagawa / tokyonight / catppuccin 統合分析**。ハイライト階層アーキテクチャ、Hue マッピング比較、全ハイライトグループ対応表、oshicolor v4 への示唆を収録。 |
+| **`red-hue-themes-analysis.md`** | **赤系テーマ分析**（reddish.nvim / rose-pine / gruvbox / monokai-pro）。signatureColor が赤系（H: 0°〜25°）の場合のハイライト割り当て戦略を調査。判断B の解決根拠。 |
 
 ### `research/nvim-generators/` — 既存カラースキーム生成ツール調査
 
