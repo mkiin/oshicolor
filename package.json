@@ -20,11 +20,11 @@
     "debug:extract": "tsx scripts/extract-debug.ts"
   },
   "dependencies": {
+    "@cloudflare/vite-plugin": "^1.13.8",
+    "@faker-js/faker": "^10.0.0",
     "@oshicolor/color": "workspace:*",
     "@oshicolor/core": "workspace:*",
     "@oshicolor/image": "workspace:*",
-    "@cloudflare/vite-plugin": "^1.13.8",
-    "@faker-js/faker": "^10.0.0",
     "@t3-oss/env-core": "^0.13.8",
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/match-sorter-utils": "^8.19.4",
@@ -50,6 +50,7 @@
     "jotai": "^2.17.1",
     "jotai-tanstack-query": "^0.11.0",
     "lucide-react": "^0.561.0",
+    "prism-react-renderer": "^2.4.1",
     "radix-ui": "^1.4.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
@@ -60,7 +61,6 @@
     "zod": "^4.1.11"
   },
   "devDependencies": {
-    "sharp": "^0.33.0",
     "@biomejs/biome": "2.2.4",
     "@tanstack/devtools-vite": "^0.3.11",
     "@testing-library/dom": "^10.4.0",
@@ -74,6 +74,7 @@
     "babel-plugin-react-compiler": "^1.0.0",
     "dotenv": "^16.0.0",
     "jsdom": "^27.0.0",
+    "sharp": "^0.33.0",
     "tsx": "^4.0.0",
     "typescript": "^5.7.2",
     "vite": "^7.1.7",
