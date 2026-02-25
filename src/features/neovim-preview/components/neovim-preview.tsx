@@ -116,5 +116,8 @@ export const NeovimPreview: React.FC<NeovimPreviewProps> = ({
                 {(showStatusLine ?? true) && <NeovimStatusLine />}
             </NeovimPreviewHydrator>
         </Provider>
+        <div>
+            
+            </div>
     );
 };
