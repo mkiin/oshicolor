@@ -9,14 +9,8 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as DemoPrismReactRendererRouteImport } from './routes/demo-prism-react-renderer'
 import { Route as IndexRouteImport } from './routes/index'
 
-const DemoPrismReactRendererRoute = DemoPrismReactRendererRouteImport.update({
-  id: '/demo-prism-react-renderer',
-  path: '/demo-prism-react-renderer',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -25,39 +19,28 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/demo-prism-react-renderer': typeof DemoPrismReactRendererRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/demo-prism-react-renderer': typeof DemoPrismReactRendererRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/demo-prism-react-renderer': typeof DemoPrismReactRendererRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/demo-prism-react-renderer'
+  fullPaths: '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/demo-prism-react-renderer'
-  id: '__root__' | '/' | '/demo-prism-react-renderer'
+  to: '/'
+  id: '__root__' | '/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DemoPrismReactRendererRoute: typeof DemoPrismReactRendererRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/demo-prism-react-renderer': {
-      id: '/demo-prism-react-renderer'
-      path: '/demo-prism-react-renderer'
-      fullPath: '/demo-prism-react-renderer'
-      preLoaderRoute: typeof DemoPrismReactRendererRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -70,7 +53,6 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DemoPrismReactRendererRoute: DemoPrismReactRendererRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

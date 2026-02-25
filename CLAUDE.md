@@ -156,18 +156,20 @@ interface IThemeData {
 
 ## 関数スタイル
 
-### React コンポーネント: function 宣言
+### React コンポーネント: React.FC
 
 ```tsx
-// Good - function 宣言 + default export
-export default function ThemeEditor({ theme }: ThemeEditorProps) {
+// Good - React.FC + named export
+export const ThemeEditor: React.FC<ThemeEditorProps> = ({ theme }) => {
   return <div>{theme.name}</div>;
-}
+};
 
-// Good - function 宣言 + named export
-export function GalleryCard({ theme }: GalleryCardProps) {
+// Good - React.FC + default export
+const GalleryCard: React.FC<GalleryCardProps> = ({ theme }) => {
   return <div>{theme.name}</div>;
-}
+};
+
+export default GalleryCard;
 ```
 
 ### それ以外: arrow function
@@ -191,19 +193,6 @@ const handleSubmit = () => {
 };
 ```
 
-### return スタイル
-
-arrow function では **明示的な return を基本** とする。
-
-```typescript
-// Good - 明示的な return
-const double = (n: number): number => {
-  return n * 2;
-};
-
-// Bad - 暗黙の return は使わない
-const double = (n: number): number => n * 2;
-```
 
 ## インポート順序
 

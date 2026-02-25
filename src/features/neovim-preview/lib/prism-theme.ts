@@ -4,7 +4,7 @@
 // 更にstyles内にはtypes, style, laguagesの3プロパティが存在する。
 // NeoVimカラートークン外の情報も必要になる。
 import type { PrismTheme } from "prism-react-renderer";
-import type { NeovimColorTokens } from "@/features/neovim-preview/types/index";
+import type { NeovimColorTokens } from "@/features/neovim-preview/types";
 
 const buildPrismTheme = (colorTokens: NeovimColorTokens): PrismTheme => {
     return {
