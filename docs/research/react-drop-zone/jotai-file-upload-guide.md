@@ -593,6 +593,100 @@ const FileUploadRoot: React.FC<FileUploadRootProps> = (props) => {
 
 ---
 
+## Suspenseとの連携は必要か？
+
+ここで一度立ち止まって考えてみましょう。`onUpload`は`async`関数です。ガイドの読者の中には「非同期処理があるなら Suspense を使えばよいのでは？」と思った方もいるはずです。
+
+### アップロード処理に Suspense は向かない
+
+Suspense の設計思想は「**データが準備できるまで UI をサスペンドし、準備できたら表示する**」というものです。言い換えれば、「見せるものが決まっていない間は、代わりのUI（fallback）を表示する」ということです。
+
+ファイルアップロードは、この思想と根本的に合っていません。
+
+```
+Suspense が得意な場面:
+  「まだ何も見せられない（データ取得中）→ skeleton や spinner を表示」
+  例: ユーザープロフィールの取得、検索結果の取得
+
+ファイルアップロードの実態:
+  「ユーザーが操作した → 進捗が 0%→50%→100% と変化していく」
+  → 変化の過程を「見せる」のが重要
+```
+
+もし Suspense を使ってしまうと、アップロード中にコンポーネントが fallback UI（"アップロード中..."のspinner）に差し替えられ、**個別ファイルの進捗バーが消えてしまいます**。それはUXの改悪です。
+
+また、アップロードは「ユーザー操作をきっかけに始まる命令型の処理」です。Suspense が得意とする「ステートが変わったら自動的に再フェッチが走る宣言型の処理」とは仕組みが異なります。
+
+**結論：アップロード処理そのものに Suspense は使わない。** `createUploadAtom`が返すのは`async`な write atom ですが、Suspense とは無関係に動きます[^note_async_write]。
+
+[^note_async_write]: jotai の write atom は `async` にできますが、write atom の非同期処理はサスペンドを引き起こしません。サスペンドが起きるのは、`atom(async (get) => ...)` のように**読み取り関数が Promise を返す**場合だけです。
+
+### Suspense が活きる場面：初期ファイル一覧の取得
+
+では、どんな場面で Suspense を使うべきでしょうか。例えば、**サーバーから初期ファイル一覧を取得してコンポーネントを初期化する**ケースを考えてみます。
+
+```tsx
+// たとえば「このユーザーのアップロード済みファイルを取得してコンポーネントを初期化する」
+type SavedFile = { id: string; name: string; url: string };
+
+// キーワード（userId）を保持する atom
+const userIdAtom = atom<string | null>(null);
+
+// userId が変わったら自動的に再取得する派生 atom
+// atom の読み取り関数が Promise を返すと、useAtomValue を呼ぶコンポーネントがサスペンドする
+const savedFilesAtom = atom(async (get): Promise<SavedFile[]> => {
+  const userId = get(userIdAtom);
+  if (!userId) return [];
+  const response = await fetch(`/api/users/${userId}/files`);
+  return response.json();
+});
+```
+
+```tsx
+// コンポーネント側
+const FileUploadWithHistory: React.FC<{ userId: string }> = ({ userId }) => {
+  const setUserId = useSetAtom(userIdAtom);
+
+  // userId が変わったら userIdAtom を更新 → savedFilesAtom が再計算 → サスペンド
+  React.useEffect(() => {
+    setUserId(userId);
+  }, [userId, setUserId]);
+
+  return (
+    // サスペンド中は fallback が表示される
+    <Suspense fallback={<FileListSkeleton />}>
+      <FileUploadWithData />
+    </Suspense>
+  );
+};
+
+const FileUploadWithData: React.FC = () => {
+  // savedFilesAtom が Promise を返すのでサスペンドし、データが来たら再レンダリングされる
+  const savedFiles = useAtomValue(savedFilesAtom);
+
+  return (
+    <FileUpload defaultValue={savedFiles.map(toFile)}>
+      {/* ... */}
+    </FileUpload>
+  );
+};
+```
+
+このように、**「コンポーネントの初期化に必要なデータをサーバーから取得する」場面**では、Suspense + jotai の組み合わせが機能します。今回作ったコンポーネント自体の内部では使いませんが、コンポーネントを使う側でこのパターンを採用することはあります。
+
+### 判断の基準
+
+Suspense を使うかどうかは、「**その非同期処理がサスペンド（表示を止める）に値するか**」で判断します。
+
+| 非同期処理の種類 | Suspense を使う？ | 理由 |
+| --- | --- | --- |
+| 初期データの取得（ユーザー情報、既存ファイル一覧） | ✅ 使う | 取得できるまで表示するものがない |
+| ファイルのアップロード（進捗あり） | ❌ 使わない | 進捗をリアルタイムで見せる必要がある |
+| バリデーション結果（即時） | ❌ 使わない | 同期処理として扱える |
+| アップロード後の後処理（通知など） | ❌ 使わない | 完了後の副作用。UIをサスペンドする必要がない |
+
+---
+
 ## まとめ
 
 この章では、ファイルアップローダーの状態管理をjotaiで実装しました。ポイントを整理します。
