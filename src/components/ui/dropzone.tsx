@@ -1,31 +1,20 @@
 import { useDropzone } from "react-dropzone";
 
-function ImageDropze() {
-    const { getRootProps, getInputProps, isDragGlobal, acceptedFiles } =
-        useDropzone();
-    const files = acceptedFiles.map((file) => (
-        <li key={file.path}>
-            {file.path} - {file.size}
-        </li>
-    ));
+type DropzoneProps = {
+    onFilesAccepted: (files: File[]) => void;
+    accept?: Record<string, string[]>;
+    multiple?: boolean;
+    maxSize?: number;
+};
 
-    return (
-        <div>
-            <div {...getRootProps()}>
-                <input type="" {...getInputProps()} />
-                <p>ここにドロップ</p>
-            </div>
-            {isDragGlobal && (
-                <div className="fixed inset-0 bg-[rgba(0,0,255,0.1)] z-9999">
-                    Drop anywhre
-                </div>
-            )}
-            <div>
-                <h4>Files</h4>
-                <ul>{files}</ul>
-            </div>
-        </div>
-    );
-}
+// このコンポーネントが持つ責任
+// 1. ドラッグ状態、エラー表示
+// 2. 親から渡されたfileの管理
 
-export { ImageDropze };
+const Dropzone: React.FC<DropzoneProps> = (_props) => {
+    // TODO(human): useDropzone を使って実装する
+    useDropzone();
+    return <div />;
+};
+
+export { Dropzone };
