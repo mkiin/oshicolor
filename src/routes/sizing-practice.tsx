@@ -121,3 +121,20 @@ function RouteComponent() {
         </>
     );
 }
+// ● 今回学んだことをまとめると：
+//
+//   レイアウトの基礎
+//   - max-w-* + mx-auto + px-4 — 中央寄せコンテナの王道パターン
+//   - space-y-* — 子要素間の縦余白を一括管理
+//
+//   サイズと比率
+//   - aspect-video / aspect-square — 縦横比の固定
+//   - object-cover / object-contain — 画像の収め方
+//   - w-full h-full — 親を埋める
+//
+//   重ね合わせ
+//   - overflow-hidden + rounded-* — 角丸クリッピングはセット
+//   - relative + absolute — 要素を浮かせる基準点と浮かせる要素
+//   - DOM の順序 — 後に書いた要素が上のレイヤー
+//
+//
