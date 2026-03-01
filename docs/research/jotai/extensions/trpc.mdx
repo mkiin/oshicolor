@@ -1,21 +1,21 @@
 ---
 title: tRPC
-description: This doc describes tRPC extension.
+description: このドキュメントは tRPC 拡張について説明します。
 nav: 4.01
 keywords: rpc,trpc,typescript,t3
 ---
 
-You can use Jotai with [tRPC](https://trpc.io).
+Jotai を [tRPC](https://trpc.io) と組み合わせて使用できます。
 
-### Install
+### インストール
 
-You have to install `jotai-trpc`, `@trpc/client` and `@trpc/server` to use the extension.
+この拡張を使用するには `jotai-trpc`、`@trpc/client`、`@trpc/server` をインストールする必要があります。
 
 ```
 npm install jotai-trpc @trpc/client @trpc/server
 ```
 
-### Usage
+### 使用方法
 
 ```ts
 import { createTRPCJotai } from 'jotai-trpc'
@@ -34,7 +34,7 @@ const queryAtom = trpc.bar.baz.atomWithQuery((get) => get(idAtom))
 
 ### atomWithQuery
 
-`...atomWithQuery` creates a new atom with "query". It internally uses [Vanilla Client](https://trpc.io/docs/vanilla)'s `...query` procedure.
+`...atomWithQuery` は「クエリ」で新しいアトムを作成します。内部的には [Vanilla クライアント](https://trpc.io/docs/vanilla) の `...query` プロシージャを使用します。
 
 ```tsx
 import { atom, useAtom } from 'jotai'
@@ -80,18 +80,18 @@ const Pokemon = () => {
 }
 ```
 
-#### Examples
+#### 例
 
 <Stackblitz id="vitejs-vite-8kgfpj" file="src%2FApp.tsx" />
 
 ### atomWithMutation
 
-`...atomWithMutation` creates a new atom with "mutate". It internally uses [Vanilla Client](https://trpc.io/docs/vanilla)'s `...mutate` procedure.
+`...atomWithMutation` は「ミューテーション」で新しいアトムを作成します。内部的には [Vanilla クライアント](https://trpc.io/docs/vanilla) の `...mutate` プロシージャを使用します。
 
-FIXME: add code example and codesandbox
+FIXME: コード例と codesandbox を追加する予定
 
 ### atomWithSubscription
 
-`...atomWithSubscription` creates a new atom with "subscribe". It internally uses [Vanilla Client](https://trpc.io/docs/vanilla)'s `...subscribe` procedure.
+`...atomWithSubscription` は「サブスクリプション」で新しいアトムを作成します。内部的には [Vanilla クライアント](https://trpc.io/docs/vanilla) の `...subscribe` プロシージャを使用します。
 
-FIXME: add code example and codesandbox
+FIXME: コード例と codesandbox を追加する予定

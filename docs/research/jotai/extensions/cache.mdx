@@ -1,21 +1,18 @@
 ---
 title: Cache
-description: This doc describes cache extension.
+description: このドキュメントは cache 拡張について説明します。
 nav: 4.07
 keywords: cache
 ---
 
-Jotai provides primitive functions to optimize re-renders.
-It's designed to hold only "current" atom values,
-and it doesn't cache older values.
+Jotai は再レンダリングを最適化するためのプリミティブ関数を提供します。
+「現在の」アトム値のみを保持するように設計されており、古い値をキャッシュしません。
 
-Caching is sometimes useful. For example, if an async atom
-triggers network requests, we may want to cache the responses.
+キャッシュが有用な場合もあります。例えば、非同期アトムがネットワークリクエストをトリガーする場合、レスポンスをキャッシュしたいことがあります。
 
-[jotai-cache](https://github.com/jotai-labs/jotai-cache) is
-a third-party library to help such use cases.
+[jotai-cache](https://github.com/jotai-labs/jotai-cache) はそのようなユースケースを支援するサードパーティライブラリです。
 
-### Install
+### インストール
 
 ```
 npm install jotai-cache
@@ -27,23 +24,23 @@ npm install jotai-cache
 atomWithCache(read, options): Atom
 ```
 
-`atomWithCache` creates a new read-only atom with cache.
+`atomWithCache` はキャッシュ付きの新しい読み取り専用アトムを作成します。
 
-### Parameters
+### パラメータ
 
-**read**: read function to define the read-only atom.
+**read**: 読み取り専用アトムを定義する read 関数。
 
-**options** (optional): an object of options to customize the behavior of the atom
+**options**（オプション）: アトムの動作をカスタマイズするオプションオブジェクト
 
-### Options
+### オプション
 
-**size** (optional): maximum size of cache items.
+**size**（オプション）: キャッシュアイテムの最大サイズ。
 
-**shouldRemove** (optional): a function to check if cache items should be removed.
+**shouldRemove**（オプション）: キャッシュアイテムを削除すべきかどうかを確認する関数。
 
-**areEqual** (optional): a function to compare atom values.
+**areEqual**（オプション）: アトム値を比較する関数。
 
-### Examples
+### 例
 
 ```jsx
 import { atom, useAtom } from 'jotai'

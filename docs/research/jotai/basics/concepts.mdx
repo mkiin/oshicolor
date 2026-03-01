@@ -1,23 +1,22 @@
 ---
-title: Concepts
+title: コンセプト
 nav: 7.01
 ---
 
-Jotai is a library that will make you return to the basics of React development & keep everything simple.
+Jotai は React 開発の基本に立ち返り、すべてをシンプルに保つためのライブラリです。
 
-### From scratch
+### ゼロから
 
-Before trying to compare Jotai with what we may have known previously, let's just dive straight into something very simple.
+Jotai を以前知っていたものと比較する前に、非常にシンプルなことに直接飛び込んでみましょう。
 
-The React world is very much like our world, it's a big set of small entities, we call them components, and we know that they have their own state. Structuring your components to interact altogether will create your app.
+React の世界は私たちの世界に非常に似ています。コンポーネントと呼ばれる小さなエンティティの大きな集合であり、それぞれが独自の状態を持っています。コンポーネントを構造化して互いに連携させることでアプリが作られます。
 
-Now, the Jotai world also has its small entities, atoms, and they also have their state. Composing atoms will create your app state!
+Jotai の世界にも小さなエンティティ、アトムがあり、それらも独自の状態を持っています。アトムを組み合わせることでアプリの状態が作られます！
 
-Jotai considers anything to be an atom, so you may say: `Huh, I need objects and arrays, filter them and then sort them out`.
-And here's the beauty of it, Jotai gracefully lets you create dumb atoms derived from even more dumb atoms.
+Jotai はあらゆるものをアトムと見なします。「オブジェクトや配列が必要で、それらをフィルタリングしてソートしたい」と思うかもしれません。
+そしてここに Jotai の美しさがあります。Jotai はより単純なアトムから派生したシンプルなアトムを優雅に作成できます。
 
-If, for example, I have a page with 2 tabs: online friends and offline friends.
-I will have 2 atoms simply derived from a common, dumber source.
+例えば、オンラインの友達とオフラインの友達という2つのタブを持つページがある場合、共通のよりシンプルなソースから単純に派生した2つのアトムを持つことになります。
 
 ```js
 const dumbAtom = atom([{ name: 'Friend 1', online: false }])
@@ -25,6 +24,6 @@ const onlineAtom = atom((get) => get(dumbAtom).filter((item) => item.online))
 const offlineAtom = atom((get) => get(dumbAtom).filter((item) => !item.online))
 ```
 
-And you could keep going on complexity forever.
+複雑さはいくらでも増やすことができます。
 
-Another incredible feature of Jotai is the built-in ability to suspend when using asynchronous atoms. This is a relatively new feature that needs more experimentation, but is definitely the future of how we will build React apps. [Check out the docs](https://react.dev/blog/2022/03/29/react-v18#new-suspense-features) for more info.
+Jotai のもう一つの素晴らしい機能は、非同期アトムを使用するときに組み込みで Suspend できる能力です。これは比較的新しい機能でさらなる実験が必要ですが、確実に React アプリを構築する方法の未来です。詳細は[ドキュメント](https://react.dev/blog/2022/03/29/react-v18#new-suspense-features)を確認してください。

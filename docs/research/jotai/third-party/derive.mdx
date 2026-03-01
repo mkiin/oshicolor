@@ -1,24 +1,24 @@
 ---
 title: Derive
-description: This doc describes Derive extension.
+description: このドキュメントは Derive 拡張について説明します。
 nav: 5.01
 keywords: derive,derived,async,zalgo,suspense,promise,react
 ---
 
-#### When is this useful?
+#### これはいつ役立ちますか？
 
-- When local updates to the cache cause micro-suspensions
-- When unnecessary recomputation causes performance issues
+- ローカルキャッシュの更新がマイクロサスペンションを引き起こす場合
+- 不要な再計算がパフォーマンスの問題を引き起こす場合
 
-Jōtai offers powerful primitives for working with asynchronous data outside of the web framework (e.g. React), and allows the UI and business logic to properly integrate with the data layer. Many data-fetching integrations offer a peek into the client-side cache via atoms. When the cache is not yet populated, the atom has to resolve to a Promise of the value. However, if the value already exists in cache, and we do an optimistic update, then the value can be made available downstream immediately.
+Jōtai は Web フレームワーク（例：React）の外で非同期データを扱う強力なプリミティブを提供し、UI とビジネスロジックをデータレイヤーと適切に統合できます。多くのデータフェッチ統合は、アトムを通じてクライアントサイドキャッシュを覗き見る方法を提供します。キャッシュがまだ投入されていない場合、アトムは値の Promise に解決しなければなりません。しかし、値がすでにキャッシュに存在し、楽観的更新を行う場合、値は即座にダウンストリームで利用可能になります。
 
-Building data graphs with these dual-natured (sometimes async, sometimes sync) atoms as a base can lead to unnecessary rerenders, stale values and micro-suspensions (in case of React) if not handled with care.
+これらの二重性（非同期になったり同期になったりする）アトムをベースとしたデータグラフを構築すると、注意しないと不要な再レンダリング、古い値、マイクロサスペンション（React の場合）が発生する可能性があります。
 
-**jotai-derive** provides a primitive for building asynchronous data graphs that act on values as soon as they are available (either awaiting for them, or acting on them synchronously).
+**jotai-derive** は、値が利用可能になった瞬間に（待機したり、同期的に処理したりしながら）値に基づいて動作する非同期データグラフを構築するためのプリミティブを提供します。
 
-### Install
+### インストール
 
-You have to install `jotai-derive` to use this feature.
+この機能を使用するには `jotai-derive` をインストールする必要があります。
 
 ```
 npm install jotai-derive
@@ -26,56 +26,51 @@ npm install jotai-derive
 
 ## derive
 
-Lets say we have a _dual-natured_ atom, meaning that sometimes we are yet to
-know the value (e.g. fetching the data), but other times we update the atom
-locally and can know its value immediately (e.g. optimistic updates).
+_二重性を持つ_ アトム、つまり値をまだ知らない場合（例：データのフェッチ中）もあれば、値を即座に知ることができる場合（例：楽観的更新）もあるアトムがあるとします。
 
 ```ts
-// `jotai-derive` is applicable to most data-fetching solutions, not just `jotai-apollo`
+// `jotai-derive` は `jotai-apollo` だけでなく、ほとんどのデータフェッチソリューションに適用できます
 import { atomWithQuery } from 'jotai-apollo';
 
-// An example of a dual-natured atom
+// 二重性を持つアトムの例
 const userAtom: Atom<User | Promise<User>> =
   atomWithQuery(...);
 
 ```
 
-Below is how a derived atom is usually created. The drawback is that always awaiting (even though the value can be known)
-introduces unnecessary deferring and recomputation.
+以下は通常の派生アトムの作成方法です。欠点は、常に await すること（値がわかっていても）が不要な遅延と再計算を引き起こすことです。
 
 ```ts
-// Without `jotai-derive`
+// `jotai-derive` なし
 
 import { atom } from 'jotai'
 
-// Type is Atom<Promise<string>>, even though
-// get(userAtom) does not always return a promise,
-// meaning we could compute `uppercaseNameAtom`
-// synchronously.
+// 型は Atom<Promise<string>> ですが、
+// get(userAtom) が常に Promise を返すわけではないため、
+// `uppercaseNameAtom` を同期的に計算できる可能性があります。
 const uppercaseNameAtom = atom(async (get) => {
   const user = await get(userAtom)
   return user.name.toUppercase()
 })
 ```
 
-Here is how `jotai-derive` is used to create a tighter async data-processing pipeline.
+以下は `jotai-derive` を使ってより緊密な非同期データ処理パイプラインを作成する方法です。
 
 ```ts
-// With `jotai-derive`
+// `jotai-derive` あり
 
 import { derive } from 'jotai-derive'
 
 // Atom<string | Promise<string>>
 const uppercaseNameAtom = derive(
-  [userAtom], // will be awaited only when necessary
+  [userAtom], // 必要な場合にのみ await されます
   (user) => user.name.toUppercase(),
 )
 ```
 
-### Multiple async dependencies
+### 複数の非同期依存関係
 
-To derive a value from multiple atoms, the array accepts more than one atom. The corresponding values are then passed
-into the producer function in the same order.
+複数のアトムから値を派生させるには、配列に複数のアトムを指定できます。対応する値は同じ順序でプロデューサー関数に渡されます。
 
 ```ts
 import { derive } from 'jotai-derive'
@@ -89,13 +84,12 @@ const welcomeMessageAtom = derive(
 
 ## soon
 
-For more advances usage, for example **conditional dependencies**, the `soon` and `soonAll` functions
-can be used instead (`derive` is a utility wrapper around them).
+より高度な使用法（例：**条件付き依存関係**）には、`soon` と `soonAll` 関数を代わりに使用できます（`derive` はこれらのユーティリティラッパーです）。
 
-### Conditional dependency
+### 条件付き依存関係
 
 ```ts
-// pipes allow for cleaner code when using `soon` directly.
+// パイプを使うと `soon` を直接使う際にコードがきれいになります
 import { pipe } from 'remeda';
 import { soon } from 'jotai-derive';
 
@@ -114,10 +108,10 @@ const restrictedItemAtom = atom((get) =>
 );
 ```
 
-### Conditional dependency (multiple conditions)
+### 条件付き依存関係（複数条件）
 
 ```ts
-// pipes allow for cleaner code when using `soon` directly.
+// パイプを使うと `soon` を直接使う際にコードがきれいになります
 import { pipe } from 'remeda';
 import { soon, soonAll } from 'jotai-derive';
 
@@ -140,6 +134,6 @@ const restrictedItemAtom = atom((get) =>
 
 ```
 
-## Demo
+## デモ
 
 <CodeSandbox id="jotai-derive-example-7422pk" />

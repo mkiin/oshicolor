@@ -4,13 +4,12 @@ nav: 9.09
 keywords: creators,broadcast
 ---
 
-> `atomWithBroadcast` creates an atom. The atom will be shared between
-> browser tabs and frames, similar to `atomWithStorage` but with the
-> initialization limitation.
+> `atomWithBroadcast` はアトムを作成します。このアトムはブラウザのタブやフレーム間で共有され、
+> `atomWithStorage` に似ていますが、初期化時の制限があります。
 
-This can be useful when you want states to interact with each other without the use of localStorage.
-By using the BroadcastChannel API, you can enable basic communication between browsing contexts such as windows, tabs, frames, components, or iframes, and workers on the same origin.
-According to the MDN documentation, receiving a message during initialization is not supported in the BroadcastChannel, but if you want to support that functionality, you may need to add extra option to atomWithBroadcast, such as local storage.
+ローカルストレージを使わずに状態を相互に連携させたい場合に便利です。
+BroadcastChannel API を使用することで、同じオリジン上のウィンドウ、タブ、フレーム、コンポーネント、iframe、ワーカーなどのブラウジングコンテキスト間で基本的な通信を実現できます。
+MDN ドキュメントによると、BroadcastChannel では初期化中のメッセージ受信はサポートされていませんが、その機能をサポートしたい場合は、ローカルストレージなどの追加オプションを `atomWithBroadcast` に追加する必要があります。
 
 ```tsx
 import { atom, SetStateAction } from 'jotai'

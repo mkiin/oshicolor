@@ -7,11 +7,11 @@ published: false
 
 ## splitAtom
 
-The `splitAtom` utility is designed for scenarios where you need to obtain an atom for each element in a list. It operates on read/write atoms containing a list, returning an atom that holds a list of atoms, each corresponding to an item in the original list.
+`splitAtom` ユーティリティはリスト内の各要素に対してアトムを取得する必要があるシナリオ向けに設計されています。リストを含む読み書き可能なアトムで動作し、元のリストの各アイテムに対応するアトムのリストを保持するアトムを返します。
 
-### Signature
+### シグネチャ
 
-A simplified type signature for `splitAtom` would be:
+`splitAtom` の簡略化された型シグネチャ：
 
 ```ts
 type SplitAtom = <Item, Key>(
@@ -20,15 +20,15 @@ type SplitAtom = <Item, Key>(
 ): Atom<Array<PrimitiveAtom<Item>>>
 ```
 
-### Key Features
+### 主な機能
 
-1. The returned atom contains a dispatch function in the `write` direction (since v1.6.4), providing a simple way to modify the original atom with actions like `remove`, `insert`, and `move`.
+1. 返されるアトムは `write` 方向にディスパッチ関数を含んでいます（v1.6.4 以降）。`remove`、`insert`、`move` などのアクションで元のアトムを変更する簡単な方法を提供します。
 
-2. An optional `keyExtractor` function can be provided as a second argument to enhance stability and performance.
+2. オプションの `keyExtractor` 関数を第2引数として提供して、安定性とパフォーマンスを向上させることができます。
 
-### Key Extractor
+### キー抽出器
 
-The `splitAtom` utility supports a second argument which is a key extractor function:
+`splitAtom` ユーティリティはキー抽出器関数を第2引数としてサポートします：
 
 ```ts
 export function splitAtom<Item, Key>(
@@ -37,15 +37,15 @@ export function splitAtom<Item, Key>(
 )
 ```
 
-Important considerations for the `keyExtractor`:
+`keyExtractor` の重要な考慮事項：
 
-- If `splitAtom` is used within a React render loop, the `keyExtractor` must be a stable function that maintains object equality (shallow equality). This requirement doesn't apply outside of render loops.
-- Providing a `keyExtractor` enhances the stability of the atom output (which makes memoization hit cache more often). It prevents unnecessary subatom recreation due to index shifts in the source array.
-- `keyExtractor` is an optional optimization that should only be used if the extracted key is guaranteed unique for each item in the array.
+- React の render ループ内で `splitAtom` を使用する場合、`keyExtractor` はオブジェクト等価性（浅い等価性）を維持する安定した関数である必要があります。この要件は render ループ外では適用されません。
+- `keyExtractor` を提供することでアトム出力の安定性が向上します（メモ化のキャッシュヒットが増えます）。ソース配列のインデックスシフトによる不要なサブアトムの再作成を防ぎます。
+- `keyExtractor` は配列内の各アイテムに対して抽出されたキーが一意であることが保証される場合にのみ使用すべきオプションの最適化です。
 
-### Example Usage
+### 使用例
 
-Here's an example demonstrating the use of `splitAtom`:
+`splitAtom` の使用を示す例：
 
 <Stackblitz id="vitejs-vite-oavdw2" file="src%2FApp.tsx" />
 
@@ -121,4 +121,4 @@ const App = () => (
 export default App
 ```
 
-This example demonstrates how to use `splitAtom` to manage a list of todo items, allowing individual manipulation of each item while maintaining the overall list atom.
+この例では、`splitAtom` を使用して todo アイテムのリストを管理し、全体のリストアトムを維持しながら各アイテムを個別に操作する方法を示しています。

@@ -7,9 +7,9 @@ published: false
 
 ## selectAtom
 
-⚠️ Unlike its name, `selectAtom` is provided as an escape hatch. Using it means building not 100% pure atom model. Prefer using derived atoms and use `selectAtom` only when `equalityFn` or `prevSlice` is unavoidable.
+⚠️ 名前とは異なり、`selectAtom` はエスケープハッチとして提供されています。使用することは100%純粋なアトムモデルを構築しないことを意味します。派生アトムの使用を優先し、`equalityFn` または `prevSlice` が不可避な場合のみ `selectAtom` を使用してください。
 
-### Signatures
+### シグネチャ
 
 ```ts
 function selectAtom<Value, Slice>(
@@ -19,14 +19,11 @@ function selectAtom<Value, Slice>(
 ): Atom<Slice>
 ```
 
-This function creates a derived atom whose value is a function of the original atom's value,
-determined by `selector.`
-The selector function runs whenever the original atom changes; it updates the derived atom
-only if `equalityFn` reports that the derived value has changed.
-By default, `equalityFn` is reference equality, but you can supply your favorite deep-equals
-function to stabilize the derived value where necessary.
+この関数は、`selector` によって決定される元のアトムの値の関数として値を持つ派生アトムを作成します。
+セレクター関数は元のアトムが変化するたびに実行され、`equalityFn` が派生値が変化したと報告した場合にのみ派生アトムを更新します。
+デフォルトでは、`equalityFn` は参照等価性ですが、必要に応じて派生値を安定化するためにお気に入りの深い等価比較関数を指定できます。
 
-### Examples
+### 例
 
 ```js
 const defaultPerson = {
@@ -45,39 +42,40 @@ const defaultPerson = {
   },
 }
 
-// Original atom.
+// 元のアトム
 const personAtom = atom(defaultPerson)
 
-// Tracks person.name. Updated when person.name object changes, even
-// if neither name.first nor name.last actually change.
+// person.name を追跡します。name.first も name.last も実際には変わらない場合でも、
+// person.name オブジェクトが変化したときに更新されます。
 const nameAtom = selectAtom(personAtom, (person) => person.name)
 
-// Tracks person.birth. Updated when year, month, day, hour, or minute changes.
-// Use of deepEquals means that this atom doesn't update if birth field is
-// replaced with a new object containing the same data. E.g., if person is re-read
-// from a database.
+// person.birth を追跡します。year、month、day、hour、または minute が変化したときに更新されます。
+// deepEquals を使用することで、birth フィールドが同じデータを含む新しいオブジェクトに
+// 置き換えられた場合（例: データベースから person を再読み込みした場合）、
+// このアトムは更新されません。
 const birthAtom = selectAtom(personAtom, (person) => person.birth, deepEquals)
 ```
 
-### Hold stable references
+### 安定した参照を保持する
 
-As always, to prevent an infinite loop when using `useAtom` in render cycle, you must provide `useAtom` a stable reference of your atoms.
-For `selectAtom`, we need **both** the base atom and the selector to be stable.
+いつものように、render サイクルで `useAtom` を使用する際に無限ループを防ぐために、
+`useAtom` に安定したアトムの参照を提供する必要があります。
+`selectAtom` では、ベースアトムとセレクターの**両方**が安定している必要があります。
 
 ```js
-const [value] = useAtom(selectAtom(atom(0), (val) => val)) // So this will cause an infinite loop
+const [value] = useAtom(selectAtom(atom(0), (val) => val)) // これは無限ループを引き起こします
 ```
 
-You have multiple options in order to satisfy these constraints:
+これらの制約を満たすための複数のオプションがあります：
 
 ```js
-const baseAtom = atom(0) // Stable
-const baseSelector = (v) => v // Stable
+const baseAtom = atom(0) // 安定
+const baseSelector = (v) => v // 安定
 const Component = () => {
-  // Solution 1: Memoize the whole resulting atom with "useMemo"
+  // 解決策1：「useMemo」で結果のアトム全体をメモ化
   const [value] = useAtom(useMemo(() => selectAtom(baseAtom, (v) => v), []))
 
-  // Solution 2: Memoize the inline callback with "useCallback"
+  // 解決策2：「useCallback」でインラインコールバックをメモ化
   const [value] = useAtom(
     selectAtom(
       baseAtom,
@@ -85,7 +83,7 @@ const Component = () => {
     ),
   )
 
-  // Solution 3: All constraints are already satisfied
+  // 解決策3：すべての制約がすでに満たされている
   const [value] = useAtom(selectAtom(baseAtom, baseSelector))
 }
 ```

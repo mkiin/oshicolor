@@ -4,14 +4,9 @@ nav: 9.08
 keywords: creators,listeners
 ---
 
-> `atomWithListeners` creates an atom and a hook. The hook can be called to
-> add a new listener. The hook takes as an argument a callback, and that
-> callback is called every time the atom's value is set. The hook also
-> returns a function to remove the listener.
+> `atomWithListeners` はアトムとフックを作成します。フックを呼び出して新しいリスナーを追加できます。フックはコールバックを引数として受け取り、そのコールバックはアトムの値が設定されるたびに呼び出されます。フックはリスナーを削除する関数も返します。
 
-This can be useful when you want to create a component that can listen to when
-an atom's state changes without having to re-render that component with each of
-those state changes.
+これは、アトムの状態変化のたびにコンポーネントを再レンダリングしたくないが、アトムの状態が変わったときに何らかの処理を行いたい場合に便利です。
 
 ```ts
 import { useEffect } from 'react'
@@ -60,7 +55,7 @@ export function atomWithListeners<Value>(initialValue: Value) {
 }
 ```
 
-In a component:
+コンポーネント内での使用：
 
 ```jsx
 const [countAtom, useCountListener] = atomWithListeners(0)
@@ -71,8 +66,8 @@ function EvenCounter() {
   useCountListener(
     useCallback(
       (get, set, newVal, prevVal) => {
-        // Every time `countAtom`'s value is set, we check if its new value
-        // is even, and if it is, we increment `evenCount`.
+        // `countAtom` の値が設定されるたびに、新しい値が偶数かどうかを確認し、
+        // 偶数であれば `evenCount` をインクリメントします。
         if (newVal % 2 === 0) {
           setEvenCount((c) => c + 1)
         }

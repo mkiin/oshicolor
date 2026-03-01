@@ -1,20 +1,18 @@
 ---
 title: Redux
-description: This doc describes Redux extension.
+description: このドキュメントは Redux 拡張について説明します。
 nav: 4.98
 keywords: redux
 published: false
 ---
 
-Jotai's state resides in React, but sometimes it would be nice
-to interact with the world outside React.
+Jotai の状態は React に存在しますが、React 外の世界と連携できると便利な場合があります。
 
-Redux provides a store interface that can be used to store some values
-and sync with atoms in Jotai.
+Redux は値を格納し Jotai のアトムと同期するために使用できるストアインターフェースを提供します。
 
-### Install
+### インストール
 
-You have to install `redux` and `jotai-redux` to use this feature.
+この機能を使用するには `redux` と `jotai-redux` をインストールする必要があります。
 
 ```
 npm install redux jotai-redux
@@ -22,8 +20,8 @@ npm install redux jotai-redux
 
 ## atomWithStore
 
-`atomWithStore` creates a new atom with redux store.
-It's two-way binding and you can change the value from both ends.
+`atomWithStore` は Redux ストアで新しいアトムを作成します。
+双方向バインディングで、両端から値を変更できます。
 
 ```jsx
 import { useAtom } from 'jotai'
@@ -52,6 +50,6 @@ const Counter = () => {
 }
 ```
 
-### Examples
+### 例
 
 <Stackblitz id="vitejs-vite-qqsnwc" file="src%2FApp.tsx" />

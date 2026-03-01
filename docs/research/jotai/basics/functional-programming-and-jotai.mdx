@@ -1,12 +1,11 @@
 ---
-title: Functional programming and Jotai
+title: 関数型プログラミングと Jotai
 nav: 7.04
 ---
 
-### Unexpected similarities
+### 予期せぬ類似性
 
-If you look at getter functions long enough, you may see a striking resemblance
-to a certain JavaScript language feature.
+getter 関数をじっくり見ていると、ある JavaScript 言語機能との驚くべき類似性に気づくかもしれません。
 
 ```tsx
 const nameAtom = atom('Visitor')
@@ -22,7 +21,7 @@ const greetingAtom = atom((get) => {
 })
 ```
 
-Compare that code with `async`–`await`:
+このコードを `async`–`await` と比較してみてください。
 
 ```tsx
 const namePromise = Promise.resolve('Visitor')
@@ -38,24 +37,16 @@ const greetingPromise = (async function () {
 })()
 ```
 
-This similarity is no coincidence. Both atoms and promises are **Monads**†, a
-concept from functional programming. The syntax used in both `greetingAtom` and
-`greetingPromise` is known as **do-notation**, a syntax sugar for the plainer
-monad interface.
+この類似性は偶然ではありません。アトムも Promise も、関数型プログラミングの概念である**モナド**†です。`greetingAtom` と `greetingPromise` の両方で使われている構文は、よりプレーンなモナドインターフェースの糖衣構文である **do記法** として知られています。
 
-### About monads
+### モナドについて
 
-The monad interface is responsible for the fluidity of the atom and promise
-interfaces. The monad interface allowed us to define `greetingAtom` in terms of
-`nameAtom` and `countAtom`, and allowed us to define `greetingPromise` in terms
-of `namePromise` and `countPromise`.
+モナドインターフェースは、アトムと Promise インターフェースの流動性を担っています。モナドインターフェースにより、`nameAtom` と `countAtom` を使って `greetingAtom` を定義し、`namePromise` と `countPromise` を使って `greetingPromise` を定義することが可能になります。
 
-If you're curious, a structure (like `Atom` or `Promise`) is a monad if you can
-implement the following functions for it. A fun exercise is trying to implement
-`of`, `map` and `join` for Arrays.
+興味があれば、ある構造（`Atom` や `Promise` など）がモナドであるには、以下の関数を実装できる必要があります。Arrays に対して `of`、`map`、`join` を実装してみるのは楽しい演習です。
 
 ```ts
-type SomeMonad<T> = /* for example... */ Array<T>
+type SomeMonad<T> = /* 例えば... */ Array<T>
 declare function of<T>(plainValue: T): SomeMonad<T>
 declare function map<T, V>(
   anInstance: SomeMonad<T>,
@@ -64,16 +55,11 @@ declare function map<T, V>(
 declare function join<T>(nestedInstances: SomeMonad<SomeMonad<T>>): SomeMonad<T>
 ```
 
-The shared heritage of Promises and Atoms means many patterns and best-practices
-can be reused between them. Let's take a look at one.
+Promise とアトムの共通の起源は、多くのパターンとベストプラクティスをそれらの間で再利用できることを意味します。一つ見てみましょう。
 
-### Sequencing
+### シーケンシング
 
-When talking about callback hell, we often mention the boilerplate, the
-indentation and the easy-to-miss mistakes. However, plumbing a single async
-operation into another single async operation was not the end of the callback
-struggle. What if we made four network calls and needed to wait for them all?
-A snippet like this was common:
+コールバック地獄について話すとき、ボイラープレート、インデント、見落としやすいミスについてよく言及します。しかし、一つの非同期操作を別の非同期操作につなげることだけがコールバックの苦労ではありませんでした。4つのネットワーク呼び出しをして、すべてを待つ必要があったらどうでしょうか？このようなスニペットが一般的でした：
 
 ```ts
 const nPending = 4
@@ -82,23 +68,18 @@ function callback(err, data) {
   if (err) throw err
   results.push(data)
   if (results.length === nPending) {
-    // do something with results...
+    // results で何かをする...
   }
 }
 ```
 
-But what if the results have different types? and the order was important? Well,
-we'd have a lot more frustrating work to do! This logic would be duplicated at
-each usage, and would be easy to mess up. Since ES6, we simply call `Promise.all`:
+しかし、結果が異なる型で、順序が重要だったら？さらに多くの面倒な作業が必要になります！このロジックは各使用箇所で重複し、間違えやすくなります。ES6 以降は単純に `Promise.all` を呼び出せます：
 
 ```ts
 declare function promiseAll<T>(promises: Array<Promise<T>>): Promise<Array<T>>
 ```
 
-`Promise.all` "rearranges" `Array` and `Promise`. It turns out this concept,
-_sequencing_, can be implemented for all monad–_Traversable_ pairs. Many kinds
-of collections are Traversables, including Arrays. For example, this is a case
-of sequencing specialized for atoms and arrays:
+`Promise.all` は `Array` と `Promise` を「再配置」します。この概念、_シーケンシング_ は、すべてのモナド-_Traversable_ ペアで実装できます。Arrays を含む多くの種類のコレクションが Traversable です。例えば、これはアトムと配列に特化したシーケンシングの例です：
 
 ```ts
 function sequenceAtomArray<T>(atoms: Array<Atom<T>>): Atom<Array<T>> {
@@ -106,29 +87,21 @@ function sequenceAtomArray<T>(atoms: Array<Atom<T>>): Atom<Array<T>> {
 }
 ```
 
-### Culmination
+### まとめ
 
-Monads have been an interest to mathematicians for 60 years, and to programmers
-for 40. There are many resources out there on patterns for monads. Take a look
-at them! Here are a select few:
+モナドは60年間数学者の関心事であり、40年間プログラマーの関心事でした。モナドのパターンに関する多くのリソースがあります。ぜひ見てみてください！いくつか選んで紹介します：
 
-- [_Inventing Monads_](https://stopa.io/post/247) by Stepan Parunashvili
-- [_How Monads Solve Problems_](https://thatsnomoon.dev/posts/ts-monads/) by ThatsNoMoon
-- Wiki page [list of monad tutorials](https://wiki.haskell.org/Monad_tutorials_timeline)
-- [Typeclassopedia](https://wiki.haskell.org/Typeclassopedia) (for the curious)
+- Stepan Parunashvili による [_Inventing Monads_](https://stopa.io/post/247)
+- ThatsNoMoon による [_How Monads Solve Problems_](https://thatsnomoon.dev/posts/ts-monads/)
+- Wiki ページ [モナドチュートリアルのリスト](https://wiki.haskell.org/Monad_tutorials_timeline)
+- [Typeclassopedia](https://wiki.haskell.org/Typeclassopedia)（好奇心旺盛な方向け）
 
-Learning a neat trick on using promises may well translate to atoms, as
-`Promise.all` and `sequenceAtomArray` did. Monads are not magic, just unusually
-useful, and a tool worth knowing.
+Promise に関する巧みなトリックを学ぶことで、`Promise.all` と `sequenceAtomArray` が示したように、アトムにも活かせます。モナドは魔法ではなく、ただ珍しく有用であり、知る価値のあるツールです。
 
 ---
 
-_Notes_
+_注記_
 
-**[†]** The ES6 Promise is not a completely valid monad because it cannot nest other
-Promises, e.g. `Promise<Promise<number>>` is semantically equivalent to
-`Promise<number>`. This is why Promises only have a `.then`, and not both a
-`.map` and `.flatMap`. ES6 Promises are probably more properly described as
-"monadic" rather than as monads.
+**[†]** ES6 の Promise は、`Promise<Promise<number>>` が意味的に `Promise<number>` と等価であるなど、他の Promise をネストできないため、完全に有効なモナドではありません。そのため Promise は `.then` だけを持ち、`.map` と `.flatMap` の両方を持ちません。ES6 Promise はモナドではなく「モナド的」と表現するのが適切かもしれません。
 
-Unlike ES6 Promises, the ES6 Array is a completely lawful monad.
+ES6 Array とは異なり、ES6 の Array は完全に合法的なモナドです。

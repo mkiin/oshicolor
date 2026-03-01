@@ -1,25 +1,24 @@
 ---
 title: Core internals
-description: A simplified version of the core implementation
+description: コア実装の簡略版
 nav: 8.10
 ---
 
-This guide is beneficial for those who want to understand the core implementation of Jotai. It's not meant to be a complete example of the
-core implementation but rather a simplified version. It's inspired by the collection of tweets by Daishi Kato([@dai_shi](https://twitter.com/dai_shi)).
+このガイドは Jotai のコア実装を理解したい方に役立ちます。コア実装の完全な例ではなく、簡略版です。Daishi Kato（[@dai_shi](https://twitter.com/dai_shi)）のツイートコレクションに触発されています。
 
-### First Version
+### 第1バージョン
 
-Let's start with an easy example. An atom is just a function that will return a configuration object. We are using WeakMap to map atom with their state.
-WeakMap doesn't keep its keys in memory, so if an atom is garbage collected, its state will be garbage collected too. This helps avoid memory leaks.
+簡単な例から始めましょう。アトムはコンフィグオブジェクトを返す単なる関数です。アトムとその状態をマッピングするために WeakMap を使用しています。
+WeakMap はキーをメモリに保持しないため、アトムがガベージコレクションされると、その状態もガベージコレクションされます。これによりメモリリークを防ぐことができます。
 
 ```js
 import { useState, useEffect } from 'react'
 
-// atom function returns a config object which contains initial value
+// atom 関数は初期値を含むコンフィグオブジェクトを返します
 export const atom = (initialValue) => ({ init: initialValue })
 
-// we need to keep track of the state of the atom.
-// we are using weakmap to avoid memory leaks
+// アトムの状態を追跡する必要があります
+// メモリリークを避けるために WeakMap を使用します
 const atomStateMap = new WeakMap()
 const getAtomState = (atom) => {
   let atomState = atomStateMap.get(atom)
@@ -30,16 +29,15 @@ const getAtomState = (atom) => {
   return atomState
 }
 
-// useAtom hook returns a tuple of the current value
-// and a function to update the atom's value
+// useAtom フックは現在の値とアトムの値を更新する関数のタプルを返します
 export const useAtom = (atom) => {
   const atomState = getAtomState(atom)
   const [value, setValue] = useState(atomState.value)
   useEffect(() => {
     const callback = () => setValue(atomState.value)
 
-    // same atom can be used at multiple components, so we need to
-    // keep listening for atom's state change till component is unmounted.
+    // 同じアトムが複数のコンポーネントで使用される可能性があるため、
+    // コンポーネントがアンマウントされるまでアトムの状態変化を監視し続ける必要があります
     atomState.listeners.add(callback)
     callback()
     return () => atomState.listeners.delete(callback)
@@ -48,7 +46,7 @@ export const useAtom = (atom) => {
   const setAtom = (nextValue) => {
     atomState.value = nextValue
 
-    // let all the subscribed components know that the atom's state has changed
+    // サブスクライブしているすべてのコンポーネントにアトムの状態が変化したことを通知します
     atomState.listeners.forEach((l) => l())
   }
 
@@ -56,19 +54,19 @@ export const useAtom = (atom) => {
 }
 ```
 
-Here's an example using our simplified atom implementation. [Counter example](https://codesandbox.io/s/zealous-field-z2xk6?file=/src/App.js)
+簡略版のアトム実装を使った例があります。[カウンターの例](https://codesandbox.io/s/zealous-field-z2xk6?file=/src/App.js)
 
-Ref tweet: [Demystifying the internal of jotai](https://twitter.com/dai_shi/status/1484835169475653634)
+参考ツイート：[Demystifying the internal of jotai](https://twitter.com/dai_shi/status/1484835169475653634)
 
-### Second Version
+### 第2バージョン
 
-Hang on! We can do better. In Jotai, we can create derived atom. A derived atom is an atom that depends on other atoms.
+もっとうまくできます！Jotai では派生アトムを作成できます。派生アトムは他のアトムに依存するアトムです。
 
 ```js
 const priceAtom = atom(10)
 const readOnlyAtom = atom((get) => get(priceAtom) * 2)
 const writeOnlyAtom = atom(
-  null, // it's a convention to pass `null` for the first argument
+  null, // 第1引数に `null` を渡すのが慣例です
   (get, set, args) => {
     set(priceAtom, get(priceAtom) - args)
   },
@@ -77,13 +75,13 @@ const readWriteAtom = atom(
   (get) => get(priceAtom) * 2,
   (get, set, newPrice) => {
     set(priceAtom, newPrice / 2)
-    // you can set as many atoms as you want at the same time
+    // 同時に好きなだけアトムをセットできます
   },
 )
 ```
 
-To keep track of all the dependents, we need to add one more property to the atom's state. Let's say atom X depends on atom Y,
-so when we update atom Y, we also update atom X. This is called dependency tracking.
+すべての依存先を追跡するために、アトムの状態にもう1つのプロパティを追加する必要があります。アトム X がアトム Y に依存するとすると、
+アトム Y を更新するとアトム X も更新されます。これを依存関係追跡と呼びます。
 
 ```js
 const atomState = {
@@ -93,7 +91,7 @@ const atomState = {
 }
 ```
 
-We now need to create functions for reading and writing an atom that can handle updating dependent atoms' state.
+依存アトムの状態更新を処理できるアトムの読み書き関数を作成する必要があります。
 
 ```js
 import { useState, useEffect } from 'react'
@@ -105,13 +103,13 @@ export const atom = (read, write) => {
   const config = {
     init: read,
 
-    // get in the read function is to read the atom value.
-    // It's reactive and read dependencies are tracked.
+    // read 関数の get はアトムの値を読み取るためのものです
+    // リアクティブで読み取りの依存関係が追跡されます
     read: (get) => get(config),
 
-    // get in the write function is also to read atom value, but it's not tracked.
-    // set in the write function is to write atom value and
-    // it will invoke the write function of the target atom.
+    // write 関数の get もアトムの値を読み取りますが、追跡されません
+    // write 関数の set はアトムの値を書き込み、
+    // 対象アトムの write 関数を呼び出します
     write:
       write ||
       ((get, set, arg) => {
@@ -125,7 +123,7 @@ export const atom = (read, write) => {
   return config
 }
 
-// same as above but the state has one extra property: dependents
+// 上記と同じですが、状態に dependents プロパティが追加されています
 const atomStateMap = new WeakMap()
 const getAtomState = (atom) => {
   let atomState = atomStateMap.get(atom)
@@ -140,9 +138,9 @@ const getAtomState = (atom) => {
   return atomState
 }
 
-// If atom is primitive, we return it's value.
-// If atom is derived, we read the parent atom's value
-// and add current atom to parent's the dependent set (recursively).
+// アトムがプリミティブの場合、その値を返します
+// アトムが派生の場合、親アトムの値を読み取り、
+// 現在のアトムを親の dependent セットに追加します（再帰的に）
 const readAtom = (atom) => {
   const atomState = getAtomState(atom)
   const get = (a) => {
@@ -150,16 +148,16 @@ const readAtom = (atom) => {
       return atomState.value
     }
     const aState = getAtomState(a)
-    aState.dependents.add(atom) // XXX add only
-    return readAtom(a) // XXX no caching
+    aState.dependents.add(atom) // XXX 追加のみ
+    return readAtom(a) // XXX キャッシュなし
   }
   const value = atom.read(get)
   atomState.value = value
   return value
 }
 
-// if atomState is modified, we need to notify all the dependent atoms (recursively)
-// now run callbacks for all the components that are dependent on this atom
+// atomState が変更された場合、すべての依存アトムを通知する必要があります（再帰的に）
+// このアトムに依存しているすべてのコンポーネントのコールバックを実行します
 const notify = (atom) => {
   const atomState = getAtomState(atom)
   atomState.dependents.forEach((d) => {
@@ -168,18 +166,18 @@ const notify = (atom) => {
   atomState.listeners.forEach((l) => l())
 }
 
-// writeAtom calls atom.write with the necessary params and triggers notify function
+// writeAtom は必要なパラメータで atom.write を呼び出し、notify 関数をトリガーします
 const writeAtom = (atom, value) => {
   const atomState = getAtomState(atom)
 
-  // 'a' is some atom from atomStateMap
+  // 'a' は atomStateMap の何らかのアトムです
   const get = (a) => {
     const aState = getAtomState(a)
     return aState.value
   }
 
-  // if 'a' is the same as atom, update the value, notify that atom and return
-  // else calls writeAtom for 'a' (recursively)
+  // 'a' が atom と同じ場合、値を更新し、そのアトムを通知して返します
+  // そうでなければ 'a' の writeAtom を呼び出します（再帰的に）
   const set = (a, v) => {
     if (a === atom) {
       atomState.value = v
@@ -208,6 +206,6 @@ export const useAtom = (atom) => {
 }
 ```
 
-Here is an example using our derived atom implementation. [Derived counter example](https://codesandbox.io/s/affectionate-chandrasekhar-nuxms?file=/src/App.js)
+派生アトムの実装を使った例があります。[派生カウンターの例](https://codesandbox.io/s/affectionate-chandrasekhar-nuxms?file=/src/App.js)
 
-Ref tweet: [Supporting derived atoms](https://twitter.com/dai_shi/status/1485434083778117632)
+参考ツイート：[Supporting derived atoms](https://twitter.com/dai_shi/status/1485434083778117632)

@@ -4,11 +4,11 @@ nav: 9.05
 keywords: creators,compare
 ---
 
-> `atomWithCompare` creates atom that triggers updates when custom compare function `areEqual(prev, next)` is false.
+> `atomWithCompare` は、カスタム比較関数 `areEqual(prev, next)` が false を返した場合にのみ更新をトリガーするアトムを作成します。
 
-This can help you avoid unwanted re-renders by ignoring state changes that don't matter to your application.
+アプリケーションにとって重要でない状態変更を無視することで、不要な再レンダリングを防ぐのに役立ちます。
 
-Note: Jotai uses `Object.is` internally to compare values when changes occur. If `areEqual(a, b)` returns false, but `Object.is(a, b)` returns true, Jotai will not trigger an update.
+注意：Jotai は変更が発生した際に内部的に `Object.is` を使って値を比較します。`areEqual(a, b)` が false を返しても、`Object.is(a, b)` が true を返す場合、Jotai は更新をトリガーしません。
 
 ```ts
 import { atomWithReducer } from 'jotai/utils'
@@ -27,7 +27,7 @@ export function atomWithCompare<Value>(
 }
 ```
 
-Here's how you'd use it to make an atom that ignores updates that are shallow-equal:
+シャロー等価の更新を無視するアトムを作成するための使用例：
 
 ```ts
 import { atomWithCompare } from 'XXX'
@@ -40,7 +40,7 @@ const styleAtom = atomWithCompare<CSSProperties>(
 )
 ```
 
-In a component:
+コンポーネント内での使用：
 
 ```jsx
 const StylePreview = () => {
@@ -50,12 +50,12 @@ const StylePreview = () => {
     <div>
       <div styles={styles}>Style preview</div>
 
-      {/* Clicking this button twice will only trigger one render */}
+      {/* このボタンを2回クリックしても1回しかレンダリングされません */}
       <button onClick={() => setStyles({ ...styles, backgroundColor: 'red' })}>
         Set background to red
       </button>
 
-      {/* Clicking this button twice will only trigger one render */}
+      {/* このボタンを2回クリックしても1回しかレンダリングされません */}
       <button onClick={() => setStyles({ ...styles, fontSize: 32 })}>
         Enlarge font
       </button>

@@ -1,14 +1,14 @@
 ---
-title: Large objects
+title: 大規模オブジェクト
 nav: 9.01
 keywords: large,object
 ---
 
-> The examples and descriptions below are based on this [codesandbox](https://codesandbox.io/s/zealous-sun-f2qnl?file=/src/App.tsx), so it will give you a better understanding if you check it out along with these examples.
+> 以下の例と説明は、この [codesandbox](https://codesandbox.io/s/zealous-sun-f2qnl?file=/src/App.tsx) に基づいています。例と合わせて確認するとより理解が深まります。
 
-Sometimes we have nested data we need to store in atoms, and we may need to change that data at different levels, or we need to use part of that data without listening to all changes.
+アトムに格納する必要のあるネストされたデータがある場合、異なるレベルでそのデータを変更したり、すべての変更をリッスンせずにデータの一部を使用したりする必要があることがあります。
 
-Consider this example:
+次の例を考えてみましょう：
 
 ```js
 const initialData = {
@@ -42,9 +42,9 @@ const initialData = {
 
 ## focusAtom
 
-> `focusAtom` creates a new atom, based on the focus that you pass to it. [jotai-optics](../extensions/optics.mdx#focusatom)
+> `focusAtom` は、渡したフォーカスに基づいて新しいアトムを作成します。[jotai-optics](../extensions/optics.mdx#focusatom)
 
-We use this utility to focus an atom and create an atom from a specific part of the data. For example we may need to consume the people property of the above data, Here's how we do it:
+このユーティリティを使ってアトムをフォーカスし、データの特定の部分からアトムを作成します。例えば、上のデータの `people` プロパティを使用する必要がある場合は次のようにします：
 
 ```js
 import { atom } from 'jotai'
@@ -55,15 +55,15 @@ const dataAtom = atom(initialData)
 const peopleAtom = focusAtom(dataAtom, (optic) => optic.prop('people'))
 ```
 
-`focusAtom` returns `WritableAtom` which means it's possible to change the `peopleAtom` data.
+`focusAtom` は `WritableAtom` を返すため、`peopleAtom` のデータを変更することも可能です。
 
-If we change the `films` property of the above data example, the `peopleAtom` won't cause a re-render, so that's one of the benefits of using `focusAtom`.
+上のデータ例の `films` プロパティを変更しても `peopleAtom` は再レンダリングを引き起こしません。これが `focusAtom` を使用する利点の1つです。
 
 ## splitAtom
 
-> The `splitAtom` utility is useful when you want to get an atom for each element in a list. [jotai/utils](../utilities/split.mdx)
+> `splitAtom` ユーティリティは、リスト内の各要素に対してアトムを取得したい場合に便利です。[jotai/utils](../utilities/split.mdx)
 
-We use this utility for atoms that return arrays as their values. For example, the `peopleAtom` we made above returns the people property array, so we can return an atom for each item of that array. If the array atom is writable, `splitAtom` returned atoms are going to be writable, if the array atom is read-only, the returned atoms will be read-only too.
+配列を値として返すアトムに対してこのユーティリティを使用します。例えば、上で作成した `peopleAtom` は people プロパティの配列を返すため、その配列の各アイテムに対してアトムを返せます。配列アトムが書き込み可能な場合、`splitAtom` が返すアトムも書き込み可能になります。読み取り専用の配列アトムの場合、返されるアトムも読み取り専用になります。
 
 ```js
 import { splitAtom } from 'jotai/utils'
@@ -71,7 +71,7 @@ import { splitAtom } from 'jotai/utils'
 const peopleAtomsAtom = splitAtom(peopleAtom)
 ```
 
-And this is how we use it in components.
+コンポーネント内での使用例：
 
 ```jsx
 const People = () => {
@@ -88,18 +88,18 @@ const People = () => {
 
 ## selectAtom
 
-> This function creates a derived atom whose value is a function of the original atom's value. [jotai/utils](../utilities/select.mdx)
+> この関数は、元のアトムの値の関数として値を持つ派生アトムを作成します。[jotai/utils](../utilities/select.mdx)
 
-This utility is like `focusAtom`, but it always returns a read-only atom.
+このユーティリティは `focusAtom` に似ていますが、常に読み取り専用のアトムを返します。
 
-Assume we want to consume the info data, and its data is always unchangeable. We can make a read-only atom from it and select that created atom.
+`info` データを使用し、そのデータが常に変更不可能だとします。そこから読み取り専用のアトムを作成し、そのアトムを選択します。
 
 ```js
-// first we create a derived atom based on initialData.info
+// まず initialData.info に基づいた派生アトムを作成します
 const infoAtom = atom((get) => get(dataAtom).info)
 ```
 
-Then we use it in our component:
+コンポーネント内での使用例：
 
 ```jsx
 import { atom, useAtom } from 'jotai'

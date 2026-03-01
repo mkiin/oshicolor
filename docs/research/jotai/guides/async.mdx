@@ -1,52 +1,52 @@
 ---
 title: Async
-description: This doc describes about the behavior with async.
+description: 非同期時の動作についてのドキュメントです。
 nav: 8.99
 keywords: async
 published: false
 ---
 
-Using async atoms, you gain access to real-world data while still managing them directly from your atoms and with incredible ease.
+非同期アトムを使用すると、アトムから直接管理しながら、信じられないほど簡単に実際のデータにアクセスできます。
 
-We can separate them in two main categories:
+大きく2つのカテゴリに分けられます：
 
-- Async read atoms: async request is started instantly as soon as you try to get its value. You could relate to them as "smart getters".
-- Async write atoms: async request is started at a specific moment. You could relate to them as "actions".
+- 非同期 read アトム：値を取得しようとした瞬間に非同期リクエストが開始されます。「スマートゲッター」として考えることができます。
+- 非同期 write アトム：特定のタイミングで非同期リクエストが開始されます。「アクション」として考えることができます。
 
-## Async read atom
+## 非同期 read アトム
 
-The `read` function of an atom can return a promise.
+アトムの `read` 関数は Promise を返すことができます。
 
 ```js
 const countAtom = atom(1)
 const asyncAtom = atom(async (get) => get(countAtom) * 2)
 ```
 
-Jotai is inherently leveraging `Suspense` to handle asynchronous flows.
+Jotai は本質的に `Suspense` を活用して非同期フローを処理します。
 
 ```jsx
 const ComponentUsingAsyncAtoms = () => {
   const [num] = useAtom(asyncAtom)
-  // here `num` is always `number` even though asyncAtom returns a Promise
+  // ここで `num` は asyncAtom が Promise を返すにもかかわらず、常に `number` です
 }
 const App = () => {
   return (
-    <Suspense fallback={/* What to show while suspended */}>
+    <Suspense fallback={/* サスペンド中に表示するもの */}>
       <ComponentUsingAsyncAtoms />
     </Suspense>
   )
 }
 ```
 
-Alternatively, you could avoid the inherent suspending that Jotai does for you, by wrapping your atoms with the [`loadable` API](../utilities/async.mdx).
+あるいは、アトムを [`loadable` API](../utilities/async.mdx) でラップすることで、Jotai が行う固有のサスペンドを避けることができます。
 
-If another atom uses an async atom, it will return a promise. So, we need to make the atom also async.
+別のアトムが非同期アトムを使用する場合、Promise を返します。そのため、そのアトムも非同期にする必要があります。
 
 ```js
 const anotherAtom = atom(async (get) => (await get(asyncAtom)) / 2)
 ```
 
-This also applies to an atom with write function.
+これは write 関数を持つアトムにも適用されます。
 
 ```js
 const asyncAtom = atom(async (get) => ...)
@@ -56,14 +56,14 @@ const writeAtom = atom(null, async (get, set, payload) => {
 })
 ```
 
-## Async write atom
+## 非同期 write アトム
 
-Async write atoms are another kind of async atom. When the `write` function of atom returns a promise.
+非同期 write アトムは別の種類の非同期アトムです。アトムの `write` 関数が Promise を返す場合です。
 
 ```js
 const countAtom = atom(1)
 const asyncIncrementAtom = atom(null, async (get, set) => {
-  // await something
+  // 何かを await する
   set(countAtom, get(countAtom) + 1)
 })
 
@@ -76,9 +76,9 @@ const Component = () => {
 }
 ```
 
-## Async sometimes
+## 時々非同期
 
-An interesting pattern that can be achieved with Jotai is switching from async to sync to trigger suspending when wanted.
+Jotai で実現できる興味深いパターンは、必要なときにサスペンドをトリガーするために非同期から同期に切り替えることです。
 
 ```js
 const request = async () => fetch('https://...').then((res) => res.json())
@@ -86,37 +86,37 @@ const baseAtom = atom(0)
 const Component = () => {
   const [value, setValue] = useAtom(baseAtom)
   const handleClick = () => {
-    setValue(request()) // Will suspend until request resolves
+    setValue(request()) // リクエストが解決するまでサスペンドします
   }
   // ...
 }
 ```
 
-### Usage in TypeScript
+### TypeScript での使用
 
-In TypeScript `atom(0)` is inferred as `PrimitiveAtom<number>`. It cannot accept `Promise<number>` as a value so preceding code would not typecheck. To accommodate for that you need to type your atom explicitly and add `Promise<number>` as accepted value.
+TypeScript では `atom(0)` は `PrimitiveAtom<number>` として推論されます。`Promise<number>` を値として受け入れることができないため、上記のコードは型チェックを通過しません。これに対応するには、アトムを明示的に型付けして `Promise<number>` を許容値として追加する必要があります。
 
 ```ts
-const baseAtom = atom<number | Promise<number>>(0) // Will accept sync and async values
+const baseAtom = atom<number | Promise<number>>(0) // 同期・非同期の両方の値を受け入れます
 ```
 
-## Async forever
+## 永遠に非同期
 
-Sometimes you may want to suspend until an unpredetermined moment (or never).
+不確定な時点（または永遠に）までサスペンドしたい場合があります。
 
 ```js
-const baseAtom = atom(new Promise(() => {})) // Will be suspend until set otherwise
+const baseAtom = atom(new Promise(() => {})) // 別途セットされるまでサスペンドします
 ```
 
 ## Suspense
 
-Async support is first class in Jotai. It fully leverages React Suspense at its core.
+非同期サポートは Jotai のファーストクラス機能です。コアで React Suspense を完全に活用します。
 
-> Technically, Suspense usage other than React.lazy is still unsupported / undocumented in React 17. If this is blocking, so you can still use the [`loadable` API](../utilities/async.mdx) to avoid suspending
+> 技術的には、React.lazy 以外での Suspense の使用は React 17 では未サポート・未ドキュメントです。これが問題になる場合でも、サスペンドを避けるために [`loadable` API](../utilities/async.mdx) を使用できます。
 
-To use async atoms, you need to wrap your component tree with `<Suspense>`.
+非同期アトムを使用するには、コンポーネントツリーを `<Suspense>` でラップする必要があります。
 
-> If you have a `<Provider>`, place **at least one** `<Suspense>` inside said `<Provider>`; otherwise, it may cause an endless loop while rendering the components.
+> `<Provider>` がある場合は、その `<Provider>` 内に**少なくとも1つ**の `<Suspense>` を配置してください。そうしないと、コンポーネントレンダリング中に無限ループが発生する可能性があります。
 
 ```jsx
 const App = () => (
@@ -128,4 +128,4 @@ const App = () => (
 )
 ```
 
-Having more `<Suspense>`s in the component tree is also possible and must be considered to profit from Jotai inherent handling at best.
+コンポーネントツリーに複数の `<Suspense>` を持つことも可能であり、Jotai の組み込み処理を最大限に活用するために検討すべきです。

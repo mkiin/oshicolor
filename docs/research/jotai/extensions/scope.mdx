@@ -1,31 +1,30 @@
 ---
 title: Scope
-description: This doc describes scope extension.
+description: このドキュメントは scope 拡張について説明します。
 nav: 4.08
 keywords: scope
 ---
 
-There are a few libraries to extend Jotai's usage in React.
+React での Jotai の使用を拡張するライブラリがいくつかあります。
 
 ## `jotai-scope`
 
-While Jotai's Provider allows to scope Jotai's store under a subtree,
-we can't use the store above the tree within the subtree.
+Jotai の Provider はサブツリー下で Jotai のストアをスコープできますが、
+サブツリー内でそのツリーより上のストアは使用できません。
 
-A workaround is to use `store` option in useAtom and other hooks.
+回避策として、useAtom や他のフックで `store` オプションを使用する方法があります。
 
-Instead of specifying the `store` option,
-`<ScopeProvider>` lets you reuse the _same_ atoms in different parts
-of the React tree **without sharing state** while still being able to
-read other atoms from the parent store.
+`store` オプションを指定する代わりに、
+`<ScopeProvider>` は React ツリーの異なる部分で**状態を共有せずに**同じアトムを再利用しつつ、
+親ストアから他のアトムを読み取ることができます。
 
-### Install
+### インストール
 
 ```
 npm install jotai-scope
 ```
 
-### Counter Example
+### カウンターの例
 
 ```tsx
 import { atom, useAtom } from 'jotai'
@@ -70,16 +69,15 @@ function App() {
 
 ## `createIsolation`
 
-Both Jotai's Provider and `jotai-scope`'s scoped provider
-are still using global contexts.
+Jotai の Provider と `jotai-scope` のスコープされた Provider の両方は、
+まだグローバルコンテキストを使用しています。
 
-If you are developing a library that depends on Jotai and
-the library user may use Jotai separately in their apps,
-they can share the same context. This can be troublesome
-because they point to unexpected Jotai stores.
+Jotai に依存するライブラリを開発していて、
+ライブラリのユーザーがアプリで Jotai を別途使用する可能性がある場合、
+同じコンテキストを共有する可能性があります。これにより、予期しない Jotai ストアを指す可能性があり、問題が発生することがあります。
 
-To avoid conflicting the contexts,
-a utility function called `createIsolation` is exported from `jotai-scope`.
+コンテキストの競合を避けるために、
+`jotai-scope` から `createIsolation` というユーティリティ関数がエクスポートされています。
 
 ```tsx
 import { createIsolation } from 'jotai-scope'
@@ -96,27 +94,26 @@ function Library() {
 }
 ```
 
-## `bunshi` (formerly `jotai-molecules`)
+## `bunshi`（旧 `jotai-molecules`）
 
-Jotai atoms provide a basic solution to optimize re-renders.
-Atoms defined globally can depend on other atoms,
-but they can't depend on props and state within a component tree.
-It's possible to define atoms within a component tree,
-but then you would need to pass those atoms in some ways
-(for example, [atoms-in-atom](../guides/atoms-in-atom.mdx).)
+Jotai アトムは再レンダリングを最適化するための基本的なソリューションを提供します。
+グローバルに定義されたアトムは他のアトムに依存できますが、
+コンポーネントツリー内の props や状態には依存できません。
+コンポーネントツリー内でアトムを定義することは可能ですが、
+それらのアトムを何らかの方法で渡す必要があります
+（例：[atoms-in-atom](../guides/atoms-in-atom.mdx)）。
 
-[bunshi](https://github.com/saasquatch/bunshi) is
-a third-party library to help such use cases.
+[bunshi](https://github.com/saasquatch/bunshi) はそのようなユースケースを支援するサードパーティライブラリです。
 
-See [Motivation](https://github.com/saasquatch/bunshi/tree/v1.1.1#motivation) for more details.
+詳細については [モチベーション](https://github.com/saasquatch/bunshi/tree/v1.1.1#motivation) を参照してください。
 
-### Install
+### インストール
 
 ```
 npm install bunshi
 ```
 
-### Counter Example
+### カウンターの例
 
 ```jsx
 import { atom, useAtom } from 'jotai'

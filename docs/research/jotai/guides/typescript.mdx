@@ -1,29 +1,29 @@
 ---
 title: TypeScript
-description: How to use Jotai with TypeScript
+description: Jotai を TypeScript で使用する方法
 nav: 8.02
 keywords: typescript,types
 ---
 
-### Version requirement
+### バージョン要件
 
-Jotai uses TypeScript 3.8+ syntax. Upgrade your TypeScript version if you're on 3.7.5 or lower.
+Jotai は TypeScript 3.8+ の構文を使用します。3.7.5 以下の場合は TypeScript のバージョンをアップグレードしてください。
 
-Jotai relies heavily on type inferences and requires `strictNullChecks` to be enabled. Consider adding `"strict": true` in your tsconfig.json.
+Jotai は型推論に大きく依存しており、`strictNullChecks` を有効にする必要があります。tsconfig.json に `"strict": true` を追加することを検討してください。
 [#550](https://github.com/pmndrs/jotai/issues/550)
 [#802](https://github.com/pmndrs/jotai/issues/802)
 [#838](https://github.com/pmndrs/jotai/issues/838)
 
-### Notes
+### 注意事項
 
-#### Primitive atoms are basically type inferred
+#### プリミティブアトムは基本的に型推論される
 
 ```ts
-const numAtom = atom(0) // primitive number atom
-const strAtom = atom('') // primitive string atom
+const numAtom = atom(0) // プリミティブな number アトム
+const strAtom = atom('') // プリミティブな string アトム
 ```
 
-### Primitive atoms can be explicitly typed
+### プリミティブアトムは明示的に型付けできる
 
 ```ts
 const numAtom = atom<number>(0)
@@ -31,19 +31,18 @@ const numAtom = atom<number | null>(0)
 const arrAtom = atom<string[]>([])
 ```
 
-#### Derived atoms can mostly have their types inferred
+#### 派生アトムはほとんどの場合型推論できる
 
-In general, this is the recommended approach since typing derived
-atoms can get a little confusing, particularly for those who are
-doing it for the first time.
+一般的に、特に初めて行う方にとって派生アトムの型付けは少し複雑になるため、
+これが推奨されるアプローチです。
 
 ```ts
 
-# Read only derived atoms
+# 読み取り専用の派生アトム
 const readOnlyAtom = atom((get) => get(numAtom))
 const asyncReadOnlyAtom = atom(async (get) => await get(someAsyncAtom))
 
-# Write only atoms
+# 書き込み専用アトム
 const writeOnlyAtom = atom(null, (_get, set, str: string) => set(fooAtom, str))
 const multipleArgumentsAtom = atom(
   null,
@@ -51,7 +50,7 @@ const multipleArgumentsAtom = atom(
     set(fooAtom, Math.max(valueOne, valueTwo))
 );
 
-# Read/Write atoms
+# 読み書き可能アトム
 const readWriteAtom = atom(
   (get) => get(strAtom),
   (_get, set, num: number) => set(strAtom, String(num))
@@ -62,21 +61,20 @@ const asyncReadWriteAtom = atom(
 )
 ```
 
-#### Derived atoms can also be explicitly typed
+#### 派生アトムも明示的に型付けできる
 
-If you encounter a situation where you need or want to explicitly
-type your derived atoms, you can do that as well.
+明示的に派生アトムを型付けする必要がある・したい状況では、それも可能です。
 
 ```ts
 const asyncStrAtom = atom<Promise<string>>(async () => 'foo')
 
 /**
- * For write only atoms you'll need to supply three type parameters.
- * The first type parameter describes the value returned from the atom. In the following example this is `null`.
- * The second type parameter describes the arguments (plural) you will pass to the "write" function. Even if you only
- * plan to have one argument, this type must be an array as show in the example.
- * The third type parameter describes the return value of the "write" function. Normally, there is no return value,
- * which is why we use `void` in the example below.
+ * 書き込み専用アトムには3つの型パラメータを指定する必要があります。
+ * 第1型パラメータはアトムから返される値を記述します。以下の例では `null` です。
+ * 第2型パラメータは「write」関数に渡す引数（複数）を記述します。引数が1つだけの場合でも、
+ * 例のように配列である必要があります。
+ * 第3型パラメータは「write」関数の戻り値を記述します。通常は戻り値がないため、
+ * 以下の例では `void` を使用しています。
  */
 const writeOnlyAtom = atom<null, [string, number], void>(
   null,
@@ -84,9 +82,8 @@ const writeOnlyAtom = atom<null, [string, number], void>(
 )
 
 /**
- * Read/Write atoms also take the same three type parameters.
- * Just for the sake of completeness, in this example, we show that the first type parameter
- * can also describe an async atom.
+ * 読み書き可能アトムも同じ3つの型パラメータを取ります。
+ * 完全性のために、この例では第1型パラメータが非同期アトムを記述できることも示しています。
  */
 const readWriteAtom = atom<Promise<string>, [number], void>(
   async (get) => await get(asyncStrAtom),
@@ -94,7 +91,7 @@ const readWriteAtom = atom<Promise<string>, [number], void>(
 )
 ```
 
-#### useAtom is typed based on atom types
+#### useAtom はアトムの型に基づいて型付けされる
 
 ```ts
 const [num, setNum] = useAtom(primitiveNumAtom)
@@ -102,7 +99,7 @@ const [num] = useAtom(readOnlyNumAtom)
 const [, setNum] = useAtom(writeOnlyNumAtom)
 ```
 
-#### Access to the value type of an atom
+#### アトムの値の型へのアクセス
 
 ```ts
 import { ExtractAtomValue, useAtomValue } from 'jotai'

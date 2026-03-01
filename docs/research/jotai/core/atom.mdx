@@ -1,19 +1,19 @@
 ---
 title: atom
-description: This doc describes core `jotai` bundle.
+description: このドキュメントはコアの `jotai` バンドルについて説明します。
 nav: 2.01
 keywords: atom,primitive,derived,debug,label,onmount
 ---
 
 ## atom
 
-The `atom` function is to create an atom config.
-We call it "atom config" as it's just a definition and it doesn't yet hold a value.
-We may also call it just "atom" if the context is clear.
+`atom` 関数はアトムコンフィグを作成するためのものです。
+値をまだ保持していない定義であるため「アトムコンフィグ」と呼びます。
+文脈が明確な場合は単に「アトム」とも呼びます。
 
-An atom config is an immutable object. The atom config object doesn't hold a value. The atom value exists in a store.
+アトムコンフィグはイミュータブルなオブジェクトです。アトムコンフィグオブジェクトは値を保持しません。アトムの値はストアに存在します。
 
-To create a primitive atom (config), all you need is to provide an initial value.
+プリミティブアトム（コンフィグ）を作成するには、初期値を提供するだけです。
 
 ```js
 import { atom } from 'jotai'
@@ -23,24 +23,24 @@ const messageAtom = atom('hello')
 const productAtom = atom({ id: 12, name: 'good stuff' })
 ```
 
-You can also create derived atoms. We have three patterns:
+派生アトムも作成できます。3つのパターンがあります：
 
-- Read-only atom
-- Write-only atom
-- Read-Write atom
+- 読み取り専用アトム
+- 書き込み専用アトム
+- 読み書き可能アトム
 
-To create derived atoms, we pass a read function and an optional write function.
+派生アトムを作成するには、read 関数とオプションの write 関数を渡します。
 
 ```js
 const readOnlyAtom = atom((get) => get(priceAtom) * 2)
 const writeOnlyAtom = atom(
-  null, // it's a convention to pass `null` for the first argument
+  null, // 第1引数に `null` を渡すのが慣例です
   (get, set, update) => {
-    // `update` is any single value we receive for updating this atom
+    // `update` はこのアトムを更新するために受け取る任意の単一値です
     set(priceAtom, get(priceAtom) - update.discount)
-    // or we can pass a function as the second parameter
-    // the function will be invoked,
-    //  receiving the atom's current value as its first parameter
+    // または第2引数に関数を渡すこともできます
+    // その関数が呼び出され、
+    //  アトムの現在値が第1引数として渡されます
     set(priceAtom, (price) => price - update.discount)
   },
 )
@@ -48,26 +48,26 @@ const readWriteAtom = atom(
   (get) => get(priceAtom) * 2,
   (get, set, newPrice) => {
     set(priceAtom, newPrice / 2)
-    // you can set as many atoms as you want at the same time
+    // 同時に好きなだけアトムをセットできます
   },
 )
 ```
 
-`get` in the read function is to read the atom value.
-It's reactive and read dependencies are tracked.
+read 関数の `get` はアトムの値を読み取るためのものです。
+リアクティブであり、読み取りの依存関係が追跡されます。
 
-`get` in the write function is also to read atom value, but it's not tracked.
-Furthermore, it can't read unresolved async values in Jotai v1 API.
+write 関数の `get` もアトムの値を読み取りますが、追跡されません。
+さらに、Jotai v1 API では未解決の非同期値を読み取ることができません。
 
-`set` in the write function is to write atom value.
-It will invoke the write function of the target atom.
+write 関数の `set` はアトムの値を書き込むためのものです。
+対象アトムの write 関数を呼び出します。
 
-### Note about creating an atom in render function
+### render 関数内でのアトム作成に関する注意
 
-Atom configs can be created anywhere, but referential equality is important.
-They can be created dynamically too.
-To create an atom in render function, `useMemo` or `useRef` is required to get a stable reference. If in doubt about using `useMemo` or `useRef` for memoization, use `useMemo`.
-Otherwise, it can cause infinite loop with `useAtom`.
+アトムコンフィグはどこでも作成できますが、参照等価性が重要です。
+動的に作成することもできます。
+render 関数内でアトムを作成するには、安定した参照を得るために `useMemo` または `useRef` が必要です。`useMemo` と `useRef` のどちらを使うか迷った場合は `useMemo` を使用してください。
+そうしないと、`useAtom` で無限ループが発生する可能性があります。
 
 ```js
 const Component = ({ value }) => {
@@ -76,31 +76,31 @@ const Component = ({ value }) => {
 }
 ```
 
-### Signatures
+### シグネチャ
 
 ```ts
-// primitive atom
+// プリミティブアトム
 function atom<Value>(initialValue: Value): PrimitiveAtom<Value>
 
-// read-only atom
+// 読み取り専用アトム
 function atom<Value>(read: (get: Getter) => Value): Atom<Value>
 
-// writable derived atom
+// 書き込み可能な派生アトム
 function atom<Value, Args extends unknown[], Result>(
   read: (get: Getter) => Value,
   write: (get: Getter, set: Setter, ...args: Args) => Result,
 ): WritableAtom<Value, Args, Result>
 
-// write-only derived atom
+// 書き込み専用の派生アトム
 function atom<Value, Args extends unknown[], Result>(
   read: Value,
   write: (get: Getter, set: Setter, ...args: Args) => Result,
 ): WritableAtom<Value, Args, Result>
 ```
 
-- `initialValue`: the initial value that the atom will return until its value is changed.
-- `read`: a function that's evaluated whenever the atom is read. The signature of `read` is `(get) => Value`, and `get` is a function that takes an atom config and returns its value stored in Provider as described below. Dependency is tracked, so if `get` is used for an atom at least once, the `read` will be reevaluated whenever the atom value is changed.
-- `write`: a function mostly used for mutating atom's values, for a better description; it gets called whenever we call the second value of the returned pair of `useAtom`, the `useAtom()[1]`. The default value of this function in the primitive atom will change the value of that atom. The signature of `write` is `(get, set, ...args) => Result`. `get` is similar to the one described above, but it doesn't track the dependency. `set` is a function that takes an atom config and a new value which then updates the atom value in Provider. `...args` is the arguments that we receive when we call `useAtom()[1]`. `Result` is the return value of the `write` function.
+- `initialValue`: 値が変更されるまでアトムが返す初期値。
+- `read`: アトムが読み取られるたびに評価される関数。`read` のシグネチャは `(get) => Value` で、`get` はアトムコンフィグを受け取り、以下に説明するように Provider に格納されたその値を返す関数です。依存関係が追跡されるため、`get` が少なくとも1回アトムに使用されると、アトムの値が変更されるたびに `read` が再評価されます。
+- `write`: 主にアトムの値を変更するために使用される関数。`useAtom` が返すペアの第2値 `useAtom()[1]` を呼び出すたびに呼び出されます。プリミティブアトムにおけるこの関数のデフォルト値はそのアトムの値を変更します。`write` のシグネチャは `(get, set, ...args) => Result` です。`get` は上述のものと同様ですが、依存関係を追跡しません。`set` はアトムコンフィグと新しい値を受け取り、Provider のアトム値を更新する関数です。`...args` は `useAtom()[1]` を呼び出す際に受け取る引数です。`Result` は `write` 関数の戻り値です。
 
 ```js
 const primitiveAtom = atom(initialValue)
@@ -109,38 +109,38 @@ const derivedAtomWithReadWrite = atom(read, write)
 const derivedAtomWithWriteOnly = atom(null, write)
 ```
 
-There are two kinds of atoms: a writable atom and a read-only atom. Primitive atoms are always writable. Derived atoms are writable if the `write` is specified. The `write` of primitive atoms is equivalent to the `setState` of `React.useState`.
+アトムには書き込み可能なアトムと読み取り専用アトムの2種類があります。プリミティブアトムは常に書き込み可能です。派生アトムは `write` が指定されていれば書き込み可能です。プリミティブアトムの `write` は `React.useState` の `setState` と同等です。
 
-### `debugLabel` property
+### `debugLabel` プロパティ
 
-The created atom config can have an optional property `debugLabel`. The debug label is used to display the atom in debugging. See [Debugging guide](../guides/debugging.mdx) for more information.
+作成されたアトムコンフィグはオプションのプロパティ `debugLabel` を持てます。デバッグラベルはデバッグ時にアトムを表示するために使用されます。詳細は[デバッグガイド](../guides/debugging.mdx)を参照してください。
 
-Note: While, the debug labels don’t have to be unique, it’s generally recommended to make them distinguishable.
+注意：デバッグラベルは一意である必要はありませんが、識別可能にすることを一般的に推奨します。
 
-### `onMount` property
+### `onMount` プロパティ
 
-The created atom config can have an optional property `onMount`. `onMount` is a function which takes a function `setAtom` and returns `onUnmount` function optionally.
+作成されたアトムコンフィグはオプションのプロパティ `onMount` を持てます。`onMount` は `setAtom` 関数を受け取り、オプションで `onUnmount` 関数を返す関数です。
 
-The `onMount` function is called when the atom is subscribed in the provider in the first time,
-and `onUnmount` is called when it’s no longer subscribed.
-In some cases (like [React strict mode](https://react.dev/reference/react/StrictMode)),
-an atom can be unmounted and then mounted immediately.
+`onMount` 関数はアトムが初めて Provider でサブスクライブされたときに呼び出され、
+`onUnmount` はサブスクライブされなくなったときに呼び出されます。
+一部のケース（[React strict mode](https://react.dev/reference/react/StrictMode) など）では、
+アトムがアンマウントされた直後に再マウントされることがあります。
 
 ```js
 const anAtom = atom(1)
 anAtom.onMount = (setAtom) => {
   console.log('atom is mounted in provider')
-  setAtom(c => c + 1) // increment count on mount
-  return () => { ... } // return optional onUnmount function
+  setAtom(c => c + 1) // マウント時にカウントをインクリメント
+  return () => { ... } // オプションの onUnmount 関数を返す
 }
 
 const Component = () => {
-  // `onMount` will be called when the component is mounted in the following cases:
+  // 以下のケースでは、コンポーネントのマウント時に `onMount` が呼び出されます：
   useAtom(anAtom)
   useAtomValue(anAtom)
 
-  // however, in the following cases,
-  //  `onMount` will not be called because the atom is not subscribed:
+  // しかし、以下のケースではアトムがサブスクライブされないため、
+  //  `onMount` は呼び出されません：
   useSetAtom(anAtom)
   useAtomCallback(
     useCallback((get) => get(anAtom), []),
@@ -149,7 +149,7 @@ const Component = () => {
 }
 ```
 
-Calling `setAtom` function will invoke the atom’s `write`. Customizing `write` allows changing the behavior.
+`setAtom` 関数を呼び出すとアトムの `write` が呼び出されます。`write` をカスタマイズすることで動作を変更できます。
 
 ```js
 const countAtom = atom(1)
@@ -168,25 +168,25 @@ derivedAtom.onMount = (setAtom) => {
 }
 ```
 
-### Advanced API
+### 高度な API
 
-Since Jotai v2, the `read` function has the second argument `options`.
+Jotai v2 以降、`read` 関数は第2引数 `options` を持ちます。
 
 #### `options.signal`
 
-It uses [AbortController](https://developer.mozilla.org/en-US/docs/Web/API/AbortController) so that you can abort async functions.
-Abort is triggered before new calculation (invoking `read` function) is started.
+[AbortController](https://developer.mozilla.org/en-US/docs/Web/API/AbortController) を使用して、非同期関数を中止できます。
+中止は新しい計算（`read` 関数の呼び出し）が開始される前にトリガーされます。
 
-How to use it:
+使用方法：
 
 ```ts
 const readOnlyDerivedAtom = atom(async (get, { signal }) => {
-  // use signal to abort your function
+  // signal を使用して関数を中止する
 })
 
 const writableDerivedAtom = atom(
   async (get, { signal }) => {
-    // use signal to abort your function
+    // signal を使用して関数を中止する
   },
   (get, set, arg) => {
     // ...
@@ -194,18 +194,18 @@ const writableDerivedAtom = atom(
 )
 ```
 
-The `signal` value is [AbortSignal](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal).
-You can check `signal.aborted` boolean value, or use `abort` event with `addEventListener`.
+`signal` の値は [AbortSignal](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal) です。
+`signal.aborted` のboolean値を確認するか、`addEventListener` で `abort` イベントを使用できます。
 
-For `fetch` use case, we can simply pass `signal`.
+`fetch` のユースケースでは、単純に `signal` を渡せます。
 
-See the below example for `fetch` usage.
+`fetch` の使用例については以下のサンプルを参照してください。
 
 #### `options.setSelf`
 
-It's a special function to invoke the write function of the self atom.
+自身のアトムの write 関数を呼び出す特別な関数です。
 
-⚠️ It's provided primarily for internal usage and third-party library authors. Read the source code carefully to understand the behavior. Check release notes for any breaking/non-breaking changes.
+⚠️ 主に内部使用およびサードパーティライブラリ作者向けに提供されています。動作を理解するためにソースコードを注意深く読んでください。破壊的・非破壊的変更についてはリリースノートを確認してください。
 
 ## Stackblitz
 

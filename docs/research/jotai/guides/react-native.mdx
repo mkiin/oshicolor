@@ -1,21 +1,21 @@
 ---
 title: React Native
-description: Using Jotai in React Native
+description: React Native で Jotai を使用する
 nav: 8.06
 keywords: native,ios,android
 ---
 
-Jotai atoms can be used in React Native applications with absolutely no changes.
-Our goal is to always be 100% compatible with React-Native.
+Jotai のアトムは変更なしで React Native アプリケーションで使用できます。
+私たちの目標は常に React Native との完全な互換性を維持することです。
 
-### Persistence
+### 永続化
 
-When it comes to persistence feature, the implementation specific to React Native are detailed in the [atomWithStorage function in the utils bundle](../utilities/storage.mdx).
+永続化機能に関しては、React Native に特有の実装が [utils バンドルの atomWithStorage 関数](../utilities/storage.mdx)に詳しく記載されています。
 
-### Performance
+### パフォーマンス
 
-There is no known specific overhead when using Jotai in your app. Some libraries will add some/lots of additional properties and methods to the stored data for the practical usage, but Jotai behaves differently and you're always manipulating simple stuff that could barely be shortcuted.
+Jotai をアプリで使用する際の既知の特定のオーバーヘッドはありません。一部のライブラリは実用的な使用のために格納データに追加のプロパティやメソッドを追加しますが、Jotai は異なる動作をし、短縮できないほどシンプルなものを常に操作しています。
 
-Jotai atomic architecture will encourage you to split logic and data, providing a top-most experience to control every one of your render ([or commits, to be precise](https://legacy.reactjs.org/blog/2018/09/10/introducing-the-react-profiler.html#browsing-commits)) and therefore reach the best performances.
+Jotai のアトミックアーキテクチャは、ロジックとデータを分割することを推奨し、すべての[レンダリング（正確にはコミット）](https://legacy.reactjs.org/blog/2018/09/10/introducing-the-react-profiler.html#browsing-commits)を制御して最高のパフォーマンスを達成するための最高の体験を提供します。
 
-And always remember that renders have to be fast, split calculation logic to async actions.
+そして、レンダリングは高速でなければならないことを常に覚えておいてください。計算ロジックは非同期アクションに分割してください。

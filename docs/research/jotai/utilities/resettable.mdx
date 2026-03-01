@@ -14,12 +14,9 @@ function atomWithReset<Value>(
 ): WritableAtom<Value, SetStateAction<Value> | typeof RESET>
 ```
 
-Creates an atom that could be reset to its `initialValue` with
-[`useResetAtom`](use-reset-atom.mdx) hook. It works exactly the same
-way as primitive atom would, but you are also able to set it to a special value
-[`RESET`](reset.mdx). See examples in [Resettable atoms](../utilities/resettable.mdx).
+[`useResetAtom`](use-reset-atom.mdx) フックを使用して `initialValue` にリセットできるアトムを作成します。プリミティブアトムと全く同じように機能しますが、特別な値 [`RESET`](reset.mdx) に設定することもできます。例は[リセット可能なアトム](../utilities/resettable.mdx)を参照してください。
 
-### Example
+### 例
 
 ```js
 import { atomWithReset } from 'jotai/utils'
@@ -38,11 +35,9 @@ Ref: https://github.com/pmndrs/jotai/issues/217
 const RESET: unique symbol
 ```
 
-Special value that is accepted by [Resettable atoms](../utilities/resettable.mdx)
-created with [`atomWithReset`](../utilities/resettable.mdx), [`atomWithDefault`](../utilities/resettable.mdx)
-or writable atom created with `atom` if it accepts `RESET` symbol.
+[`atomWithReset`](../utilities/resettable.mdx)、[`atomWithDefault`](../utilities/resettable.mdx) で作成された[リセット可能なアトム](../utilities/resettable.mdx)、または `RESET` シンボルを受け入れる `atom` で作成された書き込み可能アトムが受け入れる特別な値です。
 
-### Example
+### 例
 
 ```jsx
 import { atom, useSetAtom } from 'jotai'
@@ -76,9 +71,9 @@ function useResetAtom<Value>(
 ): () => void | Promise<void>
 ```
 
-Resets a [Resettable atom](../utilities/resettable.mdx) to its initial value.
+[リセット可能なアトム](../utilities/resettable.mdx)を初期値にリセットします。
 
-### Example
+### 例
 
 ```jsx
 import { useResetAtom } from 'jotai/utils'
@@ -94,10 +89,10 @@ const TodoResetButton = () => {
 
 Ref: https://github.com/pmndrs/jotai/issues/352
 
-### Usage
+### 使用方法
 
-This is a function to create a resettable primitive atom.
-Its default value can be specified with a read function instead of a static initial value.
+リセット可能なプリミティブアトムを作成する関数です。
+デフォルト値は静的な初期値の代わりに read 関数で指定できます。
 
 ```js
 import { atomWithDefault } from 'jotai/utils'
@@ -110,9 +105,9 @@ const count2Atom = atomWithDefault((get) => get(count1Atom) * 2)
 
 <Stackblitz id="vitejs-vite-gffb5v" file="src%2FApp.tsx" />
 
-### Resetting default values
+### デフォルト値のリセット
 
-You can reset the value of an `atomWithDefault` atom to its original default value.
+`atomWithDefault` アトムの値を元のデフォルト値にリセットできます。
 
 ```jsx
 import { useAtom } from 'jotai'
@@ -140,12 +135,9 @@ const Counter = () => {
 }
 ```
 
-This can be useful when an `atomWithDefault` atom value is overwritten
-using the `set` function, in which case the provided `getter` function
-is no longer used and any change in dependencies atoms will not trigger an update.
+`atomWithDefault` アトムの値が `set` 関数で上書きされた場合、提供された `getter` 関数はもはや使用されず、依存アトムの変更は更新をトリガーしません。
 
-Resetting the value allows us to restore its original default value,
-discarding changes made previously via the `set` function.
+値をリセットすることで、`set` 関数を通じて以前に行われた変更を破棄して、元のデフォルト値を復元できます。
 
 ## atomWithRefresh
 
@@ -155,11 +147,10 @@ function atomWithRefresh<Value>(
 ): WritableAtom<Value, [], void>
 ```
 
-Creates an atom that we can refresh,
-which is to force reevaluating the read function.
+強制的に read 関数を再評価できる、リフレッシュ可能なアトムを作成します。
 
-This is helpful when you need to refresh asynchronous data.
-It can also be used to implement "pull to refresh" functionality.
+非同期データを更新する必要がある場合に役立ちます。
+「プルトゥリフレッシュ」機能の実装にも使用できます。
 
 ```ts
 function atomWithRefresh<Value, Args extends unknown[], Result>(
@@ -168,12 +159,12 @@ function atomWithRefresh<Value, Args extends unknown[], Result>(
 ): WritableAtom<Value, Args | [], Result | void>
 ```
 
-Passing zero arguments to `set` will refresh.
-Passing one or more arguments to `set` will call "write" function.
+引数なしで `set` を呼び出すとリフレッシュします。
+1つ以上の引数で `set` を呼び出すと「write」関数が呼ばれます。
 
-### Example
+### 例
 
-Here's how you'd use it to implement an refresh-able source of data:
+リフレッシュ可能なデータソースを実装する方法：
 
 ```js
 import { atomWithRefresh } from 'jotai/utils'
@@ -183,7 +174,7 @@ const postsAtom = atomWithRefresh((get) =>
 )
 ```
 
-In a component:
+コンポーネント内で：
 
 ```jsx
 const PostsList = () => {
@@ -197,7 +188,7 @@ const PostsList = () => {
         ))}
       </ul>
 
-      {/* Clicking this button will re-fetch the posts */}
+      {/* このボタンをクリックすると投稿が再フェッチされます */}
       <button type="button" onClick={() => refreshPosts()}>
         Refresh posts
       </button>

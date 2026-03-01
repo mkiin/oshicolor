@@ -1,13 +1,13 @@
 ---
 title: Optics
-description: This doc describes Optics-ts extension.
+description: このドキュメントは Optics-ts 拡張について説明します。
 nav: 4.09
 keywords: optics
 ---
 
-### Install
+### インストール
 
-You have to install `optics-ts` and `jotai-optics` to use this feature.
+この機能を使用するには `optics-ts` と `jotai-optics` をインストールする必要があります。
 
 ```
 npm install optics-ts jotai-optics
@@ -15,24 +15,22 @@ npm install optics-ts jotai-optics
 
 ## focusAtom
 
-`focusAtom` creates a new atom, based on the focus that you pass to it. This creates a derived atom that will focus on the specified part of the atom,
-and when the derived atom is updated, the derivee is notified of the update, and the equivalent update is done on the derivee.
+`focusAtom` は渡したフォーカスに基づいて新しいアトムを作成します。アトムの指定された部分にフォーカスする派生アトムを作成し、派生アトムが更新されると、派生元（derivee）が更新の通知を受け取り、派生元で同等の更新が行われます。
 
-See this:
+以下を参照してください：
 
 ```js
 const baseAtom = atom({ a: 5 }) // PrimitiveAtom<{a: number}>
 const derivedAtom = focusAtom(baseAtom, (optic) => optic.prop('a')) // PrimitiveAtom<number>
 ```
 
-So basically, we started with a `PrimitiveAtom<{a: number}>`, which has a getter and a setter, and then used `focusAtom` to zoom in on the `a`-property of
-the `baseAtom`, and got a `PrimitiveAtom<number>`. What is noteworthy here is that this `derivedAtom` is not only a getter, it is also a setter. If `derivedAtom` is updated, then equivalent update is done on the `baseAtom`.
+基本的には、`PrimitiveAtom<{a: number}>`（ゲッターとセッターを持つ）から始まり、`focusAtom` を使って `baseAtom` の `a` プロパティにズームインして `PrimitiveAtom<number>` を得ました。注目すべき点は、この `derivedAtom` がゲッターだけでなく、セッターでもあることです。`derivedAtom` が更新されると、`baseAtom` で同等の更新が行われます。
 
-The example below is simple, but it's a starting point. `focusAtom` supports many kinds of optics, including `Lens`, `Prism`, `Isomorphism`.
+以下の例はシンプルですが、出発点となります。`focusAtom` は `Lens`、`Prism`、`Isomorphism` を含む多くの種類のオプティクスをサポートしています。
 
-To see more advanced optics, please see the example at: https://github.com/akheron/optics-ts
+より高度なオプティクスについては、以下の例を参照してください：https://github.com/akheron/optics-ts
 
-### Example
+### 例
 
 ```jsx
 import { atom } from 'jotai'

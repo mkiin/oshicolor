@@ -4,19 +4,19 @@ nav: 3.03
 keywords: lazy,initialize,init,loading
 ---
 
-When defining primitive atoms, their initial value has to be bound at definition time.
-If creating that initial value is computationally expensive, or the value is not accessible during definition,
-it would be best to postpone the atom's initialization until its [first use in the store](#using-multiple-stores).
+プリミティブアトムを定義する場合、初期値は定義時にバインドされている必要があります。
+その初期値の作成が計算コストが高い場合、または定義時にアクセスできない場合は、
+アトムの初期化を[ストアでの最初の使用時](#複数のストアを使用する)まで延期するのが最善です。
 
 ```jsx
-const imageDataAtom = atom(initializeExpensiveImage()) // 1) has to be computed here
+const imageDataAtom = atom(initializeExpensiveImage()) // 1) ここで計算する必要があります
 
 function Home() {
   ...
 }
 
 function ImageEditor() {
-  // 2) used only in this route
+  // 2) このルートのみで使用
   const [imageData, setImageData] = useAtom(imageDataAtom);
   ...
 }
@@ -35,15 +35,15 @@ function App() {
 
 Ref: https://github.com/pmndrs/jotai/pull/2465
 
-We can use `atomWithLazy` to create a primitive atom whose initial value will be computed at [first use in the store](#using-multiple-stores).
-After initialization, it will behave like a regular primitive atom (can be written to).
+`atomWithLazy` を使用して、初期値が[ストアでの最初の使用時](#複数のストアを使用する)に計算されるプリミティブアトムを作成できます。
+初期化後は、通常のプリミティブアトム（書き込み可能）として動作します。
 
-### Usage
+### 使用方法
 
 ```jsx
 import { atomWithLazy } from 'jotai/utils'
 
-// passing the initialization function
+// 初期化関数を渡す
 const imageDataAtom = atomWithLazy(initializeExpensiveImage)
 
 function Home() {
@@ -51,7 +51,7 @@ function Home() {
 }
 
 function ImageEditor() {
-  // only gets initialized if user goes to `/edit`.
+  // ユーザーが `/edit` に移動した場合のみ初期化されます
   const [imageData, setImageData] = useAtom(imageDataAtom);
   ...
 }
@@ -66,9 +66,9 @@ function App() {
 }
 ```
 
-### Using multiple stores
+### 複数のストアを使用する
 
-Since each store is its separate universe, the initial value will be recreated exactly once per store (unless using something like `jotai-scope`, which fractures a store into smaller universes).
+各ストアは独立した宇宙なので、初期値はストアごとに正確に1回再作成されます（ストアをより小さな宇宙に分割する `jotai-scope` などを使用していない限り）。
 
 ```ts
 type RGB = [number, number, number];
@@ -89,8 +89,8 @@ console.log(store.get(colorAtom)) // [0, 36, 128]
 store.set(colorAtom, lift(8))
 console.log(store.get(colorAtom)) // [8, 44, 136]
 
-// recreating store, sometimes done when logging out or resetting the app in some way
+// ストアを再作成（ログアウト時やアプリのリセット時に行うことがあります）
 store = createStore()
 
-console.log(store.get(colorAtom)) // [255, 12, 46] -- a new random color
+console.log(store.get(colorAtom)) // [255, 12, 46] -- 新しいランダムな色
 ```

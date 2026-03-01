@@ -1,15 +1,15 @@
 ---
 title: Location
-description: This doc describes window.location extension.
+description: このドキュメントは window.location 拡張について説明します。
 nav: 4.06
 keywords: location,hash
 ---
 
-To deal with `window.location`, we have some functions to create atoms.
+`window.location` を扱うために、アトムを作成するいくつかの関数があります。
 
-### Install
+### インストール
 
-You have to install `jotai-location` to use this feature.
+この機能を使用するには `jotai-location` をインストールする必要があります。
 
 ```
 npm install jotai-location
@@ -21,28 +21,28 @@ npm install jotai-location
 atomWithLocation(options): PrimitiveAtom
 ```
 
-`atomWithLocation` creates a new atom that links to `window.location`.
+`atomWithLocation` は `window.location` にリンクする新しいアトムを作成します。
 
-Typically, you should only instantiate `atomWithLocation` once per application. This is because changes made to one instance might not be reflected in others.
-As this atom is designed to synchronize with the `window.location` object, using multiple instances can lead to unpredictable behavior.
+通常、アプリケーション内で `atomWithLocation` を1回だけインスタンス化すべきです。1つのインスタンスへの変更が他のインスタンスに反映されない場合があるためです。
+このアトムは `window.location` オブジェクトと同期するように設計されているため、複数のインスタンスを使用すると予測不可能な動作が発生する可能性があります。
 
-### Parameters
+### パラメータ
 
-**options** (optional): an object of options to customize the behavior of the atom
+**options**（オプション）: アトムの動作をカスタマイズするオプションオブジェクト
 
-### Options
+### オプション
 
-**preloaded** (optional): preloaded location value to avoid getting location at initialization.
+**preloaded**（オプション）: 初期化時に location を取得しないようにプリロードされた location 値。
 
-**replace** (optional): a boolean to indicate to use `replaceState` instead of `pushState`.
+**replace**（オプション）: `pushState` の代わりに `replaceState` を使用することを示す boolean。
 
-**getLocation** (optional): a custom function to get location value.
+**getLocation**（オプション）: location 値を取得するカスタム関数。
 
-**applyLocation** (optional): a custom function to set location value.
+**applyLocation**（オプション）: location 値を設定するカスタム関数。
 
-**subscribe** (optional): a custom function to subscribe to location change.
+**subscribe**（オプション）: location の変更をサブスクライブするカスタム関数。
 
-### Examples
+### 例
 
 ```jsx
 import { useAtom } from 'jotai'
@@ -117,31 +117,31 @@ const App = () => {
 atomWithHash(key, initialValue, options): PrimitiveAtom
 ```
 
-This creates a new atom that is connected with URL hash.
-The hash must be in the URLSearchParams format.
-It's a two-way binding: changing the atom value will change the hash and
-changing the hash will change the atom value.
-This function works only with DOM.
+URL ハッシュに接続された新しいアトムを作成します。
+ハッシュは URLSearchParams 形式である必要があります。
+双方向バインディングです：アトム値を変更するとハッシュが変更され、
+ハッシュを変更するとアトム値が変更されます。
+この関数は DOM でのみ動作します。
 
-### Parameters
+### パラメータ
 
-**key** (required): a unique string used as the key when syncing state with localStorage, sessionStorage, or AsyncStorage
+**key**（必須）: localStorage、sessionStorage、または AsyncStorage と状態を同期する際にキーとして使用される一意の文字列
 
-**initialValue** (required): the initial value of the atom
+**initialValue**（必須）: アトムの初期値
 
-**options** (optional): an object of options to customize the behavior of the atom
+**options**（オプション）: アトムの動作をカスタマイズするオプションオブジェクト
 
-### Options
+### オプション
 
-**serialize** (optional): a custom function to serialize the atom value to the hash. Defaults to `JSON.stringify`.
+**serialize**（オプション）: アトム値をハッシュにシリアライズするカスタム関数。デフォルトは `JSON.stringify`。
 
-**deserialize** (optional): a custom function to deserialize the hash to the atom value. Defaults to `JSON.parse`.
+**deserialize**（オプション）: ハッシュをアトム値にデシリアライズするカスタム関数。デフォルトは `JSON.parse`。
 
-**subscribe** (optional): custom hash change subscribe function
+**subscribe**（オプション）: カスタムハッシュ変更サブスクライブ関数
 
-**setHash** (optional): `replaceState` or a custom function that describes how hash gets updated on the side of the browser. Defaults to pushing a new entry to the history via `window.location.hash = searchParams` ([jotai-location#4](https://github.com/jotaijs/jotai-location/pull/4))
+**setHash**（オプション）: `replaceState` またはブラウザ側でハッシュを更新する方法を記述するカスタム関数。デフォルトは `window.location.hash = searchParams` 経由で履歴に新しいエントリをプッシュします（[jotai-location#4](https://github.com/jotaijs/jotai-location/pull/4)）
 
-### Examples
+### 例
 
 ```jsx
 import { useAtom } from 'jotai'
@@ -164,7 +164,6 @@ const Counter = () => {
 
 <Stackblitz id="vitejs-vite-zngpjt" file="src%2FApp.tsx" />
 
-### Deleting Item
+### アイテムの削除
 
-Please refer [atomWithStorage](../utilities/storage.mdx)
-for the usage about deleting items.
+アイテムの削除については [atomWithStorage](../utilities/storage.mdx) を参照してください。

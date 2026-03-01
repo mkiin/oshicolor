@@ -1,59 +1,59 @@
 ---
 title: URQL
-description: This doc describes URQL extension.
+description: このドキュメントは URQL 拡張について説明します。
 nav: 4.03
 keywords: urql
 ---
 
-[urql](https://formidable.com/open-source/urql/) offers a toolkit for GraphQL querying, caching, and state management.
+[urql](https://formidable.com/open-source/urql/) は GraphQL クエリ、キャッシュ、状態管理のためのツールキットを提供します。
 
-From the [Overview docs](https://formidable.com/open-source/urql/docs/):
+[概要ドキュメント](https://formidable.com/open-source/urql/docs/) より：
 
-> urql is a highly customizable and versatile GraphQL client with which you add on features like normalized caching as you grow. It's built to be both easy to use for newcomers to GraphQL, and extensible, to grow to support dynamic single-app applications and highly customized GraphQL infrastructure. In short, urql prioritizes usability and adaptability.
+> urql は高度にカスタマイズ可能で汎用的な GraphQL クライアントで、成長するにつれて正規化キャッシュなどの機能を追加できます。GraphQL 初心者にとっても使いやすく、動的なシングルページアプリケーションや高度にカスタマイズされた GraphQL インフラストラクチャをサポートするために拡張可能です。要するに、urql は使いやすさと適応性を優先しています。
 
-[jotai-urql](https://github.com/jotaijs/jotai-urql) is a Jotai extension library for URQL. It offers a cohesive interface that incorporates all of URQL's GraphQL features, allowing you to leverage these functionalities alongside your existing Jotai state.
+[jotai-urql](https://github.com/jotaijs/jotai-urql) は URQL のための Jotai 拡張ライブラリです。URQL の GraphQL 機能をすべて取り込んだ統一されたインターフェースを提供し、既存の Jotai 状態と組み合わせてこれらの機能を活用できます。
 
-### Install
+### インストール
 
-You have to install `jotai-urql`, `@urql/core` and `wonka` to use the extension.
+この拡張を使用するには `jotai-urql`、`@urql/core`、`wonka` をインストールする必要があります。
 
 ```
 npm install jotai-urql @urql/core wonka
 ```
 
-### Exported functions
+### エクスポートされる関数
 
-- `atomWithQuery` for [client.query](https://formidable.com/open-source/urql/docs/api/core/#clientquery)
-- `atomWithMutation` for [client.mutation](https://formidable.com/open-source/urql/docs/api/core/#clientmutation)
-- `atomWithSubscription` for [client.subscription](https://formidable.com/open-source/urql/docs/api/core/#clientsubscription)
+- `atomWithQuery` は [client.query](https://formidable.com/open-source/urql/docs/api/core/#clientquery) 用
+- `atomWithMutation` は [client.mutation](https://formidable.com/open-source/urql/docs/api/core/#clientmutation) 用
+- `atomWithSubscription` は [client.subscription](https://formidable.com/open-source/urql/docs/api/core/#clientsubscription) 用
 
-### Basic usage
+### 基本的な使用方法
 
-#### Query:
+#### クエリ：
 
 ```tsx
 import { useAtom } from 'jotai'
 
 const countQueryAtom = atomWithQuery<{ count: number }>({
   query: 'query Count { count }',
-  getClient: () => client, // This option is optional if `useRehydrateAtom([[clientAtom, client]])` is used globally
+  getClient: () => client, // このオプションは `useRehydrateAtom([[clientAtom, client]])` がグローバルに使用されている場合はオプションです
 })
 
 const Counter = () => {
-  // Will suspend until first operation result is resolved. Either with error, partial data, data
+  // 最初のオペレーション結果が解決されるまでサスペンドします。エラー、部分データ、データのいずれかで解決されます
   const [operationResult, reexecute] = useAtom(countQueryAtom)
 
   if (operationResult.error) {
-    // This shall be handled in the parent ErrorBoundary above
+    // これは上位の ErrorBoundary で処理する必要があります
     throw operationResult.error
   }
 
-  // You have to use optional chaining here, as data may be undefined at this point (only in case of error)
+  // データはこの時点で undefined の可能性があるため（エラーの場合のみ）、オプショナルチェーンを使用する必要があります
   return <>{operationResult.data?.count}</>
 }
 ```
 
-#### Mutation:
+#### ミューテーション：
 
 ```tsx
 import { useAtom } from 'jotai'
@@ -79,16 +79,16 @@ const Counter = () => {
 }
 ```
 
-### Simplified type of options passed to functions
+### 関数に渡されるオプションの簡略化された型
 
 ```tsx
 type AtomWithQueryOptions<
   Data = unknown,
   Variables extends AnyVariables = AnyVariables,
 > = {
-  // Supports string query, typed-document-node, document node etc.
+  // 文字列クエリ、typed-document-node、document node などをサポート
   query: DocumentInput<Data, Variables>
-  // Will be enforced dynamically based on generic/typed-document-node types.
+  // ジェネリック/typed-document-node の型に基づいて動的に強制されます
   getVariables?: (get: Getter) => Variables
   getContext?: (get: Getter) => Partial<OperationContext>
   getPause?: (get: Getter) => boolean
@@ -103,34 +103,31 @@ type AtomWithMutationOptions<
   getClient?: (get: Getter) => Client
 }
 
-// Subscription type is the same as AtomWithQueryOptions
+// サブスクリプションの型は AtomWithQueryOptions と同じです
 ```
 
-### Disable suspense
+### サスペンスを無効にする
 
-Usage of `import { loadable } from "jotai/utils"` is preferred instead as proven more stable. However is you still want that
-here is how you do it:
+より安定していることが証明されているため、代わりに `import { loadable } from "jotai/utils"` の使用が推奨されます。ただし、それでも無効にしたい場合は以下のように行います：
 
 ```tsx
 import { suspenseAtom } from 'jotai-urql'
 
 export const App = () => {
-  // We disable suspense for the entire app
+  // アプリ全体のサスペンスを無効にします
   useHydrateAtoms([[suspenseAtom, false]])
   return <Counter />
 }
 ```
 
-### Useful helper hook
+### 便利なヘルパーフック
 
-Here is the helper hook, to cover one rare corner case, and make use of these bindings similar to `@tanstack/react-query`
-default behavior where errors are treated as errors (in case of Promise reject) and are handled mostly in the nearby
-ErrorBoundaries. Only valid for suspended version.
+以下はヘルパーフックです。まれなコーナーケースをカバーし、エラーが（Promise の reject の場合に）エラーとして扱われ、主に近くの ErrorBoundaries で処理される `@tanstack/react-query` のデフォルト動作に似た使用方法にします。サスペンドバージョンのみで有効です。
 
 #### useQueryAtomData
 
-Neatly returns `data` after the resolution + handles all the error throwing/reexecute cases/corner cases.
-Note that Type is overridden so `data` it never `undefined` nor `null` (unless that's expected return type of the query itself)
+解決後に `data` をきれいに返し、すべてのエラースロー/再実行ケース/コーナーケースを処理します。
+型がオーバーライドされているため、`data` はクエリ自体の期待する戻り型でない限り、`undefined` にも `null` にもなりません。
 
 ```tsx
 import type { AnyVariables, OperationResult } from '@urql/core'
@@ -147,15 +144,15 @@ export const useQueryAtomData = <
 
   if (opResult.error && opResult.stale) {
     use(
-      // Here we suspend the tree. This will only be triggered in the scenario
-      // when you use `network-only` for refetch in Error Boundary retry logic, in that case tree doesn't suspend
-      // causing possible "throwed - retry in boundary - throwed - retry in boundary" cycle.
-      // (in case of Jotai URQL bindings only).
+      // ここでツリーをサスペンドします。これは ErrorBoundary リトライロジックで
+      // `network-only` を使用する場合のみトリガーされます。その場合ツリーがサスペンドせず、
+      // "スロー - バウンダリでリトライ - スロー - バウンダリでリトライ" のサイクルが発生する可能性があります
+      // (Jotai URQL バインディングのみ)。
       // eslint-disable-next-line promise/avoid-new
       new Promise((resolve) => {
-        setTimeout(resolve, 10000) // This timeout time is going to cause suspense of this component up until
-        // new operation result will come. After 10 second it will simply try to render component itself and suspend again
-        // in an endless loop
+        setTimeout(resolve, 10000) // このタイムアウト時間は新しいオペレーション結果が来るまで
+        // このコンポーネントをサスペンドし続けます。10秒後には単純にコンポーネント自体のレンダリングを試み、
+        // 無限ループで再びサスペンドします
       }),
     )
   }
@@ -176,7 +173,7 @@ export const useQueryAtomData = <
   ]
 }
 
-// Suspense tree while promise is resolving (not going to be needed in next versions of React)
+// Promise が解決中にツリーをサスペンド（React の次のバージョンでは不要になります）
 function use(promise: Promise<any> | any) {
   if (promise.status === 'fulfilled') {
     return promise.value
@@ -203,15 +200,15 @@ function use(promise: Promise<any> | any) {
 }
 ```
 
-#### Basic demo
+#### 基本デモ
 
 <Stackblitz id="vitejs-vite-1nhtrj" file="src%2FApp.tsx" />
 
-### Referencing the same instance of the client for both atoms and urql provider
+### アトムと urql プロバイダーで同じクライアントインスタンスを参照する
 
-To ensure that you reference the same urqlClient object, be sure to wrap the root of your project in a `<Provider>` and initialise clientAtom with the same urqlClient value you provided to UrqlProvider.
+同じ urqlClient オブジェクトを参照するために、プロジェクトのルートを `<Provider>` でラップし、UrqlProvider に渡したのと同じ urqlClient 値で clientAtom を初期化してください。
 
-Without this step, you may end up specifying client each time when you use `atomWithQuery`. Now you can just ignore the optional `getClient` parameter, and it will use the client from the context.
+この手順なしでは、`atomWithQuery` を使用するたびにクライアントを指定しなければならない場合があります。これにより、オプションの `getClient` パラメータを無視して、コンテキストからクライアントを使用できるようになります。
 
 ```jsx
 import { Suspense } from 'react'

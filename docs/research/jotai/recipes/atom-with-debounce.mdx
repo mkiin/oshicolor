@@ -4,9 +4,9 @@ nav: 9.10
 keywords: creators,debounce
 ---
 
-> `atomWithDebounce` helps with creating an atom where state set should be debounced.
+> `atomWithDebounce` は、状態設定をデバウンスするアトムの作成を支援します。
 
-This util is useful for text search inputs, where you would like to call **functions in derived atoms only once** after waiting for a duration, instead of firing an action on every keystroke.
+このユーティリティは、テキスト検索入力などに便利です。キーストロークのたびにアクションを実行するのではなく、指定した時間待機した後に**派生アトムの関数を1回だけ呼び出す**ことができます。
 
 ```tsx
 import { atom, SetStateAction } from 'jotai'
@@ -20,8 +20,8 @@ export default function atomWithDebounce<T>(
     undefined,
   )
 
-  // DO NOT EXPORT currentValueAtom as using this atom to set state can cause
-  // inconsistent state between currentValueAtom and debouncedValueAtom
+  // currentValueAtom はエクスポートしないでください。このアトムを使って状態を設定すると、
+  // currentValueAtom と debouncedValueAtom の間で状態の不整合が発生する可能性があります
   const _currentValueAtom = atom(initialValue)
   const isDebouncingAtom = atom(false)
 
@@ -57,12 +57,12 @@ export default function atomWithDebounce<T>(
         onDebounceEnd()
       }, delayMilliseconds)
 
-      // set previous timeout atom in case it needs to get cleared
+      // 必要に応じてクリアできるように、前のタイムアウトアトムを設定する
       set(prevTimeoutAtom, nextTimeoutId)
     },
   )
 
-  // exported atom setter to clear timeout if needed
+  // 必要に応じてタイムアウトをクリアするためにエクスポートするアトムセッター
   const clearTimeoutAtom = atom(null, (get, set, _arg) => {
     clearTimeout(get(prevTimeoutAtom))
     set(isDebouncingAtom, false)
@@ -77,18 +77,18 @@ export default function atomWithDebounce<T>(
 }
 ```
 
-### Caveat
+### 注意事項
 
-Please note that this atom has different objectives from concurrent features in React 18 such as `useTransition` and `useDeferredValue` whose main aim is to prevent blocking of interaction with the page for expensive updates.
+このアトムは、高コストな更新によるページのインタラクションのブロックを防ぐことを主な目的とする React 18 の `useTransition` や `useDeferredValue` などの並行機能とは異なる目的を持っています。
 
-For more info, please read this github discussion https://github.com/reactwg/react-18/discussions/41 under the section titled **"How is it different from setTimeout?"**
+詳しくは、こちらの GitHub ディスカッション https://github.com/reactwg/react-18/discussions/41 の **"How is it different from setTimeout?"** セクションをご覧ください。
 
-### Example Usage
+### 使用例
 
-The sandbox link below shows how we would use a derived atom to fetch state based on the value of `debouncedValueAtom`.
+以下のサンドボックスは、`debouncedValueAtom` の値に基づいて状態をフェッチする派生アトムの使用方法を示しています。
 
-When typing a pokemon's name in `<SearchInput>`, we do not send a get request on every letter, but only after `delayMilliseconds` has passed since the last text input.
+`<SearchInput>` にポケモンの名前を入力する際、1文字ずつリクエストを送信するのではなく、最後のテキスト入力から `delayMilliseconds` が経過した後にのみ GET リクエストを送信します。
 
-This reduces the number of backend requests to the server.
+これにより、サーバーへのバックエンドリクエスト数を削減できます。
 
 <Stackblitz id="vitejs-vite-chvvtu" file="src%2FApp.tsx" />

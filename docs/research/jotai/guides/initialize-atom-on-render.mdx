@@ -1,31 +1,31 @@
 ---
 title: Initializing state on render
-description: How to initialize atom state on initial render
+description: 初回レンダリング時にアトムの状態を初期化する方法
 nav: 8.13
 ---
 
-There are times when you need to create an reusable component which uses atoms.
+アトムを使用する再利用可能なコンポーネントを作成する必要がある場合があります。
 
-These atoms' initial state are determined by the props passed to the component.
+これらのアトムの初期状態はコンポーネントに渡された props によって決まります。
 
-Below is a basic example illustrating how you can use `Provider` and its prop, `initialValues`, to initialize state.
+以下は `Provider` とその prop `initialValues` を使用して状態を初期化する方法を示す基本的な例です。
 
-### Basic Example
+### 基本的な例
 
-> CodeSandbox link: [codesandbox](https://codesandbox.io/s/init-atoms-with-usehydrateatoms-nryk1w).
+> CodeSandbox リンク: [codesandbox](https://codesandbox.io/s/init-atoms-with-usehydrateatoms-nryk1w)
 
-Consider a basic example where you have a reusable `TextDisplay` component that allows you to display and update plain text.
+プレーンテキストを表示・更新できる再利用可能な `TextDisplay` コンポーネントの基本的な例を考えましょう。
 
-This component has two child components, `PrettyText` and `UpdateTextInput`.
+このコンポーネントには `PrettyText` と `UpdateTextInput` の2つの子コンポーネントがあります。
 
-- `PrettyText` displays the text in blue.
-- `UpdateTextInput` is an input field which updates the text value.
+- `PrettyText` はテキストを青色で表示します。
+- `UpdateTextInput` はテキストの値を更新する入力フィールドです。
 
-As opposed to passing `text` as a prop in the two child components, you decided that the `text` state should be shared between components as an atom.
+2つの子コンポーネントに `text` を prop として渡す代わりに、`text` の状態をアトムとしてコンポーネント間で共有することにしました。
 
-To make `TextDisplay` component reusable, we take in a prop `initialTextValue`, which determines the initial state of the `text` atom.
+`TextDisplay` コンポーネントを再利用可能にするために、`text` アトムの初期状態を決定する prop `initialTextValue` を受け取ります。
 
-To tie `initialTextValue` to `textAtom`, we wrap the child components in a component where we create a new store and pass it to a `Provider` component.
+`initialTextValue` を `textAtom` に結びつけるために、新しいストアを作成し `Provider` コンポーネントに渡すコンポーネントで子コンポーネントをラップします。
 
 ```jsx
 const textAtom = atom('')
@@ -58,7 +58,7 @@ const UpdateTextInput = () => {
 }
 
 const HydrateAtoms = ({ initialValues, children }) => {
-  // initialising on state with prop on render here
+  // ここでレンダリング時に props から状態を初期化します
   useHydrateAtoms(initialValues)
   return children
 }
@@ -74,7 +74,7 @@ export const TextDisplay = ({ initialTextValue }) => (
 )
 ```
 
-Now, we can easily reuse `TextDisplay` component with different initial text values despite them referencing the "same" atom.
+これで、「同じ」アトムを参照しているにもかかわらず、異なる初期テキスト値で `TextDisplay` コンポーネントを簡単に再利用できます。
 
 ```jsx
 export default function App() {
@@ -88,17 +88,17 @@ export default function App() {
 }
 ```
 
-This behavior is due to our child components looking for the lowest common `Provider` ancestor to derive its value.
+この動作は、子コンポーネントが値を導出するために最も近い共通の `Provider` の祖先を探すためです。
 
-For more information on `Provider` behavior, please read the docs [here](../core/provider.mdx).
+`Provider` の動作に関する詳細は[こちらのドキュメント](../core/provider.mdx)を参照してください。
 
-For more complex use cases, check out [Scope extension](../extensions/scope.mdx).
+より複雑なユースケースについては、[Scope 拡張機能](../extensions/scope.mdx)を確認してください。
 
-### Using Typescript
+### TypeScript を使う
 
-`useHydrateAtoms` has overloaded types and typescript cannot extract types from overloaded function. It is recommended to use a `Map` when passing initial atom values to the `useHydrateAtoms`.
+`useHydrateAtoms` はオーバーロードされた型を持っており、TypeScript はオーバーロードされた関数から型を抽出できません。`useHydrateAtoms` に初期アトム値を渡す際は `Map` を使用することを推奨します。
 
-Here is a working example:
+動作する例：
 
 ```tsx
 import type { ReactNode } from 'react'
@@ -118,7 +118,7 @@ export default function App() {
   )
 }
 
-//This component contains all the states and the logic
+//このコンポーネントにはすべての状態とロジックが含まれています
 function Component() {
   const testAtomValue = useAtomValue(testAtom)
   return <div>{testAtomValue}</div>

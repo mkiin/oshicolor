@@ -1,17 +1,16 @@
 ---
 title: Using store outside React
-description: Using store outside React
+description: React 外でストアを使用する
 nav: 8.98
 keywords: state, outside, react
 published: false
 ---
 
-Jotai's state resides in React, but sometimes it would be nice
-to interact with the world outside React.
+Jotai の状態は React 内に存在しますが、React の外の世界と対話できると便利な場合があります。
 
 ## createStore
 
-[`createStore`](../core/store.mdx#createstore) provides a store interface that can be used to store your atoms. Using the store, you can access and mutate the state of your stored atoms from outside React.
+[`createStore`](../core/store.mdx#createstore) はアトムを格納するために使用できるストアインターフェースを提供します。ストアを使用することで、React の外からアトムの状態にアクセスして変更できます。
 
 ```jsx
 import { atom, useAtomValue, createStore, Provider } from 'jotai'
@@ -19,11 +18,11 @@ import { atom, useAtomValue, createStore, Provider } from 'jotai'
 const timeAtom = atom(0)
 const store = createStore()
 
-store.set(timeAtom, (prev) => prev + 1) // Update atom's value
-store.get(timeAtom) // Read atom's value
+store.set(timeAtom, (prev) => prev + 1) // アトムの値を更新
+store.get(timeAtom) // アトムの値を読み取る
 
 function Component() {
-  const time = useAtomValue(timeAtom) // Inside React
+  const time = useAtomValue(timeAtom) // React 内
   return (
     <div className="App">
       <h1>{time}</h1>
@@ -40,6 +39,6 @@ export default function App() {
 }
 ```
 
-### Examples
+### 例
 
 <Stackblitz id="vitejs-vite-m1h61f" file="src%2FApp.tsx" />

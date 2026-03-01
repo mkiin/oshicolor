@@ -1,22 +1,20 @@
 ---
 title: Valtio
-description: This doc describes Valtio extension.
+description: このドキュメントは Valtio 拡張について説明します。
 nav: 4.98
 keywords: valtio,proxy
 published: false
 ---
 
-Jotai's state resides in React, but sometimes it would be nice
-to interact with the world outside React.
+Jotai の状態は React に存在しますが、React 外の世界と連携できると便利な場合があります。
 
-Valtio provides a proxy interface that can be used to store some values
-and sync with atoms in Jotai.
+Valtio は値を格納し Jotai のアトムと同期するために使用できるプロキシインターフェースを提供します。
 
-This only uses the vanilla api of valtio.
+これは valtio のバニラ API のみを使用します。
 
-### Install
+### インストール
 
-You have to install `valtio` and `jotai-valtio` to use this feature.
+この機能を使用するには `valtio` と `jotai-valtio` をインストールする必要があります。
 
 ```
 npm install valtio jotai-valtio
@@ -24,8 +22,8 @@ npm install valtio jotai-valtio
 
 ## atomWithProxy
 
-`atomWithProxy` creates a new atom with valtio proxy.
-It's two-way binding and you can change the value from both ends.
+`atomWithProxy` は valtio プロキシで新しいアトムを作成します。
+双方向バインディングで、両端から値を変更できます。
 
 ```jsx
 import { useAtom } from 'jotai'
@@ -57,29 +55,29 @@ const Counter = () => {
 }
 ```
 
-### Parameters
+### パラメータ
 
 ```
 atomWithProxy(proxyObject, options?)
 ```
 
-**proxyObject** (required): the Valtio proxy object you want to derive the atom from
+**proxyObject**（必須）: アトムを派生させる Valtio プロキシオブジェクト
 
-**options.sync** (optional): makes the atom update synchronously instead of waiting for batched updates, similar to [`valtio/useSnapshot`](https://github.com/pmndrs/valtio#update-synchronously). This will result in more renders, but have more guarantees that it syncs with other Jotai atoms.
+**options.sync**（オプション）: バッチ更新を待たず同期的にアトムを更新します。[`valtio/useSnapshot`](https://github.com/pmndrs/valtio#update-synchronously) に似ています。レンダリングが増えますが、他の Jotai アトムとの同期がより保証されます。
 
 ```
 atomWithProxy(proxyObject, { sync: true })
 ```
 
-### Examples
+### 例
 
 <Stackblitz id="vitejs-vite-wmsazx" file="src%2FApp.tsx" />
 
 ## mutableAtom
 
-`mutableAtom` wraps a value in a self-aware Valtio proxy. You can make changes to it in the same way you would to a normal js-object.
+`mutableAtom` は自己認識型の Valtio プロキシで値をラップします。通常の js オブジェクトと同じように変更できます。
 
-Count value is stored under the `value` property.
+カウント値は `value` プロパティの下に格納されます。
 
 ```jsx
 const countProxyAtom = mutableAtom(0)
@@ -90,23 +88,23 @@ function IncrementButton() {
 }
 ```
 
-### Parameters
+### パラメータ
 
 ```js
 mutableAtom(value, options?)
 ```
 
-**value** (required): the value to proxy.
+**value**（必須）: プロキシする値。
 
-**options.proxyFn** (optional): allows customization with `proxyFn` for custom proxy functions. Can be `proxy` (default) or a custom function.
+**options.proxyFn**（オプション）: カスタムプロキシ関数で `proxyFn` によるカスタマイズを可能にします。`proxy`（デフォルト）またはカスタム関数が指定できます。
 
-### Examples
+### 例
 
 <Stackblitz id="vitejs-vite-wmsazx" file="src%2FApp.tsx" />
 
-### Caution on Mutating Proxies
+### プロキシのミューテーションに関する注意
 
-Be careful to not mutate the proxy directly in the atom's read function or during render. Doing so could cause an infinite render loop.
+アトムの read 関数内やレンダリング中にプロキシを直接ミューテートしないように注意してください。これにより無限レンダリングループが発生する可能性があります。
 
 ```ts
 const countProxyAtom = mutableAtom(0)
@@ -114,11 +112,11 @@ const countProxyAtom = mutableAtom(0)
 atom(
   (get) => {
     const countProxy = get(countProxyAtom)
-    ++countProxy.value // This will cause an infinite loop
+    ++countProxy.value // 無限ループが発生します
   },
   (get, set) => {
     const countProxy = get(countProxyAtom)
-    ++countProxy.value // This is fine
+    ++countProxy.value // これは問題ありません
   },
 )
 ```

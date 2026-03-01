@@ -4,11 +4,10 @@ nav: 9.11
 keywords: reducer, hook, useReducerAtom
 ---
 
-`useReducerAtom` is a custom hook to apply a reducer to a primitive atom.
+`useReducerAtom` はプリミティブアトムに reducer を適用するカスタムフックです。
 
-It's useful to change the update behavior temporarily.
-Also, consider [atomWithReducer](../utilities/reducer.mdx)
-for the atom-level solution.
+一時的に更新の振る舞いを変更したい場合に便利です。
+アトムレベルのソリューションには [atomWithReducer](../utilities/reducer.mdx) も検討してください。
 
 ```ts
 import { useCallback } from 'react'
@@ -28,7 +27,7 @@ export function useReducerAtom<Value, Action>(
 }
 ```
 
-### Example Usage
+### 使用例
 
 ```jsx
 import { atom } from 'jotai'

@@ -4,42 +4,41 @@ nav: 8.07
 keywords: debug,labels,devtools,freeze
 ---
 
-In basic apps, `console.log` can be our best friend for debugging atoms, but when applications get bigger and we have more atoms to use, logging would not be a good way of debugging atoms.
-Jotai provides two ways of debugging atoms, **React Dev Tools** and **Redux Dev tools**. For reading values and simple debugging, React Dev Tools might suit you, but for more complicated tasks like Time-travelling and setting values, Redux Dev Tools would be a better option.
+基本的なアプリでは `console.log` がアトムのデバッグに最適なツールですが、アプリケーションが大きくなり使用するアトムが増えるとロギングはデバッグの良い方法ではなくなります。
+Jotai はアトムのデバッグに **React Dev Tools** と **Redux Dev Tools** の2つの方法を提供しています。値の読み取りや簡単なデバッグには React Dev Tools が適していますが、タイムトラベルや値の設定などより複雑なタスクには Redux Dev Tools の方が良い選択肢です。
 
-## Debug labels
+## デバッグラベル
 
-It is worth mentioning that we have a concept called **Debug labels** in Jotai which may help us with debugging.
-By default each Jotai state has the label like `1:<no debugLabel>` with number being internal `key` assigned to each atom automatically. But you can add labels to atoms to help you distinguish them more easily with `debugLabel`.
+Jotai には**デバッグラベル**という概念があり、デバッグに役立つことを述べておきます。
+デフォルトでは、各 Jotai の状態は各アトムに自動的に割り当てられる内部 `key` の数値を使った `1:<no debugLabel>` のようなラベルを持っています。しかし、`debugLabel` を使ってアトムに識別しやすいラベルを追加できます。
 
 ```js
 const countAtom = atom(0)
-// countAtom's debugLabel by default is 'atom1'
+// countAtom のデフォルトの debugLabel は 'atom1' です
 if (process.env.NODE_ENV !== 'production') {
   countAtom.debugLabel = 'count'
-  // debugLabel is 'count' now
+  // debugLabel は 'count' になりました
 }
 ```
 
-Jotai provides both a Babel and a SWC plugin, that adds a debugLabel automatically to every atom, which makes things easier for us. For more info, check out [jotai-babel](https://github.com/jotaijs/jotai-babel) and [@swc-jotai/debug-label](https://github.com/pmndrs/jotai/blob/main/docs/tools/swc.mdx)
+Jotai は Babel と SWC の両方のプラグインを提供しており、すべてのアトムに自動的に debugLabel を追加します。詳細は [jotai-babel](https://github.com/jotaijs/jotai-babel) と [@swc-jotai/debug-label](https://github.com/pmndrs/jotai/blob/main/docs/tools/swc.mdx) を確認してください。
 
-## Using React Dev Tools
+## React Dev Tools を使う
 
-You can use [React Dev Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi)
-to inspect Jotai state. To achieve that [useDebugValue](https://react.dev/reference/react/useDebugValue)
-is used inside custom hooks. Keep in mind that it only works in dev mode
-(such as `NODE_ENV === 'development'`).
+[React Dev Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi)
+を使用して Jotai の状態を検査できます。これを実現するために、カスタムフック内で [useDebugValue](https://react.dev/reference/react/useDebugValue)
+が使用されています。開発モード（`NODE_ENV === 'development'` など）でのみ機能することに注意してください。
 
 ### useAtom
 
-`useAtom` calls `useDebugValue` for atom values, so if you select the component that consumes Jotai atoms in React Dev Tools, you would see "Atom" hooks for each atom that is used in the component along with the value it has right now.
+`useAtom` はアトムの値に対して `useDebugValue` を呼び出すため、React Dev Tools で Jotai アトムを使用しているコンポーネントを選択すると、コンポーネントで使用されている各アトムとその現在値の "Atom" フックが表示されます。
 
 ### useAtomsDebugValue
 
-`useAtomsDebugValue` catches all atoms in a component tree under Provider (or an entire tree for Provider-less mode), and `useDebugValue` for all atoms values.
-If you navigate to the component that has `useAtomsDebugValue` in the React Dev Tools, we can see a custom hook "AtomsDebugValue" which allows you to see all atom values and their dependents.
+`useAtomsDebugValue` は Provider 下（またはプロバイダーレスモードではツリー全体）のコンポーネントツリー内のすべてのアトムをキャプチャし、すべてのアトム値に対して `useDebugValue` を使用します。
+React Dev Tools で `useAtomsDebugValue` を持つコンポーネントに移動すると、カスタムフック "AtomsDebugValue" が表示され、すべてのアトムの値とその依存先を確認できます。
 
-One use case is to put the hook just under the `Provider` component:
+一つのユースケースは、`Provider` コンポーネントの直下にこのフックを配置することです：
 
 ```jsx
 const DebugAtoms = () => {
@@ -55,20 +54,20 @@ const Root = () => (
 )
 ```
 
-## Using Redux DevTools
+## Redux DevTools を使う
 
-You can also use [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd)
-to inspect atoms, with many features like Time-travelling and value dispatching.
+[Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd)
+を使用してアトムを検査することもできます。タイムトラベルや値のディスパッチなど多くの機能があります。
 
 ### [useAtomDevtools](https://jotai.org/docs/api/devtools#use-atom-devtools)
 
-> `useAtomDevtools` is a React hook that manages ReduxDevTools extension for a particular atom.
+> `useAtomDevtools` は特定のアトムの ReduxDevTools 拡張機能を管理する React フックです。
 
-If you have a specific atom in mind that you may want to debug, `useAtomDevtools` can be a good option.
+デバッグしたい特定のアトムがある場合、`useAtomDevtools` が良い選択肢です。
 
 ```js
 const countAtom = atom(0)
-// setting countAtom.debugLabel is recommended if we have more atoms
+// 複数のアトムがある場合は countAtom.debugLabel の設定を推奨します
 
 function Counter() {
   const [count, setCount] = useAtom(countAtom)
@@ -76,37 +75,37 @@ function Counter() {
 }
 ```
 
-Now if we try `setCount`, we can see that the Redux Dev Tools logs those changes immediately.
+`setCount` を試すと、Redux Dev Tools がそれらの変更をすぐにログに記録することがわかります。
 
 ![](https://lh3.googleusercontent.com/pw/AP1GczMgeYQOyCAc69gJIAcRBtKO9BOUEE3SQB5Bl-7IScJfChWGnVb3B0OmlhrjK8caQVnj-HtyN1cpv1l1K9kE4pxwapUwu_2OB-dO_G18ZUC1NbDJFiXYRW9jX8OeDBJeWg1Qx9_IdkfoaoIin90A8gSE=w828-h268-s-no-gm)
 ![]()
 
-#### Time travel
+#### タイムトラベル
 
-Sometimes we need to switch to a specific value of our atoms' state, with Time travelling this is possible.
-You can hover on each action you see in the devtools and see the **Jump** option there, with clicking it you'd be able to switch to that specific value.
+アトムの状態の特定の値に切り替えたい場合があります。タイムトラベルでこれが可能になります。
+DevTools で各アクションにホバーすると **Jump** オプションが表示され、クリックするとその特定の値に切り替えることができます。
 
-#### Pause
+#### 一時停止
 
-If we don't record changes on atoms, we can stop watching those using the **Pausing** feature.
+アトムの変更を記録したくない場合、**Pausing** 機能を使用して監視を停止できます。
 
 ![](https://lh3.googleusercontent.com/pw/AP1GczP8hTBFtwlx0BJGGbbcXgfhMNG2Vz_uozdVnrTJHwMb1gKx55TP59WgvsMwgIyExwscgYZSpYDmxCJXjk_pKy6wP-K-0p287lkRXdTZEf074xUZr8fnIpkwg-zN14VXZ2STet1sVgTTawm49mc8Oygb=w395-h87-s-no-gm)
 
-#### Dispatch
+#### ディスパッチ
 
-It's possible to set values on atoms with the **Dispatch** feature. You can do that by clicking on the **Show Dispatcher** button.
+**Dispatch** 機能でアトムの値をセットできます。**Show Dispatcher** ボタンをクリックすることで行えます。
 ![](https://lh3.googleusercontent.com/pw/AP1GczMNn6aXTA7K8ZFzUj17I40cm0o7joOG6E76Q6UVnXYJ3TO7ItRI6Jr1EIxogfY9P2xkiQfyYqB7_aU--R_vdSyNXAtTfPuxxLymApRoZov0-6ZHS7mmxxxD4Ku1JnqTRyPyZaQHyQPkq8j4CciQaISV=w832-h149-s-no-gm)
-This would set the `countAtoms`'s value to `5`.
+これにより `countAtoms` の値が `5` になります。
 
-> We should note that the value will be parsed by JSON.parse, so pass supported values.
+> JSON.parse で値が解析されるため、サポートされている値を渡す必要があります。
 
 ### [useAtomsDevtools](../tools/devtools.mdx)
 
-> `useAtomsDevtools` is a catch-all version of `useAtomDevtools` where it shows all atoms in the store instead of showing a specific one.
+> `useAtomsDevtools` は `useAtomDevtools` のキャッチオール版で、特定のアトムを表示する代わりにストア内のすべてのアトムを表示します。
 
-We'd recommend this hook if you want to keep track of all of your atoms in one place. It means every action on every atom that is placed in the bottom of this hook (in the React tree) will be caught by the Redux Dev Tools.
+すべてのアトムを一箇所で追跡したい場合はこのフックを推奨します。このフック（React ツリー内）の下に配置されたすべてのアトムのすべてのアクションが Redux Dev Tools でキャプチャされます。
 
-Every feature of `useAtomDevtools` is supported in this hook, but there's an extra feature, which includes giving more information about atoms dependents like:
+`useAtomDevtools` のすべての機能がこのフックでサポートされており、アトムの依存先に関する追加情報を提供する機能もあります：
 
 ```json
 {
@@ -125,11 +124,11 @@ Every feature of `useAtomDevtools` is supported in this hook, but there's an ext
 }
 ```
 
-## Frozen Atoms
+## フリーズアトム
 
-To find bugs where you accidentally tried to mutate objects stored in atoms you
-could use `freezeAtom` or `freezeAtomCreator`from `jotai/utils` bundle.
-Which returns atoms value that is deeply freezed with `Object.freeze`.
+アトムに格納されたオブジェクトを誤って変更しようとしたバグを見つけるために、
+`jotai/utils` バンドルから `freezeAtom` または `freezeAtomCreator` を使用できます。
+`Object.freeze` で深くフリーズされたアトムの値を返します。
 
 ### freezeAtom
 
@@ -137,18 +136,17 @@ Which returns atoms value that is deeply freezed with `Object.freeze`.
 freezeAtom(anAtom): AtomType
 ```
 
-`freezeAtom` takes an existing atom and make it "frozen".
-It returns the same atom.
-The atom value will be deeply frozen by `Object.freeze`.
-It is useful to find bugs where you unintentionally tried
-to change objects (states) which can lead to unexpected behavior.
-You may use `freezeAtom` with all atoms to prevent this situation.
+`freezeAtom` は既存のアトムを受け取り、「フリーズ」させます。
+同じアトムを返します。
+アトムの値は `Object.freeze` によって深くフリーズされます。
+予期しない動作につながる可能性のあるオブジェクト（状態）を意図せず変更しようとしたバグを見つけるのに役立ちます。
+この状況を防ぐためにすべてのアトムで `freezeAtom` を使用することができます。
 
-#### Parameters
+#### パラメータ
 
-**anAtom** (required): An atom you wish to freeze.
+**anAtom**（必須）：フリーズしたいアトム。
 
-#### Examples
+#### 例
 
 ```js
 import { atom } from 'jotai'
@@ -159,7 +157,7 @@ const objAtom = freezeAtom(atom({ count: 0 }))
 
 ### freezeAtomCreator
 
-If you need, you can define a factory for `freezeAtom`.
+必要であれば、`freezeAtom` のファクトリを定義できます。
 
 ```ts
 import { freezeAtom } from 'jotai/utils'

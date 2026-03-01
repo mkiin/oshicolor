@@ -1,51 +1,44 @@
 ---
-title: Comparison
+title: 比較
 nav: 7.02
 ---
 
-Jotai was born to solve extra re-render issues in React.
-An extra re-render is when the render process produces the same UI result,
-where users won't see any differences.
+Jotai は React における余分な再レンダリング問題を解決するために生まれました。
+余分な再レンダリングとは、レンダリングプロセスが同じ UI 結果を生成し、ユーザーには違いが見えない場合のことです。
 
-To tackle this issue with React context (useContext + useState),
-one would require many contexts and face some issues.
+React context（useContext + useState）でこの問題に対処するには、多くのコンテキストが必要となり、いくつかの問題が生じます。
 
-- Provider hell: It's likely that your root component has many context providers, which is technically okay, and sometimes desirable to provide context in different subtree.
-- Dynamic addition/deletion: Adding a new context at runtime is not very nice, because you need to add a new provider and its children will be re-mounted.
+- Provider 地獄：ルートコンポーネントに多くのコンテキストプロバイダーが必要になりがちです。技術的には問題ありませんが、異なるサブツリーでコンテキストを提供する場合にはある程度望ましいこともあります。
+- 動的な追加・削除：実行時に新しいコンテキストを追加するのはあまり良くありません。新しいプロバイダーを追加する必要があり、その子コンポーネントが再マウントされるからです。
 
-Traditionally, a top-down solution to this is to use a selector function.
-The [use-context-selector](https://github.com/dai-shi/use-context-selector) library is one example.
-The issue with this approach is the selector function needs to return
-referentially equal values to prevent re-renders, and this often requires a memoization technique.
+従来、これに対するトップダウンの解決策はセレクター関数を使うことでした。[use-context-selector](https://github.com/dai-shi/use-context-selector) ライブラリがその一例です。このアプローチの問題点は、セレクター関数が再レンダリングを防ぐために参照等価な値を返す必要があり、メモ化技術が必要になることが多い点です。
 
-Jotai takes a bottom-up approach with the atomic model, inspired by [Recoil](https://recoiljs.org/).
-One can build state combining atoms, and optimize renders based on atom dependency.
-This avoids the need for memoization.
+Jotai は [Recoil](https://recoiljs.org/) にインスパイアされたアトミックモデルでボトムアップアプローチを採ります。アトムを組み合わせて状態を構築し、アトムの依存関係に基づいてレンダリングを最適化できます。これによりメモ化が不要になります。
 
-Jotai has two principles.
+Jotai には2つの原則があります。
 
-- Primitive: Its basic API is simple, like `useState`.
-- Flexible: Atoms can derive another atom and form a graph. Atoms can also be updated by another arbitrary atom. It allows abstracting complex state models.
+- プリミティブ：基本 API が `useState` のようにシンプルです。
+- 柔軟：アトムは別のアトムから派生してグラフを形成できます。アトムは別の任意のアトムによって更新されることもできます。これにより複雑な状態モデルの抽象化が可能です。
 
-### How is Jotai different from useContext of React?
+### Jotai は React の useContext とどう違うのか？
 
-Jotai's core API is minimalistic and makes it easy to build utilities based upon it.
+Jotai のコア API はミニマリスティックで、その上にユーティリティを構築しやすくなっています。
 
-#### Analogy
+#### 類比
 
-You can view Jotai as a drop-in replacement to `useContext`. Except Jotai is aiming for simplicity, minimalistic API and can do much more than `useContext` & `useState`.
+Jotai は `useContext` のドロップイン代替品と見なすことができます。ただし Jotai はシンプルさと最小限の API を目指しており、`useContext` と `useState` よりはるかに多くのことができます。
 
-#### Usage difference
+#### 使い方の違い
 
-We can see how we used to share data to children, compared to how we do it with Jotai. But let's use a real-world example where we have multiple `Context` in our app.
+従来の子コンポーネントへのデータ共有方法と Jotai での方法を比較してみましょう。アプリに複数の `Context` がある実際のケースで見てみます。
 
 ```jsx
-// 1. useState local state
+// 1. useState のローカル状態
 const Component = () => {
   const [state, setState] = useState(0)
 }
 
-// 2. Lift local state up and share it via context
+// 2. ローカル状態を上位に持ち上げてコンテキストで共有
 const StateContext = createContext()
 const Parent = ({ children }) => {
   return (
@@ -58,7 +51,7 @@ const Component = () => {
   const [state, setState] = useContext(StateContext)
 }
 
-// 3. Have multiple states and contexts
+// 3. 複数の状態とコンテキストを持つ
 const State1Context = createContext()
 const State2Context = createContext()
 const Parent = ({ children }) => (
@@ -76,15 +69,14 @@ const Component2 = () => {
 }
 ```
 
-Now let's see how Jotai simplify it for us. You can just use atoms instead of multiple `Context`.
+では Jotai がどのように簡略化するかを見てみましょう。複数の `Context` の代わりにアトムを使うだけです。
 
 ```jsx
 import { Provider, atom, useAtom } from 'jotai'
 const atom1 = atom(0)
 const atom2 = atom(0)
-// Optional: you can use Provider's just like useContext,
-// ...but if you only need one,
-// ...you can just omit it and Jotai will use a default one (called Provider-less mode).
+// オプション：useContext のように Provider を使えますが、
+// ...1つだけ必要な場合は省略でき、Jotai はデフォルトを使います（Provider レスモードと呼ばれます）。
 const Parent = ({ children }) => {
   return <Provider>{children}</Provider>
 }
@@ -96,66 +88,65 @@ const Component2 = () => {
 }
 ```
 
-### How is Jotai different from Zustand?
+### Jotai は Zustand とどう違うのか？
 
-#### Name
+#### 名前
 
-Jotai means "state" in Japanese.
-Zustand means "state" in German.
+Jotai は日本語で「状態」を意味します。
+Zustand はドイツ語で「状態」を意味します。
 
-#### Analogy
+#### 類比
 
-Jotai is like Recoil.
-Zustand is like Redux.
+Jotai は Recoil に似ています。
+Zustand は Redux に似ています。
 
-#### Where state resides
+#### 状態の置き場所
 
-To hold states,
-Both have stores that can exist either at module level or at context level.
-Jotai is designed to be context first, and module second.
-Zustand is designed to be module first, and context second.
+どちらもモジュールレベルまたはコンテキストレベルのいずれかに存在できるストアを持っています。
+Jotai はコンテキストファーストで、モジュールはセカンダリとして設計されています。
+Zustand はモジュールファーストで、コンテキストはセカンダリとして設計されています。
 
-#### How to structure state
+#### 状態の構造化方法
 
-Jotai state consists of atoms (i.e. bottom-up).
-Zustand state is one object (i.e. top-down).
+Jotai の状態はアトムで構成されます（ボトムアップ）。
+Zustand の状態は1つのオブジェクトです（トップダウン）。
 
-#### Technical difference
+#### 技術的な違い
 
-The major difference is the state model. Zustand is a single store (although you could create multiple separate stores), while Jotai consists of primitive atoms and allows composing them together. In this sense, it's the matter of programming mental model.
+最大の違いは状態モデルです。Zustand は単一のストア（複数の独立したストアも作れますが）であるのに対し、Jotai はプリミティブなアトムで構成され、それらを組み合わせることができます。この意味で、プログラミングのメンタルモデルの問題です。
 
-#### When to use which
+#### どちらをいつ使うか
 
-- If you need a replacement for useState+useContext, Jotai fits well.
-- If you want a simple module state, Zustand fits well.
-- If code splitting is important, Jotai should perform well.
-- If you prefer Redux devtools, Zustand is good to go.
-- If you want to make use of Suspense, Jotai is the one.
+- useState+useContext の代替が必要な場合、Jotai が適しています。
+- シンプルなモジュール状態が必要な場合、Zustand が適しています。
+- コード分割が重要な場合、Jotai は良いパフォーマンスを発揮します。
+- Redux DevTools が好みの場合、Zustand が良いでしょう。
+- Suspense を使いたい場合、Jotai が選択肢です。
 
-### How is Jotai different from Recoil?
+### Jotai は Recoil とどう違うのか？
 
-(Disclaimer: the author is not very familiar with Recoil, this may be biased and inaccurate.)
+（免責事項：著者は Recoil についてあまり詳しくないため、偏りや不正確さがある可能性があります。）
 
-#### Developer
+#### 開発者
 
-- Jotai is developed with collective work by a few developers in Poimandres (formerly react-spring) org.
-- Recoil is developed by a team at Facebook.
+- Jotai は Poimandres（旧 react-spring）org の数名の開発者による集合的な作業で開発されています。
+- Recoil は Facebook のチームによって開発されています。
 
-#### Basis
+#### 基盤
 
-- Jotai is focusing on primitive APIs for easy learning, and it's unopinionated. (The same philosophy with Zustand)
-- Recoil is all-in-one, and it has various cache strategies.
+- Jotai は学習しやすいプリミティブ API に焦点を当てており、意見を押し付けません（Zustand と同じ哲学）。
+- Recoil はオールインワンで、さまざまなキャッシュ戦略を持っています。
 
-#### Technical difference
+#### 技術的な違い
 
-- Jotai depends on atom object referential identities.
-- Recoil depends on atom string keys.
+- Jotai はアトムオブジェクトの参照同一性に依存します。
+- Recoil はアトムの文字列キーに依存します。
 
-#### When to use which
+#### どちらをいつ使うか
 
-- If you want to learn something new, either should work.
-- If you like Zustand, Jotai would also be pleasant.
-- If you need React Context alternatives, Jotai comes with enough features.
-- If you need to read and write atoms outside React, Jotai provides store API.
-- If you would try to create a new library, Jotai might give good primitives.
-- Otherwise, both are pretty similar about the general goals and basic techniques, so please try both and share your feedback with us.
+- 新しいことを学びたい場合、どちらでも良いでしょう。
+- Zustand が好きなら、Jotai も気に入るでしょう。
+- React Context の代替が必要な場合、Jotai は十分な機能を持っています。
+- React 外でアトムの読み書きが必要な場合、Jotai はストア API を提供しています。
+- 新しいライブラリを作りたい場合、Jotai は良いプリミティブを提供します。
+- そうでなければ、両者は全般的な目標と基本的な手法においてかなり似ているので、両方試してフィードバックを共有してください。

@@ -1,18 +1,18 @@
 ---
 title: Testing
-description: How to test your code using Jotai
+description: Jotai を使ったコードのテスト方法
 nav: 8.09
 keywords: test,testing
 ---
 
-We echo the [guiding principles of Testing library](https://testing-library.com/docs/guiding-principles/):
+私たちは [Testing library の指針](https://testing-library.com/docs/guiding-principles/)に同意しています：
 
-- "The more your tests resemble the way your software is used, the more confidence they can give you."
+- 「テストがソフトウェアの使われ方に似ているほど、より多くの自信を与えてくれます。」
 
-We encourage you to write tests, like the user would interact with your atoms and components,
-therefore treating Jotai as an implementation detail.
+ユーザーがアトムやコンポーネントと対話する方法のようにテストを書き、
+Jotai を実装の詳細として扱うことを推奨します。
 
-Here's an example using [React testing library](https://github.com/testing-library/react-testing-library):
+[React testing library](https://github.com/testing-library/react-testing-library) を使った例：
 
 `Counter.tsx`:
 
@@ -53,11 +53,11 @@ test('should increment counter', () => {
 })
 ```
 
-### Injected Values
+### 注入された値
 
-You may want to inject arbitrary values to your atom before starting some tests.
-Maybe the counter should be limited to 100. Let's see how to test that it doesn't increase after reaching 100.
-In order to do that, simply use a [Provider](../core/provider.mdx), and export your atom to be filled-in.
+一部のテストを開始する前にアトムに任意の値を注入したい場合があります。
+カウンターを100に制限する場合を考えましょう。100に達した後にインクリメントされないことをテストする方法を見てみましょう。
+そのためには、単に [Provider](../core/provider.mdx) を使用し、アトムをエクスポートして注入できるようにします。
 
 ```tsx
 import React from 'react'
@@ -96,12 +96,12 @@ test('should not increment on max (100)', () => {
 })
 ```
 
-### Custom hooks
+### カスタムフック
 
-If you have complex atoms, sometimes you want to test them in isolation.
+複雑なアトムがある場合、単独でテストしたいことがあります。
 
-For that, you can use [React Hooks Testing Library](https://github.com/testing-library/react-hooks-testing-library).
-Here's an example below:
+そのためには [React Hooks Testing Library](https://github.com/testing-library/react-hooks-testing-library) を使用できます。
+以下に例を示します：
 
 `countAtom.ts`:
 
@@ -140,9 +140,9 @@ test('should increment counter', () => {
 })
 ```
 
-### Example with React-Native
+### React-Native を使った例
 
-Of course, you can test React-Native components too the same way, with or without `Provider`.
+もちろん、`Provider` の有無にかかわらず、同じ方法で React-Native コンポーネントもテストできます。
 
 ```tsx
 import React from 'react'

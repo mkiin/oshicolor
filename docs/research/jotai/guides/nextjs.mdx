@@ -1,17 +1,17 @@
 ---
 title: Next.js
-description: How to use Jotai with Next.js
+description: Jotai を Next.js で使用する方法
 nav: 8.03
 keywords: next,nextjs
 ---
 
-### Hydration
+### ハイドレーション
 
-Jotai has support for hydration of atoms with `useHydrateAtoms`. The documentation for the hook can be seen [here](../utilities/ssr.mdx).
+Jotai は `useHydrateAtoms` でのアトムのハイドレーションをサポートしています。フックのドキュメントは[こちら](../utilities/ssr.mdx)を参照してください。
 
-### Sync with router
+### ルーターとの同期
 
-It's possible to sync Jotai with the router. You can achieve this with `atomWithHash`:
+Jotai をルーターと同期することができます。`atomWithHash` でこれを実現できます：
 
 ```js
 const pageAtom = atomWithHash('page', 1, {
@@ -27,17 +27,17 @@ const pageAtom = atomWithHash('page', 1, {
 })
 ```
 
-This way you have full control over what [router event](https://nextjs.org/docs/api-reference/next/router#routerevents) you want to subscribe to.
+これにより、どの[ルーターイベント](https://nextjs.org/docs/api-reference/next/router#routerevents)をサブスクライブするかを完全に制御できます。
 
-> #### In Next.js 13
+> #### Next.js 13 以降
 >
-> As of Next.js 13 there have been some changes to the `Router.events.on()` which no longer expose events. There are plans in the [App Router Roadmap](https://beta.nextjs.org/docs/app-directory-roadmap#planned-features) for event intercepting and hash handling. However there is no ETA on when this will be available or what it will look like. For now when trying to the `atomWithHash()` you will not get the atom loading with any data when navigating using the router, only when the page is reloaded or the component is rerendered. It is also recommended that you set the `setHash` option to `replaceState` as Next.js appears to use window.history in the background and this will allow the user to use the browser back button.
+> Next.js 13 以降、`Router.events.on()` にいくつかの変更があり、イベントが公開されなくなりました。[App Router ロードマップ](https://beta.nextjs.org/docs/app-directory-roadmap#planned-features)にはイベントのインターセプトとハッシュ処理の計画があります。ただし、いつ利用可能になるか、どのような形になるかについての ETA はありません。現時点では `atomWithHash()` を使用しようとすると、ルーターを使ったナビゲーション時にはデータが読み込まれず、ページのリロードまたはコンポーネントの再レンダリング時のみ読み込まれます。また、Next.js はバックグラウンドで window.history を使用しているようなので、ユーザーがブラウザの戻るボタンを使えるよう `setHash` オプションを `replaceState` に設定することを推奨します。
 
-### You can't return promises in server side rendering
+### サーバーサイドレンダリングでプロミスを返すことはできません
 
-It's important to note that you can't return promises with SSR - However, it's possible to guard against it inside the atom definition.
+SSR ではプロミスを返すことができないことに注意することが重要です。ただし、アトム定義内でこれを防ぐことは可能です。
 
-If possible use `useHydrateAtoms` to hydrate values from the server.
+可能であれば `useHydrateAtoms` を使用してサーバーから値をハイドレートしてください。
 
 ```js
 const postData = atom((get) => {
@@ -45,15 +45,15 @@ const postData = atom((get) => {
   if (isSSR || prefetchedPostData[id]) {
     return prefetchedPostData[id] || EMPTY_POST_DATA
   }
-  return fetchData(id) // returns a promise
+  return fetchData(id) // プロミスを返します
 })
 ```
 
 ### Provider
 
-By default, Jotai uses an implicit global store to keep track of atom values. This is what is referred to as "provider-less" mode. This becomes an issue in SSR scenario because this global store is kept alive and is shared between multiple requests, which can lead to bugs and security risks.
+デフォルトでは、Jotai はアトムの値を追跡するために暗黙のグローバルストアを使用します。これが「プロバイダーレス」モードと呼ばれるものです。SSR シナリオではこれが問題になります。このグローバルストアは存続し複数のリクエスト間で共有されるため、バグやセキュリティリスクにつながる可能性があります。
 
-To limit the lifetime of the store to the scope of one request, you need to use a [Provider](../core/provider.mdx) at the root of your app (or a subtree if you're using Jotai only for a part of your application).
+ストアの存続期間を1つのリクエストのスコープに制限するには、アプリのルート（またはアプリケーションの一部だけ Jotai を使用している場合はサブツリー）に [Provider](../core/provider.mdx) を使用する必要があります。
 
 ```typescript
 import { Provider } from 'jotai'
@@ -67,16 +67,16 @@ function App({ Component, pageProps }: AppProps) {
 }
 ```
 
-In this case:
+この場合：
 
-1. `Provider` will hold the state of the atoms used in its subtree instead of the global store.
-2. `Provider`'s lifetime will be the same as the app itself, and since the app is recreated on each SSR request we essentially limit the lifetime of the store to a single request as well.
+1. `Provider` はグローバルストアの代わりに、そのサブツリーで使用されるアトムの状態を保持します。
+2. `Provider` の存続期間はアプリ自体と同じになり、アプリは各 SSR リクエストで再作成されるため、ストアの存続期間も実質的に1つのリクエストに制限されます。
 
-### SWC plugins
+### SWC プラグイン
 
-Jotai provides SWC plugins for better DX while developing with Next.js. [Find more info in the SWC section.](../tools/swc.mdx)
+Jotai は Next.js での開発中の DX 向上のために SWC プラグインを提供しています。[SWC セクションで詳細を確認してください。](../tools/swc.mdx)
 
-### Examples
+### 例
 
 #### Clock
 
@@ -87,19 +87,19 @@ Jotai provides SWC plugins for better DX while developing with Next.js. [Find mo
 
 #### HN Posts
 
-Page Router demo:
+Page Router デモ：
 
 <Stackblitz
   id="stackblitz-starters-cnz9lg"
   file="store%2Findex.ts,pages%2F_app.tsx,pages%2Findex.tsx"
 />
 
-App Router [demo on Stackblitz](https://stackblitz.com/edit/jotai-nextjs-app-router-demo?file=store%2Findex.ts,app%2Flayout.tsx,components%2FPost.tsx,app%2Fpage.tsx)
+App Router [Stackblitz デモ](https://stackblitz.com/edit/jotai-nextjs-app-router-demo?file=store%2Findex.ts,app%2Flayout.tsx,components%2FPost.tsx,app%2Fpage.tsx)
 
-#### Next.js repo
+#### Next.js リポジトリ
 
 ```bash
 npx create-next-app --example with-jotai with-jotai-app
 ```
 
-Here's a [link](https://github.com/vercel/next.js/tree/canary/examples/with-jotai).
+[リンク](https://github.com/vercel/next.js/tree/canary/examples/with-jotai)はこちら。

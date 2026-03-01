@@ -4,39 +4,39 @@ nav: 9.07
 keywords: creators,refresh,default
 ---
 
-> This is for another implementation of [atomWithDefault](../utilities/resettable.mdx#atomwithdefault)
+> これは [atomWithDefault](../utilities/resettable.mdx#atomwithdefault) の別実装です。
 
-### Look back to atomWithDefault behavior
+### atomWithDefault の動作を振り返る
 
-As you can see in the example code in atomWithDefault section, the two atoms' relation is disconnected after updating created one, `count2Atom = atomWithDefault((get) => get(count1Atom) * 2)`.
-Let's confirm what's occurred,
+`atomWithDefault` セクションのサンプルコードに示されているように、`count2Atom = atomWithDefault((get) => get(count1Atom) * 2)` と作成したアトムを更新した後、2つのアトムの関係が切断されます。
+何が起こったか確認してみましょう：
 
-- 1. Click "increment count1", then count1 is 2 and count2 is 4
-- 2. Click "increment count2", then count1 is 2 and count2 is 5 (Disconnected!!)
+- 1. "increment count1" をクリックすると、count1 が 2、count2 が 4 になります
+- 2. "increment count2" をクリックすると、count1 が 2、count2 が 5 になります（切断済み！！）
 
-Those atoms have no relation after updating count2Atom. So,
+`count2Atom` を更新した後、これらのアトムは関係を持たなくなります。そのため、
 
-- Click "increment count1", count1 is incremented only
-- Even if you reset count2Atom, these dependency relation never come back
+- "increment count1" をクリックしても、count1 のみがインクリメントされます
+- `count2Atom` をリセットしても、依存関係は戻りません
 
-### Motivation
+### モチベーション
 
-In some cases,
+以下のようなケースでは、
 
-- After disconnecting and resetting, they should come back to their relation
-- Derived atoms should be reset based on updated the original atom
-- We'd like to reset all derived atoms but just want to operate as simply as possible
+- 切断後にリセットすると、関係を取り戻したい
+- 派生アトムは元のアトムの更新に基づいてリセットされるべき
+- すべての派生アトムをリセットしたいが、できるだけシンプルに操作したい
 
-How do we make those cases?
-Here is a declarative way to create a function to provide a refreshable atom instead of atomWithDefault.
+このようなケースはどのように実現できるでしょうか？
+ここでは、`atomWithDefault` の代わりにリフレッシュ可能なアトムを作成する宣言的な方法を紹介します。
 
 ```js
 const refreshCountAtom = atom(0)
 
-const baseDataAtom = atom(1) // original data, e.g. base count1Atom
+const baseDataAtom = atom(1) // 元データ、例: ベースの count1Atom
 const dataAtom = atom(
   (get) => {
-    get(refreshCountAtom) // it's introduced at atomWithRefresh
+    get(refreshCountAtom) // atomWithRefresh で紹介
     return get(baseDataAtom)
   },
   (get, set, update) => {
@@ -60,13 +60,13 @@ const atomWithRefreshAndDefault = (refreshAtom, getDefault) => {
   )
 }
 
-// This is an alternative of `atomWithDefault((get) => get(count1Atom) * 2)`
+// これは `atomWithDefault((get) => get(count1Atom) * 2)` の代替です
 const refreshableAtom = atomWithRefreshAndDefault(
   refreshCountAtom,
   (get) => get(dataAtom) * 2,
 )
 
-// You can reset by updating just one atom
+// 1つのアトムを更新するだけでリセットできます
 const resetRootAtom = atom(null, (get, set) => {
   set(refreshCountAtom, get(refreshCountAtom) + 1)
 })

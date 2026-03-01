@@ -1,13 +1,13 @@
 ---
 title: Immer
-description: This doc describes Immer extension.
+description: このドキュメントは Immer 拡張について説明します。
 nav: 4.04
 keywords: immer
 ---
 
-### Install
+### インストール
 
-You have to install `immer` and `jotai-immer` to use this feature.
+この機能を使用するには `immer` と `jotai-immer` をインストールする必要があります。
 
 ```
 npm install immer jotai-immer
@@ -15,8 +15,8 @@ npm install immer jotai-immer
 
 ## atomWithImmer
 
-`atomWithImmer` creates a new atom similar to the regular [`atom`](../core/atom.mdx) with a different `writeFunction`. In this bundle, we don't have read-only atoms, because the point of these functions is the immer produce(mutability) function.
-The signature of writeFunction is `(get, set, update: (draft: Draft<Value>) => void) => void`.
+`atomWithImmer` は通常の [`atom`](../core/atom.mdx) に似た新しいアトムを作成しますが、異なる `writeFunction` を持ちます。このバンドルには読み取り専用アトムはありません。これらの関数の目的は immer の produce（ミュータビリティ）関数だからです。
+writeFunction のシグネチャは `(get, set, update: (draft: Draft<Value>) => void) => void` です。
 
 ```jsx
 import { useAtom } from 'jotai'
@@ -40,15 +40,15 @@ const Controls = () => {
 }
 ```
 
-### Examples
+### 例
 
-Check this example with atomWithImmer:
+atomWithImmer を使った例：
 
 <Stackblitz id="vitejs-vite-tblppw" file="src%2FApp.tsx" />
 
 ## withImmer
 
-`withImmer` takes an atom and returns a derived atom, same as `atomWithImmer` it has a different `writeFunction`.
+`withImmer` はアトムを受け取り派生アトムを返します。`atomWithImmer` と同様に異なる `writeFunction` を持ちます。
 
 ```jsx
 import { useAtom, atom } from 'jotai'
@@ -73,15 +73,15 @@ const Controls = () => {
 }
 ```
 
-### Examples
+### 例
 
-Check this example with withImmer:
+withImmer を使った例：
 
 <Stackblitz id="vitejs-vite-jwfjqm" file="src%2FApp.tsx" />
 
 ## useImmerAtom
 
-This hook takes an atom and replaces the atom's `writeFunction` with the new immer-like `writeFunction` like the previous helpers.
+このフックはアトムを受け取り、アトムの `writeFunction` を以前のヘルパーと同様の immer ライクな `writeFunction` に置き換えます。
 
 ```jsx
 import { atom } from 'jotai'
@@ -105,16 +105,16 @@ const Controls = () => {
 }
 ```
 
-It would be better if you don't use `withImmer` and `atomWithImmer` with `useImmerAtom` because they provide the immer-like `writeFunction` and we don't need to create a new one.
+`withImmer` と `atomWithImmer` は immer ライクな `writeFunction` を提供するため、新しいものを作成する必要がない `useImmerAtom` と組み合わせないほうが良いでしょう。
 
-You can use `useSetImmerAtom` if you need only the setter part of `useImmerAtom`.
+セッター部分のみ必要な場合は `useSetImmerAtom` を使用できます。
 
-### Examples
+### 例
 
-Check this example with useImmerAtom:
+useImmerAtom を使った例：
 
 <Stackblitz id="vitejs-vite-k2rixl" file="src%2FApp.tsx" />
 
-## Demo
+## デモ
 
 <Stackblitz id="vitejs-vite-tksbwq" file="src%2FApp.tsx" />

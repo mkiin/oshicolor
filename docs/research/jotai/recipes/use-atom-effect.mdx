@@ -4,11 +4,11 @@ nav: 9.03
 keywords: effect, atom effect, side effect, side-effect, sideeffect, hook, useAtomEffect
 ---
 
-> `useAtomEffect` runs side effects in response to changes in atoms or props using [atomEffect](../extensions/effect.mdx).
+> `useAtomEffect` は [atomEffect](../extensions/effect.mdx) を使って、アトムや props の変化に応じてサイドエフェクトを実行します。
 
-The effectFn reruns whenever the atoms it depends on change or the effectFn itself changes. Be sure to memoize the effectFn if it's a function defined in the component.
+`effectFn` は、依存するアトムが変化するか、`effectFn` 自体が変化するたびに再実行されます。コンポーネント内で定義された関数の場合は、必ず `effectFn` をメモ化してください。
 
-⚠️ Note: always prefer to use a [stable version of useMemo and useCallback](https://github.com/alexreardon/use-memo-one) to avoid extra atomEffect recomputations. You may rely on useMemo as a performance optimization, but not as a semantic guarantee. In the future, React may choose to “forget” some previously memoized values and recalculate them on next render, e.g. to free memory for offscreen components.
+⚠️ 注意：追加の `atomEffect` の再計算を避けるために、常に [useMemo と useCallback の安定バージョン](https://github.com/alexreardon/use-memo-one) を使用することを推奨します。`useMemo` はパフォーマンスの最適化として使用できますが、意味的な保証としては使用できません。将来的に、React はオフスクリーンコンポーネントのメモリを解放するために一部のメモ化された値を「忘れ」て次のレンダリング時に再計算する場合があります。
 
 ```ts
 import { useMemoOne as useStableMemo } from 'use-memo-one'
@@ -22,7 +22,7 @@ export function useAtomEffect(effectFn: EffectFn) {
 }
 ```
 
-### Example Usage
+### 使用例
 
 ```tsx
 import { useCallbackOne as useStableCallback } from 'use-memo-one'

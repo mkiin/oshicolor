@@ -1,12 +1,12 @@
 ---
-title: Custom useAtom hooks
+title: カスタム useAtom フック
 nav: 9.02
 keywords: custom,hook
 ---
 
-This page shows the ways of creating different utility functions. Utility functions save your time on coding, and you can preserve your base atom for other usage.
+このページでは、さまざまなユーティリティ関数の作成方法を示します。ユーティリティ関数はコーディングの時間を節約し、ベースアトムを他の用途のために保持することができます。
 
-### utils
+### ユーティリティ
 
 #### useSelectAtom
 
@@ -18,20 +18,20 @@ export function useSelectAtom(anAtom, selector) {
   const selectorAtom = selectAtom(
     anAtom,
     selector,
-    // Alternatively, you can customize `equalityFn` to determine when it will rerender
-    // Check selectAtom's signature for details.
+    // 必要に応じて `equalityFn` をカスタマイズして再レンダリングのタイミングを制御できます
+    // 詳細は selectAtom のシグネチャを確認してください
   )
   return useAtomValue(selectorAtom)
 }
 
-// how to use it
+// 使用方法
 function useN(n) {
   const selector = useCallback((v) => v[n], [n])
   return useSelectAtom(arrayAtom, selector)
 }
 ```
 
-Please note that in this case `keyFn` must be stable, either define outside render or wrap with `useCallback`.
+この場合、`keyFn` は安定している必要があります。レンダリング外で定義するか、`useCallback` でラップしてください。
 
 #### useFreezeAtom
 
@@ -55,7 +55,7 @@ export function useSplitAtom(anAtom) {
 }
 ```
 
-### extensions
+### 拡張機能
 
 #### useFocusAtom
 
@@ -63,12 +63,12 @@ export function useSplitAtom(anAtom) {
 import { useAtom } from 'jotai'
 import { focusAtom } from 'jotai-optics'
 
-/* if an atom is created here, please use `useMemo(() => atom(initValue), [initValue])` instead. */
+/* アトムがここで作成される場合は、代わりに `useMemo(() => atom(initValue), [initValue])` を使用してください。 */
 export function useFocusAtom(anAtom, keyFn) {
     return useAtom(focusAtom(anAtom, keyFn))
 }
 
-// how to use it
+// 使用方法
 useFocusAtom(anAtom) {
     useMemo(() => atom(initValue), [initValue]),
     useCallback((optic) => optic.prop('key'), [])
@@ -79,4 +79,4 @@ useFocusAtom(anAtom) {
 
 <Stackblitz id="vitejs-vite-ge1mah" file="src%2FApp.tsx" />
 
-Please note that in this case `keyFn` must be stable, either define outside render or wrap with `useCallback`.
+この場合、`keyFn` は安定している必要があります。レンダリング外で定義するか、`useCallback` でラップしてください。

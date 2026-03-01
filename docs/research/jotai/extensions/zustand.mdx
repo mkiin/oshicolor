@@ -1,22 +1,20 @@
 ---
 title: Zustand
-description: This doc describes Zustand extension.
+description: このドキュメントは Zustand 拡張について説明します。
 nav: 4.98
 keywords: zustand
 published: false
 ---
 
-Jotai's state resides in React, but sometimes it would be nice
-to interact with the world outside React.
+Jotai の状態は React に存在しますが、React 外の世界と連携できると便利な場合があります。
 
-Zustand provides a store interface that can be used to hold some values
-and sync with atoms in Jotai.
+Zustand は値を保持し Jotai のアトムと同期するために使用できるストアインターフェースを提供します。
 
-This only uses the vanilla api of zustand.
+これは zustand のバニラ API のみを使用します。
 
-### Install
+### インストール
 
-You have to install `zustand` and `jotai-zustand` to use this feature.
+この機能を使用するには `zustand` と `jotai-zustand` をインストールする必要があります。
 
 ```
 npm install zustand jotai-zustand
@@ -24,8 +22,8 @@ npm install zustand jotai-zustand
 
 ## atomWithStore
 
-`atomWithStore` creates a new atom with zustand store.
-It's two-way binding and you can change the value from both ends.
+`atomWithStore` は Zustand ストアで新しいアトムを作成します。
+双方向バインディングで、両端から値を変更できます。
 
 ```jsx
 import { useAtom } from 'jotai'
@@ -50,6 +48,6 @@ const Counter = () => {
 }
 ```
 
-### Examples
+### 例
 
 <Stackblitz id="vitejs-vite-kfzyun" file="src%2FApp.tsx" />

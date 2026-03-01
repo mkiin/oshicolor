@@ -1,24 +1,24 @@
 ---
 title: Provider
-description: This doc describes core `jotai` bundle.
+description: このドキュメントはコアの `jotai` バンドルについて説明します。
 nav: 2.04
 keywords: provider,usestore,ssr
 ---
 
 ## Provider
 
-The `Provider` component is to provide state for a component sub tree.
-Multiple Providers can be used for multiple subtrees, and they can even be nested.
-This works just like React Context.
+`Provider` コンポーネントはコンポーネントサブツリーに状態を提供するためのものです。
+複数のサブツリーに対して複数の Provider を使用でき、ネストも可能です。
+これは React Context と同様に機能します。
 
-If an atom is used in a tree without a Provider,
-it will use the default state. This is so-called provider-less mode.
+Provider なしのツリーでアトムが使用された場合、
+デフォルトの状態が使用されます。これはプロバイダーレスモードと呼ばれます。
 
-Providers are useful for three reasons:
+Provider は3つの理由で有用です：
 
-1. To provide a different state for each sub tree.
-2. To accept initial values of atoms.
-3. To clear all atoms by remounting.
+1. 各サブツリーに異なる状態を提供するため。
+2. アトムの初期値を受け入れるため。
+3. 再マウントによってすべてのアトムをクリアするため。
 
 ```jsx
 const SubTree = () => (
@@ -28,7 +28,7 @@ const SubTree = () => (
 )
 ```
 
-### Signatures
+### シグネチャ
 
 ```ts
 const Provider: React.FC<{
@@ -36,7 +36,7 @@ const Provider: React.FC<{
 }>
 ```
 
-Atom configs don't hold values. Atom values reside in separate stores. A Provider is a component that contains a store and provides atom values under the component tree. A Provider works like React context provider. If you don't use a Provider, it works as provider-less mode with a default store. A Provider will be necessary if we need to hold different atom values for different component trees. Provider can take an optional prop `store`.
+アトムコンフィグは値を保持しません。アトムの値は別のストアに存在します。Provider はストアを含み、コンポーネントツリー下にアトムの値を提供するコンポーネントです。Provider は React コンテキストプロバイダーのように機能します。Provider を使用しない場合、デフォルトストアを使用したプロバイダーレスモードで動作します。異なるコンポーネントツリーに異なるアトムの値を保持する必要がある場合は Provider が必要です。Provider はオプションの prop `store` を受け取れます。
 
 ```jsx
 const Root = () => (
@@ -48,9 +48,9 @@ const Root = () => (
 
 ### `store` prop
 
-A Provider accepts an optional prop `store` that you can use for the Provider subtree.
+Provider はオプションの prop `store` を受け取れます。Provider のサブツリーで使用できます。
 
-#### Example
+#### 例
 
 ```jsx
 const myStore = createStore()
@@ -64,7 +64,7 @@ const Root = () => (
 
 ## useStore
 
-This hook returns a store within the component tree.
+このフックはコンポーネントツリー内のストアを返します。
 
 ```jsx
 const Component = () => {

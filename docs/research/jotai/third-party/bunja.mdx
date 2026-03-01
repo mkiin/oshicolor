@@ -1,36 +1,36 @@
 ---
 title: Bunja
-description: State Lifetime Manager
+description: 状態ライフタイムマネージャー
 nav: 5.03
 keywords: scope,di,raii,lifetime
 ---
 
-[Bunja](https://github.com/disjukr/bunja) is lightweight State Lifetime Manager.
+[Bunja](https://github.com/disjukr/bunja) は軽量な状態ライフタイムマネージャーです。
 
-It provides an RAII wrapper for jōtai atoms.
+jōtai アトムの RAII ラッパーを提供します。
 
 ---
 
-See also:
+参考：
 
 - [Bunja README](https://github.com/disjukr/bunja/blob/main/README.md)
-- [Presentations](https://github.com/disjukr/bunja/tree/main/presentations)
+- [プレゼンテーション](https://github.com/disjukr/bunja/tree/main/presentations)
 
-## install
+## インストール
 
 ```
 npm install bunja
 ```
 
-### Defining a Bunja
+### Bunja の定義
 
-You can define a bunja using the `bunja` function.
+`bunja` 関数を使って bunja を定義できます。
 
-When you access the defined bunja with the `useBunja` hook, a bunja instance is created.
+定義した bunja に `useBunja` フックでアクセスすると、bunja インスタンスが作成されます。
 
-If all components in the render tree that refer to the bunja disappear, the bunja instance is automatically destroyed.
+bunja を参照しているすべてのコンポーネントがレンダリングツリーから消えると、bunja インスタンスは自動的に破棄されます。
 
-If you want to trigger effects when the lifetime of a bunja starts and ends, you can use the `bunja.effect` function.
+bunja のライフタイムの開始と終了時にエフェクトをトリガーしたい場合は、`bunja.effect` 関数を使用できます。
 
 ```ts
 import { bunja } from 'bunja'
@@ -50,19 +50,19 @@ const countBunja = bunja(() => {
 function MyComponent() {
   const { countAtom } = useBunja(countBunja)
   const [count, setCount] = useAtom(countAtom)
-  // Your component logic here
+  // コンポーネントのロジックをここに
 }
 ```
 
-### Defining a Bunja that relies on other Bunja
+### 他の Bunja に依存する Bunja の定義
 
-If you want to manage a state with a broad lifetime and another state with a narrower lifetime, you can create a (narrower) bunja that depends on a (broader) bunja.
+広いライフタイムを持つ状態と、より狭いライフタイムを持つ状態を管理したい場合、（広い）bunja に依存する（狭い）bunja を作成できます。
 
-For example, you can think of a bunja that holds the page state and another bunja that holds the modal state.
+例えば、ページの状態を保持する bunja と、モーダルの状態を保持する bunja を考えてみましょう。
 
-The page state lives longer than the modal state, and the modal state should exist from the moment the modal opens until it closes.
+ページの状態はモーダルの状態よりも長く存在し、モーダルの状態はモーダルが開いた瞬間から閉じるまで存在する必要があります。
 
-In such a case, you can write the following code.
+そのような場合、以下のコードを書くことができます。
 
 ```tsx
 const pageBunja = bunja(() => {
@@ -117,17 +117,17 @@ function Modal() {
 }
 ```
 
-Notice that `pageBunja` is not directly `useBunja`-ed.
+`pageBunja` は直接 `useBunja` されていないことに注目してください。
 
-When you `useBunja` either `childBunja` or `modalBunja`, since they depend on `pageBunja`, it has the same effect as if `pageBunja` were also `useBunja`-ed.
+`childBunja` や `modalBunja` のいずれかを `useBunja` すると、それらが `pageBunja` に依存しているため、`pageBunja` も `useBunja` されたのと同じ効果があります。
 
-When the modal is unmounted, there are no longer any places using `useBunja(modalBunja)`, so the instance of `modalBunja` is automatically destroyed.
+モーダルがアンマウントされると、`useBunja(modalBunja)` を使用している場所がなくなるため、`modalBunja` のインスタンスは自動的に破棄されます。
 
-### Dependency injection using Scope
+### Scope を使った依存性注入
 
-You can use a bunja for local state management.
+bunja をローカル状態管理に使用できます。
 
-When you specify a scope as a dependency of the bunja, separate bunja instances are created based on the values injected into the scope.
+bunja の依存関係としてスコープを指定すると、スコープに注入された値に基づいて別々の bunja インスタンスが作成されます。
 
 ```ts
 import { bunja, createScope } from 'bunja'
@@ -146,11 +146,11 @@ const fetchBunja = bunja(() => {
 })
 ```
 
-#### Injecting dependencies via React context
+#### React コンテキスト経由の依存性注入
 
-If you bind a scope to a React context, bunjas that depend on the scope can retrieve values from the corresponding React context.
+スコープを React コンテキストにバインドすると、スコープに依存する bunja は対応する React コンテキストから値を取得できます。
 
-In the example below, there are two React instances (`<ChildComponent />`) that reference the same `fetchBunja`, but since each looks at a different context value, two separate bunja instances are also created.
+以下の例では、同じ `fetchBunja` を参照している2つの React インスタンス（`<ChildComponent />`）がありますが、それぞれが異なるコンテキスト値を参照しているため、2つの別々の bunja インスタンスも作成されます。
 
 ```tsx
 import { createContext } from 'react'
@@ -188,11 +188,11 @@ function ParentComponent() {
 function ChildComponent() {
   const { queryAtom } = useBunja(fetchBunja)
   const { data, isPending, isError } = useAtomValue(queryAtom)
-  // Your component logic here
+  // コンポーネントのロジックをここに
 }
 ```
 
-You can use the `createScopeFromContext` function to handle both the creation of the scope and the binding to the context in one step.
+スコープの作成とコンテキストへのバインドを一度に処理するために `createScopeFromContext` 関数を使用できます。
 
 ```ts
 import { createContext } from 'react'
@@ -202,11 +202,11 @@ const UrlContext = createContext('https://example.com/')
 const UrlScope = createScopeFromContext(UrlContext)
 ```
 
-#### Injecting dependencies directly into the scope
+#### スコープへの直接の依存性注入
 
-You might want to use a bunja directly within a React component where the values to be injected into the scope are created.
+スコープに注入される値が作成される React コンポーネント内で直接 bunja を使用したい場合があります。
 
-In such cases, you can use the second parameter of `useBunja` hook to inject values into the scope without wrapping the context separately.
+そのような場合、コンテキストを別途ラップせずに、`useBunja` フックの第2パラメータを使ってスコープに値を注入できます。
 
 ```tsx
 function MyComponent() {
@@ -214,13 +214,13 @@ function MyComponent() {
     UrlScope.bind('https://example.com/'),
   ])
   const { data, isPending, isError } = useAtomValue(queryAtom)
-  // Your component logic here
+  // コンポーネントのロジックをここに
 }
 ```
 
-##### Doing the same thing inside a bunja
+##### bunja 内で同じことを行う
 
-You can use `bunja.fork` to inject scope values from within a bunja initialization function.
+bunja の初期化関数内からスコープの値を注入するには `bunja.fork` を使用できます。
 
 ```ts
 const myBunja = bunja(() => {

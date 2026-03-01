@@ -1,14 +1,14 @@
 ---
 title: Vite
-description: How to use Jotai with Vite
+description: Jotai を Vite で使用する方法
 nav: 8.99
 keywords: vite
 published: false
 ---
 
-You can use the plugins from the `jotai-babel` package to enhance your developer experience when using Vite and Jotai.
+Vite と Jotai を使用する際の開発者体験を向上させるために、`jotai-babel` パッケージのプラグインを使用できます。
 
-In your `vite.config.ts`:
+`vite.config.ts` で：
 
 ```js
 import { defineConfig } from 'vite'
@@ -21,14 +21,14 @@ export default defineConfig({
   plugins: [
     react({ babel: { plugins: [jotaiDebugLabel, jotaiReactRefresh] } }),
   ],
-  // ... The rest of your configuration
+  // ... その他の設定
 })
 ```
 
-There's a template below to try it yourself.
+自分で試せるテンプレートがあります。
 
-### Examples
+### 例
 
-#### Vite Template
+#### Vite テンプレート
 
 <Stackblitz id="vitejs-vite-xhhxve" file="vite.config.ts" />

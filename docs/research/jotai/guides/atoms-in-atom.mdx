@@ -3,13 +3,13 @@ title: Atoms in atom
 nav: 8.12
 ---
 
-`atom()` creates an atom config, which is an object, but it doesn't hold a value.
-Atom configs don't have string keys and we identify them with referential equality.
-In other words, we can use an atom config like a key.
+`atom()` はアトムコンフィグを作成します。それはオブジェクトですが、値を保持しません。
+アトムコンフィグには文字列のキーがなく、参照等価性で識別します。
+言い換えると、アトムコンフィグをキーのように使用できます。
 
-### Storing an atom config in useState
+### useState にアトムコンフィグを格納する
 
-First things first, we can store an atom config in useState.
+まず最初に、useState にアトムコンフィグを格納できます。
 
 ```jsx
 const Component = ({ atom1, atom2 }) => {
@@ -27,9 +27,9 @@ const Component = ({ atom1, atom2 }) => {
 }
 ```
 
-Note that we can pass atoms configs as props.
+アトムコンフィグを props として渡せることに注意してください。
 
-It might not make any sense, but we could create an atom config on demand.
+意味がないかもしれませんが、オンデマンドでアトムコンフィグを作成することもできます。
 
 ```jsx
 const Component = () => {
@@ -44,9 +44,9 @@ const Component = () => {
 }
 ```
 
-### Storing an atom config in atom
+### アトムにアトムコンフィグを格納する
 
-Likewise, we can store an atom config as a value of another atom.
+同様に、別のアトムの値としてアトムコンフィグを格納できます。
 
 ```jsx
 const firstNameAtom = atom('Tanjiro')
@@ -69,7 +69,7 @@ const Component = () => {
 }
 ```
 
-It's possible to create a derived atom.
+派生アトムを作成することも可能です。
 
 ```js
 const derivedNameAtom = atom((get) => {
@@ -77,16 +77,16 @@ const derivedNameAtom = atom((get) => {
   return get(nameAtom)
 })
 
-// Or a shorter version
+// または短いバージョン
 const derivedNameAtom = atom((get) => get(get(showingNameAtom)))
 ```
 
-To avoid confusing what is in atoms, naming atoms explicitly would be important.
-Also, TypeScript type information would be helpful.
+アトムに何が入っているか混乱しないよう、アトムに明示的な名前をつけることが重要です。
+また、TypeScript の型情報も役立ちます。
 
-### Storing an array of atom configs in atom
+### アトムコンフィグの配列をアトムに格納する
 
-Finally, the atoms in atom pattern is to store an array of atom config into an atom.
+最後に、atoms in atom パターンはアトムコンフィグの配列をアトムに格納することです。
 
 ```jsx
 const countsAtom = atom([atom(1), atom(2), atom(3)])
@@ -117,20 +117,20 @@ const Parent = () => {
 }
 ```
 
-The benefit of this approach is, if you increment a count,
-only the corresponding Counter component re-renders and no other components re-render.
+このアプローチの利点は、カウントをインクリメントしたとき、
+対応する Counter コンポーネントのみが再レンダリングされ、他のコンポーネントは再レンダリングされないことです。
 
-It is important to note that `anAtom.toString()` returns a unique id, which can be used as a `key` in a map.
+`anAtom.toString()` がユニークな id を返すことに注意してください。これは map の `key` として使用できます。
 
-#### Hint for TypeScript users
+#### TypeScript ユーザーへのヒント
 
 ```jsx
 <Counter countAtom={countAtom} key={`${countAtom}`} />
 ```
 
-### Storing a map of atom configs in atom
+### アトムコンフィグのマップをアトムに格納する
 
-Likewise, we can store an object map instead of an array.
+同様に、配列の代わりにオブジェクトマップを格納することもできます。
 
 ```jsx
 const pricesAtom = atom({

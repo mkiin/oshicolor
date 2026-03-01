@@ -1,16 +1,16 @@
 ---
 title: Persistence
-description: How to persist atoms
+description: アトムを永続化する方法
 nav: 8.14
 ---
 
-Jotai has an [atomWithStorage function in the utils bundle](../utilities/storage.mdx) for persistence that supports persisting state in `sessionStorage`, `localStorage`, `AsyncStorage`, or the URL hash.
+Jotai には `sessionStorage`、`localStorage`、`AsyncStorage`、または URL ハッシュへの状態の永続化をサポートする[utils バンドルの atomWithStorage 関数](../utilities/storage.mdx)があります。
 
-(Note: This guide is a bit outdated and requires some rewrites.)
+（注意：このガイドは少し古く、書き直しが必要です。）
 
-There are also several alternate implementations here:
+いくつかの代替実装もここに示します：
 
-### A simple pattern with localStorage
+### localStorage を使ったシンプルなパターン
 
 ```js
 const strAtom = atom(localStorage.getItem('myKey') ?? 'foo')
@@ -24,7 +24,7 @@ const strAtomWithPersistence = atom(
 )
 ```
 
-### A helper function with localStorage and JSON parse
+### localStorage と JSON パースを使ったヘルパー関数
 
 ```js
 const atomWithLocalStorage = (key, initialValue) => {
@@ -49,11 +49,11 @@ const atomWithLocalStorage = (key, initialValue) => {
 }
 ```
 
-(Error handling should be added.)
+（エラーハンドリングを追加する必要があります。）
 
-### A helper function with AsyncStorage and JSON parse
+### AsyncStorage と JSON パースを使ったヘルパー関数
 
-This requires [onMount](../core/atom.mdx#onmount-property).
+これには [onMount](../core/atom.mdx#onmount-property) が必要です。
 
 ```js
 const atomWithAsyncStorage = (key, initialValue) => {
@@ -77,11 +77,11 @@ const atomWithAsyncStorage = (key, initialValue) => {
 }
 ```
 
-Don't forget to check out the [Async documentation](../guides/async.mdx) for more details on how to use async atoms.
+非同期アトムの使い方の詳細については[非同期ドキュメント](../guides/async.mdx)を確認してください。
 
-### Example with sessionStorage
+### sessionStorage を使った例
 
-Same as AsyncStorage, just use `atomWithStorage` util and override the default storage with the `sessionStorage`
+AsyncStorage と同様に、`atomWithStorage` ユーティリティを使用し、デフォルトのストレージを `sessionStorage` で上書きするだけです。
 
 ```js
 import { atomWithStorage, createJSONStorage } from 'jotai/utils'
@@ -90,7 +90,7 @@ const storage = createJSONStorage(() => sessionStorage)
 const someAtom = atomWithStorage('some-key', someInitialValue, storage)
 ```
 
-### A serialize atom pattern
+### シリアライズアトムパターン
 
 ```tsx
 type Actions =
@@ -105,7 +105,7 @@ const serializeAtom = atom(null, (get, set, action: Actions) => {
     action.callback(JSON.stringify(obj))
   } else if (action.type === 'deserialize') {
     const obj = JSON.parse(action.value)
-    // needs error handling and type checking
+    // エラーハンドリングと型チェックが必要
     set(
       todosAtom,
       obj.todos.map((todo: Todo) => atom(todo)),
@@ -138,11 +138,11 @@ const Persist = () => {
 }
 ```
 
-#### Examples
+#### 例
 
 <Stackblitz id="vitejs-vite-zda5uw" file="src%2FApp.tsx" />
 
-### A pattern with atomFamily
+### atomFamily を使ったパターン
 
 ```tsx
 type Actions =
@@ -164,7 +164,7 @@ const serializeAtom = atom(null, (get, set, action: Actions) => {
     action.callback(JSON.stringify(obj))
   } else if (action.type === 'deserialize') {
     const obj = JSON.parse(action.value)
-    // needs error handling and type checking
+    // エラーハンドリングと型チェックが必要
     set(filterAtom, obj.filter)
     obj.todos.forEach((id: string) => {
       const todo = obj.todoMap[id]
@@ -199,6 +199,6 @@ const Persist = () => {
 }
 ```
 
-#### Examples
+#### 例
 
 <Stackblitz id="vitejs-vite-z4kjv3" file="src%2FApp.tsx" />

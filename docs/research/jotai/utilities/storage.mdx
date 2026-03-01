@@ -26,63 +26,63 @@ const Page = () => {
 }
 ```
 
-The `atomWithStorage` function creates an atom with a value persisted in `localStorage` or `sessionStorage` for React or `AsyncStorage` for React Native.
+`atomWithStorage` 関数は React の `localStorage` または `sessionStorage`、React Native の `AsyncStorage` に値が永続化されるアトムを作成します。
 
-### Parameters
+### パラメータ
 
-**key** (required): a unique string used as the key when syncing state with localStorage, sessionStorage, or AsyncStorage
+**key**（必須）：localStorage、sessionStorage、または AsyncStorage と状態を同期する際にキーとして使用される一意の文字列
 
-**initialValue** (required): the initial value of the atom
+**initialValue**（必須）：アトムの初期値
 
-**storage** (optional): an object with the following methods:
+**storage**（オプション）：以下のメソッドを持つオブジェクト：
 
-- **getItem(key, initialValue)** (required): Reads an item from storage, or falls back to the `intialValue`
-- **setItem(key, value)** (required): Saves an item to storage
-- **removeItem(key)** (required): Deletes the item from storage
-- **subscribe(key, callback, initialValue)** (optional): A method which subscribes to external storage updates.
+- **getItem(key, initialValue)**（必須）：ストレージからアイテムを読み取るか、`initialValue` にフォールバックします
+- **setItem(key, value)**（必須）：ストレージにアイテムを保存します
+- **removeItem(key)**（必須）：ストレージからアイテムを削除します
+- **subscribe(key, callback, initialValue)**（オプション）：外部ストレージの更新をサブスクライブするメソッド
 
-**options** (optional): an object with the following properties:
+**options**（オプション）：以下のプロパティを持つオブジェクト：
 
-- **getOnInit** (optional, by default **false**): A boolean value indicating whether to get item from storage on initialization. Note that in an SPA with `getOnInit` either not set or `false` you will always get the initial value instead of the stored value on initialization. If the stored value is preferred set `getOnInit` to `true`.
+- **getOnInit**（オプション、デフォルトは **false**）：初期化時にストレージからアイテムを取得するかどうかを示す boolean 値。`getOnInit` が設定されていないか `false` の SPA では、初期化時に格納された値ではなく常に初期値が取得されます。格納された値が優先される場合は `getOnInit` を `true` に設定してください。
 
-If not specified, the default storage implementation uses `localStorage` for storage/retrieval, `JSON.stringify()`/`JSON.parse()` for serialization/deserialization, and subscribes to `storage` events for cross-tab synchronization.
+指定しない場合、デフォルトのストレージ実装はストレージ・取得に `localStorage` を、シリアライゼーション・デシリアライゼーションに `JSON.stringify()`/`JSON.parse()` を使用し、クロスタブ同期のために `storage` イベントをサブスクライブします。
 
 <Stackblitz id="vitejs-vite-xvlgfxrk" file="src%2FApp.tsx" />
 
-### `createJSONStorage` util
+### `createJSONStorage` ユーティリティ
 
-To create a custom storage implementation with `JSON.stringify()`/`JSON.parse()` for the `storage` option, `createJSONStorage` util is provided.
+`storage` オプションに `JSON.stringify()`/`JSON.parse()` を使用したカスタムストレージ実装を作成するために、`createJSONStorage` ユーティリティが提供されています。
 
-Usage:
+使用方法：
 
 ```js
 const storage = createJSONStorage(
   // getStringStorage
-  () => localStorage, // or sessionStorage, asyncStorage or alike
-  // options (optional)
+  () => localStorage, // または sessionStorage、asyncStorage など
+  // options（オプション）
   {
-    reviver, // optional reviver option for JSON.parse
-    replacer, // optional replacer option for JSON.stringify
+    reviver, // JSON.parse のオプションの reviver
+    replacer, // JSON.stringify のオプションの replacer
   },
 )
 ```
 
-Note: `JSON.parse` is not type safe. If it can't accept any types, some kind of validation would be necessary for production apps.
+注意：`JSON.parse` は型安全ではありません。任意の型を受け入れることができない場合、本番アプリでは何らかのバリデーションが必要です。
 
-### Server-side rendering
+### サーバーサイドレンダリング
 
-Any JSX markup that depends on the value of a stored atom (e.g., a `className` or `style` prop) will use the `initialValue` when rendered on the server (since `localStorage` and `sessionStorage` are not available on the server).
+格納されたアトムの値に依存する JSX マークアップ（例：`className` や `style` prop）は、サーバーでレンダリングされる際に `initialValue` を使用します（`localStorage` と `sessionStorage` はサーバーで利用できないため）。
 
-This means that there will be a mismatch between what is originally served to the user's browser as HTML and what is expected by React during the rehydration process if the user has a `storedValue` that differs from the `initialValue`.
+これは、ユーザーが `initialValue` と異なる `storedValue` を持っている場合、ユーザーのブラウザに最初に提供される HTML と React のリハイドレーション中に期待されるものとの間に不一致が生じることを意味します。
 
-The suggested workaround for this issue is to only render the content dependent on the `storedValue` client-side by wrapping it in a [custom `<ClientOnly>` wrapper](https://www.joshwcomeau.com/react/the-perils-of-rehydration/#abstractions), which only renders after rehydration. Alternative solutions are technically possible, but would require a brief "flicker" as the `initialValue` is swapped to the `storedValue`, which can result in an unpleasant user experience, so this solution is advised.
+この問題の推奨される回避策は、[カスタム `<ClientOnly>` ラッパー](https://www.joshwcomeau.com/react/the-perils-of-rehydration/#abstractions)（リハイドレーション後にのみレンダリングされる）でラップして、`storedValue` に依存するコンテンツをクライアントサイドのみでレンダリングすることです。技術的に代替ソリューションは可能ですが、`initialValue` が `storedValue` に切り替わる際に一瞬の「フリッカー」が発生し、不快なユーザー体験につながる可能性があるため、このソリューションが推奨されます。
 
-### Deleting an item from storage
+### ストレージからアイテムを削除する
 
-For the case you want to delete an item from storage,
-the atom created with `atomWithStorage` accepts the `RESET` symbol on write.
+ストレージからアイテムを削除したい場合、
+`atomWithStorage` で作成されたアトムは書き込み時に `RESET` シンボルを受け入れます。
 
-See the following example for the usage:
+使用例：
 
 ```jsx
 import { useAtom } from 'jotai'
@@ -102,11 +102,11 @@ const TextBox = () => {
 }
 ```
 
-If needed, you can also do conditional resets based on previous value.
+必要であれば、前の値に基づいた条件付きリセットも可能です。
 
-This can be particularly useful if you wish to clear keys in localStorage if previous values meet a condition.
+前の値が条件を満たす場合に localStorage のキーをクリアしたい場合に特に有用です。
 
-Below exemplifies this usage that clears the `visible` key whenever the previous value is `true`.
+以下は前の値が `true` の場合に `visible` キーをクリアする使用例です。
 
 ```jsx
 import { useAtom } from 'jotai'
@@ -126,30 +126,30 @@ const TextBox = () => {
 }
 ```
 
-### React-Native implementation
+### React-Native 実装
 
-You can use any library that implements `getItem`, `setItem` & `removeItem`.
-Let's say you would use the standard AsyncStorage provided by the community.
+`getItem`、`setItem`、`removeItem` を実装する任意のライブラリを使用できます。
+コミュニティが提供する標準の AsyncStorage を使用するとします。
 
 ```js
 import { atomWithStorage, createJSONStorage } from 'jotai/utils'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const storage = createJSONStorage(() => AsyncStorage)
-const content = {} // anything JSON serializable
+const content = {} // JSON でシリアライズ可能な任意のもの
 const storedAtom = atomWithStorage('stored-key', content, storage)
 ```
 
-**Note** set `getOnInit` to `true` if you want the atom to return the stored value immediately on initialization instead of the default value.
+**注意**：デフォルト値の代わりに初期化時に格納された値を即座に返したい場合は `getOnInit` を `true` に設定してください。
 
-**getOnInit true vs. false example**
+**getOnInit true と false の例**
 
 <details>
 
 ```jsx
-// Assume localStorage already contains: { "symbol": "BTC_USDC" }
+// localStorage にはすでに { "symbol": "BTC_USDC" } が含まれていると仮定
 
-// Without getOnInit (default behavior)
+// getOnInit なし（デフォルト動作）
 const symbolAtom = atomWithStorage('symbol', 'SOL_USDC')
 
 function App() {
@@ -162,11 +162,11 @@ function App() {
   return <div>{symbol}</div>
 }
 
-// Console output WITHOUT getOnInit:
-// LOG "symbol" SOL_USDC  (initial render)
-// LOG "symbol" BTC_USDC  (after storage loads)
+// getOnInit なしのコンソール出力：
+// LOG "symbol" SOL_USDC  （初回レンダリング）
+// LOG "symbol" BTC_USDC  （ストレージ読み込み後）
 
-// With getOnInit set to true
+// getOnInit を true に設定
 const symbolAtom = atomWithStorage('symbol', 'SOL_USDC', undefined, {
   getOnInit: true,
 })
@@ -181,16 +181,16 @@ function App() {
   return <div>{symbol}</div>
 }
 
-// Console output WITH getOnInit:
-// LOG "symbol" BTC_USDC  (gets stored value immediately)
+// getOnInit ありのコンソール出力：
+// LOG "symbol" BTC_USDC  （格納された値を即座に取得）
 ```
 
 </details>
 
-#### Notes with AsyncStorage (since v2.2.0)
+#### AsyncStorage に関する注意（v2.2.0 以降）
 
-With AsyncStorage (as with any asynchronous storage), the atom value becomes async.
-When updating the atom by referencing the current value, then you'll need to `await` it.
+AsyncStorage（または他の非同期ストレージ）では、アトムの値は非同期になります。
+現在の値を参照してアトムを更新する場合は、`await` が必要です。
 
 ```js
 const countAtom = atomWithStorage('count-key', 0, anyAsyncStorage)
@@ -203,11 +203,11 @@ const Component = () => {
 }
 ```
 
-### Validating stored values
+### 格納された値のバリデーション
 
-To add runtime validation to your storage atoms, you will need to create a custom implementation of storage.
+ストレージアトムにランタイムバリデーションを追加するには、カスタムのストレージ実装を作成する必要があります。
 
-Below is an example that utilizes Zod to validate values stored in `localStorage` with cross-tab synchronization.
+以下はクロスタブ同期を使用して `localStorage` に格納された値を Zod で検証する例です。
 
 ```js
 import { atomWithStorage } from 'jotai/utils'
@@ -254,8 +254,8 @@ const storedNumberAtom = atomWithStorage('my-number', 0, {
 })
 ```
 
-We also have a new util `unstable_withStorageValidator` to simplify some cases.
-The above case would become:
+一部のケースを簡略化するための新しいユーティリティ `unstable_withStorageValidator` もあります。
+上記のケースは次のようになります：
 
 ```js
 import {
