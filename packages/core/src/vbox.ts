@@ -107,13 +107,17 @@ export class VBox {
             }
 
             if (ntot) {
-                this._avg = [~~(rsum / ntot), ~~(gsum / ntot), ~~(bsum / ntot)];
+                this._avg = [
+                    Math.round(rsum / ntot),
+                    Math.round(gsum / ntot),
+                    Math.round(bsum / ntot),
+                ];
             } else {
                 // ピクセルがない場合は中心色を返す
                 this._avg = [
-                    ~~((mult * (r1 + r2 + 1)) / 2),
-                    ~~((mult * (g1 + g2 + 1)) / 2),
-                    ~~((mult * (b1 + b2 + 1)) / 2),
+                    Math.round((mult * (r1 + r2 + 1)) / 2),
+                    Math.round((mult * (g1 + g2 + 1)) / 2),
+                    Math.round((mult * (b1 + b2 + 1)) / 2),
                 ];
             }
         }
@@ -201,12 +205,14 @@ export class VBox {
             reverseSum[i] = total - d;
         }
 
+        // count >= 2 のとき maxd / accSum は必ず設定される（unreachable guard）
+        if (maxd === null || accSum === null) return [];
         return doCut(maxd, this, accSum, reverseSum, splitPoint);
     }
 }
 
 const doCut = (
-    d: string,
+    d: "r" | "g" | "b",
     vbox: VBox,
     accSum: Uint32Array,
     reverseSum: Uint32Array,

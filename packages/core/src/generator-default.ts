@@ -20,15 +20,15 @@ export type GeneratorOptions = {
     weightPopulation: number;
 };
 
-/** DefaultGenerator のデフォルトパラメータ（元実装と同値） */
+/** DefaultGenerator のデフォルトパラメータ（YIQ/255 スケールに調整済み） */
 export const DEFAULT_OPTS: GeneratorOptions = {
-    targetDarkLuma: 0.26,
-    maxDarkLuma: 0.45,
-    minLightLuma: 0.55,
-    targetLightLuma: 0.74,
-    minNormalLuma: 0.3,
-    targetNormalLuma: 0.5,
-    maxNormalLuma: 0.7,
+    targetDarkLuma: 0.2,
+    maxDarkLuma: 0.35,
+    minLightLuma: 0.6,
+    targetLightLuma: 0.8,
+    minNormalLuma: 0.25,
+    targetNormalLuma: 0.45,
+    maxNormalLuma: 0.65,
     targetMutesSaturation: 0.3,
     maxMutesSaturation: 0.4,
     targetVibrantSaturation: 1.0,
@@ -98,7 +98,8 @@ const findColorVariation = (
     let maxValue = 0;
 
     for (const swatch of swatches) {
-        const [, s, l] = swatch.hsl;
+        const [, s] = swatch.hsl;
+        const l = swatch.luma; // HSL L の代わりに知覚的輝度を使用
         if (
             s >= minSaturation &&
             s <= maxSaturation &&
@@ -260,22 +261,16 @@ const generateEmptySwatches = (
     }
     if (!palette.Muted && palette.Vibrant) {
         const [h, s] = palette.Vibrant.hsl;
-        palette.Muted = new Swatch(
-            hslToRgb(h, s, opts.targetMutesSaturation),
-            0,
-        );
+        palette.Muted = new Swatch(hslToRgb(h, s, opts.targetNormalLuma), 0);
     }
     if (!palette.DarkMuted && palette.DarkVibrant) {
         const [h, s] = palette.DarkVibrant.hsl;
-        palette.DarkMuted = new Swatch(
-            hslToRgb(h, s, opts.targetMutesSaturation),
-            0,
-        );
+        palette.DarkMuted = new Swatch(hslToRgb(h, s, opts.targetDarkLuma), 0);
     }
     if (!palette.LightMuted && palette.LightVibrant) {
         const [h, s] = palette.LightVibrant.hsl;
         palette.LightMuted = new Swatch(
-            hslToRgb(h, s, opts.targetMutesSaturation),
+            hslToRgb(h, s, opts.targetLightLuma),
             0,
         );
     }

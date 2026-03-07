@@ -25,8 +25,8 @@ export type ImageOptions = {
     maxDimension: number;
 };
 
-/** 画像ソース（URL 文字列または HTMLImageElement） */
-export type ImageSource = string | HTMLImageElement;
+/** 画像ソース（URL 文字列 / HTMLImageElement / ImageBitmap / Blob・File） */
+export type ImageSource = string | HTMLImageElement | ImageBitmap | Blob;
 
 /** Image 実装クラスのコンストラクタ型 */
 export type ImageClass = new () => Image;
@@ -237,6 +237,34 @@ export class BrowserImage extends ImageBase {
     }
 
     load(src: ImageSource): Promise<this> {
+        // ImageBitmap: canvas に直接描画
+        if (src instanceof ImageBitmap) {
+            const canvas = document.createElement("canvas");
+            canvas.width = src.width;
+            canvas.height = src.height;
+            const ctx = canvas.getContext("2d");
+            if (!ctx) {
+                return Promise.reject(
+                    new ReferenceError("Failed to create canvas context"),
+                );
+            }
+            ctx.drawImage(src, 0, 0);
+            this._canvas = canvas;
+            this._context = ctx;
+            this._width = src.width;
+            this._height = src.height;
+            return Promise.resolve(this);
+        }
+
+        // Blob / File: objectURL 経由で string ブランチに委譲
+        if (src instanceof Blob) {
+            const url = URL.createObjectURL(src);
+            return this.load(url).then((result) => {
+                URL.revokeObjectURL(url);
+                return result;
+            });
+        }
+
         let img: HTMLImageElement;
         let srcStr: string;
 

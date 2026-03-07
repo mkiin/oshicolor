@@ -77,6 +77,9 @@ importers:
       color-name-list:
         specifier: ^14.32.0
         version: 14.32.0
+      colorthief:
+        specifier: ^3.3.1
+        version: 3.3.1(sharp@0.33.5)
       culori:
         specifier: ^4.0.2
         version: 4.0.2
@@ -2553,6 +2556,15 @@ packages:
   color@4.2.3:
     resolution: {integrity: sha512-1rXeuUUiGGrykh+CeBdu5Ie7OJwinCgQY0bc7GCRxy5xVHy+moaqkpL/jqQq0MtQOeYcrqEz4abc5f0KtU7W4A==}
     engines: {node: '>=12.5.0'}
+
+  colorthief@3.3.1:
+    resolution: {integrity: sha512-a3qzYXy51h6p3725pV8rnJwUBGTtvYQge2pVhKJwL+vETUD5pCi6VKmQyu51pBHdUbu/BPEXbwFLS0GnxXNhGA==}
+    hasBin: true
+    peerDependencies:
+      sharp: '>=0.33.0'
+    peerDependenciesMeta:
+      sharp:
+        optional: true
 
   commander@12.1.0:
     resolution: {integrity: sha512-Vw8qHK3bZM9y/P10u3Vib8o/DdkvA2OtPtZvD871QKjy74Wj1WSKFILMPRPSdUSx5RFK1arlJzEtA4PkFgnbuA==}
@@ -6557,6 +6569,10 @@ snapshots:
     dependencies:
       color-convert: 2.0.1
       color-string: 1.9.1
+
+  colorthief@3.3.1(sharp@0.33.5):
+    optionalDependencies:
+      sharp: 0.33.5
 
   commander@12.1.0: {}
 

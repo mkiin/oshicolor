@@ -1,6 +1,5 @@
 import type { Palette, Swatch } from "@oshicolor/color";
-import type { ProcessResult } from "@oshicolor/core";
-import { Extractor } from "@oshicolor/core";
+import { extractColors } from "@oshicolor/core";
 
 /** Vibrant パレットの6スロット名 */
 export type VibrantSlot =
@@ -157,11 +156,7 @@ export const extractColorsVibrant = async (
 ): Promise<VibrantResult> => {
     const t0 = performance.now();
 
-    const extractor = Extractor.from(url).build();
-    const palette = await extractor.getPalette();
-
-    const result = extractor.result as ProcessResult;
-    const swatches: Swatch[] = result.colors;
+    const { palette, colors: swatches } = await extractColors(url);
 
     const t1 = performance.now();
 

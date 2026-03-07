@@ -63,7 +63,7 @@ export const MMCQ = (pixels: Pixels, opts: QuantizerOptions): Swatch[] => {
         (a, b) => a.count() * a.volume() - b.count() * b.volume(),
     );
     pq2.contents = pq.contents;
-    splitBoxes(pq2, opts.colorCount - pq2.size());
+    splitBoxes(pq2, opts.colorCount);
 
     return generateSwatches(pq2);
 };

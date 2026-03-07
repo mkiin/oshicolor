@@ -20,7 +20,6 @@ export type Palette = {
     DarkMuted: Swatch | null;
     LightVibrant: Swatch | null;
     LightMuted: Swatch | null;
-    [name: string]: Swatch | null;
 };
 
 /**
@@ -76,15 +75,19 @@ export const hslToRgb = (h: number, s: number, l: number): Vec3 => {
     };
 
     if (s === 0) {
-        return [l * 255, l * 255, l * 255];
+        return [
+            Math.round(l * 255),
+            Math.round(l * 255),
+            Math.round(l * 255),
+        ] as Vec3;
     }
     const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
     const p = 2 * l - q;
     return [
-        hue2rgb(p, q, h + 1 / 3) * 255,
-        hue2rgb(p, q, h) * 255,
-        hue2rgb(p, q, h - 1 / 3) * 255,
-    ];
+        Math.round(hue2rgb(p, q, h + 1 / 3) * 255),
+        Math.round(hue2rgb(p, q, h) * 255),
+        Math.round(hue2rgb(p, q, h - 1 / 3) * 255),
+    ] as Vec3;
 };
 
 /**
@@ -102,11 +105,12 @@ export class Swatch {
     }
 
     static clone(swatch: Swatch): Swatch {
-        return new Swatch(swatch._rgb, swatch._population);
+        return new Swatch(swatch._rgb, swatch._population, swatch._proportion);
     }
 
     private _rgb: Vec3;
     private _population: number;
+    private _proportion: number;
     private _hsl: Vec3 | undefined;
     private _hex: string | undefined;
     private _yiq: number | undefined;
@@ -146,6 +150,11 @@ export class Swatch {
         return this._population;
     }
 
+    /** 全ピクセルに対するこの色の占有比率（0–1） */
+    get proportion(): number {
+        return this._proportion;
+    }
+
     private _getYiq(): number {
         if (this._yiq === undefined) {
             this._yiq =
@@ -153,6 +162,11 @@ export class Swatch {
                 1000;
         }
         return this._yiq;
+    }
+
+    /** 知覚的輝度（0–1）。YIQ ウェイトによる加重平均 */
+    get luma(): number {
+        return this._getYiq() / 255;
     }
 
     /** タイトルテキスト用の推奨コントラスト色 */
@@ -171,16 +185,22 @@ export class Swatch {
         return this._bodyTextColor;
     }
 
-    toJSON(): { rgb: Vec3; population: number } {
-        return { rgb: this.rgb, population: this.population };
+    toJSON(): { rgb: Vec3; population: number; proportion: number } {
+        return {
+            rgb: this.rgb,
+            population: this.population,
+            proportion: this.proportion,
+        };
     }
 
     /**
      * @param rgb - `[r, g, b]` (0–255)
      * @param population - 画像中のこの色のピクセル数
+     * @param proportion - 全ピクセルに対する占有比率（0–1）。パイプライン側で計算して渡す
      */
-    constructor(rgb: Vec3, population: number) {
+    constructor(rgb: Vec3, population: number, proportion = 0) {
         this._rgb = rgb;
         this._population = population;
+        this._proportion = proportion;
     }
 }

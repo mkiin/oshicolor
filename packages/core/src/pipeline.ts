@@ -1,7 +1,12 @@
-import type { Filter, Palette, Swatch } from "@oshicolor/color";
+import {
+    type Filter,
+    type Palette,
+    type Swatch,
+    Swatch as SwatchClass,
+} from "@oshicolor/color";
 import type { ImageData } from "@oshicolor/image";
 import { applyFilters } from "@oshicolor/image";
-import type { Generator, Quantizer } from "./types";
+import type { Generator, Quantizer, QuantizerOptions } from "./types";
 
 type StageMap<T> = { [name: string]: T };
 
@@ -92,7 +97,7 @@ export class BasicPipeline {
         // "*" はすべての登録済みジェネレータを意味する
         const generators =
             opts.generators.length === 1 && opts.generators[0] === "*"
-                ? this.generator.names().map((n) => n as string | StageOptions)
+                ? this.generator.names()
                 : opts.generators;
 
         return {
@@ -129,13 +134,19 @@ export class BasicPipeline {
         quantizer: StageTask<Quantizer>,
         imageData: ImageData,
     ): Swatch[] {
-        return quantizer.fn(imageData.data, {
-            colorCount: quantizer.options
-                ? ((quantizer.options as { colorCount?: number }).colorCount ??
-                  64)
-                : 64,
-            ...quantizer.options,
+        const raw = quantizer.fn(imageData.data, {
+            colorCount: 64,
+            ...(quantizer.options as Partial<QuantizerOptions>),
         });
+        const total = raw.reduce((s, c) => s + c.population, 0);
+        return raw.map(
+            (s) =>
+                new SwatchClass(
+                    s.rgb,
+                    s.population,
+                    total > 0 ? s.population / total : 0,
+                ),
+        );
     }
 
     private async _generatePalettes(

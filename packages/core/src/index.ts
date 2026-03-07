@@ -1,4 +1,4 @@
-import type { Palette } from "@oshicolor/color";
+import type { Palette, Swatch } from "@oshicolor/color";
 import type { ImageClass, ImageSource } from "@oshicolor/image";
 import { BrowserImage } from "@oshicolor/image";
 import { DefaultGenerator } from "./generator-default";
@@ -6,7 +6,14 @@ import { MMCQ } from "./mmcq";
 import type { ProcessOptions, ProcessResult, StageOptions } from "./pipeline";
 import { BasicPipeline } from "./pipeline";
 
+// ── 日常的な使い方（これだけ知っていれば十分） ────────────────────────────────
+// extractColors / Extractor / ExtractorBuilder はクラス定義と同じファイルで export される
+
+// ── プラグイン拡張（カスタム Quantizer / Generator を登録する場合のみ） ─────
+export type { GeneratorOptions } from "./generator-default";
+export { DEFAULT_OPTS, DefaultGenerator } from "./generator-default";
 export type { ProcessResult, StageOptions } from "./pipeline";
+export type { Generator, Quantizer, QuantizerOptions } from "./types";
 
 /** Extractor の設定オプション */
 export type ExtractorOptions = {
@@ -125,15 +132,6 @@ export class Extractor {
     ) {
         this.opts = Object.assign(
             {},
-            {
-                colorCount: 64,
-                quality: 5,
-                maxDimension: 0,
-                filters: ["default"],
-                quantizer: "mmcq",
-                generators: ["default"],
-                ImageClass: BrowserImage,
-            },
             Extractor.DefaultOpts,
             opts,
         ) as ExtractorOptions;
@@ -171,6 +169,15 @@ export class Extractor {
 
 /**
  * Extractor の設定をチェーンで構築するヘルパークラス
+ *
+ * **通常は `extractColors()` を使ってください**（パレット + 全量子化色を返す）。
+ *
+ * オプションをチェーンで設定したい場合は `.getPalette()` を直接呼ぶ:
+ * ```ts
+ * const palette = await Extractor.from(src).maxColorCount(48).getPalette();
+ * ```
+ *
+ * `build()` が必要なのは `getPalette()` 後に `opts` を参照したい場合のみ。
  */
 export class ExtractorBuilder {
     private _opts: Partial<ExtractorOptions>;
@@ -226,3 +233,27 @@ export class ExtractorBuilder {
         return this.build().getPalette();
     }
 }
+
+/**
+ * 画像ソースから色を抽出するシンプル関数（colorthief スタイル）
+ *
+ * @param src - 画像ソース（URL / HTMLImageElement / ImageBitmap / Blob・File）
+ * @param opts - 抽出オプション
+ * @returns 量子化全色（`colors`）と意味付きパレット（`palette`）
+ *
+ * @example
+ * ```ts
+ * const { colors, palette } = await extractColors(file, { colorCount: 48 });
+ * colors[0].proportion; // 0–1 の全体比率
+ * palette.Vibrant?.hex;
+ * ```
+ */
+export const extractColors = async (
+    src: ImageSource,
+    opts?: Partial<ExtractorOptions>,
+): Promise<{ colors: Swatch[]; palette: Palette }> => {
+    const extractor = new Extractor(src, opts);
+    const palette = await extractor.getPalette();
+    // biome-ignore lint/style/noNonNullAssertion: getPalette() が成功した場合 result は必ず存在する
+    return { colors: extractor.result!.colors, palette };
+};
