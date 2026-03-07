@@ -6,10 +6,6 @@ import { MMCQ } from "./mmcq";
 import type { ProcessOptions, ProcessResult, StageOptions } from "./pipeline";
 import { BasicPipeline } from "./pipeline";
 
-// ── 日常的な使い方（これだけ知っていれば十分） ────────────────────────────────
-// extractColors / Extractor / ExtractorBuilder はクラス定義と同じファイルで export される
-
-// ── プラグイン拡張（カスタム Quantizer / Generator を登録する場合のみ） ─────
 export type { GeneratorOptions } from "./generator-default";
 export { DEFAULT_OPTS, DefaultGenerator } from "./generator-default";
 export type { ProcessResult, StageOptions } from "./pipeline";

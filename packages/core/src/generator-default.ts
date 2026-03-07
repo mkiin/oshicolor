@@ -20,7 +20,7 @@ export type GeneratorOptions = {
     weightPopulation: number;
 };
 
-/** DefaultGenerator のデフォルトパラメータ（YIQ/255 スケールに調整済み） */
+/** DefaultGenerator のデフォルトパラメータ */
 export const DEFAULT_OPTS: GeneratorOptions = {
     targetDarkLuma: 0.2,
     maxDarkLuma: 0.35,
@@ -99,7 +99,7 @@ const findColorVariation = (
 
     for (const swatch of swatches) {
         const [, s] = swatch.hsl;
-        const l = swatch.luma; // HSL L の代わりに知覚的輝度を使用
+        const l = swatch.luma;
         if (
             s >= minSaturation &&
             s <= maxSaturation &&

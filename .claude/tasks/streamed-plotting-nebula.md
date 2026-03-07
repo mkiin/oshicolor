@@ -1,4 +1,127 @@
-# packages/ API 設計 + アルゴリズム精度改善プラン
+# Hue 帯境界の知覚精度改善プラン
+
+## Context
+
+`src/routes/index.tsx` の `classifyHue` 関数が画面上の色グループ表示に使われている。
+Orange 帯の上限が `h < 0.11`（39.6°）に設定されているが、
+HSL の 33–40° 付近は人間の目に「黄みがかった金色・アンバー」として見えることが多く、
+Orange グループに表示されているのに黄色に見えるという知覚ズレが生じている。
+
+**根本原因**: HSL の hue 角は知覚的に均等でない。
+特に Orange–Yellow の移行域（30–60°）は、HSL 値と人間の色名のマッピングが粗い。
+
+---
+
+## 修正方針
+
+### 対象ファイル
+
+| ファイル | 修正箇所 |
+|---|---|
+| `src/routes/index.tsx` | `classifyHue` の境界値 |
+
+### 現状の境界値
+
+```ts
+const classifyHue = (h: number, _s: number): HueBand => {
+    if (h < 0.05 || h >= 0.95) return "red";    // 0–18°, 342–360°
+    if (h < 0.11) return "orange";              // 18–39.6°
+    if (h < 0.19) return "yellow";             // 39.6–68.4°
+    ...
+};
+```
+
+### 問題の色域
+
+| h 値 | 度数 | 代表色 | 人間の知覚 |
+|---|---|---|---|
+| 0.067 | 24° | `#FF6600` | 明確にオレンジ ✓ |
+| 0.089 | 32° | `#FF8800` | オレンジ ✓ |
+| 0.100 | 36° | `#FFAA00` | アンバー/金色（境界） |
+| 0.108 | 39° | `#FFA500` | 黄金色・黄みがかり |
+
+→ `h = 0.083`（30°）を超えると、高彩度でも "yellow-orange" ではなく "amber/gold" に見え始める。
+
+---
+
+## 修正案
+
+### 案 A: 境界値を調整する（最小変更）
+
+```ts
+const classifyHue = (h: number, _s: number): HueBand => {
+    if (h < 0.05 || h >= 0.95) return "red";
+    if (h < 0.083) return "orange";   // 18–30° に絞る
+    if (h < 0.19) return "yellow";   // 30–68.4°（アンバー/金色を含む）
+    ...
+};
+```
+
+**トレードオフ**: `#FFA500`（38.8°）が Yellow に入る。「標準オレンジ」が Yellow 扱いになることを許容するかどうかが判断ポイント。
+
+### 案 B: 彩度依存の境界（やや複雑）
+
+30–40° の境界域は、**彩度が高いほどオレンジに見える**という知覚特性を使う。
+
+```ts
+const classifyHue = (h: number, s: number): HueBand => {
+    if (h < 0.05 || h >= 0.95) return "red";
+    if (h < 0.083) return "orange";
+    // 30–40° は彩度 0.8 超のみ orange、それ以外は yellow
+    if (h < 0.11) return s > 0.8 ? "orange" : "yellow";
+    if (h < 0.19) return "yellow";
+    ...
+};
+```
+
+→ `_s` が現状で未使用なため、引数を活かす形になる。
+
+**採用**: **案 B**（ユーザー確定）。
+
+---
+
+## 実装詳細
+
+`src/routes/index.tsx` の `classifyHue` を次のように変更する。
+
+```ts
+// Before
+const classifyHue = (h: number, _s: number): HueBand => {
+    if (h < 0.05 || h >= 0.95) return "red";
+    if (h < 0.11) return "orange";
+    if (h < 0.19) return "yellow";
+    ...
+};
+
+// After
+const classifyHue = (h: number, s: number): HueBand => {
+    if (h < 0.05 || h >= 0.95) return "red";
+    if (h < 0.083) return "orange";
+    if (h < 0.11) return s > 0.8 ? "orange" : "yellow";
+    if (h < 0.19) return "yellow";
+    ...
+};
+```
+
+変更点:
+- `_s` → `s`（未使用から使用変数へ。Biome の lint 対象から外れる）
+- `h < 0.11` の 1 条件を 2 段階に分割（境界域を彩度で振り分け）
+- 残りの条件（yellow 以降）は変更なし
+
+---
+
+## 検証方法
+
+```bash
+pnpm dev
+# → オレンジ系キャラクター画像をアップロード
+# → Orange グループに表示される色が目視でオレンジに見えるか確認
+# → 黄みがかった金・アンバー色が Yellow グループに入っているか確認
+```
+
+---
+
+# (旧プラン) packages/ API 設計 + アルゴリズム精度改善プラン
 
 ## Context
 
