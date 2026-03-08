@@ -1,0 +1,11 @@
+<svg height="40" viewBox="0 0 320 40" xmlns="http://www.w3.org/2000/svg">
+  <rect id="swatch" width="40" height="40"/>
+  <use href="#swatch" x="0" fill="#000000"/>
+  <use href="#swatch" x="40" fill="#F7EBE5"/>
+  <use href="#swatch" x="80" fill="#B1AAC4"/>
+  <use href="#swatch" x="120" fill="#56101F"/>
+  <use href="#swatch" x="160" fill="#D08E9E"/>
+  <use href="#swatch" x="200" fill="#866F6D"/>
+  <use href="#swatch" x="240" fill="#99304A"/>
+  <use href="#swatch" x="280" fill="#3B353D"/>
+</svg>
