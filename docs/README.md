@@ -98,6 +98,15 @@ Alchemy IaC フレームワークのリファレンス。
 | `color-extractor-comparison.md` | 抽出器の比較（anicolors 視点） |
 | `hair-color-extraction.md` | 髪色抽出の特性分析 |
 
+#### `color-thief/` — color-thief（colorthief v3+）調査
+
+node-vibrant の比較対象として調査したライブラリ。OKLCH 量子化・豊富な Color オブジェクトが特徴。
+
+| ファイル | 内容 |
+|---|---|
+| `README.md` | color-thief 概要・アーキテクチャ・機能一覧 |
+| `vs-node-vibrant.md` | **node-vibrant との設計・アルゴリズム比較**（量子化色空間・スウォッチ分類の差異） |
+
 #### `node-vibrant/` — node-vibrant（採用ライブラリ）⭐
 
 oshicolor が採用している色抽出ライブラリ。R2 設計の基盤。
