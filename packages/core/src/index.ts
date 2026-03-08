@@ -3,6 +3,7 @@ import type { ImageClass, ImageSource } from "@oshicolor/image";
 import { BrowserImage } from "@oshicolor/image";
 import { DefaultGenerator } from "./generator-default";
 import { MMCQ } from "./mmcq";
+import { OklabKmeans } from "./oklab-kmeans";
 import type { ProcessOptions, ProcessResult, StageOptions } from "./pipeline";
 import { BasicPipeline } from "./pipeline";
 
@@ -52,6 +53,7 @@ const defaultFilter = (r: number, g: number, b: number, a: number): boolean => {
 export const pipeline = new BasicPipeline().filter
     .register("default", defaultFilter)
     .quantizer.register("mmcq", MMCQ)
+    .quantizer.register("oklab-kmeans", OklabKmeans)
     .generator.register("default", DefaultGenerator);
 
 // ── Extractor ──────────────────────────────────────────────────────────────

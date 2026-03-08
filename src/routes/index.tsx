@@ -19,7 +19,10 @@ const previewUrlAtom = atom((get) => {
 const paletteAtom = atom(async (get) => {
     const file = get(fileAtom);
     if (!file) return null;
-    const { colors } = await extractColors(file, { colorCount: 48 });
+    const { colors } = await extractColors(file, {
+        quantizer: "oklab-kmeans",
+        colorCount: 30,
+    });
     const sortedColors = [...colors].sort(
         (a, b) => b.proportion - a.proportion,
     );
