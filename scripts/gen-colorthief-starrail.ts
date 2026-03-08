@@ -13,9 +13,9 @@ import { mkdir, readdir, writeFile } from "node:fs/promises";
 import { basename, join } from "node:path";
 import { getSwatches } from "colorthief";
 
-const IMG_DIR = "debug/img/starrail";
+const IMG_DIR = "debug/img/genshin";
 const OUT_DIR = "debug/palettes/colorthief";
-const OUT_FILE = join(OUT_DIR, "starrail.svg");
+const OUT_FILE = join(OUT_DIR, "genshin.svg");
 
 const SLOT_NAMES = [
     "Vibrant",

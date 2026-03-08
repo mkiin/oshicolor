@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-IMG_DIR="debug/img/starrail"
-OUT_DIR="debug/palettes/starrail"
+IMG_DIR="debug/img/genshin"
+OUT_DIR="debug/palettes/genshin"
 
 mkdir -p "$OUT_DIR"
 
