@@ -1,0 +1,1951 @@
+<svg height="4524" width="406" viewBox="0 0 406 4524"
+  xmlns="http://www.w3.org/2000/svg" style="background:#f8f8f8">
+  <!-- node-vibrant getPalette — genshin — 6 slots -->
+  <text x="188" y="7" font-size="7" font-family="monospace" fill="#666" text-anchor="middle">Vibrant</text>
+  <text x="226" y="7" font-size="7" font-family="monospace" fill="#666" text-anchor="middle">DarkVibrant</text>
+  <text x="264" y="7" font-size="7" font-family="monospace" fill="#666" text-anchor="middle">LightVibrant</text>
+  <text x="302" y="7" font-size="7" font-family="monospace" fill="#666" text-anchor="middle">Muted</text>
+  <text x="340" y="7" font-size="7" font-family="monospace" fill="#666" text-anchor="middle">DarkMuted</text>
+  <text x="378" y="7" font-size="7" font-family="monospace" fill="#666" text-anchor="middle">LightMuted</text>
+  <line x1="0" y1="8" x2="406" y2="8" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="54" x2="406" y2="54" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="100" x2="406" y2="100" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="146" x2="406" y2="146" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="192" x2="406" y2="192" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="238" x2="406" y2="238" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="284" x2="406" y2="284" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="330" x2="406" y2="330" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="376" x2="406" y2="376" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="422" x2="406" y2="422" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="468" x2="406" y2="468" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="514" x2="406" y2="514" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="560" x2="406" y2="560" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="606" x2="406" y2="606" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="652" x2="406" y2="652" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="698" x2="406" y2="698" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="744" x2="406" y2="744" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="790" x2="406" y2="790" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="836" x2="406" y2="836" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="882" x2="406" y2="882" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="928" x2="406" y2="928" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="974" x2="406" y2="974" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="1020" x2="406" y2="1020" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="1066" x2="406" y2="1066" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="1112" x2="406" y2="1112" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="1158" x2="406" y2="1158" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="1204" x2="406" y2="1204" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="1250" x2="406" y2="1250" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="1296" x2="406" y2="1296" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="1342" x2="406" y2="1342" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="1388" x2="406" y2="1388" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="1434" x2="406" y2="1434" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="1480" x2="406" y2="1480" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="1526" x2="406" y2="1526" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="1572" x2="406" y2="1572" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="1618" x2="406" y2="1618" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="1664" x2="406" y2="1664" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="1710" x2="406" y2="1710" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="1756" x2="406" y2="1756" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="1802" x2="406" y2="1802" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="1848" x2="406" y2="1848" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="1894" x2="406" y2="1894" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="1940" x2="406" y2="1940" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="1986" x2="406" y2="1986" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="2032" x2="406" y2="2032" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="2078" x2="406" y2="2078" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="2124" x2="406" y2="2124" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="2170" x2="406" y2="2170" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="2216" x2="406" y2="2216" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="2262" x2="406" y2="2262" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="2308" x2="406" y2="2308" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="2354" x2="406" y2="2354" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="2400" x2="406" y2="2400" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="2446" x2="406" y2="2446" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="2492" x2="406" y2="2492" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="2538" x2="406" y2="2538" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="2584" x2="406" y2="2584" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="2630" x2="406" y2="2630" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="2676" x2="406" y2="2676" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="2722" x2="406" y2="2722" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="2768" x2="406" y2="2768" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="2814" x2="406" y2="2814" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="2860" x2="406" y2="2860" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="2906" x2="406" y2="2906" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="2952" x2="406" y2="2952" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="2998" x2="406" y2="2998" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="3044" x2="406" y2="3044" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="3090" x2="406" y2="3090" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="3136" x2="406" y2="3136" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="3182" x2="406" y2="3182" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="3228" x2="406" y2="3228" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="3274" x2="406" y2="3274" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="3320" x2="406" y2="3320" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="3366" x2="406" y2="3366" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="3412" x2="406" y2="3412" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="3458" x2="406" y2="3458" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="3504" x2="406" y2="3504" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="3550" x2="406" y2="3550" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="3596" x2="406" y2="3596" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="3642" x2="406" y2="3642" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="3688" x2="406" y2="3688" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="3734" x2="406" y2="3734" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="3780" x2="406" y2="3780" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="3826" x2="406" y2="3826" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="3872" x2="406" y2="3872" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="3918" x2="406" y2="3918" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="3964" x2="406" y2="3964" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="4010" x2="406" y2="4010" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="4056" x2="406" y2="4056" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="4102" x2="406" y2="4102" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="4148" x2="406" y2="4148" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="4194" x2="406" y2="4194" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="4240" x2="406" y2="4240" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="4286" x2="406" y2="4286" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="4332" x2="406" y2="4332" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="4378" x2="406" y2="4378" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="4424" x2="406" y2="4424" stroke="#ddd" stroke-width="0.5"/>
+  <line x1="0" y1="4470" x2="406" y2="4470" stroke="#ddd" stroke-width="0.5"/>
+  <text x="8" y="31" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Albedo</text>
+  <rect x="170" y="13" width="36" height="36" fill="#be7449"><title>Vibrant
+#be7449  pop=13</title></rect>
+  <text x="188" y="44" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">be7449</text>
+  <rect x="208" y="13" width="36" height="36" fill="#98652e"><title>DarkVibrant
+#98652e  pop=14</title></rect>
+  <text x="226" y="44" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">98652e</text>
+  <rect x="246" y="13" width="36" height="36" fill="#cba687"><title>LightVibrant
+#cba687  pop=1731</title></rect>
+  <text x="264" y="44" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">cba687</text>
+  <rect x="284" y="13" width="36" height="36" fill="#977d73"><title>Muted
+#977d73  pop=6449</title></rect>
+  <text x="302" y="44" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">977d73</text>
+  <rect x="322" y="13" width="36" height="36" fill="#463e47"><title>DarkMuted
+#463e47  pop=3938</title></rect>
+  <text x="340" y="44" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">463e47</text>
+  <rect x="360" y="13" width="36" height="36" fill="#d0bbab"><title>LightMuted
+#d0bbab  pop=2873</title></rect>
+  <text x="378" y="44" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">d0bbab</text>
+  <text x="8" y="77" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Alhaitham</text>
+  <rect x="170" y="59" width="36" height="36" fill="#3c86b1"><title>Vibrant
+#3c86b1  pop=68</title></rect>
+  <text x="188" y="90" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">3c86b1</text>
+  <rect x="208" y="59" width="36" height="36" fill="#125859"><title>DarkVibrant
+#125859  pop=7</title></rect>
+  <text x="226" y="90" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">125859</text>
+  <rect x="246" y="59" width="36" height="36" fill="#dcc39a"><title>LightVibrant
+#dcc39a  pop=34</title></rect>
+  <text x="264" y="90" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">dcc39a</text>
+  <rect x="284" y="59" width="36" height="36" fill="#ab9a77"><title>Muted
+#ab9a77  pop=1358</title></rect>
+  <text x="302" y="90" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">ab9a77</text>
+  <rect x="322" y="59" width="36" height="36" fill="#49443d"><title>DarkMuted
+#49443d  pop=1188</title></rect>
+  <text x="340" y="90" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">49443d</text>
+  <rect x="360" y="59" width="36" height="36" fill="#d8d8b2"><title>LightMuted
+#d8d8b2  pop=59</title></rect>
+  <text x="378" y="90" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">d8d8b2</text>
+  <text x="8" y="123" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Amber</text>
+  <rect x="170" y="105" width="36" height="36" fill="#d3332a"><title>Vibrant
+#d3332a  pop=3793</title></rect>
+  <text x="188" y="136" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">d3332a</text>
+  <rect x="208" y="105" width="36" height="36" fill="#7e1518"><title>DarkVibrant
+#7e1518  pop=796</title></rect>
+  <text x="226" y="136" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">7e1518</text>
+  <rect x="246" y="105" width="36" height="36" fill="#f8dbc0"><title>LightVibrant
+#f8dbc0  pop=617</title></rect>
+  <text x="264" y="136" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">f8dbc0</text>
+  <rect x="284" y="105" width="36" height="36" fill="#a3866c"><title>Muted
+#a3866c  pop=2157</title></rect>
+  <text x="302" y="136" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">a3866c</text>
+  <rect x="322" y="105" width="36" height="36" fill="#4f3432"><title>DarkMuted
+#4f3432  pop=3033</title></rect>
+  <text x="340" y="136" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">4f3432</text>
+  <rect x="360" y="105" width="36" height="36" fill="#b7b0bb"><title>LightMuted
+#b7b0bb  pop=3215</title></rect>
+  <text x="378" y="136" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">b7b0bb</text>
+  <text x="8" y="169" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">AratakiItto</text>
+  <rect x="170" y="151" width="36" height="36" fill="#dc8f35"><title>Vibrant
+#dc8f35  pop=302</title></rect>
+  <text x="188" y="182" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">dc8f35</text>
+  <rect x="208" y="151" width="36" height="36" fill="#85261e"><title>DarkVibrant
+#85261e  pop=392</title></rect>
+  <text x="226" y="182" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">85261e</text>
+  <rect x="246" y="151" width="36" height="36" fill="#efcba8"><title>LightVibrant
+#efcba8  pop=1583</title></rect>
+  <text x="264" y="182" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">efcba8</text>
+  <rect x="284" y="151" width="36" height="36" fill="#93725f"><title>Muted
+#93725f  pop=292</title></rect>
+  <text x="302" y="182" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">93725f</text>
+  <rect x="322" y="151" width="36" height="36" fill="#664035"><title>DarkMuted
+#664035  pop=1577</title></rect>
+  <text x="340" y="182" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">664035</text>
+  <rect x="360" y="151" width="36" height="36" fill="#cfbfac"><title>LightMuted
+#cfbfac  pop=111</title></rect>
+  <text x="378" y="182" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">cfbfac</text>
+  <text x="8" y="215" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Arlecchino</text>
+  <rect x="170" y="197" width="36" height="36" fill="#c81c1a"><title>Vibrant
+#c81c1a  pop=134</title></rect>
+  <text x="188" y="228" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">c81c1a</text>
+  <rect x="208" y="197" width="36" height="36" fill="#990c0e"><title>DarkVibrant
+#990c0e  pop=784</title></rect>
+  <text x="226" y="228" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">990c0e</text>
+  <rect x="246" y="197" width="36" height="36" fill="#df7c4d"><title>LightVibrant
+#df7c4d  pop=14</title></rect>
+  <text x="264" y="228" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">df7c4d</text>
+  <rect x="284" y="197" width="36" height="36" fill="#72777d"><title>Muted
+#72777d  pop=1534</title></rect>
+  <text x="302" y="228" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">72777d</text>
+  <rect x="322" y="197" width="36" height="36" fill="#3e3d3f"><title>DarkMuted
+#3e3d3f  pop=1085</title></rect>
+  <text x="340" y="228" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">3e3d3f</text>
+  <rect x="360" y="197" width="36" height="36" fill="#b4bcd4"><title>LightMuted
+#b4bcd4  pop=1</title></rect>
+  <text x="378" y="228" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">b4bcd4</text>
+  <text x="8" y="261" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Baizhu</text>
+  <rect x="170" y="243" width="36" height="36" fill="#1ebcad"><title>Vibrant
+#1ebcad  pop=856</title></rect>
+  <text x="188" y="274" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">1ebcad</text>
+  <rect x="208" y="243" width="36" height="36" fill="#053769"><title>DarkVibrant
+#053769  pop=336</title></rect>
+  <text x="226" y="274" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">053769</text>
+  <rect x="246" y="243" width="36" height="36" fill="#e9c7a9"><title>LightVibrant
+#e9c7a9  pop=318</title></rect>
+  <text x="264" y="274" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">e9c7a9</text>
+  <rect x="284" y="243" width="36" height="36" fill="#79659a"><title>Muted
+#79659a  pop=1480</title></rect>
+  <text x="302" y="274" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">79659a</text>
+  <rect x="322" y="243" width="36" height="36" fill="#2e3957"><title>DarkMuted
+#2e3957  pop=421</title></rect>
+  <text x="340" y="274" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">2e3957</text>
+  <rect x="360" y="243" width="36" height="36" fill="#8fbcc7"><title>LightMuted
+#8fbcc7  pop=1412</title></rect>
+  <text x="378" y="274" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">8fbcc7</text>
+  <text x="8" y="307" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Barbara</text>
+  <rect x="170" y="289" width="36" height="36" fill="#20a9d4"><title>Vibrant
+#20a9d4  pop=152</title></rect>
+  <text x="188" y="320" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">20a9d4</text>
+  <rect x="208" y="289" width="36" height="36" fill="#303f69"><title>DarkVibrant
+#303f69  pop=1436</title></rect>
+  <text x="226" y="320" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">303f69</text>
+  <rect x="246" y="289" width="36" height="36" fill="#b4f8fc"><title>LightVibrant
+#b4f8fc  pop=2</title></rect>
+  <text x="264" y="320" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">b4f8fc</text>
+  <rect x="284" y="289" width="36" height="36" fill="#9f8773"><title>Muted
+#9f8773  pop=673</title></rect>
+  <text x="302" y="320" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">9f8773</text>
+  <rect x="322" y="289" width="36" height="36" fill="#2e3657"><title>DarkMuted
+#2e3657  pop=1185</title></rect>
+  <text x="340" y="320" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">2e3657</text>
+  <rect x="360" y="289" width="36" height="36" fill="#d4c3ad"><title>LightMuted
+#d4c3ad  pop=768</title></rect>
+  <text x="378" y="320" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">d4c3ad</text>
+  <text x="8" y="353" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Beidou</text>
+  <rect x="170" y="335" width="36" height="36" fill="#b5404e"><title>Vibrant
+#b5404e  pop=3925</title></rect>
+  <text x="188" y="366" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">b5404e</text>
+  <rect x="208" y="335" width="36" height="36" fill="#641e14"><title>DarkVibrant
+#641e14  pop=93</title></rect>
+  <text x="226" y="366" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">641e14</text>
+  <rect x="246" y="335" width="36" height="36" fill="#e6d0c5"><title>LightVibrant
+#e6d0c5  pop=4079</title></rect>
+  <text x="264" y="366" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">e6d0c5</text>
+  <rect x="284" y="335" width="36" height="36" fill="#987c63"><title>Muted
+#987c63  pop=187</title></rect>
+  <text x="302" y="366" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">987c63</text>
+  <rect x="322" y="335" width="36" height="36" fill="#4e393a"><title>DarkMuted
+#4e393a  pop=4006</title></rect>
+  <text x="340" y="366" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">4e393a</text>
+  <rect x="360" y="335" width="36" height="36" fill="#c8a589"><title>LightMuted
+#c8a589  pop=509</title></rect>
+  <text x="378" y="366" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">c8a589</text>
+  <text x="8" y="399" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Bennett</text>
+  <rect x="170" y="381" width="36" height="36" fill="#d01b08"><title>Vibrant
+#d01b08  pop=49</title></rect>
+  <text x="188" y="412" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">d01b08</text>
+  <rect x="208" y="381" width="36" height="36" fill="#93240e"><title>DarkVibrant
+#93240e  pop=204</title></rect>
+  <text x="226" y="412" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">93240e</text>
+  <rect x="246" y="381" width="36" height="36" fill="#e6cab4"><title>LightVibrant
+#e6cab4  pop=1720</title></rect>
+  <text x="264" y="412" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">e6cab4</text>
+  <rect x="284" y="381" width="36" height="36" fill="#9c886e"><title>Muted
+#9c886e  pop=1692</title></rect>
+  <text x="302" y="412" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">9c886e</text>
+  <rect x="322" y="381" width="36" height="36" fill="#323b63"><title>DarkMuted
+#323b63  pop=1117</title></rect>
+  <text x="340" y="412" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">323b63</text>
+  <rect x="360" y="381" width="36" height="36" fill="#ccc2b0"><title>LightMuted
+#ccc2b0  pop=242</title></rect>
+  <text x="378" y="412" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">ccc2b0</text>
+  <text x="8" y="445" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Candace</text>
+  <rect x="170" y="427" width="36" height="36" fill="#309fbb"><title>Vibrant
+#309fbb  pop=10</title></rect>
+  <text x="188" y="458" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">309fbb</text>
+  <rect x="208" y="427" width="36" height="36" fill="#2d2b62"><title>DarkVibrant
+#2d2b62  pop=676</title></rect>
+  <text x="226" y="458" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">2d2b62</text>
+  <rect x="246" y="427" width="36" height="36" fill="#fcc494"><title>LightVibrant
+#fcc494  pop=3</title></rect>
+  <text x="264" y="458" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">fcc494</text>
+  <rect x="284" y="427" width="36" height="36" fill="#aa7954"><title>Muted
+#aa7954  pop=625</title></rect>
+  <text x="302" y="458" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">aa7954</text>
+  <rect x="322" y="427" width="36" height="36" fill="#4c354b"><title>DarkMuted
+#4c354b  pop=898</title></rect>
+  <text x="340" y="458" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">4c354b</text>
+  <rect x="360" y="427" width="36" height="36" fill="#b5c1d3"><title>LightMuted
+#b5c1d3  pop=407</title></rect>
+  <text x="378" y="458" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">b5c1d3</text>
+  <text x="8" y="491" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Charlotte</text>
+  <rect x="170" y="473" width="36" height="36" fill="#3da7b5"><title>Vibrant
+#3da7b5  pop=16</title></rect>
+  <text x="188" y="504" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">3da7b5</text>
+  <rect x="208" y="473" width="36" height="36" fill="#6c0f2a"><title>DarkVibrant
+#6c0f2a  pop=2103</title></rect>
+  <text x="226" y="504" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">6c0f2a</text>
+  <rect x="246" y="473" width="36" height="36" fill="#fcf4e3"><title>LightVibrant
+#fcf4e3  pop=1422</title></rect>
+  <text x="264" y="504" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">fcf4e3</text>
+  <rect x="284" y="473" width="36" height="36" fill="#aa757a"><title>Muted
+#aa757a  pop=1018</title></rect>
+  <text x="302" y="504" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">aa757a</text>
+  <rect x="322" y="473" width="36" height="36" fill="#364052"><title>DarkMuted
+#364052  pop=209</title></rect>
+  <text x="340" y="504" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">364052</text>
+  <rect x="360" y="473" width="36" height="36" fill="#d8a9ab"><title>LightMuted
+#d8a9ab  pop=384</title></rect>
+  <text x="378" y="504" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">d8a9ab</text>
+  <text x="8" y="537" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Chasca</text>
+  <rect x="170" y="519" width="36" height="36" fill="#be4b36"><title>Vibrant
+#be4b36  pop=116</title></rect>
+  <text x="188" y="550" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">be4b36</text>
+  <rect x="208" y="519" width="36" height="36" fill="#641928"><title>DarkVibrant
+#641928  pop=1059</title></rect>
+  <text x="226" y="550" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">641928</text>
+  <rect x="246" y="519" width="36" height="36" fill="#fbeadb"><title>LightVibrant
+#fbeadb  pop=1162</title></rect>
+  <text x="264" y="550" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">fbeadb</text>
+  <rect x="284" y="519" width="36" height="36" fill="#6a7baa"><title>Muted
+#6a7baa  pop=1119</title></rect>
+  <text x="302" y="550" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">6a7baa</text>
+  <rect x="322" y="519" width="36" height="36" fill="#36294f"><title>DarkMuted
+#36294f  pop=682</title></rect>
+  <text x="340" y="550" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">36294f</text>
+  <rect x="360" y="519" width="36" height="36" fill="#dbbdab"><title>LightMuted
+#dbbdab  pop=230</title></rect>
+  <text x="378" y="550" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">dbbdab</text>
+  <text x="8" y="583" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Chevreuse</text>
+  <rect x="170" y="565" width="36" height="36" fill="#ca195c"><title>Vibrant
+#ca195c  pop=27</title></rect>
+  <text x="188" y="596" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">ca195c</text>
+  <rect x="208" y="565" width="36" height="36" fill="#790d23"><title>DarkVibrant
+#790d23  pop=652</title></rect>
+  <text x="226" y="596" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">790d23</text>
+  <rect x="246" y="565" width="36" height="36" fill="#d9c4a7"><title>LightVibrant
+#d9c4a7  pop=268</title></rect>
+  <text x="264" y="596" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">d9c4a7</text>
+  <rect x="284" y="565" width="36" height="36" fill="#704f9c"><title>Muted
+#704f9c  pop=1557</title></rect>
+  <text x="302" y="596" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">704f9c</text>
+  <rect x="322" y="565" width="36" height="36" fill="#412825"><title>DarkMuted
+#412825  pop=1512</title></rect>
+  <text x="340" y="596" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">412825</text>
+  <rect x="360" y="565" width="36" height="36" fill="#c8b1b0"><title>LightMuted
+#c8b1b0  pop=185</title></rect>
+  <text x="378" y="596" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">c8b1b0</text>
+  <text x="8" y="629" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Chiori</text>
+  <rect x="170" y="611" width="36" height="36" fill="#cc8e2f"><title>Vibrant
+#cc8e2f  pop=1506</title></rect>
+  <text x="188" y="642" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">cc8e2f</text>
+  <rect x="208" y="611" width="36" height="36" fill="#681214"><title>DarkVibrant
+#681214  pop=572</title></rect>
+  <text x="226" y="642" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">681214</text>
+  <rect x="246" y="611" width="36" height="36" fill="#f9d46a"><title>LightVibrant
+#f9d46a  pop=12</title></rect>
+  <text x="264" y="642" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">f9d46a</text>
+  <rect x="284" y="611" width="36" height="36" fill="#8c6242"><title>Muted
+#8c6242  pop=1539</title></rect>
+  <text x="302" y="642" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">8c6242</text>
+  <rect x="322" y="611" width="36" height="36" fill="#644537"><title>DarkMuted
+#644537  pop=1361</title></rect>
+  <text x="340" y="642" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">644537</text>
+  <rect x="360" y="611" width="36" height="36" fill="#c5a994"><title>LightMuted
+#c5a994  pop=424</title></rect>
+  <text x="378" y="642" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">c5a994</text>
+  <text x="8" y="675" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Chongyun</text>
+  <rect x="170" y="657" width="36" height="36" fill="#2cc6f2"><title>Vibrant
+#2cc6f2  pop=11</title></rect>
+  <text x="188" y="688" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">2cc6f2</text>
+  <rect x="208" y="657" width="36" height="36" fill="#14426e"><title>DarkVibrant
+#14426e  pop=525</title></rect>
+  <text x="226" y="688" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">14426e</text>
+  <rect x="246" y="657" width="36" height="36" fill="#57d5f6"><title>LightVibrant
+#57d5f6  pop=7</title></rect>
+  <text x="264" y="688" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">57d5f6</text>
+  <rect x="284" y="657" width="36" height="36" fill="#597c9e"><title>Muted
+#597c9e  pop=1857</title></rect>
+  <text x="302" y="688" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">597c9e</text>
+  <rect x="322" y="657" width="36" height="36" fill="#2d3a4b"><title>DarkMuted
+#2d3a4b  pop=614</title></rect>
+  <text x="340" y="688" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">2d3a4b</text>
+  <rect x="360" y="657" width="36" height="36" fill="#adc1ce"><title>LightMuted
+#adc1ce  pop=750</title></rect>
+  <text x="378" y="688" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">adc1ce</text>
+  <text x="8" y="721" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Citlali</text>
+  <rect x="170" y="703" width="36" height="36" fill="#c43e69"><title>Vibrant
+#c43e69  pop=42</title></rect>
+  <text x="188" y="734" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">c43e69</text>
+  <rect x="208" y="703" width="36" height="36" fill="#232768"><title>DarkVibrant
+#232768  pop=964</title></rect>
+  <text x="226" y="734" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">232768</text>
+  <rect x="246" y="703" width="36" height="36" fill="#f48bbb"><title>LightVibrant
+#f48bbb  pop=53</title></rect>
+  <text x="264" y="734" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">f48bbb</text>
+  <rect x="284" y="703" width="36" height="36" fill="#725ca9"><title>Muted
+#725ca9  pop=587</title></rect>
+  <text x="302" y="734" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">725ca9</text>
+  <rect x="322" y="703" width="36" height="36" fill="#262030"><title>DarkMuted
+#262030  pop=1371</title></rect>
+  <text x="340" y="734" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">262030</text>
+  <rect x="360" y="703" width="36" height="36" fill="#ce9bbf"><title>LightMuted
+#ce9bbf  pop=1357</title></rect>
+  <text x="378" y="734" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">ce9bbf</text>
+  <text x="8" y="767" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Clorinde</text>
+  <rect x="170" y="749" width="36" height="36" fill="#2031b7"><title>Vibrant
+#2031b7  pop=35</title></rect>
+  <text x="188" y="780" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">2031b7</text>
+  <rect x="208" y="749" width="36" height="36" fill="#1e2992"><title>DarkVibrant
+#1e2992  pop=62</title></rect>
+  <text x="226" y="780" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">1e2992</text>
+  <rect x="246" y="749" width="36" height="36" fill="#c464e4"><title>LightVibrant
+#c464e4  pop=1</title></rect>
+  <text x="264" y="780" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">c464e4</text>
+  <rect x="284" y="749" width="36" height="36" fill="#a4845c"><title>Muted
+#a4845c  pop=2</title></rect>
+  <text x="302" y="780" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">a4845c</text>
+  <rect x="322" y="749" width="36" height="36" fill="#2e3357"><title>DarkMuted
+#2e3357  pop=471</title></rect>
+  <text x="340" y="780" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">2e3357</text>
+  <rect x="360" y="749" width="36" height="36" fill="#c6c6cd"><title>LightMuted
+#c6c6cd  pop=747</title></rect>
+  <text x="378" y="780" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">c6c6cd</text>
+  <text x="8" y="813" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Collei</text>
+  <rect x="170" y="795" width="36" height="36" fill="#d0602a"><title>Vibrant
+#d0602a  pop=7</title></rect>
+  <text x="188" y="826" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">d0602a</text>
+  <rect x="208" y="795" width="36" height="36" fill="#774511"><title>DarkVibrant
+#774511  pop=24</title></rect>
+  <text x="226" y="826" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">774511</text>
+  <rect x="246" y="795" width="36" height="36" fill="#f7db8f"><title>LightVibrant
+#f7db8f  pop=1272</title></rect>
+  <text x="264" y="826" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">f7db8f</text>
+  <rect x="284" y="795" width="36" height="36" fill="#987557"><title>Muted
+#987557  pop=1388</title></rect>
+  <text x="302" y="826" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">987557</text>
+  <rect x="322" y="795" width="36" height="36" fill="#5b4533"><title>DarkMuted
+#5b4533  pop=986</title></rect>
+  <text x="340" y="826" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">5b4533</text>
+  <rect x="360" y="795" width="36" height="36" fill="#cbac92"><title>LightMuted
+#cbac92  pop=288</title></rect>
+  <text x="378" y="826" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">cbac92</text>
+  <text x="8" y="859" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Cyno</text>
+  <rect x="170" y="841" width="36" height="36" fill="#f6ce44"><title>Vibrant
+#f6ce44  pop=3</title></rect>
+  <text x="188" y="872" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">f6ce44</text>
+  <rect x="208" y="841" width="36" height="36" fill="#884d26"><title>DarkVibrant
+#884d26  pop=246</title></rect>
+  <text x="226" y="872" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">884d26</text>
+  <rect x="246" y="841" width="36" height="36" fill="#fcd49c"><title>LightVibrant
+#fcd49c  pop=87</title></rect>
+  <text x="264" y="872" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">fcd49c</text>
+  <rect x="284" y="841" width="36" height="36" fill="#ac886d"><title>Muted
+#ac886d  pop=868</title></rect>
+  <text x="302" y="872" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">ac886d</text>
+  <rect x="322" y="841" width="36" height="36" fill="#584537"><title>DarkMuted
+#584537  pop=137</title></rect>
+  <text x="340" y="872" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">584537</text>
+  <rect x="360" y="841" width="36" height="36" fill="#d2c4a8"><title>LightMuted
+#d2c4a8  pop=28</title></rect>
+  <text x="378" y="872" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">d2c4a8</text>
+  <text x="8" y="905" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Dahlia</text>
+  <rect x="170" y="887" width="36" height="36" fill="#7e1b30"><title>Vibrant
+#7e1b30  pop=793</title></rect>
+  <text x="188" y="918" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">7e1b30</text>
+  <rect x="208" y="887" width="36" height="36" fill="#631b2a"><title>DarkVibrant
+#631b2a  pop=794</title></rect>
+  <text x="226" y="918" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">631b2a</text>
+  <rect x="246" y="887" width="36" height="36" fill="#faebe3"><title>LightVibrant
+#faebe3  pop=574</title></rect>
+  <text x="264" y="918" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">faebe3</text>
+  <rect x="284" y="887" width="36" height="36" fill="#a08272"><title>Muted
+#a08272  pop=789</title></rect>
+  <text x="302" y="918" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">a08272</text>
+  <rect x="322" y="887" width="36" height="36" fill="#50252c"><title>DarkMuted
+#50252c  pop=370</title></rect>
+  <text x="340" y="918" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">50252c</text>
+  <rect x="360" y="887" width="36" height="36" fill="#d2aaa6"><title>LightMuted
+#d2aaa6  pop=30</title></rect>
+  <text x="378" y="918" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">d2aaa6</text>
+  <text x="8" y="951" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Dehya</text>
+  <rect x="170" y="933" width="36" height="36" fill="#c7180e"><title>Vibrant
+#c7180e  pop=135</title></rect>
+  <text x="188" y="964" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">c7180e</text>
+  <rect x="208" y="933" width="36" height="36" fill="#92120e"><title>DarkVibrant
+#92120e  pop=599</title></rect>
+  <text x="226" y="964" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">92120e</text>
+  <rect x="246" y="933" width="36" height="36" fill="#f4c193"><title>LightVibrant
+#f4c193  pop=329</title></rect>
+  <text x="264" y="964" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">f4c193</text>
+  <rect x="284" y="933" width="36" height="36" fill="#90714e"><title>Muted
+#90714e  pop=730</title></rect>
+  <text x="302" y="964" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">90714e</text>
+  <rect x="322" y="933" width="36" height="36" fill="#574136"><title>DarkMuted
+#574136  pop=461</title></rect>
+  <text x="340" y="964" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">574136</text>
+  <rect x="360" y="933" width="36" height="36" fill="#a89f84"><title>LightMuted
+#a89f84  pop=22</title></rect>
+  <text x="378" y="964" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">a89f84</text>
+  <text x="8" y="997" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Diluc</text>
+  <rect x="170" y="979" width="36" height="36" fill="#ec4a22"><title>Vibrant
+#ec4a22  pop=693</title></rect>
+  <text x="188" y="1010" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">ec4a22</text>
+  <rect x="208" y="979" width="36" height="36" fill="#761c12"><title>DarkVibrant
+#761c12  pop=360</title></rect>
+  <text x="226" y="1010" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">761c12</text>
+  <rect x="246" y="979" width="36" height="36" fill="#e06f4e"><title>LightVibrant
+#e06f4e  pop=802</title></rect>
+  <text x="264" y="1010" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">e06f4e</text>
+  <rect x="284" y="979" width="36" height="36" fill="#a27969"><title>Muted
+#a27969  pop=124</title></rect>
+  <text x="302" y="1010" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">a27969</text>
+  <rect x="322" y="979" width="36" height="36" fill="#42403c"><title>DarkMuted
+#42403c  pop=2671</title></rect>
+  <text x="340" y="1010" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">42403c</text>
+  <rect x="360" y="979" width="36" height="36" fill="#e7dbd4"><title>LightMuted
+#e7dbd4  pop=2645</title></rect>
+  <text x="378" y="1010" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">e7dbd4</text>
+  <text x="8" y="1043" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Diona</text>
+  <rect x="170" y="1025" width="36" height="36" fill="#aa7246"><title>Vibrant
+#aa7246  pop=1432</title></rect>
+  <text x="188" y="1056" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">aa7246</text>
+  <rect x="208" y="1025" width="36" height="36" fill="#243254"><title>DarkVibrant
+#243254  pop=13</title></rect>
+  <text x="226" y="1056" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">243254</text>
+  <rect x="246" y="1025" width="36" height="36" fill="#f4dfa5"><title>LightVibrant
+#f4dfa5  pop=5</title></rect>
+  <text x="264" y="1056" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">f4dfa5</text>
+  <rect x="284" y="1025" width="36" height="36" fill="#b8786c"><title>Muted
+#b8786c  pop=1403</title></rect>
+  <text x="302" y="1056" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">b8786c</text>
+  <rect x="322" y="1025" width="36" height="36" fill="#3d3f5a"><title>DarkMuted
+#3d3f5a  pop=2044</title></rect>
+  <text x="340" y="1056" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">3d3f5a</text>
+  <rect x="360" y="1025" width="36" height="36" fill="#adbbd1"><title>LightMuted
+#adbbd1  pop=1495</title></rect>
+  <text x="378" y="1056" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">adbbd1</text>
+  <text x="8" y="1089" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Dori</text>
+  <rect x="170" y="1071" width="36" height="36" fill="#4f2eae"><title>Vibrant
+#4f2eae  pop=75</title></rect>
+  <text x="188" y="1102" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">4f2eae</text>
+  <rect x="208" y="1071" width="36" height="36" fill="#281c61"><title>DarkVibrant
+#281c61  pop=1294</title></rect>
+  <text x="226" y="1102" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">281c61</text>
+  <rect x="246" y="1071" width="36" height="36" fill="#f2d97c"><title>LightVibrant
+#f2d97c  pop=6</title></rect>
+  <text x="264" y="1102" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">f2d97c</text>
+  <rect x="284" y="1071" width="36" height="36" fill="#775f9c"><title>Muted
+#775f9c  pop=2067</title></rect>
+  <text x="302" y="1102" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">775f9c</text>
+  <rect x="322" y="1071" width="36" height="36" fill="#72395e"><title>DarkMuted
+#72395e  pop=1565</title></rect>
+  <text x="340" y="1102" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">72395e</text>
+  <rect x="360" y="1071" width="36" height="36" fill="#cc9391"><title>LightMuted
+#cc9391  pop=2458</title></rect>
+  <text x="378" y="1102" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">cc9391</text>
+  <text x="8" y="1135" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Emilie</text>
+  <rect x="170" y="1117" width="36" height="36" fill="#93701d"><title>Vibrant
+#93701d  pop=10</title></rect>
+  <text x="188" y="1148" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">93701d</text>
+  <rect x="208" y="1117" width="36" height="36" fill="#28604f"><title>DarkVibrant
+#28604f  pop=1806</title></rect>
+  <text x="226" y="1148" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">28604f</text>
+  <rect x="246" y="1117" width="36" height="36" fill="#fcece4"><title>LightVibrant
+#fcece4  pop=1054</title></rect>
+  <text x="264" y="1148" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">fcece4</text>
+  <rect x="284" y="1117" width="36" height="36" fill="#8c8b63"><title>Muted
+#8c8b63  pop=1606</title></rect>
+  <text x="302" y="1148" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">8c8b63</text>
+  <rect x="322" y="1117" width="36" height="36" fill="#41353a"><title>DarkMuted
+#41353a  pop=1627</title></rect>
+  <text x="340" y="1148" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">41353a</text>
+  <rect x="360" y="1117" width="36" height="36" fill="#cfc496"><title>LightMuted
+#cfc496  pop=1037</title></rect>
+  <text x="378" y="1148" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">cfc496</text>
+  <text x="8" y="1181" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Escoffier</text>
+  <rect x="170" y="1163" width="36" height="36" fill="#43b6d9"><title>Vibrant
+#43b6d9  pop=135</title></rect>
+  <text x="188" y="1194" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">43b6d9</text>
+  <rect x="208" y="1163" width="36" height="36" fill="#4b0b25"><title>DarkVibrant
+#4b0b25  pop=30</title></rect>
+  <text x="226" y="1194" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">4b0b25</text>
+  <rect x="246" y="1163" width="36" height="36" fill="#f8c37c"><title>LightVibrant
+#f8c37c  pop=269</title></rect>
+  <text x="264" y="1194" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">f8c37c</text>
+  <rect x="284" y="1163" width="36" height="36" fill="#b57c77"><title>Muted
+#b57c77  pop=530</title></rect>
+  <text x="302" y="1194" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">b57c77</text>
+  <rect x="322" y="1163" width="36" height="36" fill="#74344c"><title>DarkMuted
+#74344c  pop=996</title></rect>
+  <text x="340" y="1194" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">74344c</text>
+  <rect x="360" y="1163" width="36" height="36" fill="#b3ccd8"><title>LightMuted
+#b3ccd8  pop=262</title></rect>
+  <text x="378" y="1194" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">b3ccd8</text>
+  <text x="8" y="1227" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Eula</text>
+  <rect x="170" y="1209" width="36" height="36" fill="#144ca4"><title>Vibrant
+#144ca4  pop=1</title></rect>
+  <text x="188" y="1240" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">144ca4</text>
+  <rect x="208" y="1209" width="36" height="36" fill="#0e3160"><title>DarkVibrant
+#0e3160  pop=276</title></rect>
+  <text x="226" y="1240" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">0e3160</text>
+  <rect x="246" y="1209" width="36" height="36" fill="#9bc2d6"><title>LightVibrant
+#9bc2d6  pop=2335</title></rect>
+  <text x="264" y="1240" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">9bc2d6</text>
+  <rect x="284" y="1209" width="36" height="36" fill="#5f789f"><title>Muted
+#5f789f  pop=424</title></rect>
+  <text x="302" y="1240" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">5f789f</text>
+  <rect x="322" y="1209" width="36" height="36" fill="#303543"><title>DarkMuted
+#303543  pop=3502</title></rect>
+  <text x="340" y="1240" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">303543</text>
+  <rect x="360" y="1209" width="36" height="36" fill="#d4cdbc"><title>LightMuted
+#d4cdbc  pop=2824</title></rect>
+  <text x="378" y="1240" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">d4cdbc</text>
+  <text x="8" y="1273" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Faruzan</text>
+  <rect x="170" y="1255" width="36" height="36" fill="#5489b4"><title>Vibrant
+#5489b4  pop=3</title></rect>
+  <text x="188" y="1286" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">5489b4</text>
+  <rect x="208" y="1255" width="36" height="36" fill="#1c4659"><title>DarkVibrant
+#1c4659  pop=6</title></rect>
+  <text x="226" y="1286" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">1c4659</text>
+  <rect x="246" y="1255" width="36" height="36" fill="#c4f4fc"><title>LightVibrant
+#c4f4fc  pop=1</title></rect>
+  <text x="264" y="1286" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">c4f4fc</text>
+  <rect x="284" y="1255" width="36" height="36" fill="#6b929e"><title>Muted
+#6b929e  pop=2359</title></rect>
+  <text x="302" y="1286" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">6b929e</text>
+  <rect x="322" y="1255" width="36" height="36" fill="#364c58"><title>DarkMuted
+#364c58  pop=697</title></rect>
+  <text x="340" y="1286" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">364c58</text>
+  <rect x="360" y="1255" width="36" height="36" fill="#a2c3c7"><title>LightMuted
+#a2c3c7  pop=2631</title></rect>
+  <text x="378" y="1286" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">a2c3c7</text>
+  <text x="8" y="1319" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Fischl</text>
+  <rect x="170" y="1301" width="36" height="36" fill="#bc904c"><title>Vibrant
+#bc904c  pop=2</title></rect>
+  <text x="188" y="1332" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">bc904c</text>
+  <rect x="208" y="1301" width="36" height="36" fill="#84612c"><title>DarkVibrant
+#84612c  pop=3</title></rect>
+  <text x="226" y="1332" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">84612c</text>
+  <rect x="246" y="1301" width="36" height="36" fill="#fbe8bb"><title>LightVibrant
+#fbe8bb  pop=461</title></rect>
+  <text x="264" y="1332" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">fbe8bb</text>
+  <rect x="284" y="1301" width="36" height="36" fill="#96706a"><title>Muted
+#96706a  pop=1806</title></rect>
+  <text x="302" y="1332" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">96706a</text>
+  <rect x="322" y="1301" width="36" height="36" fill="#54373c"><title>DarkMuted
+#54373c  pop=1031</title></rect>
+  <text x="340" y="1332" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">54373c</text>
+  <rect x="360" y="1301" width="36" height="36" fill="#a8a9c8"><title>LightMuted
+#a8a9c8  pop=61</title></rect>
+  <text x="378" y="1332" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">a8a9c8</text>
+  <text x="8" y="1365" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Freminet</text>
+  <rect x="170" y="1347" width="36" height="36" fill="#bc9159"><title>Vibrant
+#bc9159  pop=22</title></rect>
+  <text x="188" y="1378" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">bc9159</text>
+  <rect x="208" y="1347" width="36" height="36" fill="#865a34"><title>DarkVibrant
+#865a34  pop=10</title></rect>
+  <text x="226" y="1378" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">865a34</text>
+  <rect x="246" y="1347" width="36" height="36" fill="#dac0a0"><title>LightVibrant
+#dac0a0  pop=2154</title></rect>
+  <text x="264" y="1378" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">dac0a0</text>
+  <rect x="284" y="1347" width="36" height="36" fill="#9b7d66"><title>Muted
+#9b7d66  pop=5055</title></rect>
+  <text x="302" y="1378" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">9b7d66</text>
+  <rect x="322" y="1347" width="36" height="36" fill="#312e40"><title>DarkMuted
+#312e40  pop=4482</title></rect>
+  <text x="340" y="1378" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">312e40</text>
+  <rect x="360" y="1347" width="36" height="36" fill="#cca899"><title>LightMuted
+#cca899  pop=457</title></rect>
+  <text x="378" y="1378" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">cca899</text>
+  <text x="8" y="1411" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Furina</text>
+  <rect x="170" y="1393" width="36" height="36" fill="#2395e5"><title>Vibrant
+#2395e5  pop=152</title></rect>
+  <text x="188" y="1424" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">2395e5</text>
+  <rect x="208" y="1393" width="36" height="36" fill="#09327f"><title>DarkVibrant
+#09327f  pop=18</title></rect>
+  <text x="226" y="1424" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">09327f</text>
+  <rect x="246" y="1393" width="36" height="36" fill="#95e9fa"><title>LightVibrant
+#95e9fa  pop=69</title></rect>
+  <text x="264" y="1424" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">95e9fa</text>
+  <rect x="284" y="1393" width="36" height="36" fill="#6483a9"><title>Muted
+#6483a9  pop=702</title></rect>
+  <text x="302" y="1424" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">6483a9</text>
+  <rect x="322" y="1393" width="36" height="36" fill="#21264d"><title>DarkMuted
+#21264d  pop=1655</title></rect>
+  <text x="340" y="1424" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">21264d</text>
+  <rect x="360" y="1393" width="36" height="36" fill="#c7aaac"><title>LightMuted
+#c7aaac  pop=16</title></rect>
+  <text x="378" y="1424" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">c7aaac</text>
+  <text x="8" y="1503" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Ganyu</text>
+  <rect x="170" y="1485" width="36" height="36" fill="#2642c1"><title>Vibrant
+#2642c1  pop=6</title></rect>
+  <text x="188" y="1516" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">2642c1</text>
+  <rect x="208" y="1485" width="36" height="36" fill="#182184"><title>DarkVibrant
+#182184  pop=18</title></rect>
+  <text x="226" y="1516" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">182184</text>
+  <rect x="246" y="1485" width="36" height="36" fill="#9dbfe8"><title>LightVibrant
+#9dbfe8  pop=2577</title></rect>
+  <text x="264" y="1516" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">9dbfe8</text>
+  <rect x="284" y="1485" width="36" height="36" fill="#9e756a"><title>Muted
+#9e756a  pop=2601</title></rect>
+  <text x="302" y="1516" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">9e756a</text>
+  <rect x="322" y="1485" width="36" height="36" fill="#402f39"><title>DarkMuted
+#402f39  pop=2786</title></rect>
+  <text x="340" y="1516" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">402f39</text>
+  <rect x="360" y="1485" width="36" height="36" fill="#9da5cd"><title>LightMuted
+#9da5cd  pop=720</title></rect>
+  <text x="378" y="1516" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">9da5cd</text>
+  <text x="8" y="1549" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Gorou</text>
+  <rect x="170" y="1531" width="36" height="36" fill="#af8450"><title>Vibrant
+#af8450  pop=1740</title></rect>
+  <text x="188" y="1562" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">af8450</text>
+  <rect x="208" y="1531" width="36" height="36" fill="#6d3e19"><title>DarkVibrant
+#6d3e19  pop=122</title></rect>
+  <text x="226" y="1562" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">6d3e19</text>
+  <rect x="246" y="1531" width="36" height="36" fill="#f1cca4"><title>LightVibrant
+#f1cca4  pop=417</title></rect>
+  <text x="264" y="1562" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">f1cca4</text>
+  <rect x="284" y="1531" width="36" height="36" fill="#9c7650"><title>Muted
+#9c7650  pop=279</title></rect>
+  <text x="302" y="1562" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">9c7650</text>
+  <rect x="322" y="1531" width="36" height="36" fill="#523c2f"><title>DarkMuted
+#523c2f  pop=1283</title></rect>
+  <text x="340" y="1562" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">523c2f</text>
+  <rect x="360" y="1531" width="36" height="36" fill="#cdb69d"><title>LightMuted
+#cdb69d  pop=1651</title></rect>
+  <text x="378" y="1562" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">cdb69d</text>
+  <text x="8" y="1595" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">HuTao</text>
+  <rect x="170" y="1577" width="36" height="36" fill="#cd4734"><title>Vibrant
+#cd4734  pop=282</title></rect>
+  <text x="188" y="1608" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">cd4734</text>
+  <rect x="208" y="1577" width="36" height="36" fill="#711811"><title>DarkVibrant
+#711811  pop=29</title></rect>
+  <text x="226" y="1608" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">711811</text>
+  <rect x="246" y="1577" width="36" height="36" fill="#f9dcc3"><title>LightVibrant
+#f9dcc3  pop=229</title></rect>
+  <text x="264" y="1608" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">f9dcc3</text>
+  <rect x="284" y="1577" width="36" height="36" fill="#91716b"><title>Muted
+#91716b  pop=1921</title></rect>
+  <text x="302" y="1608" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">91716b</text>
+  <rect x="322" y="1577" width="36" height="36" fill="#593836"><title>DarkMuted
+#593836  pop=2027</title></rect>
+  <text x="340" y="1608" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">593836</text>
+  <rect x="360" y="1577" width="36" height="36" fill="#caa288"><title>LightMuted
+#caa288  pop=592</title></rect>
+  <text x="378" y="1608" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">caa288</text>
+  <text x="8" y="1641" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Ifa</text>
+  <rect x="170" y="1623" width="36" height="36" fill="#cd7f42"><title>Vibrant
+#cd7f42  pop=444</title></rect>
+  <text x="188" y="1654" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">cd7f42</text>
+  <rect x="208" y="1623" width="36" height="36" fill="#a3511c"><title>DarkVibrant
+#a3511c  pop=152</title></rect>
+  <text x="226" y="1654" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">a3511c</text>
+  <rect x="246" y="1623" width="36" height="36" fill="#f8aba4"><title>LightVibrant
+#f8aba4  pop=234</title></rect>
+  <text x="264" y="1654" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">f8aba4</text>
+  <rect x="284" y="1623" width="36" height="36" fill="#977b6d"><title>Muted
+#977b6d  pop=754</title></rect>
+  <text x="302" y="1654" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">977b6d</text>
+  <rect x="322" y="1623" width="36" height="36" fill="#4e3931"><title>DarkMuted
+#4e3931  pop=377</title></rect>
+  <text x="340" y="1654" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">4e3931</text>
+  <rect x="360" y="1623" width="36" height="36" fill="#d0bdb3"><title>LightMuted
+#d0bdb3  pop=123</title></rect>
+  <text x="378" y="1654" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">d0bdb3</text>
+  <text x="8" y="1687" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Jean</text>
+  <rect x="170" y="1669" width="36" height="36" fill="#2474b4"><title>Vibrant
+#2474b4  pop=1</title></rect>
+  <text x="188" y="1700" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">2474b4</text>
+  <rect x="208" y="1669" width="36" height="36" fill="#0c3c6c"><title>DarkVibrant
+#0c3c6c  pop=1</title></rect>
+  <text x="226" y="1700" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">0c3c6c</text>
+  <rect x="246" y="1669" width="36" height="36" fill="#f0d6b3"><title>LightVibrant
+#f0d6b3  pop=445</title></rect>
+  <text x="264" y="1700" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">f0d6b3</text>
+  <rect x="284" y="1669" width="36" height="36" fill="#b49b77"><title>Muted
+#b49b77  pop=1344</title></rect>
+  <text x="302" y="1700" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">b49b77</text>
+  <rect x="322" y="1669" width="36" height="36" fill="#334557"><title>DarkMuted
+#334557  pop=210</title></rect>
+  <text x="340" y="1700" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">334557</text>
+  <rect x="360" y="1669" width="36" height="36" fill="#b5b7c1"><title>LightMuted
+#b5b7c1  pop=1314</title></rect>
+  <text x="378" y="1700" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">b5b7c1</text>
+  <text x="8" y="1733" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Kachina</text>
+  <rect x="170" y="1715" width="36" height="36" fill="#cd802a"><title>Vibrant
+#cd802a  pop=2137</title></rect>
+  <text x="188" y="1746" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">cd802a</text>
+  <rect x="208" y="1715" width="36" height="36" fill="#822e12"><title>DarkVibrant
+#822e12  pop=106</title></rect>
+  <text x="226" y="1746" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">822e12</text>
+  <rect x="246" y="1715" width="36" height="36" fill="#ebd37c"><title>LightVibrant
+#ebd37c  pop=1481</title></rect>
+  <text x="264" y="1746" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">ebd37c</text>
+  <rect x="284" y="1715" width="36" height="36" fill="#ad8b67"><title>Muted
+#ad8b67  pop=1980</title></rect>
+  <text x="302" y="1746" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">ad8b67</text>
+  <rect x="322" y="1715" width="36" height="36" fill="#4e352b"><title>DarkMuted
+#4e352b  pop=1244</title></rect>
+  <text x="340" y="1746" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">4e352b</text>
+  <rect x="360" y="1715" width="36" height="36" fill="#d1bda7"><title>LightMuted
+#d1bda7  pop=717</title></rect>
+  <text x="378" y="1746" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">d1bda7</text>
+  <text x="8" y="1779" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Kaeya</text>
+  <rect x="170" y="1761" width="36" height="36" fill="#b98666"><title>Vibrant
+#b98666  pop=164</title></rect>
+  <text x="188" y="1792" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">b98666</text>
+  <rect x="208" y="1761" width="36" height="36" fill="#293d5f"><title>DarkVibrant
+#293d5f  pop=597</title></rect>
+  <text x="226" y="1792" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">293d5f</text>
+  <rect x="246" y="1761" width="36" height="36" fill="#b1c4f8"><title>LightVibrant
+#b1c4f8  pop=65</title></rect>
+  <text x="264" y="1792" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">b1c4f8</text>
+  <rect x="284" y="1761" width="36" height="36" fill="#ac6c54"><title>Muted
+#ac6c54  pop=5</title></rect>
+  <text x="302" y="1792" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">ac6c54</text>
+  <rect x="322" y="1761" width="36" height="36" fill="#293c4b"><title>DarkMuted
+#293c4b  pop=630</title></rect>
+  <text x="340" y="1792" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">293c4b</text>
+  <rect x="360" y="1761" width="36" height="36" fill="#b3bbd4"><title>LightMuted
+#b3bbd4  pop=64</title></rect>
+  <text x="378" y="1792" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">b3bbd4</text>
+  <text x="8" y="1825" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">KamisatoAyaka</text>
+  <rect x="170" y="1807" width="36" height="36" fill="#3466b6"><title>Vibrant
+#3466b6  pop=3</title></rect>
+  <text x="188" y="1838" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">3466b6</text>
+  <rect x="208" y="1807" width="36" height="36" fill="#2c3166"><title>DarkVibrant
+#2c3166  pop=1800</title></rect>
+  <text x="226" y="1838" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">2c3166</text>
+  <rect x="246" y="1807" width="36" height="36" fill="#b0d7f4"><title>LightVibrant
+#b0d7f4  pop=80</title></rect>
+  <text x="264" y="1838" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">b0d7f4</text>
+  <rect x="284" y="1807" width="36" height="36" fill="#997976"><title>Muted
+#997976  pop=2766</title></rect>
+  <text x="302" y="1838" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">997976</text>
+  <rect x="322" y="1807" width="36" height="36" fill="#2a2d58"><title>DarkMuted
+#2a2d58  pop=1506</title></rect>
+  <text x="340" y="1838" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">2a2d58</text>
+  <rect x="360" y="1807" width="36" height="36" fill="#d3bab9"><title>LightMuted
+#d3bab9  pop=610</title></rect>
+  <text x="378" y="1838" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">d3bab9</text>
+  <text x="8" y="1871" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">KamisatoAyato</text>
+  <rect x="170" y="1853" width="36" height="36" fill="#44bded"><title>Vibrant
+#44bded  pop=33</title></rect>
+  <text x="188" y="1884" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">44bded</text>
+  <rect x="208" y="1853" width="36" height="36" fill="#292659"><title>DarkVibrant
+#292659  pop=1107</title></rect>
+  <text x="226" y="1884" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">292659</text>
+  <rect x="246" y="1853" width="36" height="36" fill="#c5f2fb"><title>LightVibrant
+#c5f2fb  pop=82</title></rect>
+  <text x="264" y="1884" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">c5f2fb</text>
+  <rect x="284" y="1853" width="36" height="36" fill="#7290b0"><title>Muted
+#7290b0  pop=1196</title></rect>
+  <text x="302" y="1884" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">7290b0</text>
+  <rect x="322" y="1853" width="36" height="36" fill="#3c3363"><title>DarkMuted
+#3c3363  pop=71</title></rect>
+  <text x="340" y="1884" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">3c3363</text>
+  <rect x="360" y="1853" width="36" height="36" fill="#9cafc3"><title>LightMuted
+#9cafc3  pop=737</title></rect>
+  <text x="378" y="1884" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">9cafc3</text>
+  <text x="8" y="1917" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Kaveh</text>
+  <rect x="170" y="1899" width="36" height="36" fill="#bb1b11"><title>Vibrant
+#bb1b11  pop=91</title></rect>
+  <text x="188" y="1930" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">bb1b11</text>
+  <rect x="208" y="1899" width="36" height="36" fill="#09517d"><title>DarkVibrant
+#09517d  pop=241</title></rect>
+  <text x="226" y="1930" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">09517d</text>
+  <rect x="246" y="1899" width="36" height="36" fill="#e2cba4"><title>LightVibrant
+#e2cba4  pop=544</title></rect>
+  <text x="264" y="1930" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">e2cba4</text>
+  <rect x="284" y="1899" width="36" height="36" fill="#9e8766"><title>Muted
+#9e8766  pop=1293</title></rect>
+  <text x="302" y="1930" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">9e8766</text>
+  <rect x="322" y="1899" width="36" height="36" fill="#2e5052"><title>DarkMuted
+#2e5052  pop=42</title></rect>
+  <text x="340" y="1930" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">2e5052</text>
+  <rect x="360" y="1899" width="36" height="36" fill="#cab089"><title>LightMuted
+#cab089  pop=907</title></rect>
+  <text x="378" y="1930" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">cab089</text>
+  <text x="8" y="1963" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Kazuha</text>
+  <rect x="170" y="1945" width="36" height="36" fill="#c13724"><title>Vibrant
+#c13724  pop=531</title></rect>
+  <text x="188" y="1976" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">c13724</text>
+  <rect x="208" y="1945" width="36" height="36" fill="#7c1c04"><title>DarkVibrant
+#7c1c04  pop=1</title></rect>
+  <text x="226" y="1976" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">7c1c04</text>
+  <rect x="246" y="1945" width="36" height="36" fill="#92cdc1"><title>LightVibrant
+#92cdc1  pop=1082</title></rect>
+  <text x="264" y="1976" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">92cdc1</text>
+  <rect x="284" y="1945" width="36" height="36" fill="#9d826a"><title>Muted
+#9d826a  pop=520</title></rect>
+  <text x="302" y="1976" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">9d826a</text>
+  <rect x="322" y="1945" width="36" height="36" fill="#6b3b34"><title>DarkMuted
+#6b3b34  pop=40</title></rect>
+  <text x="340" y="1976" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">6b3b34</text>
+  <rect x="360" y="1945" width="36" height="36" fill="#d9c8b9"><title>LightMuted
+#d9c8b9  pop=1188</title></rect>
+  <text x="378" y="1976" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">d9c8b9</text>
+  <text x="8" y="2009" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Keqing</text>
+  <rect x="170" y="1991" width="36" height="36" fill="#443cbc"><title>Vibrant
+#443cbc  pop=1</title></rect>
+  <text x="188" y="2022" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">443cbc</text>
+  <rect x="208" y="1991" width="36" height="36" fill="#35235a"><title>DarkVibrant
+#35235a  pop=199</title></rect>
+  <text x="226" y="2022" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">35235a</text>
+  <rect x="246" y="1991" width="36" height="36" fill="#8487d7"><title>LightVibrant
+#8487d7  pop=1814</title></rect>
+  <text x="264" y="2022" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">8487d7</text>
+  <rect x="284" y="1991" width="36" height="36" fill="#766ea4"><title>Muted
+#766ea4  pop=1764</title></rect>
+  <text x="302" y="2022" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">766ea4</text>
+  <rect x="322" y="1991" width="36" height="36" fill="#393060"><title>DarkMuted
+#393060  pop=819</title></rect>
+  <text x="340" y="2022" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">393060</text>
+  <rect x="360" y="1991" width="36" height="36" fill="#b2b7d5"><title>LightMuted
+#b2b7d5  pop=1368</title></rect>
+  <text x="378" y="2022" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">b2b7d5</text>
+  <text x="8" y="2055" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Kinich</text>
+  <rect x="170" y="2037" width="36" height="36" fill="#bc8a2f"><title>Vibrant
+#bc8a2f  pop=50</title></rect>
+  <text x="188" y="2068" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">bc8a2f</text>
+  <rect x="208" y="2037" width="36" height="36" fill="#255d6a"><title>DarkVibrant
+#255d6a  pop=560</title></rect>
+  <text x="226" y="2068" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">255d6a</text>
+  <rect x="246" y="2037" width="36" height="36" fill="#ede38d"><title>LightVibrant
+#ede38d  pop=174</title></rect>
+  <text x="264" y="2068" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">ede38d</text>
+  <rect x="284" y="2037" width="36" height="36" fill="#a0815c"><title>Muted
+#a0815c  pop=101</title></rect>
+  <text x="302" y="2068" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">a0815c</text>
+  <rect x="322" y="2037" width="36" height="36" fill="#27344f"><title>DarkMuted
+#27344f  pop=290</title></rect>
+  <text x="340" y="2068" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">27344f</text>
+  <rect x="360" y="2037" width="36" height="36" fill="#d4c4a9"><title>LightMuted
+#d4c4a9  pop=206</title></rect>
+  <text x="378" y="2068" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">d4c4a9</text>
+  <text x="8" y="2101" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Kirara</text>
+  <rect x="170" y="2083" width="36" height="36" fill="#3bafb7"><title>Vibrant
+#3bafb7  pop=56</title></rect>
+  <text x="188" y="2114" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">3bafb7</text>
+  <rect x="208" y="2083" width="36" height="36" fill="#06293f"><title>DarkVibrant
+#06293f  pop=895</title></rect>
+  <text x="226" y="2114" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">06293f</text>
+  <rect x="246" y="2083" width="36" height="36" fill="#fccab5"><title>LightVibrant
+#fccab5  pop=291</title></rect>
+  <text x="264" y="2114" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">fccab5</text>
+  <rect x="284" y="2083" width="36" height="36" fill="#947561"><title>Muted
+#947561  pop=1252</title></rect>
+  <text x="302" y="2114" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">947561</text>
+  <rect x="322" y="2083" width="36" height="36" fill="#393d46"><title>DarkMuted
+#393d46  pop=3026</title></rect>
+  <text x="340" y="2114" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">393d46</text>
+  <rect x="360" y="2083" width="36" height="36" fill="#d4c1a6"><title>LightMuted
+#d4c1a6  pop=369</title></rect>
+  <text x="378" y="2114" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">d4c1a6</text>
+  <text x="8" y="2147" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Klee</text>
+  <rect x="170" y="2129" width="36" height="36" fill="#c5351d"><title>Vibrant
+#c5351d  pop=1615</title></rect>
+  <text x="188" y="2160" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">c5351d</text>
+  <rect x="208" y="2129" width="36" height="36" fill="#8c1c11"><title>DarkVibrant
+#8c1c11  pop=3</title></rect>
+  <text x="226" y="2160" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">8c1c11</text>
+  <rect x="246" y="2129" width="36" height="36" fill="#f9e1c8"><title>LightVibrant
+#f9e1c8  pop=1445</title></rect>
+  <text x="264" y="2160" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">f9e1c8</text>
+  <rect x="284" y="2129" width="36" height="36" fill="#8d6c65"><title>Muted
+#8d6c65  pop=2076</title></rect>
+  <text x="302" y="2160" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">8d6c65</text>
+  <rect x="322" y="2129" width="36" height="36" fill="#3b201d"><title>DarkMuted
+#3b201d  pop=1914</title></rect>
+  <text x="340" y="2160" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">3b201d</text>
+  <rect x="360" y="2129" width="36" height="36" fill="#cea294"><title>LightMuted
+#cea294  pop=2041</title></rect>
+  <text x="378" y="2160" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">cea294</text>
+  <text x="8" y="2193" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">KujouSara</text>
+  <rect x="170" y="2175" width="36" height="36" fill="#f6ce5c"><title>Vibrant
+#f6ce5c  pop=230</title></rect>
+  <text x="188" y="2206" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">f6ce5c</text>
+  <rect x="208" y="2175" width="36" height="36" fill="#29090b"><title>DarkVibrant
+#29090b  pop=111</title></rect>
+  <text x="226" y="2206" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">29090b</text>
+  <rect x="246" y="2175" width="36" height="36" fill="#e9b753"><title>LightVibrant
+#e9b753  pop=96</title></rect>
+  <text x="264" y="2206" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">e9b753</text>
+  <rect x="284" y="2175" width="36" height="36" fill="#a78c67"><title>Muted
+#a78c67  pop=1345</title></rect>
+  <text x="302" y="2206" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">a78c67</text>
+  <rect x="322" y="2175" width="36" height="36" fill="#594146"><title>DarkMuted
+#594146  pop=1301</title></rect>
+  <text x="340" y="2206" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">594146</text>
+  <rect x="360" y="2175" width="36" height="36" fill="#d5bdad"><title>LightMuted
+#d5bdad  pop=647</title></rect>
+  <text x="378" y="2206" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">d5bdad</text>
+  <text x="8" y="2239" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">KukiShinobu</text>
+  <rect x="170" y="2221" width="36" height="36" fill="#b84a75"><title>Vibrant
+#b84a75  pop=141</title></rect>
+  <text x="188" y="2252" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">b84a75</text>
+  <rect x="208" y="2221" width="36" height="36" fill="#6c1131"><title>DarkVibrant
+#6c1131  pop=94</title></rect>
+  <text x="226" y="2252" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">6c1131</text>
+  <rect x="246" y="2221" width="36" height="36" fill="#e6c8ae"><title>LightVibrant
+#e6c8ae  pop=134</title></rect>
+  <text x="264" y="2252" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">e6c8ae</text>
+  <rect x="284" y="2221" width="36" height="36" fill="#957c77"><title>Muted
+#957c77  pop=707</title></rect>
+  <text x="302" y="2252" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">957c77</text>
+  <rect x="322" y="2221" width="36" height="36" fill="#4c395f"><title>DarkMuted
+#4c395f  pop=900</title></rect>
+  <text x="340" y="2252" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">4c395f</text>
+  <rect x="360" y="2221" width="36" height="36" fill="#c7bb9d"><title>LightMuted
+#c7bb9d  pop=872</title></rect>
+  <text x="378" y="2252" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">c7bb9d</text>
+  <text x="8" y="2285" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Lansan</text>
+  <rect x="170" y="2267" width="36" height="36" fill="#ea8e2b"><title>Vibrant
+#ea8e2b  pop=389</title></rect>
+  <text x="188" y="2298" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">ea8e2b</text>
+  <rect x="208" y="2267" width="36" height="36" fill="#546c24"><title>DarkVibrant
+#546c24  pop=1</title></rect>
+  <text x="226" y="2298" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">546c24</text>
+  <rect x="246" y="2267" width="36" height="36" fill="#a68cee"><title>LightVibrant
+#a68cee  pop=89</title></rect>
+  <text x="264" y="2298" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">a68cee</text>
+  <rect x="284" y="2267" width="36" height="36" fill="#926d75"><title>Muted
+#926d75  pop=1282</title></rect>
+  <text x="302" y="2298" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">926d75</text>
+  <rect x="322" y="2267" width="36" height="36" fill="#4b3e37"><title>DarkMuted
+#4b3e37  pop=305</title></rect>
+  <text x="340" y="2298" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">4b3e37</text>
+  <rect x="360" y="2267" width="36" height="36" fill="#cfc0b1"><title>LightMuted
+#cfc0b1  pop=157</title></rect>
+  <text x="378" y="2298" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">cfc0b1</text>
+  <text x="8" y="2331" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Lanyan</text>
+  <rect x="170" y="2313" width="36" height="36" fill="#23e4e9"><title>Vibrant
+#23e4e9  pop=155</title></rect>
+  <text x="188" y="2344" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">23e4e9</text>
+  <rect x="208" y="2313" width="36" height="36" fill="#147686"><title>DarkVibrant
+#147686  pop=244</title></rect>
+  <text x="226" y="2344" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">147686</text>
+  <rect x="246" y="2313" width="36" height="36" fill="#7ff0ec"><title>LightVibrant
+#7ff0ec  pop=73</title></rect>
+  <text x="264" y="2344" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">7ff0ec</text>
+  <rect x="284" y="2313" width="36" height="36" fill="#5f99b4"><title>Muted
+#5f99b4  pop=251</title></rect>
+  <text x="302" y="2344" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">5f99b4</text>
+  <rect x="322" y="2313" width="36" height="36" fill="#293e4f"><title>DarkMuted
+#293e4f  pop=202</title></rect>
+  <text x="340" y="2344" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">293e4f</text>
+  <rect x="360" y="2313" width="36" height="36" fill="#caafa6"><title>LightMuted
+#caafa6  pop=232</title></rect>
+  <text x="378" y="2344" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">caafa6</text>
+  <text x="8" y="2377" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Layla</text>
+  <rect x="170" y="2359" width="36" height="36" fill="#42629c"><title>Vibrant
+#42629c  pop=1121</title></rect>
+  <text x="188" y="2390" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">42629c</text>
+  <rect x="208" y="2359" width="36" height="36" fill="#142681"><title>DarkVibrant
+#142681  pop=3</title></rect>
+  <text x="226" y="2390" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">142681</text>
+  <rect x="246" y="2359" width="36" height="36" fill="#8fb7d6"><title>LightVibrant
+#8fb7d6  pop=1337</title></rect>
+  <text x="264" y="2390" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">8fb7d6</text>
+  <rect x="284" y="2359" width="36" height="36" fill="#5d6ea4"><title>Muted
+#5d6ea4  pop=297</title></rect>
+  <text x="302" y="2390" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">5d6ea4</text>
+  <rect x="322" y="2359" width="36" height="36" fill="#303449"><title>DarkMuted
+#303449  pop=643</title></rect>
+  <text x="340" y="2390" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">303449</text>
+  <rect x="360" y="2359" width="36" height="36" fill="#d4c3ad"><title>LightMuted
+#d4c3ad  pop=582</title></rect>
+  <text x="378" y="2390" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">d4c3ad</text>
+  <text x="8" y="2423" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Lynette</text>
+  <rect x="170" y="2405" width="36" height="36" fill="#32a4bb"><title>Vibrant
+#32a4bb  pop=352</title></rect>
+  <text x="188" y="2436" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">32a4bb</text>
+  <rect x="208" y="2405" width="36" height="36" fill="#12556b"><title>DarkVibrant
+#12556b  pop=964</title></rect>
+  <text x="226" y="2436" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">12556b</text>
+  <rect x="246" y="2405" width="36" height="36" fill="#4cbfcd"><title>LightVibrant
+#4cbfcd  pop=343</title></rect>
+  <text x="264" y="2436" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">4cbfcd</text>
+  <rect x="284" y="2405" width="36" height="36" fill="#ac7c54"><title>Muted
+#ac7c54  pop=1</title></rect>
+  <text x="302" y="2436" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">ac7c54</text>
+  <rect x="322" y="2405" width="36" height="36" fill="#39696e"><title>DarkMuted
+#39696e  pop=1113</title></rect>
+  <text x="340" y="2436" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">39696e</text>
+  <rect x="360" y="2405" width="36" height="36" fill="#ccb9b2"><title>LightMuted
+#ccb9b2  pop=291</title></rect>
+  <text x="378" y="2436" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">ccb9b2</text>
+  <text x="8" y="2469" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Lyney</text>
+  <rect x="170" y="2451" width="36" height="36" fill="#b74a7a"><title>Vibrant
+#b74a7a  pop=24</title></rect>
+  <text x="188" y="2482" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">b74a7a</text>
+  <rect x="208" y="2451" width="36" height="36" fill="#660c25"><title>DarkVibrant
+#660c25  pop=1462</title></rect>
+  <text x="226" y="2482" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">660c25</text>
+  <rect x="246" y="2451" width="36" height="36" fill="#d7b8a7"><title>LightVibrant
+#d7b8a7  pop=281</title></rect>
+  <text x="264" y="2482" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">d7b8a7</text>
+  <rect x="284" y="2451" width="36" height="36" fill="#ac6d59"><title>Muted
+#ac6d59  pop=7</title></rect>
+  <text x="302" y="2482" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">ac6d59</text>
+  <rect x="322" y="2451" width="36" height="36" fill="#654034"><title>DarkMuted
+#654034  pop=790</title></rect>
+  <text x="340" y="2482" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">654034</text>
+  <rect x="360" y="2451" width="36" height="36" fill="#d9cac3"><title>LightMuted
+#d9cac3  pop=625</title></rect>
+  <text x="378" y="2482" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">d9cac3</text>
+  <text x="8" y="2515" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Mavuika</text>
+  <rect x="170" y="2497" width="36" height="36" fill="#df9858"><title>Vibrant
+#df9858  pop=8375</title></rect>
+  <text x="188" y="2528" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">df9858</text>
+  <rect x="208" y="2497" width="36" height="36" fill="#693825"><title>DarkVibrant
+#693825  pop=3178</title></rect>
+  <text x="226" y="2528" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">693825</text>
+  <rect x="246" y="2497" width="36" height="36" fill="#f3cc7c"><title>LightVibrant
+#f3cc7c  pop=4631</title></rect>
+  <text x="264" y="2528" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">f3cc7c</text>
+  <rect x="284" y="2497" width="36" height="36" fill="#71716f"><title>Muted
+#71716f  pop=229</title></rect>
+  <text x="302" y="2528" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">71716f</text>
+  <rect x="322" y="2497" width="36" height="36" fill="#4f412c"><title>DarkMuted
+#4f412c  pop=118</title></rect>
+  <text x="340" y="2528" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">4f412c</text>
+  <rect x="360" y="2497" width="36" height="36" fill="#cfb39d"><title>LightMuted
+#cfb39d  pop=287</title></rect>
+  <text x="378" y="2528" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">cfb39d</text>
+  <text x="8" y="2561" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Mika</text>
+  <rect x="170" y="2543" width="36" height="36" fill="#4ca8c0"><title>Vibrant
+#4ca8c0  pop=2</title></rect>
+  <text x="188" y="2574" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">4ca8c0</text>
+  <rect x="208" y="2543" width="36" height="36" fill="#1c3264"><title>DarkVibrant
+#1c3264  pop=8</title></rect>
+  <text x="226" y="2574" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">1c3264</text>
+  <rect x="246" y="2543" width="36" height="36" fill="#a3ccf7"><title>LightVibrant
+#a3ccf7  pop=363</title></rect>
+  <text x="264" y="2574" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">a3ccf7</text>
+  <rect x="284" y="2543" width="36" height="36" fill="#455684"><title>Muted
+#455684  pop=515</title></rect>
+  <text x="302" y="2574" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">455684</text>
+  <rect x="322" y="2543" width="36" height="36" fill="#4b3a2f"><title>DarkMuted
+#4b3a2f  pop=719</title></rect>
+  <text x="340" y="2574" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">4b3a2f</text>
+  <rect x="360" y="2543" width="36" height="36" fill="#cda8d3"><title>LightMuted
+#cda8d3  pop=10</title></rect>
+  <text x="378" y="2574" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">cda8d3</text>
+  <text x="8" y="2607" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Mona</text>
+  <rect x="170" y="2589" width="36" height="36" fill="#ea2a34"><title>Vibrant
+#ea2a34  pop=6</title></rect>
+  <text x="188" y="2620" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">ea2a34</text>
+  <rect x="208" y="2589" width="36" height="36" fill="#951413"><title>DarkVibrant
+#951413  pop=20</title></rect>
+  <text x="226" y="2620" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">951413</text>
+  <rect x="246" y="2589" width="36" height="36" fill="#ead6c4"><title>LightVibrant
+#ead6c4  pop=1070</title></rect>
+  <text x="264" y="2620" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">ead6c4</text>
+  <rect x="284" y="2589" width="36" height="36" fill="#5c4c88"><title>Muted
+#5c4c88  pop=1760</title></rect>
+  <text x="302" y="2620" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">5c4c88</text>
+  <rect x="322" y="2589" width="36" height="36" fill="#442f55"><title>DarkMuted
+#442f55  pop=1292</title></rect>
+  <text x="340" y="2620" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">442f55</text>
+  <rect x="360" y="2589" width="36" height="36" fill="#bb8f7c"><title>LightMuted
+#bb8f7c  pop=1016</title></rect>
+  <text x="378" y="2620" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">bb8f7c</text>
+  <text x="8" y="2653" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Mualani</text>
+  <rect x="170" y="2635" width="36" height="36" fill="#2a55d1"><title>Vibrant
+#2a55d1  pop=1302</title></rect>
+  <text x="188" y="2666" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">2a55d1</text>
+  <rect x="208" y="2635" width="36" height="36" fill="#0e3e9c"><title>DarkVibrant
+#0e3e9c  pop=254</title></rect>
+  <text x="226" y="2666" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">0e3e9c</text>
+  <rect x="246" y="2635" width="36" height="36" fill="#e1a97e"><title>LightVibrant
+#e1a97e  pop=804</title></rect>
+  <text x="264" y="2666" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">e1a97e</text>
+  <rect x="284" y="2635" width="36" height="36" fill="#598ca6"><title>Muted
+#598ca6  pop=310</title></rect>
+  <text x="302" y="2666" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">598ca6</text>
+  <rect x="322" y="2635" width="36" height="36" fill="#5e4d36"><title>DarkMuted
+#5e4d36  pop=242</title></rect>
+  <text x="340" y="2666" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">5e4d36</text>
+  <rect x="360" y="2635" width="36" height="36" fill="#a6becd"><title>LightMuted
+#a6becd  pop=1271</title></rect>
+  <text x="378" y="2666" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">a6becd</text>
+  <text x="8" y="2699" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Nahida</text>
+  <rect x="170" y="2681" width="36" height="36" fill="#bcd577"><title>Vibrant
+#bcd577  pop=21</title></rect>
+  <text x="188" y="2712" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">bcd577</text>
+  <rect x="208" y="2681" width="36" height="36" fill="#52651f"><title>DarkVibrant
+#52651f  pop=0</title></rect>
+  <text x="226" y="2712" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">52651f</text>
+  <rect x="246" y="2681" width="36" height="36" fill="#e9bb9f"><title>LightVibrant
+#e9bb9f  pop=49</title></rect>
+  <text x="264" y="2712" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">e9bb9f</text>
+  <rect x="284" y="2681" width="36" height="36" fill="#a59372"><title>Muted
+#a59372  pop=1289</title></rect>
+  <text x="302" y="2712" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">a59372</text>
+  <rect x="322" y="2681" width="36" height="36" fill="#43422a"><title>DarkMuted
+#43422a  pop=1110</title></rect>
+  <text x="340" y="2712" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">43422a</text>
+  <rect x="360" y="2681" width="36" height="36" fill="#d4cbb4"><title>LightMuted
+#d4cbb4  pop=1296</title></rect>
+  <text x="378" y="2712" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">d4cbb4</text>
+  <text x="8" y="2745" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Navia</text>
+  <rect x="170" y="2727" width="36" height="36" fill="#38a9f8"><title>Vibrant
+#38a9f8  pop=7</title></rect>
+  <text x="188" y="2758" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">38a9f8</text>
+  <rect x="208" y="2727" width="36" height="36" fill="#361d09"><title>DarkVibrant
+#361d09  pop=63</title></rect>
+  <text x="226" y="2758" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">361d09</text>
+  <rect x="246" y="2727" width="36" height="36" fill="#fbd57a"><title>LightVibrant
+#fbd57a  pop=990</title></rect>
+  <text x="264" y="2758" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">fbd57a</text>
+  <rect x="284" y="2727" width="36" height="36" fill="#9c7f5c"><title>Muted
+#9c7f5c  pop=2260</title></rect>
+  <text x="302" y="2758" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">9c7f5c</text>
+  <rect x="322" y="2727" width="36" height="36" fill="#4c3b2d"><title>DarkMuted
+#4c3b2d  pop=884</title></rect>
+  <text x="340" y="2758" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">4c3b2d</text>
+  <rect x="360" y="2727" width="36" height="36" fill="#dcd4b2"><title>LightMuted
+#dcd4b2  pop=5</title></rect>
+  <text x="378" y="2758" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">dcd4b2</text>
+  <text x="8" y="2791" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Neuvillette</text>
+  <rect x="170" y="2773" width="36" height="36" fill="#2f76be"><title>Vibrant
+#2f76be  pop=1440</title></rect>
+  <text x="188" y="2804" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">2f76be</text>
+  <rect x="208" y="2773" width="36" height="36" fill="#042e66"><title>DarkVibrant
+#042e66  pop=84</title></rect>
+  <text x="226" y="2804" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">042e66</text>
+  <rect x="246" y="2773" width="36" height="36" fill="#49b5d2"><title>LightVibrant
+#49b5d2  pop=1431</title></rect>
+  <text x="264" y="2804" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">49b5d2</text>
+  <rect x="284" y="2773" width="36" height="36" fill="#9a7851"><title>Muted
+#9a7851  pop=21</title></rect>
+  <text x="302" y="2804" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">9a7851</text>
+  <rect x="322" y="2773" width="36" height="36" fill="#2f3658"><title>DarkMuted
+#2f3658  pop=571</title></rect>
+  <text x="340" y="2804" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">2f3658</text>
+  <rect x="360" y="2773" width="36" height="36" fill="#c9c9d2"><title>LightMuted
+#c9c9d2  pop=1446</title></rect>
+  <text x="378" y="2804" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">c9c9d2</text>
+  <text x="8" y="2837" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Nilou</text>
+  <rect x="170" y="2819" width="36" height="36" fill="#be6142"><title>Vibrant
+#be6142  pop=1865</title></rect>
+  <text x="188" y="2850" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">be6142</text>
+  <rect x="208" y="2819" width="36" height="36" fill="#0b3c6a"><title>DarkVibrant
+#0b3c6a  pop=2004</title></rect>
+  <text x="226" y="2850" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">0b3c6a</text>
+  <rect x="246" y="2819" width="36" height="36" fill="#ee9877"><title>LightVibrant
+#ee9877  pop=229</title></rect>
+  <text x="264" y="2850" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">ee9877</text>
+  <rect x="284" y="2819" width="36" height="36" fill="#648faa"><title>Muted
+#648faa  pop=1890</title></rect>
+  <text x="302" y="2850" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">648faa</text>
+  <rect x="322" y="2819" width="36" height="36" fill="#3e4b5c"><title>DarkMuted
+#3e4b5c  pop=361</title></rect>
+  <text x="340" y="2850" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">3e4b5c</text>
+  <rect x="360" y="2819" width="36" height="36" fill="#9bb7c3"><title>LightMuted
+#9bb7c3  pop=1713</title></rect>
+  <text x="378" y="2850" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">9bb7c3</text>
+  <text x="8" y="2883" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Ningguang</text>
+  <rect x="170" y="2865" width="36" height="36" fill="#aa834b"><title>Vibrant
+#aa834b  pop=844</title></rect>
+  <text x="188" y="2896" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">aa834b</text>
+  <rect x="208" y="2865" width="36" height="36" fill="#5d3f2c"><title>DarkVibrant
+#5d3f2c  pop=690</title></rect>
+  <text x="226" y="2896" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">5d3f2c</text>
+  <rect x="246" y="2865" width="36" height="36" fill="#e1b68b"><title>LightVibrant
+#e1b68b  pop=809</title></rect>
+  <text x="264" y="2896" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">e1b68b</text>
+  <rect x="284" y="2865" width="36" height="36" fill="#a98660"><title>Muted
+#a98660  pop=347</title></rect>
+  <text x="302" y="2896" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">a98660</text>
+  <rect x="322" y="2865" width="36" height="36" fill="#4a3c27"><title>DarkMuted
+#4a3c27  pop=137</title></rect>
+  <text x="340" y="2896" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">4a3c27</text>
+  <rect x="360" y="2865" width="36" height="36" fill="#beb4ad"><title>LightMuted
+#beb4ad  pop=1251</title></rect>
+  <text x="378" y="2896" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">beb4ad</text>
+  <text x="8" y="2929" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Noelle</text>
+  <rect x="170" y="2911" width="36" height="36" fill="#d12d65"><title>Vibrant
+#d12d65  pop=886</title></rect>
+  <text x="188" y="2942" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">d12d65</text>
+  <rect x="208" y="2911" width="36" height="36" fill="#540c24"><title>DarkVibrant
+#540c24  pop=14</title></rect>
+  <text x="226" y="2942" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">540c24</text>
+  <rect x="246" y="2911" width="36" height="36" fill="#faebdc"><title>LightVibrant
+#faebdc  pop=372</title></rect>
+  <text x="264" y="2942" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">faebdc</text>
+  <rect x="284" y="2911" width="36" height="36" fill="#a66c67"><title>Muted
+#a66c67  pop=54</title></rect>
+  <text x="302" y="2942" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">a66c67</text>
+  <rect x="322" y="2911" width="36" height="36" fill="#334259"><title>DarkMuted
+#334259  pop=1686</title></rect>
+  <text x="340" y="2942" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">334259</text>
+  <rect x="360" y="2911" width="36" height="36" fill="#c8b6b1"><title>LightMuted
+#c8b6b1  pop=1683</title></rect>
+  <text x="378" y="2942" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">c8b6b1</text>
+  <text x="8" y="2975" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Ororon</text>
+  <rect x="170" y="2957" width="36" height="36" fill="#3d6bcb"><title>Vibrant
+#3d6bcb  pop=432</title></rect>
+  <text x="188" y="2988" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">3d6bcb</text>
+  <rect x="208" y="2957" width="36" height="36" fill="#08336b"><title>DarkVibrant
+#08336b  pop=186</title></rect>
+  <text x="226" y="2988" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">08336b</text>
+  <rect x="246" y="2957" width="36" height="36" fill="#54b3eb"><title>LightVibrant
+#54b3eb  pop=310</title></rect>
+  <text x="264" y="2988" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">54b3eb</text>
+  <rect x="284" y="2957" width="36" height="36" fill="#4f618a"><title>Muted
+#4f618a  pop=597</title></rect>
+  <text x="302" y="2988" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">4f618a</text>
+  <rect x="322" y="2957" width="36" height="36" fill="#383f54"><title>DarkMuted
+#383f54  pop=618</title></rect>
+  <text x="340" y="2988" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">383f54</text>
+  <rect x="360" y="2957" width="36" height="36" fill="#dcd3cf"><title>LightMuted
+#dcd3cf  pop=608</title></rect>
+  <text x="378" y="2988" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">dcd3cf</text>
+  <text x="8" y="3021" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Qiqi</text>
+  <rect x="170" y="3003" width="36" height="36" fill="#bc4486"><title>Vibrant
+#bc4486  pop=12</title></rect>
+  <text x="188" y="3034" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">bc4486</text>
+  <rect x="208" y="3003" width="36" height="36" fill="#201d49"><title>DarkVibrant
+#201d49  pop=2545</title></rect>
+  <text x="226" y="3034" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">201d49</text>
+  <rect x="246" y="3003" width="36" height="36" fill="#9ce0f8"><title>LightVibrant
+#9ce0f8  pop=2</title></rect>
+  <text x="264" y="3034" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">9ce0f8</text>
+  <rect x="284" y="3003" width="36" height="36" fill="#925c85"><title>Muted
+#925c85  pop=2430</title></rect>
+  <text x="302" y="3034" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">925c85</text>
+  <rect x="322" y="3003" width="36" height="36" fill="#713b72"><title>DarkMuted
+#713b72  pop=2377</title></rect>
+  <text x="340" y="3034" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">713b72</text>
+  <rect x="360" y="3003" width="36" height="36" fill="#d3c7b6"><title>LightMuted
+#d3c7b6  pop=1229</title></rect>
+  <text x="378" y="3034" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">d3c7b6</text>
+  <text x="8" y="3067" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">RaidenShogun</text>
+  <rect x="170" y="3049" width="36" height="36" fill="#462cc7"><title>Vibrant
+#462cc7  pop=15</title></rect>
+  <text x="188" y="3080" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">462cc7</text>
+  <rect x="208" y="3049" width="36" height="36" fill="#691b3e"><title>DarkVibrant
+#691b3e  pop=138</title></rect>
+  <text x="226" y="3080" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">691b3e</text>
+  <rect x="246" y="3049" width="36" height="36" fill="#d9b9f5"><title>LightVibrant
+#d9b9f5  pop=144</title></rect>
+  <text x="264" y="3080" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">d9b9f5</text>
+  <rect x="284" y="3049" width="36" height="36" fill="#6d5da3"><title>Muted
+#6d5da3  pop=1468</title></rect>
+  <text x="302" y="3080" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">6d5da3</text>
+  <rect x="322" y="3049" width="36" height="36" fill="#3e2d51"><title>DarkMuted
+#3e2d51  pop=763</title></rect>
+  <text x="340" y="3080" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">3e2d51</text>
+  <rect x="360" y="3049" width="36" height="36" fill="#c9b7db"><title>LightMuted
+#c9b7db  pop=1439</title></rect>
+  <text x="378" y="3080" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">c9b7db</text>
+  <text x="8" y="3113" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Razor</text>
+  <rect x="170" y="3095" width="36" height="36" fill="#cc7f34"><title>Vibrant
+#cc7f34  pop=7</title></rect>
+  <text x="188" y="3126" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">cc7f34</text>
+  <rect x="208" y="3095" width="36" height="36" fill="#654624"><title>DarkVibrant
+#654624  pop=11</title></rect>
+  <text x="226" y="3126" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">654624</text>
+  <rect x="246" y="3095" width="36" height="36" fill="#f6e082"><title>LightVibrant
+#f6e082  pop=6</title></rect>
+  <text x="264" y="3126" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">f6e082</text>
+  <rect x="284" y="3095" width="36" height="36" fill="#aca165"><title>Muted
+#aca165  pop=731</title></rect>
+  <text x="302" y="3126" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">aca165</text>
+  <rect x="322" y="3095" width="36" height="36" fill="#4f3431"><title>DarkMuted
+#4f3431  pop=347</title></rect>
+  <text x="340" y="3126" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">4f3431</text>
+  <rect x="360" y="3095" width="36" height="36" fill="#d8bca6"><title>LightMuted
+#d8bca6  pop=176</title></rect>
+  <text x="378" y="3126" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">d8bca6</text>
+  <text x="8" y="3159" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Rosaria</text>
+  <rect x="170" y="3141" width="36" height="36" fill="#be2e42"><title>Vibrant
+#be2e42  pop=285</title></rect>
+  <text x="188" y="3172" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">be2e42</text>
+  <rect x="208" y="3141" width="36" height="36" fill="#621428"><title>DarkVibrant
+#621428  pop=1458</title></rect>
+  <text x="226" y="3172" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">621428</text>
+  <rect x="246" y="3141" width="36" height="36" fill="#e5949f"><title>LightVibrant
+#e5949f  pop=0</title></rect>
+  <text x="264" y="3172" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">e5949f</text>
+  <rect x="284" y="3141" width="36" height="36" fill="#997d75"><title>Muted
+#997d75  pop=1490</title></rect>
+  <text x="302" y="3172" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">997d75</text>
+  <rect x="322" y="3141" width="36" height="36" fill="#502932"><title>DarkMuted
+#502932  pop=1037</title></rect>
+  <text x="340" y="3172" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">502932</text>
+  <rect x="360" y="3141" width="36" height="36" fill="#ccbca5"><title>LightMuted
+#ccbca5  pop=172</title></rect>
+  <text x="378" y="3172" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">ccbca5</text>
+  <text x="8" y="3205" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">SangonomiyaKokomi</text>
+  <rect x="170" y="3187" width="36" height="36" fill="#11c7f3"><title>Vibrant
+#11c7f3  pop=146</title></rect>
+  <text x="188" y="3218" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">11c7f3</text>
+  <rect x="208" y="3187" width="36" height="36" fill="#101c74"><title>DarkVibrant
+#101c74  pop=4</title></rect>
+  <text x="226" y="3218" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">101c74</text>
+  <rect x="246" y="3187" width="36" height="36" fill="#a0a9f8"><title>LightVibrant
+#a0a9f8  pop=333</title></rect>
+  <text x="264" y="3218" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">a0a9f8</text>
+  <rect x="284" y="3187" width="36" height="36" fill="#9c6961"><title>Muted
+#9c6961  pop=259</title></rect>
+  <text x="302" y="3218" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">9c6961</text>
+  <rect x="322" y="3187" width="36" height="36" fill="#272859"><title>DarkMuted
+#272859  pop=612</title></rect>
+  <text x="340" y="3218" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">272859</text>
+  <rect x="360" y="3187" width="36" height="36" fill="#999bd2"><title>LightMuted
+#999bd2  pop=2016</title></rect>
+  <text x="378" y="3218" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">999bd2</text>
+  <text x="8" y="3251" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Sayu</text>
+  <rect x="170" y="3233" width="36" height="36" fill="#b94239"><title>Vibrant
+#b94239  pop=60</title></rect>
+  <text x="188" y="3264" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">b94239</text>
+  <rect x="208" y="3233" width="36" height="36" fill="#4e1711"><title>DarkVibrant
+#4e1711  pop=41</title></rect>
+  <text x="226" y="3264" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">4e1711</text>
+  <rect x="246" y="3233" width="36" height="36" fill="#fce3bc"><title>LightVibrant
+#fce3bc  pop=487</title></rect>
+  <text x="264" y="3264" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">fce3bc</text>
+  <rect x="284" y="3233" width="36" height="36" fill="#967e5c"><title>Muted
+#967e5c  pop=2794</title></rect>
+  <text x="302" y="3264" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">967e5c</text>
+  <rect x="322" y="3233" width="36" height="36" fill="#50342c"><title>DarkMuted
+#50342c  pop=112</title></rect>
+  <text x="340" y="3264" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">50342c</text>
+  <rect x="360" y="3233" width="36" height="36" fill="#d1c3ab"><title>LightMuted
+#d1c3ab  pop=563</title></rect>
+  <text x="378" y="3264" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">d1c3ab</text>
+  <text x="8" y="3297" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Sethos</text>
+  <rect x="170" y="3279" width="36" height="36" fill="#c4340c"><title>Vibrant
+#c4340c  pop=2</title></rect>
+  <text x="188" y="3310" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">c4340c</text>
+  <rect x="208" y="3279" width="36" height="36" fill="#75380d"><title>DarkVibrant
+#75380d  pop=53</title></rect>
+  <text x="226" y="3310" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">75380d</text>
+  <rect x="246" y="3279" width="36" height="36" fill="#ecb974"><title>LightVibrant
+#ecb974  pop=755</title></rect>
+  <text x="264" y="3310" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">ecb974</text>
+  <rect x="284" y="3279" width="36" height="36" fill="#ac8d74"><title>Muted
+#ac8d74  pop=968</title></rect>
+  <text x="302" y="3310" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">ac8d74</text>
+  <rect x="322" y="3279" width="36" height="36" fill="#3b2b51"><title>DarkMuted
+#3b2b51  pop=337</title></rect>
+  <text x="340" y="3310" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">3b2b51</text>
+  <rect x="360" y="3279" width="36" height="36" fill="#d3beb3"><title>LightMuted
+#d3beb3  pop=771</title></rect>
+  <text x="378" y="3310" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">d3beb3</text>
+  <text x="8" y="3343" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Shenhe</text>
+  <rect x="170" y="3325" width="36" height="36" fill="#40bce4"><title>Vibrant
+#40bce4  pop=2</title></rect>
+  <text x="188" y="3356" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">40bce4</text>
+  <rect x="208" y="3325" width="36" height="36" fill="#912623"><title>DarkVibrant
+#912623  pop=210</title></rect>
+  <text x="226" y="3356" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">912623</text>
+  <rect x="246" y="3325" width="36" height="36" fill="#98e5f6"><title>LightVibrant
+#98e5f6  pop=315</title></rect>
+  <text x="264" y="3356" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">98e5f6</text>
+  <rect x="284" y="3325" width="36" height="36" fill="#5b8194"><title>Muted
+#5b8194  pop=1211</title></rect>
+  <text x="302" y="3356" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">5b8194</text>
+  <rect x="322" y="3325" width="36" height="36" fill="#33465a"><title>DarkMuted
+#33465a  pop=1483</title></rect>
+  <text x="340" y="3356" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">33465a</text>
+  <rect x="360" y="3325" width="36" height="36" fill="#97b6c5"><title>LightMuted
+#97b6c5  pop=1209</title></rect>
+  <text x="378" y="3356" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">97b6c5</text>
+  <text x="8" y="3389" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">ShikanoinHeizou</text>
+  <rect x="170" y="3371" width="36" height="36" fill="#b97b38"><title>Vibrant
+#b97b38  pop=4156</title></rect>
+  <text x="188" y="3402" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">b97b38</text>
+  <rect x="208" y="3371" width="36" height="36" fill="#803e13"><title>DarkVibrant
+#803e13  pop=34</title></rect>
+  <text x="226" y="3402" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">803e13</text>
+  <rect x="246" y="3371" width="36" height="36" fill="#fceada"><title>LightVibrant
+#fceada  pop=1364</title></rect>
+  <text x="264" y="3402" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">fceada</text>
+  <rect x="284" y="3371" width="36" height="36" fill="#a78550"><title>Muted
+#a78550  pop=55</title></rect>
+  <text x="302" y="3402" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">a78550</text>
+  <rect x="322" y="3371" width="36" height="36" fill="#503f3d"><title>DarkMuted
+#503f3d  pop=4158</title></rect>
+  <text x="340" y="3402" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">503f3d</text>
+  <rect x="360" y="3371" width="36" height="36" fill="#aad0d4"><title>LightMuted
+#aad0d4  pop=18</title></rect>
+  <text x="378" y="3402" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">aad0d4</text>
+  <text x="8" y="3435" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Sigewinne</text>
+  <rect x="170" y="3417" width="36" height="36" fill="#b35268"><title>Vibrant
+#b35268  pop=1265</title></rect>
+  <text x="188" y="3448" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">b35268</text>
+  <rect x="208" y="3417" width="36" height="36" fill="#121958"><title>DarkVibrant
+#121958  pop=44</title></rect>
+  <text x="226" y="3448" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">121958</text>
+  <rect x="246" y="3417" width="36" height="36" fill="#93c9f0"><title>LightVibrant
+#93c9f0  pop=329</title></rect>
+  <text x="264" y="3448" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">93c9f0</text>
+  <rect x="284" y="3417" width="36" height="36" fill="#a68067"><title>Muted
+#a68067  pop=833</title></rect>
+  <text x="302" y="3448" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">a68067</text>
+  <rect x="322" y="3417" width="36" height="36" fill="#2f3c51"><title>DarkMuted
+#2f3c51  pop=1190</title></rect>
+  <text x="340" y="3448" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">2f3c51</text>
+  <rect x="360" y="3417" width="36" height="36" fill="#abb4c9"><title>LightMuted
+#abb4c9  pop=1216</title></rect>
+  <text x="378" y="3448" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">abb4c9</text>
+  <text x="8" y="3481" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Skirk</text>
+  <rect x="170" y="3463" width="36" height="36" fill="#3149db"><title>Vibrant
+#3149db  pop=1176</title></rect>
+  <text x="188" y="3494" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">3149db</text>
+  <rect x="208" y="3463" width="36" height="36" fill="#100b56"><title>DarkVibrant
+#100b56  pop=1378</title></rect>
+  <text x="226" y="3494" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">100b56</text>
+  <rect x="246" y="3463" width="36" height="36" fill="#85e1f8"><title>LightVibrant
+#85e1f8  pop=45</title></rect>
+  <text x="264" y="3494" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">85e1f8</text>
+  <rect x="284" y="3463" width="36" height="36" fill="#606dac"><title>Muted
+#606dac  pop=261</title></rect>
+  <text x="302" y="3494" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">606dac</text>
+  <rect x="322" y="3463" width="36" height="36" fill="#373057"><title>DarkMuted
+#373057  pop=129</title></rect>
+  <text x="340" y="3494" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">373057</text>
+  <rect x="360" y="3463" width="36" height="36" fill="#e2cac8"><title>LightMuted
+#e2cac8  pop=99</title></rect>
+  <text x="378" y="3494" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">e2cac8</text>
+  <text x="8" y="3527" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Sucrose</text>
+  <rect x="170" y="3509" width="36" height="36" fill="#3aadb1"><title>Vibrant
+#3aadb1  pop=180</title></rect>
+  <text x="188" y="3540" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">3aadb1</text>
+  <rect x="208" y="3509" width="36" height="36" fill="#20325b"><title>DarkVibrant
+#20325b  pop=30904</title></rect>
+  <text x="226" y="3540" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">20325b</text>
+  <rect x="246" y="3509" width="36" height="36" fill="#82e0e1"><title>LightVibrant
+#82e0e1  pop=143</title></rect>
+  <text x="264" y="3540" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">82e0e1</text>
+  <rect x="284" y="3509" width="36" height="36" fill="#94877a"><title>Muted
+#94877a  pop=33522</title></rect>
+  <text x="302" y="3540" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">94877a</text>
+  <rect x="322" y="3509" width="36" height="36" fill="#364056"><title>DarkMuted
+#364056  pop=2649</title></rect>
+  <text x="340" y="3540" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">364056</text>
+  <rect x="360" y="3509" width="36" height="36" fill="#9baebe"><title>LightMuted
+#9baebe  pop=33522</title></rect>
+  <text x="378" y="3540" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">9baebe</text>
+  <text x="8" y="3573" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Tartaglia</text>
+  <rect x="170" y="3555" width="36" height="36" fill="#44bcec"><title>Vibrant
+#44bcec  pop=1</title></rect>
+  <text x="188" y="3586" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">44bcec</text>
+  <rect x="208" y="3555" width="36" height="36" fill="#620c0c"><title>DarkVibrant
+#620c0c  pop=606</title></rect>
+  <text x="226" y="3586" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">620c0c</text>
+  <rect x="246" y="3555" width="36" height="36" fill="#85d2ee"><title>LightVibrant
+#85d2ee  pop=7883</title></rect>
+  <text x="264" y="3586" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">85d2ee</text>
+  <rect x="284" y="3555" width="36" height="36" fill="#757286"><title>Muted
+#757286  pop=5615</title></rect>
+  <text x="302" y="3586" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">757286</text>
+  <rect x="322" y="3555" width="36" height="36" fill="#2c4454"><title>DarkMuted
+#2c4454  pop=1</title></rect>
+  <text x="340" y="3586" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">2c4454</text>
+  <rect x="360" y="3555" width="36" height="36" fill="#b4d2db"><title>LightMuted
+#b4d2db  pop=4255</title></rect>
+  <text x="378" y="3586" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">b4d2db</text>
+  <text x="8" y="3619" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Thoma</text>
+  <rect x="170" y="3601" width="36" height="36" fill="#b9353e"><title>Vibrant
+#b9353e  pop=279</title></rect>
+  <text x="188" y="3632" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">b9353e</text>
+  <rect x="208" y="3601" width="36" height="36" fill="#6b1215"><title>DarkVibrant
+#6b1215  pop=104</title></rect>
+  <text x="226" y="3632" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">6b1215</text>
+  <rect x="246" y="3601" width="36" height="36" fill="#f3d68a"><title>LightVibrant
+#f3d68a  pop=53</title></rect>
+  <text x="264" y="3632" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">f3d68a</text>
+  <rect x="284" y="3601" width="36" height="36" fill="#a2895e"><title>Muted
+#a2895e  pop=197</title></rect>
+  <text x="302" y="3632" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">a2895e</text>
+  <rect x="322" y="3601" width="36" height="36" fill="#53342b"><title>DarkMuted
+#53342b  pop=678</title></rect>
+  <text x="340" y="3632" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">53342b</text>
+  <rect x="360" y="3601" width="36" height="36" fill="#d6bfa9"><title>LightMuted
+#d6bfa9  pop=289</title></rect>
+  <text x="378" y="3632" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">d6bfa9</text>
+  <text x="8" y="3665" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Tighnari</text>
+  <rect x="170" y="3647" width="36" height="36" fill="#31bcce"><title>Vibrant
+#31bcce  pop=112</title></rect>
+  <text x="188" y="3678" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">31bcce</text>
+  <rect x="208" y="3647" width="36" height="36" fill="#7a1c34"><title>DarkVibrant
+#7a1c34  pop=241</title></rect>
+  <text x="226" y="3678" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">7a1c34</text>
+  <rect x="246" y="3647" width="36" height="36" fill="#c3e885"><title>LightVibrant
+#c3e885  pop=413</title></rect>
+  <text x="264" y="3678" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">c3e885</text>
+  <rect x="284" y="3647" width="36" height="36" fill="#846c54"><title>Muted
+#846c54  pop=1906</title></rect>
+  <text x="302" y="3678" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">846c54</text>
+  <rect x="322" y="3647" width="36" height="36" fill="#2e5357"><title>DarkMuted
+#2e5357  pop=1186</title></rect>
+  <text x="340" y="3678" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">2e5357</text>
+  <rect x="360" y="3647" width="36" height="36" fill="#c6ac88"><title>LightMuted
+#c6ac88  pop=1339</title></rect>
+  <text x="378" y="3678" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">c6ac88</text>
+  <text x="8" y="3711" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Varesa</text>
+  <rect x="170" y="3693" width="36" height="36" fill="#e16d6d"><title>Vibrant
+#e16d6d  pop=5121</title></rect>
+  <text x="188" y="3724" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">e16d6d</text>
+  <rect x="208" y="3693" width="36" height="36" fill="#20140c"><title>DarkVibrant
+#20140c  pop=57</title></rect>
+  <text x="226" y="3724" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">20140c</text>
+  <rect x="246" y="3693" width="36" height="36" fill="#f48c8a"><title>LightVibrant
+#f48c8a  pop=5435</title></rect>
+  <text x="264" y="3724" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">f48c8a</text>
+  <rect x="284" y="3693" width="36" height="36" fill="#a4705d"><title>Muted
+#a4705d  pop=685</title></rect>
+  <text x="302" y="3724" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">a4705d</text>
+  <rect x="322" y="3693" width="36" height="36" fill="#594233"><title>DarkMuted
+#594233  pop=1450</title></rect>
+  <text x="340" y="3724" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">594233</text>
+  <rect x="360" y="3693" width="36" height="36" fill="#d4beb1"><title>LightMuted
+#d4beb1  pop=1309</title></rect>
+  <text x="378" y="3724" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">d4beb1</text>
+  <text x="8" y="3757" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Venti</text>
+  <rect x="170" y="3739" width="36" height="36" fill="#199eb7"><title>Vibrant
+#199eb7  pop=174</title></rect>
+  <text x="188" y="3770" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">199eb7</text>
+  <rect x="208" y="3739" width="36" height="36" fill="#2d7d66"><title>DarkVibrant
+#2d7d66  pop=489</title></rect>
+  <text x="226" y="3770" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">2d7d66</text>
+  <rect x="246" y="3739" width="36" height="36" fill="#90dcdc"><title>LightVibrant
+#90dcdc  pop=221</title></rect>
+  <text x="264" y="3770" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">90dcdc</text>
+  <rect x="284" y="3739" width="36" height="36" fill="#99896b"><title>Muted
+#99896b  pop=2370</title></rect>
+  <text x="302" y="3770" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">99896b</text>
+  <rect x="322" y="3739" width="36" height="36" fill="#634c30"><title>DarkMuted
+#634c30  pop=2254</title></rect>
+  <text x="340" y="3770" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">634c30</text>
+  <rect x="360" y="3739" width="36" height="36" fill="#ceb992"><title>LightMuted
+#ceb992  pop=1443</title></rect>
+  <text x="378" y="3770" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">ceb992</text>
+  <text x="8" y="3803" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Wanderer</text>
+  <rect x="170" y="3785" width="36" height="36" fill="#096f96"><title>Vibrant
+#096f96  pop=519</title></rect>
+  <text x="188" y="3816" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">096f96</text>
+  <rect x="208" y="3785" width="36" height="36" fill="#0a1b43"><title>DarkVibrant
+#0a1b43  pop=388</title></rect>
+  <text x="226" y="3816" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">0a1b43</text>
+  <rect x="246" y="3785" width="36" height="36" fill="#d8c0a6"><title>LightVibrant
+#d8c0a6  pop=663</title></rect>
+  <text x="264" y="3816" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">d8c0a6</text>
+  <rect x="284" y="3785" width="36" height="36" fill="#65829f"><title>Muted
+#65829f  pop=802</title></rect>
+  <text x="302" y="3816" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">65829f</text>
+  <rect x="322" y="3785" width="36" height="36" fill="#2e4654"><title>DarkMuted
+#2e4654  pop=44</title></rect>
+  <text x="340" y="3816" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">2e4654</text>
+  <rect x="360" y="3785" width="36" height="36" fill="#b1b0c5"><title>LightMuted
+#b1b0c5  pop=443</title></rect>
+  <text x="378" y="3816" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">b1b0c5</text>
+  <text x="8" y="3849" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Wriothesley</text>
+  <rect x="170" y="3831" width="36" height="36" fill="#73263e"><title>Vibrant
+#73263e  pop=147</title></rect>
+  <text x="188" y="3862" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">73263e</text>
+  <rect x="208" y="3831" width="36" height="36" fill="#6b1a2b"><title>DarkVibrant
+#6b1a2b  pop=162</title></rect>
+  <text x="226" y="3862" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">6b1a2b</text>
+  <rect x="246" y="3831" width="36" height="36" fill="#de9bb0"><title>LightVibrant
+#de9bb0  pop=0</title></rect>
+  <text x="264" y="3862" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">de9bb0</text>
+  <rect x="284" y="3831" width="36" height="36" fill="#727081"><title>Muted
+#727081  pop=1525</title></rect>
+  <text x="302" y="3862" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">727081</text>
+  <rect x="322" y="3831" width="36" height="36" fill="#393b4e"><title>DarkMuted
+#393b4e  pop=1385</title></rect>
+  <text x="340" y="3862" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">393b4e</text>
+  <rect x="360" y="3831" width="36" height="36" fill="#d2bcb7"><title>LightMuted
+#d2bcb7  pop=1263</title></rect>
+  <text x="378" y="3862" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">d2bcb7</text>
+  <text x="8" y="3895" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Xiangling</text>
+  <rect x="170" y="3877" width="36" height="36" fill="#b07734"><title>Vibrant
+#b07734  pop=958</title></rect>
+  <text x="188" y="3908" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">b07734</text>
+  <rect x="208" y="3877" width="36" height="36" fill="#5e2310"><title>DarkVibrant
+#5e2310  pop=24</title></rect>
+  <text x="226" y="3908" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">5e2310</text>
+  <rect x="246" y="3877" width="36" height="36" fill="#f6ae86"><title>LightVibrant
+#f6ae86  pop=6</title></rect>
+  <text x="264" y="3908" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">f6ae86</text>
+  <rect x="284" y="3877" width="36" height="36" fill="#998267"><title>Muted
+#998267  pop=497</title></rect>
+  <text x="302" y="3908" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">998267</text>
+  <rect x="322" y="3877" width="36" height="36" fill="#673534"><title>DarkMuted
+#673534  pop=985</title></rect>
+  <text x="340" y="3908" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">673534</text>
+  <rect x="360" y="3877" width="36" height="36" fill="#dbc2b3"><title>LightMuted
+#dbc2b3  pop=388</title></rect>
+  <text x="378" y="3908" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">dbc2b3</text>
+  <text x="8" y="3941" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Xianyun</text>
+  <rect x="170" y="3923" width="36" height="36" fill="#cc803c"><title>Vibrant
+#cc803c  pop=61</title></rect>
+  <text x="188" y="3954" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">cc803c</text>
+  <rect x="208" y="3923" width="36" height="36" fill="#207687"><title>DarkVibrant
+#207687  pop=77</title></rect>
+  <text x="226" y="3954" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">207687</text>
+  <rect x="246" y="3923" width="36" height="36" fill="#8ce4e1"><title>LightVibrant
+#8ce4e1  pop=99</title></rect>
+  <text x="264" y="3954" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">8ce4e1</text>
+  <rect x="284" y="3923" width="36" height="36" fill="#53837e"><title>Muted
+#53837e  pop=1401</title></rect>
+  <text x="302" y="3954" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">53837e</text>
+  <rect x="322" y="3923" width="36" height="36" fill="#303e52"><title>DarkMuted
+#303e52  pop=563</title></rect>
+  <text x="340" y="3954" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">303e52</text>
+  <rect x="360" y="3923" width="36" height="36" fill="#baddc2"><title>LightMuted
+#baddc2  pop=1403</title></rect>
+  <text x="378" y="3954" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">baddc2</text>
+  <text x="8" y="3987" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Xiao</text>
+  <rect x="170" y="3969" width="36" height="36" fill="#be913e"><title>Vibrant
+#be913e  pop=6</title></rect>
+  <text x="188" y="4000" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">be913e</text>
+  <rect x="208" y="3969" width="36" height="36" fill="#5c3c04"><title>DarkVibrant
+#5c3c04  pop=1</title></rect>
+  <text x="226" y="4000" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">5c3c04</text>
+  <rect x="246" y="3969" width="36" height="36" fill="#b6ede3"><title>LightVibrant
+#b6ede3  pop=171</title></rect>
+  <text x="264" y="4000" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">b6ede3</text>
+  <rect x="284" y="3969" width="36" height="36" fill="#6e6993"><title>Muted
+#6e6993  pop=1912</title></rect>
+  <text x="302" y="4000" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">6e6993</text>
+  <rect x="322" y="3969" width="36" height="36" fill="#393a5a"><title>DarkMuted
+#393a5a  pop=871</title></rect>
+  <text x="340" y="4000" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">393a5a</text>
+  <rect x="360" y="3969" width="36" height="36" fill="#dad2b8"><title>LightMuted
+#dad2b8  pop=286</title></rect>
+  <text x="378" y="4000" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">dad2b8</text>
+  <text x="8" y="4033" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Xilonen</text>
+  <rect x="170" y="4015" width="36" height="36" fill="#e2831c"><title>Vibrant
+#e2831c  pop=6326</title></rect>
+  <text x="188" y="4046" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">e2831c</text>
+  <rect x="208" y="4015" width="36" height="36" fill="#813a0f"><title>DarkVibrant
+#813a0f  pop=2664</title></rect>
+  <text x="226" y="4046" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">813a0f</text>
+  <rect x="246" y="4015" width="36" height="36" fill="#fae46d"><title>LightVibrant
+#fae46d  pop=1678</title></rect>
+  <text x="264" y="4046" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">fae46d</text>
+  <rect x="284" y="4015" width="36" height="36" fill="#9b7a4d"><title>Muted
+#9b7a4d  pop=5461</title></rect>
+  <text x="302" y="4046" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">9b7a4d</text>
+  <rect x="322" y="4015" width="36" height="36" fill="#334e59"><title>DarkMuted
+#334e59  pop=790</title></rect>
+  <text x="340" y="4046" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">334e59</text>
+  <rect x="360" y="4015" width="36" height="36" fill="#a4acc4"><title>LightMuted
+#a4acc4  pop=1</title></rect>
+  <text x="378" y="4046" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">a4acc4</text>
+  <text x="8" y="4079" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Xingqiu</text>
+  <rect x="170" y="4061" width="36" height="36" fill="#35a8e8"><title>Vibrant
+#35a8e8  pop=14</title></rect>
+  <text x="188" y="4092" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">35a8e8</text>
+  <rect x="208" y="4061" width="36" height="36" fill="#041731"><title>DarkVibrant
+#041731  pop=188</title></rect>
+  <text x="226" y="4092" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">041731</text>
+  <rect x="246" y="4061" width="36" height="36" fill="#57c3f0"><title>LightVibrant
+#57c3f0  pop=25</title></rect>
+  <text x="264" y="4092" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">57c3f0</text>
+  <rect x="284" y="4061" width="36" height="36" fill="#927c65"><title>Muted
+#927c65  pop=844</title></rect>
+  <text x="302" y="4092" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">927c65</text>
+  <rect x="322" y="4061" width="36" height="36" fill="#334d61"><title>DarkMuted
+#334d61  pop=1806</title></rect>
+  <text x="340" y="4092" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">334d61</text>
+  <rect x="360" y="4061" width="36" height="36" fill="#c8a996"><title>LightMuted
+#c8a996  pop=944</title></rect>
+  <text x="378" y="4092" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">c8a996</text>
+  <text x="8" y="4125" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Xinyan</text>
+  <rect x="170" y="4107" width="36" height="36" fill="#da391f"><title>Vibrant
+#da391f  pop=585</title></rect>
+  <text x="188" y="4138" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">da391f</text>
+  <rect x="208" y="4107" width="36" height="36" fill="#72150d"><title>DarkVibrant
+#72150d  pop=975</title></rect>
+  <text x="226" y="4138" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">72150d</text>
+  <rect x="246" y="4107" width="36" height="36" fill="#f8bf44"><title>LightVibrant
+#f8bf44  pop=16</title></rect>
+  <text x="264" y="4138" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">f8bf44</text>
+  <rect x="284" y="4107" width="36" height="36" fill="#887162"><title>Muted
+#887162  pop=738</title></rect>
+  <text x="302" y="4138" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">887162</text>
+  <rect x="322" y="4107" width="36" height="36" fill="#4d3838"><title>DarkMuted
+#4d3838  pop=2252</title></rect>
+  <text x="340" y="4138" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">4d3838</text>
+  <rect x="360" y="4107" width="36" height="36" fill="#cabea5"><title>LightMuted
+#cabea5  pop=184</title></rect>
+  <text x="378" y="4138" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">cabea5</text>
+  <text x="8" y="4171" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">YaeMiko</text>
+  <rect x="170" y="4153" width="36" height="36" fill="#c74a45"><title>Vibrant
+#c74a45  pop=1319</title></rect>
+  <text x="188" y="4184" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">c74a45</text>
+  <rect x="208" y="4153" width="36" height="36" fill="#881513"><title>DarkVibrant
+#881513  pop=24</title></rect>
+  <text x="226" y="4184" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">881513</text>
+  <rect x="246" y="4153" width="36" height="36" fill="#ef6274"><title>LightVibrant
+#ef6274  pop=281</title></rect>
+  <text x="264" y="4184" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">ef6274</text>
+  <rect x="284" y="4153" width="36" height="36" fill="#a26498"><title>Muted
+#a26498  pop=60</title></rect>
+  <text x="302" y="4184" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">a26498</text>
+  <rect x="322" y="4153" width="36" height="36" fill="#502c38"><title>DarkMuted
+#502c38  pop=831</title></rect>
+  <text x="340" y="4184" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">502c38</text>
+  <rect x="360" y="4153" width="36" height="36" fill="#d1afb3"><title>LightMuted
+#d1afb3  pop=600</title></rect>
+  <text x="378" y="4184" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">d1afb3</text>
+  <text x="8" y="4217" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Yanfei</text>
+  <rect x="170" y="4199" width="36" height="36" fill="#b43e50"><title>Vibrant
+#b43e50  pop=140</title></rect>
+  <text x="188" y="4230" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">b43e50</text>
+  <rect x="208" y="4199" width="36" height="36" fill="#570e11"><title>DarkVibrant
+#570e11  pop=80</title></rect>
+  <text x="226" y="4230" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">570e11</text>
+  <rect x="246" y="4199" width="36" height="36" fill="#fce4a4"><title>LightVibrant
+#fce4a4  pop=3</title></rect>
+  <text x="264" y="4230" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">fce4a4</text>
+  <rect x="284" y="4199" width="36" height="36" fill="#ae5f5e"><title>Muted
+#ae5f5e  pop=800</title></rect>
+  <text x="302" y="4230" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">ae5f5e</text>
+  <rect x="322" y="4199" width="36" height="36" fill="#5b3431"><title>DarkMuted
+#5b3431  pop=1625</title></rect>
+  <text x="340" y="4230" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">5b3431</text>
+  <rect x="360" y="4199" width="36" height="36" fill="#bbacaf"><title>LightMuted
+#bbacaf  pop=855</title></rect>
+  <text x="378" y="4230" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">bbacaf</text>
+  <text x="8" y="4263" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Yaoyao</text>
+  <rect x="170" y="4245" width="36" height="36" fill="#e38f18"><title>Vibrant
+#e38f18  pop=662</title></rect>
+  <text x="188" y="4276" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">e38f18</text>
+  <rect x="208" y="4245" width="36" height="36" fill="#5e3b2a"><title>DarkVibrant
+#5e3b2a  pop=433</title></rect>
+  <text x="226" y="4276" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">5e3b2a</text>
+  <rect x="246" y="4245" width="36" height="36" fill="#fbde65"><title>LightVibrant
+#fbde65  pop=1920</title></rect>
+  <text x="264" y="4276" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">fbde65</text>
+  <rect x="284" y="4245" width="36" height="36" fill="#a69155"><title>Muted
+#a69155  pop=833</title></rect>
+  <text x="302" y="4276" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">a69155</text>
+  <rect x="322" y="4245" width="36" height="36" fill="#442d24"><title>DarkMuted
+#442d24  pop=1966</title></rect>
+  <text x="340" y="4276" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">442d24</text>
+  <rect x="360" y="4245" width="36" height="36" fill="#d2c29e"><title>LightMuted
+#d2c29e  pop=1752</title></rect>
+  <text x="378" y="4276" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">d2c29e</text>
+  <text x="8" y="4309" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Yelan</text>
+  <rect x="170" y="4291" width="36" height="36" fill="#4b5bbf"><title>Vibrant
+#4b5bbf  pop=1347</title></rect>
+  <text x="188" y="4322" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">4b5bbf</text>
+  <rect x="208" y="4291" width="36" height="36" fill="#1b2344"><title>DarkVibrant
+#1b2344  pop=198</title></rect>
+  <text x="226" y="4322" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">1b2344</text>
+  <rect x="246" y="4291" width="36" height="36" fill="#faece4"><title>LightVibrant
+#faece4  pop=353</title></rect>
+  <text x="264" y="4322" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">faece4</text>
+  <rect x="284" y="4291" width="36" height="36" fill="#7d7488"><title>Muted
+#7d7488  pop=1352</title></rect>
+  <text x="302" y="4322" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">7d7488</text>
+  <rect x="322" y="4291" width="36" height="36" fill="#2c324f"><title>DarkMuted
+#2c324f  pop=1391</title></rect>
+  <text x="340" y="4322" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">2c324f</text>
+  <rect x="360" y="4291" width="36" height="36" fill="#b2bad3"><title>LightMuted
+#b2bad3  pop=1237</title></rect>
+  <text x="378" y="4322" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">b2bad3</text>
+  <text x="8" y="4355" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Yoimiya</text>
+  <rect x="170" y="4337" width="36" height="36" fill="#bf4834"><title>Vibrant
+#bf4834  pop=1035</title></rect>
+  <text x="188" y="4368" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">bf4834</text>
+  <rect x="208" y="4337" width="36" height="36" fill="#7c2c0c"><title>DarkVibrant
+#7c2c0c  pop=3</title></rect>
+  <text x="226" y="4368" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">7c2c0c</text>
+  <rect x="246" y="4337" width="36" height="36" fill="#f4c382"><title>LightVibrant
+#f4c382  pop=214</title></rect>
+  <text x="264" y="4368" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">f4c382</text>
+  <rect x="284" y="4337" width="36" height="36" fill="#ac724e"><title>Muted
+#ac724e  pop=1287</title></rect>
+  <text x="302" y="4368" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">ac724e</text>
+  <rect x="322" y="4337" width="36" height="36" fill="#602e2a"><title>DarkMuted
+#602e2a  pop=1612</title></rect>
+  <text x="340" y="4368" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">602e2a</text>
+  <rect x="360" y="4337" width="36" height="36" fill="#d4c0b5"><title>LightMuted
+#d4c0b5  pop=193</title></rect>
+  <text x="378" y="4368" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">d4c0b5</text>
+  <text x="8" y="4401" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">YumemizukiMizuki</text>
+  <rect x="170" y="4383" width="36" height="36" fill="#7748ca"><title>Vibrant
+#7748ca  pop=73</title></rect>
+  <text x="188" y="4414" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">7748ca</text>
+  <rect x="208" y="4383" width="36" height="36" fill="#0c0434"><title>DarkVibrant
+#0c0434  pop=1</title></rect>
+  <text x="226" y="4414" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">0c0434</text>
+  <rect x="246" y="4383" width="36" height="36" fill="#b198e7"><title>LightVibrant
+#b198e7  pop=18</title></rect>
+  <text x="264" y="4414" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">b198e7</text>
+  <rect x="284" y="4383" width="36" height="36" fill="#6a7ea8"><title>Muted
+#6a7ea8  pop=4295</title></rect>
+  <text x="302" y="4414" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">6a7ea8</text>
+  <rect x="322" y="4383" width="36" height="36" fill="#413a4d"><title>DarkMuted
+#413a4d  pop=1520</title></rect>
+  <text x="340" y="4414" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">413a4d</text>
+  <rect x="360" y="4383" width="36" height="36" fill="#a5b1c6"><title>LightMuted
+#a5b1c6  pop=4384</title></rect>
+  <text x="378" y="4414" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">a5b1c6</text>
+  <text x="8" y="4447" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Yunjin</text>
+  <rect x="170" y="4429" width="36" height="36" fill="#df9b47"><title>Vibrant
+#df9b47  pop=36</title></rect>
+  <text x="188" y="4460" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">df9b47</text>
+  <rect x="208" y="4429" width="36" height="36" fill="#942123"><title>DarkVibrant
+#942123  pop=142</title></rect>
+  <text x="226" y="4460" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">942123</text>
+  <rect x="246" y="4429" width="36" height="36" fill="#d5a7b7"><title>LightVibrant
+#d5a7b7  pop=256</title></rect>
+  <text x="264" y="4460" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">d5a7b7</text>
+  <rect x="284" y="4429" width="36" height="36" fill="#667394"><title>Muted
+#667394  pop=1353</title></rect>
+  <text x="302" y="4460" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">667394</text>
+  <rect x="322" y="4429" width="36" height="36" fill="#373354"><title>DarkMuted
+#373354  pop=746</title></rect>
+  <text x="340" y="4460" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">373354</text>
+  <rect x="360" y="4429" width="36" height="36" fill="#90b2c6"><title>LightMuted
+#90b2c6  pop=1139</title></rect>
+  <text x="378" y="4460" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">90b2c6</text>
+  <text x="8" y="4493" font-size="13" font-family="monospace" fill="#333" dominant-baseline="middle">Zhongli</text>
+  <rect x="170" y="4475" width="36" height="36" fill="#a44c1c"><title>Vibrant
+#a44c1c  pop=1</title></rect>
+  <text x="188" y="4506" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">a44c1c</text>
+  <rect x="208" y="4475" width="36" height="36" fill="#6c3614"><title>DarkVibrant
+#6c3614  pop=3</title></rect>
+  <text x="226" y="4506" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">6c3614</text>
+  <rect x="246" y="4475" width="36" height="36" fill="#e5d8c1"><title>LightVibrant
+#e5d8c1  pop=625</title></rect>
+  <text x="264" y="4506" font-size="6" font-family="monospace" fill="#000" text-anchor="middle">e5d8c1</text>
+  <rect x="284" y="4475" width="36" height="36" fill="#907649"><title>Muted
+#907649  pop=1363</title></rect>
+  <text x="302" y="4506" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">907649</text>
+  <rect x="322" y="4475" width="36" height="36" fill="#574430"><title>DarkMuted
+#574430  pop=344</title></rect>
+  <text x="340" y="4506" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">574430</text>
+  <rect x="360" y="4475" width="36" height="36" fill="#b39e84"><title>LightMuted
+#b39e84  pop=4199</title></rect>
+  <text x="378" y="4506" font-size="6" font-family="monospace" fill="#fff" text-anchor="middle">b39e84</text>
+</svg>
