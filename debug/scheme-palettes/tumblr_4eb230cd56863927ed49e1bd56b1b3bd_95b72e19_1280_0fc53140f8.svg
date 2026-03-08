@@ -1,0 +1,19 @@
+<svg height="80" viewBox="0 0 320 80" xmlns="http://www.w3.org/2000/svg">
+  <rect id="swatch" width="40" height="40"/>
+  <use href="#swatch" x="0" y="0" fill="#6A6B67"/>
+  <use href="#swatch" x="40" y="0" fill="#546B92"/>
+  <use href="#swatch" x="80" y="0" fill="#637144"/>
+  <use href="#swatch" x="120" y="0" fill="#4D783B"/>
+  <use href="#swatch" x="160" y="0" fill="#83643C"/>
+  <use href="#swatch" x="200" y="0" fill="#2F786E"/>
+  <use href="#swatch" x="240" y="0" fill="#9D5052"/>
+  <use href="#swatch" x="280" y="0" fill="#9234C0"/>
+  <use href="#swatch" x="0" y="40" fill="#9E9E9B"/>
+  <use href="#swatch" x="40" y="40" fill="#889FC5"/>
+  <use href="#swatch" x="80" y="40" fill="#94A76E"/>
+  <use href="#swatch" x="120" y="40" fill="#75B15E"/>
+  <use href="#swatch" x="160" y="40" fill="#BE9665"/>
+  <use href="#swatch" x="200" y="40" fill="#4DB2A3"/>
+  <use href="#swatch" x="240" y="40" fill="#D58585"/>
+  <use href="#swatch" x="280" y="40" fill="#C378EE"/>
+</svg>
