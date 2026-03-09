@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { getPalette, getSwatches } from "colorthief";
+import { getColor, getPalette, getSwatches } from "colorthief";
 import { atom, useAtomValue, useSetAtom } from "jotai";
 import { Suspense } from "react";
 import { Dropzone, ImagePreview } from "@/components/ui/dropzone";
@@ -31,6 +31,13 @@ const colorPaletteAtom = atom(async (get) => {
     return getPalette(bitmap, OPTIONS);
 });
 
+const colorAtom = atom(async (get) => {
+    const file = get(fileAtom);
+    if (!file) return null;
+    const bitmap = await createImageBitmap(file);
+    return getColor(bitmap, OPTIONS);
+});
+
 const colorSwatchesAtom = atom(async (get) => {
     const file = get(fileAtom);
     if (!file) return null;
@@ -40,9 +47,10 @@ const colorSwatchesAtom = atom(async (get) => {
 
 // Suspense 境界の内側で atom を読んで ColorResults に渡すローダー
 const ColorResultsLoader: React.FC = () => {
+    const dominantColor = useAtomValue(colorAtom);
     const palette = useAtomValue(colorPaletteAtom);
     const swatches = useAtomValue(colorSwatchesAtom);
-    return <ColorResults palette={palette} swatches={swatches} />;
+    return <ColorResults dominantColor={dominantColor} palette={palette} swatches={swatches} />;
 };
 
 // --- ルート ---
@@ -53,21 +61,25 @@ function RouteComponent() {
     const file = useAtomValue(fileAtom);
 
     return (
-        <div className="p-8 max-w-lg mx-auto space-y-6">
+        <div className="p-8 max-w-5xl mx-auto space-y-6">
             <h1 className="text-xl font-bold">画像アップロード</h1>
             <Dropzone
                 accept={{ "image/*": [] }}
                 onFilesAccepted={(files) => setFile(files[0] ?? null)}
             />
-            <ImagePreview url={previewUrl} />
             {file && (
-                <Suspense
-                    fallback={
-                        <p className="text-sm text-gray-400">抽出中...</p>
-                    }
-                >
-                    <ColorResultsLoader />
-                </Suspense>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                    <div className="w-full aspect-[3/4] bg-gray-100 rounded-lg overflow-hidden">
+                        <ImagePreview url={previewUrl} className="w-full h-full object-contain" />
+                    </div>
+                    <Suspense
+                        fallback={
+                            <p className="text-sm text-gray-400">抽出中...</p>
+                        }
+                    >
+                        <ColorResultsLoader />
+                    </Suspense>
+                </div>
             )}
         </div>
     );
