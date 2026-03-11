@@ -17,8 +17,8 @@
     "db:push": "drizzle-kit push",
     "db:pull": "drizzle-kit pull",
     "db:studio": "drizzle-kit studio",
-    "debug:extract": "tsx scripts/extract-debug.ts",
-    "debug:gen-svg": "tsx scripts/gen-palette-svg.ts"
+    "debug:gen-svg:playwright": "tsx scripts/gen-palette-svg-playwright.ts",
+    "debug:gen-svg:sharp": "tsx scripts/gen-palette-svg-sharp.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.2.0",

@@ -1,6 +1,7 @@
-import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readdir, writeFile } from "node:fs/promises";
 import { basename, join } from "node:path";
-import { chromium } from "playwright";
+import type { Color } from "colorthief";
+import { getPalette, getSwatches } from "colorthief";
 
 const ROOT_DIR = new URL("../", import.meta.url).pathname;
 const IMG_BASE = join(ROOT_DIR, "debug/img");
@@ -9,25 +10,27 @@ const OUT_DIR = join(ROOT_DIR, "debug/palettes/colorthief");
 const OPTIONS = {
     colorCount: 16,
     quality: 10,
-    colorSpace: "rgb",
+    colorSpace: "rgb" as const,
     ignoreWhite: true,
     minSaturation: 0.05,
 };
+
+const DOMINANT_COUNT = 5;
 
 // --- SVG レイアウト定数 ---
 
 const SVG_W = 660;
 const PAD = 20;
 const USABLE_W = SVG_W - PAD * 2;
-const BLOCK_H = 175;
 
 const Y_NAME = 18;
 const Y_DOM = 25;
-const H_DOM = 28;
-const Y_PAL = 60;
+const H_DOM = 40;
+const Y_PAL = Y_DOM + H_DOM + 7; // 72
 const H_PAL = 30;
-const Y_SWA = 98;
+const Y_SWA = Y_PAL + H_PAL + 7; // 109
 const H_SWA = 62;
+const BLOCK_H = Y_SWA + H_SWA + 13; // 184
 
 const SWATCH_ROLES = [
     "Vibrant",
@@ -52,10 +55,15 @@ const SWATCH_LABELS: Record<(typeof SWATCH_ROLES)[number], string> = {
 type SwatchRole = (typeof SWATCH_ROLES)[number];
 type ColorInfo = { hex: string; isDark: boolean };
 type ExtractionResult = {
-    dominantColor: ColorInfo | null;
+    dominantColors: ColorInfo[];
     palette: ColorInfo[];
     swatches: Record<SwatchRole, ColorInfo | null>;
 };
+
+const toColorInfo = (color: Color): ColorInfo => ({
+    hex: color.hex(),
+    isDark: color.isDark,
+});
 
 // --- SVG 生成 ---
 
@@ -71,17 +79,27 @@ const generateBlock = (
         `    <text x="${PAD}" y="${Y_NAME}" fill="#aaaaaa" font-size="13" font-weight="bold">${name}</text>`,
     );
 
-    if (result.dominantColor) {
-        const { hex, isDark } = result.dominantColor;
+    // ドミナントカラー上位 5 色（順位付き）
+    const domCellW = USABLE_W / DOMINANT_COUNT;
+    for (let i = 0; i < result.dominantColors.length; i++) {
+        const { hex, isDark } = result.dominantColors[i];
         const textColor = isDark ? "#ffffff" : "#000000";
+        const x = PAD + i * domCellW;
+        const cx = x + domCellW / 2;
+        const rx =
+            i === 0 ? 'rx="3"' : i === DOMINANT_COUNT - 1 ? 'rx="3"' : "";
         lines.push(
-            `    <rect x="${PAD}" y="${Y_DOM}" width="${USABLE_W}" height="${H_DOM}" fill="${hex}" rx="3"/>`,
+            `    <rect x="${x}" y="${Y_DOM}" width="${domCellW}" height="${H_DOM}" fill="${hex}" ${rx}/>`,
         );
         lines.push(
-            `    <text x="${PAD + USABLE_W - 6}" y="${Y_DOM + Math.floor(H_DOM / 2) + 4}" fill="${textColor}" font-size="10" text-anchor="end">${hex}</text>`,
+            `    <text x="${x + 5}" y="${Y_DOM + 14}" fill="${textColor}" font-size="11" font-weight="bold" opacity="0.7">${i + 1}</text>`,
+        );
+        lines.push(
+            `    <text x="${cx}" y="${Y_DOM + H_DOM - 7}" fill="${textColor}" font-size="9" text-anchor="middle">${hex}</text>`,
         );
     }
 
+    // パレット 16 色
     const palCount = result.palette.length;
     if (palCount > 0) {
         const cellW = USABLE_W / palCount;
@@ -94,6 +112,7 @@ const generateBlock = (
         }
     }
 
+    // スウォッチ 6 スロット
     const swaCellW = USABLE_W / SWATCH_ROLES.length;
     for (let i = 0; i < SWATCH_ROLES.length; i++) {
         const role = SWATCH_ROLES[i];
@@ -144,44 +163,7 @@ const generateSvg = (
 
 // --- メイン ---
 
-const colorthiefBundle = await readFile(
-    join(ROOT_DIR, "node_modules/colorthief/dist/index.browser.js"),
-    "utf-8",
-);
-
 await mkdir(OUT_DIR, { recursive: true });
-
-const browser = await chromium.launch();
-const page = await browser.newPage();
-
-// colorthief ブラウザバンドルをローカル URL として提供
-await page.route("http://local.test/colorthief.js", (route) =>
-    route.fulfill({
-        contentType: "application/javascript; charset=utf-8",
-        body: colorthiefBundle,
-    }),
-);
-
-// colorthief の関数を window に展開するページを提供
-await page.route("http://local.test/", (route) =>
-    route.fulfill({
-        contentType: "text/html",
-        body: `<!DOCTYPE html><html><body>
-<script type="module">
-import { getColor, getPalette, getSwatches } from "./colorthief.js";
-window.__getColor = getColor;
-window.__getPalette = getPalette;
-window.__getSwatches = getSwatches;
-window.__ready = true;
-</script>
-</body></html>`,
-    }),
-);
-
-await page.goto("http://local.test/");
-await page.waitForFunction(
-    () => (window as Window & { __ready?: boolean }).__ready === true,
-);
 
 for (const game of ["genshin", "starrail"] as const) {
     const imgDir = join(IMG_BASE, game);
@@ -197,79 +179,35 @@ for (const game of ["genshin", "starrail"] as const) {
         const name = basename(file, ".png");
         process.stdout.write(`  ${name} ... `);
 
-        const imageData = await readFile(join(imgDir, file));
-        const imageSrc = `data:image/png;base64,${imageData.toString("base64")}`;
+        const imgPath = join(imgDir, file);
 
-        const result = await page.evaluate(
-            async ({ src, opts }) => {
-                const img = new Image();
-                img.src = src;
-                await new Promise<void>((resolve, reject) => {
-                    img.onload = () => resolve();
-                    img.onerror = () => reject(new Error("Image load failed"));
-                });
+        const [dominant5, palette, swatchMap] = await Promise.all([
+            getPalette(imgPath, { ...OPTIONS, colorCount: DOMINANT_COUNT }),
+            getPalette(imgPath, OPTIONS),
+            getSwatches(imgPath, OPTIONS),
+        ]);
 
-                const w = window as unknown as {
-                    __getColor: (
-                        img: HTMLImageElement,
-                        opts: unknown,
-                    ) => Promise<{ hex(): string; isDark: boolean } | null>;
-                    __getPalette: (
-                        img: HTMLImageElement,
-                        opts: unknown,
-                    ) => Promise<Array<{
-                        hex(): string;
-                        isDark: boolean;
-                    }> | null>;
-                    __getSwatches: (
-                        img: HTMLImageElement,
-                        opts: unknown,
-                    ) => Promise<
-                        Record<
-                            string,
-                            { color: { hex(): string; isDark: boolean } } | null
-                        >
-                    >;
-                };
+        const swatches = Object.fromEntries(
+            SWATCH_ROLES.map((role) => {
+                const swatch = swatchMap[role];
+                return [role, swatch ? toColorInfo(swatch.color) : null];
+            }),
+        ) as Record<SwatchRole, ColorInfo | null>;
 
-                const [dominant, palette, swatches] = await Promise.all([
-                    w.__getColor(img, opts),
-                    w.__getPalette(img, opts),
-                    w.__getSwatches(img, opts),
-                ]);
-
-                return {
-                    dominantColor: dominant
-                        ? { hex: dominant.hex(), isDark: dominant.isDark }
-                        : null,
-                    palette: (palette ?? []).map((c) => ({
-                        hex: c.hex(),
-                        isDark: c.isDark,
-                    })),
-                    swatches: Object.fromEntries(
-                        Object.entries(swatches).map(([role, sw]) => [
-                            role,
-                            sw
-                                ? {
-                                      hex: sw.color.hex(),
-                                      isDark: sw.color.isDark,
-                                  }
-                                : null,
-                        ]),
-                    ),
-                };
+        blocks.push({
+            name,
+            result: {
+                dominantColors: (dominant5 ?? []).map(toColorInfo),
+                palette: (palette ?? []).map(toColorInfo),
+                swatches,
             },
-            { src: imageSrc, opts: OPTIONS },
-        );
+        });
 
-        blocks.push({ name, result: result as ExtractionResult });
         console.log("done");
     }
 
     const svg = generateSvg(blocks);
-    const outFile = join(OUT_DIR, `${game}.svg`);
+    const outFile = join(OUT_DIR, `${game}-sharp.svg`);
     await writeFile(outFile, svg, "utf-8");
     console.log(`Generated: ${outFile}`);
 }
-
-await browser.close();
