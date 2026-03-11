@@ -16,13 +16,14 @@ const previewUrlAtom = atom((get) => {
     return file ? URL.createObjectURL(file) : null;
 });
 
-const OPTIONS = {
-    colorCount: 16,
-    quality: 10, // 品質を上げたい場合
+const OPTIONS_BASE = {
+    quality: 10,
     colorSpace: "rgb" as const,
     ignoreWhite: true,
-    minSaturation: 0.05, // ほぼグレーなピクセルを除外
+    minSaturation: 0.05,
 } satisfies Parameters<typeof getPalette>[1];
+
+const OPTIONS = { ...OPTIONS_BASE, colorCount: 16 } satisfies Parameters<typeof getPalette>[1];
 
 const colorPaletteAtom = atom(async (get) => {
     const file = get(fileAtom);
@@ -35,7 +36,7 @@ const colorAtom = atom(async (get) => {
     const file = get(fileAtom);
     if (!file) return null;
     const bitmap = await createImageBitmap(file);
-    return getColor(bitmap, OPTIONS);
+    return getColor(bitmap, OPTIONS_BASE);
 });
 
 const colorSwatchesAtom = atom(async (get) => {
