@@ -7,13 +7,14 @@ const ROOT_DIR = new URL("../", import.meta.url).pathname;
 const IMG_BASE = join(ROOT_DIR, "debug/img");
 const OUT_DIR = join(ROOT_DIR, "debug/palettes/colorthief");
 
-const OPTIONS = {
-    colorCount: 16,
+const OPTIONS_BASE = {
     quality: 10,
     colorSpace: "rgb" as const,
     ignoreWhite: true,
     minSaturation: 0.05,
 };
+
+const OPTIONS = { ...OPTIONS_BASE, colorCount: 16 };
 
 const DOMINANT_COUNT = 5;
 
@@ -182,7 +183,10 @@ for (const game of ["genshin", "starrail"] as const) {
         const imgPath = join(imgDir, file);
 
         const [dominant5, palette, swatchMap] = await Promise.all([
-            getPalette(imgPath, { ...OPTIONS, colorCount: DOMINANT_COUNT }),
+            getPalette(imgPath, {
+                colorCount: DOMINANT_COUNT,
+                ...OPTIONS_BASE,
+            }),
             getPalette(imgPath, OPTIONS),
             getSwatches(imgPath, OPTIONS),
         ]);
@@ -207,7 +211,7 @@ for (const game of ["genshin", "starrail"] as const) {
     }
 
     const svg = generateSvg(blocks);
-    const outFile = join(OUT_DIR, `${game}-sharp.svg`);
+    const outFile = join(OUT_DIR, `${game}.svg`);
     await writeFile(outFile, svg, "utf-8");
     console.log(`Generated: ${outFile}`);
 }

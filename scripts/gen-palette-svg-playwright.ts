@@ -6,13 +6,14 @@ const ROOT_DIR = new URL("../", import.meta.url).pathname;
 const IMG_BASE = join(ROOT_DIR, "debug/img");
 const OUT_DIR = join(ROOT_DIR, "debug/palettes/colorthief");
 
-const OPTIONS = {
-    colorCount: 16,
+const OPTIONS_BASE = {
     quality: 10,
     colorSpace: "rgb",
     ignoreWhite: true,
     minSaturation: 0.05,
 };
+
+const OPTIONS = { ...OPTIONS_BASE, colorCount: 16 };
 
 const DOMINANT_COUNT = 5;
 
@@ -211,7 +212,7 @@ for (const game of ["genshin", "starrail"] as const) {
         const imageSrc = `data:image/png;base64,${imageData.toString("base64")}`;
 
         const result = await page.evaluate(
-            async ({ src, opts, domCount }) => {
+            async ({ src, opts, optsBase, domCount }) => {
                 const img = new Image();
                 img.src = src;
                 await new Promise<void>((resolve, reject) => {
@@ -239,7 +240,7 @@ for (const game of ["genshin", "starrail"] as const) {
                 };
 
                 const [dominant5, palette, swatches] = await Promise.all([
-                    w.__getPalette(img, { ...opts, colorCount: domCount }),
+                    w.__getPalette(img, { colorCount: domCount, ...optsBase }),
                     w.__getPalette(img, opts),
                     w.__getSwatches(img, opts),
                 ]);
@@ -266,7 +267,12 @@ for (const game of ["genshin", "starrail"] as const) {
                     ),
                 };
             },
-            { src: imageSrc, opts: OPTIONS, domCount: DOMINANT_COUNT },
+            {
+                src: imageSrc,
+                opts: OPTIONS,
+                optsBase: OPTIONS_BASE,
+                domCount: DOMINANT_COUNT,
+            },
         );
 
         blocks.push({ name, result: result as ExtractionResult });
