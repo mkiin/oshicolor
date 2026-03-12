@@ -11,7 +11,7 @@ const OPTIONS_BASE = {
     quality: 10,
     colorSpace: "rgb" as const,
     ignoreWhite: true,
-    minSaturation: 0.3,
+    minSaturation: 0.05,
 };
 
 const OPTIONS = { ...OPTIONS_BASE, colorCount: 16 };
