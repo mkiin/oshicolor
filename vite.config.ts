@@ -17,6 +17,7 @@ const config = defineConfig({
         ignorePatterns: ["src/routeTree.gen.ts", "src/styles.css", "docs/**"],
     },
     fmt: {
+        ignorePatterns: ["src/routeTree.gen.ts", "src/styles.css", "docs/**"],
         printWidth: 80,
         tabWidth: 4,
         useTabs: false,

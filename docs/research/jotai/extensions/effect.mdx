@@ -135,9 +135,9 @@ const valuesAtom = withAtomEffect(atom(null), (get, set) => {
 - **同期:**
   エフェクト内で `get` でアクセスしたすべてのアトムがアトムの依存関係に追加されます。
 
-                      <!-- prettier-ignore -->
+                          <!-- prettier-ignore -->
 
-                      <details style="cursor: pointer; user-select: none;">
+                          <details style="cursor: pointer; user-select: none;">
 
     <summary>例</summary>
 
@@ -148,14 +148,14 @@ const valuesAtom = withAtomEffect(atom(null), (get, set) => {
     });
     ```
 
-                      </details>
+                          </details>
 
 - **非同期:**
   非同期の `get` 呼び出しは依存関係を追加しません。
 
-                      <!-- prettier-ignore -->
+                          <!-- prettier-ignore -->
 
-                      <details style="cursor: pointer; user-select: none;">
+                          <details style="cursor: pointer; user-select: none;">
 
     <summary>例</summary>
 
@@ -168,14 +168,14 @@ const valuesAtom = withAtomEffect(atom(null), (get, set) => {
     });
     ```
 
-                      </details>
+                          </details>
 
 - **クリーンアップ:**
   クリーンアップ内の `get` 呼び出しは依存関係を追加しません。
 
-                      <!-- prettier-ignore -->
+                          <!-- prettier-ignore -->
 
-                      <details style="cursor: pointer; user-select: none;">
+                          <details style="cursor: pointer; user-select: none;">
 
     <summary>例</summary>
 
@@ -188,14 +188,14 @@ const valuesAtom = withAtomEffect(atom(null), (get, set) => {
     });
     ```
 
-                      </details>
+                          </details>
 
 - **依存関係マップの再計算:**
   依存関係は毎回の実行時に再計算されます。
 
-                      <!-- prettier-ignore -->
+                          <!-- prettier-ignore -->
 
-                      <details style="cursor: pointer; user-select: none;">
+                          <details style="cursor: pointer; user-select: none;">
 
     <summary>例</summary>
 
@@ -211,16 +211,16 @@ const valuesAtom = withAtomEffect(atom(null), (get, set) => {
     });
     ```
 
-                      </details>
+                          </details>
 
 ## エフェクトの動作
 
 - **同期的に実行:**
   `effect` は同期評価が完了した後、現在のタスク内で同期的に実行されます。
 
-                      <!-- prettier-ignore -->
+                          <!-- prettier-ignore -->
 
-                      <details style="cursor: pointer; user-select: none;">
+                          <details style="cursor: pointer; user-select: none;">
 
     <summary>例</summary>
 
@@ -237,14 +237,14 @@ const valuesAtom = withAtomEffect(atom(null), (get, set) => {
     store.set(actionAtom);
     ```
 
-                      </details>
+                          </details>
 
 - **バッチ更新:**
   複数の同期更新が単一のアトミックトランザクションとしてバッチ処理されます。
 
-                      <!-- prettier-ignore -->
+                          <!-- prettier-ignore -->
 
-                      <details style="cursor: pointer; user-select: none;">
+                          <details style="cursor: pointer; user-select: none;">
 
     <summary>例</summary>
 
@@ -265,14 +265,14 @@ const valuesAtom = withAtomEffect(atom(null), (get, set) => {
     store.get(combos); // [00, 11]
     ```
 
-                      </details>
+                          </details>
 
 - **無限ループへの耐性:**
   `atomEffect` は監視している値を更新しても再実行されません。
 
-                      <!-- prettier-ignore -->
+                          <!-- prettier-ignore -->
 
-                      <details style="cursor: pointer; user-select: none;">
+                          <details style="cursor: pointer; user-select: none;">
 
     <summary>例</summary>
 
@@ -283,14 +283,14 @@ const valuesAtom = withAtomEffect(atom(null), (get, set) => {
     });
     ```
 
-                      </details>
+                          </details>
 
 - **クリーンアップ関数:**
   クリーンアップ関数はアンマウント時または再評価前に呼び出されます。
 
-                      <!-- prettier-ignore -->
+                          <!-- prettier-ignore -->
 
-                      <details style="cursor: pointer; user-select: none;">
+                          <details style="cursor: pointer; user-select: none;">
 
     <summary>例</summary>
 
@@ -301,14 +301,14 @@ const valuesAtom = withAtomEffect(atom(null), (get, set) => {
     });
     ```
 
-                      </details>
+                          </details>
 
 - **冪等性:**
   `atomEffect` は何回参照されても、状態変更ごとに1回のみ実行されます。
 
-                      <!-- prettier-ignore -->
+                          <!-- prettier-ignore -->
 
-                      <details style="cursor: pointer; user-select: none;">
+                          <details style="cursor: pointer; user-select: none;">
 
     <summary>例</summary>
 
@@ -324,14 +324,14 @@ const valuesAtom = withAtomEffect(atom(null), (get, set) => {
     console.log(i); // 1
     ```
 
-                      </details>
+                          </details>
 
 - **条件付きエフェクト実行:**
   `atomEffect` はマウントされている場合にのみ実行されます。
 
-                      <!-- prettier-ignore -->
+                          <!-- prettier-ignore -->
 
-                      <details style="cursor: pointer; user-select: none;">
+                          <details style="cursor: pointer; user-select: none;">
 
     <summary>例</summary>
 
@@ -343,14 +343,14 @@ const valuesAtom = withAtomEffect(atom(null), (get, set) => {
     });
     ```
 
-                      </details>
+                          </details>
 
 - **Peek のサポート:**
   `get.peek` を使用してサブスクライブせずにアトムデータを読み取れます。
 
-                      <!-- prettier-ignore -->
+                          <!-- prettier-ignore -->
 
-                      <details style="cursor: pointer; user-select: none;">
+                          <details style="cursor: pointer; user-select: none;">
 
     <summary>例</summary>
 
@@ -361,14 +361,14 @@ const valuesAtom = withAtomEffect(atom(null), (get, set) => {
     });
     ```
 
-                      </details>
+                          </details>
 
 - **再帰のサポート:**
   再帰は `set.recurse` でサポートされますが、クリーンアップ内ではサポートされません。
 
-                      <!-- prettier-ignore -->
+                          <!-- prettier-ignore -->
 
-                      <details style="cursor: pointer; user-select: none;">
+                          <details style="cursor: pointer; user-select: none;">
 
     <summary>例</summary>
 
@@ -382,4 +382,4 @@ const valuesAtom = withAtomEffect(atom(null), (get, set) => {
     });
     ```
 
-                      </details>
+                          </details>

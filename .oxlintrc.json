@@ -1,5 +1,0 @@
-{
-    "rules": {},
-    "plugins": ["react", "react-hooks", "unicorn"],
-    "ignorePatterns": ["src/routeTree.gen.ts", "src/styles.css"]
-}
