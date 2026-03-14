@@ -32,9 +32,9 @@ type SplitAtom = <Item, Key>(
 
 ```ts
 export function splitAtom<Item, Key>(
-  arrAtom: WritableAtom<Item[], [Item[]], void> | Atom<Item[]>,
-  keyExtractor?: (item: Item) => Key,
-)
+    arrAtom: WritableAtom<Item[], [Item[]], void> | Atom<Item[]>,
+    keyExtractor?: (item: Item) => Key,
+);
 ```
 
 `keyExtractor` の重要な考慮事項：
@@ -50,75 +50,81 @@ export function splitAtom<Item, Key>(
 <Stackblitz id="vitejs-vite-oavdw2" file="src%2FApp.tsx" />
 
 ```tsx
-import { Provider, atom, useAtom, PrimitiveAtom } from 'jotai'
-import { splitAtom } from 'jotai/utils'
-import './styles.css'
+import { Provider, atom, useAtom, PrimitiveAtom } from "jotai";
+import { splitAtom } from "jotai/utils";
+import "./styles.css";
 
 const initialState = [
-  {
-    task: 'help the town',
-    done: false,
-  },
-  {
-    task: 'feed the dragon',
-    done: false,
-  },
-]
+    {
+        task: "help the town",
+        done: false,
+    },
+    {
+        task: "feed the dragon",
+        done: false,
+    },
+];
 
-const todosAtom = atom(initialState)
-const todoAtomsAtom = splitAtom(todosAtom)
+const todosAtom = atom(initialState);
+const todoAtomsAtom = splitAtom(todosAtom);
 
-type TodoType = (typeof initialState)[number]
+type TodoType = (typeof initialState)[number];
 
 const TodoItem = ({
-  todoAtom,
-  remove,
+    todoAtom,
+    remove,
 }: {
-  todoAtom: PrimitiveAtom<TodoType>
-  remove: () => void
+    todoAtom: PrimitiveAtom<TodoType>;
+    remove: () => void;
 }) => {
-  const [todo, setTodo] = useAtom(todoAtom)
-  return (
-    <div>
-      <input
-        value={todo.task}
-        onChange={(e) => {
-          setTodo((oldValue) => ({ ...oldValue, task: e.target.value }))
-        }}
-      />
-      <input
-        type="checkbox"
-        checked={todo.done}
-        onChange={() => {
-          setTodo((oldValue) => ({ ...oldValue, done: !oldValue.done }))
-        }}
-      />
-      <button onClick={remove}>remove</button>
-    </div>
-  )
-}
+    const [todo, setTodo] = useAtom(todoAtom);
+    return (
+        <div>
+            <input
+                value={todo.task}
+                onChange={(e) => {
+                    setTodo((oldValue) => ({
+                        ...oldValue,
+                        task: e.target.value,
+                    }));
+                }}
+            />
+            <input
+                type="checkbox"
+                checked={todo.done}
+                onChange={() => {
+                    setTodo((oldValue) => ({
+                        ...oldValue,
+                        done: !oldValue.done,
+                    }));
+                }}
+            />
+            <button onClick={remove}>remove</button>
+        </div>
+    );
+};
 
 const TodoList = () => {
-  const [todoAtoms, dispatch] = useAtom(todoAtomsAtom)
-  return (
-    <ul>
-      {todoAtoms.map((todoAtom) => (
-        <TodoItem
-          todoAtom={todoAtom}
-          remove={() => dispatch({ type: 'remove', atom: todoAtom })}
-        />
-      ))}
-    </ul>
-  )
-}
+    const [todoAtoms, dispatch] = useAtom(todoAtomsAtom);
+    return (
+        <ul>
+            {todoAtoms.map((todoAtom) => (
+                <TodoItem
+                    todoAtom={todoAtom}
+                    remove={() => dispatch({ type: "remove", atom: todoAtom })}
+                />
+            ))}
+        </ul>
+    );
+};
 
 const App = () => (
-  <Provider>
-    <TodoList />
-  </Provider>
-)
+    <Provider>
+        <TodoList />
+    </Provider>
+);
 
-export default App
+export default App;
 ```
 
 この例では、`splitAtom` を使用して todo アイテムのリストを管理し、全体のリストアトムを維持しながら各アイテムを個別に操作する方法を示しています。

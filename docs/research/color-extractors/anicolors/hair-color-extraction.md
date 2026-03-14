@@ -54,6 +54,7 @@ Palette.extend.parts.hair へ保存
 4. 合計 5 色になるまで繰り返す
 
 距離計算（RGB ユークリッド距離）:
+
 ```
 distance = sqrt((r1-r2)² + (g1-g2)² + (b1-b2)²)
 ```
@@ -71,23 +72,23 @@ distance = sqrt((r1-r2)² + (g1-g2)² + (b1-b2)²)
 
 ```typescript
 type HairColor = {
-  name: string;
-  hex_range: [string, string];
-  hsl_hue_range: [number, number];        // 色相 0-360°
-  hsl_saturation_range: [number, number]; // 彩度 0-100%
-  hsl_lightness_range: [number, number];  // 明度 0-100%
+    name: string;
+    hex_range: [string, string];
+    hsl_hue_range: [number, number]; // 色相 0-360°
+    hsl_saturation_range: [number, number]; // 彩度 0-100%
+    hsl_lightness_range: [number, number]; // 明度 0-100%
 };
 ```
 
 **カテゴリ一覧**:
 
-| カテゴリ | 色名（英語）|
-|---|---|
-| 中性色 | Black, Ash Brown, Grey/White, Silver Grey, Granny Grey |
-| ブラウン系 | Dark Brown, Medium Brown, Light Brown, Chocolate Brown, Caramel Brown |
-| ブロンド系 | Golden Blonde, Sandy Blonde, Ash Blonde, Platinum Blonde, Honey Blonde |
-| 赤系 | Bright Red, Auburn, Copper Red, Wine Red / Burgundy, Cherry Red |
-| 特殊色 | Ocean Blue, Hazy Blue, Dark Green, Lavender Purple, Grape Purple, Barbie Pink, …（計 36 種） |
+| カテゴリ   | 色名（英語）                                                                                 |
+| ---------- | -------------------------------------------------------------------------------------------- |
+| 中性色     | Black, Ash Brown, Grey/White, Silver Grey, Granny Grey                                       |
+| ブラウン系 | Dark Brown, Medium Brown, Light Brown, Chocolate Brown, Caramel Brown                        |
+| ブロンド系 | Golden Blonde, Sandy Blonde, Ash Blonde, Platinum Blonde, Honey Blonde                       |
+| 赤系       | Bright Red, Auburn, Copper Red, Wine Red / Burgundy, Cherry Red                              |
+| 特殊色     | Ocean Blue, Hazy Blue, Dark Green, Lavender Purple, Grape Purple, Barbie Pink, …（計 36 種） |
 
 ### スコアリングアルゴリズム（2 段階評価）
 
@@ -132,12 +133,12 @@ final_score = hsl_score × 0.7 + lab_score × 0.3
 
 ```typescript
 type ColorPoint = {
-  id: number;       // 1-5（表示順）
-  x: number;        // 正規化 X 座標（0-384 基準）
-  y: number;        // 正規化 Y 座標（0-384 基準）
-  color: string;    // "rgb(255, 0, 0)" 形式
-  name?: string;    // 色名（"Red" など）
-  percent?: number; // パレット内占有率
+    id: number; // 1-5（表示順）
+    x: number; // 正規化 X 座標（0-384 基準）
+    y: number; // 正規化 Y 座標（0-384 基準）
+    color: string; // "rgb(255, 0, 0)" 形式
+    name?: string; // 色名（"Red" など）
+    percent?: number; // パレット内占有率
 };
 ```
 
@@ -145,18 +146,18 @@ type ColorPoint = {
 
 ```typescript
 type ClassifiedHairColors = Record<
-  string, // 髪色カテゴリ名
-  {
-    name: string;
-    colors: string[];  // 該当 Hex 色リスト
-    count: number;
-  }
+    string, // 髪色カテゴリ名
+    {
+        name: string;
+        colors: string[]; // 該当 Hex 色リスト
+        count: number;
+    }
 >;
 
 type HairColorMatch = {
-  name: string;   // "Golden Blonde" など
-  score: number;  // 0-1
-  hex: string;
+    name: string; // "Golden Blonde" など
+    score: number; // 0-1
+    hex: string;
 };
 ```
 
@@ -164,12 +165,12 @@ type HairColorMatch = {
 
 ```typescript
 type PartColors = Record<
-  // "eye" | "hair" | "skin" | "shirt" | "pants" | "shoes" | "socks" など
-  string,
-  {
-    color: string; // "#FF0000" 形式
-    name: string;  // "Red" など
-  }
+    // "eye" | "hair" | "skin" | "shirt" | "pants" | "shoes" | "socks" など
+    string,
+    {
+        color: string; // "#FF0000" 形式
+        name: string; // "Red" など
+    }
 >;
 ```
 
@@ -177,16 +178,16 @@ type PartColors = Record<
 
 ## 主要な公開関数一覧
 
-| 関数名 | ファイル | シグネチャ | 説明 |
-|---|---|---|---|
-| `extractMainColors` | color-extractor.ts | `(canvas, img) → ColorPoint[]` | 5 色を自動抽出 |
-| `colorDistance` | color-extractor.ts | `([r,g,b], [r,g,b]) → number` | RGB ユークリッド距離 |
-| `getColorName` | lib/nearest.ts | `(hex) → {name, hex}` | 最近傍色名を返す |
-| `getColorsByKeyword` | lib/nearest.ts | `(keyword) → Color[]` | キーワード検索 |
-| `classifyHairColors` | hair-color/index.ts | `(string[]) → ClassifiedHairColors` | 複数色を分類 |
-| `getHairColorName` | hair-color/index.ts | `(hex) → string \| null` | 単一色を髪色名に変換 |
-| `getMostCommonHairColor` | hair-color/index.ts | `(string[]) → HairColorMatch \| null` | 最頻出髪色を推定 |
-| `sortColors` | lib/sort-colors/index.ts | `(string[]) → string[]` | 視覚的自然順にソート |
+| 関数名                   | ファイル                 | シグネチャ                            | 説明                 |
+| ------------------------ | ------------------------ | ------------------------------------- | -------------------- |
+| `extractMainColors`      | color-extractor.ts       | `(canvas, img) → ColorPoint[]`        | 5 色を自動抽出       |
+| `colorDistance`          | color-extractor.ts       | `([r,g,b], [r,g,b]) → number`         | RGB ユークリッド距離 |
+| `getColorName`           | lib/nearest.ts           | `(hex) → {name, hex}`                 | 最近傍色名を返す     |
+| `getColorsByKeyword`     | lib/nearest.ts           | `(keyword) → Color[]`                 | キーワード検索       |
+| `classifyHairColors`     | hair-color/index.ts      | `(string[]) → ClassifiedHairColors`   | 複数色を分類         |
+| `getHairColorName`       | hair-color/index.ts      | `(hex) → string \| null`              | 単一色を髪色名に変換 |
+| `getMostCommonHairColor` | hair-color/index.ts      | `(string[]) → HairColorMatch \| null` | 最頻出髪色を推定     |
+| `sortColors`             | lib/sort-colors/index.ts | `(string[]) → string[]`               | 視覚的自然順にソート |
 
 ---
 
@@ -210,22 +211,22 @@ Canvas 座標（画像の実ピクセル）
 
 ## 使用ライブラリ
 
-| ライブラリ | バージョン | 役割 |
-|---|---|---|
-| `color` | ^5.0.0 | RGB / HSL / LAB 色空間変換 |
-| `nearest-color` | ^0.4.4 | KD 木による最近傍色検索 |
-| `color-name-list` | ^11.24.0 | 30,000 色超の色名 DB |
-| `quantize` | ^1.0.2 | Median Cut による量子化（Cinematic Palette 用） |
-| `use-eye-dropper` | ^1.7.1 | ブラウザ EyeDropper API の React フック |
+| ライブラリ        | バージョン | 役割                                            |
+| ----------------- | ---------- | ----------------------------------------------- |
+| `color`           | ^5.0.0     | RGB / HSL / LAB 色空間変換                      |
+| `nearest-color`   | ^0.4.4     | KD 木による最近傍色検索                         |
+| `color-name-list` | ^11.24.0   | 30,000 色超の色名 DB                            |
+| `quantize`        | ^1.0.2     | Median Cut による量子化（Cinematic Palette 用） |
+| `use-eye-dropper` | ^1.7.1     | ブラウザ EyeDropper API の React フック         |
 
 ---
 
 ## カスタマイズポイント
 
-| 変更したい内容 | 該当箇所 |
-|---|---|
-| 髪色カテゴリを追加・変更 | `hair-color/constant.ts` の `HAIR_COLORS` 配列 |
+| 変更したい内容               | 該当箇所                                                                  |
+| ---------------------------- | ------------------------------------------------------------------------- |
+| 髪色カテゴリを追加・変更     | `hair-color/constant.ts` の `HAIR_COLORS` 配列                            |
 | HSL / LAB スコアの重みを変更 | `hair-color/index.ts` の `calculateMatchScore` 内の係数（現在 0.7 / 0.3） |
-| 色抽出の量子化精度を上げる | `color-extractor.ts` の量子化ユニット（現在 24 → 小さくすると精度↑速度↓） |
-| サンプリング間隔を変更 | `color-extractor.ts` のサンプリング間隔（現在 8px） |
-| パーツ種類を追加 | コンポーネント内の `partsConstant` 配列 |
+| 色抽出の量子化精度を上げる   | `color-extractor.ts` の量子化ユニット（現在 24 → 小さくすると精度↑速度↓） |
+| サンプリング間隔を変更       | `color-extractor.ts` のサンプリング間隔（現在 8px）                       |
+| パーツ種類を追加             | コンポーネント内の `partsConstant` 配列                                   |

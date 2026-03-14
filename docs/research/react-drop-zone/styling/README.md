@@ -5,49 +5,58 @@
 ## 基本的な使い方
 
 ```jsx
-import { useMemo } from 'react';
-import { useDropzone } from 'react-dropzone';
+import { useMemo } from "react";
+import { useDropzone } from "react-dropzone";
 
 const baseStyle = {
-  flex: 1,
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  padding: '20px',
-  borderWidth: 2,
-  borderRadius: 2,
-  borderColor: '#eeeeee',
-  borderStyle: 'dashed',
-  backgroundColor: '#fafafa',
-  color: '#bdbdbd',
-  outline: 'none',
-  transition: 'border .24s ease-in-out',
+    flex: 1,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: "20px",
+    borderWidth: 2,
+    borderRadius: 2,
+    borderColor: "#eeeeee",
+    borderStyle: "dashed",
+    backgroundColor: "#fafafa",
+    color: "#bdbdbd",
+    outline: "none",
+    transition: "border .24s ease-in-out",
 };
 
-const focusedStyle   = { borderColor: '#2196f3' };
-const acceptStyle    = { borderColor: '#00e676' };
-const rejectStyle    = { borderColor: '#ff1744' };
+const focusedStyle = { borderColor: "#2196f3" };
+const acceptStyle = { borderColor: "#00e676" };
+const rejectStyle = { borderColor: "#ff1744" };
 
 function StyledDropzone() {
-  const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } = useDropzone({
-    accept: { 'image/*': [] },
-  });
+    const {
+        getRootProps,
+        getInputProps,
+        isFocused,
+        isDragAccept,
+        isDragReject,
+    } = useDropzone({
+        accept: { "image/*": [] },
+    });
 
-  const style = useMemo(() => ({
-    ...baseStyle,
-    ...(isFocused    ? focusedStyle : {}),
-    ...(isDragAccept ? acceptStyle  : {}),
-    ...(isDragReject ? rejectStyle  : {}),
-  }), [isFocused, isDragAccept, isDragReject]);
+    const style = useMemo(
+        () => ({
+            ...baseStyle,
+            ...(isFocused ? focusedStyle : {}),
+            ...(isDragAccept ? acceptStyle : {}),
+            ...(isDragReject ? rejectStyle : {}),
+        }),
+        [isFocused, isDragAccept, isDragReject],
+    );
 
-  return (
-    <div className="container">
-      <div {...getRootProps({ style })}>
-        <input {...getInputProps()} />
-        <p>ここに画像をドロップ</p>
-      </div>
-    </div>
-  );
+    return (
+        <div className="container">
+            <div {...getRootProps({ style })}>
+                <input {...getInputProps()} />
+                <p>ここに画像をドロップ</p>
+            </div>
+        </div>
+    );
 }
 ```
 
@@ -59,71 +68,71 @@ function StyledDropzone() {
 **パターン**: `atomWithStorage` で受け入れ MIME タイプ設定を永続化する（UI 状態は Jotai 不要）
 
 ```jsx
-import { useMemo } from 'react';
-import { useAtom, useAtomValue } from 'jotai';
-import { atomWithStorage } from 'jotai/utils';
-import { useDropzone } from 'react-dropzone';
+import { useMemo } from "react";
+import { useAtom, useAtomValue } from "jotai";
+import { atomWithStorage } from "jotai/utils";
+import { useDropzone } from "react-dropzone";
 
 // isFocused / isDragAccept / isDragReject は useDropzone のローカル値で十分。
 // Jotai が有効なのは「どのファイル種別を受け付けるか」という設定値を
 // 外から変えたい場合、かつリロード後も設定を維持したい場合。
 
 // atomWithStorage: localStorage に保存されるため、ページリロード後も設定が復元される
-const acceptedMimeTypesAtom = atomWithStorage(
-  'dropzone-accepted-mime',
-  { 'image/*': [] }
-);
+const acceptedMimeTypesAtom = atomWithStorage("dropzone-accepted-mime", {
+    "image/*": [],
+});
 
 // --- コンポーネント ---
 
 function DynamicStyledDropzone() {
-  const accept = useAtomValue(acceptedMimeTypesAtom);
-  const {
-    getRootProps,
-    getInputProps,
-    isFocused,
-    isDragAccept,
-    isDragReject,
-  } = useDropzone({ accept });
+    const accept = useAtomValue(acceptedMimeTypesAtom);
+    const {
+        getRootProps,
+        getInputProps,
+        isFocused,
+        isDragAccept,
+        isDragReject,
+    } = useDropzone({
+        accept,
+    });
 
-  const style = useMemo(
-    () => ({
-      ...baseStyle,
-      ...(isFocused    ? focusedStyle : {}),
-      ...(isDragAccept ? acceptStyle  : {}),
-      ...(isDragReject ? rejectStyle  : {}),
-    }),
-    [isFocused, isDragAccept, isDragReject]
-  );
+    const style = useMemo(
+        () => ({
+            ...baseStyle,
+            ...(isFocused ? focusedStyle : {}),
+            ...(isDragAccept ? acceptStyle : {}),
+            ...(isDragReject ? rejectStyle : {}),
+        }),
+        [isFocused, isDragAccept, isDragReject],
+    );
 
-  return (
-    <div {...getRootProps({ style })}>
-      <input {...getInputProps()} />
-      <p>ここにドロップ</p>
-    </div>
-  );
+    return (
+        <div {...getRootProps({ style })}>
+            <input {...getInputProps()} />
+            <p>ここにドロップ</p>
+        </div>
+    );
 }
 
 // 設定パネルから受け入れ種別を変更できる
 // 変更は localStorage に自動保存され、リロード後も維持される
 function AcceptControl() {
-  const [accept, setAccept] = useAtom(acceptedMimeTypesAtom);
-  return (
-    <div>
-      <button
-        type="button"
-        onClick={() => setAccept({ 'image/*': [] })}
-      >
-        画像のみ
-      </button>
-      <button
-        type="button"
-        onClick={() => setAccept({ 'image/*': [], 'application/pdf': [] })}
-      >
-        画像 + PDF
-      </button>
-    </div>
-  );
+    const [accept, setAccept] = useAtom(acceptedMimeTypesAtom);
+    return (
+        <div>
+            <button type="button" onClick={() => setAccept({ "image/*": [] })}>
+                画像のみ
+            </button>
+            <button
+                type="button"
+                onClick={() =>
+                    setAccept({ "image/*": [], "application/pdf": [] })
+                }
+            >
+                画像 + PDF
+            </button>
+        </div>
+    );
 }
 ```
 

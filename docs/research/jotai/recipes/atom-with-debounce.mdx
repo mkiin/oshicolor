@@ -9,71 +9,71 @@ keywords: creators,debounce
 このユーティリティは、テキスト検索入力などに便利です。キーストロークのたびにアクションを実行するのではなく、指定した時間待機した後に**派生アトムの関数を1回だけ呼び出す**ことができます。
 
 ```tsx
-import { atom, SetStateAction } from 'jotai'
+import { atom, SetStateAction } from "jotai";
 
 export default function atomWithDebounce<T>(
-  initialValue: T,
-  delayMilliseconds = 500,
-  shouldDebounceOnReset = false,
+    initialValue: T,
+    delayMilliseconds = 500,
+    shouldDebounceOnReset = false,
 ) {
-  const prevTimeoutAtom = atom<ReturnType<typeof setTimeout> | undefined>(
-    undefined,
-  )
+    const prevTimeoutAtom = atom<ReturnType<typeof setTimeout> | undefined>(
+        undefined,
+    );
 
-  // currentValueAtom はエクスポートしないでください。このアトムを使って状態を設定すると、
-  // currentValueAtom と debouncedValueAtom の間で状態の不整合が発生する可能性があります
-  const _currentValueAtom = atom(initialValue)
-  const isDebouncingAtom = atom(false)
+    // currentValueAtom はエクスポートしないでください。このアトムを使って状態を設定すると、
+    // currentValueAtom と debouncedValueAtom の間で状態の不整合が発生する可能性があります
+    const _currentValueAtom = atom(initialValue);
+    const isDebouncingAtom = atom(false);
 
-  const debouncedValueAtom = atom(
-    initialValue,
-    (get, set, update: SetStateAction<T>) => {
-      clearTimeout(get(prevTimeoutAtom))
+    const debouncedValueAtom = atom(
+        initialValue,
+        (get, set, update: SetStateAction<T>) => {
+            clearTimeout(get(prevTimeoutAtom));
 
-      const prevValue = get(_currentValueAtom)
-      const nextValue =
-        typeof update === 'function'
-          ? (update as (prev: T) => T)(prevValue)
-          : update
+            const prevValue = get(_currentValueAtom);
+            const nextValue =
+                typeof update === "function"
+                    ? (update as (prev: T) => T)(prevValue)
+                    : update;
 
-      const onDebounceStart = () => {
-        set(_currentValueAtom, nextValue)
-        set(isDebouncingAtom, true)
-      }
+            const onDebounceStart = () => {
+                set(_currentValueAtom, nextValue);
+                set(isDebouncingAtom, true);
+            };
 
-      const onDebounceEnd = () => {
-        set(debouncedValueAtom, nextValue)
-        set(isDebouncingAtom, false)
-      }
+            const onDebounceEnd = () => {
+                set(debouncedValueAtom, nextValue);
+                set(isDebouncingAtom, false);
+            };
 
-      onDebounceStart()
+            onDebounceStart();
 
-      if (!shouldDebounceOnReset && nextValue === initialValue) {
-        onDebounceEnd()
-        return
-      }
+            if (!shouldDebounceOnReset && nextValue === initialValue) {
+                onDebounceEnd();
+                return;
+            }
 
-      const nextTimeoutId = setTimeout(() => {
-        onDebounceEnd()
-      }, delayMilliseconds)
+            const nextTimeoutId = setTimeout(() => {
+                onDebounceEnd();
+            }, delayMilliseconds);
 
-      // 必要に応じてクリアできるように、前のタイムアウトアトムを設定する
-      set(prevTimeoutAtom, nextTimeoutId)
-    },
-  )
+            // 必要に応じてクリアできるように、前のタイムアウトアトムを設定する
+            set(prevTimeoutAtom, nextTimeoutId);
+        },
+    );
 
-  // 必要に応じてタイムアウトをクリアするためにエクスポートするアトムセッター
-  const clearTimeoutAtom = atom(null, (get, set, _arg) => {
-    clearTimeout(get(prevTimeoutAtom))
-    set(isDebouncingAtom, false)
-  })
+    // 必要に応じてタイムアウトをクリアするためにエクスポートするアトムセッター
+    const clearTimeoutAtom = atom(null, (get, set, _arg) => {
+        clearTimeout(get(prevTimeoutAtom));
+        set(isDebouncingAtom, false);
+    });
 
-  return {
-    currentValueAtom: atom((get) => get(_currentValueAtom)),
-    isDebouncingAtom,
-    clearTimeoutAtom,
-    debouncedValueAtom,
-  }
+    return {
+        currentValueAtom: atom((get) => get(_currentValueAtom)),
+        isDebouncingAtom,
+        clearTimeoutAtom,
+        debouncedValueAtom,
+    };
 }
 ```
 

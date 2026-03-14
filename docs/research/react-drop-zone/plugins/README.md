@@ -5,43 +5,45 @@
 ## 基本的な使い方
 
 ```jsx
-import { useDropzone } from 'react-dropzone';
+import { useDropzone } from "react-dropzone";
 
 async function customGetFilesFromEvent(event) {
-  const fileList = event.dataTransfer?.files ?? event.target.files;
-  const files = [];
-  for (let i = 0; i < fileList.length; i++) {
-    const file = fileList.item(i);
-    // カスタムプロパティを付与
-    Object.defineProperty(file, 'myProp', {
-      value: true,
-      writable: false,
-    });
-    files.push(file);
-  }
-  return files;
+    const fileList = event.dataTransfer?.files ?? event.target.files;
+    const files = [];
+    for (let i = 0; i < fileList.length; i++) {
+        const file = fileList.item(i);
+        // カスタムプロパティを付与
+        Object.defineProperty(file, "myProp", {
+            value: true,
+            writable: false,
+        });
+        files.push(file);
+    }
+    return files;
 }
 
 function PluginDropzone() {
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
-    getFilesFromEvent: customGetFilesFromEvent,
-  });
+    const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+        getFilesFromEvent: customGetFilesFromEvent,
+    });
 
-  return (
-    <section>
-      <div {...getRootProps({ className: 'dropzone' })}>
-        <input {...getInputProps()} />
-        <p>ファイルをドロップ</p>
-      </div>
-      <aside>
-        <ul>
-          {acceptedFiles.map(f => (
-            <li key={f.name}>{f.name}: myProp={String(f.myProp)}</li>
-          ))}
-        </ul>
-      </aside>
-    </section>
-  );
+    return (
+        <section>
+            <div {...getRootProps({ className: "dropzone" })}>
+                <input {...getInputProps()} />
+                <p>ファイルをドロップ</p>
+            </div>
+            <aside>
+                <ul>
+                    {acceptedFiles.map((f) => (
+                        <li key={f.name}>
+                            {f.name}: myProp={String(f.myProp)}
+                        </li>
+                    ))}
+                </ul>
+            </aside>
+        </section>
+    );
 }
 ```
 
@@ -53,8 +55,8 @@ function PluginDropzone() {
 **パターン**: Write atom でカスタムプロパティ付与と格納をカプセル化する
 
 ```jsx
-import { atom, useAtomValue, useSetAtom } from 'jotai';
-import { useDropzone } from 'react-dropzone';
+import { atom, useAtomValue, useSetAtom } from "jotai";
+import { useDropzone } from "react-dropzone";
 
 // --- atom 定義 ---
 
@@ -65,16 +67,16 @@ const enrichedFilesAtom = atom([]);
 // コンポーネントに「どのようにファイルを enrichment するか」のロジックを持たせない。
 // async Write atom は (get, set, payload) => Promise<void> として書ける。
 const enrichFilesAtom = atom(null, async (_get, set, event) => {
-  const fileList = event.dataTransfer?.files ?? event.target.files;
-  if (!fileList) return;
+    const fileList = event.dataTransfer?.files ?? event.target.files;
+    if (!fileList) return;
 
-  const files = [];
-  for (let i = 0; i < fileList.length; i++) {
-    const file = fileList.item(i);
-    Object.defineProperty(file, 'myProp', { value: true });
-    files.push(file);
-  }
-  set(enrichedFilesAtom, files);
+    const files = [];
+    for (let i = 0; i < fileList.length; i++) {
+        const file = fileList.item(i);
+        Object.defineProperty(file, "myProp", { value: true });
+        files.push(file);
+    }
+    set(enrichedFilesAtom, files);
 });
 
 // 派生 atom: カスタムプロパティが付いたファイルの件数
@@ -83,51 +85,51 @@ const enrichedFileCountAtom = atom((get) => get(enrichedFilesAtom).length);
 // --- コンポーネント ---
 
 function PluginDropzone() {
-  const setEnrichedFiles = useSetAtom(enrichedFilesAtom);
-  const enrichFiles = useSetAtom(enrichFilesAtom);
+    const setEnrichedFiles = useSetAtom(enrichedFilesAtom);
+    const enrichFiles = useSetAtom(enrichFilesAtom);
 
-  const { getRootProps, getInputProps } = useDropzone({
-    // getFilesFromEvent でカスタムプロパティを付与した上で onDrop に渡す
-    getFilesFromEvent: async (event) => {
-      const fileList = event.dataTransfer?.files ?? event.target.files;
-      if (!fileList) return [];
-      const files = [];
-      for (let i = 0; i < fileList.length; i++) {
-        const file = fileList.item(i);
-        Object.defineProperty(file, 'myProp', { value: true });
-        files.push(file);
-      }
-      return files;
-    },
-    onDrop: (enrichedFiles) => setEnrichedFiles(enrichedFiles),
-  });
+    const { getRootProps, getInputProps } = useDropzone({
+        // getFilesFromEvent でカスタムプロパティを付与した上で onDrop に渡す
+        getFilesFromEvent: async (event) => {
+            const fileList = event.dataTransfer?.files ?? event.target.files;
+            if (!fileList) return [];
+            const files = [];
+            for (let i = 0; i < fileList.length; i++) {
+                const file = fileList.item(i);
+                Object.defineProperty(file, "myProp", { value: true });
+                files.push(file);
+            }
+            return files;
+        },
+        onDrop: (enrichedFiles) => setEnrichedFiles(enrichedFiles),
+    });
 
-  return (
-    <div {...getRootProps({ className: 'dropzone' })}>
-      <input {...getInputProps()} />
-      <p>ファイルをドロップ</p>
-    </div>
-  );
+    return (
+        <div {...getRootProps({ className: "dropzone" })}>
+            <input {...getInputProps()} />
+            <p>ファイルをドロップ</p>
+        </div>
+    );
 }
 
 // カスタムプロパティを参照する別コンポーネント
 function EnrichedFileList() {
-  const files = useAtomValue(enrichedFilesAtom);
-  return (
-    <ul>
-      {files.map((f) => (
-        <li key={f.name}>
-          {f.name}: myProp={String(f.myProp)}
-        </li>
-      ))}
-    </ul>
-  );
+    const files = useAtomValue(enrichedFilesAtom);
+    return (
+        <ul>
+            {files.map((f) => (
+                <li key={f.name}>
+                    {f.name}: myProp={String(f.myProp)}
+                </li>
+            ))}
+        </ul>
+    );
 }
 
 // 件数だけ知りたいコンポーネントは派生 atom で
 function EnrichedFileCount() {
-  const count = useAtomValue(enrichedFileCountAtom);
-  return <p>{count} ファイル処理済み</p>;
+    const count = useAtomValue(enrichedFileCountAtom);
+    return <p>{count} ファイル処理済み</p>;
 }
 ```
 

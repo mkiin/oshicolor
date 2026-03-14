@@ -12,32 +12,32 @@ keywords: large,object
 
 ```js
 const initialData = {
-  people: [
-    {
-      name: 'Luke Skywalker',
-      information: { height: 172 },
-      siblings: ['John Skywalker', 'Doe Skywalker'],
+    people: [
+        {
+            name: "Luke Skywalker",
+            information: { height: 172 },
+            siblings: ["John Skywalker", "Doe Skywalker"],
+        },
+        {
+            name: "C-3PO",
+            information: { height: 167 },
+            siblings: ["John Doe", "Doe John"],
+        },
+    ],
+    films: [
+        {
+            title: "A New Hope",
+            planets: ["Tatooine", "Alderaan"],
+        },
+        {
+            title: "The Empire Strikes Back",
+            planets: ["Hoth"],
+        },
+    ],
+    info: {
+        tags: ["People", "Films", "Planets", "Titles"],
     },
-    {
-      name: 'C-3PO',
-      information: { height: 167 },
-      siblings: ['John Doe', 'Doe John'],
-    },
-  ],
-  films: [
-    {
-      title: 'A New Hope',
-      planets: ['Tatooine', 'Alderaan'],
-    },
-    {
-      title: 'The Empire Strikes Back',
-      planets: ['Hoth'],
-    },
-  ],
-  info: {
-    tags: ['People', 'Films', 'Planets', 'Titles'],
-  },
-}
+};
 ```
 
 ## focusAtom
@@ -47,12 +47,12 @@ const initialData = {
 このユーティリティを使ってアトムをフォーカスし、データの特定の部分からアトムを作成します。例えば、上のデータの `people` プロパティを使用する必要がある場合は次のようにします：
 
 ```js
-import { atom } from 'jotai'
-import { focusAtom } from 'jotai-optics'
+import { atom } from "jotai";
+import { focusAtom } from "jotai-optics";
 
-const dataAtom = atom(initialData)
+const dataAtom = atom(initialData);
 
-const peopleAtom = focusAtom(dataAtom, (optic) => optic.prop('people'))
+const peopleAtom = focusAtom(dataAtom, (optic) => optic.prop("people"));
 ```
 
 `focusAtom` は `WritableAtom` を返すため、`peopleAtom` のデータを変更することも可能です。
@@ -66,24 +66,24 @@ const peopleAtom = focusAtom(dataAtom, (optic) => optic.prop('people'))
 配列を値として返すアトムに対してこのユーティリティを使用します。例えば、上で作成した `peopleAtom` は people プロパティの配列を返すため、その配列の各アイテムに対してアトムを返せます。配列アトムが書き込み可能な場合、`splitAtom` が返すアトムも書き込み可能になります。読み取り専用の配列アトムの場合、返されるアトムも読み取り専用になります。
 
 ```js
-import { splitAtom } from 'jotai/utils'
+import { splitAtom } from "jotai/utils";
 
-const peopleAtomsAtom = splitAtom(peopleAtom)
+const peopleAtomsAtom = splitAtom(peopleAtom);
 ```
 
 コンポーネント内での使用例：
 
 ```jsx
 const People = () => {
-  const [peopleAtoms] = useAtom(peopleAtomsAtom)
-  return (
-    <div>
-      {peopleAtoms.map((personAtom) => (
-        <Person personAtom={personAtom} key={`${personAtom}`} />
-      ))}
-    </div>
-  )
-}
+    const [peopleAtoms] = useAtom(peopleAtomsAtom);
+    return (
+        <div>
+            {peopleAtoms.map((personAtom) => (
+                <Person personAtom={personAtom} key={`${personAtom}`} />
+            ))}
+        </div>
+    );
+};
 ```
 
 ## selectAtom
@@ -96,26 +96,26 @@ const People = () => {
 
 ```js
 // まず initialData.info に基づいた派生アトムを作成します
-const infoAtom = atom((get) => get(dataAtom).info)
+const infoAtom = atom((get) => get(dataAtom).info);
 ```
 
 コンポーネント内での使用例：
 
 ```jsx
-import { atom, useAtom } from 'jotai'
-import { selectAtom, splitAtom } from 'jotai/utils'
+import { atom, useAtom } from "jotai";
+import { selectAtom, splitAtom } from "jotai/utils";
 
-const tagsSelector = (s) => s.tags
+const tagsSelector = (s) => s.tags;
 const Tags = () => {
-  const tagsAtom = selectAtom(infoAtom, tagsSelector)
-  const tagsAtomsAtom = splitAtom(tagsAtom)
-  const [tagAtoms] = useAtom(tagsAtomsAtom)
-  return (
-    <div>
-      {tagAtoms.map((tagAtom) => (
-        <Tag key={`${tagAtom}`} tagAtom={tagAtom} />
-      ))}
-    </div>
-  )
-}
+    const tagsAtom = selectAtom(infoAtom, tagsSelector);
+    const tagsAtomsAtom = splitAtom(tagsAtom);
+    const [tagAtoms] = useAtom(tagsAtomsAtom);
+    return (
+        <div>
+            {tagAtoms.map((tagAtom) => (
+                <Tag key={`${tagAtom}`} tagAtom={tagAtom} />
+            ))}
+        </div>
+    );
+};
 ```

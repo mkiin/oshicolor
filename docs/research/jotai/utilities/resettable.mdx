@@ -10,8 +10,8 @@ Ref: https://github.com/pmndrs/jotai/issues/41
 
 ```ts
 function atomWithReset<Value>(
-  initialValue: Value,
-): WritableAtom<Value, SetStateAction<Value> | typeof RESET>
+    initialValue: Value,
+): WritableAtom<Value, SetStateAction<Value> | typeof RESET>;
 ```
 
 [`useResetAtom`](use-reset-atom.mdx) フックを使用して `initialValue` にリセットできるアトムを作成します。プリミティブアトムと全く同じように機能しますが、特別な値 [`RESET`](reset.mdx) に設定することもできます。例は[リセット可能なアトム](../utilities/resettable.mdx)を参照してください。
@@ -19,12 +19,12 @@ function atomWithReset<Value>(
 ### 例
 
 ```js
-import { atomWithReset } from 'jotai/utils'
+import { atomWithReset } from "jotai/utils";
 
-const dollarsAtom = atomWithReset(0)
+const dollarsAtom = atomWithReset(0);
 const todoListAtom = atomWithReset([
-  { description: 'Add a todo', checked: false },
-])
+    { description: "Add a todo", checked: false },
+]);
 ```
 
 ## RESET
@@ -32,7 +32,7 @@ const todoListAtom = atomWithReset([
 Ref: https://github.com/pmndrs/jotai/issues/217
 
 ```ts
-const RESET: unique symbol
+const RESET: unique symbol;
 ```
 
 [`atomWithReset`](../utilities/resettable.mdx)、[`atomWithDefault`](../utilities/resettable.mdx) で作成された[リセット可能なアトム](../utilities/resettable.mdx)、または `RESET` シンボルを受け入れる `atom` で作成された書き込み可能アトムが受け入れる特別な値です。
@@ -67,8 +67,8 @@ const ResetExample = () => {
 
 ```ts
 function useResetAtom<Value>(
-  anAtom: WritableAtom<Value, typeof RESET>,
-): () => void | Promise<void>
+    anAtom: WritableAtom<Value, typeof RESET>,
+): () => void | Promise<void>;
 ```
 
 [リセット可能なアトム](../utilities/resettable.mdx)を初期値にリセットします。
@@ -76,13 +76,13 @@ function useResetAtom<Value>(
 ### 例
 
 ```jsx
-import { useResetAtom } from 'jotai/utils'
-import { todoListAtom } from './store'
+import { useResetAtom } from "jotai/utils";
+import { todoListAtom } from "./store";
 
 const TodoResetButton = () => {
-  const resetTodoList = useResetAtom(todoListAtom)
-  return <button onClick={resetTodoList}>Reset</button>
-}
+    const resetTodoList = useResetAtom(todoListAtom);
+    return <button onClick={resetTodoList}>Reset</button>;
+};
 ```
 
 ## atomWithDefault
@@ -95,10 +95,10 @@ Ref: https://github.com/pmndrs/jotai/issues/352
 デフォルト値は静的な初期値の代わりに read 関数で指定できます。
 
 ```js
-import { atomWithDefault } from 'jotai/utils'
+import { atomWithDefault } from "jotai/utils";
 
-const count1Atom = atom(1)
-const count2Atom = atomWithDefault((get) => get(count1Atom) * 2)
+const count1Atom = atom(1);
+const count2Atom = atomWithDefault((get) => get(count1Atom) * 2);
 ```
 
 ### Stackblitz
@@ -110,29 +110,37 @@ const count2Atom = atomWithDefault((get) => get(count1Atom) * 2)
 `atomWithDefault` アトムの値を元のデフォルト値にリセットできます。
 
 ```jsx
-import { useAtom } from 'jotai'
-import { atomWithDefault, useResetAtom, RESET } from 'jotai/utils'
+import { useAtom } from "jotai";
+import { atomWithDefault, useResetAtom, RESET } from "jotai/utils";
 
-const count1Atom = atom(1)
-const count2Atom = atomWithDefault((get) => get(count1Atom) * 2)
+const count1Atom = atom(1);
+const count2Atom = atomWithDefault((get) => get(count1Atom) * 2);
 
 const Counter = () => {
-  const [count1, setCount1] = useAtom(count1Atom)
-  const [count2, setCount2] = useAtom(count2Atom)
-  const resetCount2 = useResetAtom(count2Atom)
+    const [count1, setCount1] = useAtom(count1Atom);
+    const [count2, setCount2] = useAtom(count2Atom);
+    const resetCount2 = useResetAtom(count2Atom);
 
-  return (
-    <>
-      <div>
-        count1: {count1}, count2: {count2}
-      </div>
-      <button onClick={() => setCount1((c) => c + 1)}>increment count1</button>
-      <button onClick={() => setCount2((c) => c + 1)}>increment count2</button>
-      <button onClick={() => resetCount2()}>Reset with useResetAtom</button>
-      <button onClick={() => setCount2(RESET)}>Reset with RESET const</button>
-    </>
-  )
-}
+    return (
+        <>
+            <div>
+                count1: {count1}, count2: {count2}
+            </div>
+            <button onClick={() => setCount1((c) => c + 1)}>
+                increment count1
+            </button>
+            <button onClick={() => setCount2((c) => c + 1)}>
+                increment count2
+            </button>
+            <button onClick={() => resetCount2()}>
+                Reset with useResetAtom
+            </button>
+            <button onClick={() => setCount2(RESET)}>
+                Reset with RESET const
+            </button>
+        </>
+    );
+};
 ```
 
 `atomWithDefault` アトムの値が `set` 関数で上書きされた場合、提供された `getter` 関数はもはや使用されず、依存アトムの変更は更新をトリガーしません。
@@ -143,8 +151,8 @@ const Counter = () => {
 
 ```ts
 function atomWithRefresh<Value>(
-  read: Read<Value, [], void>,
-): WritableAtom<Value, [], void>
+    read: Read<Value, [], void>,
+): WritableAtom<Value, [], void>;
 ```
 
 強制的に read 関数を再評価できる、リフレッシュ可能なアトムを作成します。
@@ -154,9 +162,9 @@ function atomWithRefresh<Value>(
 
 ```ts
 function atomWithRefresh<Value, Args extends unknown[], Result>(
-  read: Read<Value, Args, Result>,
-  write: Write<Value, Args, Result>,
-): WritableAtom<Value, Args | [], Result | void>
+    read: Read<Value, Args, Result>,
+    write: Write<Value, Args, Result>,
+): WritableAtom<Value, Args | [], Result | void>;
 ```
 
 引数なしで `set` を呼び出すとリフレッシュします。
@@ -167,32 +175,32 @@ function atomWithRefresh<Value, Args extends unknown[], Result>(
 リフレッシュ可能なデータソースを実装する方法：
 
 ```js
-import { atomWithRefresh } from 'jotai/utils'
+import { atomWithRefresh } from "jotai/utils";
 
 const postsAtom = atomWithRefresh((get) =>
-  fetch('https://jsonplaceholder.typicode.com/posts').then((r) => r.json()),
-)
+    fetch("https://jsonplaceholder.typicode.com/posts").then((r) => r.json()),
+);
 ```
 
 コンポーネント内で：
 
 ```jsx
 const PostsList = () => {
-  const [posts, refreshPosts] = useAtom(postsAtom)
+    const [posts, refreshPosts] = useAtom(postsAtom);
 
-  return (
-    <div>
-      <ul>
-        {posts.map((post) => (
-          <li key={post.id}>{post.title}</li>
-        ))}
-      </ul>
+    return (
+        <div>
+            <ul>
+                {posts.map((post) => (
+                    <li key={post.id}>{post.title}</li>
+                ))}
+            </ul>
 
-      {/* このボタンをクリックすると投稿が再フェッチされます */}
-      <button type="button" onClick={() => refreshPosts()}>
-        Refresh posts
-      </button>
-    </div>
-  )
-}
+            {/* このボタンをクリックすると投稿が再フェッチされます */}
+            <button type="button" onClick={() => refreshPosts()}>
+                Refresh posts
+            </button>
+        </div>
+    );
+};
 ```

@@ -14,7 +14,7 @@ const app = await alchemy("my-app");
 
 // create your resources here...
 await Worker("api", {
-  entrypoint: "./src/worker.ts",
+    entrypoint: "./src/worker.ts",
 });
 
 // clean up any unused resources from the application
@@ -44,7 +44,7 @@ alchemy deploy --stage prod
 A typical setup for a team is to have a single app with multiple stages:
 
 1. **Personal Stage** - each developer runs `alchemy deploy` or `alchemy dev` and uses the default `$USER` stage
-2. **Pull Request Stage** - each Pull Request deploys its own stage, `pr-${pull-request-number}` 
+2. **Pull Request Stage** - each Pull Request deploys its own stage, `pr-${pull-request-number}`
 3. **Production Stage** - deploy the `main` branch is deployed to the `prod` stage
 
 :::note

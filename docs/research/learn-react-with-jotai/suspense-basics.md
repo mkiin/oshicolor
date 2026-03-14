@@ -26,14 +26,18 @@ const [isLoading, setIsLoading] = useState(false);
 また、他のSuspenseの特徴として**Promiseとの統合**も挙げられます。PromiseはJavascriptの非同期処理に出てくるオブジェクトですが、Suspense以後のReactは、Promiseの処理をReactに任せることができます。React 19以降であれば`use` APIを使って`use(promise)`でPromiseの中身を取り出すという魔法のようなAPIを使えます。
 
 ```tsx
-const UserProfile: React.FC<{ userPromise: Promise<User> }> = ({ userPromise }) => {
-  // useでPromiseの中身を取り出す
-  const user: User = use(userPromise);
+const UserProfile: React.FC<{ userPromise: Promise<User> }> = ({
+    userPromise,
+}) => {
+    // useでPromiseの中身を取り出す
+    const user: User = use(userPromise);
 
-  return <section>
-    <h1>{user.name}のプロフィール</h1>
-    ...
-  </section>;
+    return (
+        <section>
+            <h1>{user.name}のプロフィール</h1>
+            ...
+        </section>
+    );
 };
 ```
 
@@ -59,9 +63,9 @@ https://zenn.dev/uhyo/books/react-concurrent-handson
 
 ```ts
 async function fetchUser(): Promise<User> {
-  // 実際にはfetchとかでデータを取得してくる
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  return { name: "ユーザー" };
+    // 実際にはfetchとかでデータを取得してくる
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    return { name: "ユーザー" };
 }
 ```
 
@@ -69,24 +73,26 @@ async function fetchUser(): Promise<User> {
 
 ```tsx
 const App: React.FC = () => {
-  const userPromise: Promise<User> = useMemo(() => fetchUser(), []);
+    const userPromise: Promise<User> = useMemo(() => fetchUser(), []);
 
-  return (
-    <Suspense fallback={<p>Loading...</p>}>
-      <UserProfile userPromise={userPromise} />
-    </Suspense>
-  );
+    return (
+        <Suspense fallback={<p>Loading...</p>}>
+            <UserProfile userPromise={userPromise} />
+        </Suspense>
+    );
 };
 
-const UserProfile: React.FC<{ userPromise: Promise<User> }> = ({ userPromise }) => {
-  const user: User = use(userPromise);
+const UserProfile: React.FC<{ userPromise: Promise<User> }> = ({
+    userPromise,
+}) => {
+    const user: User = use(userPromise);
 
-  return (
-    <section>
-      <h1>{user.name}さんのプロフィール</h1>
-      ...
-    </section>
-  );
+    return (
+        <section>
+            <h1>{user.name}さんのプロフィール</h1>
+            ...
+        </section>
+    );
 };
 ```
 
@@ -213,17 +219,17 @@ type User = { name: string };
 type Post = { id: number; title: string };
 
 async function fetchUser(): Promise<User> {
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  return { name: "田中太郎" };
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    return { name: "田中太郎" };
 }
 
 async function fetchPosts(): Promise<Post[]> {
-  await new Promise((resolve) => setTimeout(resolve, 1500));
-  return [
-    { id: 1, title: "はじめての投稿" },
-    { id: 2, title: "Reactを学んでいます" },
-    { id: 3, title: "Suspenseが面白い" },
-  ];
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    return [
+        { id: 1, title: "はじめての投稿" },
+        { id: 2, title: "Reactを学んでいます" },
+        { id: 3, title: "Suspenseが面白い" },
+    ];
 }
 ```
 
@@ -262,18 +268,18 @@ const PostList: React.FC<{ postsPromise: Promise<Post[]> }> = ({ postsPromise })
 
 ```tsx
 const UserProfilePage: React.FC = () => {
-  const userPromise = useMemo(() => fetchUser(), []);
-  const postsPromise = useMemo(() => fetchPosts(), []);
+    const userPromise = useMemo(() => fetchUser(), []);
+    const postsPromise = useMemo(() => fetchPosts(), []);
 
-  return (
-    <Suspense fallback={<p>Loading user...</p>}>
-      <UserInfo userPromise={userPromise} />
-      <h2>投稿一覧</h2>
-      <Suspense fallback={<p>Loading posts...</p>}>
-        <PostList postsPromise={postsPromise} />
-      </Suspense>
-    </Suspense>
-  );
+    return (
+        <Suspense fallback={<p>Loading user...</p>}>
+            <UserInfo userPromise={userPromise} />
+            <h2>投稿一覧</h2>
+            <Suspense fallback={<p>Loading posts...</p>}>
+                <PostList postsPromise={postsPromise} />
+            </Suspense>
+        </Suspense>
+    );
 };
 ```
 

@@ -68,13 +68,13 @@ v4 では MMCQ の出力（64 Swatch[]）だけを受け取り、
 色の方向性を決める前に、アニメ・サブカルチャー系のカラースキーマがどんな
 Hue / L / C の構成を取っているかを把握しておく必要がある。
 
-| テーマ | 傾向 | 参考ポイント |
-|---|---|---|
-| **Catppuccin** (Mocha/Macchiato) | パステル・低彩度だが鮮やか、Mocha は bg が暗め | 彩度を抑えながら視認性を保つ配色の手本 |
-| **Rose Pine** | 暖色系・柔らかい、ピンク・ゴールドが主役 | L低めの紫/ピンクで keyword を表現 |
-| **Tokyonight** | 青紫系、日本の夜景イメージ | 冷色系でも syntax が鮮やかに見える配置 |
-| **Kanagawa** | 和の渋い色調、波/竜/蓮の 3 変種 | dragon テーマがアニメの「陰キャ系」に近い |
-| **Fluoromachine** | ネオン・レトロ、高彩度 | 彩度全開テーマの限界点を学べる |
+| テーマ                           | 傾向                                           | 参考ポイント                              |
+| -------------------------------- | ---------------------------------------------- | ----------------------------------------- |
+| **Catppuccin** (Mocha/Macchiato) | パステル・低彩度だが鮮やか、Mocha は bg が暗め | 彩度を抑えながら視認性を保つ配色の手本    |
+| **Rose Pine**                    | 暖色系・柔らかい、ピンク・ゴールドが主役       | L低めの紫/ピンクで keyword を表現         |
+| **Tokyonight**                   | 青紫系、日本の夜景イメージ                     | 冷色系でも syntax が鮮やかに見える配置    |
+| **Kanagawa**                     | 和の渋い色調、波/竜/蓮の 3 変種                | dragon テーマがアニメの「陰キャ系」に近い |
+| **Fluoromachine**                | ネオン・レトロ、高彩度                         | 彩度全開テーマの限界点を学べる            |
 
 ### アニメ調テーマの色の特徴（観察）
 
@@ -107,6 +107,7 @@ Catppuccin がアニメ系ユーザーに人気な理由は Hue 配置よりも
 ### oshicolor への示唆
 
 アニメキャラクターのイラストの色は：
+
 - 明るいハイライト（L=0.80〜0.90）
 - 鮮やかな基本色（L=0.55〜0.75, C=0.15〜0.30）
 - 深い影（L=0.20〜0.40, C=0.10〜0.20）
@@ -190,14 +191,14 @@ fgスコア:        (population / maxPop) × (1 - C / 0.08)
 
 kanagawa / tokyonight / catppuccin の実測値から導出した 6 ゾーン。
 
-| ゾーン | 役割 | 中心 H° | 幅（±）| 対応クラスター |
-|---|---|---|---|---|
-| `function` | 関数・メソッド | 225° | ±35° | Function / @function |
-| `keyword` | 予約語・制御 | 285° | ±30° | Keyword / Statement |
-| `string` | 文字列・文字 | 140° | ±35° | String / Character |
-| `type` | 型・インターフェース | 185° | ±25° | Type / @type |
-| `constant` | 定数・数値・真偽値 | 55° | ±45° | Constant / Number / Boolean |
-| `identifier` | フィールド・プロパティ | 90° | ±25° | Identifier / @variable.member |
+| ゾーン       | 役割                   | 中心 H° | 幅（±） | 対応クラスター                |
+| ------------ | ---------------------- | ------- | ------- | ----------------------------- |
+| `function`   | 関数・メソッド         | 225°    | ±35°    | Function / @function          |
+| `keyword`    | 予約語・制御           | 285°    | ±30°    | Keyword / Statement           |
+| `string`     | 文字列・文字           | 140°    | ±35°    | String / Character            |
+| `type`       | 型・インターフェース   | 185°    | ±25°    | Type / @type                  |
+| `constant`   | 定数・数値・真偽値     | 55°     | ±45°    | Constant / Number / Boolean   |
+| `identifier` | フィールド・プロパティ | 90°     | ±25°    | Identifier / @variable.member |
 
 **special（区切り記号・句読点）は独立ゾーンとして扱わない。**
 kanagawa の springBlue（special）と crystalBlue（function）は H で 18° しか離れていない。
@@ -247,6 +248,7 @@ L_target = clamp(signatureColor.L, 0.62, 0.78)
 ```
 
 **重み比（3 : 2 : 1）の意味**:
+
 - 明度が最優先なのは「暗すぎる/明るすぎる構文色は読めない」から
 - 彩度は次に重要、ただし満点基準を 0.10 と低めに設定（アニメ色は十分鮮やか）
 - 人口は参考程度。多い色よりも適切な色を優先する（node-vibrant のオリジナル設計思想と同じ）
@@ -339,6 +341,7 @@ identifier は constant を L +0.08 でシフトして派生させる。
 赤髪キャラの signature が diag.error（赤）と視覚的に混同されるリスクがある。
 
 **候補**:
+
 - 赤系 signature を最も近い「安全ゾーン」constant（55°）に押し込む
 - signature に赤を許容し、diag.error の L/C を大きく変えて差別化する
 
@@ -358,14 +361,15 @@ identifier は constant を L +0.08 でシフトして派生させる。
 
 v4 は v3 を捨てるのではなく、以下の v3 の成果を引き継ぐ：
 
-| v3 の成果 | v4 での継承 |
-|---|---|
-| bg を neutral 生成（signatureHue + C=0.02） | そのまま継承 |
-| コンセプトシステム（darkClassic / darkMuted / lightPastel）| 引き続き採用 |
-| bg からの階層的 L シフト（CursorLine / Visual 等）| そのまま継承 |
-| Diagnostic / Diff 固定値 | そのまま継承 |
+| v3 の成果                                                   | v4 での継承  |
+| ----------------------------------------------------------- | ------------ |
+| bg を neutral 生成（signatureHue + C=0.02）                 | そのまま継承 |
+| コンセプトシステム（darkClassic / darkMuted / lightPastel） | 引き続き採用 |
+| bg からの階層的 L シフト（CursorLine / Visual 等）          | そのまま継承 |
+| Diagnostic / Diff 固定値                                    | そのまま継承 |
 
 **v4 で新しく変わる部分:**
+
 - 色抽出: k-means(12色) → node-vibrant MMCQ(64色)
 - アクセント割り当て: C ランク方式 → Hue ゾーンスコアリング
 

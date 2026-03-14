@@ -13,10 +13,10 @@ published: false
 
 ```ts
 function selectAtom<Value, Slice>(
-  anAtom: Atom<Value>,
-  selector: (v: Value, prevSlice?: Slice) => Slice,
-  equalityFn: (a: Slice, b: Slice) => boolean = Object.is,
-): Atom<Slice>
+    anAtom: Atom<Value>,
+    selector: (v: Value, prevSlice?: Slice) => Slice,
+    equalityFn: (a: Slice, b: Slice) => boolean = Object.is,
+): Atom<Slice>;
 ```
 
 この関数は、`selector` によって決定される元のアトムの値の関数として値を持つ派生アトムを作成します。
@@ -27,33 +27,33 @@ function selectAtom<Value, Slice>(
 
 ```js
 const defaultPerson = {
-  name: {
-    first: 'Jane',
-    last: 'Doe',
-  },
-  birth: {
-    year: 2000,
-    month: 'Jan',
-    day: 1,
-    time: {
-      hour: 1,
-      minute: 1,
+    name: {
+        first: "Jane",
+        last: "Doe",
     },
-  },
-}
+    birth: {
+        year: 2000,
+        month: "Jan",
+        day: 1,
+        time: {
+            hour: 1,
+            minute: 1,
+        },
+    },
+};
 
 // 元のアトム
-const personAtom = atom(defaultPerson)
+const personAtom = atom(defaultPerson);
 
 // person.name を追跡します。name.first も name.last も実際には変わらない場合でも、
 // person.name オブジェクトが変化したときに更新されます。
-const nameAtom = selectAtom(personAtom, (person) => person.name)
+const nameAtom = selectAtom(personAtom, (person) => person.name);
 
 // person.birth を追跡します。year、month、day、hour、または minute が変化したときに更新されます。
 // deepEquals を使用することで、birth フィールドが同じデータを含む新しいオブジェクトに
 // 置き換えられた場合（例: データベースから person を再読み込みした場合）、
 // このアトムは更新されません。
-const birthAtom = selectAtom(personAtom, (person) => person.birth, deepEquals)
+const birthAtom = selectAtom(personAtom, (person) => person.birth, deepEquals);
 ```
 
 ### 安定した参照を保持する
@@ -63,29 +63,29 @@ const birthAtom = selectAtom(personAtom, (person) => person.birth, deepEquals)
 `selectAtom` では、ベースアトムとセレクターの**両方**が安定している必要があります。
 
 ```js
-const [value] = useAtom(selectAtom(atom(0), (val) => val)) // これは無限ループを引き起こします
+const [value] = useAtom(selectAtom(atom(0), (val) => val)); // これは無限ループを引き起こします
 ```
 
 これらの制約を満たすための複数のオプションがあります：
 
 ```js
-const baseAtom = atom(0) // 安定
-const baseSelector = (v) => v // 安定
+const baseAtom = atom(0); // 安定
+const baseSelector = (v) => v; // 安定
 const Component = () => {
-  // 解決策1：「useMemo」で結果のアトム全体をメモ化
-  const [value] = useAtom(useMemo(() => selectAtom(baseAtom, (v) => v), []))
+    // 解決策1：「useMemo」で結果のアトム全体をメモ化
+    const [value] = useAtom(useMemo(() => selectAtom(baseAtom, (v) => v), []));
 
-  // 解決策2：「useCallback」でインラインコールバックをメモ化
-  const [value] = useAtom(
-    selectAtom(
-      baseAtom,
-      useCallback((v) => v, []),
-    ),
-  )
+    // 解決策2：「useCallback」でインラインコールバックをメモ化
+    const [value] = useAtom(
+        selectAtom(
+            baseAtom,
+            useCallback((v) => v, []),
+        ),
+    );
 
-  // 解決策3：すべての制約がすでに満たされている
-  const [value] = useAtom(selectAtom(baseAtom, baseSelector))
-}
+    // 解決策3：すべての制約がすでに満たされている
+    const [value] = useAtom(selectAtom(baseAtom, baseSelector));
+};
 ```
 
 ### Stackblitz

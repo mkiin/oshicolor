@@ -48,27 +48,27 @@ lightness = {
 
 ### パラメータ
 
-| パラメータ | 役割 |
-|---|---|
-| `base` | 背景色（Hue/Sat を基準にスケール生成） |
-| `accent` | 強調色（Hue/Sat を基準にスケール生成） |
-| `contrast` | 明度の広がり係数 |
-| `variation` | スケールの展開幅 |
-| `red/green/yellow/orange/blue/purple/cyan` | オプション固定色（上書き可） |
+| パラメータ                                 | 役割                                   |
+| ------------------------------------------ | -------------------------------------- |
+| `base`                                     | 背景色（Hue/Sat を基準にスケール生成） |
+| `accent`                                   | 強調色（Hue/Sat を基準にスケール生成） |
+| `contrast`                                 | 明度の広がり係数                       |
+| `variation`                                | スケールの展開幅                       |
+| `red/green/yellow/orange/blue/purple/cyan` | オプション固定色（上書き可）           |
 
 ---
 
 ## ロール割り当て（`lua/xeno/highlights/base/syntax.lua`）
 
-| スケール位置 | 割り当て |
-|---|---|
-| `accent_100`（L=0.90） | Keyword / Type / String / Constant / @string |
+| スケール位置           | 割り当て                                         |
+| ---------------------- | ------------------------------------------------ |
+| `accent_100`（L=0.90） | Keyword / Type / String / Constant / @string     |
 | `accent_200`（L=0.75） | @keyword / @keyword.function / @keyword.operator |
-| `accent_300`（L=0.65） | @number |
-| `base_200`（L=0.75） | Function / @function |
-| `base_300`（L=0.65） | Identifier / Operator / Special / Boolean |
-| `base_500`（L=0.48） | Comment（中間の暗さ） |
-| `red`（固定色） | Error |
+| `accent_300`（L=0.65） | @number                                          |
+| `base_200`（L=0.75）   | Function / @function                             |
+| `base_300`（L=0.65）   | Identifier / Operator / Special / Boolean        |
+| `base_500`（L=0.48）   | Comment（中間の暗さ）                            |
+| `red`（固定色）        | Error                                            |
 
 **注目点**: Keyword / Type / String が同一色（accent_100）になる設計。
 差別化は色ではなく「どの token に当たるか」という意味論でのみ行っている。

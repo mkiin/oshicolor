@@ -4,7 +4,9 @@ export type DominantColorViewProps = {
     color: Color;
 };
 
-export const DominantColorView: React.FC<DominantColorViewProps> = ({ color }) => (
+export const DominantColorView: React.FC<DominantColorViewProps> = ({
+    color,
+}) => (
     <div className="space-y-2">
         <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-widest">
             Dominant Color

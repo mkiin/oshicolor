@@ -43,10 +43,10 @@
  * @returns 抽出されたカラーポイントの配列
  */
 export const extractColors = (
-  imageData: ImageData,
-  count = 5,
+    imageData: ImageData,
+    count = 5,
 ): ColorPoint[] => {
-  // ...
+    // ...
 };
 ```
 
@@ -76,12 +76,12 @@ if (brightness < 30 || brightness > 225) continue;
 
 ### 変数・関数
 
-| 対象 | ケース | 例 |
-|---|---|---|
-| 変数・引数 | camelCase | `themeData`, `colorPoints` |
-| 関数 | camelCase | `extractColors`, `generateLua` |
+| 対象                     | ケース           | 例                                        |
+| ------------------------ | ---------------- | ----------------------------------------- |
+| 変数・引数               | camelCase        | `themeData`, `colorPoints`                |
+| 関数                     | camelCase        | `extractColors`, `generateLua`            |
 | 定数（イミュータブル値） | UPPER_SNAKE_CASE | `MAX_COLOR_COUNT`, `DEFAULT_PALETTE_SIZE` |
-| 環境変数 | UPPER_SNAKE_CASE | `DATABASE_URL`, `CF_BUCKET` |
+| 環境変数                 | UPPER_SNAKE_CASE | `DATABASE_URL`, `CF_BUCKET`               |
 
 ### boolean
 
@@ -100,37 +100,37 @@ boolean 値には必ずプレフィックスを付ける。
 ```tsx
 // 定義側
 function ThemeEditor() {
-  const handleColorChange = (color: string) => {
-    // ...
-  };
+    const handleColorChange = (color: string) => {
+        // ...
+    };
 
-  return <ColorPicker onColorChange={handleColorChange} />;
+    return <ColorPicker onColorChange={handleColorChange} />;
 }
 
 // Props 側
 type ColorPickerProps = {
-  onColorChange: (color: string) => void;
+    onColorChange: (color: string) => void;
 };
 ```
 
 ### 型・コンポーネント
 
-| 対象 | ケース | 例 |
-|---|---|---|
-| 型 (type) | PascalCase | `ThemeData`, `ColorPoint` |
-| React コンポーネント | PascalCase | `ThemeEditor`, `GalleryCard` |
-| Props 型 | `~Props` サフィックス | `ThemeEditorProps` |
+| 対象                 | ケース                | 例                           |
+| -------------------- | --------------------- | ---------------------------- |
+| 型 (type)            | PascalCase            | `ThemeData`, `ColorPoint`    |
+| React コンポーネント | PascalCase            | `ThemeEditor`, `GalleryCard` |
+| Props 型             | `~Props` サフィックス | `ThemeEditorProps`           |
 
 ### ファイル・ディレクトリ
 
-| 対象 | ケース | 例 |
-|---|---|---|
-| ファイル名 | kebab-case | `theme-editor.tsx`, `color-utils.ts` |
-| ディレクトリ名 | kebab-case | `server-functions/`, `ui-components/` |
-| テストファイル | `~.test.ts` | `color-utils.test.ts` |
-| 型定義ファイル | `~.d.ts` | `env.d.ts` |
-| Server Function | `~.functions.ts` | `gallery.functions.ts` |
-| サーバー専用ヘルパー | `~.server.ts` | `gallery.server.ts` |
+| 対象                 | ケース           | 例                                    |
+| -------------------- | ---------------- | ------------------------------------- |
+| ファイル名           | kebab-case       | `theme-editor.tsx`, `color-utils.ts`  |
+| ディレクトリ名       | kebab-case       | `server-functions/`, `ui-components/` |
+| テストファイル       | `~.test.ts`      | `color-utils.test.ts`                 |
+| 型定義ファイル       | `~.d.ts`         | `env.d.ts`                            |
+| Server Function      | `~.functions.ts` | `gallery.functions.ts`                |
+| サーバー専用ヘルパー | `~.server.ts`    | `gallery.server.ts`                   |
 
 ドット区切りサフィックス（`.test.ts`, `.d.ts`, `.functions.ts`, `.server.ts`）はファイルの種別を示す慣習であり、ケバブケースのルールとは別枠として扱う。ファイル名本体部分はケバブケースを守る（例: `theme-export.functions.ts`）。
 
@@ -142,15 +142,15 @@ type ColorPickerProps = {
 ```typescript
 // Good
 type ThemeData = {
-  id: string;
-  name: string;
-  palette: ColorPoint[];
+    id: string;
+    name: string;
+    palette: ColorPoint[];
 };
 
 // Bad - interface を不必要に使わない
 interface IThemeData {
-  id: string;
-  name: string;
+    id: string;
+    name: string;
 }
 ```
 
@@ -161,7 +161,7 @@ interface IThemeData {
 ```tsx
 // Good - function 宣言 + named export
 export function GalleryCard({ theme }: GalleryCardProps) {
-  return <div>{theme.name}</div>;
+    return <div>{theme.name}</div>;
 }
 ```
 
@@ -172,13 +172,13 @@ export function GalleryCard({ theme }: GalleryCardProps) {
 ```tsx
 // Good - Route 内でのみ使うコンポーネントは非エクスポート
 function GalleryPage() {
-  const themes = Route.useLoaderData();
-  return <ThemeGrid themes={themes} />;
+    const themes = Route.useLoaderData();
+    return <ThemeGrid themes={themes} />;
 }
 
 export const Route = createFileRoute("/gallery")({
-  loader: () => getThemes({ data: { page: 1 } }),
-  component: GalleryPage,
+    loader: () => getThemes({ data: { page: 1 } }),
+    component: GalleryPage,
 });
 ```
 
@@ -192,19 +192,19 @@ export function GalleryPage() { ... }
 ```typescript
 // ユーティリティ関数
 export const extractColors = (imageData: ImageData): ColorPoint[] => {
-  return [];
+    return [];
 };
 
 // Server Functions
 const getThemes = createServerFn({ method: "GET" })
-  .validator((params: { page: number }) => params)
-  .handler(async ({ data }) => {
-    return [];
-  });
+    .validator((params: { page: number }) => params)
+    .handler(async ({ data }) => {
+        return [];
+    });
 
 // フック内のハンドラ・コールバック
 const handleSubmit = () => {
-  // ...
+    // ...
 };
 ```
 
@@ -215,7 +215,7 @@ arrow function では **明示的な return を基本** とする。
 ```typescript
 // Good - 明示的な return
 const double = (n: number): number => {
-  return n * 2;
+    return n * 2;
 };
 
 // Bad - 暗黙の return は使わない
@@ -297,11 +297,11 @@ oshicolor/
 
 サーバーサイドコードは以下の3種のファイルに分離する。
 
-| サフィックス | 役割 | インポート可能な場所 |
-|---|---|---|
-| `~.functions.ts` | `createServerFn` のラッパー定義 | どこからでも（クライアント含む） |
-| `~.server.ts` | サーバー専用ヘルパー（DB クエリ、内部ロジック） | `.functions.ts` の handler 内のみ |
-| `~.ts`（サフィックスなし） | クライアント安全なコード（型、スキーマ、定数） | どこからでも |
+| サフィックス               | 役割                                            | インポート可能な場所              |
+| -------------------------- | ----------------------------------------------- | --------------------------------- |
+| `~.functions.ts`           | `createServerFn` のラッパー定義                 | どこからでも（クライアント含む）  |
+| `~.server.ts`              | サーバー専用ヘルパー（DB クエリ、内部ロジック） | `.functions.ts` の handler 内のみ |
+| `~.ts`（サフィックスなし） | クライアント安全なコード（型、スキーマ、定数）  | どこからでも                      |
 
 ```typescript
 // src/features/gallery/themes.server.ts - サーバー専用ヘルパー
@@ -310,13 +310,13 @@ import { themes } from "~/db/schema";
 import { desc, eq } from "drizzle-orm";
 
 export const findPublishedThemes = async (page: number) => {
-  return db
-    .select()
-    .from(themes)
-    .where(eq(themes.published, true))
-    .orderBy(desc(themes.createdAt))
-    .limit(20)
-    .offset((page - 1) * 20);
+    return db
+        .select()
+        .from(themes)
+        .where(eq(themes.published, true))
+        .orderBy(desc(themes.createdAt))
+        .limit(20)
+        .offset((page - 1) * 20);
 };
 ```
 
@@ -327,10 +327,10 @@ import { z } from "zod";
 import { findPublishedThemes } from "./themes.server";
 
 export const getThemes = createServerFn({ method: "GET" })
-  .validator(z.object({ page: z.number().min(1) }))
-  .handler(async ({ data }) => {
-    return findPublishedThemes(data.page);
-  });
+    .validator(z.object({ page: z.number().min(1) }))
+    .handler(async ({ data }) => {
+        return findPublishedThemes(data.page);
+    });
 ```
 
 ### Server Routes
@@ -340,25 +340,25 @@ export const getThemes = createServerFn({ method: "GET" })
 ```typescript
 // src/routes/api/webhooks.ts
 export const Route = createFileRoute("/api/webhooks")({
-  server: {
-    handlers: {
-      POST: async ({ request }) => {
-        const body = await request.json();
-        // webhook 処理
-        return Response.json({ ok: true });
-      },
+    server: {
+        handlers: {
+            POST: async ({ request }) => {
+                const body = await request.json();
+                // webhook 処理
+                return Response.json({ ok: true });
+            },
+        },
     },
-  },
 });
 ```
 
 ## 状態管理の使い分け
 
-| 種類 | ツール | 用途 |
-|---|---|---|
-| サーバー状態 | TanStack Query (via Jotai) | API データのフェッチ・キャッシュ・再検証 |
-| クライアント状態 | Jotai | UI 状態、カラーエディタ、テーマプレビュー設定 |
-| URL 状態 | TanStack Router | ページネーション、フィルタ、検索パラメータ |
+| 種類             | ツール                     | 用途                                          |
+| ---------------- | -------------------------- | --------------------------------------------- |
+| サーバー状態     | TanStack Query (via Jotai) | API データのフェッチ・キャッシュ・再検証      |
+| クライアント状態 | Jotai                      | UI 状態、カラーエディタ、テーマプレビュー設定 |
+| URL 状態         | TanStack Router            | ページネーション、フィルタ、検索パラメータ    |
 
 - サーバーから取得したデータを Jotai アトムにコピーしない。TanStack Query のキャッシュを信頼する
 - URL に反映すべき状態（ページ番号、検索条件）は Router の search params を使う
@@ -395,7 +395,7 @@ TanStack Query との統合には **`jotai-tanstack-query`** を使用する。`
 ## コミット
 
 - コミットメッセージは Conventional Commits に従う
-  - `feat:`, `fix:`, `refactor:`, `docs:`, `chore:`, `test:`
+    - `feat:`, `fix:`, `refactor:`, `docs:`, `chore:`, `test:`
 - 1 コミット = 1 論理的変更
 
 ## その他
@@ -411,24 +411,24 @@ TanStack Query との統合には **`jotai-tanstack-query`** を使用する。`
 ```typescript
 // Good - シグネチャに型、本体は推論に任せる
 export const extractColors = (
-  imageData: ImageData,
-  count: number,
+    imageData: ImageData,
+    count: number,
 ): ColorPoint[] => {
-  const pixels = collectPixels(imageData);
-  const quantized = quantizeColors(pixels, count);
-  const sorted = sortByFrequency(quantized);
-  return sorted;
+    const pixels = collectPixels(imageData);
+    const quantized = quantizeColors(pixels, count);
+    const sorted = sortByFrequency(quantized);
+    return sorted;
 };
 
 // Bad - ローカル変数に冗長な型アノテーション
 export const extractColors = (
-  imageData: ImageData,
-  count: number,
+    imageData: ImageData,
+    count: number,
 ): ColorPoint[] => {
-  const pixels: Pixel[] = collectPixels(imageData);
-  const quantized: QuantizedColor[] = quantizeColors(pixels, count);
-  const sorted: ColorPoint[] = sortByFrequency(quantized);
-  return sorted;
+    const pixels: Pixel[] = collectPixels(imageData);
+    const quantized: QuantizedColor[] = quantizeColors(pixels, count);
+    const sorted: ColorPoint[] = sortByFrequency(quantized);
+    return sorted;
 };
 ```
 

@@ -25,75 +25,77 @@ npm install xstate jotai-xstate
 それを使って他のアトム値を読み取ることができます。
 
 ```tsx
-import { useAtom } from 'jotai'
-import { atomWithMachine } from 'jotai-xstate'
-import { assign, createMachine } from 'xstate'
+import { useAtom } from "jotai";
+import { atomWithMachine } from "jotai-xstate";
+import { assign, createMachine } from "xstate";
 
 const createEditableMachine = (value: string) =>
-  createMachine<{ value: string }>({
-    id: 'editable',
-    initial: 'reading',
-    context: {
-      value,
-    },
-    states: {
-      reading: {
-        on: {
-          dblclick: 'editing',
+    createMachine<{ value: string }>({
+        id: "editable",
+        initial: "reading",
+        context: {
+            value,
         },
-      },
-      editing: {
-        on: {
-          cancel: 'reading',
-          commit: {
-            target: 'reading',
-            actions: assign({
-              value: (_, { value }) => value,
-            }),
-          },
+        states: {
+            reading: {
+                on: {
+                    dblclick: "editing",
+                },
+            },
+            editing: {
+                on: {
+                    cancel: "reading",
+                    commit: {
+                        target: "reading",
+                        actions: assign({
+                            value: (_, { value }) => value,
+                        }),
+                    },
+                },
+            },
         },
-      },
-    },
-  })
+    });
 
-const defaultTextAtom = atom('edit me')
+const defaultTextAtom = atom("edit me");
 const editableMachineAtom = atomWithMachine((get) =>
-  // `get` はマシンの初期化にのみ使用できます
-  createEditableMachine(get(defaultTextAtom)),
-)
+    // `get` はマシンの初期化にのみ使用できます
+    createEditableMachine(get(defaultTextAtom)),
+);
 
 const Toggle = () => {
-  const [state, send] = useAtom(editableMachineAtom)
+    const [state, send] = useAtom(editableMachineAtom);
 
-  return (
-    <div>
-      {state.matches('reading') && (
-        <strong onDoubleClick={send}>{state.context.value}</strong>
-      )}
-      {state.matches('editing') && (
-        <input
-          autoFocus
-          defaultValue={state.context.value}
-          onBlur={(e) => send({ type: 'commit', value: e.target.value })}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              send({ type: 'commit', value: e.target.value })
-            }
-            if (e.key === 'Escape') {
-              send('cancel')
-            }
-          }}
-        />
-      )}
-      <br />
-      <br />
-      <div>
-        Double-click to edit. Blur the input or press <code>enter</code> to
-        commit. Press <code>esc</code> to cancel.
-      </div>
-    </div>
-  )
-}
+    return (
+        <div>
+            {state.matches("reading") && (
+                <strong onDoubleClick={send}>{state.context.value}</strong>
+            )}
+            {state.matches("editing") && (
+                <input
+                    autoFocus
+                    defaultValue={state.context.value}
+                    onBlur={(e) =>
+                        send({ type: "commit", value: e.target.value })
+                    }
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                            send({ type: "commit", value: e.target.value });
+                        }
+                        if (e.key === "Escape") {
+                            send("cancel");
+                        }
+                    }}
+                />
+            )}
+            <br />
+            <br />
+            <div>
+                Double-click to edit. Blur the input or press <code>enter</code>{" "}
+                to commit. Press <code>esc</code> to cancel.
+            </div>
+        </div>
+    );
+};
 ```
 
 ### グローバル Provider で保存された再起動可能なマシン（provider-less モード）
@@ -103,20 +105,20 @@ const Toggle = () => {
 再起動するには以下のようにマシンに `RESTART` イベントを送信する必要があります：
 
 ```tsx
-import { RESTART } from 'jotai-xstate'
+import { RESTART } from "jotai-xstate";
 
 const YourComponent = () => {
-  const [current, send] = useAtom(yourMachineAtom)
+    const [current, send] = useAtom(yourMachineAtom);
 
-  const isFinalState = current.matches('myFinalState')
+    const isFinalState = current.matches("myFinalState");
 
-  useEffect(() => {
-    // コンポーネントのアンマウント時にグローバルに初期化されたマシンを再起動します
-    return () => {
-      if (isFinalState) send(RESTART)
-    }
-  }, [isFinalState])
-}
+    useEffect(() => {
+        // コンポーネントのアンマウント時にグローバルに初期化されたマシンを再起動します
+        return () => {
+            if (isFinalState) send(RESTART);
+        };
+    }, [isFinalState]);
+};
 ```
 
 ### 例

@@ -6,43 +6,48 @@
 ## 基本的な使い方
 
 ```jsx
-import { useDropzone } from 'react-dropzone';
+import { useDropzone } from "react-dropzone";
 
 function AcceptDropzone() {
-  const { acceptedFiles, fileRejections, getRootProps, getInputProps } = useDropzone({
-    accept: {
-      'image/jpeg': [],
-      'image/png': []
-    }
-  });
+    const { acceptedFiles, fileRejections, getRootProps, getInputProps } =
+        useDropzone({
+            accept: {
+                "image/jpeg": [],
+                "image/png": [],
+            },
+        });
 
-  const acceptedItems = acceptedFiles.map(file => (
-    <li key={file.path}>{file.path} - {file.size} bytes</li>
-  ));
+    const acceptedItems = acceptedFiles.map((file) => (
+        <li key={file.path}>
+            {file.path} - {file.size} bytes
+        </li>
+    ));
 
-  const rejectedItems = fileRejections.map(({ file, errors }) => (
-    <li key={file.path}>
-      {file.path} - {file.size} bytes
-      <ul>
-        {errors.map(e => <li key={e.code}>{e.message}</li>)}
-      </ul>
-    </li>
-  ));
+    const rejectedItems = fileRejections.map(({ file, errors }) => (
+        <li key={file.path}>
+            {file.path} - {file.size} bytes
+            <ul>
+                {errors.map((e) => (
+                    <li key={e.code}>{e.message}</li>
+                ))}
+            </ul>
+        </li>
+    ));
 
-  return (
-    <section>
-      <div {...getRootProps({ className: 'dropzone' })}>
-        <input {...getInputProps()} />
-        <p>JPEG/PNG のみ受け付けます</p>
-      </div>
-      <aside>
-        <h4>Accepted</h4>
-        <ul>{acceptedItems}</ul>
-        <h4>Rejected</h4>
-        <ul>{rejectedItems}</ul>
-      </aside>
-    </section>
-  );
+    return (
+        <section>
+            <div {...getRootProps({ className: "dropzone" })}>
+                <input {...getInputProps()} />
+                <p>JPEG/PNG のみ受け付けます</p>
+            </div>
+            <aside>
+                <h4>Accepted</h4>
+                <ul>{acceptedItems}</ul>
+                <h4>Rejected</h4>
+                <ul>{rejectedItems}</ul>
+            </aside>
+        </section>
+    );
 }
 ```
 
@@ -54,8 +59,8 @@ function AcceptDropzone() {
 **パターン**: 派生 atom でエラー有無を表現 + アクション atom でクリア
 
 ```jsx
-import { atom, useAtomValue, useSetAtom } from 'jotai';
-import { useDropzone } from 'react-dropzone';
+import { atom, useAtomValue, useSetAtom } from "jotai";
+import { useDropzone } from "react-dropzone";
 
 // --- atom 定義 ---
 
@@ -68,52 +73,52 @@ const rejectionCountAtom = atom((get) => get(fileRejectionsAtom).length);
 
 // アクション atom: エラーリストのクリアをカプセル化する
 const clearRejectionsAtom = atom(null, (_get, set) =>
-  set(fileRejectionsAtom, [])
+    set(fileRejectionsAtom, []),
 );
 
 // --- コンポーネント ---
 
 function AcceptDropzone() {
-  const setRejections = useSetAtom(fileRejectionsAtom);
-  const { getRootProps, getInputProps } = useDropzone({
-    accept: { 'image/*': [] },
-    onDropRejected: (rejections) => setRejections(rejections),
-  });
+    const setRejections = useSetAtom(fileRejectionsAtom);
+    const { getRootProps, getInputProps } = useDropzone({
+        accept: { "image/*": [] },
+        onDropRejected: (rejections) => setRejections(rejections),
+    });
 
-  return (
-    <div {...getRootProps({ className: 'dropzone' })}>
-      <input {...getInputProps()} />
-      <p>画像ファイルのみ受け付けます</p>
-    </div>
-  );
+    return (
+        <div {...getRootProps({ className: "dropzone" })}>
+            <input {...getInputProps()} />
+            <p>画像ファイルのみ受け付けます</p>
+        </div>
+    );
 }
 
 // ページ上部のエラーバナーなど、Dropzone と離れた場所に表示できる
 // hasRejectionAtom のおかげでコンポーネント内に条件判定ロジックが不要
 function ErrorBanner() {
-  const hasRejection = useAtomValue(hasRejectionAtom);
-  const rejections = useAtomValue(fileRejectionsAtom);
-  const clearRejections = useSetAtom(clearRejectionsAtom);
+    const hasRejection = useAtomValue(hasRejectionAtom);
+    const rejections = useAtomValue(fileRejectionsAtom);
+    const clearRejections = useSetAtom(clearRejectionsAtom);
 
-  if (!hasRejection) return null;
+    if (!hasRejection) return null;
 
-  return (
-    <div className="error-banner">
-      {rejections.map((r) => (
-        <p key={r.file.name}>{r.errors[0].message}</p>
-      ))}
-      <button type="button" onClick={clearRejections}>
-        閉じる
-      </button>
-    </div>
-  );
+    return (
+        <div className="error-banner">
+            {rejections.map((r) => (
+                <p key={r.file.name}>{r.errors[0].message}</p>
+            ))}
+            <button type="button" onClick={clearRejections}>
+                閉じる
+            </button>
+        </div>
+    );
 }
 
 // 件数バッジなど小さな UI にも派生 atom が使える
 function RejectionBadge() {
-  const count = useAtomValue(rejectionCountAtom);
-  if (count === 0) return null;
-  return <span className="badge">{count}</span>;
+    const count = useAtomValue(rejectionCountAtom);
+    if (count === 0) return null;
+    return <span className="badge">{count}</span>;
 }
 ```
 

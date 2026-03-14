@@ -44,18 +44,18 @@ Ref: https://github.com/pmndrs/jotai/pull/341
 ### 使用方法
 
 ```jsx
-import { useAtom } from 'jotai'
-import { atomWithObservable } from 'jotai/utils'
-import { interval } from 'rxjs'
-import { map } from 'rxjs/operators'
+import { useAtom } from "jotai";
+import { atomWithObservable } from "jotai/utils";
+import { interval } from "rxjs";
+import { map } from "rxjs/operators";
 
-const counterSubject = interval(1000).pipe(map((i) => `#${i}`))
-const counterAtom = atomWithObservable(() => counterSubject)
+const counterSubject = interval(1000).pipe(map((i) => `#${i}`));
+const counterAtom = atomWithObservable(() => counterSubject);
 
 const Counter = () => {
-  const [counter] = useAtom(counterAtom)
-  return <div>count: {counter}</div>
-}
+    const [counter] = useAtom(counterAtom);
+    return <div>count: {counter}</div>;
+};
 ```
 
 `atomWithObservable` 関数は rxjs（または同様の）`subject` または `observable` からアトムを作成します。
@@ -69,12 +69,12 @@ const Counter = () => {
 
 ```js
 const counterAtom = atomWithObservable(() => counterSubject, {
-  initialValue: 10,
-})
+    initialValue: 10,
+});
 
 const counterAtom2 = atomWithObservable(() => counterSubject, {
-  initialValue: () => Math.random(),
-})
+    initialValue: () => Math.random(),
+});
 ```
 
 ### Stackblitz
@@ -95,37 +95,37 @@ read 関数の `get` はプロミスを解決しないためです。
 
 ```ts
 function unwrap<Value, Args extends unknown[], Result>(
-  anAtom: WritableAtom<Value, Args, Result>,
-): WritableAtom<Awaited<Value> | undefined, Args, Result>
+    anAtom: WritableAtom<Value, Args, Result>,
+): WritableAtom<Awaited<Value> | undefined, Args, Result>;
 
 function unwrap<Value, Args extends unknown[], Result, PendingValue>(
-  anAtom: WritableAtom<Value, Args, Result>,
-  fallback: (prev?: Awaited<Value>) => PendingValue,
-): WritableAtom<Awaited<Value> | PendingValue, Args, Result>
+    anAtom: WritableAtom<Value, Args, Result>,
+    fallback: (prev?: Awaited<Value>) => PendingValue,
+): WritableAtom<Awaited<Value> | PendingValue, Args, Result>;
 
-function unwrap<Value>(anAtom: Atom<Value>): Atom<Awaited<Value> | undefined>
+function unwrap<Value>(anAtom: Atom<Value>): Atom<Awaited<Value> | undefined>;
 
 function unwrap<Value, PendingValue>(
-  anAtom: Atom<Value>,
-  fallback: (prev?: Awaited<Value>) => PendingValue,
-): Atom<Awaited<Value> | PendingValue>
+    anAtom: Atom<Value>,
+    fallback: (prev?: Awaited<Value>) => PendingValue,
+): Atom<Awaited<Value> | PendingValue>;
 ```
 
 ### 使用方法
 
 ```tsx
-import { atom } from 'jotai'
-import { unwrap } from 'jotai/utils'
+import { atom } from "jotai";
+import { unwrap } from "jotai/utils";
 
-const countAtom = atom(0)
+const countAtom = atom(0);
 const delayedCountAtom = atom(async (get) => {
-  await new Promise((r) => setTimeout(r, 500))
-  return get(countAtom)
-})
+    await new Promise((r) => setTimeout(r, 500));
+    return get(countAtom);
+});
 
-const unwrapped1Atom = unwrap(delayedCountAtom)
+const unwrapped1Atom = unwrap(delayedCountAtom);
 // 保留中は値が `undefined` になります
 
-const unwrapped2Atom = unwrap(delayedCountAtom, (prev) => prev ?? 0)
+const unwrapped2Atom = unwrap(delayedCountAtom, (prev) => prev ?? 0);
 // 最初は `0`、以降の更新では前の値を保持します
 ```

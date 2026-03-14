@@ -20,8 +20,8 @@ npm install optics-ts jotai-optics
 以下を参照してください：
 
 ```js
-const baseAtom = atom({ a: 5 }) // PrimitiveAtom<{a: number}>
-const derivedAtom = focusAtom(baseAtom, (optic) => optic.prop('a')) // PrimitiveAtom<number>
+const baseAtom = atom({ a: 5 }); // PrimitiveAtom<{a: number}>
+const derivedAtom = focusAtom(baseAtom, (optic) => optic.prop("a")); // PrimitiveAtom<number>
 ```
 
 基本的には、`PrimitiveAtom<{a: number}>`（ゲッターとセッターを持つ）から始まり、`focusAtom` を使って `baseAtom` の `a` プロパティにズームインして `PrimitiveAtom<number>` を得ました。注目すべき点は、この `derivedAtom` がゲッターだけでなく、セッターでもあることです。`derivedAtom` が更新されると、`baseAtom` で同等の更新が行われます。
@@ -33,25 +33,29 @@ const derivedAtom = focusAtom(baseAtom, (optic) => optic.prop('a')) // Primitive
 ### 例
 
 ```jsx
-import { atom } from 'jotai'
-import { focusAtom } from 'jotai-optics'
+import { atom } from "jotai";
+import { focusAtom } from "jotai-optics";
 
-const objectAtom = atom({ a: 5, b: 10 })
-const aAtom = focusAtom(objectAtom, (optic) => optic.prop('a'))
-const bAtom = focusAtom(objectAtom, (optic) => optic.prop('b'))
+const objectAtom = atom({ a: 5, b: 10 });
+const aAtom = focusAtom(objectAtom, (optic) => optic.prop("a"));
+const bAtom = focusAtom(objectAtom, (optic) => optic.prop("b"));
 
 const Controls = () => {
-  const [a, setA] = useAtom(aAtom)
-  const [b, setB] = useAtom(bAtom)
-  return (
-    <div>
-      <span>Value of a: {a}</span>
-      <span>Value of b: {b}</span>
-      <button onClick={() => setA((oldA) => oldA + 1)}>Increment a</button>
-      <button onClick={() => setB((oldB) => oldB + 1)}>Increment b</button>
-    </div>
-  )
-}
+    const [a, setA] = useAtom(aAtom);
+    const [b, setB] = useAtom(bAtom);
+    return (
+        <div>
+            <span>Value of a: {a}</span>
+            <span>Value of b: {b}</span>
+            <button onClick={() => setA((oldA) => oldA + 1)}>
+                Increment a
+            </button>
+            <button onClick={() => setB((oldB) => oldB + 1)}>
+                Increment b
+            </button>
+        </div>
+    );
+};
 ```
 
 #### Stackblitz

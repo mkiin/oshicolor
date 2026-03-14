@@ -13,12 +13,12 @@
 w-32 / w-full / w-fit / w-1/2
 ```
 
-| クラス   | 基準           |
-|----------|----------------|
-| w-32     | 固定値           |
-| w-full   | 親コンテナ            |
-| w-fit    | コンテナ自身            |
-| w-1/2    | 親コンテナ            |
+| クラス | 基準         |
+| ------ | ------------ |
+| w-32   | 固定値       |
+| w-full | 親コンテナ   |
+| w-fit  | コンテナ自身 |
+| w-1/2  | 親コンテナ   |
 
 ---
 
@@ -29,17 +29,17 @@ w-32 / w-full / w-fit / w-1/2
 ```html
 <!-- ケースA -->
 <div>
-  <div class="h-full bg-red-200">コンテンツ</div>
+    <div class="h-full bg-red-200">コンテンツ</div>
 </div>
 
 <!-- ケースB -->
 <div class="h-64">
-  <div class="h-full bg-red-200">コンテンツ</div>
+    <div class="h-full bg-red-200">コンテンツ</div>
 </div>
 ```
 
-- ケースA: ___（理由: ならない。`h-full`は親コンテナ基準で考えるけれど親に256pxが指定されていないため、fullで指定したとしてもその値にならない）
-- ケースB: ___（理由: 親の高さ基準で考える`h-full`が指定されている、親の高さがh-6, 256pxのためなる
+- ケースA: \_\_\_（理由: ならない。`h-full`は親コンテナ基準で考えるけれど親に256pxが指定されていないため、fullで指定したとしてもその値にならない）
+- ケースB: \_\_\_（理由: 親の高さ基準で考える`h-full`が指定されている、親の高さがh-6, 256pxのためなる
 
 ---
 
@@ -50,12 +50,12 @@ w-32 / w-full / w-fit / w-1/2
 ```html
 <!-- ❌ これの何が問題か答えてください -->
 <div class="w-128">
-
-<!-- ✅ 正しい実装 -->
-<div class="___">
+    <!-- ✅ 正しい実装 -->
+    <div class="___"></div>
+</div>
 ```
 
-問題点: ___
+問題点: \_\_\_
 
 ---
 
@@ -66,12 +66,12 @@ w-32 / w-full / w-fit / w-1/2
 ```html
 <!-- ① イラストの全体をプレビューしたい（切り取りNG）-->
 <div class="w-64 h-64">
-  <img class="w-full h-full ___" />
+    <img class="w-full h-full ___" />
 </div>
 
 <!-- ② ユーザーアイコンを正方形で統一表示したい（切り取りOK）-->
 <div class="w-12 h-12 rounded-full overflow-hidden">
-  <img class="w-full h-full ___" />
+    <img class="w-full h-full ___" />
 </div>
 ```
 
@@ -83,7 +83,7 @@ w-32 / w-full / w-fit / w-1/2
 
 ```html
 <div class="___ ___ ___">
-  <!-- コンテンツ -->
+    <!-- コンテンツ -->
 </div>
 ```
 
@@ -94,6 +94,7 @@ w-32 / w-full / w-fit / w-1/2
 次の要件を満たす画像プレビューカードを実装してください。
 
 要件:
+
 - カードの横幅は親いっぱい
 - 画像エリアは 16:9 固定
 - 画像は比率を保ってエリアを埋める（多少切れてもOK）
@@ -101,38 +102,45 @@ w-32 / w-full / w-fit / w-1/2
 
 ```html
 <div class="___">
-  <div class="___">
-    <img class="w-full h-full ___" src="..." alt="..." />
-  </div>
-  <h2 class="___">タイトル</h2>
+    <div class="___">
+        <img class="w-full h-full ___" src="..." alt="..." />
+    </div>
+    <h2 class="___">タイトル</h2>
 </div>
 ```
 
 ---
+
 ---
+
 ---
 
 ## 答え
 
 ### Q1
-| クラス   | 基準           |
-|----------|----------------|
-| w-32     | 固定値（128px）|
-| w-full   | 親コンテナ（100%）|
-| w-fit    | コンテンツ     |
-| w-1/2    | 親コンテナ（50%）|
+
+| クラス | 基準               |
+| ------ | ------------------ |
+| w-32   | 固定値（128px）    |
+| w-full | 親コンテナ（100%） |
+| w-fit  | コンテンツ         |
+| w-1/2  | 親コンテナ（50%）  |
 
 ### Q2
+
 - ケースA: **ならない**（理由: 親に高さが設定されていないため `h-full = 100%` の基準がなく、`height: auto` 相当になる）
 - ケースB: **なる**（理由: 親が `h-64 = 256px` を持つため、`h-full = 256px` が確定する）
 
 ### Q3
+
 ```html
-<div class="max-w-2xl">
+<div class="max-w-2xl"></div>
 ```
+
 問題点: `w-128` は Tailwind に存在しないクラス。また固定値では画面が狭いときにはみ出す。`max-w-` を使えば「最大〇〇まで」という制約になりレスポンシブに対応できる。
 
 ### Q4
+
 ```html
 <!-- ① -->
 <img class="w-full h-full object-contain" />
@@ -142,16 +150,18 @@ w-32 / w-full / w-fit / w-1/2
 ```
 
 ### Q5
+
 ```html
-<div class="max-w-3xl mx-auto h-screen">
+<div class="max-w-3xl mx-auto h-screen"></div>
 ```
 
 ### Q6
+
 ```html
 <div class="w-full">
-  <div class="w-full aspect-video">
-    <img class="w-full h-full object-cover" src="..." alt="..." />
-  </div>
-  <h2 class="w-fit">タイトル</h2>
+    <div class="w-full aspect-video">
+        <img class="w-full h-full object-cover" src="..." alt="..." />
+    </div>
+    <h2 class="w-fit">タイトル</h2>
 </div>
 ```

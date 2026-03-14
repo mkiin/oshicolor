@@ -4,12 +4,12 @@
 
 ## ドキュメント一覧
 
-| ファイル | 内容 |
-|---|---|
-| [architecture.md](./architecture.md) | パッケージ構成・全体アーキテクチャ |
-| [code-map.md](./code-map.md) | コードマップガイド（ファイル・クラス・関数の対応表） |
-| [algorithm.md](./algorithm.md) | アルゴリズム詳細解説（MMCQ・Generator） |
-| [data-flow.md](./data-flow.md) | データフロー・処理の流れ |
+| ファイル                             | 内容                                                 |
+| ------------------------------------ | ---------------------------------------------------- |
+| [architecture.md](./architecture.md) | パッケージ構成・全体アーキテクチャ                   |
+| [code-map.md](./code-map.md)         | コードマップガイド（ファイル・クラス・関数の対応表） |
+| [algorithm.md](./algorithm.md)       | アルゴリズム詳細解説（MMCQ・Generator）              |
+| [data-flow.md](./data-flow.md)       | データフロー・処理の流れ                             |
 
 ## 一言まとめ
 

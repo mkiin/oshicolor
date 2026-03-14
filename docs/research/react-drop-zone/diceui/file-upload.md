@@ -1,8 +1,6 @@
-
 # File Upload
+
 URL: /docs/components/radix/file-upload
-
-
 
 <ComponentTabs name="file-upload-demo" align="start" className="p-8" />
 
@@ -27,6 +25,7 @@ CLI [#cli]
     <CodeBlockTabsTrigger value="bun">
       bun
     </CodeBlockTabsTrigger>
+
   </CodeBlockTabsList>
 
   <CodeBlockTab value="npm">
@@ -103,18 +102,21 @@ Manual [#manual]
         ```
       </CodeBlockTab>
     </CodeBlockTabs>
+
   </Step>
 
   <Step>
     Copy and paste the following hook into your `hooks` directory.
 
     <ComponentSource name="use-lazy-ref" />
+
   </Step>
 
   <Step>
     Copy and paste the following code into your project.
 
     <ComponentSource name="file-upload" />
+
   </Step>
 
   <Step>
@@ -128,33 +130,33 @@ Import the parts, and compose them together.
 
 ```tsx
 import {
-  FileUpload,
-  FileUploadDropzone,
-  FileUploadTrigger,
-  FileUploadList,
-  FileUploadItem,
-  FileUploadItemPreview,
-  FileUploadItemMetadata,
-  FileUploadItemProgress,
-  FileUploadItemDelete,
-  FileUploadClear,
+    FileUpload,
+    FileUploadDropzone,
+    FileUploadTrigger,
+    FileUploadList,
+    FileUploadItem,
+    FileUploadItemPreview,
+    FileUploadItemMetadata,
+    FileUploadItemProgress,
+    FileUploadItemDelete,
+    FileUploadClear,
 } from "@/components/ui/file-upload";
 
 return (
-  <FileUpload>
-    <FileUploadDropzone />
-    <FileUploadTrigger />
-    <FileUploadList>
-      <FileUploadItem>
-        <FileUploadItemPreview />
-        <FileUploadItemMetadata />
-        <FileUploadItemProgress />
-        <FileUploadItemDelete />
-      </FileUploadItem>
-    </FileUploadList>
-    <FileUploadClear />
-  </FileUpload>
-)
+    <FileUpload>
+        <FileUploadDropzone />
+        <FileUploadTrigger />
+        <FileUploadList>
+            <FileUploadItem>
+                <FileUploadItemPreview />
+                <FileUploadItemMetadata />
+                <FileUploadItemProgress />
+                <FileUploadItemDelete />
+            </FileUploadItem>
+        </FileUploadList>
+        <FileUploadClear />
+    </FileUpload>
+);
 ```
 
 Examples [#examples]
@@ -216,19 +218,19 @@ A container for drag and drop functionality.
 <AutoTypeTable path="./types/docs/file-upload.ts" name="FileUploadDropzoneProps" />
 
 <DataAttributesTable
-  data={[
-  {
-    title: "[data-disabled]",
-    value: "Present when the dropzone is disabled.",
-  },
-  {
-    title: "[data-dragging]",
-    value: "Present when files are being dragged over the dropzone.",
-  },
-  {
-    title: "[data-invalid]",
-    value: "Present when there was an error with the files being uploaded.",
-  },
+data={[
+{
+title: "[data-disabled]",
+value: "Present when the dropzone is disabled.",
+},
+{
+title: "[data-dragging]",
+value: "Present when files are being dragged over the dropzone.",
+},
+{
+title: "[data-invalid]",
+value: "Present when there was an error with the files being uploaded.",
+},
 ]}
 />
 
@@ -239,11 +241,11 @@ A button that opens the file selection dialog.
 <AutoTypeTable path="./types/docs/file-upload.ts" name="FileUploadTriggerProps" />
 
 <DataAttributesTable
-  data={[
-  {
-    title: "[data-disabled]",
-    value: "Present when the trigger is disabled.",
-  }
+data={[
+{
+title: "[data-disabled]",
+value: "Present when the trigger is disabled.",
+}
 ]}
 />
 
@@ -254,15 +256,15 @@ A container for displaying uploaded files.
 <AutoTypeTable path="./types/docs/file-upload.ts" name="FileUploadListProps" />
 
 <DataAttributesTable
-  data={[
-  {
-    title: "[data-orientation]",
-    value: ["horizontal", "vertical"],
-  },
-  {
-    title: "[data-state]",
-    value: ["active", "inactive"],
-  },
+data={[
+{
+title: "[data-orientation]",
+value: ["horizontal", "vertical"],
+},
+{
+title: "[data-state]",
+value: ["active", "inactive"],
+},
 ]}
 />
 
@@ -303,11 +305,11 @@ A button to clear all files from the list.
 <AutoTypeTable path="./types/docs/file-upload.ts" name="FileUploadClearProps" />
 
 <DataAttributesTable
-  data={[
-  {
-    title: "[data-disabled]",
-    value: "Present when the clear button is disabled.",
-  },
+data={[
+{
+title: "[data-disabled]",
+value: "Present when the clear button is disabled.",
+},
 ]}
 />
 
@@ -316,22 +318,22 @@ Accessibility [#accessibility]
 Keyboard Interactions [#keyboard-interactions]
 
 <KeyboardShortcutsTable
-  data={[
-  {
-    keys: ["Enter", "Space"],
-    description: "When focus is on the dropzone or trigger, opens the file selection dialog.",
-  },
-  {
-    keys: ["Tab"],
-    description: "Moves focus between the dropzone, trigger, and file delete buttons.",
-  },
-  {
-    keys: ["Shift + Tab"],
-    description: "When the dropzone is focused, moves focus away from the dropzone.",
-  },
+data={[
+{
+keys: ["Enter", "Space"],
+description: "When focus is on the dropzone or trigger, opens the file selection dialog.",
+},
+{
+keys: ["Tab"],
+description: "Moves focus between the dropzone, trigger, and file delete buttons.",
+},
+{
+keys: ["Shift + Tab"],
+description: "When the dropzone is focused, moves focus away from the dropzone.",
+},
 ]}
 />
 
 Credits [#credits]
 
-* [Building a Hold to Delete Component](https://emilkowal.ski/ui/building-a-hold-to-delete-component) - For the fill progress indicator.
+- [Building a Hold to Delete Component](https://emilkowal.ski/ui/building-a-hold-to-delete-component) - For the fill progress indicator.

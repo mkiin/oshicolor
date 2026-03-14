@@ -48,10 +48,14 @@ const computeCentroids = (
 ): { x: number; y: number }[] => {
     const { data, width, height } = imageData;
     const reducer = Math.floor((width * height) / PIXELS) || 1;
-    const paletteRGB = palette.map((c) => ({ r: c.red, g: c.green, b: c.blue }));
+    const paletteRGB = palette.map((c) => ({
+        r: c.red,
+        g: c.green,
+        b: c.blue,
+    }));
     const sums = paletteRGB.map(() => ({ x: 0, y: 0, count: 0 }));
 
-    for (let i = 0; i < (width * height); i += reducer) {
+    for (let i = 0; i < width * height; i += reducer) {
         const idx = i * 4;
         const r = data[idx] ?? 0;
         const g = data[idx + 1] ?? 0;
@@ -66,7 +70,10 @@ const computeCentroids = (
             const p = paletteRGB[j];
             if (!p) continue;
             const dist = (r - p.r) ** 2 + (g - p.g) ** 2 + (b - p.b) ** 2;
-            if (dist < minDist) { minDist = dist; nearest = j; }
+            if (dist < minDist) {
+                minDist = dist;
+                nearest = j;
+            }
         }
 
         const sum = sums[nearest];

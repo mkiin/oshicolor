@@ -19,25 +19,25 @@ npm install immer jotai-immer
 writeFunction のシグネチャは `(get, set, update: (draft: Draft<Value>) => void) => void` です。
 
 ```jsx
-import { useAtom } from 'jotai'
-import { atomWithImmer } from 'jotai-immer'
+import { useAtom } from "jotai";
+import { atomWithImmer } from "jotai-immer";
 
-const countAtom = atomWithImmer({ value: 0 })
+const countAtom = atomWithImmer({ value: 0 });
 
 const Counter = () => {
-  const [count] = useAtom(countAtom)
-  return <div>count: {count.value}</div>
-}
+    const [count] = useAtom(countAtom);
+    return <div>count: {count.value}</div>;
+};
 
 const Controls = () => {
-  const [, setCount] = useAtom(countAtom)
-  // setCount === update : (draft: Draft<Value>) => void
-  const inc = () =>
-    setCount((draft) => {
-      ++draft.value
-    })
-  return <button onClick={inc}>+1</button>
-}
+    const [, setCount] = useAtom(countAtom);
+    // setCount === update : (draft: Draft<Value>) => void
+    const inc = () =>
+        setCount((draft) => {
+            ++draft.value;
+        });
+    return <button onClick={inc}>+1</button>;
+};
 ```
 
 ### 例
@@ -51,26 +51,26 @@ atomWithImmer を使った例：
 `withImmer` はアトムを受け取り派生アトムを返します。`atomWithImmer` と同様に異なる `writeFunction` を持ちます。
 
 ```jsx
-import { useAtom, atom } from 'jotai'
-import { withImmer } from 'jotai-immer'
+import { useAtom, atom } from "jotai";
+import { withImmer } from "jotai-immer";
 
-const primitiveAtom = atom({ value: 0 })
-const countAtom = withImmer(primitiveAtom)
+const primitiveAtom = atom({ value: 0 });
+const countAtom = withImmer(primitiveAtom);
 
 const Counter = () => {
-  const [count] = useAtom(countAtom)
-  return <div>count: {count.value}</div>
-}
+    const [count] = useAtom(countAtom);
+    return <div>count: {count.value}</div>;
+};
 
 const Controls = () => {
-  const [, setCount] = useAtom(countAtom)
-  // setCount === update : (draft: Draft<Value>) => void
-  const inc = () =>
-    setCount((draft) => {
-      ++draft.value
-    })
-  return <button onClick={inc}>+1</button>
-}
+    const [, setCount] = useAtom(countAtom);
+    // setCount === update : (draft: Draft<Value>) => void
+    const inc = () =>
+        setCount((draft) => {
+            ++draft.value;
+        });
+    return <button onClick={inc}>+1</button>;
+};
 ```
 
 ### 例
@@ -84,25 +84,25 @@ withImmer を使った例：
 このフックはアトムを受け取り、アトムの `writeFunction` を以前のヘルパーと同様の immer ライクな `writeFunction` に置き換えます。
 
 ```jsx
-import { atom } from 'jotai'
-import { useImmerAtom } from 'jotai-immer'
+import { atom } from "jotai";
+import { useImmerAtom } from "jotai-immer";
 
-const primitiveAtom = atom({ value: 0 })
+const primitiveAtom = atom({ value: 0 });
 
 const Counter = () => {
-  const [count] = useImmerAtom(primitiveAtom)
-  return <div>count: {count.value}</div>
-}
+    const [count] = useImmerAtom(primitiveAtom);
+    return <div>count: {count.value}</div>;
+};
 
 const Controls = () => {
-  const [, setCount] = useImmerAtom(primitiveAtom)
-  // setCount === update : (draft: Draft<Value>) => void
-  const inc = () =>
-    setCount((draft) => {
-      ++draft.value
-    })
-  return <button onClick={inc}>+1</button>
-}
+    const [, setCount] = useImmerAtom(primitiveAtom);
+    // setCount === update : (draft: Draft<Value>) => void
+    const inc = () =>
+        setCount((draft) => {
+            ++draft.value;
+        });
+    return <button onClick={inc}>+1</button>;
+};
 ```
 
 `withImmer` と `atomWithImmer` は immer ライクな `writeFunction` を提供するため、新しいものを作成する必要がない `useImmerAtom` と組み合わせないほうが良いでしょう。

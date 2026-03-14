@@ -5,34 +5,39 @@
 ## 基本的な使い方
 
 ```jsx
-import { useRef } from 'react';
-import { useDropzone } from 'react-dropzone';
+import { useRef } from "react";
+import { useDropzone } from "react-dropzone";
 
 function FormDropzone({ name }) {
-  const hiddenInputRef = useRef(null);
+    const hiddenInputRef = useRef(null);
 
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop: incomingFiles => {
-      // DataTransfer 経由で hidden input にセット（フォーム送信用）
-      if (hiddenInputRef.current) {
-        const dt = new DataTransfer();
-        incomingFiles.forEach(f => dt.items.add(f));
-        hiddenInputRef.current.files = dt.files;
-      }
-    },
-  });
+    const { getRootProps, getInputProps } = useDropzone({
+        onDrop: (incomingFiles) => {
+            // DataTransfer 経由で hidden input にセット（フォーム送信用）
+            if (hiddenInputRef.current) {
+                const dt = new DataTransfer();
+                incomingFiles.forEach((f) => dt.items.add(f));
+                hiddenInputRef.current.files = dt.files;
+            }
+        },
+    });
 
-  return (
-    <form method="post" encType="multipart/form-data">
-      <div {...getRootProps({ className: 'dropzone' })}>
-        <input {...getInputProps()} />
-        <p>ファイルをドロップ</p>
-      </div>
-      {/* フォーム送信に使う hidden input */}
-      <input type="file" name={name} ref={hiddenInputRef} style={{ display: 'none' }} />
-      <button type="submit">送信</button>
-    </form>
-  );
+    return (
+        <form method="post" encType="multipart/form-data">
+            <div {...getRootProps({ className: "dropzone" })}>
+                <input {...getInputProps()} />
+                <p>ファイルをドロップ</p>
+            </div>
+            {/* フォーム送信に使う hidden input */}
+            <input
+                type="file"
+                name={name}
+                ref={hiddenInputRef}
+                style={{ display: "none" }}
+            />
+            <button type="submit">送信</button>
+        </form>
+    );
 }
 ```
 
@@ -43,9 +48,9 @@ function FormDropzone({ name }) {
 **パターン**: 派生 atom で送信可否を表現し、Dropzone とフォーム送信処理を分離する
 
 ```jsx
-import { useRef } from 'react';
-import { atom, useAtomValue, useSetAtom } from 'jotai';
-import { useDropzone } from 'react-dropzone';
+import { useRef } from "react";
+import { atom, useAtomValue, useSetAtom } from "jotai";
+import { useDropzone } from "react-dropzone";
 
 // --- atom 定義 ---
 
@@ -56,69 +61,76 @@ const pendingFilesAtom = atom([]);
 const isSubmittableAtom = atom((get) => get(pendingFilesAtom).length > 0);
 
 // アクション atom: 送信後のクリアをカプセル化する
-const clearPendingFilesAtom = atom(null, (_get, set) => set(pendingFilesAtom, []));
+const clearPendingFilesAtom = atom(null, (_get, set) =>
+    set(pendingFilesAtom, []),
+);
 
 // --- コンポーネント ---
 
 function FormDropzone({ name }) {
-  const setPendingFiles = useSetAtom(pendingFilesAtom);
-  const hiddenInputRef = useRef(null);
+    const setPendingFiles = useSetAtom(pendingFilesAtom);
+    const hiddenInputRef = useRef(null);
 
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop: (incomingFiles) => {
-      // hidden input に DataTransfer でセット（フォーム送信用）
-      if (hiddenInputRef.current) {
-        const dt = new DataTransfer();
-        incomingFiles.forEach((f) => dt.items.add(f));
-        hiddenInputRef.current.files = dt.files;
-      }
-      // 確認表示用に atom にもセット
-      setPendingFiles(incomingFiles);
-    },
-  });
+    const { getRootProps, getInputProps } = useDropzone({
+        onDrop: (incomingFiles) => {
+            // hidden input に DataTransfer でセット（フォーム送信用）
+            if (hiddenInputRef.current) {
+                const dt = new DataTransfer();
+                incomingFiles.forEach((f) => dt.items.add(f));
+                hiddenInputRef.current.files = dt.files;
+            }
+            // 確認表示用に atom にもセット
+            setPendingFiles(incomingFiles);
+        },
+    });
 
-  return (
-    <>
-      <div {...getRootProps({ className: 'dropzone' })}>
-        <input {...getInputProps()} />
-        <p>ファイルをドロップ</p>
-      </div>
-      <input type="file" name={name} ref={hiddenInputRef} style={{ display: 'none' }} />
-    </>
-  );
+    return (
+        <>
+            <div {...getRootProps({ className: "dropzone" })}>
+                <input {...getInputProps()} />
+                <p>ファイルをドロップ</p>
+            </div>
+            <input
+                type="file"
+                name={name}
+                ref={hiddenInputRef}
+                style={{ display: "none" }}
+            />
+        </>
+    );
 }
 
 // フォームの別の場所でファイル確認プレビューを出せる
 function PendingFilesPreview() {
-  const files = useAtomValue(pendingFilesAtom);
-  if (files.length === 0) return null;
-  return (
-    <ul>
-      {files.map((f) => (
-        <li key={f.name}>
-          {f.name} ({f.size} bytes)
-        </li>
-      ))}
-    </ul>
-  );
+    const files = useAtomValue(pendingFilesAtom);
+    if (files.length === 0) return null;
+    return (
+        <ul>
+            {files.map((f) => (
+                <li key={f.name}>
+                    {f.name} ({f.size} bytes)
+                </li>
+            ))}
+        </ul>
+    );
 }
 
 // 派生 atom により、このコンポーネントは pendingFilesAtom の中身を知らなくてよい
 // ファイルが 0 件の場合に disabled になるロジックがコンポーネントに入らない
 function SubmitButton() {
-  const isSubmittable = useAtomValue(isSubmittableAtom);
-  const clearPendingFiles = useSetAtom(clearPendingFilesAtom);
+    const isSubmittable = useAtomValue(isSubmittableAtom);
+    const clearPendingFiles = useSetAtom(clearPendingFilesAtom);
 
-  const handleSubmit = () => {
-    // フォーム送信処理...
-    clearPendingFiles(); // 送信後に atom をクリア
-  };
+    const handleSubmit = () => {
+        // フォーム送信処理...
+        clearPendingFiles(); // 送信後に atom をクリア
+    };
 
-  return (
-    <button type="button" disabled={!isSubmittable} onClick={handleSubmit}>
-      送信
-    </button>
-  );
+    return (
+        <button type="button" disabled={!isSubmittable} onClick={handleSubmit}>
+            送信
+        </button>
+    );
 }
 ```
 

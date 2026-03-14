@@ -145,15 +145,15 @@ Zone B で最大 3色を使う（string, type, number）
 
 ### フォールバックの優先順位まとめ
 
-| グループ | 1st（抽出色あり） | 2nd（不足時） |
-|---|---|---|
-| Comment | C最小の抽出色 | `shiftL(fg, -0.20)` |
-| Keyword | `accents[0]` | `shiftL(fg, -0.05)` |
-| Function | `accents[1]` | `shiftL(fg, -0.10)` |
-| Special | `accents[2]` | `shiftL(fg, -0.15)` |
-| String | `accents[3+]` の緑系色 | Zone B 生成 |
-| Type | `accents[3+]` の水色系色 | Zone B 生成 |
-| Number | `accents[3+]` の黄金系色 | Zone B 生成 |
+| グループ | 1st（抽出色あり）        | 2nd（不足時）       |
+| -------- | ------------------------ | ------------------- |
+| Comment  | C最小の抽出色            | `shiftL(fg, -0.20)` |
+| Keyword  | `accents[0]`             | `shiftL(fg, -0.05)` |
+| Function | `accents[1]`             | `shiftL(fg, -0.10)` |
+| Special  | `accents[2]`             | `shiftL(fg, -0.15)` |
+| String   | `accents[3+]` の緑系色   | Zone B 生成         |
+| Type     | `accents[3+]` の水色系色 | Zone B 生成         |
+| Number   | `accents[3+]` の黄金系色 | Zone B 生成         |
 
 ---
 

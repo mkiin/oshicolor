@@ -5,29 +5,31 @@
 ## 基本的な使い方
 
 ```jsx
-import { useDropzone } from 'react-dropzone';
+import { useDropzone } from "react-dropzone";
 
 function BasicDropzone() {
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
+    const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
 
-  const files = acceptedFiles.map(file => (
-    <li key={file.path}>
-      {file.path} - {file.size} bytes
-    </li>
-  ));
+    const files = acceptedFiles.map((file) => (
+        <li key={file.path}>
+            {file.path} - {file.size} bytes
+        </li>
+    ));
 
-  return (
-    <section className="container">
-      <div {...getRootProps({ className: 'dropzone' })}>
-        <input {...getInputProps()} />
-        <p>ここにファイルをドラッグ＆ドロップ、またはクリックしてファイルを選択</p>
-      </div>
-      <aside>
-        <h4>Files</h4>
-        <ul>{files}</ul>
-      </aside>
-    </section>
-  );
+    return (
+        <section className="container">
+            <div {...getRootProps({ className: "dropzone" })}>
+                <input {...getInputProps()} />
+                <p>
+                    ここにファイルをドラッグ＆ドロップ、またはクリックしてファイルを選択
+                </p>
+            </div>
+            <aside>
+                <h4>Files</h4>
+                <ul>{files}</ul>
+            </aside>
+        </section>
+    );
 }
 ```
 
@@ -39,8 +41,8 @@ function BasicDropzone() {
 **パターン**: 派生 atom（Derived Atom）+ アクション atom（Write-Only Atom）で Jotai らしい設計にする
 
 ```jsx
-import { atom, useAtomValue, useSetAtom } from 'jotai';
-import { useDropzone } from 'react-dropzone';
+import { atom, useAtomValue, useSetAtom } from "jotai";
+import { useDropzone } from "react-dropzone";
 
 // --- atom 定義（モジュールスコープ） ---
 
@@ -51,7 +53,7 @@ const filesAtom = atom([]);
 // コンポーネント内で `files.length > 0` と書かない
 const hasFilesAtom = atom((get) => get(filesAtom).length > 0);
 const totalSizeAtom = atom((get) =>
-  get(filesAtom).reduce((sum, f) => sum + f.size, 0)
+    get(filesAtom).reduce((sum, f) => sum + f.size, 0),
 );
 const fileCountAtom = atom((get) => get(filesAtom).length);
 
@@ -63,54 +65,54 @@ const clearFilesAtom = atom(null, (_get, set) => set(filesAtom, []));
 
 // ファイルを受け取る Dropzone（書き込み専用 useSetAtom）
 function BasicDropzone() {
-  const setFiles = useSetAtom(filesAtom);
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop: (acceptedFiles) => setFiles(acceptedFiles),
-  });
+    const setFiles = useSetAtom(filesAtom);
+    const { getRootProps, getInputProps } = useDropzone({
+        onDrop: (acceptedFiles) => setFiles(acceptedFiles),
+    });
 
-  return (
-    <div {...getRootProps({ className: 'dropzone' })}>
-      <input {...getInputProps()} />
-      <p>ここにファイルをドロップ</p>
-    </div>
-  );
+    return (
+        <div {...getRootProps({ className: "dropzone" })}>
+            <input {...getInputProps()} />
+            <p>ここにファイルをドロップ</p>
+        </div>
+    );
 }
 
 // ファイルリストの表示（読み取り専用 useAtomValue）
 // BasicDropzone とは DOM ツリー上で完全に独立して配置できる
 function FileList() {
-  const files = useAtomValue(filesAtom);
-  return (
-    <ul>
-      {files.map((f) => (
-        <li key={f.name}>{f.name}</li>
-      ))}
-    </ul>
-  );
+    const files = useAtomValue(filesAtom);
+    return (
+        <ul>
+            {files.map((f) => (
+                <li key={f.name}>{f.name}</li>
+            ))}
+        </ul>
+    );
 }
 
 // 派生 atom を使うコンポーネント: 条件分岐のロジックがない
 function FileStats() {
-  const hasFiles = useAtomValue(hasFilesAtom);
-  const count = useAtomValue(fileCountAtom);
-  const totalSize = useAtomValue(totalSizeAtom);
+    const hasFiles = useAtomValue(hasFilesAtom);
+    const count = useAtomValue(fileCountAtom);
+    const totalSize = useAtomValue(totalSizeAtom);
 
-  if (!hasFiles) return <p>ファイルが選択されていません</p>;
-  return (
-    <p>
-      {count} ファイル / 合計 {totalSize} bytes
-    </p>
-  );
+    if (!hasFiles) return <p>ファイルが選択されていません</p>;
+    return (
+        <p>
+            {count} ファイル / 合計 {totalSize} bytes
+        </p>
+    );
 }
 
 // アクション atom を使うコンポーネント: クリアロジックを持たない
 function ClearButton() {
-  const clearFiles = useSetAtom(clearFilesAtom);
-  return (
-    <button type="button" onClick={clearFiles}>
-      クリア
-    </button>
-  );
+    const clearFiles = useSetAtom(clearFilesAtom);
+    return (
+        <button type="button" onClick={clearFiles}>
+            クリア
+        </button>
+    );
 }
 ```
 

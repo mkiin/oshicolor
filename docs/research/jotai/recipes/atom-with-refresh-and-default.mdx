@@ -11,8 +11,8 @@ keywords: creators,refresh,default
 `atomWithDefault` セクションのサンプルコードに示されているように、`count2Atom = atomWithDefault((get) => get(count1Atom) * 2)` と作成したアトムを更新した後、2つのアトムの関係が切断されます。
 何が起こったか確認してみましょう：
 
-- 1. "increment count1" をクリックすると、count1 が 2、count2 が 4 になります
-- 2. "increment count2" をクリックすると、count1 が 2、count2 が 5 になります（切断済み！！）
+-   1. "increment count1" をクリックすると、count1 が 2、count2 が 4 になります
+-   2. "increment count2" をクリックすると、count1 が 2、count2 が 5 になります（切断済み！！）
 
 `count2Atom` を更新した後、これらのアトムは関係を持たなくなります。そのため、
 
@@ -31,45 +31,45 @@ keywords: creators,refresh,default
 ここでは、`atomWithDefault` の代わりにリフレッシュ可能なアトムを作成する宣言的な方法を紹介します。
 
 ```js
-const refreshCountAtom = atom(0)
+const refreshCountAtom = atom(0);
 
-const baseDataAtom = atom(1) // 元データ、例: ベースの count1Atom
+const baseDataAtom = atom(1); // 元データ、例: ベースの count1Atom
 const dataAtom = atom(
-  (get) => {
-    get(refreshCountAtom) // atomWithRefresh で紹介
-    return get(baseDataAtom)
-  },
-  (get, set, update) => {
-    set(baseDataAtom, update)
-  },
-)
-
-const atomWithRefreshAndDefault = (refreshAtom, getDefault) => {
-  const overwrittenAtom = atom(null)
-  return atom(
     (get) => {
-      const lastState = get(overwrittenAtom)
-      if (lastState && lastState.refresh === get(refreshAtom)) {
-        return lastState.value
-      }
-      return getDefault(get)
+        get(refreshCountAtom); // atomWithRefresh で紹介
+        return get(baseDataAtom);
     },
     (get, set, update) => {
-      set(overwrittenAtom, { refresh: get(refreshAtom), value: update })
+        set(baseDataAtom, update);
     },
-  )
-}
+);
+
+const atomWithRefreshAndDefault = (refreshAtom, getDefault) => {
+    const overwrittenAtom = atom(null);
+    return atom(
+        (get) => {
+            const lastState = get(overwrittenAtom);
+            if (lastState && lastState.refresh === get(refreshAtom)) {
+                return lastState.value;
+            }
+            return getDefault(get);
+        },
+        (get, set, update) => {
+            set(overwrittenAtom, { refresh: get(refreshAtom), value: update });
+        },
+    );
+};
 
 // これは `atomWithDefault((get) => get(count1Atom) * 2)` の代替です
 const refreshableAtom = atomWithRefreshAndDefault(
-  refreshCountAtom,
-  (get) => get(dataAtom) * 2,
-)
+    refreshCountAtom,
+    (get) => get(dataAtom) * 2,
+);
 
 // 1つのアトムを更新するだけでリセットできます
 const resetRootAtom = atom(null, (get, set) => {
-  set(refreshCountAtom, get(refreshCountAtom) + 1)
-})
+    set(refreshCountAtom, get(refreshCountAtom) + 1);
+});
 ```
 
 <Stackblitz id="vitejs-vite-1m7ce3" file="src%2FApp.tsx" />

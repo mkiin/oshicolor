@@ -35,57 +35,57 @@ Jotai は `useContext` のドロップイン代替品と見なすことができ
 ```jsx
 // 1. useState のローカル状態
 const Component = () => {
-  const [state, setState] = useState(0)
-}
+    const [state, setState] = useState(0);
+};
 
 // 2. ローカル状態を上位に持ち上げてコンテキストで共有
-const StateContext = createContext()
+const StateContext = createContext();
 const Parent = ({ children }) => {
-  return (
-    <StateContext.Provider value={useState(0)}>
-      {children}
-    </StateContext.Provider>
-  )
-}
+    return (
+        <StateContext.Provider value={useState(0)}>
+            {children}
+        </StateContext.Provider>
+    );
+};
 const Component = () => {
-  const [state, setState] = useContext(StateContext)
-}
+    const [state, setState] = useContext(StateContext);
+};
 
 // 3. 複数の状態とコンテキストを持つ
-const State1Context = createContext()
-const State2Context = createContext()
+const State1Context = createContext();
+const State2Context = createContext();
 const Parent = ({ children }) => (
-  <State1Context.Provider value={useState(0)}>
-    <State2Context.Provider value={useState(0)}>
-      {children}
-    </State2Context.Provider>
-  </State1Context.Provider>
-)
+    <State1Context.Provider value={useState(0)}>
+        <State2Context.Provider value={useState(0)}>
+            {children}
+        </State2Context.Provider>
+    </State1Context.Provider>
+);
 const Component1 = () => {
-  const [state, setState] = useContext(State1Context)
-}
+    const [state, setState] = useContext(State1Context);
+};
 const Component2 = () => {
-  const [state, setState] = useContext(State2Context)
-}
+    const [state, setState] = useContext(State2Context);
+};
 ```
 
 では Jotai がどのように簡略化するかを見てみましょう。複数の `Context` の代わりにアトムを使うだけです。
 
 ```jsx
-import { Provider, atom, useAtom } from 'jotai'
-const atom1 = atom(0)
-const atom2 = atom(0)
+import { Provider, atom, useAtom } from "jotai";
+const atom1 = atom(0);
+const atom2 = atom(0);
 // オプション：useContext のように Provider を使えますが、
 // ...1つだけ必要な場合は省略でき、Jotai はデフォルトを使います（Provider レスモードと呼ばれます）。
 const Parent = ({ children }) => {
-  return <Provider>{children}</Provider>
-}
+    return <Provider>{children}</Provider>;
+};
 const Component1 = () => {
-  const [state, setState] = useAtom(atom1)
-}
+    const [state, setState] = useAtom(atom1);
+};
 const Component2 = () => {
-  const [state, setState] = useAtom(atom2)
-}
+    const [state, setState] = useAtom(atom2);
+};
 ```
 
 ### Jotai は Zustand とどう違うのか？

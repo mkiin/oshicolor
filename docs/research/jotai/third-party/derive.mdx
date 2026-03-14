@@ -43,15 +43,15 @@ const userAtom: Atom<User | Promise<User>> =
 ```ts
 // `jotai-derive` なし
 
-import { atom } from 'jotai'
+import { atom } from "jotai";
 
 // 型は Atom<Promise<string>> ですが、
 // get(userAtom) が常に Promise を返すわけではないため、
 // `uppercaseNameAtom` を同期的に計算できる可能性があります。
 const uppercaseNameAtom = atom(async (get) => {
-  const user = await get(userAtom)
-  return user.name.toUppercase()
-})
+    const user = await get(userAtom);
+    return user.name.toUppercase();
+});
 ```
 
 以下は `jotai-derive` を使ってより緊密な非同期データ処理パイプラインを作成する方法です。
@@ -59,13 +59,13 @@ const uppercaseNameAtom = atom(async (get) => {
 ```ts
 // `jotai-derive` あり
 
-import { derive } from 'jotai-derive'
+import { derive } from "jotai-derive";
 
 // Atom<string | Promise<string>>
 const uppercaseNameAtom = derive(
-  [userAtom], // 必要な場合にのみ await されます
-  (user) => user.name.toUppercase(),
-)
+    [userAtom], // 必要な場合にのみ await されます
+    (user) => user.name.toUppercase(),
+);
 ```
 
 ### 複数の非同期依存関係
@@ -73,13 +73,13 @@ const uppercaseNameAtom = derive(
 複数のアトムから値を派生させるには、配列に複数のアトムを指定できます。対応する値は同じ順序でプロデューサー関数に渡されます。
 
 ```ts
-import { derive } from 'jotai-derive'
+import { derive } from "jotai-derive";
 
 // Atom<string | Promise<string>>
 const welcomeMessageAtom = derive(
-  [userAtom, serverNameAtom],
-  (user, serverName) => `Welcome ${user.name} to ${serverName}!`,
-)
+    [userAtom, serverNameAtom],
+    (user, serverName) => `Welcome ${user.name} to ${serverName}!`,
+);
 ```
 
 ## soon

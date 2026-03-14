@@ -23,7 +23,9 @@ const OPTIONS_BASE = {
     minSaturation: 0.05,
 } satisfies Parameters<typeof getPalette>[1];
 
-const OPTIONS = { ...OPTIONS_BASE, colorCount: 16 } satisfies Parameters<typeof getPalette>[1];
+const OPTIONS = { ...OPTIONS_BASE, colorCount: 16 } satisfies Parameters<
+    typeof getPalette
+>[1];
 
 const colorPaletteAtom = atom(async (get) => {
     const file = get(fileAtom);
@@ -51,7 +53,13 @@ const ColorResultsLoader: React.FC = () => {
     const dominantColor = useAtomValue(colorAtom);
     const palette = useAtomValue(colorPaletteAtom);
     const swatches = useAtomValue(colorSwatchesAtom);
-    return <ColorResults dominantColor={dominantColor} palette={palette} swatches={swatches} />;
+    return (
+        <ColorResults
+            dominantColor={dominantColor}
+            palette={palette}
+            swatches={swatches}
+        />
+    );
 };
 
 // --- ルート ---
@@ -71,7 +79,10 @@ function RouteComponent() {
             {file && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
                     <div className="w-full aspect-[3/4] bg-gray-100 rounded-lg overflow-hidden">
-                        <ImagePreview url={previewUrl} className="w-full h-full object-contain" />
+                        <ImagePreview
+                            url={previewUrl}
+                            className="w-full h-full object-contain"
+                        />
                     </div>
                     <Suspense
                         fallback={

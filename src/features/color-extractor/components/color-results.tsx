@@ -9,7 +9,11 @@ export type ColorResultsProps = {
     swatches: SwatchMap | null;
 };
 
-export const ColorResults: React.FC<ColorResultsProps> = ({ dominantColor, palette, swatches }) => (
+export const ColorResults: React.FC<ColorResultsProps> = ({
+    dominantColor,
+    palette,
+    swatches,
+}) => (
     <div className="space-y-6">
         {dominantColor && <DominantColorView color={dominantColor} />}
         {palette && <PaletteView colors={palette} />}

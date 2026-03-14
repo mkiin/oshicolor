@@ -5,12 +5,12 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 Alchemy's CLI provides a convenient way to manage your infrastructure and create new projects.
 
 :::note[Embedding Alchemy]
-Alchemy is designed to be an embeddable library. The `alchemy` CLI is an optional convenience wrapper around the library. 
+Alchemy is designed to be an embeddable library. The `alchemy` CLI is an optional convenience wrapper around the library.
 
 When you initialize your app, Alchemy will automatically parse CLI arguments:
 
 ```ts
-const app = await alchemy("my-app")
+const app = await alchemy("my-app");
 ```
 
 The `alchemy` CLI passes through these arguments when it invokes your program.
@@ -22,7 +22,7 @@ The `alchemy` CLI passes through these arguments when it invokes your program.
 alchemy deploy [script] [options]
 ```
 
-Deploy an Alchemy project by running `alchemy deploy`. 
+Deploy an Alchemy project by running `alchemy deploy`.
 
 - `script` (optional): Path to the entrypoint file. Defaults to `./alchemy.run.ts` or `./alchemy.run.js`
 - `--app` - (optional) Specify which application to deploy. Defaults to all apps.
@@ -34,7 +34,7 @@ Deploy an Alchemy project by running `alchemy deploy`.
 - `--adopt` - Adopt existing resources that are not yet managed by your Alchemy app (default: false)
 - `--erase-secrets` - Skip decrypting secrets and treat them as undefined. Requires `--force`. Useful for recovering from lost encryption passwords (default: false)
 - `--cwd` - Path to the project directory (defaults to current directory)
-- `--quiet` - Suppress Create/Update/Delete messages (default: `false`) 
+- `--quiet` - Suppress Create/Update/Delete messages (default: `false`)
 - `-h, --help` - Display help for command
 
 :::tip
@@ -43,32 +43,33 @@ Here are some examples of how to use the `deploy` command:
 
 ```sh
 # deploy the default stage
-alchemy deploy 
+alchemy deploy
 
 # specify a stage
-alchemy deploy --stage prod 
+alchemy deploy --stage prod
 
 # deploy the default stage
 alchemy deploy --profile prod
 
 # adopt existing resources
-alchemy deploy --adopt 
+alchemy deploy --adopt
 
 # use a custom script
-alchemy deploy ./my-infra.ts 
+alchemy deploy ./my-infra.ts
 
 # use an environment file
-alchemy deploy --env-file .env.prod 
+alchemy deploy --env-file .env.prod
 
 # watch and deploy changes to the cloud
-alchemy deploy --watch 
+alchemy deploy --watch
 
 # force update all resources even without changes
-alchemy deploy --force 
+alchemy deploy --force
 
 # recover from lost encryption password by erasing secrets
 alchemy deploy --force --erase-secrets
 ```
+
 :::
 
 :::note[Equivalent Runtime Commands]
@@ -123,7 +124,7 @@ Destroy all resources in an Alchemy project.
 - `--stage` - Specify which stage/environment to target. Defaults to your username (`$USER`, or `$USERNAME` on Windows)
 - `--profile` - The Alchemy profile to use for authoriziing requests (default: `default`)
 - `--cwd` - Path to the project directory (defaults to current directory)
-- `--quiet` - Suppress Create/Update/Delete messages (default: `false`) 
+- `--quiet` - Suppress Create/Update/Delete messages (default: `false`)
 - `--env-file` - Path to environment file to load
 - `-h, --help` - Display help for command
 
@@ -133,17 +134,18 @@ Here are some examples of how to use the `destroy` command:
 
 ```sh
 # destroy the default stage
-alchemy destroy 
+alchemy destroy
 
 # specify a stage
-alchemy destroy --stage prod 
+alchemy destroy --stage prod
 
 # use a custom script
-alchemy destroy ./my-infra.ts 
+alchemy destroy ./my-infra.ts
 
 # use an environment file
-alchemy destroy --env-file .env.prod 
+alchemy destroy --env-file .env.prod
 ```
+
 :::
 
 :::note[Equivalent Runtime Commands]
@@ -196,7 +198,7 @@ Run an Alchemy program in dev-mode with local simulation and hot reloading.
 - `--force` - Apply updates to resources even if there are no changes (default: false)
 - `--adopt` - Adopt existing resources that are not yet managed by your Alchemy app (default: false)
 - `--cwd` - Path to the project directory (defaults to current directory)
-- `--quiet` - Suppress Create/Update/Delete messages (default: `false`) 
+- `--quiet` - Suppress Create/Update/Delete messages (default: `false`)
 - `-h, --help` - Display help for command
 
 :::tip
@@ -223,8 +225,9 @@ alchemy dev --env-file .env.dev
 alchemy dev --force
 
 # adopt existing resources
-alchemy dev --adopt 
+alchemy dev --adopt
 ```
+
 :::
 
 :::note[Equivalent Runtime Commands]
@@ -276,7 +279,7 @@ Run an Alchemy program with read-only access to your infrastructure. No changes 
 - `--env-file` - Path to environment file to load
 - `--watch` - Watch for changes to infrastructure and redeploy automatically (default: `false`)
 - `--cwd` - Path to the project directory (defaults to current directory)
-- `--quiet` - Suppress Create/Update/Delete messages (default: `false`) 
+- `--quiet` - Suppress Create/Update/Delete messages (default: `false`)
 - `-h, --help` - Display help for command
 
 :::tip
@@ -296,6 +299,7 @@ alchemy run ./scripts/my-script.ts --stage dev
 # use an environment file
 alchemy run ./scripts/my-script.ts --env-file .env.prod
 ```
+
 :::
 
 :::note[Equivalent Runtime Commands]
@@ -337,7 +341,6 @@ You can also run the run command directly with your preferred JavaScript runtime
 
 :::
 
-
 ## `create`
 
 ```sh
@@ -378,6 +381,7 @@ alchemy create my-app --overwrite
 # create without installing dependencies
 alchemy create my-app --no-install
 ```
+
 :::
 
 ## `init`
@@ -407,9 +411,11 @@ alchemy init --framework bun-spa
 # skip prompts and use auto-detected framework
 alchemy init --yes
 ```
+
 :::
 
 The `init` command will:
+
 - Auto-detect your framework from `package.json` dependencies
 - Create an `alchemy.run.ts` file with framework-specific configuration
 - Add Alchemy scripts to your `package.json` (`deploy`, `destroy`, `alchemy:dev`)
@@ -463,6 +469,6 @@ A utility for creating Cloudflare tokens.
 
 - `-p, --profile` - Create a cloudflare token mirroring the oauth scopes in the specified profile
 - `--god-token` - Create a "god token" with full write access to everything in a cloudflare account
-⚛️React Not Detected
-React is not detected on this page.
-Please ensure you're visiting a React application.
+  ⚛️React Not Detected
+  React is not detected on this page.
+  Please ensure you're visiting a React application.

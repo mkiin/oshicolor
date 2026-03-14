@@ -12,62 +12,66 @@ BroadcastChannel API を使用することで、同じオリジン上のウィ�
 MDN ドキュメントによると、BroadcastChannel では初期化中のメッセージ受信はサポートされていませんが、その機能をサポートしたい場合は、ローカルストレージなどの追加オプションを `atomWithBroadcast` に追加する必要があります。
 
 ```tsx
-import { atom, SetStateAction } from 'jotai'
+import { atom, SetStateAction } from "jotai";
 
 export function atomWithBroadcast<Value>(key: string, initialValue: Value) {
-  const baseAtom = atom(initialValue)
-  const listeners = new Set<(event: MessageEvent<any>) => void>()
-  const channel = new BroadcastChannel(key)
+    const baseAtom = atom(initialValue);
+    const listeners = new Set<(event: MessageEvent<any>) => void>();
+    const channel = new BroadcastChannel(key);
 
-  channel.onmessage = (event) => {
-    listeners.forEach((l) => l(event))
-  }
+    channel.onmessage = (event) => {
+        listeners.forEach((l) => l(event));
+    };
 
-  const broadcastAtom = atom(
-    (get) => get(baseAtom),
-    (get, set, update: { isEvent: boolean; value: SetStateAction<Value> }) => {
-      set(baseAtom, update.value)
+    const broadcastAtom = atom(
+        (get) => get(baseAtom),
+        (
+            get,
+            set,
+            update: { isEvent: boolean; value: SetStateAction<Value> },
+        ) => {
+            set(baseAtom, update.value);
 
-      if (!update.isEvent) {
-        channel.postMessage(get(baseAtom))
-      }
-    },
-  )
+            if (!update.isEvent) {
+                channel.postMessage(get(baseAtom));
+            }
+        },
+    );
 
-  broadcastAtom.onMount = (setAtom) => {
-    const listener = (event: MessageEvent<any>) => {
-      setAtom({ isEvent: true, value: event.data })
-    }
+    broadcastAtom.onMount = (setAtom) => {
+        const listener = (event: MessageEvent<any>) => {
+            setAtom({ isEvent: true, value: event.data });
+        };
 
-    listeners.add(listener)
+        listeners.add(listener);
 
-    return () => {
-      listeners.delete(listener)
-    }
-  }
+        return () => {
+            listeners.delete(listener);
+        };
+    };
 
-  const returnedAtom = atom(
-    (get) => get(broadcastAtom),
-    (_get, set, update: SetStateAction<Value>) => {
-      set(broadcastAtom, { isEvent: false, value: update })
-    },
-  )
+    const returnedAtom = atom(
+        (get) => get(broadcastAtom),
+        (_get, set, update: SetStateAction<Value>) => {
+            set(broadcastAtom, { isEvent: false, value: update });
+        },
+    );
 
-  return returnedAtom
+    return returnedAtom;
 }
 
-const broadAtom = atomWithBroadcast('count', 0)
+const broadAtom = atomWithBroadcast("count", 0);
 
 const ListOfThings = () => {
-  const [count, setCount] = useAtom(broadAtom)
+    const [count, setCount] = useAtom(broadAtom);
 
-  return (
-    <div>
-      {count}
-      <button onClick={() => setCount(count + 1)}>+1</button>
-    </div>
-  )
-}
+    return (
+        <div>
+            {count}
+            <button onClick={() => setCount(count + 1)}>+1</button>
+        </div>
+    );
+};
 ```
 
 <Stackblitz id="vitejs-vite-imqbzg" file="src%2FApp.tsx" />
