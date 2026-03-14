@@ -75,11 +75,11 @@ RGB 空間は人間の知覚と一致しないため、アニメ画像では「R
 
 ```typescript
 type ColorPoint = {
-  id: number; // 1始まりの連番
-  x: number; // 正規化座標（0〜1）← 参考実装の 384 スケールを変更
-  y: number; // 正規化座標（0〜1）
-  color: string; // HEX文字列 "#RRGGBB"（参考実装の rgb() 文字列から変更）
-  name?: string; // 色名（color-name-list + nearest 検索で解決）
+    id: number; // 1始まりの連番
+    x: number; // 正規化座標（0〜1）← 参考実装の 384 スケールを変更
+    y: number; // 正規化座標（0〜1）
+    color: string; // HEX文字列 "#RRGGBB"（参考実装の rgb() 文字列から変更）
+    name?: string; // 色名（color-name-list + nearest 検索で解決）
 };
 ```
 

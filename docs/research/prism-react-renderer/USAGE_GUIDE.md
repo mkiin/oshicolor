@@ -25,21 +25,21 @@ console.log(hello);
 `;
 
 export function CodeBlock() {
-  return (
-    <Highlight theme={themes.vsDark} code={codeBlock} language="typescript">
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {tokens.map((line, i) => (
-            <div key={i} {...getLineProps({ line })}>
-              {line.map((token, key) => (
-                <span key={key} {...getTokenProps({ token })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
-  );
+    return (
+        <Highlight theme={themes.vsDark} code={codeBlock} language="typescript">
+            {({ className, style, tokens, getLineProps, getTokenProps }) => (
+                <pre className={className} style={style}>
+                    {tokens.map((line, i) => (
+                        <div key={i} {...getLineProps({ line })}>
+                            {line.map((token, key) => (
+                                <span key={key} {...getTokenProps({ token })} />
+                            ))}
+                        </div>
+                    ))}
+                </pre>
+            )}
+        </Highlight>
+    );
 }
 ```
 
@@ -131,24 +131,24 @@ themes.duotoneLight; // Duotone Light
 import type { PrismTheme } from "prism-react-renderer";
 
 const customTheme: PrismTheme = {
-  plain: {
-    backgroundColor: "#1e1e2e",
-    color: "#cdd6f4",
-  },
-  styles: [
-    {
-      types: ["comment"],
-      style: { color: "#6c7086", fontStyle: "italic" },
+    plain: {
+        backgroundColor: "#1e1e2e",
+        color: "#cdd6f4",
     },
-    {
-      types: ["keyword"],
-      style: { color: "#cba6f7" },
-    },
-    {
-      types: ["string"],
-      style: { color: "#a6e3a1" },
-    },
-  ],
+    styles: [
+        {
+            types: ["comment"],
+            style: { color: "#6c7086", fontStyle: "italic" },
+        },
+        {
+            types: ["keyword"],
+            style: { color: "#cba6f7" },
+        },
+        {
+            types: ["string"],
+            style: { color: "#a6e3a1" },
+        },
+    ],
 };
 ```
 
@@ -160,7 +160,7 @@ CSS ファイルベースのテーマ（PrismJS 公式テーマ等）を使う�
 const emptyTheme = { plain: {}, styles: [] };
 
 <Highlight theme={emptyTheme} code={code} language="typescript">
-  {/* ... */}
+    {/* ... */}
 </Highlight>;
 ```
 
@@ -172,20 +172,28 @@ const emptyTheme = { plain: {}, styles: [] };
 
 ```tsx
 <Highlight theme={themes.vsDark} code={code} language="typescript">
-  {({ className, style, tokens, getLineProps, getTokenProps }) => (
-    <pre className={className} style={style}>
-      {tokens.map((line, i) => (
-        <div key={i} {...getLineProps({ line })}>
-          {/* 行番号 */}
-          <span style={{ color: "#6c7086", userSelect: "none", marginRight: "1rem" }}>{i + 1}</span>
-          {/* トークン */}
-          {line.map((token, key) => (
-            <span key={key} {...getTokenProps({ token })} />
-          ))}
-        </div>
-      ))}
-    </pre>
-  )}
+    {({ className, style, tokens, getLineProps, getTokenProps }) => (
+        <pre className={className} style={style}>
+            {tokens.map((line, i) => (
+                <div key={i} {...getLineProps({ line })}>
+                    {/* 行番号 */}
+                    <span
+                        style={{
+                            color: "#6c7086",
+                            userSelect: "none",
+                            marginRight: "1rem",
+                        }}
+                    >
+                        {i + 1}
+                    </span>
+                    {/* トークン */}
+                    {line.map((token, key) => (
+                        <span key={key} {...getTokenProps({ token })} />
+                    ))}
+                </div>
+            ))}
+        </pre>
+    )}
 </Highlight>
 ```
 
@@ -235,9 +243,9 @@ Prism のトークン化処理のみを行うフックです。`<Highlight>` を
 import { useTokenize, Prism } from "prism-react-renderer";
 
 const tokens = useTokenize({
-  prism: Prism,
-  code: "const x = 1;",
-  language: "typescript",
+    prism: Prism,
+    code: "const x = 1;",
+    language: "typescript",
 });
 ```
 

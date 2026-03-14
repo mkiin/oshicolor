@@ -21,11 +21,11 @@ npm install jotai-trpc @trpc/client @trpc/server
 import { createTRPCJotai } from "jotai-trpc";
 
 const trpc = createTRPCJotai<MyRouter>({
-  links: [
-    httpLink({
-      url: myUrl,
-    }),
-  ],
+    links: [
+        httpLink({
+            url: myUrl,
+        }),
+    ],
 });
 
 const idAtom = atom("foo");
@@ -44,23 +44,23 @@ import { trpcPokemonUrl } from "trpc-pokemon";
 import type { PokemonRouter } from "trpc-pokemon";
 
 const trpc = createTRPCJotai<PokemonRouter>({
-  links: [
-    httpLink({
-      url: trpcPokemonUrl,
-    }),
-  ],
+    links: [
+        httpLink({
+            url: trpcPokemonUrl,
+        }),
+    ],
 });
 
 const NAMES = [
-  "bulbasaur",
-  "ivysaur",
-  "venusaur",
-  "charmander",
-  "charmeleon",
-  "charizard",
-  "squirtle",
-  "wartortle",
-  "blastoise",
+    "bulbasaur",
+    "ivysaur",
+    "venusaur",
+    "charmander",
+    "charmeleon",
+    "charizard",
+    "squirtle",
+    "wartortle",
+    "blastoise",
 ];
 
 const nameAtom = atom(NAMES[0]);
@@ -68,15 +68,15 @@ const nameAtom = atom(NAMES[0]);
 const pokemonAtom = trpc.pokemon.byId.atomWithQuery((get) => get(nameAtom));
 
 const Pokemon = () => {
-  const [data, refresh] = useAtom(pokemonAtom);
-  return (
-    <div>
-      <div>ID: {data.id}</div>
-      <div>Height: {data.height}</div>
-      <div>Weight: {data.weight}</div>
-      <button onClick={refresh}>Refresh</button>
-    </div>
-  );
+    const [data, refresh] = useAtom(pokemonAtom);
+    return (
+        <div>
+            <div>ID: {data.id}</div>
+            <div>Height: {data.height}</div>
+            <div>Weight: {data.weight}</div>
+            <button onClick={refresh}>Refresh</button>
+        </div>
+    );
 };
 ```
 

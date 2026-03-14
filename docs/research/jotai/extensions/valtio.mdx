@@ -33,23 +33,27 @@ import { proxy } from "valtio/vanilla";
 const proxyState = proxy({ count: 0 });
 const stateAtom = atomWithProxy(proxyState);
 const Counter = () => {
-  const [state, setState] = useAtom(stateAtom);
+    const [state, setState] = useAtom(stateAtom);
 
-  return (
-    <>
-      count: {state.count}
-      <button onClick={() => setState((prev) => ({ ...prev, count: prev.count + 1 }))}>
-        inc atom
-      </button>
-      <button
-        onClick={() => {
-          ++proxyState.count;
-        }}
-      >
-        inc proxy
-      </button>
-    </>
-  );
+    return (
+        <>
+            count: {state.count}
+            <button
+                onClick={() =>
+                    setState((prev) => ({ ...prev, count: prev.count + 1 }))
+                }
+            >
+                inc atom
+            </button>
+            <button
+                onClick={() => {
+                    ++proxyState.count;
+                }}
+            >
+                inc proxy
+            </button>
+        </>
+    );
 };
 ```
 
@@ -81,8 +85,8 @@ atomWithProxy(proxyObject, { sync: true })
 const countProxyAtom = mutableAtom(0);
 
 function IncrementButton() {
-  const countProxy = useAtomValue(countProxyAtom);
-  return <button onClick={() => ++countProxy.value}>+</button>;
+    const countProxy = useAtomValue(countProxyAtom);
+    return <button onClick={() => ++countProxy.value}>+</button>;
 }
 ```
 
@@ -108,13 +112,13 @@ mutableAtom(value, options?)
 const countProxyAtom = mutableAtom(0);
 
 atom(
-  (get) => {
-    const countProxy = get(countProxyAtom);
-    ++countProxy.value; // 無限ループが発生します
-  },
-  (get, set) => {
-    const countProxy = get(countProxyAtom);
-    ++countProxy.value; // これは問題ありません
-  },
+    (get) => {
+        const countProxy = get(countProxyAtom);
+        ++countProxy.value; // 無限ループが発生します
+    },
+    (get, set) => {
+        const countProxy = get(countProxyAtom);
+        ++countProxy.value; // これは問題ありません
+    },
 );
 ```

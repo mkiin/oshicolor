@@ -26,8 +26,8 @@ export const textLenAtom = atom((get) => get(textAtom).length);
 ```js
 const textAtom = atom("hello");
 export const textUpperCaseAtom = atom(
-  (get) => get(textAtom).toUpperCase(),
-  (_get, set, newText) => set(textAtom, newText),
+    (get) => get(textAtom).toUpperCase(),
+    (_get, set, newText) => set(textAtom, newText),
 );
 ```
 
@@ -48,11 +48,14 @@ const rawNumberAtom = atom(10.1); // エクスポート可能
 const roundNumberAtom = atom((get) => Math.round(get(rawNumberAtom)));
 const overwrittenAtom = atom(null);
 export const numberAtom = atom(
-  (get) => get(overwrittenAtom) ?? get(roundNumberAtom),
-  (get, set, newValue) => {
-    const nextValue = typeof newValue === "function" ? newValue(get(numberAtom)) : newValue;
-    set(overwrittenAtom, nextValue);
-  },
+    (get) => get(overwrittenAtom) ?? get(roundNumberAtom),
+    (get, set, newValue) => {
+        const nextValue =
+            typeof newValue === "function"
+                ? newValue(get(numberAtom))
+                : newValue;
+        set(overwrittenAtom, nextValue);
+    },
 );
 ```
 
@@ -74,12 +77,13 @@ export const numberAtom = atom(
 ```js
 const baseAtom = atom(localStorage.getItem("mykey") || "");
 export const persistedAtom = atom(
-  (get) => get(baseAtom),
-  (get, set, newValue) => {
-    const nextValue = typeof newValue === "function" ? newValue(get(baseAtom)) : newValue;
-    set(baseAtom, nextValue);
-    localStorage.setItem("mykey", nextValue);
-  },
+    (get) => get(baseAtom),
+    (get, set, newValue) => {
+        const nextValue =
+            typeof newValue === "function" ? newValue(get(baseAtom)) : newValue;
+        set(baseAtom, nextValue);
+        localStorage.setItem("mykey", nextValue);
+    },
 );
 ```
 
@@ -140,13 +144,13 @@ README に説明されているため、既知のパターンのはずです。
 
 ```js
 const countAtom = atomWithReducer(0, (prev, action) => {
-  if (action === "INC") {
-    return prev + 1;
-  }
-  if (action === "DEC") {
-    return prev - 1;
-  }
-  throw new Error("unknown action");
+    if (action === "INC") {
+        return prev + 1;
+    }
+    if (action === "DEC") {
+        return prev - 1;
+    }
+    throw new Error("unknown action");
 });
 ```
 
@@ -158,10 +162,10 @@ const countAtom = atomWithReducer(0, (prev, action) => {
 const baseAtom = atom(0); // エクスポートしない
 export const countAtom = atom((get) => get(baseAtom)); // 読み取り専用
 export const incAtom = atom(null, (_get, set) => {
-  set(baseAtom, (prev) => prev + 1);
+    set(baseAtom, (prev) => prev + 1);
 });
 export const decAtom = atom(null, (_get, set) => {
-  set(baseAtom, (prev) => prev - 1);
+    set(baseAtom, (prev) => prev - 1);
 });
 ```
 
@@ -172,13 +176,13 @@ export const decAtom = atom(null, (_get, set) => {
 ```js
 // 前のコードから続く
 export const dispatchAtom = atom(null, (_get, set, action) => {
-  if (action === "INC") {
-    set(incAtom);
-  } else if (action === "DEC") {
-    set(decAtom);
-  } else {
-    throw new Error("unknown action");
-  }
+    if (action === "INC") {
+        set(incAtom);
+    } else if (action === "DEC") {
+        set(decAtom);
+    } else {
+        throw new Error("unknown action");
+    }
 });
 ```
 

@@ -41,33 +41,33 @@ _(If you just want to use your Prism CSS-file themes, that's also no problem)_
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 
 - [Installation](#installation)
-  - [Usage](#usage)
-  - [Custom Language Support](#custom-language-support)
+    - [Usage](#usage)
+    - [Custom Language Support](#custom-language-support)
 - [Basic Props](#basic-props)
-  - [children](#children)
-  - [language](#language)
-  - [code](#code)
+    - [children](#children)
+    - [language](#language)
+    - [code](#code)
 - [Advanced Props](#advanced-props)
-  - [theme](#theme)
-  - [prism](#prism)
+    - [theme](#theme)
+    - [prism](#prism)
 - [Children Function](#children-function)
-  - [state](#state)
-  - [prop getters](#prop-getters)
-    - [`getLineProps`](#getlineprops)
-    - [`getTokenProps`](#gettokenprops)
+    - [state](#state)
+    - [prop getters](#prop-getters)
+        - [`getLineProps`](#getlineprops)
+        - [`getTokenProps`](#gettokenprops)
 - [Utility Functions](#utility-functions)
-  - [`useTokenize`](#usetokenize)
-  - [`normalizeTokens`](#normalizetokens)
+    - [`useTokenize`](#usetokenize)
+    - [`normalizeTokens`](#normalizetokens)
 - [Theming](#theming)
-  - [Using a built-in theme](#using-a-built-in-theme)
-  - [Providing a CSS based theme](#providing-a-css-based-theme)
+    - [Using a built-in theme](#using-a-built-in-theme)
+    - [Providing a CSS based theme](#providing-a-css-based-theme)
 - [Upgrade](#upgrade)
-  - [Change module imports](#change-module-imports)
-  - [Change theme imports](#change-theme-imports)
-  - [Check language support](#check-language-support)
-  - [Add language component](#add-language-component)
+    - [Change module imports](#change-module-imports)
+    - [Change theme imports](#change-theme-imports)
+    - [Check language support](#check-language-support)
+    - [Add language component](#add-language-component)
 - [Development](#development)
-  - [Local Demo](#local-demo)
+    - [Local Demo](#local-demo)
 - [LICENSE](#license)
 - [Maintenance Status](#maintenance-status)
 
@@ -112,23 +112,25 @@ const GroceryItem: React.FC<GroceryItemProps> = ({ item }) => {
 `;
 
 export const App = () => (
-  <Highlight theme={themes.shadesOfPurple} code={codeBlock} language="tsx">
-    {({ className, style, tokens, getLineProps, getTokenProps }) => (
-      <pre style={style}>
-        {tokens.map((line, i) => (
-          <div key={i} {...getLineProps({ line })}>
-            <span>{i + 1}</span>
-            {line.map((token, key) => (
-              <span key={key} {...getTokenProps({ token })} />
-            ))}
-          </div>
-        ))}
-      </pre>
-    )}
-  </Highlight>
+    <Highlight theme={themes.shadesOfPurple} code={codeBlock} language="tsx">
+        {({ className, style, tokens, getLineProps, getTokenProps }) => (
+            <pre style={style}>
+                {tokens.map((line, i) => (
+                    <div key={i} {...getLineProps({ line })}>
+                        <span>{i + 1}</span>
+                        {line.map((token, key) => (
+                            <span key={key} {...getTokenProps({ token })} />
+                        ))}
+                    </div>
+                ))}
+            </pre>
+        )}
+    </Highlight>
 );
 
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(<App />);
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+    <App />,
+);
 ```
 
 ### Custom Language Support
@@ -215,12 +217,12 @@ You use it like so:
 
 ```js
 const ui = (
-  <Highlight>
-    {(highlight) => (
-      // use utilities and prop getters here, like highlight.className, highlight.getTokenProps, etc.
-      <pre>{/* more jsx here */}</pre>
-    )}
-  </Highlight>
+    <Highlight>
+        {(highlight) => (
+            // use utilities and prop getters here, like highlight.className, highlight.getTokenProps, etc.
+            <pre>{/* more jsx here */}</pre>
+        )}
+    </Highlight>
 );
 ```
 
@@ -296,10 +298,10 @@ your old Prism CSS-file themes.
 
 ```ts
 type TokenizeOptions = {
-  prism: PrismLib;
-  code: string;
-  grammar?: PrismGrammar;
-  language: Language;
+    prism: PrismLib;
+    code: string;
+    grammar?: PrismGrammar;
+    language: Language;
 };
 ```
 
@@ -320,9 +322,9 @@ Takes an array of Prism’s tokens and groups them by line, converting strings i
 - `PrismToken` is an internal alias for `Token` exported by `prismjs` and is defined [here](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/prismjs/index.d.ts#L347).
 
 - `Token` is an internal object that represents a slice of tokenized content for Prism with three properties:
-  - `types: string[]`: an array of types that indicate the purpose and styling of a piece of text
-  - `content: string`: the content of the token
-  - `empty: boolean`: a flag indicating whether the token is empty or not.
+    - `types: string[]`: an array of types that indicate the purpose and styling of a piece of text
+    - `content: string`: the content of the token
+    - `empty: boolean`: a flag indicating whether the token is empty or not.
 
 ## Theming
 
@@ -341,12 +343,12 @@ These themes are JSON-based and are heavily inspired by VSCode's theme format.
 
 ```ts
 export type PrismTheme = {
-  plain: PrismThemeEntry;
-  styles: Array<{
-    types: string[];
-    style: PrismThemeEntry;
-    languages?: Language[];
-  }>;
+    plain: PrismThemeEntry;
+    styles: Array<{
+        types: string[];
+        style: PrismThemeEntry;
+        languages?: Language[];
+    }>;
 };
 ```
 

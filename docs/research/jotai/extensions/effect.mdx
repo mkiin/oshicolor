@@ -46,7 +46,7 @@ function observe(effect: Effect, store?: Store): Unobserve
 import { observe } from "jotai-effect";
 
 const unobserve = observe((get, set) => {
-  set(logAtom, `someAtom changed: ${get(someAtom)}`);
+    set(logAtom, `someAtom changed: ${get(someAtom)}`);
 });
 
 unobserve();
@@ -87,15 +87,15 @@ function atomEffect(effect: Effect): Atom<void>;
 import { atomEffect } from "jotai-effect";
 
 const logEffect = atomEffect((get, set) => {
-  set(logAtom, get(someAtom)); // マウント時またはsomeAtomが変化したときに実行
-  return () => {
-    set(logAtom, "unmounting"); // アンマウント時のクリーンアップ
-  };
+    set(logAtom, get(someAtom)); // マウント時またはsomeAtomが変化したときに実行
+    return () => {
+        set(logAtom, "unmounting"); // アンマウント時のクリーンアップ
+    };
 });
 
 // Component がマウントされている間 atomEffect をアクティブにする
 function Component() {
-  useAtom(logEffect);
+    useAtom(logEffect);
 }
 ```
 
@@ -121,10 +121,10 @@ function withAtomEffect<T>(targetAtom: Atom<T>, effect: Effect): Atom<T>;
 import { withAtomEffect } from "jotai-effect";
 
 const valuesAtom = withAtomEffect(atom(null), (get, set) => {
-  set(valuesAtom, get(countAtom));
-  return () => {
-    // クリーンアップ
-  };
+    set(valuesAtom, get(countAtom));
+    return () => {
+        // クリーンアップ
+    };
 });
 ```
 
@@ -135,227 +135,251 @@ const valuesAtom = withAtomEffect(atom(null), (get, set) => {
 - **同期:**
   エフェクト内で `get` でアクセスしたすべてのアトムがアトムの依存関係に追加されます。
 
-  <!-- prettier-ignore -->
-  <details style="cursor: pointer; user-select: none;">
+              <!-- prettier-ignore -->
+
+              <details style="cursor: pointer; user-select: none;">
+
     <summary>例</summary>
 
-  ```js
-  atomEffect((get, set) => {
-    // `anAtom` が変化するたびに更新されます
-    get(anAtom);
-  });
-  ```
+    ```js
+    atomEffect((get, set) => {
+        // `anAtom` が変化するたびに更新されます
+        get(anAtom);
+    });
+    ```
 
-  </details>
+              </details>
 
 - **非同期:**
   非同期の `get` 呼び出しは依存関係を追加しません。
 
-  <!-- prettier-ignore -->
-  <details style="cursor: pointer; user-select: none;">
+              <!-- prettier-ignore -->
+
+              <details style="cursor: pointer; user-select: none;">
+
     <summary>例</summary>
 
-  ```js
-  atomEffect((get, set) => {
-    setTimeout(() => {
-      // `anAtom` を依存関係として追加しません
-      get(anAtom);
+    ```js
+    atomEffect((get, set) => {
+        setTimeout(() => {
+            // `anAtom` を依存関係として追加しません
+            get(anAtom);
+        });
     });
-  });
-  ```
+    ```
 
-  </details>
+              </details>
 
 - **クリーンアップ:**
   クリーンアップ内の `get` 呼び出しは依存関係を追加しません。
 
-  <!-- prettier-ignore -->
-  <details style="cursor: pointer; user-select: none;">
+              <!-- prettier-ignore -->
+
+              <details style="cursor: pointer; user-select: none;">
+
     <summary>例</summary>
 
-  ```js
-  atomEffect((get, set) => {
-    return () => {
-      // `anAtom` を依存関係として追加しません
-      get(anAtom);
-    };
-  });
-  ```
+    ```js
+    atomEffect((get, set) => {
+        return () => {
+            // `anAtom` を依存関係として追加しません
+            get(anAtom);
+        };
+    });
+    ```
 
-  </details>
+              </details>
 
 - **依存関係マップの再計算:**
   依存関係は毎回の実行時に再計算されます。
 
-  <!-- prettier-ignore -->
-  <details style="cursor: pointer; user-select: none;">
+              <!-- prettier-ignore -->
+
+              <details style="cursor: pointer; user-select: none;">
+
     <summary>例</summary>
 
-  ```js
-  atomEffect((get, set) => {
-    if (get(isEnabledAtom)) {
-      // `isEnabledAtom` と `anAtom` が依存関係です
-      const aValue = get(anAtom);
-    } else {
-      // `isEnabledAtom` と `anotherAtom` が依存関係です
-      const anotherValue = get(anotherAtom);
-    }
-  });
-  ```
+    ```js
+    atomEffect((get, set) => {
+        if (get(isEnabledAtom)) {
+            // `isEnabledAtom` と `anAtom` が依存関係です
+            const aValue = get(anAtom);
+        } else {
+            // `isEnabledAtom` と `anotherAtom` が依存関係です
+            const anotherValue = get(anotherAtom);
+        }
+    });
+    ```
 
-  </details>
+              </details>
 
 ## エフェクトの動作
 
 - **同期的に実行:**
   `effect` は同期評価が完了した後、現在のタスク内で同期的に実行されます。
 
-  <!-- prettier-ignore -->
-  <details style="cursor: pointer; user-select: none;">
+              <!-- prettier-ignore -->
+
+              <details style="cursor: pointer; user-select: none;">
+
     <summary>例</summary>
 
-  ```js
-  const logCounts = atomEffect((get, set) => {
-    set(logAtom, `count is ${get(countAtom)}`);
-  });
-  const actionAtom = atom(null, (get, set) => {
-    get(logAtom); // 'count is 0'
-    set(countAtom, (value) => value + 1); // エフェクトが同期的に実行されます
-    get(logAtom); // 'count is 1'
-  });
-  store.sub(logCounts, () => {});
-  store.set(actionAtom);
-  ```
+    ```js
+    const logCounts = atomEffect((get, set) => {
+        set(logAtom, `count is ${get(countAtom)}`);
+    });
+    const actionAtom = atom(null, (get, set) => {
+        get(logAtom); // 'count is 0'
+        set(countAtom, (value) => value + 1); // エフェクトが同期的に実行されます
+        get(logAtom); // 'count is 1'
+    });
+    store.sub(logCounts, () => {});
+    store.set(actionAtom);
+    ```
 
-  </details>
+              </details>
 
 - **バッチ更新:**
   複数の同期更新が単一のアトミックトランザクションとしてバッチ処理されます。
 
-  <!-- prettier-ignore -->
-  <details style="cursor: pointer; user-select: none;">
+              <!-- prettier-ignore -->
+
+              <details style="cursor: pointer; user-select: none;">
+
     <summary>例</summary>
 
-  ```js
-  const tensAtom = atom(0);
-  const onesAtom = atom(0);
-  const updateTensAndOnes = atom(null, (get, set) => {
-    set(tensAtom, (value) => value + 1);
-    set(onesAtom, (value) => value + 1);
-  });
-  const combos = atom([]);
-  const effectAtom = atomEffect((get, set) => {
-    const value = get(tensAtom) * 10 + get(onesAtom);
-    set(combos, (arr) => [...arr, value]);
-  });
-  store.sub(effectAtom, () => {});
-  store.set(updateTensAndOnes);
-  store.get(combos); // [00, 11]
-  ```
+    ```js
+    const tensAtom = atom(0);
+    const onesAtom = atom(0);
+    const updateTensAndOnes = atom(null, (get, set) => {
+        set(tensAtom, (value) => value + 1);
+        set(onesAtom, (value) => value + 1);
+    });
+    const combos = atom([]);
+    const effectAtom = atomEffect((get, set) => {
+        const value = get(tensAtom) * 10 + get(onesAtom);
+        set(combos, (arr) => [...arr, value]);
+    });
+    store.sub(effectAtom, () => {});
+    store.set(updateTensAndOnes);
+    store.get(combos); // [00, 11]
+    ```
 
-  </details>
+              </details>
 
 - **無限ループへの耐性:**
   `atomEffect` は監視している値を更新しても再実行されません。
 
-  <!-- prettier-ignore -->
-  <details style="cursor: pointer; user-select: none;">
+              <!-- prettier-ignore -->
+
+              <details style="cursor: pointer; user-select: none;">
+
     <summary>例</summary>
 
-  ```js
-  atomEffect((get, set) => {
-    get(countAtom);
-    set(countAtom, (value) => value + 1); // ループしません
-  });
-  ```
+    ```js
+    atomEffect((get, set) => {
+        get(countAtom);
+        set(countAtom, (value) => value + 1); // ループしません
+    });
+    ```
 
-  </details>
+              </details>
 
 - **クリーンアップ関数:**
   クリーンアップ関数はアンマウント時または再評価前に呼び出されます。
 
-  <!-- prettier-ignore -->
-  <details style="cursor: pointer; user-select: none;">
+              <!-- prettier-ignore -->
+
+              <details style="cursor: pointer; user-select: none;">
+
     <summary>例</summary>
 
-  ```js
-  atomEffect((get, set) => {
-    const intervalId = setInterval(() => set(clockAtom, Date.now()));
-    return () => clearInterval(intervalId);
-  });
-  ```
+    ```js
+    atomEffect((get, set) => {
+        const intervalId = setInterval(() => set(clockAtom, Date.now()));
+        return () => clearInterval(intervalId);
+    });
+    ```
 
-  </details>
+              </details>
 
 - **冪等性:**
   `atomEffect` は何回参照されても、状態変更ごとに1回のみ実行されます。
 
-  <!-- prettier-ignore -->
-  <details style="cursor: pointer; user-select: none;">
+              <!-- prettier-ignore -->
+
+              <details style="cursor: pointer; user-select: none;">
+
     <summary>例</summary>
 
-  ```js
-  let i = 0;
-  const effectAtom = atomEffect(() => {
-    get(countAtom);
-    i++;
-  });
-  store.sub(effectAtom, () => {});
-  store.sub(effectAtom, () => {});
-  store.set(countAtom, (value) => value + 1);
-  console.log(i); // 1
-  ```
+    ```js
+    let i = 0;
+    const effectAtom = atomEffect(() => {
+        get(countAtom);
+        i++;
+    });
+    store.sub(effectAtom, () => {});
+    store.sub(effectAtom, () => {});
+    store.set(countAtom, (value) => value + 1);
+    console.log(i); // 1
+    ```
 
-  </details>
+              </details>
 
 - **条件付きエフェクト実行:**
   `atomEffect` はマウントされている場合にのみ実行されます。
 
-  <!-- prettier-ignore -->
-  <details style="cursor: pointer; user-select: none;">
+              <!-- prettier-ignore -->
+
+              <details style="cursor: pointer; user-select: none;">
+
     <summary>例</summary>
 
-  ```js
-  atom((get) => {
-    if (get(isEnabledAtom)) {
-      get(effectAtom);
-    }
-  });
-  ```
+    ```js
+    atom((get) => {
+        if (get(isEnabledAtom)) {
+            get(effectAtom);
+        }
+    });
+    ```
 
-  </details>
+              </details>
 
 - **Peek のサポート:**
   `get.peek` を使用してサブスクライブせずにアトムデータを読み取れます。
 
-  <!-- prettier-ignore -->
-  <details style="cursor: pointer; user-select: none;">
+              <!-- prettier-ignore -->
+
+              <details style="cursor: pointer; user-select: none;">
+
     <summary>例</summary>
 
-  ```js
-  const countAtom = atom(0);
-  atomEffect((get, set) => {
-    const count = get.peek(countAtom); // `countAtom` を依存関係として追加しません
-  });
-  ```
+    ```js
+    const countAtom = atom(0);
+    atomEffect((get, set) => {
+        const count = get.peek(countAtom); // `countAtom` を依存関係として追加しません
+    });
+    ```
 
-  </details>
+              </details>
 
 - **再帰のサポート:**
   再帰は `set.recurse` でサポートされますが、クリーンアップ内ではサポートされません。
 
-  <!-- prettier-ignore -->
-  <details style="cursor: pointer; user-select: none;">
+              <!-- prettier-ignore -->
+
+              <details style="cursor: pointer; user-select: none;">
+
     <summary>例</summary>
 
-  ```js
-  atomEffect((get, set) => {
-    const count = get(countAtom);
-    if (count % 10 === 0) {
-      return;
-    }
-    set.recurse(countAtom, (value) => value + 1);
-  });
-  ```
+    ```js
+    atomEffect((get, set) => {
+        const count = get(countAtom);
+        if (count % 10 === 0) {
+            return;
+        }
+        set.recurse(countAtom, (value) => value + 1);
+    });
+    ```
 
-  </details>
+              </details>

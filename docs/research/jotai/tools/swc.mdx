@@ -23,11 +23,11 @@ npm install --save-dev @swc-jotai/react-refresh
 
 ```json
 {
-  "jsc": {
-    "experimental": {
-      "plugins": [["@swc-jotai/react-refresh", {}]]
+    "jsc": {
+        "experimental": {
+            "plugins": [["@swc-jotai/react-refresh", {}]]
+        }
     }
-  }
 }
 ```
 
@@ -35,9 +35,9 @@ Next.js の [実験的な SWC プラグイン機能](https://nextjs.org/docs/adv
 
 ```js
 module.exports = {
-  experimental: {
-    swcPlugins: [["@swc-jotai/react-refresh", {}]],
-  },
+    experimental: {
+        swcPlugins: [["@swc-jotai/react-refresh", {}]],
+    },
 };
 ```
 
@@ -92,11 +92,11 @@ npm install --save-dev @swc-jotai/debug-label
 
 ```json
 {
-  "jsc": {
-    "experimental": {
-      "plugins": [["@swc-jotai/debug-label", {}]]
+    "jsc": {
+        "experimental": {
+            "plugins": [["@swc-jotai/debug-label", {}]]
+        }
     }
-  }
 }
 ```
 
@@ -104,9 +104,9 @@ npm install --save-dev @swc-jotai/debug-label
 
 ```js
 module.exports = {
-  experimental: {
-    swcPlugins: [["@swc-jotai/debug-label", {}]],
-  },
+    experimental: {
+        swcPlugins: [["@swc-jotai/debug-label", {}]],
+    },
 };
 ```
 
@@ -118,12 +118,12 @@ module.exports = {
 
 ```js
 module.exports = {
-  experimental: {
-    swcPlugins: [
-      ["@swc-jotai/debug-label", { atomNames: ["customAtom"] }],
-      ["@swc-jotai/react-refresh", { atomNames: ["customAtom"] }],
-    ],
-  },
+    experimental: {
+        swcPlugins: [
+            ["@swc-jotai/debug-label", { atomNames: ["customAtom"] }],
+            ["@swc-jotai/react-refresh", { atomNames: ["customAtom"] }],
+        ],
+    },
 };
 ```
 

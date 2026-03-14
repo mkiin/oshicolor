@@ -120,7 +120,11 @@ createStore()
 ```ts
 // useStore フック（内部実装）
 function useStore<T>(selector: (state: StoreState) => T): T {
-  return React.useSyncExternalStore(store.subscribe, getSnapshot, getSnapshot);
+    return React.useSyncExternalStore(
+        store.subscribe,
+        getSnapshot,
+        getSnapshot,
+    );
 }
 
 // 使い方
@@ -266,6 +270,6 @@ export { useStore as useFileUpload }
 import * as FileUpload from "@/components/ui/file-upload";
 
 <FileUpload.Root>
-  <FileUpload.Dropzone>...</FileUpload.Dropzone>
+    <FileUpload.Dropzone>...</FileUpload.Dropzone>
 </FileUpload.Root>;
 ```

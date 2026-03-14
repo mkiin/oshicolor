@@ -18,7 +18,7 @@ import { atomEffect } from "jotai-effect";
 type EffectFn = Parameters<typeof atomEffect>[0];
 
 export function useAtomEffect(effectFn: EffectFn) {
-  useAtomValue(useStableMemo(() => atomEffect(effectFn), [effectFn]));
+    useAtomValue(useStableMemo(() => atomEffect(effectFn), [effectFn]));
 }
 ```
 
@@ -30,33 +30,35 @@ import { atom, useAtom } from "jotai";
 import { atomFamily } from "jotai/utils";
 import { useAtomEffect } from "./useAtomEffect";
 
-const channelSubscriptionAtomFamily = atomFamily<Channel>((channelId: string) => {
-  return atom(new Channel(channelId));
-});
+const channelSubscriptionAtomFamily = atomFamily<Channel>(
+    (channelId: string) => {
+        return atom(new Channel(channelId));
+    },
+);
 const messagesAtom = atom<Message[]>([]);
 
 function Messages({ channelId }: { channelId: string }) {
-  const [messages] = useAtom(messagesAtom);
-  useAtomEffect(
-    useStableCallback(
-      (get, set) => {
-        const channel = get(channelSubscriptionAtomFamily(channelId));
-        const unsubscribe = channel.subscribe((message) => {
-          set(messagesAtom, (prev) => [...prev, message]);
-        });
-        return unsubscribe;
-      },
-      [channelId],
-    ),
-  );
-  return (
-    <>
-      <h1>You have {messages.length} messages</h1>
-      <hr />
-      {messages.map((message) => (
-        <div key={message.id}>{message.text}</div>
-      ))}
-    </>
-  );
+    const [messages] = useAtom(messagesAtom);
+    useAtomEffect(
+        useStableCallback(
+            (get, set) => {
+                const channel = get(channelSubscriptionAtomFamily(channelId));
+                const unsubscribe = channel.subscribe((message) => {
+                    set(messagesAtom, (prev) => [...prev, message]);
+                });
+                return unsubscribe;
+            },
+            [channelId],
+        ),
+    );
+    return (
+        <>
+            <h1>You have {messages.length} messages</h1>
+            <hr />
+            {messages.map((message) => (
+                <div key={message.id}>{message.text}</div>
+            ))}
+        </>
+    );
 }
 ```

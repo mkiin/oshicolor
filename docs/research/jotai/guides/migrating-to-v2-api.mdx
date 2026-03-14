@@ -32,7 +32,7 @@ store.set(fooAtom, "foo");
 console.log(store.get(fooAtom)); // "foo" を出力
 
 const unsub = store.sub(fooAtom, () => {
-  console.log("fooAtom value in store is changed");
+    console.log("fooAtom value in store is changed");
 });
 // サブスクライブを解除するには unsub() を呼び出す
 ```

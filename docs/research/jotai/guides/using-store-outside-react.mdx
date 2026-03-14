@@ -22,20 +22,20 @@ store.set(timeAtom, (prev) => prev + 1); // アトムの値を更新
 store.get(timeAtom); // アトムの値を読み取る
 
 function Component() {
-  const time = useAtomValue(timeAtom); // React 内
-  return (
-    <div className="App">
-      <h1>{time}</h1>
-    </div>
-  );
+    const time = useAtomValue(timeAtom); // React 内
+    return (
+        <div className="App">
+            <h1>{time}</h1>
+        </div>
+    );
 }
 
 export default function App() {
-  return (
-    <Provider store={store}>
-      <Component />
-    </Provider>
-  );
+    return (
+        <Provider store={store}>
+            <Component />
+        </Provider>
+    );
 }
 ```
 

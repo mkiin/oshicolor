@@ -82,12 +82,12 @@ startTransitionA(() => {
 const [name, setName] = useState("");
 
 <input
-  type="text"
-  value={name}
-  onChange={(e) => {
-    // これはトランジションにできない
-    setName(e.target.value);
-  }}
+    type="text"
+    value={name}
+    onChange={(e) => {
+        // これはトランジションにできない
+        setName(e.target.value);
+    }}
 />;
 ```
 
@@ -103,14 +103,14 @@ const [name, setName] = useState("");
 const [name, setName] = useState("");
 
 <input
-  type="text"
-  value={name}
-  onChange={(e) => {
-    // トランジションにすべきではない
-    startTransition(() => {
-      setName(e.target.value);
-    });
-  }}
+    type="text"
+    value={name}
+    onChange={(e) => {
+        // トランジションにすべきではない
+        startTransition(() => {
+            setName(e.target.value);
+        });
+    }}
 />;
 ```
 
@@ -130,27 +130,27 @@ const [name, setName] = useState("");
 
 ```tsx
 function UserPage() {
-  const [showPosts, setShowPosts] = useState(false);
+    const [showPosts, setShowPosts] = useState(false);
 
-  return (
-    <div>
-      <UserProfile />
-      <button
-        onClick={() => {
-          startTransition(() => {
-            setShowPosts(true);
-          });
-        }}
-      >
-        投稿を見る
-      </button>
-      {showPosts && (
-        <Suspense fallback={<LoadingSpinner />}>
-          <UserPosts />
-        </Suspense>
-      )}
-    </div>
-  );
+    return (
+        <div>
+            <UserProfile />
+            <button
+                onClick={() => {
+                    startTransition(() => {
+                        setShowPosts(true);
+                    });
+                }}
+            >
+                投稿を見る
+            </button>
+            {showPosts && (
+                <Suspense fallback={<LoadingSpinner />}>
+                    <UserPosts />
+                </Suspense>
+            )}
+        </div>
+    );
 }
 ```
 
@@ -184,34 +184,34 @@ function UserPage() {
 
 ```tsx
 const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<"A" | "B">("A");
+    const [activeTab, setActiveTab] = useState<"A" | "B">("A");
 
-  return (
-    <div>
-      <button
-        onClick={() => {
-          startTransition(() => {
-            setActiveTab("A");
-          });
-        }}
-      >
-        タブA {activeTab === "A" ? "(選択中)" : ""}
-      </button>
-      <button
-        onClick={() => {
-          startTransition(() => {
-            setActiveTab("B");
-          });
-        }}
-      >
-        タブB {activeTab === "B" ? "(選択中)" : ""}
-      </button>
+    return (
+        <div>
+            <button
+                onClick={() => {
+                    startTransition(() => {
+                        setActiveTab("A");
+                    });
+                }}
+            >
+                タブA {activeTab === "A" ? "(選択中)" : ""}
+            </button>
+            <button
+                onClick={() => {
+                    startTransition(() => {
+                        setActiveTab("B");
+                    });
+                }}
+            >
+                タブB {activeTab === "B" ? "(選択中)" : ""}
+            </button>
 
-      <Suspense fallback={<LoadingSpinner />}>
-        {activeTab === "A" ? <TabAContent /> : <TabBContent />}
-      </Suspense>
-    </div>
-  );
+            <Suspense fallback={<LoadingSpinner />}>
+                {activeTab === "A" ? <TabAContent /> : <TabBContent />}
+            </Suspense>
+        </div>
+    );
 };
 ```
 
@@ -223,41 +223,41 @@ const App: React.FC = () => {
 
 ```tsx
 const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<"A" | "B">("A");
+    const [activeTab, setActiveTab] = useState<"A" | "B">("A");
 
-  return (
-    <div>
-      <button
-        onClick={() => {
-          startTransition(() => {
-            setActiveTab("A");
-          });
-        }}
-      >
-        タブA {activeTab === "A" ? "(選択中)" : ""}
-      </button>
-      <button
-        onClick={() => {
-          startTransition(() => {
-            setActiveTab("B");
-          });
-        }}
-      >
-        タブB {activeTab === "B" ? "(選択中)" : ""}
-      </button>
+    return (
+        <div>
+            <button
+                onClick={() => {
+                    startTransition(() => {
+                        setActiveTab("A");
+                    });
+                }}
+            >
+                タブA {activeTab === "A" ? "(選択中)" : ""}
+            </button>
+            <button
+                onClick={() => {
+                    startTransition(() => {
+                        setActiveTab("B");
+                    });
+                }}
+            >
+                タブB {activeTab === "B" ? "(選択中)" : ""}
+            </button>
 
-      {activeTab === "A" && (
-        <Suspense fallback={<LoadingSpinner />}>
-          <TabAContent />
-        </Suspense>
-      )}
-      {activeTab === "B" && (
-        <Suspense fallback={<LoadingSpinner />}>
-          <TabBContent />
-        </Suspense>
-      )}
-    </div>
-  );
+            {activeTab === "A" && (
+                <Suspense fallback={<LoadingSpinner />}>
+                    <TabAContent />
+                </Suspense>
+            )}
+            {activeTab === "B" && (
+                <Suspense fallback={<LoadingSpinner />}>
+                    <TabBContent />
+                </Suspense>
+            )}
+        </div>
+    );
 };
 ```
 
@@ -271,7 +271,7 @@ const App: React.FC = () => {
 
 ```tsx
 <Suspense key={activeTab} fallback={<LoadingSpinner />}>
-  {activeTab === "A" ? <TabAContent /> : <TabBContent />}
+    {activeTab === "A" ? <TabAContent /> : <TabBContent />}
 </Suspense>
 ```
 
@@ -297,56 +297,59 @@ https://zenn.dev/uhyo/articles/react-key-techniques
 type PageId = "home" | "profile" | "settings";
 
 async function fetchPageContent(pageId: PageId): Promise<string> {
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  const contents: Record<PageId, string> = {
-    home: "ホームページへようこそ！",
-    profile: "あなたのプロフィール情報です。",
-    settings: "設定を変更できます。",
-  };
-  return contents[pageId];
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    const contents: Record<PageId, string> = {
+        home: "ホームページへようこそ！",
+        profile: "あなたのプロフィール情報です。",
+        settings: "設定を変更できます。",
+    };
+    return contents[pageId];
 }
 
 const pageContentAtomFamily = atomFamily((pageId: PageId) =>
-  atom(async () => fetchPageContent(pageId)),
+    atom(async () => fetchPageContent(pageId)),
 );
 
 const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<PageId>("home");
+    const [currentPage, setCurrentPage] = useState<PageId>("home");
 
-  const handleNavigate = (pageId: PageId) => {
-    startTransition(() => {
-      setCurrentPage(pageId);
-    });
-  };
+    const handleNavigate = (pageId: PageId) => {
+        startTransition(() => {
+            setCurrentPage(pageId);
+        });
+    };
 
-  return (
-    <div>
-      <nav>
-        <button type="button" onClick={() => handleNavigate("home")}>
-          ホーム {currentPage === "home" ? "(現在)" : ""}
-        </button>
-        <button type="button" onClick={() => handleNavigate("profile")}>
-          プロフィール {currentPage === "profile" ? "(現在)" : ""}
-        </button>
-        <button type="button" onClick={() => handleNavigate("settings")}>
-          設定 {currentPage === "settings" ? "(現在)" : ""}
-        </button>
-      </nav>
+    return (
+        <div>
+            <nav>
+                <button type="button" onClick={() => handleNavigate("home")}>
+                    ホーム {currentPage === "home" ? "(現在)" : ""}
+                </button>
+                <button type="button" onClick={() => handleNavigate("profile")}>
+                    プロフィール {currentPage === "profile" ? "(現在)" : ""}
+                </button>
+                <button
+                    type="button"
+                    onClick={() => handleNavigate("settings")}
+                >
+                    設定 {currentPage === "settings" ? "(現在)" : ""}
+                </button>
+            </nav>
 
-      <Suspense fallback={<p>ページを読み込み中...</p>}>
-        <PageContent pageId={currentPage} />
-      </Suspense>
-    </div>
-  );
+            <Suspense fallback={<p>ページを読み込み中...</p>}>
+                <PageContent pageId={currentPage} />
+            </Suspense>
+        </div>
+    );
 };
 
 const PageContent: React.FC<{ pageId: PageId }> = ({ pageId }) => {
-  const content = useAtomValue(pageContentAtomFamily(pageId));
-  return (
-    <main>
-      <p>{content}</p>
-    </main>
-  );
+    const content = useAtomValue(pageContentAtomFamily(pageId));
+    return (
+        <main>
+            <p>{content}</p>
+        </main>
+    );
 };
 ```
 
@@ -358,33 +361,36 @@ const PageContent: React.FC<{ pageId: PageId }> = ({ pageId }) => {
 
 ```tsx
 const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<PageId>("home");
+    const [currentPage, setCurrentPage] = useState<PageId>("home");
 
-  const handleNavigate = (pageId: PageId) => {
-    startTransition(() => {
-      setCurrentPage(pageId);
-    });
-  };
+    const handleNavigate = (pageId: PageId) => {
+        startTransition(() => {
+            setCurrentPage(pageId);
+        });
+    };
 
-  return (
-    <div>
-      <nav>
-        <button type="button" onClick={() => handleNavigate("home")}>
-          ホーム {currentPage === "home" ? "(現在)" : ""}
-        </button>
-        <button type="button" onClick={() => handleNavigate("profile")}>
-          プロフィール {currentPage === "profile" ? "(現在)" : ""}
-        </button>
-        <button type="button" onClick={() => handleNavigate("settings")}>
-          設定 {currentPage === "settings" ? "(現在)" : ""}
-        </button>
-      </nav>
+    return (
+        <div>
+            <nav>
+                <button type="button" onClick={() => handleNavigate("home")}>
+                    ホーム {currentPage === "home" ? "(現在)" : ""}
+                </button>
+                <button type="button" onClick={() => handleNavigate("profile")}>
+                    プロフィール {currentPage === "profile" ? "(現在)" : ""}
+                </button>
+                <button
+                    type="button"
+                    onClick={() => handleNavigate("settings")}
+                >
+                    設定 {currentPage === "settings" ? "(現在)" : ""}
+                </button>
+            </nav>
 
-      <Suspense key={currentPage} fallback={<p>ページを読み込み中...</p>}>
-        <PageContent pageId={currentPage} />
-      </Suspense>
-    </div>
-  );
+            <Suspense key={currentPage} fallback={<p>ページを読み込み中...</p>}>
+                <PageContent pageId={currentPage} />
+            </Suspense>
+        </div>
+    );
 };
 ```
 

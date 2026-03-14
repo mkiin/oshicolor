@@ -12,31 +12,31 @@ keywords: large,object
 
 ```js
 const initialData = {
-  people: [
-    {
-      name: "Luke Skywalker",
-      information: { height: 172 },
-      siblings: ["John Skywalker", "Doe Skywalker"],
+    people: [
+        {
+            name: "Luke Skywalker",
+            information: { height: 172 },
+            siblings: ["John Skywalker", "Doe Skywalker"],
+        },
+        {
+            name: "C-3PO",
+            information: { height: 167 },
+            siblings: ["John Doe", "Doe John"],
+        },
+    ],
+    films: [
+        {
+            title: "A New Hope",
+            planets: ["Tatooine", "Alderaan"],
+        },
+        {
+            title: "The Empire Strikes Back",
+            planets: ["Hoth"],
+        },
+    ],
+    info: {
+        tags: ["People", "Films", "Planets", "Titles"],
     },
-    {
-      name: "C-3PO",
-      information: { height: 167 },
-      siblings: ["John Doe", "Doe John"],
-    },
-  ],
-  films: [
-    {
-      title: "A New Hope",
-      planets: ["Tatooine", "Alderaan"],
-    },
-    {
-      title: "The Empire Strikes Back",
-      planets: ["Hoth"],
-    },
-  ],
-  info: {
-    tags: ["People", "Films", "Planets", "Titles"],
-  },
 };
 ```
 
@@ -75,14 +75,14 @@ const peopleAtomsAtom = splitAtom(peopleAtom);
 
 ```jsx
 const People = () => {
-  const [peopleAtoms] = useAtom(peopleAtomsAtom);
-  return (
-    <div>
-      {peopleAtoms.map((personAtom) => (
-        <Person personAtom={personAtom} key={`${personAtom}`} />
-      ))}
-    </div>
-  );
+    const [peopleAtoms] = useAtom(peopleAtomsAtom);
+    return (
+        <div>
+            {peopleAtoms.map((personAtom) => (
+                <Person personAtom={personAtom} key={`${personAtom}`} />
+            ))}
+        </div>
+    );
 };
 ```
 
@@ -107,15 +107,15 @@ import { selectAtom, splitAtom } from "jotai/utils";
 
 const tagsSelector = (s) => s.tags;
 const Tags = () => {
-  const tagsAtom = selectAtom(infoAtom, tagsSelector);
-  const tagsAtomsAtom = splitAtom(tagsAtom);
-  const [tagAtoms] = useAtom(tagsAtomsAtom);
-  return (
-    <div>
-      {tagAtoms.map((tagAtom) => (
-        <Tag key={`${tagAtom}`} tagAtom={tagAtom} />
-      ))}
-    </div>
-  );
+    const tagsAtom = selectAtom(infoAtom, tagsSelector);
+    const tagsAtomsAtom = splitAtom(tagsAtom);
+    const [tagAtoms] = useAtom(tagsAtomsAtom);
+    return (
+        <div>
+            {tagAtoms.map((tagAtom) => (
+                <Tag key={`${tagAtom}`} tagAtom={tagAtom} />
+            ))}
+        </div>
+    );
 };
 ```

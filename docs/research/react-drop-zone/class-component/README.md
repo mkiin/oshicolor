@@ -9,32 +9,36 @@ import { Component } from "react";
 import Dropzone from "react-dropzone";
 
 class ClassDropzone extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { files: [] };
-  }
+    constructor(props) {
+        super(props);
+        this.state = { files: [] };
+    }
 
-  render() {
-    return (
-      <Dropzone onDrop={(acceptedFiles) => this.setState({ files: acceptedFiles })}>
-        {({ getRootProps, getInputProps }) => (
-          <section>
-            <div {...getRootProps({ className: "dropzone" })}>
-              <input {...getInputProps()} />
-              <p>ファイルをドロップ</p>
-            </div>
-            <aside>
-              <ul>
-                {this.state.files.map((f) => (
-                  <li key={f.name}>{f.name}</li>
-                ))}
-              </ul>
-            </aside>
-          </section>
-        )}
-      </Dropzone>
-    );
-  }
+    render() {
+        return (
+            <Dropzone
+                onDrop={(acceptedFiles) =>
+                    this.setState({ files: acceptedFiles })
+                }
+            >
+                {({ getRootProps, getInputProps }) => (
+                    <section>
+                        <div {...getRootProps({ className: "dropzone" })}>
+                            <input {...getInputProps()} />
+                            <p>ファイルをドロップ</p>
+                        </div>
+                        <aside>
+                            <ul>
+                                {this.state.files.map((f) => (
+                                    <li key={f.name}>{f.name}</li>
+                                ))}
+                            </ul>
+                        </aside>
+                    </section>
+                )}
+            </Dropzone>
+        );
+    }
 }
 ```
 
@@ -67,45 +71,47 @@ const fileCountAtom = atom((get) => get(filesAtom).length);
 // このラッパーは「Jotai ↔ クラスコンポーネントの橋渡し役」に徹し、
 // それ以上のロジックは持たない。
 function ClassDropzoneWrapper() {
-  const setFiles = useSetAtom(filesAtom);
-  const files = useAtomValue(filesAtom);
-  const fileCount = useAtomValue(fileCountAtom);
+    const setFiles = useSetAtom(filesAtom);
+    const files = useAtomValue(filesAtom);
+    const fileCount = useAtomValue(fileCountAtom);
 
-  return <ClassDropzone onDrop={setFiles} files={files} fileCount={fileCount} />;
+    return (
+        <ClassDropzone onDrop={setFiles} files={files} fileCount={fileCount} />
+    );
 }
 
 class ClassDropzone extends Component {
-  render() {
-    const { onDrop, files, fileCount } = this.props;
+    render() {
+        const { onDrop, files, fileCount } = this.props;
 
-    return (
-      <Dropzone onDrop={onDrop}>
-        {({ getRootProps, getInputProps }) => (
-          <section>
-            <div {...getRootProps({ className: "dropzone" })}>
-              <input {...getInputProps()} />
-              <p>ファイルをドロップ</p>
-            </div>
-            <aside>
-              <p>{fileCount} ファイル選択中</p>
-              <ul>
-                {files.map((f) => (
-                  <li key={f.name}>{f.name}</li>
-                ))}
-              </ul>
-            </aside>
-          </section>
-        )}
-      </Dropzone>
-    );
-  }
+        return (
+            <Dropzone onDrop={onDrop}>
+                {({ getRootProps, getInputProps }) => (
+                    <section>
+                        <div {...getRootProps({ className: "dropzone" })}>
+                            <input {...getInputProps()} />
+                            <p>ファイルをドロップ</p>
+                        </div>
+                        <aside>
+                            <p>{fileCount} ファイル選択中</p>
+                            <ul>
+                                {files.map((f) => (
+                                    <li key={f.name}>{f.name}</li>
+                                ))}
+                            </ul>
+                        </aside>
+                    </section>
+                )}
+            </Dropzone>
+        );
+    }
 }
 
 // atom を直接読む関数コンポーネントは通常通り使える
 // クラスコンポーネントとは別のコンポーネントツリーに配置できる
 function FileCounter() {
-  const count = useAtomValue(fileCountAtom);
-  return <p>{count} ファイル選択中</p>;
+    const count = useAtomValue(fileCountAtom);
+    return <p>{count} ファイル選択中</p>;
 }
 ```
 

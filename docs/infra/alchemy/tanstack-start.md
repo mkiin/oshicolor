@@ -180,7 +180,7 @@ const app = await alchemy("my-tanstack-app");
 export const worker = await TanStackStart("website");
 
 console.log({
-  url: worker.url,
+    url: worker.url,
 });
 
 await app.finalize();
@@ -197,13 +197,13 @@ import type { worker } from "../alchemy.run.ts";
 export type CloudflareEnv = typeof worker.Env;
 
 declare global {
-  type Env = CloudflareEnv;
+    type Env = CloudflareEnv;
 }
 
 declare module "cloudflare:workers" {
-  namespace Cloudflare {
-    export interface Env extends CloudflareEnv {}
-  }
+    namespace Cloudflare {
+        export interface Env extends CloudflareEnv {}
+    }
 }
 ```
 
@@ -217,16 +217,16 @@ The `alchemy.run.ts` script will be run by `node` but still needs to infer the [
 
 ```json
 {
-  "compilerOptions": {
-    "target": "ES2022",
-    "lib": ["ES2022"],
-    "module": "ES2022",
-    "moduleResolution": "bundler",
-    "strict": true,
-    "skipLibCheck": true,
-    "types": ["@cloudflare/workers-types", "./types/env.d.ts"]
-  },
-  "include": ["types/**/*.ts", "alchemy.run.ts", "src/**/*.ts"]
+    "compilerOptions": {
+        "target": "ES2022",
+        "lib": ["ES2022"],
+        "module": "ES2022",
+        "moduleResolution": "bundler",
+        "strict": true,
+        "skipLibCheck": true,
+        "types": ["@cloudflare/workers-types", "./types/env.d.ts"]
+    },
+    "include": ["types/**/*.ts", "alchemy.run.ts", "src/**/*.ts"]
 }
 ```
 
@@ -242,23 +242,23 @@ import { defineConfig } from "vite";
 import tsConfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
-  build: {
-    target: "esnext",
-    rollupOptions: {
-      external: ["node:async_hooks", "cloudflare:workers"],
+    build: {
+        target: "esnext",
+        rollupOptions: {
+            external: ["node:async_hooks", "cloudflare:workers"],
+        },
     },
-  },
-  plugins: [
-    alchemy(),
-    tsConfigPaths({
-      projects: ["./tsconfig.json"],
-    }),
-    tanstackStart({
-      target: "cloudflare-module",
-      customViteReactPlugin: true,
-    }),
-    viteReact(),
-  ],
+    plugins: [
+        alchemy(),
+        tsConfigPaths({
+            projects: ["./tsconfig.json"],
+        }),
+        tanstackStart({
+            target: "cloudflare-module",
+            customViteReactPlugin: true,
+        }),
+        viteReact(),
+    ],
 });
 ```
 
@@ -282,7 +282,7 @@ const app = await TanStackStart("my-app");
 import { TanStackStart } from "alchemy/cloudflare";
 
 const app = await TanStackStart("my-app", {
-  build: "bun run test && bun run build:production",
+    build: "bun run test && bun run build:production",
 });
 ```
 
@@ -292,13 +292,13 @@ const app = await TanStackStart("my-app", {
 import { TanStackStart, D1Database } from "alchemy/cloudflare";
 
 const database = await D1Database("my-db", {
-  name: "my-db",
+    name: "my-db",
 });
 
 const app = await TanStackStart("my-app", {
-  bindings: {
-    DB: database,
-  },
+    bindings: {
+        DB: database,
+    },
 });
 ```
 
@@ -308,11 +308,11 @@ const app = await TanStackStart("my-app", {
 import { TanStackStart } from "alchemy/cloudflare";
 
 const app = await TanStackStart("my-app", {
-  bindings: {
-    API_KEY: alchemy.secret(process.env.API_KEY),
-    NODE_ENV: "production",
-    APP_ENV: "staging",
-  },
+    bindings: {
+        API_KEY: alchemy.secret(process.env.API_KEY),
+        NODE_ENV: "production",
+        APP_ENV: "staging",
+    },
 });
 ```
 
@@ -322,7 +322,7 @@ const app = await TanStackStart("my-app", {
 import { Worker, TanStackStart } from "alchemy/cloudflare";
 
 const api = await Worker("api", {
-  script: `export default {
+    script: `export default {
   async fetch(request, env) {
     return new Response("Hello, world!");
   },
@@ -330,9 +330,9 @@ const api = await Worker("api", {
 `,
 });
 const app = await TanStackStart("my-app", {
-  bindings: {
-    API: api,
-  },
+    bindings: {
+        API: api,
+    },
 });
 ```
 
@@ -342,14 +342,14 @@ The transform hook allows you to customize the wrangler.json configuration. For 
 
 ```ts
 await TanStackStart("my-app", {
-  wrangler: {
-    transform: (spec) => ({
-      ...spec,
-      vars: {
-        ...spec.vars,
-        CUSTOM_VAR: "value",
-      },
-    }),
-  },
+    wrangler: {
+        transform: (spec) => ({
+            ...spec,
+            vars: {
+                ...spec.vars,
+                CUSTOM_VAR: "value",
+            },
+        }),
+    },
 });
 ```

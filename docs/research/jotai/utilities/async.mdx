@@ -53,8 +53,8 @@ const counterSubject = interval(1000).pipe(map((i) => `#${i}`));
 const counterAtom = atomWithObservable(() => counterSubject);
 
 const Counter = () => {
-  const [counter] = useAtom(counterAtom);
-  return <div>count: {counter}</div>;
+    const [counter] = useAtom(counterAtom);
+    return <div>count: {counter}</div>;
 };
 ```
 
@@ -69,11 +69,11 @@ const Counter = () => {
 
 ```js
 const counterAtom = atomWithObservable(() => counterSubject, {
-  initialValue: 10,
+    initialValue: 10,
 });
 
 const counterAtom2 = atomWithObservable(() => counterSubject, {
-  initialValue: () => Math.random(),
+    initialValue: () => Math.random(),
 });
 ```
 
@@ -95,19 +95,19 @@ read 関数の `get` はプロミスを解決しないためです。
 
 ```ts
 function unwrap<Value, Args extends unknown[], Result>(
-  anAtom: WritableAtom<Value, Args, Result>,
+    anAtom: WritableAtom<Value, Args, Result>,
 ): WritableAtom<Awaited<Value> | undefined, Args, Result>;
 
 function unwrap<Value, Args extends unknown[], Result, PendingValue>(
-  anAtom: WritableAtom<Value, Args, Result>,
-  fallback: (prev?: Awaited<Value>) => PendingValue,
+    anAtom: WritableAtom<Value, Args, Result>,
+    fallback: (prev?: Awaited<Value>) => PendingValue,
 ): WritableAtom<Awaited<Value> | PendingValue, Args, Result>;
 
 function unwrap<Value>(anAtom: Atom<Value>): Atom<Awaited<Value> | undefined>;
 
 function unwrap<Value, PendingValue>(
-  anAtom: Atom<Value>,
-  fallback: (prev?: Awaited<Value>) => PendingValue,
+    anAtom: Atom<Value>,
+    fallback: (prev?: Awaited<Value>) => PendingValue,
 ): Atom<Awaited<Value> | PendingValue>;
 ```
 
@@ -119,8 +119,8 @@ import { unwrap } from "jotai/utils";
 
 const countAtom = atom(0);
 const delayedCountAtom = atom(async (get) => {
-  await new Promise((r) => setTimeout(r, 500));
-  return get(countAtom);
+    await new Promise((r) => setTimeout(r, 500));
+    return get(countAtom);
 });
 
 const unwrapped1Atom = unwrap(delayedCountAtom);

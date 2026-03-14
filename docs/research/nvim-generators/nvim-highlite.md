@@ -159,13 +159,13 @@ nvim-highlite はエクスポート機能も持つ（`lua/highlite/export/`）:
 
 - **ロールの粒度設計**: `keyword` だけでなく `loop`, `conditional`, `storage`, `throw` を分けることで言語構造ごとの色付けが可能
 - **クラスター化**: 全ロールに独立した色を割り当てるのは自動生成では困難。**「色クラスター」に分類**し同色 or 明度差のみで対応する設計が現実的
-  ```
-  クラスターA（keyword 系）: keyword / conditional / loop / storage / throw → 同色
-  クラスターB（construct 系）: func / method / constructor              → 同色
-  クラスターC（value 系）: string / character                           → 同色
-  クラスターD（literal 系）: number / boolean / constant                → 同色
-  クラスターE（type 系）: type / interface / enum / typedef             → 同色
-  クラスターF（diagnostic 系）: error / warning / hint / info           → 専用4色
-  ```
+    ```
+    クラスターA（keyword 系）: keyword / conditional / loop / storage / throw → 同色
+    クラスターB（construct 系）: func / method / constructor              → 同色
+    クラスターC（value 系）: string / character                           → 同色
+    クラスターD（literal 系）: number / boolean / constant                → 同色
+    クラスターE（type 系）: type / interface / enum / typedef             → 同色
+    クラスターF（diagnostic 系）: error / warning / hint / info           → 専用4色
+    ```
 - **Diagnostic 専用色**: error=0xEE4A59, warning=0xFF8900, hint=0xD5508F, info=0xFFB7B7 という具体的な色配置は参考になる
 - **italic/bold のセマンティクス**: `conditional=italic`, `exception=bold`, `storage_class=bold` という慣習は取り入れやすい

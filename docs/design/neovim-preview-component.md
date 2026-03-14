@@ -66,26 +66,26 @@ hex 文字列の集まりとして受け取る。
 ```typescript
 /** NeovimPreview が必要とする色トークン。すべて hex 文字列 */
 type NeovimColorTokens = {
-  // ── エディタ背景・前景 ──────────────────────────────────────────────
-  bg: string;
-  fg: string;
-  comment: string;
+    // ── エディタ背景・前景 ──────────────────────────────────────────────
+    bg: string;
+    fg: string;
+    comment: string;
 
-  // ── シンタックス ────────────────────────────────────────────────────
-  fn: string;
-  kw: string;
-  field: string;
-  string: string;
-  type: string;
-  op: string;
-  const: string;
-  special: string;
+    // ── シンタックス ────────────────────────────────────────────────────
+    fn: string;
+    kw: string;
+    field: string;
+    string: string;
+    type: string;
+    op: string;
+    const: string;
+    special: string;
 
-  // ── UI クローム ─────────────────────────────────────────────────────
-  /** ステータスライン背景（未指定なら bg より少し明るい色を自動生成してもよい） */
-  statusLineBg?: string;
-  /** ステータスラインのモード表示に使うアクセント色 */
-  accent: string;
+    // ── UI クローム ─────────────────────────────────────────────────────
+    /** ステータスライン背景（未指定なら bg より少し明るい色を自動生成してもよい） */
+    statusLineBg?: string;
+    /** ステータスラインのモード表示に使うアクセント色 */
+    accent: string;
 };
 ```
 
@@ -93,31 +93,31 @@ type NeovimColorTokens = {
 
 ```typescript
 type NeovimPreviewProps = {
-  // ── コア ──────────────────────────────────────────────────────────
-  /** 表示に使う色トークン */
-  colors: NeovimColorTokens;
+    // ── コア ──────────────────────────────────────────────────────────
+    /** 表示に使う色トークン */
+    colors: NeovimColorTokens;
 
-  // ── コンテンツ ─────────────────────────────────────────────────────
-  /** ハイライト表示するコード文字列 */
-  code: string;
-  /** Prism の言語識別子（例: "typescript", "lua"） */
-  language: string;
-  /** ステータスラインに表示するファイル名 */
-  fileName?: string; // default: "preview.ts"
+    // ── コンテンツ ─────────────────────────────────────────────────────
+    /** ハイライト表示するコード文字列 */
+    code: string;
+    /** Prism の言語識別子（例: "typescript", "lua"） */
+    language: string;
+    /** ステータスラインに表示するファイル名 */
+    fileName?: string; // default: "preview.ts"
 
-  // ── UI トグル ──────────────────────────────────────────────────────
-  /** 行番号を表示するか */
-  showLineNumbers?: boolean; // default: true
-  /** ステータスラインを表示するか */
-  showStatusLine?: boolean; // default: true
-  /** タブラインを表示するか */
-  showTabLine?: boolean; // default: false
+    // ── UI トグル ──────────────────────────────────────────────────────
+    /** 行番号を表示するか */
+    showLineNumbers?: boolean; // default: true
+    /** ステータスラインを表示するか */
+    showStatusLine?: boolean; // default: true
+    /** タブラインを表示するか */
+    showTabLine?: boolean; // default: false
 
-  // ── 見た目調整 ─────────────────────────────────────────────────────
-  /** ステータスラインに表示するモード */
-  mode?: "NORMAL" | "INSERT" | "VISUAL"; // default: "NORMAL"
-  /** 外側コンテナへの追加クラス（サイズ指定に使う） */
-  className?: string;
+    // ── 見た目調整 ─────────────────────────────────────────────────────
+    /** ステータスラインに表示するモード */
+    mode?: "NORMAL" | "INSERT" | "VISUAL"; // default: "NORMAL"
+    /** 外側コンテナへの追加クラス（サイズ指定に使う） */
+    className?: string;
 };
 ```
 
@@ -128,30 +128,30 @@ type NeovimPreviewProps = {
 ```typescript
 // NeovimGutter
 type NeovimGutterProps = {
-  lineCount: number;
-  currentLine?: number;
-  bg: string;
-  fg: string;
-  comment: string;
+    lineCount: number;
+    currentLine?: number;
+    bg: string;
+    fg: string;
+    comment: string;
 };
 
 // NeovimStatusLine
 type NeovimStatusLineProps = {
-  mode: "NORMAL" | "INSERT" | "VISUAL";
-  fileName: string;
-  language: string;
-  lineCount: number;
-  bg: string;
-  fg: string;
-  accent: string;
+    mode: "NORMAL" | "INSERT" | "VISUAL";
+    fileName: string;
+    language: string;
+    lineCount: number;
+    bg: string;
+    fg: string;
+    accent: string;
 };
 
 // NeovimCodeBlock
 type NeovimCodeBlockProps = {
-  code: string;
-  language: string;
-  prismTheme: PrismTheme; // ← NeovimPreview 内で colors から変換して渡す
-  bg: string;
+    code: string;
+    language: string;
+    prismTheme: PrismTheme; // ← NeovimPreview 内で colors から変換して渡す
+    bg: string;
 };
 ```
 

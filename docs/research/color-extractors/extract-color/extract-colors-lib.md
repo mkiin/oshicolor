@@ -59,9 +59,9 @@ Canvas に描画して `getImageData()` を呼ぶ。Web Worker の場合は `Off
 const reducer = Math.floor((width * height) / pixels) || 1;
 
 for (let i = 0; i < data.length; i += 4 * reducer) {
-  if (colorValidator(r, g, b, a)) {
-    colorGroup.addColor(r, g, b);
-  }
+    if (colorValidator(r, g, b, a)) {
+        colorGroup.addColor(r, g, b);
+    }
 }
 ```
 
@@ -131,20 +131,20 @@ list.sort((a, b) => b._count - a._count);
 
 const newList: Color[] = [];
 while (list.length) {
-  const current = list.shift();
+    const current = list.shift();
 
-  // distance 未満の色を全て current に吸収する
-  list
-    .filter((color) => Color.distance(current, color) < _distance)
-    .forEach((near) => {
-      current._count += near._count;
-      list.splice(
-        list.findIndex((c) => c === near),
-        1,
-      );
-    });
+    // distance 未満の色を全て current に吸収する
+    list.filter((color) => Color.distance(current, color) < _distance).forEach(
+        (near) => {
+            current._count += near._count;
+            list.splice(
+                list.findIndex((c) => c === near),
+                1,
+            );
+        },
+    );
 
-  newList.push(current);
+    newList.push(current);
 }
 ```
 
@@ -186,7 +186,7 @@ isSamePalette(color, hue, saturation, lightness) {
 
 ```ts
 const hueDistance = (a, b) =>
-  Math.min(Math.abs(a - b), Math.abs(((a + 0.5) % 1) - ((b + 0.5) % 1)));
+    Math.min(Math.abs(a - b), Math.abs(((a + 0.5) % 1) - ((b + 0.5) % 1)));
 ```
 
 Hue は 0〜1 の円環（0 と 1 は同じ赤）なので、通常の絶対値差では
@@ -218,9 +218,9 @@ get average() {
 
 ```ts
 sorted.sort((a, b) => {
-  const bPower = (b._intensity + 0.1) * (0.9 - b._count / _pixels);
-  const aPower = (a._intensity + 0.1) * (0.9 - a._count / _pixels);
-  return bPower - aPower;
+    const bPower = (b._intensity + 0.1) * (0.9 - b._count / _pixels);
+    const aPower = (a._intensity + 0.1) * (0.9 - a._count / _pixels);
+    return bPower - aPower;
 });
 ```
 
@@ -240,17 +240,17 @@ sorted.sort((a, b) => {
 
 ```ts
 export const createFinalColor = (color: Color, pixels: number): FinalColor => {
-  return {
-    hex: `#${color._hex.toString(16).padStart(6, "0")}`,
-    red: color._red,
-    green: color._green,
-    blue: color._blue,
-    area: color._count / pixels, // 画像に占める面積割合
-    hue: color._hue, // 0〜1
-    saturation: color._saturation, // 0〜1
-    lightness: color._lightness, // 0〜1
-    intensity: color._intensity, // 0〜1
-  };
+    return {
+        hex: `#${color._hex.toString(16).padStart(6, "0")}`,
+        red: color._red,
+        green: color._green,
+        blue: color._blue,
+        area: color._count / pixels, // 画像に占める面積割合
+        hue: color._hue, // 0〜1
+        saturation: color._saturation, // 0〜1
+        lightness: color._lightness, // 0〜1
+        intensity: color._intensity, // 0〜1
+    };
 };
 ```
 
@@ -259,7 +259,8 @@ export const createFinalColor = (color: Color, pixels: number): FinalColor => {
 **intensity** は `Color.updateHSL()` で計算される：
 
 ```ts
-this.__intensity = this.__saturation * ((0.5 - Math.abs(0.5 - this.__lightness)) * 2);
+this.__intensity =
+    this.__saturation * ((0.5 - Math.abs(0.5 - this.__lightness)) * 2);
 ```
 
 彩度（saturation）に明度の中心性（0 や 1 に近いほど 0、0.5 が最大）を掛けた値。

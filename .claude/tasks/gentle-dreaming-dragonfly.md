@@ -23,7 +23,9 @@ const filesAtom = atom([]);
 // あるべき姿 - 派生 atom で関連する状態を計算
 const filesAtom = atom([]);
 const hasFilesAtom = atom((get) => get(filesAtom).length > 0);
-const totalSizeAtom = atom((get) => get(filesAtom).reduce((sum, f) => sum + f.size, 0));
+const totalSizeAtom = atom((get) =>
+    get(filesAtom).reduce((sum, f) => sum + f.size, 0),
+);
 ```
 
 ### 問題 2: アクション atom（Write-Only Atom）が一切ない
@@ -34,20 +36,26 @@ const totalSizeAtom = atom((get) => get(filesAtom).reduce((sum, f) => sum + f.si
 ```javascript
 // 現状 - コンポーネントに URL cleanup ロジックが漏れる
 const { getRootProps } = useDropzone({
-  onDrop: (acceptedFiles) => {
-    setFiles(acceptedFiles.map((f) => Object.assign(f, { preview: URL.createObjectURL(f) })));
-    // cleanup はどこかの useEffect で...（場所が散らばる）
-  },
+    onDrop: (acceptedFiles) => {
+        setFiles(
+            acceptedFiles.map((f) =>
+                Object.assign(f, { preview: URL.createObjectURL(f) }),
+            ),
+        );
+        // cleanup はどこかの useEffect で...（場所が散らばる）
+    },
 });
 
 // あるべき姿 - Write atom に副作用を閉じ込める
 const updateFilesAtom = atom(null, (get, set, newFiles) => {
-  // 旧 URL を revoke してから新ファイルをセット（副作用がここに集約される）
-  get(filesWithPreviewAtom).forEach((f) => URL.revokeObjectURL(f.preview));
-  set(
-    filesWithPreviewAtom,
-    newFiles.map((f) => Object.assign(f, { preview: URL.createObjectURL(f) })),
-  );
+    // 旧 URL を revoke してから新ファイルをセット（副作用がここに集約される）
+    get(filesWithPreviewAtom).forEach((f) => URL.revokeObjectURL(f.preview));
+    set(
+        filesWithPreviewAtom,
+        newFiles.map((f) =>
+            Object.assign(f, { preview: URL.createObjectURL(f) }),
+        ),
+    );
 });
 ```
 
@@ -98,7 +106,9 @@ openDialog?.fn(); // 呼び出し側
 const filesAtom = atom([]);
 // 派生 atom - 合成の基本
 const hasFilesAtom = atom((get) => get(filesAtom).length > 0);
-const totalSizeAtom = atom((get) => get(filesAtom).reduce((sum, f) => sum + f.size, 0));
+const totalSizeAtom = atom((get) =>
+    get(filesAtom).reduce((sum, f) => sum + f.size, 0),
+);
 // アクション atom - ファイルクリア
 const clearFilesAtom = atom(null, (_get, set) => set(filesAtom, []));
 ```
@@ -113,7 +123,9 @@ const clearFilesAtom = atom(null, (_get, set) => set(filesAtom, []));
 ```javascript
 const fileRejectionsAtom = atom([]);
 const hasRejectionAtom = atom((get) => get(fileRejectionsAtom).length > 0);
-const clearRejectionsAtom = atom(null, (_get, set) => set(fileRejectionsAtom, []));
+const clearRejectionsAtom = atom(null, (_get, set) =>
+    set(fileRejectionsAtom, []),
+);
 ```
 
 ---
@@ -127,11 +139,11 @@ const clearRejectionsAtom = atom(null, (_get, set) => set(fileRejectionsAtom, []
 const isDraggingGloballyAtom = atom(false);
 // Write atom でカプセル化
 const setDragStateAtom = atom(null, (_get, set, isDragging) => {
-  set(isDraggingGloballyAtom, isDragging);
+    set(isDraggingGloballyAtom, isDragging);
 });
 // useEffect は外部ライブラリ→Jotai の橋渡しとして唯一正当なパターン
 useEffect(() => {
-  setDragState(isDragGlobal);
+    setDragState(isDragGlobal);
 }, [isDragGlobal]);
 ```
 
@@ -147,8 +159,8 @@ useEffect(() => {
 const openFileDialogAtom = atom(null);
 
 useEffect(() => {
-  setOpenDialog({ fn: open }); // オブジェクトで包む → setter 解釈されない
-  return () => setOpenDialog(null);
+    setOpenDialog({ fn: open }); // オブジェクトで包む → setter 解釈されない
+    return () => setOpenDialog(null);
 }, [open, setOpenDialog]);
 
 // 呼び出し側
@@ -169,12 +181,12 @@ const isSubmittableAtom = atom((get) => get(pendingFilesAtom).length > 0);
 
 // 送信ボタンは derived atom で disabled を制御
 function SubmitButton() {
-  const isSubmittable = useAtomValue(isSubmittableAtom);
-  return (
-    <button type="submit" disabled={!isSubmittable}>
-      送信
-    </button>
-  );
+    const isSubmittable = useAtomValue(isSubmittableAtom);
+    return (
+        <button type="submit" disabled={!isSubmittable}>
+            送信
+        </button>
+    );
 }
 ```
 
@@ -204,16 +216,20 @@ const filesWithPreviewAtom = atom([]); // 生の値を保持する base atom
 
 // Write atom: 旧 URL の revoke と新ファイルのセットをアトミックに実行
 const setPreviewFilesAtom = atom(null, (get, set, newFiles) => {
-  get(filesWithPreviewAtom).forEach((f) => URL.revokeObjectURL(f.preview));
-  set(
-    filesWithPreviewAtom,
-    newFiles.map((f) => Object.assign(f, { preview: URL.createObjectURL(f) })),
-  );
+    get(filesWithPreviewAtom).forEach((f) => URL.revokeObjectURL(f.preview));
+    set(
+        filesWithPreviewAtom,
+        newFiles.map((f) =>
+            Object.assign(f, { preview: URL.createObjectURL(f) }),
+        ),
+    );
 });
 
 // Dropzone は setPreviewFilesAtom だけ使う（cleanup 不要）
 const setPreviewFiles = useSetAtom(setPreviewFilesAtom);
-const { getRootProps, getInputProps } = useDropzone({ onDrop: setPreviewFiles });
+const { getRootProps, getInputProps } = useDropzone({
+    onDrop: setPreviewFiles,
+});
 ```
 
 ---
@@ -224,7 +240,9 @@ const { getRootProps, getInputProps } = useDropzone({ onDrop: setPreviewFiles })
 **新**: `atomWithStorage` で MIME タイプ設定を永続化
 
 ```javascript
-const acceptedMimeTypesAtom = atomWithStorage("dropzone-accepted-mime", { "image/*": [] });
+const acceptedMimeTypesAtom = atomWithStorage("dropzone-accepted-mime", {
+    "image/*": [],
+});
 ```
 
 ---
@@ -266,21 +284,27 @@ import { atomFamily, splitAtom } from "jotai/utils";
 
 // 任意の ID を持つ dropzone のファイルリスト
 const dropzoneFilesFamily = atomFamily((id) => atom([]));
-const dropzoneFileAtomsFamily = atomFamily((id) => splitAtom(dropzoneFilesFamily(id)));
+const dropzoneFileAtomsFamily = atomFamily((id) =>
+    splitAtom(dropzoneFilesFamily(id)),
+);
 
 function Dropzone({ id }) {
-  const setFiles = useSetAtom(dropzoneFilesFamily(id));
-  const [fileAtoms, dispatch] = useAtom(dropzoneFileAtomsFamily(id));
-  const { getRootProps, getInputProps } = useDropzone({ onDrop: setFiles });
+    const setFiles = useSetAtom(dropzoneFilesFamily(id));
+    const [fileAtoms, dispatch] = useAtom(dropzoneFileAtomsFamily(id));
+    const { getRootProps, getInputProps } = useDropzone({ onDrop: setFiles });
 
-  return (
-    <div {...getRootProps()}>
-      <input {...getInputProps()} />
-      {fileAtoms.map((fileAtom) => (
-        <FileItem key={`${fileAtom}`} fileAtom={fileAtom} dispatch={dispatch} />
-      ))}
-    </div>
-  );
+    return (
+        <div {...getRootProps()}>
+            <input {...getInputProps()} />
+            {fileAtoms.map((fileAtom) => (
+                <FileItem
+                    key={`${fileAtom}`}
+                    fileAtom={fileAtom}
+                    dispatch={dispatch}
+                />
+            ))}
+        </div>
+    );
 }
 ```
 
@@ -294,14 +318,14 @@ function Dropzone({ id }) {
 ```javascript
 const enrichedFilesAtom = atom([]);
 const enrichFilesAtom = atom(null, async (_get, set, event) => {
-  const fileList = event.dataTransfer?.files ?? event.target.files;
-  const files = [];
-  for (let i = 0; i < fileList.length; i++) {
-    const file = fileList.item(i);
-    Object.defineProperty(file, "myProp", { value: true });
-    files.push(file);
-  }
-  set(enrichedFilesAtom, files);
+    const fileList = event.dataTransfer?.files ?? event.target.files;
+    const files = [];
+    for (let i = 0; i < fileList.length; i++) {
+        const file = fileList.item(i);
+        Object.defineProperty(file, "myProp", { value: true });
+        files.push(file);
+    }
+    set(enrichedFilesAtom, files);
 });
 ```
 
@@ -317,11 +341,13 @@ const editableFilesAtom = atom([]);
 
 // 編集後ファイルを更新するアクション atom
 const updateEditedFileAtom = atom(null, (get, set, { index, dest }) => {
-  const files = get(editableFilesAtom);
-  URL.revokeObjectURL(files[index].preview); // 旧 URL を解放
-  const updated = [...files];
-  updated[index] = Object.assign(dest, { preview: URL.createObjectURL(dest) });
-  set(editableFilesAtom, updated);
+    const files = get(editableFilesAtom);
+    URL.revokeObjectURL(files[index].preview); // 旧 URL を解放
+    const updated = [...files];
+    updated[index] = Object.assign(dest, {
+        preview: URL.createObjectURL(dest),
+    });
+    set(editableFilesAtom, updated);
 });
 ```
 
@@ -341,7 +367,9 @@ const updateEditedFileAtom = atom(null, (get, set, { index, dest }) => {
 
 ```javascript
 const filesAtom = atom([]);
-const totalSizeAtom = atom((get) => get(filesAtom).reduce((sum, f) => sum + f.size, 0));
+const totalSizeAtom = atom((get) =>
+    get(filesAtom).reduce((sum, f) => sum + f.size, 0),
+);
 ```
 
 ---

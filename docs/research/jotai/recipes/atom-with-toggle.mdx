@@ -11,13 +11,15 @@ keywords: creators,toggle
 ```ts
 import { WritableAtom, atom } from "jotai";
 
-export function atomWithToggle(initialValue?: boolean): WritableAtom<boolean, [boolean?], void> {
-  const anAtom = atom(initialValue, (get, set, nextValue?: boolean) => {
-    const update = nextValue ?? !get(anAtom);
-    set(anAtom, update);
-  });
+export function atomWithToggle(
+    initialValue?: boolean,
+): WritableAtom<boolean, [boolean?], void> {
+    const anAtom = atom(initialValue, (get, set, nextValue?: boolean) => {
+        const update = nextValue ?? !get(anAtom);
+        set(anAtom, update);
+    });
 
-  return anAtom as WritableAtom<boolean, [boolean?], void>;
+    return anAtom as WritableAtom<boolean, [boolean?], void>;
 }
 ```
 
@@ -38,14 +40,16 @@ const isActiveAtom = atomWithToggle(true);
 
 ```jsx
 const Toggle = () => {
-  const [isActive, toggle] = useAtom(isActiveAtom);
+    const [isActive, toggle] = useAtom(isActiveAtom);
 
-  return (
-    <>
-      <button onClick={() => toggle()}>isActive: {isActive ? "yes" : "no"}</button>
-      <button onClick={() => toggle(true)}>force true</button>
-      <button onClick={() => toggle(false)}>force false</button>
-    </>
-  );
+    return (
+        <>
+            <button onClick={() => toggle()}>
+                isActive: {isActive ? "yes" : "no"}
+            </button>
+            <button onClick={() => toggle(true)}>force true</button>
+            <button onClick={() => toggle(false)}>force false</button>
+        </>
+    );
 };
 ```

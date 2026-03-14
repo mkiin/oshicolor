@@ -8,28 +8,30 @@
 import { useDropzone } from "react-dropzone";
 
 function Dropzone() {
-  const { acceptedFiles, getRootProps, getInputProps, open } = useDropzone({
-    noClick: true,
-    noKeyboard: true,
-  });
+    const { acceptedFiles, getRootProps, getInputProps, open } = useDropzone({
+        noClick: true,
+        noKeyboard: true,
+    });
 
-  const files = acceptedFiles.map((file) => <li key={file.path}>{file.path}</li>);
+    const files = acceptedFiles.map((file) => (
+        <li key={file.path}>{file.path}</li>
+    ));
 
-  return (
-    <div className="container">
-      <div {...getRootProps({ className: "dropzone" })}>
-        <input {...getInputProps()} />
-        <p>ここにドロップ（クリック無効）</p>
-        <button type="button" onClick={open}>
-          ファイルを開く
-        </button>
-      </div>
-      <aside>
-        <h4>Files</h4>
-        <ul>{files}</ul>
-      </aside>
-    </div>
-  );
+    return (
+        <div className="container">
+            <div {...getRootProps({ className: "dropzone" })}>
+                <input {...getInputProps()} />
+                <p>ここにドロップ（クリック無効）</p>
+                <button type="button" onClick={open}>
+                    ファイルを開く
+                </button>
+            </div>
+            <aside>
+                <h4>Files</h4>
+                <ul>{files}</ul>
+            </aside>
+        </div>
+    );
 }
 ```
 
@@ -59,39 +61,39 @@ const openFileDialogAtom = atom(null);
 // --- コンポーネント ---
 
 function Dropzone() {
-  const setOpenDialog = useSetAtom(openFileDialogAtom);
-  const { getRootProps, getInputProps, open } = useDropzone({
-    noClick: true,
-    noKeyboard: true,
-  });
+    const setOpenDialog = useSetAtom(openFileDialogAtom);
+    const { getRootProps, getInputProps, open } = useDropzone({
+        noClick: true,
+        noKeyboard: true,
+    });
 
-  useEffect(() => {
-    // オブジェクトで包むことで Jotai の「関数 = 更新関数」解釈を回避する
-    setOpenDialog({ fn: open });
-    return () => setOpenDialog(null);
-  }, [open, setOpenDialog]);
+    useEffect(() => {
+        // オブジェクトで包むことで Jotai の「関数 = 更新関数」解釈を回避する
+        setOpenDialog({ fn: open });
+        return () => setOpenDialog(null);
+    }, [open, setOpenDialog]);
 
-  return (
-    <div {...getRootProps({ className: "dropzone" })}>
-      <input {...getInputProps()} />
-      <p>ここにドロップ</p>
-    </div>
-  );
+    return (
+        <div {...getRootProps({ className: "dropzone" })}>
+            <input {...getInputProps()} />
+            <p>ここにドロップ</p>
+        </div>
+    );
 }
 
 // ナビゲーションバーや別の UI 部品からダイアログを開ける
 function UploadButton() {
-  const dialog = useAtomValue(openFileDialogAtom);
-  return (
-    <button
-      type="button"
-      // dialog?.fn() でオブジェクトから関数を取り出して呼ぶ
-      onClick={() => dialog?.fn()}
-      disabled={!dialog}
-    >
-      Upload
-    </button>
-  );
+    const dialog = useAtomValue(openFileDialogAtom);
+    return (
+        <button
+            type="button"
+            // dialog?.fn() でオブジェクトから関数を取り出して呼ぶ
+            onClick={() => dialog?.fn()}
+            disabled={!dialog}
+        >
+            Upload
+        </button>
+    );
 }
 ```
 

@@ -5,15 +5,15 @@ published: true
 price: 0 # 有料の場合200〜5000
 # 本に含めるチャプターを順番に並べましょう
 chapters:
-  - introduction
-  - jotai-basics
-  - suspense-basics
-  - suspense-plus-jotai
-  - abort-signal
-  - reload-by-key
-  - transition-basics
-  - transition-split-world
-  - transition-optout
-  - jotai-eager
-  - error-handling
-  - conclusion
+    - introduction
+    - jotai-basics
+    - suspense-basics
+    - suspense-plus-jotai
+    - abort-signal
+    - reload-by-key
+    - transition-basics
+    - transition-split-world
+    - transition-optout
+    - jotai-eager
+    - error-handling
+    - conclusion

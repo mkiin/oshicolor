@@ -72,11 +72,11 @@ Tailwind の数値は **4px 単位**。
 
 ```html
 <div class="w-full">
-  <!-- width: 100%  親の横幅いっぱい -->
-  <div class="h-full">
-    <!-- height: 100% 親の高さいっぱい ※落とし穴あり →後述 -->
-    <div class="w-1/2"><!-- width: 50%  --></div>
-  </div>
+    <!-- width: 100%  親の横幅いっぱい -->
+    <div class="h-full">
+        <!-- height: 100% 親の高さいっぱい ※落とし穴あり →後述 -->
+        <div class="w-1/2"><!-- width: 50%  --></div>
+    </div>
 </div>
 ```
 
@@ -84,11 +84,11 @@ Tailwind の数値は **4px 単位**。
 
 ```html
 <div class="w-auto">
-  <!-- デフォルト。コンテンツに合わせて伸縮 -->
-  <div class="w-fit">
-    <!-- コンテンツぴったり（はみ出さない） -->
-    <div class="w-max"><!-- コンテンツの最大幅（折り返さない） --></div>
-  </div>
+    <!-- デフォルト。コンテンツに合わせて伸縮 -->
+    <div class="w-fit">
+        <!-- コンテンツぴったり（はみ出さない） -->
+        <div class="w-max"><!-- コンテンツの最大幅（折り返さない） --></div>
+    </div>
 </div>
 ```
 
@@ -104,8 +104,8 @@ Tailwind の数値は **4px 単位**。
 
 <!-- 最小 300px は確保。それ以上はコンテンツに従う -->
 <div class="min-w-64">
-  <!-- 高さは最大 256px まで。溢れない -->
-  <div class="max-h-64 overflow-hidden"></div>
+    <!-- 高さは最大 256px まで。溢れない -->
+    <div class="max-h-64 overflow-hidden"></div>
 </div>
 ```
 
@@ -126,24 +126,24 @@ Tailwind の数値は **4px 単位**。
 ```html
 <!-- ❌ 親に高さがないと h-full は機能しない -->
 <div>
-  <!-- height: auto (高さ未設定) -->
-  <div class="h-full">
-    <!-- 効かない -->
+    <!-- height: auto (高さ未設定) -->
+    <div class="h-full">
+        <!-- 効かない -->
 
-    <!-- ✅ 親に高さを与える -->
-    <div class="h-64">
-      <!-- height: 256px -->
-      <div class="h-full">
-        <!-- height: 100% = 256px ✅ -->
+        <!-- ✅ 親に高さを与える -->
+        <div class="h-64">
+            <!-- height: 256px -->
+            <div class="h-full">
+                <!-- height: 100% = 256px ✅ -->
 
-        <!-- ✅ または親を画面全体に -->
-        <div class="h-screen">
-          <!-- height: 100vh -->
-          <div class="h-full"><!-- ✅ --></div>
+                <!-- ✅ または親を画面全体に -->
+                <div class="h-screen">
+                    <!-- height: 100vh -->
+                    <div class="h-full"><!-- ✅ --></div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 ```
 
@@ -172,12 +172,12 @@ Tailwind の数値は **4px 単位**。
 ```html
 <!-- イラストプレビューの推奨形 -->
 <div class="w-full max-h-96">
-  <img class="w-full h-full object-contain" />
+    <img class="w-full h-full object-contain" />
 </div>
 
 <!-- サムネイル一覧の推奨形 -->
 <div class="w-24 h-24">
-  <img class="w-full h-full object-cover" />
+    <img class="w-full h-full object-cover" />
 </div>
 ```
 
@@ -201,7 +201,7 @@ Tailwind の数値は **4px 単位**。
 
 ```html
 <div class="max-w-lg mx-auto">
-  <!-- max-w-lg = 最大 512px、mx-auto = 左右中央寄せ -->
+    <!-- max-w-lg = 最大 512px、mx-auto = 左右中央寄せ -->
 </div>
 ```
 
@@ -215,8 +215,8 @@ Tailwind の数値は **4px 単位**。
 
 ```html
 <div class="w-full aspect-video">
-  <!-- 16:9 -->
-  <div class="w-full aspect-square"><!-- 1:1  --></div>
+    <!-- 16:9 -->
+    <div class="w-full aspect-square"><!-- 1:1  --></div>
 </div>
 ```
 

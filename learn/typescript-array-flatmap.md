@@ -6,7 +6,9 @@
 
 ```typescript
 // Bad: ! が必要になる
-SLOTS.filter((slot) => palette[slot] != null).map((slot) => ({ hex: palette[slot]!.hex })); // ! が必要
+SLOTS.filter((slot) => palette[slot] != null).map((slot) => ({
+    hex: palette[slot]!.hex,
+})); // ! が必要
 ```
 
 ## 解決: flatMap で1ステップにまとめる
@@ -14,9 +16,9 @@ SLOTS.filter((slot) => palette[slot] != null).map((slot) => ({ hex: palette[slot
 ```typescript
 // Good: ! 不要
 SLOTS.flatMap((slot) => {
-  const swatch = palette[slot];
-  if (!swatch) return []; // スキップ
-  return [{ hex: swatch.hex, slot }];
+    const swatch = palette[slot];
+    if (!swatch) return []; // スキップ
+    return [{ hex: swatch.hex, slot }];
 });
 ```
 
@@ -36,7 +38,7 @@ SLOTS.flatMap((slot) => {
 型述語 `(x): x is T` を書けば `filter` でも絞り込めるが、記述量が増えるため `flatMap` を優先する。
 
 ```typescript
-SLOTS.map((slot) => (palette[slot] ? { hex: palette[slot]!.hex, slot } : null)).filter(
-  (c): c is VibrantColor => c !== null,
-);
+SLOTS.map((slot) =>
+    palette[slot] ? { hex: palette[slot]!.hex, slot } : null,
+).filter((c): c is VibrantColor => c !== null);
 ```

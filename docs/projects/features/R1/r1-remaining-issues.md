@@ -43,47 +43,51 @@ palette    = 12色
 ```typescript
 // color-extractor.ts 内部に追加
 const computeCentroids = (
-  imageData: ImageData,
-  palette: FinalColor[],
+    imageData: ImageData,
+    palette: FinalColor[],
 ): { x: number; y: number }[] => {
-  const { data, width, height } = imageData;
-  const reducer = Math.floor((width * height) / PIXELS) || 1;
-  const paletteRGB = palette.map((c) => ({ r: c.red, g: c.green, b: c.blue }));
-  const sums = paletteRGB.map(() => ({ x: 0, y: 0, count: 0 }));
+    const { data, width, height } = imageData;
+    const reducer = Math.floor((width * height) / PIXELS) || 1;
+    const paletteRGB = palette.map((c) => ({
+        r: c.red,
+        g: c.green,
+        b: c.blue,
+    }));
+    const sums = paletteRGB.map(() => ({ x: 0, y: 0, count: 0 }));
 
-  for (let i = 0; i < width * height; i += reducer) {
-    const idx = i * 4;
-    const r = data[idx] ?? 0;
-    const g = data[idx + 1] ?? 0;
-    const b = data[idx + 2] ?? 0;
-    const a = data[idx + 3] ?? 0;
-    if (a < MIN_ALPHA) continue;
+    for (let i = 0; i < width * height; i += reducer) {
+        const idx = i * 4;
+        const r = data[idx] ?? 0;
+        const g = data[idx + 1] ?? 0;
+        const b = data[idx + 2] ?? 0;
+        const a = data[idx + 3] ?? 0;
+        if (a < MIN_ALPHA) continue;
 
-    // 最近傍パレット色を RGB 距離で探す
-    let minDist = Infinity;
-    let nearest = 0;
-    for (let j = 0; j < paletteRGB.length; j++) {
-      const p = paletteRGB[j];
-      if (!p) continue;
-      const dist = (r - p.r) ** 2 + (g - p.g) ** 2 + (b - p.b) ** 2;
-      if (dist < minDist) {
-        minDist = dist;
-        nearest = j;
-      }
+        // 最近傍パレット色を RGB 距離で探す
+        let minDist = Infinity;
+        let nearest = 0;
+        for (let j = 0; j < paletteRGB.length; j++) {
+            const p = paletteRGB[j];
+            if (!p) continue;
+            const dist = (r - p.r) ** 2 + (g - p.g) ** 2 + (b - p.b) ** 2;
+            if (dist < minDist) {
+                minDist = dist;
+                nearest = j;
+            }
+        }
+
+        const sum = sums[nearest];
+        if (sum) {
+            sum.x += (i % width) / width;
+            sum.y += Math.floor(i / width) / height;
+            sum.count++;
+        }
     }
 
-    const sum = sums[nearest];
-    if (sum) {
-      sum.x += (i % width) / width;
-      sum.y += Math.floor(i / width) / height;
-      sum.count++;
-    }
-  }
-
-  return sums.map((s) => ({
-    x: s.count > 0 ? Math.round((s.x / s.count) * 100) / 100 : 0,
-    y: s.count > 0 ? Math.round((s.y / s.count) * 100) / 100 : 0,
-  }));
+    return sums.map((s) => ({
+        x: s.count > 0 ? Math.round((s.x / s.count) * 100) / 100 : 0,
+        y: s.count > 0 ? Math.round((s.y / s.count) * 100) / 100 : 0,
+    }));
 };
 ```
 
@@ -122,9 +126,9 @@ const computeCentroids = (
 ```typescript
 // 不足分を補間で埋める（culori の hsl 変換を使用）
 if (result.length < count) {
-  const shortage = count - result.length;
-  const derived = generateDerivedColors(result, shortage);
-  result.push(...derived);
+    const shortage = count - result.length;
+    const derived = generateDerivedColors(result, shortage);
+    result.push(...derived);
 }
 ```
 

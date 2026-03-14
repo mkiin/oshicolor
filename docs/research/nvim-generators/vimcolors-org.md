@@ -20,16 +20,16 @@
 
 ```typescript
 type Colors = {
-  bg?: string; // 背景色
-  fg?: string; // 前景色（文字色）
-  comments?: string; // コメント色
-  menus?: string; // メニュー・ステータスバー色
-  color1?: string; // アクセント1
-  color2?: string; // アクセント2
-  color3?: string; // アクセント3
-  color4?: string; // アクセント4
-  color5?: string; // アクセント5
-  color6?: string; // アクセント6
+    bg?: string; // 背景色
+    fg?: string; // 前景色（文字色）
+    comments?: string; // コメント色
+    menus?: string; // メニュー・ステータスバー色
+    color1?: string; // アクセント1
+    color2?: string; // アクセント2
+    color3?: string; // アクセント3
+    color4?: string; // アクセント4
+    color5?: string; // アクセント5
+    color6?: string; // アクセント6
 };
 ```
 
@@ -107,16 +107,16 @@ vimcolors.org は入力と配信のみを行う。
 ```typescript
 import sick from "sick-colors";
 const [colors, setColors] = useState<Colors>({
-  bg: sick.background,
-  fg: sick.foreground,
-  comments: sick.magenta,
-  menus: sick.black,
-  color1: sick.red,
-  color2: sick.green,
-  color3: sick.yellow,
-  color4: sick.blue,
-  color5: sick.magenta,
-  color6: sick.cyan,
+    bg: sick.background,
+    fg: sick.foreground,
+    comments: sick.magenta,
+    menus: sick.black,
+    color1: sick.red,
+    color2: sick.green,
+    color3: sick.yellow,
+    color4: sick.blue,
+    color5: sick.magenta,
+    color6: sick.cyan,
 });
 ```
 

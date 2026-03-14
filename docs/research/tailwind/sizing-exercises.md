@@ -29,12 +29,12 @@ w-32 / w-full / w-fit / w-1/2
 ```html
 <!-- ケースA -->
 <div>
-  <div class="h-full bg-red-200">コンテンツ</div>
+    <div class="h-full bg-red-200">コンテンツ</div>
 </div>
 
 <!-- ケースB -->
 <div class="h-64">
-  <div class="h-full bg-red-200">コンテンツ</div>
+    <div class="h-full bg-red-200">コンテンツ</div>
 </div>
 ```
 
@@ -50,8 +50,8 @@ w-32 / w-full / w-fit / w-1/2
 ```html
 <!-- ❌ これの何が問題か答えてください -->
 <div class="w-128">
-  <!-- ✅ 正しい実装 -->
-  <div class="___"></div>
+    <!-- ✅ 正しい実装 -->
+    <div class="___"></div>
 </div>
 ```
 
@@ -66,12 +66,12 @@ w-32 / w-full / w-fit / w-1/2
 ```html
 <!-- ① イラストの全体をプレビューしたい（切り取りNG）-->
 <div class="w-64 h-64">
-  <img class="w-full h-full ___" />
+    <img class="w-full h-full ___" />
 </div>
 
 <!-- ② ユーザーアイコンを正方形で統一表示したい（切り取りOK）-->
 <div class="w-12 h-12 rounded-full overflow-hidden">
-  <img class="w-full h-full ___" />
+    <img class="w-full h-full ___" />
 </div>
 ```
 
@@ -83,7 +83,7 @@ w-32 / w-full / w-fit / w-1/2
 
 ```html
 <div class="___ ___ ___">
-  <!-- コンテンツ -->
+    <!-- コンテンツ -->
 </div>
 ```
 
@@ -102,10 +102,10 @@ w-32 / w-full / w-fit / w-1/2
 
 ```html
 <div class="___">
-  <div class="___">
-    <img class="w-full h-full ___" src="..." alt="..." />
-  </div>
-  <h2 class="___">タイトル</h2>
+    <div class="___">
+        <img class="w-full h-full ___" src="..." alt="..." />
+    </div>
+    <h2 class="___">タイトル</h2>
 </div>
 ```
 
@@ -159,9 +159,9 @@ w-32 / w-full / w-fit / w-1/2
 
 ```html
 <div class="w-full">
-  <div class="w-full aspect-video">
-    <img class="w-full h-full object-cover" src="..." alt="..." />
-  </div>
-  <h2 class="w-fit">タイトル</h2>
+    <div class="w-full aspect-video">
+        <img class="w-full h-full object-cover" src="..." alt="..." />
+    </div>
+    <h2 class="w-fit">タイトル</h2>
 </div>
 ```

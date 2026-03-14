@@ -117,7 +117,7 @@ In development mode, the [Cloudflare `Worker`](/guides/cloudflare-worker/) resou
 
 ```ts
 const worker = await Worker("my-worker", {
-  entrypoint: "worker.ts",
+    entrypoint: "worker.ts",
 });
 console.log(worker.url); // http://localhost:1337
 ```
@@ -126,10 +126,10 @@ You can also set a custom port for the Worker:
 
 ```ts
 const worker = await Worker("my-worker", {
-  entrypoint: "worker.ts",
-  dev: {
-    port: 3000,
-  },
+    entrypoint: "worker.ts",
+    dev: {
+        port: 3000,
+    },
 });
 console.log(worker.url); // http://localhost:3000
 ```
@@ -140,10 +140,10 @@ Route requests from the public internet to your locally running Worker via a Clo
 
 ```ts
 const worker = await Worker("my-worker", {
-  entrypoint: "worker.ts",
-  dev: {
-    tunnel: true,
-  },
+    entrypoint: "worker.ts",
+    dev: {
+        tunnel: true,
+    },
 });
 ```
 
@@ -165,13 +165,13 @@ const kv = await KVNamespace("my-kv");
 const r2 = await R2Bucket("my-r2");
 const queue = await Queue("my-queue");
 const worker = await Worker("my-worker", {
-  entrypoint: "worker.ts",
-  bindings: {
-    D1: d1,
-    KV: kv,
-    R2: r2,
-    QUEUE: queue,
-  },
+    entrypoint: "worker.ts",
+    bindings: {
+        D1: d1,
+        KV: kv,
+        R2: r2,
+        QUEUE: queue,
+    },
 });
 ```
 
@@ -179,11 +179,11 @@ Secrets and plain-text bindings are also supported with no additional configurat
 
 ```ts
 const worker = await Worker("my-worker", {
-  entrypoint: "worker.ts",
-  bindings: {
-    PLAIN_TEXT: "Hello, world!",
-    API_KEY: alchemy.secret("pk_dev_1234567890"),
-  },
+    entrypoint: "worker.ts",
+    bindings: {
+        PLAIN_TEXT: "Hello, world!",
+        API_KEY: alchemy.secret("pk_dev_1234567890"),
+    },
 });
 ```
 

@@ -10,37 +10,39 @@ import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 
 function PreviewDropzone() {
-  const [files, setFiles] = useState([]);
+    const [files, setFiles] = useState([]);
 
-  const { getRootProps, getInputProps } = useDropzone({
-    accept: { "image/*": [] },
-    onDrop: (acceptedFiles) => {
-      setFiles(
-        acceptedFiles.map((file) => Object.assign(file, { preview: URL.createObjectURL(file) })),
-      );
-    },
-  });
+    const { getRootProps, getInputProps } = useDropzone({
+        accept: { "image/*": [] },
+        onDrop: (acceptedFiles) => {
+            setFiles(
+                acceptedFiles.map((file) =>
+                    Object.assign(file, { preview: URL.createObjectURL(file) }),
+                ),
+            );
+        },
+    });
 
-  const thumbs = files.map((file) => (
-    <div key={file.name}>
-      <img src={file.preview} alt={file.name} />
-    </div>
-  ));
+    const thumbs = files.map((file) => (
+        <div key={file.name}>
+            <img src={file.preview} alt={file.name} />
+        </div>
+    ));
 
-  // アンマウント時・files 更新時に Object URL を解放
-  useEffect(() => {
-    return () => files.forEach((f) => URL.revokeObjectURL(f.preview));
-  }, [files]);
+    // アンマウント時・files 更新時に Object URL を解放
+    useEffect(() => {
+        return () => files.forEach((f) => URL.revokeObjectURL(f.preview));
+    }, [files]);
 
-  return (
-    <section>
-      <div {...getRootProps({ className: "dropzone" })}>
-        <input {...getInputProps()} />
-        <p>画像をドロップ</p>
-      </div>
-      <aside>{thumbs}</aside>
-    </section>
-  );
+    return (
+        <section>
+            <div {...getRootProps({ className: "dropzone" })}>
+                <input {...getInputProps()} />
+                <p>画像をドロップ</p>
+            </div>
+            <aside>{thumbs}</aside>
+        </section>
+    );
 }
 ```
 
@@ -73,58 +75,66 @@ const filesWithPreviewAtom = atom([]);
 // - Write atom 版: "新しいファイルがセットされる瞬間に旧 URL を revoke する"
 //   → 新旧の切り替えがアトミックに行われるため、タイミングの問題が発生しない。
 const setPreviewFilesAtom = atom(null, (get, set, newFiles) => {
-  // 旧プレビュー URL をすべて解放してからセット
-  get(filesWithPreviewAtom).forEach((f) => URL.revokeObjectURL(f.preview));
-  set(
-    filesWithPreviewAtom,
-    newFiles.map((f) => Object.assign(f, { preview: URL.createObjectURL(f) })),
-  );
+    // 旧プレビュー URL をすべて解放してからセット
+    get(filesWithPreviewAtom).forEach((f) => URL.revokeObjectURL(f.preview));
+    set(
+        filesWithPreviewAtom,
+        newFiles.map((f) =>
+            Object.assign(f, { preview: URL.createObjectURL(f) }),
+        ),
+    );
 });
 
 // アクション atom: 全ファイルクリア時も URL を解放する
 const clearPreviewFilesAtom = atom(null, (get, set) => {
-  get(filesWithPreviewAtom).forEach((f) => URL.revokeObjectURL(f.preview));
-  set(filesWithPreviewAtom, []);
+    get(filesWithPreviewAtom).forEach((f) => URL.revokeObjectURL(f.preview));
+    set(filesWithPreviewAtom, []);
 });
 
 // --- コンポーネント ---
 
 // Dropzone: setPreviewFilesAtom を呼ぶだけ。URL 管理は不要。
 function PreviewDropzone() {
-  const setPreviewFiles = useSetAtom(setPreviewFilesAtom);
-  const { getRootProps, getInputProps } = useDropzone({
-    accept: { "image/*": [] },
-    // useEffect cleanup が不要。setPreviewFilesAtom 内で旧 URL を revoke している。
-    onDrop: setPreviewFiles,
-  });
+    const setPreviewFiles = useSetAtom(setPreviewFilesAtom);
+    const { getRootProps, getInputProps } = useDropzone({
+        accept: { "image/*": [] },
+        // useEffect cleanup が不要。setPreviewFilesAtom 内で旧 URL を revoke している。
+        onDrop: setPreviewFiles,
+    });
 
-  return (
-    <div {...getRootProps({ className: "dropzone" })}>
-      <input {...getInputProps()} />
-      <p>画像をドロップ</p>
-    </div>
-  );
+    return (
+        <div {...getRootProps({ className: "dropzone" })}>
+            <input {...getInputProps()} />
+            <p>画像をドロップ</p>
+        </div>
+    );
 }
 
 // 別コンポーネントでサムネイルグリッドを表示できる
 function ThumbnailGrid() {
-  const files = useAtomValue(filesWithPreviewAtom);
-  const clearPreviewFiles = useSetAtom(clearPreviewFilesAtom);
+    const files = useAtomValue(filesWithPreviewAtom);
+    const clearPreviewFiles = useSetAtom(clearPreviewFilesAtom);
 
-  return (
-    <>
-      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-        {files.map((f) => (
-          <img key={f.name} src={f.preview} alt={f.name} width={100} height={100} />
-        ))}
-      </div>
-      {files.length > 0 && (
-        <button type="button" onClick={clearPreviewFiles}>
-          クリア
-        </button>
-      )}
-    </>
-  );
+    return (
+        <>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                {files.map((f) => (
+                    <img
+                        key={f.name}
+                        src={f.preview}
+                        alt={f.name}
+                        width={100}
+                        height={100}
+                    />
+                ))}
+            </div>
+            {files.length > 0 && (
+                <button type="button" onClick={clearPreviewFiles}>
+                    クリア
+                </button>
+            )}
+        </>
+    );
 }
 ```
 

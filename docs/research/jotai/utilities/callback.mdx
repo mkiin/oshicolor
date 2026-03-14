@@ -34,32 +34,32 @@ import { useAtomCallback } from "jotai/utils";
 const countAtom = atom(0);
 
 const Counter = () => {
-  const [count, setCount] = useAtom(countAtom);
-  return (
-    <>
-      {count} <button onClick={() => setCount((c) => c + 1)}>+1</button>
-    </>
-  );
+    const [count, setCount] = useAtom(countAtom);
+    return (
+        <>
+            {count} <button onClick={() => setCount((c) => c + 1)}>+1</button>
+        </>
+    );
 };
 
 const Monitor = () => {
-  const [count, setCount] = useState(0);
-  const readCount = useAtomCallback(
-    useCallback((get) => {
-      const currCount = get(countAtom);
-      setCount(currCount);
-      return currCount;
-    }, []),
-  );
-  useEffect(() => {
-    const timer = setInterval(async () => {
-      console.log(readCount());
-    }, 1000);
-    return () => {
-      clearInterval(timer);
-    };
-  }, [readCount]);
-  return <div>current count: {count}</div>;
+    const [count, setCount] = useState(0);
+    const readCount = useAtomCallback(
+        useCallback((get) => {
+            const currCount = get(countAtom);
+            setCount(currCount);
+            return currCount;
+        }, []),
+    );
+    useEffect(() => {
+        const timer = setInterval(async () => {
+            console.log(readCount());
+        }, 1000);
+        return () => {
+            clearInterval(timer);
+        };
+    }, [readCount]);
+    return <div>current count: {count}</div>;
 };
 ```
 

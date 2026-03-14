@@ -25,18 +25,18 @@ import { atomWithImmer } from "jotai-immer";
 const countAtom = atomWithImmer({ value: 0 });
 
 const Counter = () => {
-  const [count] = useAtom(countAtom);
-  return <div>count: {count.value}</div>;
+    const [count] = useAtom(countAtom);
+    return <div>count: {count.value}</div>;
 };
 
 const Controls = () => {
-  const [, setCount] = useAtom(countAtom);
-  // setCount === update : (draft: Draft<Value>) => void
-  const inc = () =>
-    setCount((draft) => {
-      ++draft.value;
-    });
-  return <button onClick={inc}>+1</button>;
+    const [, setCount] = useAtom(countAtom);
+    // setCount === update : (draft: Draft<Value>) => void
+    const inc = () =>
+        setCount((draft) => {
+            ++draft.value;
+        });
+    return <button onClick={inc}>+1</button>;
 };
 ```
 
@@ -58,18 +58,18 @@ const primitiveAtom = atom({ value: 0 });
 const countAtom = withImmer(primitiveAtom);
 
 const Counter = () => {
-  const [count] = useAtom(countAtom);
-  return <div>count: {count.value}</div>;
+    const [count] = useAtom(countAtom);
+    return <div>count: {count.value}</div>;
 };
 
 const Controls = () => {
-  const [, setCount] = useAtom(countAtom);
-  // setCount === update : (draft: Draft<Value>) => void
-  const inc = () =>
-    setCount((draft) => {
-      ++draft.value;
-    });
-  return <button onClick={inc}>+1</button>;
+    const [, setCount] = useAtom(countAtom);
+    // setCount === update : (draft: Draft<Value>) => void
+    const inc = () =>
+        setCount((draft) => {
+            ++draft.value;
+        });
+    return <button onClick={inc}>+1</button>;
 };
 ```
 
@@ -90,18 +90,18 @@ import { useImmerAtom } from "jotai-immer";
 const primitiveAtom = atom({ value: 0 });
 
 const Counter = () => {
-  const [count] = useImmerAtom(primitiveAtom);
-  return <div>count: {count.value}</div>;
+    const [count] = useImmerAtom(primitiveAtom);
+    return <div>count: {count.value}</div>;
 };
 
 const Controls = () => {
-  const [, setCount] = useImmerAtom(primitiveAtom);
-  // setCount === update : (draft: Draft<Value>) => void
-  const inc = () =>
-    setCount((draft) => {
-      ++draft.value;
-    });
-  return <button onClick={inc}>+1</button>;
+    const [, setCount] = useImmerAtom(primitiveAtom);
+    // setCount === update : (draft: Draft<Value>) => void
+    const inc = () =>
+        setCount((draft) => {
+            ++draft.value;
+        });
+    return <button onClick={inc}>+1</button>;
 };
 ```
 

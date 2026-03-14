@@ -43,22 +43,22 @@ ratio = (L_lighter + 0.05) / (L_darker + 0.05)
 ```typescript
 // 調整設定
 type ContrastOptions = {
-  minRatio: number; // デフォルト 4.5（WCAG AA）
+    minRatio: number; // デフォルト 4.5（WCAG AA）
 };
 
 // 調整結果（before/after を保持）
 type ContrastResult = {
-  adjusted: ThemeVariants; // コントラスト調整済みテーマ
-  warnings: ContrastWarning[];
+    adjusted: ThemeVariants; // コントラスト調整済みテーマ
+    warnings: ContrastWarning[];
 };
 
 // 調整できなかった色の警告
 type ContrastWarning = {
-  group: string; // ハイライトグループ名
-  fg: string; // 調整後の fg 色（最大限努力した結果）
-  bg: string; // 対応する bg 色
-  ratio: number; // 達成できた実際のコントラスト比
-  required: number; // 要求されていたコントラスト比
+    group: string; // ハイライトグループ名
+    fg: string; // 調整後の fg 色（最大限努力した結果）
+    bg: string; // 対応する bg 色
+    ratio: number; // 達成できた実際のコントラスト比
+    required: number; // 要求されていたコントラスト比
 };
 ```
 
@@ -117,46 +117,46 @@ else:
 import { wcagContrast, wcagLuminance, oklch, formatHex } from "culori";
 
 const adjustToContrast = (
-  fg: string,
-  bg: string,
-  minRatio: number,
+    fg: string,
+    bg: string,
+    minRatio: number,
 ): { color: string; achieved: number } => {
-  // すでに基準を満たしていれば調整不要
-  const current = wcagContrast(fg, bg);
-  if (current >= minRatio) return { color: fg, achieved: current };
+    // すでに基準を満たしていれば調整不要
+    const current = wcagContrast(fg, bg);
+    if (current >= minRatio) return { color: fg, achieved: current };
 
-  const base = oklch(fg);
-  if (!base) return { color: fg, achieved: current };
+    const base = oklch(fg);
+    if (!base) return { color: fg, achieved: current };
 
-  // fg と bg の輝度を比較して調整方向を決定
-  const shouldGoLighter = wcagLuminance(fg) >= wcagLuminance(bg);
+    // fg と bg の輝度を比較して調整方向を決定
+    const shouldGoLighter = wcagLuminance(fg) >= wcagLuminance(bg);
 
-  let lo = shouldGoLighter ? base.l : 0;
-  let hi = shouldGoLighter ? 1 : base.l;
-  let bestL = shouldGoLighter ? 1 : 0;
+    let lo = shouldGoLighter ? base.l : 0;
+    let hi = shouldGoLighter ? 1 : base.l;
+    let bestL = shouldGoLighter ? 1 : 0;
 
-  const TOLERANCE = 0.001;
-  const MAX_ITER = 50;
+    const TOLERANCE = 0.001;
+    const MAX_ITER = 50;
 
-  for (let i = 0; i < MAX_ITER && hi - lo > TOLERANCE; i++) {
-    const mid = (lo + hi) / 2;
-    const candidate = formatHex({ ...base, l: mid });
-    if (!candidate) break;
-    const ratio = wcagContrast(candidate, bg);
+    for (let i = 0; i < MAX_ITER && hi - lo > TOLERANCE; i++) {
+        const mid = (lo + hi) / 2;
+        const candidate = formatHex({ ...base, l: mid });
+        if (!candidate) break;
+        const ratio = wcagContrast(candidate, bg);
 
-    if (ratio >= minRatio) {
-      bestL = mid;
-      // より元の色に近い（変化が小さい）方向へ絞り込む
-      if (shouldGoLighter) hi = mid;
-      else lo = mid;
-    } else {
-      if (shouldGoLighter) lo = mid;
-      else hi = mid;
+        if (ratio >= minRatio) {
+            bestL = mid;
+            // より元の色に近い（変化が小さい）方向へ絞り込む
+            if (shouldGoLighter) hi = mid;
+            else lo = mid;
+        } else {
+            if (shouldGoLighter) lo = mid;
+            else hi = mid;
+        }
     }
-  }
 
-  const result = formatHex({ ...base, l: bestL }) ?? fg;
-  return { color: result, achieved: wcagContrast(result, bg) };
+    const result = formatHex({ ...base, l: bestL }) ?? fg;
+    return { color: result, achieved: wcagContrast(result, bg) };
 };
 ```
 

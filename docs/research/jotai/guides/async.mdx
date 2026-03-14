@@ -63,16 +63,16 @@ const writeAtom = atom(null, async (get, set, payload) => {
 ```js
 const countAtom = atom(1);
 const asyncIncrementAtom = atom(null, async (get, set) => {
-  // 何かを await する
-  set(countAtom, get(countAtom) + 1);
+    // 何かを await する
+    set(countAtom, get(countAtom) + 1);
 });
 
 const Component = () => {
-  const [, increment] = useAtom(asyncIncrementAtom);
-  const handleClick = () => {
-    increment();
-  };
-  // ...
+    const [, increment] = useAtom(asyncIncrementAtom);
+    const handleClick = () => {
+        increment();
+    };
+    // ...
 };
 ```
 
@@ -84,11 +84,11 @@ Jotai で実現できる興味深いパターンは、必要なときにサス�
 const request = async () => fetch("https://...").then((res) => res.json());
 const baseAtom = atom(0);
 const Component = () => {
-  const [value, setValue] = useAtom(baseAtom);
-  const handleClick = () => {
-    setValue(request()); // リクエストが解決するまでサスペンドします
-  };
-  // ...
+    const [value, setValue] = useAtom(baseAtom);
+    const handleClick = () => {
+        setValue(request()); // リクエストが解決するまでサスペンドします
+    };
+    // ...
 };
 ```
 
@@ -120,11 +120,11 @@ const baseAtom = atom(new Promise(() => {})); // 別途セットされるまで�
 
 ```jsx
 const App = () => (
-  <Provider>
-    <Suspense fallback="Loading...">
-      <Layout />
-    </Suspense>
-  </Provider>
+    <Provider>
+        <Suspense fallback="Loading...">
+            <Layout />
+        </Suspense>
+    </Provider>
 );
 ```
 

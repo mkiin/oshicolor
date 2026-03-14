@@ -6,9 +6,9 @@
 import Vibrant from "node-vibrant";
 
 const palette = await Vibrant.from("image.jpg")
-  .quality(5) // 1/5 にダウンサンプル
-  .maxColorCount(64) // 最大64色抽出
-  .getPalette();
+    .quality(5) // 1/5 にダウンサンプル
+    .maxColorCount(64) // 最大64色抽出
+    .getPalette();
 
 palette.Vibrant; // → Swatch | null
 palette.DarkVibrant; // → Swatch | null

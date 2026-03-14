@@ -76,8 +76,8 @@ const quantizedB = Math.round(b / 24) * 24;
 
 ```ts
 const colorMap = new Map<
-  string,
-  { count: number; positions: { x: number; y: number }[]; rgb: number[] }
+    string,
+    { count: number; positions: { x: number; y: number }[]; rgb: number[] }
 >();
 ```
 
@@ -92,9 +92,9 @@ const colorMap = new Map<
 
 ```ts
 const candidateColors = Array.from(colorMap.entries())
-  .filter(([, info]) => info.count > 10) // ノイズ除去
-  .sort((a, b) => b[1].count - a[1].count) // 頻度降順
-  .slice(0, Math.min(20, colorMap.size)); // 上位20色
+    .filter(([, info]) => info.count > 10) // ノイズ除去
+    .sort((a, b) => b[1].count - a[1].count) // 頻度降順
+    .slice(0, Math.min(20, colorMap.size)); // 上位20色
 ```
 
 出現 10 回以下の色はノイズとして捨てる。上位 20 色を次のステップに渡す。
@@ -110,25 +110,25 @@ const candidateColors = Array.from(colorMap.entries())
 selectedColors.push(candidateColors[0]!);
 
 while (selectedColors.length < count) {
-  let maxMinDistance = 0;
-  let bestColorIndex = -1;
+    let maxMinDistance = 0;
+    let bestColorIndex = -1;
 
-  for (let i = 0; i < candidateColors.length; i++) {
-    // 既選択色群との「最小距離」を求める
-    let minDistance = Infinity;
-    for (const selected of selectedColors) {
-      const distance = colorDistance(candidate[1].rgb, selected[1].rgb);
-      minDistance = Math.min(minDistance, distance);
+    for (let i = 0; i < candidateColors.length; i++) {
+        // 既選択色群との「最小距離」を求める
+        let minDistance = Infinity;
+        for (const selected of selectedColors) {
+            const distance = colorDistance(candidate[1].rgb, selected[1].rgb);
+            minDistance = Math.min(minDistance, distance);
+        }
+
+        // 最小距離が最も大きい候補を選ぶ
+        if (minDistance > maxMinDistance) {
+            maxMinDistance = minDistance;
+            bestColorIndex = i;
+        }
     }
 
-    // 最小距離が最も大きい候補を選ぶ
-    if (minDistance > maxMinDistance) {
-      maxMinDistance = minDistance;
-      bestColorIndex = i;
-    }
-  }
-
-  selectedColors.push(candidateColors[bestColorIndex]!);
+    selectedColors.push(candidateColors[bestColorIndex]!);
 }
 ```
 
@@ -140,7 +140,7 @@ while (selectedColors.length < count) {
 
 ```ts
 const colorDistance = (color1: number[], color2: number[]) => {
-  return Math.sqrt((r1 - r2) ** 2 + (g1 - g2) ** 2 + (b1 - b2) ** 2);
+    return Math.sqrt((r1 - r2) ** 2 + (g1 - g2) ** 2 + (b1 - b2) ** 2);
 };
 ```
 
@@ -154,18 +154,18 @@ const centerPos = positions[Math.floor(positions.length / 2)] ?? { x: 0, y: 0 };
 
 // 正規化された座標に変換
 const normalizedPos = calculateColorPointPosition(
-  imageElement,
-  centerPos.x,
-  centerPos.y,
-  container,
+    imageElement,
+    centerPos.x,
+    centerPos.y,
+    container,
 );
 
 return {
-  id: index + 1,
-  x: normalizedPos.x,
-  y: normalizedPos.y,
-  color: `rgb(${r}, ${g}, ${b})`,
-  name: getColorName(Color(`rgb(...)`).hex())?.name ?? "unknown",
+    id: index + 1,
+    x: normalizedPos.x,
+    y: normalizedPos.y,
+    color: `rgb(${r}, ${g}, ${b})`,
+    name: getColorName(Color(`rgb(...)`).hex())?.name ?? "unknown",
 };
 ```
 

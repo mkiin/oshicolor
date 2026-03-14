@@ -10,36 +10,48 @@ keywords: creators,listeners
 
 ```ts
 import { useEffect } from "react";
-import { atom, useAtom, useSetAtom, Getter, Setter, SetStateAction } from "jotai";
+import {
+    atom,
+    useAtom,
+    useSetAtom,
+    Getter,
+    Setter,
+    SetStateAction,
+} from "jotai";
 
-type Callback<Value> = (get: Getter, set: Setter, newVal: Value, prevVal: Value) => void;
+type Callback<Value> = (
+    get: Getter,
+    set: Setter,
+    newVal: Value,
+    prevVal: Value,
+) => void;
 
 export function atomWithListeners<Value>(initialValue: Value) {
-  const baseAtom = atom(initialValue);
-  const listenersAtom = atom<Callback<Value>[]>([]);
-  const anAtom = atom(
-    (get) => get(baseAtom),
-    (get, set, arg: SetStateAction<Value>) => {
-      const prevVal = get(baseAtom);
-      set(baseAtom, arg);
-      const newVal = get(baseAtom);
-      get(listenersAtom).forEach((callback) => {
-        callback(get, set, newVal, prevVal);
-      });
-    },
-  );
-  const useListener = (callback: Callback<Value>) => {
-    const setListeners = useSetAtom(listenersAtom);
-    useEffect(() => {
-      setListeners((prev) => [...prev, callback]);
-      return () =>
-        setListeners((prev) => {
-          const index = prev.indexOf(callback);
-          return [...prev.slice(0, index), ...prev.slice(index + 1)];
-        });
-    }, [setListeners, callback]);
-  };
-  return [anAtom, useListener] as const;
+    const baseAtom = atom(initialValue);
+    const listenersAtom = atom<Callback<Value>[]>([]);
+    const anAtom = atom(
+        (get) => get(baseAtom),
+        (get, set, arg: SetStateAction<Value>) => {
+            const prevVal = get(baseAtom);
+            set(baseAtom, arg);
+            const newVal = get(baseAtom);
+            get(listenersAtom).forEach((callback) => {
+                callback(get, set, newVal, prevVal);
+            });
+        },
+    );
+    const useListener = (callback: Callback<Value>) => {
+        const setListeners = useSetAtom(listenersAtom);
+        useEffect(() => {
+            setListeners((prev) => [...prev, callback]);
+            return () =>
+                setListeners((prev) => {
+                    const index = prev.indexOf(callback);
+                    return [...prev.slice(0, index), ...prev.slice(index + 1)];
+                });
+        }, [setListeners, callback]);
+    };
+    return [anAtom, useListener] as const;
 }
 ```
 
@@ -49,21 +61,21 @@ export function atomWithListeners<Value>(initialValue: Value) {
 const [countAtom, useCountListener] = atomWithListeners(0);
 
 function EvenCounter() {
-  const [evenCount, setEvenCount] = useAtom(countAtom);
+    const [evenCount, setEvenCount] = useAtom(countAtom);
 
-  useCountListener(
-    useCallback(
-      (get, set, newVal, prevVal) => {
-        // `countAtom` の値が設定されるたびに、新しい値が偶数かどうかを確認し、
-        // 偶数であれば `evenCount` をインクリメントします。
-        if (newVal % 2 === 0) {
-          setEvenCount((c) => c + 1);
-        }
-      },
-      [setEvenCount],
-    ),
-  );
+    useCountListener(
+        useCallback(
+            (get, set, newVal, prevVal) => {
+                // `countAtom` の値が設定されるたびに、新しい値が偶数かどうかを確認し、
+                // 偶数であれば `evenCount` をインクリメントします。
+                if (newVal % 2 === 0) {
+                    setEvenCount((c) => c + 1);
+                }
+            },
+            [setEvenCount],
+        ),
+    );
 
-  return <>Count was set to an even number {evenCount} times.</>;
+    return <>Count was set to an even number {evenCount} times.</>;
 }
 ```

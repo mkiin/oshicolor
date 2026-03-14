@@ -14,7 +14,7 @@ const app = await alchemy("my-app");
 
 // create your resources here...
 await Worker("api", {
-  entrypoint: "./src/worker.ts",
+    entrypoint: "./src/worker.ts",
 });
 
 // clean up any unused resources from the application

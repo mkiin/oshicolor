@@ -22,9 +22,9 @@ Provider は3つの理由で有用です：
 
 ```jsx
 const SubTree = () => (
-  <Provider>
-    <Child />
-  </Provider>
+    <Provider>
+        <Child />
+    </Provider>
 );
 ```
 
@@ -32,7 +32,7 @@ const SubTree = () => (
 
 ```ts
 const Provider: React.FC<{
-  store?: Store;
+    store?: Store;
 }>;
 ```
 
@@ -40,9 +40,9 @@ const Provider: React.FC<{
 
 ```jsx
 const Root = () => (
-  <Provider>
-    <App />
-  </Provider>
+    <Provider>
+        <App />
+    </Provider>
 );
 ```
 
@@ -56,9 +56,9 @@ Provider はオプションの prop `store` を受け取れます。Provider の
 const myStore = createStore();
 
 const Root = () => (
-  <Provider store={myStore}>
-    <App />
-  </Provider>
+    <Provider store={myStore}>
+        <App />
+    </Provider>
 );
 ```
 
@@ -68,7 +68,7 @@ const Root = () => (
 
 ```jsx
 const Component = () => {
-  const store = useStore();
-  // ...
+    const store = useStore();
+    // ...
 };
 ```

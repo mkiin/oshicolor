@@ -35,9 +35,9 @@ v1 プランで採用した「貪欲法 + OKLab 知覚距離」実装から、`e
 
 1. Canvas に画像を原寸描画し `getImageData()` で全ピクセル取得
 2. `extractColorsFromImageData(imageData, options)` を呼ぶ
-   - `pixels: 40_000` でライブラリ内部のダウンサンプリングを制御
-   - `colorValidator` で透明・極暗色・極明色をピクセルレベルで除外
-   - `distance: 0.08` / `hueDistance: 0.05` / `saturationDistance: 0.12` / `lightnessDistance: 0.12` で2段階クラスタリングを調整
+    - `pixels: 40_000` でライブラリ内部のダウンサンプリングを制御
+    - `colorValidator` で透明・極暗色・極明色をピクセルレベルで除外
+    - `distance: 0.08` / `hueDistance: 0.05` / `saturationDistance: 0.12` / `lightnessDistance: 0.12` で2段階クラスタリングを調整
 3. 結果 `FinalColor[]` を `lightness` でフィルタして極端色を除去
 4. `area` 降順にソートし上位 12 色を取得
 5. `culori` + `color-name-list` で OKLab 距離による色名付与
@@ -62,12 +62,12 @@ v1 プランで採用した「貪欲法 + OKLab 知覚距離」実装から、`e
 
 ```typescript
 type ColorPoint = {
-  id: number; // 1始まりの連番（area 降順）
-  x: number; // 0 固定（extract-colors は位置情報を持たない）
-  y: number; // 0 固定
-  color: string; // HEX 文字列 "#rrggbb"
-  name?: string; // 色名（color-name-list + OKLab nearest 検索）
-  percent?: number; // 面積比（area × 100、小数第2位まで）
+    id: number; // 1始まりの連番（area 降順）
+    x: number; // 0 固定（extract-colors は位置情報を持たない）
+    y: number; // 0 固定
+    color: string; // HEX 文字列 "#rrggbb"
+    name?: string; // 色名（color-name-list + OKLab nearest 検索）
+    percent?: number; // 面積比（area × 100、小数第2位まで）
 };
 ```
 

@@ -14,20 +14,20 @@ R1 で抽出した `ColorPoint[]` を受け取り、Neovim カラースキーム
 ```typescript
 // 入力（R1 から受け取る）
 type ColorPoint = {
-  id: number;
-  x: number; // 正規化座標（0〜1）
-  y: number; // 正規化座標（0〜1）
-  color: string; // "#RRGGBB"
-  name?: string;
+    id: number;
+    x: number; // 正規化座標（0〜1）
+    y: number; // 正規化座標（0〜1）
+    color: string; // "#RRGGBB"
+    name?: string;
 };
 
 // ハイライトグループの属性
 type HighlightAttr = {
-  fg?: string; // "#RRGGBB"
-  bg?: string; // "#RRGGBB"
-  bold?: boolean;
-  italic?: boolean;
-  underline?: boolean;
+    fg?: string; // "#RRGGBB"
+    bg?: string; // "#RRGGBB"
+    bold?: boolean;
+    italic?: boolean;
+    underline?: boolean;
 };
 
 // 出力: グループ名 → 属性のマップ
@@ -35,8 +35,8 @@ type HighlightMap = Record<string, HighlightAttr>;
 
 // ダーク＋ライト両バリアント
 type ThemeVariants = {
-  dark: HighlightMap;
-  light: HighlightMap;
+    dark: HighlightMap;
+    light: HighlightMap;
 };
 ```
 
@@ -126,9 +126,12 @@ OKLch L 値の加算で明度をずらして派生色を生成する。
 ```typescript
 // CursorLine: 背景より L +4% 明るい色
 const shiftLightness = (hex: string, delta: number): string => {
-  const color = oklch(parse(hex));
-  if (!color) return hex;
-  return formatHex({ ...color, l: Math.min(1, Math.max(0, color.l + delta)) });
+    const color = oklch(parse(hex));
+    if (!color) return hex;
+    return formatHex({
+        ...color,
+        l: Math.min(1, Math.max(0, color.l + delta)),
+    });
 };
 
 // 使用例
@@ -155,10 +158,10 @@ Hue (H), Chroma (C) は変更しない
 
 ```typescript
 const invertForLight = (hex: string, isFg: boolean): string => {
-  const color = oklch(parse(hex));
-  if (!color) return hex;
-  const factor = isFg ? 0.8 : 0.9;
-  return formatHex({ ...color, l: (1 - color.l) * factor });
+    const color = oklch(parse(hex));
+    if (!color) return hex;
+    const factor = isFg ? 0.8 : 0.9;
+    return formatHex({ ...color, l: (1 - color.l) * factor });
 };
 ```
 
@@ -213,11 +216,11 @@ src/features/theme-generator/
 
 ```typescript
 export type HighlightAttr = {
-  fg?: string;
-  bg?: string;
-  bold?: boolean;
-  italic?: boolean;
-  underline?: boolean;
+    fg?: string;
+    bg?: string;
+    bold?: boolean;
+    italic?: boolean;
+    underline?: boolean;
 };
 export type HighlightMap = Record<string, HighlightAttr>;
 export type ThemeVariants = { dark: HighlightMap; light: HighlightMap };
@@ -229,13 +232,13 @@ export type ThemeVariants = { dark: HighlightMap; light: HighlightMap };
 // Hue レンジ → 割り当てグループのマッピングテーブル
 // レンジを変更する際はここだけ修正する
 export const HUE_RULES: Array<{ min: number; max: number; group: string }> = [
-  { min: 330, max: 360, group: "Special" },
-  { min: 0, max: 30, group: "Special" },
-  { min: 30, max: 90, group: "Function" },
-  { min: 90, max: 150, group: "String" },
-  { min: 150, max: 210, group: "Type" },
-  { min: 210, max: 270, group: "Keyword" },
-  { min: 270, max: 330, group: "Keyword" },
+    { min: 330, max: 360, group: "Special" },
+    { min: 0, max: 30, group: "Special" },
+    { min: 30, max: 90, group: "Function" },
+    { min: 90, max: 150, group: "String" },
+    { min: 150, max: 210, group: "Type" },
+    { min: 210, max: 270, group: "Keyword" },
+    { min: 270, max: 330, group: "Keyword" },
 ];
 ```
 

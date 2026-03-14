@@ -72,11 +72,11 @@ distance = sqrt((r1-r2)² + (g1-g2)² + (b1-b2)²)
 
 ```typescript
 type HairColor = {
-  name: string;
-  hex_range: [string, string];
-  hsl_hue_range: [number, number]; // 色相 0-360°
-  hsl_saturation_range: [number, number]; // 彩度 0-100%
-  hsl_lightness_range: [number, number]; // 明度 0-100%
+    name: string;
+    hex_range: [string, string];
+    hsl_hue_range: [number, number]; // 色相 0-360°
+    hsl_saturation_range: [number, number]; // 彩度 0-100%
+    hsl_lightness_range: [number, number]; // 明度 0-100%
 };
 ```
 
@@ -133,12 +133,12 @@ final_score = hsl_score × 0.7 + lab_score × 0.3
 
 ```typescript
 type ColorPoint = {
-  id: number; // 1-5（表示順）
-  x: number; // 正規化 X 座標（0-384 基準）
-  y: number; // 正規化 Y 座標（0-384 基準）
-  color: string; // "rgb(255, 0, 0)" 形式
-  name?: string; // 色名（"Red" など）
-  percent?: number; // パレット内占有率
+    id: number; // 1-5（表示順）
+    x: number; // 正規化 X 座標（0-384 基準）
+    y: number; // 正規化 Y 座標（0-384 基準）
+    color: string; // "rgb(255, 0, 0)" 形式
+    name?: string; // 色名（"Red" など）
+    percent?: number; // パレット内占有率
 };
 ```
 
@@ -146,18 +146,18 @@ type ColorPoint = {
 
 ```typescript
 type ClassifiedHairColors = Record<
-  string, // 髪色カテゴリ名
-  {
-    name: string;
-    colors: string[]; // 該当 Hex 色リスト
-    count: number;
-  }
+    string, // 髪色カテゴリ名
+    {
+        name: string;
+        colors: string[]; // 該当 Hex 色リスト
+        count: number;
+    }
 >;
 
 type HairColorMatch = {
-  name: string; // "Golden Blonde" など
-  score: number; // 0-1
-  hex: string;
+    name: string; // "Golden Blonde" など
+    score: number; // 0-1
+    hex: string;
 };
 ```
 
@@ -165,12 +165,12 @@ type HairColorMatch = {
 
 ```typescript
 type PartColors = Record<
-  // "eye" | "hair" | "skin" | "shirt" | "pants" | "shoes" | "socks" など
-  string,
-  {
-    color: string; // "#FF0000" 形式
-    name: string; // "Red" など
-  }
+    // "eye" | "hair" | "skin" | "shirt" | "pants" | "shoes" | "socks" など
+    string,
+    {
+        color: string; // "#FF0000" 形式
+        name: string; // "Red" など
+    }
 >;
 ```
 

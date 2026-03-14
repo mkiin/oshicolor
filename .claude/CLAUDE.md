@@ -89,7 +89,7 @@ src/
 ## コミット
 
 - コミットメッセージは Conventional Commits に従う
-  - `feat:`, `fix:`, `refactor:`, `docs:`, `chore:`, `test:`
+    - `feat:`, `fix:`, `refactor:`, `docs:`, `chore:`, `test:`
 - 1 コミット = 1 論理的変更
 
 ## その他

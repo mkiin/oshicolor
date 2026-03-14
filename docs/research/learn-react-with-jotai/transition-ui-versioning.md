@@ -20,66 +20,66 @@ title: "トランジションとUIバージョニング"
 
 ```tsx
 interface User {
-  name: string;
-  followers: number;
+    name: string;
+    followers: number;
 }
 
 async function fetchUser(): Promise<User> {
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  return {
-    name: "ユーザー",
-    followers: Math.floor(Math.random() * 10000),
-  };
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    return {
+        name: "ユーザー",
+        followers: Math.floor(Math.random() * 10000),
+    };
 }
 
 function createReloadableAtom<T>(getter: (get: Getter) => T) {
-  const refetchKeyAtom = atom(0);
+    const refetchKeyAtom = atom(0);
 
-  return atom(
-    (get) => {
-      get(refetchKeyAtom);
-      return getter(get);
-    },
-    (get, set) => {
-      set(refetchKeyAtom, (key) => key + 1);
-    },
-  );
+    return atom(
+        (get) => {
+            get(refetchKeyAtom);
+            return getter(get);
+        },
+        (get, set) => {
+            set(refetchKeyAtom, (key) => key + 1);
+        },
+    );
 }
 
 // 使用例
 const userAtom = createReloadableAtom(async () => {
-  const user = await fetchUser();
-  return user;
+    const user = await fetchUser();
+    return user;
 });
 
 const UserProfile: React.FC = () => {
-  const user = useAtomValue(userAtom);
-  const reloadUser = useSetAtom(userAtom);
+    const user = useAtomValue(userAtom);
+    const reloadUser = useSetAtom(userAtom);
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      reloadUser();
-    }, 1000);
-    return () => clearInterval(intervalId);
-  }, [reloadUser]);
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            reloadUser();
+        }, 1000);
+        return () => clearInterval(intervalId);
+    }, [reloadUser]);
 
-  return (
-    <section>
-      <h1>{user.name}さんのプロフィール</h1>
-      <p>フォロワー数: {user.followers}</p>
-      <button type="button" onClick={() => reloadUser()}>
-        再読み込み
-      </button>
-    </section>
-  );
+    return (
+        <section>
+            <h1>{user.name}さんのプロフィール</h1>
+            <p>フォロワー数: {user.followers}</p>
+            <button type="button" onClick={() => reloadUser()}>
+                再読み込み
+            </button>
+        </section>
+    );
 };
 
 const App: React.FC = () => {
-  return (
-    <Suspense fallback={<p>Loading...</p>}>
-      <UserProfile />
-    </Suspense>
-  );
+    return (
+        <Suspense fallback={<p>Loading...</p>}>
+            <UserProfile />
+        </Suspense>
+    );
 };
 ```
 
@@ -91,36 +91,36 @@ const App: React.FC = () => {
 
 ```tsx
 const UserProfile: React.FC = () => {
-  const user = useAtomValue(userAtom);
-  const reloadUser = useSetAtom(userAtom);
-  const [isPending, startTransition] = useTransition();
+    const user = useAtomValue(userAtom);
+    const reloadUser = useSetAtom(userAtom);
+    const [isPending, startTransition] = useTransition();
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      startTransition(() => {
-        reloadUser();
-      });
-    }, 1000);
-    return () => clearInterval(intervalId);
-  }, [reloadUser, startTransition]);
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            startTransition(() => {
+                reloadUser();
+            });
+        }, 1000);
+        return () => clearInterval(intervalId);
+    }, [reloadUser, startTransition]);
 
-  return (
-    <section>
-      <h1>{user.name}さんのプロフィール</h1>
-      <p>フォロワー数: {user.followers}</p>
-      <button
-        type="button"
-        onClick={() => {
-          startTransition(() => {
-            reloadUser();
-          });
-        }}
-      >
-        再読み込み
-        {isPending && "（更新中...）"}
-      </button>
-    </section>
-  );
+    return (
+        <section>
+            <h1>{user.name}さんのプロフィール</h1>
+            <p>フォロワー数: {user.followers}</p>
+            <button
+                type="button"
+                onClick={() => {
+                    startTransition(() => {
+                        reloadUser();
+                    });
+                }}
+            >
+                再読み込み
+                {isPending && "（更新中...）"}
+            </button>
+        </section>
+    );
 };
 ```
 
@@ -134,18 +134,18 @@ const UserProfile: React.FC = () => {
 const userIdAtom = atom("user1");
 
 const userAtom = createReloadableAtom(async (get) => {
-  const userId = get(userIdAtom);
-  const user = await fetchUser(userId);
-  return user;
+    const userId = get(userIdAtom);
+    const user = await fetchUser(userId);
+    return user;
 });
 
 // fetchUserもuserIdを受け取るように変更
 async function fetchUser(userId: string): Promise<User> {
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  return {
-    name: `ユーザー(${userId})`,
-    followers: Math.floor(Math.random() * 10000),
-  };
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    return {
+        name: `ユーザー(${userId})`,
+        followers: Math.floor(Math.random() * 10000),
+    };
 }
 ```
 
@@ -153,24 +153,24 @@ async function fetchUser(userId: string): Promise<User> {
 
 ```tsx
 const UserSelector: React.FC = () => {
-  const setUserId = useSetAtom(userIdAtom);
+    const setUserId = useSetAtom(userIdAtom);
 
-  const handleSelectUser = (id: string) => {
-    startTransition(() => {
-      setUserId(id);
-    });
-  };
+    const handleSelectUser = (id: string) => {
+        startTransition(() => {
+            setUserId(id);
+        });
+    };
 
-  return (
-    <div>
-      <button type="button" onClick={() => handleSelectUser("user1")}>
-        ユーザー1を選択
-      </button>
-      <button type="button" onClick={() => handleSelectUser("user2")}>
-        ユーザー2を選択
-      </button>
-    </div>
-  );
+    return (
+        <div>
+            <button type="button" onClick={() => handleSelectUser("user1")}>
+                ユーザー1を選択
+            </button>
+            <button type="button" onClick={() => handleSelectUser("user2")}>
+                ユーザー2を選択
+            </button>
+        </div>
+    );
 };
 ```
 
@@ -178,13 +178,13 @@ const UserSelector: React.FC = () => {
 
 ```tsx
 const App: React.FC = () => {
-  return (
-    <>
-      <UserSelector />
-      <Suspense fallback={<p>Loading...</p>}>
-        <UserProfile />
-      </Suspense>
-    </>
-  );
+    return (
+        <>
+            <UserSelector />
+            <Suspense fallback={<p>Loading...</p>}>
+                <UserProfile />
+            </Suspense>
+        </>
+    );
 };
 ```

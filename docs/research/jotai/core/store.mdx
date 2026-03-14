@@ -19,14 +19,14 @@ const myStore = createStore();
 const countAtom = atom(0);
 myStore.set(countAtom, 1);
 const unsub = myStore.sub(countAtom, () => {
-  console.log("countAtom value is changed to", myStore.get(countAtom));
+    console.log("countAtom value is changed to", myStore.get(countAtom));
 });
 // サブスクライブを解除するには unsub() を呼び出す
 
 const Root = () => (
-  <Provider store={myStore}>
-    <App />
-  </Provider>
+    <Provider store={myStore}>
+        <App />
+    </Provider>
 );
 ```
 

@@ -33,35 +33,38 @@ import { ScopeProvider } from "jotai-scope";
 const countAtom = atom(0);
 
 function Counter() {
-  const [count, setCount] = useAtom(countAtom);
-  const [anotherCount, setAnotherCount] = useAtom(anotherCountAtom);
-  return (
-    <>
-      <div>
-        <span>count: {count}</span>
-        <button type="button" onClick={() => setCount((v) => v + 1)}>
-          increment
-        </button>
-      </div>
-      <div>
-        <span>another count: {anotherCount}</span>
-        <button type="button" onClick={() => setAnotherCount((v) => v + 1)}>
-          increment
-        </button>
-      </div>
-    </>
-  );
+    const [count, setCount] = useAtom(countAtom);
+    const [anotherCount, setAnotherCount] = useAtom(anotherCountAtom);
+    return (
+        <>
+            <div>
+                <span>count: {count}</span>
+                <button type="button" onClick={() => setCount((v) => v + 1)}>
+                    increment
+                </button>
+            </div>
+            <div>
+                <span>another count: {anotherCount}</span>
+                <button
+                    type="button"
+                    onClick={() => setAnotherCount((v) => v + 1)}
+                >
+                    increment
+                </button>
+            </div>
+        </>
+    );
 }
 
 function App() {
-  return (
-    <div>
-      <Counter />
-      <ScopeProvider atoms={[countAtom]}>
-        <Counter />
-      </ScopeProvider>
-    </div>
-  );
+    return (
+        <div>
+            <Counter />
+            <ScopeProvider atoms={[countAtom]}>
+                <Counter />
+            </ScopeProvider>
+        </div>
+    );
 }
 ```
 
@@ -82,14 +85,15 @@ Jotai に依存するライブラリを開発していて、
 ```tsx
 import { createIsolation } from "jotai-scope";
 
-const { Provider, useStore, useAtom, useAtomValue, useSetAtom } = createIsolation();
+const { Provider, useStore, useAtom, useAtomValue, useSetAtom } =
+    createIsolation();
 
 function Library() {
-  return (
-    <Provider>
-      <LibraryComponent />
-    </Provider>
-  );
+    return (
+        <Provider>
+            <LibraryComponent />
+        </Provider>
+    );
 }
 ```
 
@@ -116,42 +120,53 @@ npm install bunshi
 
 ```jsx
 import { atom, useAtom } from "jotai";
-import { molecule, useMolecule, createScope, ScopeProvider } from "bunshi/react";
+import {
+    molecule,
+    useMolecule,
+    createScope,
+    ScopeProvider,
+} from "bunshi/react";
 
 const InitialCountScope = createScope({ initialCount: 0 });
 const countMolecule = molecule((getMol, getScope) => {
-  const { initialCount } = getScope(InitialCountScope);
-  return atom(initialCount);
+    const { initialCount } = getScope(InitialCountScope);
+    return atom(initialCount);
 });
 
 function Counter() {
-  const countAtom = useMolecule(countMolecule);
-  const [count, setCount] = useAtom(countAtom);
-  return (
-    <div>
-      {count} <button onClick={() => setCount((v) => v + 1)}>+1</button>
-    </div>
-  );
+    const countAtom = useMolecule(countMolecule);
+    const [count, setCount] = useAtom(countAtom);
+    return (
+        <div>
+            {count} <button onClick={() => setCount((v) => v + 1)}>+1</button>
+        </div>
+    );
 }
 
 function App() {
-  return (
-    <div>
-      <h1>With initial value 1</h1>
-      <ScopeProvider scope={InitialCountScope} value={{ initialCount: 1 }}>
-        <Counter />
-        <Counter />
-      </ScopeProvider>
-      <h1>With initial value 2</h1>
-      <ScopeProvider scope={InitialCountScope} value={{ initialCount: 2 }}>
-        <Counter />
-        <Counter />
-      </ScopeProvider>
-      <h1>Default</h1>
-      <Counter />
-      <Counter />
-    </div>
-  );
+    return (
+        <div>
+            <h1>With initial value 1</h1>
+            <ScopeProvider
+                scope={InitialCountScope}
+                value={{ initialCount: 1 }}
+            >
+                <Counter />
+                <Counter />
+            </ScopeProvider>
+            <h1>With initial value 2</h1>
+            <ScopeProvider
+                scope={InitialCountScope}
+                value={{ initialCount: 2 }}
+            >
+                <Counter />
+                <Counter />
+            </ScopeProvider>
+            <h1>Default</h1>
+            <Counter />
+            <Counter />
+        </div>
+    );
 }
 ```
 

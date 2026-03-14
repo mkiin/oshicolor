@@ -82,7 +82,9 @@ import { atom } from "jotai";
 import type { PrimitiveAtom } from "jotai";
 import { atomFamily } from "jotai/utils";
 
-const myFamily = atomFamily<number, PrimitiveAtom<number>>((id: number) => atom(id));
+const myFamily = atomFamily<number, PrimitiveAtom<number>>((id: number) =>
+    atom(id),
+);
 ```
 
 ### API メソッド
@@ -104,7 +106,7 @@ todoFamily("foo");
 todoFamily("bar");
 
 for (const param of todoFamily.getParams()) {
-  console.log(param); // 'foo', 'bar'
+    console.log(param); // 'foo', 'bar'
 }
 ```
 
@@ -126,7 +128,7 @@ todoFamily.remove("foo");
 ```js
 // 1時間以上前のアトムを削除
 todoFamily.setShouldRemove((createdAt, param) => {
-  return Date.now() - createdAt > 60 * 60 * 1000;
+    return Date.now() - createdAt > 60 * 60 * 1000;
 });
 ```
 
@@ -138,9 +140,9 @@ todoFamily.setShouldRemove((createdAt, param) => {
 
 ```js
 const cleanup = todoFamily.unstable_listen((event) => {
-  console.log(event.type); // 'CREATE' または 'REMOVE'
-  console.log(event.param); // param
-  console.log(event.atom); // アトム
+    console.log(event.type); // 'CREATE' または 'REMOVE'
+    console.log(event.param); // param
+    console.log(event.atom); // アトム
 });
 
 // 後で、リスニングを停止
@@ -172,13 +174,13 @@ import { atom } from "jotai";
 import { atomFamily } from "jotai/utils";
 
 const todoFamily = atomFamily((name) =>
-  atom(
-    (get) => get(todosAtom)[name],
-    (get, set, arg) => {
-      const prev = get(todosAtom);
-      set(todosAtom, { ...prev, [name]: { ...prev[name], ...arg } });
-    },
-  ),
+    atom(
+        (get) => get(todosAtom)[name],
+        (get, set, arg) => {
+            const prev = get(todosAtom);
+            set(todosAtom, { ...prev, [name]: { ...prev[name], ...arg } });
+        },
+    ),
 );
 ```
 
@@ -187,8 +189,8 @@ import { atom } from "jotai";
 import { atomFamily } from "jotai/utils";
 
 const todoFamily = atomFamily(
-  ({ id, name }) => atom({ name }),
-  (a, b) => a.id === b.id,
+    ({ id, name }) => atom({ name }),
+    (a, b) => a.id === b.id,
 );
 ```
 

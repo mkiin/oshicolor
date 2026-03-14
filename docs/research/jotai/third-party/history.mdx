@@ -37,53 +37,53 @@ function Component() {
 - **RESET**
   履歴全体をクリアし、以前のすべての状態（undo/redo スタックを含む）を削除します。
 
-  ```js
-  import { RESET } from 'jotai-history'
+    ```js
+    import { RESET } from 'jotai-history'
 
-  ...
-
-  function Component() {
-    const setHistoryAtom = useSetAtom(historyAtom)
     ...
-    setHistoryAtom(RESET)
-  }
-  ```
+
+    function Component() {
+      const setHistoryAtom = useSetAtom(historyAtom)
+      ...
+      setHistoryAtom(RESET)
+    }
+    ```
 
 - **UNDO** と **REDO**
   `targetAtom` を履歴の中で前後に移動します。
 
-  ```js
-  import { REDO, UNDO } from 'jotai-history'
+    ```js
+    import { REDO, UNDO } from 'jotai-history'
 
-  ...
-
-  function Component() {
-    const setHistoryAtom = useSetAtom(historyAtom)
     ...
-    setHistoryAtom(UNDO)
-    setHistoryAtom(REDO)
-  }
-  ```
+
+    function Component() {
+      const setHistoryAtom = useSetAtom(historyAtom)
+      ...
+      setHistoryAtom(UNDO)
+      setHistoryAtom(REDO)
+    }
+    ```
 
 ### インジケーター
 
 - **canUndo** と **canRedo**
   undo または redo アクションが現在可能かどうかを示す boolean 値。これらを使用してボタンを無効化したり、条件付きでアクションをトリガーしたりできます。
 
-  ```jsx
-  ...
+    ```jsx
+    ...
 
-  function Component() {
-    const history = useAtomValue(historyAtom)
+    function Component() {
+      const history = useAtomValue(historyAtom)
 
-    return (
-      <>
-        <button disabled={!history.canUndo}>Undo</button>
-        <button disabled={!history.canRedo}>Redo</button>
-      </>
-    )
-  }
-  ```
+      return (
+        <>
+          <button disabled={!history.canUndo}>Undo</button>
+          <button disabled={!history.canRedo}>Redo</button>
+        </>
+      )
+    }
+    ```
 
 <CodeSandbox id="g6qj3q" />
 

@@ -42,8 +42,11 @@
  * @param count - 抽出する色の数（デフォルト: 5）
  * @returns 抽出されたカラーポイントの配列
  */
-export const extractColors = (imageData: ImageData, count = 5): ColorPoint[] => {
-  // ...
+export const extractColors = (
+    imageData: ImageData,
+    count = 5,
+): ColorPoint[] => {
+    // ...
 };
 ```
 
@@ -97,16 +100,16 @@ boolean 値には必ずプレフィックスを付ける。
 ```tsx
 // 定義側
 function ThemeEditor() {
-  const handleColorChange = (color: string) => {
-    // ...
-  };
+    const handleColorChange = (color: string) => {
+        // ...
+    };
 
-  return <ColorPicker onColorChange={handleColorChange} />;
+    return <ColorPicker onColorChange={handleColorChange} />;
 }
 
 // Props 側
 type ColorPickerProps = {
-  onColorChange: (color: string) => void;
+    onColorChange: (color: string) => void;
 };
 ```
 
@@ -139,15 +142,15 @@ type ColorPickerProps = {
 ```typescript
 // Good
 type ThemeData = {
-  id: string;
-  name: string;
-  palette: ColorPoint[];
+    id: string;
+    name: string;
+    palette: ColorPoint[];
 };
 
 // Bad - interface を不必要に使わない
 interface IThemeData {
-  id: string;
-  name: string;
+    id: string;
+    name: string;
 }
 ```
 
@@ -158,7 +161,7 @@ interface IThemeData {
 ```tsx
 // Good - function 宣言 + named export
 export function GalleryCard({ theme }: GalleryCardProps) {
-  return <div>{theme.name}</div>;
+    return <div>{theme.name}</div>;
 }
 ```
 
@@ -169,13 +172,13 @@ export function GalleryCard({ theme }: GalleryCardProps) {
 ```tsx
 // Good - Route 内でのみ使うコンポーネントは非エクスポート
 function GalleryPage() {
-  const themes = Route.useLoaderData();
-  return <ThemeGrid themes={themes} />;
+    const themes = Route.useLoaderData();
+    return <ThemeGrid themes={themes} />;
 }
 
 export const Route = createFileRoute("/gallery")({
-  loader: () => getThemes({ data: { page: 1 } }),
-  component: GalleryPage,
+    loader: () => getThemes({ data: { page: 1 } }),
+    component: GalleryPage,
 });
 ```
 
@@ -189,19 +192,19 @@ export function GalleryPage() { ... }
 ```typescript
 // ユーティリティ関数
 export const extractColors = (imageData: ImageData): ColorPoint[] => {
-  return [];
+    return [];
 };
 
 // Server Functions
 const getThemes = createServerFn({ method: "GET" })
-  .validator((params: { page: number }) => params)
-  .handler(async ({ data }) => {
-    return [];
-  });
+    .validator((params: { page: number }) => params)
+    .handler(async ({ data }) => {
+        return [];
+    });
 
 // フック内のハンドラ・コールバック
 const handleSubmit = () => {
-  // ...
+    // ...
 };
 ```
 
@@ -212,7 +215,7 @@ arrow function では **明示的な return を基本** とする。
 ```typescript
 // Good - 明示的な return
 const double = (n: number): number => {
-  return n * 2;
+    return n * 2;
 };
 
 // Bad - 暗黙の return は使わない
@@ -307,13 +310,13 @@ import { themes } from "~/db/schema";
 import { desc, eq } from "drizzle-orm";
 
 export const findPublishedThemes = async (page: number) => {
-  return db
-    .select()
-    .from(themes)
-    .where(eq(themes.published, true))
-    .orderBy(desc(themes.createdAt))
-    .limit(20)
-    .offset((page - 1) * 20);
+    return db
+        .select()
+        .from(themes)
+        .where(eq(themes.published, true))
+        .orderBy(desc(themes.createdAt))
+        .limit(20)
+        .offset((page - 1) * 20);
 };
 ```
 
@@ -324,10 +327,10 @@ import { z } from "zod";
 import { findPublishedThemes } from "./themes.server";
 
 export const getThemes = createServerFn({ method: "GET" })
-  .validator(z.object({ page: z.number().min(1) }))
-  .handler(async ({ data }) => {
-    return findPublishedThemes(data.page);
-  });
+    .validator(z.object({ page: z.number().min(1) }))
+    .handler(async ({ data }) => {
+        return findPublishedThemes(data.page);
+    });
 ```
 
 ### Server Routes
@@ -337,15 +340,15 @@ export const getThemes = createServerFn({ method: "GET" })
 ```typescript
 // src/routes/api/webhooks.ts
 export const Route = createFileRoute("/api/webhooks")({
-  server: {
-    handlers: {
-      POST: async ({ request }) => {
-        const body = await request.json();
-        // webhook 処理
-        return Response.json({ ok: true });
-      },
+    server: {
+        handlers: {
+            POST: async ({ request }) => {
+                const body = await request.json();
+                // webhook 処理
+                return Response.json({ ok: true });
+            },
+        },
     },
-  },
 });
 ```
 
@@ -392,7 +395,7 @@ TanStack Query との統合には **`jotai-tanstack-query`** を使用する。`
 ## コミット
 
 - コミットメッセージは Conventional Commits に従う
-  - `feat:`, `fix:`, `refactor:`, `docs:`, `chore:`, `test:`
+    - `feat:`, `fix:`, `refactor:`, `docs:`, `chore:`, `test:`
 - 1 コミット = 1 論理的変更
 
 ## その他
@@ -407,19 +410,25 @@ TanStack Query との統合には **`jotai-tanstack-query`** を使用する。`
 
 ```typescript
 // Good - シグネチャに型、本体は推論に任せる
-export const extractColors = (imageData: ImageData, count: number): ColorPoint[] => {
-  const pixels = collectPixels(imageData);
-  const quantized = quantizeColors(pixels, count);
-  const sorted = sortByFrequency(quantized);
-  return sorted;
+export const extractColors = (
+    imageData: ImageData,
+    count: number,
+): ColorPoint[] => {
+    const pixels = collectPixels(imageData);
+    const quantized = quantizeColors(pixels, count);
+    const sorted = sortByFrequency(quantized);
+    return sorted;
 };
 
 // Bad - ローカル変数に冗長な型アノテーション
-export const extractColors = (imageData: ImageData, count: number): ColorPoint[] => {
-  const pixels: Pixel[] = collectPixels(imageData);
-  const quantized: QuantizedColor[] = quantizeColors(pixels, count);
-  const sorted: ColorPoint[] = sortByFrequency(quantized);
-  return sorted;
+export const extractColors = (
+    imageData: ImageData,
+    count: number,
+): ColorPoint[] => {
+    const pixels: Pixel[] = collectPixels(imageData);
+    const quantized: QuantizedColor[] = quantizeColors(pixels, count);
+    const sorted: ColorPoint[] = sortByFrequency(quantized);
+    return sorted;
 };
 ```
 

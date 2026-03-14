@@ -27,11 +27,11 @@ Claude Codeへの引き渡し用ドキュメント。色抽出に関連するフ
 - **役割**: メインの色ピッカーUIコンポーネント
 - **原理**: 画像をCanvasに描画し、ユーザーがドラッグした座標のピクセル色を `getImageData` で取得
 - **主要機能**:
-  - `getPixelColor(x, y)` - Canvas上の任意座標からRGB値を読み取り
-  - `updateCanvas()` - 画像をCanvasに描画（`naturalWidth/Height`で原寸描画）
-  - `updateMagnifier(x, y)` - 10x10ピクセル領域を150x150に拡大表示する虫眼鏡
-  - `getNormalizedPosition()` / `getDisplayPosition()` - 表示座標と正規化座標（384基準）の相互変換
-  - マウスドラッグでポイント移動、リアルタイムで色を更新
+    - `getPixelColor(x, y)` - Canvas上の任意座標からRGB値を読み取り
+    - `updateCanvas()` - 画像をCanvasに描画（`naturalWidth/Height`で原寸描画）
+    - `updateMagnifier(x, y)` - 10x10ピクセル領域を150x150に拡大表示する虫眼鏡
+    - `getNormalizedPosition()` / `getDisplayPosition()` - 表示座標と正規化座標（384基準）の相互変換
+    - マウスドラッグでポイント移動、リアルタイムで色を更新
 - **型定義**: `ColorPoint` （id, x, y, color, name）がここで定義されている
 
 #### `nextjs/src/components/palette/coordinate-utils.ts`
@@ -39,19 +39,19 @@ Claude Codeへの引き渡し用ドキュメント。色抽出に関連するフ
 - **役割**: object-contain表示時の座標変換ユーティリティ
 - **原理**: 画像のアスペクト比とコンテナサイズから、実際の描画領域（offset, renderSize）を計算
 - **主要関数**:
-  - `getImageContainRect()` - コンテナ内での画像の実描画領域を算出
-  - `getNormalizedPosition()` - 表示座標→正規化座標（384基準）
-  - `calculateColorPointPosition()` - Canvas座標→コンテナ表示座標→正規化座標
+    - `getImageContainRect()` - コンテナ内での画像の実描画領域を算出
+    - `getNormalizedPosition()` - 表示座標→正規化座標（384基準）
+    - `calculateColorPointPosition()` - Canvas座標→コンテナ表示座標→正規化座標
 
 #### `nextjs/src/components/palette/color-extractor.ts`
 
 - **役割**: 画像から自動的に主要色を抽出するアルゴリズム（手動ピッカーの「自動抽出」ボタン用）
 - **原理**:
-  1. 8px間隔でピクセルをサンプリング
-  2. 透明度128未満、明度30未満/225超の色を除外
-  3. RGB各チャンネルを24単位で量子化してグルーピング
-  4. 出現頻度でソートし上位20色を候補に
-  5. **貪欲法（Greedy Algorithm）**で色空間上の距離が最大になるよう色を選択
+    1. 8px間隔でピクセルをサンプリング
+    2. 透明度128未満、明度30未満/225超の色を除外
+    3. RGB各チャンネルを24単位で量子化してグルーピング
+    4. 出現頻度でソートし上位20色を候補に
+    5. **貪欲法（Greedy Algorithm）**で色空間上の距離が最大になるよう色を選択
 - **距離計算**: ユークリッド距離（RGB空間の `sqrt((r1-r2)^2 + (g1-g2)^2 + (b1-b2)^2)`）
 - **出力**: `ColorPoint[]`（位置情報付き）
 
@@ -61,11 +61,11 @@ Claude Codeへの引き渡し用ドキュメント。色抽出に関連するフ
 
 - **役割**: Cinematic Palette生成ツール用の色抽出
 - **原理**: `quantize` ライブラリ（Median Cut アルゴリズム）を使用
-  1. Canvas上の全ピクセルを4px間隔でサンプリング
-  2. 透明ピクセル（alpha < 125）を除外
-  3. `quantize(pixels, colorCount + 1)` でMedian Cut量子化
-  4. 各クラスタのピクセル数をカウントして占有率（%）を算出
-  5. `sortColors()` で色をソートして返却
+    1. Canvas上の全ピクセルを4px間隔でサンプリング
+    2. 透明ピクセル（alpha < 125）を除外
+    3. `quantize(pixels, colorCount + 1)` でMedian Cut量子化
+    4. 各クラスタのピクセル数をカウントして占有率（%）を算出
+    5. `sortColors()` で色をソートして返却
 - **依存**: `quantize` パッケージ（npm）
 
 #### `nextjs/src/app/tools/[slug]/tools/create-cinematic-color-palettes-with-colorpalette-cinema/index.tsx`
@@ -80,9 +80,9 @@ Claude Codeへの引き渡し用ドキュメント。色抽出に関連するフ
 - **役割**: HEX値から最も近い色名を返すユーティリティ
 - **原理**: `nearest-color` ライブラリ + `color-name-list`（30,000色以上の名前リスト）
 - **主要関数**:
-  - `getColorName(hex)` - HEX→最近傍の色名
-  - `getHexByName(name)` - 色名→HEX（精密/模糊マッチ）
-  - `getColorsByKeyword(keyword)` - キーワードで色を検索
+    - `getColorName(hex)` - HEX→最近傍の色名
+    - `getHexByName(name)` - 色名→HEX（精密/模糊マッチ）
+    - `getColorsByKeyword(keyword)` - キーワードで色を検索
 
 #### `nextjs/src/lib/sort-colors/index.ts`
 
@@ -100,13 +100,13 @@ Claude Codeへの引き渡し用ドキュメント。色抽出に関連するフ
 
 - **役割**: アニメキャラクターの髪色をカテゴリ分類する専用ライブラリ
 - **原理**:
-  1. 髪色定数（HSL範囲ベース）から代表色パレットを生成
-  2. `nearest-color` で入力色を最寄りの髪色カテゴリにマッチ
-  3. HSL範囲チェック + HSL/LAB距離のスコアリング（HSL 70% + LAB 30%の重み）
+    1. 髪色定数（HSL範囲ベース）から代表色パレットを生成
+    2. `nearest-color` で入力色を最寄りの髪色カテゴリにマッチ
+    3. HSL範囲チェック + HSL/LAB距離のスコアリング（HSL 70% + LAB 30%の重み）
 - **主要関数**:
-  - `classifyHairColors(hexColors[])` - 複数色を髪色カテゴリに分類
-  - `getHairColorName(hex)` - 単一色の髪色名を返す
-  - `getMostCommonHairColor(hexColors[])` - 最頻出の髪色カテゴリを返す
+    - `classifyHairColors(hexColors[])` - 複数色を髪色カテゴリに分類
+    - `getHairColorName(hex)` - 単一色の髪色名を返す
+    - `getMostCommonHairColor(hexColors[])` - 最頻出の髪色カテゴリを返す
 
 #### `nextjs/src/lib/hair-color/constant.ts`
 
@@ -127,9 +127,9 @@ Claude Codeへの引き渡し用ドキュメント。色抽出に関連するフ
 
 - **役割**: 任意の文字列から一意な色を生成
 - **原理**:
-  1. まず `getHexByName()` で色名として検索
-  2. 見つからなければ3種のハッシュ関数（djb2, sdbm, 位置加味）を合成
-  3. 黄金比で色相を分散、飽和度65-95%、明度45-65%の範囲でHSL色を生成
+    1. まず `getHexByName()` で色名として検索
+    2. 見つからなければ3種のハッシュ関数（djb2, sdbm, 位置加味）を合成
+    3. 黄金比で色相を分散、飽和度65-95%、明度45-65%の範囲でHSL色を生成
 
 ### 7. 統合コンポーネント
 

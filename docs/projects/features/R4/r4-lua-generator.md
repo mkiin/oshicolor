@@ -31,9 +31,9 @@ src/features/theme-generator/
 ```typescript
 // テーマのメタデータ
 type ThemeMeta = {
-  name: string; // テーマ名（ファイル名・vim.g.colors_name に使用）
-  characterName?: string; // キャラクター名（ファイルヘッダーコメントに使用）
-  variant: "dark" | "light"; // 生成するバリアント
+    name: string; // テーマ名（ファイル名・vim.g.colors_name に使用）
+    characterName?: string; // キャラクター名（ファイルヘッダーコメントに使用）
+    variant: "dark" | "light"; // 生成するバリアント
 };
 
 // エクスポート形式
@@ -223,10 +223,10 @@ string   #39c5bb
 
 ```css
 :root {
-  --color-bg: #0d1117;
-  --color-fg: #e8f4f8;
-  --color-comment: #4a7a8a;
-  --color-string: #39c5bb;
+    --color-bg: #0d1117;
+    --color-fg: #e8f4f8;
+    --color-comment: #4a7a8a;
+    --color-string: #39c5bb;
 }
 ```
 
@@ -234,10 +234,10 @@ string   #39c5bb
 
 ```json
 {
-  "bg": "#0d1117",
-  "fg": "#e8f4f8",
-  "comment": "#4a7a8a",
-  "string": "#39c5bb"
+    "bg": "#0d1117",
+    "fg": "#e8f4f8",
+    "comment": "#4a7a8a",
+    "string": "#39c5bb"
 }
 ```
 
@@ -247,14 +247,18 @@ string   #39c5bb
 
 ```typescript
 // exporters.ts の download ユーティリティ
-export const downloadFile = (content: string, filename: string, mimeType: string): void => {
-  const blob = new Blob([content], { type: mimeType });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(url);
+export const downloadFile = (
+    content: string,
+    filename: string,
+    mimeType: string,
+): void => {
+    const blob = new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
 };
 
 // Lua ダウンロード

@@ -49,8 +49,8 @@ import { atom } from "jotai";
 // get(userAtom) が常に Promise を返すわけではないため、
 // `uppercaseNameAtom` を同期的に計算できる可能性があります。
 const uppercaseNameAtom = atom(async (get) => {
-  const user = await get(userAtom);
-  return user.name.toUppercase();
+    const user = await get(userAtom);
+    return user.name.toUppercase();
 });
 ```
 
@@ -63,8 +63,8 @@ import { derive } from "jotai-derive";
 
 // Atom<string | Promise<string>>
 const uppercaseNameAtom = derive(
-  [userAtom], // 必要な場合にのみ await されます
-  (user) => user.name.toUppercase(),
+    [userAtom], // 必要な場合にのみ await されます
+    (user) => user.name.toUppercase(),
 );
 ```
 
@@ -77,8 +77,8 @@ import { derive } from "jotai-derive";
 
 // Atom<string | Promise<string>>
 const welcomeMessageAtom = derive(
-  [userAtom, serverNameAtom],
-  (user, serverName) => `Welcome ${user.name} to ${serverName}!`,
+    [userAtom, serverNameAtom],
+    (user, serverName) => `Welcome ${user.name} to ${serverName}!`,
 );
 ```
 

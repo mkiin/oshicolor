@@ -92,8 +92,12 @@ const bgHex = generateNeutral(concept.bgL, signatureHue);
 
 ```typescript
 const generateNeutral = (l: number, h: number): string => {
-  const generated = clampChroma({ mode: "oklch" as const, l, c: 0.02, h }, "oklch", "rgb");
-  return formatHex(generated) ?? "#000000";
+    const generated = clampChroma(
+        { mode: "oklch" as const, l, c: 0.02, h },
+        "oklch",
+        "rgb",
+    );
+    return formatHex(generated) ?? "#000000";
 };
 ```
 
@@ -117,9 +121,9 @@ Hue だけ引き継ぐのでキャラクターの「空気感」が薄く bg に
 const sortedByLDesc = [...colors].sort((a, b) => b.l - a.l);
 const fgCandidate = sortedByLDesc[0];
 fgHex =
-  fgCandidate && fgCandidate.l >= concept.fgThreshold // 0.70
-    ? fgCandidate.hex
-    : generateNeutral(concept.fgL, signatureHue); // L=0.88 or 0.85
+    fgCandidate && fgCandidate.l >= concept.fgThreshold // 0.70
+        ? fgCandidate.hex
+        : generateNeutral(concept.fgL, signatureHue); // L=0.88 or 0.85
 ```
 
 ### Light Pastel
@@ -128,9 +132,9 @@ fgHex =
 const sortedByLAsc = [...colors].sort((a, b) => a.l - b.l);
 const fgCandidate = sortedByLAsc[0];
 fgHex =
-  fgCandidate && fgCandidate.l <= concept.fgThreshold // 0.35
-    ? fgCandidate.hex
-    : generateNeutral(concept.fgL, signatureHue); // L=0.15
+    fgCandidate && fgCandidate.l <= concept.fgThreshold // 0.35
+        ? fgCandidate.hex
+        : generateNeutral(concept.fgL, signatureHue); // L=0.15
 ```
 
 ---
@@ -144,10 +148,12 @@ fg の採用有無に関わらず除外しない。comment のみ除外する。
 ```typescript
 const usedHexes = new Set<string>();
 if (commentColor) {
-  usedHexes.add(commentColor.hex);
+    usedHexes.add(commentColor.hex);
 }
 
-const accents = colors.filter((c) => !usedHexes.has(c.hex)).sort((a, b) => b.c - a.c);
+const accents = colors
+    .filter((c) => !usedHexes.has(c.hex))
+    .sort((a, b) => b.c - a.c);
 ```
 
 結果として最大 11 色（12色 - comment 1色）が accent 候補になる（v2 は最大 9 色）。
@@ -172,8 +178,8 @@ accents[2] → Special   （C3位）
 
 ```typescript
 const l = isDark
-  ? Math.max(bgL + 0.35, signature.l + 0.08)
-  : Math.max(fgL + 0.25, signature.l - 0.08);
+    ? Math.max(bgL + 0.35, signature.l + 0.08)
+    : Math.max(fgL + 0.25, signature.l - 0.08);
 ```
 
 **ダークテーマ**: bg(暗い) より 0.35 明るく保証。コードは明るいほど視認しやすい。

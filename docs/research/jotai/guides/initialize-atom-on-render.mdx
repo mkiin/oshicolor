@@ -31,46 +31,46 @@ nav: 8.13
 const textAtom = atom("");
 
 const PrettyText = () => {
-  const [text] = useAtom(textAtom);
-  return (
-    <>
-      <text
-        style={{
-          color: "blue",
-        }}
-      >
-        {text}
-      </text>
-    </>
-  );
+    const [text] = useAtom(textAtom);
+    return (
+        <>
+            <text
+                style={{
+                    color: "blue",
+                }}
+            >
+                {text}
+            </text>
+        </>
+    );
 };
 
 const UpdateTextInput = () => {
-  const [text, setText] = useAtom(textAtom);
-  const handleInputChange = (e) => {
-    setText(e.target.value);
-  };
-  return (
-    <>
-      <input onChange={handleInputChange} value={text} />
-    </>
-  );
+    const [text, setText] = useAtom(textAtom);
+    const handleInputChange = (e) => {
+        setText(e.target.value);
+    };
+    return (
+        <>
+            <input onChange={handleInputChange} value={text} />
+        </>
+    );
 };
 
 const HydrateAtoms = ({ initialValues, children }) => {
-  // ここでレンダリング時に props から状態を初期化します
-  useHydrateAtoms(initialValues);
-  return children;
+    // ここでレンダリング時に props から状態を初期化します
+    useHydrateAtoms(initialValues);
+    return children;
 };
 
 export const TextDisplay = ({ initialTextValue }) => (
-  <Provider>
-    <HydrateAtoms initialValues={[[textAtom, initialTextValue]]}>
-      <PrettyText />
-      <br />
-      <UpdateTextInput />
-    </HydrateAtoms>
-  </Provider>
+    <Provider>
+        <HydrateAtoms initialValues={[[textAtom, initialTextValue]]}>
+            <PrettyText />
+            <br />
+            <UpdateTextInput />
+        </HydrateAtoms>
+    </Provider>
 );
 ```
 
@@ -78,13 +78,13 @@ export const TextDisplay = ({ initialTextValue }) => (
 
 ```jsx
 export default function App() {
-  return (
-    <div className="App">
-      <TextDisplay initialTextValue="initial text value 1" />
+    return (
+        <div className="App">
+            <TextDisplay initialTextValue="initial text value 1" />
 
-      <TextDisplay initialTextValue="initial text value 2" />
-    </div>
-  );
+            <TextDisplay initialTextValue="initial text value 2" />
+        </div>
+    );
 }
 ```
 
@@ -109,30 +109,32 @@ import { useHydrateAtoms } from "jotai/utils";
 const testAtom = atom("");
 
 export default function App() {
-  return (
-    <Provider>
-      <AtomsHydrator atomValues={[[testAtom, "hello"]]}>
-        <Component />
-      </AtomsHydrator>
-    </Provider>
-  );
+    return (
+        <Provider>
+            <AtomsHydrator atomValues={[[testAtom, "hello"]]}>
+                <Component />
+            </AtomsHydrator>
+        </Provider>
+    );
 }
 
 //このコンポーネントにはすべての状態とロジックが含まれています
 function Component() {
-  const testAtomValue = useAtomValue(testAtom);
-  return <div>{testAtomValue}</div>;
+    const testAtomValue = useAtomValue(testAtom);
+    return <div>{testAtomValue}</div>;
 }
 
 function AtomsHydrator({
-  atomValues,
-  children,
+    atomValues,
+    children,
 }: {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  atomValues: Iterable<readonly [WritableAtom<unknown, [any], unknown>, unknown]>;
-  children: ReactNode;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    atomValues: Iterable<
+        readonly [WritableAtom<unknown, [any], unknown>, unknown]
+    >;
+    children: ReactNode;
 }) {
-  useHydrateAtoms(new Map(atomValues));
-  return children;
+    useHydrateAtoms(new Map(atomValues));
+    return children;
 }
 ```

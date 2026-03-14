@@ -130,32 +130,32 @@ Import the parts, and compose them together.
 
 ```tsx
 import {
-  FileUpload,
-  FileUploadDropzone,
-  FileUploadTrigger,
-  FileUploadList,
-  FileUploadItem,
-  FileUploadItemPreview,
-  FileUploadItemMetadata,
-  FileUploadItemProgress,
-  FileUploadItemDelete,
-  FileUploadClear,
+    FileUpload,
+    FileUploadDropzone,
+    FileUploadTrigger,
+    FileUploadList,
+    FileUploadItem,
+    FileUploadItemPreview,
+    FileUploadItemMetadata,
+    FileUploadItemProgress,
+    FileUploadItemDelete,
+    FileUploadClear,
 } from "@/components/ui/file-upload";
 
 return (
-  <FileUpload>
-    <FileUploadDropzone />
-    <FileUploadTrigger />
-    <FileUploadList>
-      <FileUploadItem>
-        <FileUploadItemPreview />
-        <FileUploadItemMetadata />
-        <FileUploadItemProgress />
-        <FileUploadItemDelete />
-      </FileUploadItem>
-    </FileUploadList>
-    <FileUploadClear />
-  </FileUpload>
+    <FileUpload>
+        <FileUploadDropzone />
+        <FileUploadTrigger />
+        <FileUploadList>
+            <FileUploadItem>
+                <FileUploadItemPreview />
+                <FileUploadItemMetadata />
+                <FileUploadItemProgress />
+                <FileUploadItemDelete />
+            </FileUploadItem>
+        </FileUploadList>
+        <FileUploadClear />
+    </FileUpload>
 );
 ```
 

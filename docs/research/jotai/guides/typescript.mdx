@@ -77,8 +77,8 @@ const asyncStrAtom = atom<Promise<string>>(async () => "foo");
  * 以下の例では `void` を使用しています。
  */
 const writeOnlyAtom = atom<null, [string, number], void>(
-  null,
-  (_get, set, stringValue, numberValue) => set(fooAtom, stringValue),
+    null,
+    (_get, set, stringValue, numberValue) => set(fooAtom, stringValue),
 );
 
 /**
@@ -86,8 +86,8 @@ const writeOnlyAtom = atom<null, [string, number], void>(
  * 完全性のために、この例では第1型パラメータが非同期アトムを記述できることも示しています。
  */
 const readWriteAtom = atom<Promise<string>, [number], void>(
-  async (get) => await get(asyncStrAtom),
-  (_get, set, num) => set(strAtom, String(num)),
+    async (get) => await get(asyncStrAtom),
+    (_get, set, num) => set(strAtom, String(num)),
 );
 ```
 
@@ -107,11 +107,11 @@ import { userAtom } from "state";
 import { useQuery } from "@tanstack/react-query";
 
 export default function WriteReview(hid) {
-  const user = useAtomValue(userAtom);
-  const res = useGetReviewQuery(user);
+    const user = useAtomValue(userAtom);
+    const res = useGetReviewQuery(user);
 }
 
 function useGetReviewQuery(user: ExtractAtomValue<typeof userAtom>) {
-  return fetch("/api/user/" + user.id + "/review");
+    return fetch("/api/user/" + user.id + "/review");
 }
 ```

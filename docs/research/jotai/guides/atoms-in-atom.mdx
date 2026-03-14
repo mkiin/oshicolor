@@ -13,15 +13,19 @@ nav: 8.12
 
 ```jsx
 const Component = ({ atom1, atom2 }) => {
-  const [selectedAtom, setSelectedAtom] = useState(atom1);
-  const [value] = useAtom(selectedAtom);
-  return (
-    <div>
-      Selected value: {value}
-      <button onClick={() => setSelectedAtom(atom1)}>Select an atom</button>
-      <button onClick={() => setSelectedAtom(atom2)}>Select another atom</button>
-    </div>
-  );
+    const [selectedAtom, setSelectedAtom] = useState(atom1);
+    const [value] = useAtom(selectedAtom);
+    return (
+        <div>
+            Selected value: {value}
+            <button onClick={() => setSelectedAtom(atom1)}>
+                Select an atom
+            </button>
+            <button onClick={() => setSelectedAtom(atom2)}>
+                Select another atom
+            </button>
+        </div>
+    );
 };
 ```
 
@@ -31,14 +35,15 @@ const Component = ({ atom1, atom2 }) => {
 
 ```jsx
 const Component = () => {
-  const [currentAtom, setCurrentAtom] = useState(() => atom(0));
-  const [count, setCount] = useAtom(currentAtom);
-  return (
-    <div>
-      Count: {count} <button onClick={() => setCount((c) => c + 1)}>+1</button>
-      <button onClick={() => setCurrentAtom(atom(0))}>Create new</button>
-    </div>
-  );
+    const [currentAtom, setCurrentAtom] = useState(() => atom(0));
+    const [count, setCount] = useAtom(currentAtom);
+    return (
+        <div>
+            Count: {count}{" "}
+            <button onClick={() => setCount((c) => c + 1)}>+1</button>
+            <button onClick={() => setCurrentAtom(atom(0))}>Create new</button>
+        </div>
+    );
 };
 ```
 
@@ -53,15 +58,19 @@ const lastNameAtom = atom("Kamado");
 const showingNameAtom = atom(firstNameAtom);
 
 const Component = () => {
-  const [nameAtom, setNameAtom] = useAtom(showingNameAtom);
-  const [name] = useAtom(nameAtom);
-  return (
-    <div>
-      Name: {name}
-      <button onClick={() => setNameAtom(firstNameAtom)}>Show First Name</button>
-      <button onClick={() => setNameAtom(lastNameAtom)}>Show Last Name</button>
-    </div>
-  );
+    const [nameAtom, setNameAtom] = useAtom(showingNameAtom);
+    const [name] = useAtom(nameAtom);
+    return (
+        <div>
+            Name: {name}
+            <button onClick={() => setNameAtom(firstNameAtom)}>
+                Show First Name
+            </button>
+            <button onClick={() => setNameAtom(lastNameAtom)}>
+                Show Last Name
+            </button>
+        </div>
+    );
 };
 ```
 
@@ -69,8 +78,8 @@ const Component = () => {
 
 ```js
 const derivedNameAtom = atom((get) => {
-  const nameAtom = get(showingNameAtom);
-  return get(nameAtom);
+    const nameAtom = get(showingNameAtom);
+    return get(nameAtom);
 });
 
 // または短いバージョン
@@ -88,28 +97,28 @@ const derivedNameAtom = atom((get) => get(get(showingNameAtom)));
 const countsAtom = atom([atom(1), atom(2), atom(3)]);
 
 const Counter = ({ countAtom }) => {
-  const [count, setCount] = useAtom(countAtom);
-  return (
-    <div>
-      {count} <button onClick={() => setCount((c) => c + 1)}>+1</button>
-    </div>
-  );
+    const [count, setCount] = useAtom(countAtom);
+    return (
+        <div>
+            {count} <button onClick={() => setCount((c) => c + 1)}>+1</button>
+        </div>
+    );
 };
 
 const Parent = () => {
-  const [counts, setCounts] = useAtom(countsAtom);
-  const addNewCount = () => {
-    const newAtom = atom(0);
-    setCounts((prev) => [...prev, newAtom]);
-  };
-  return (
-    <div>
-      {counts.map((countAtom) => (
-        <Counter countAtom={countAtom} key={countAtom} />
-      ))}
-      <button onClick={addNewCount}>Add</button>
-    </div>
-  );
+    const [counts, setCounts] = useAtom(countsAtom);
+    const addNewCount = () => {
+        const newAtom = atom(0);
+        setCounts((prev) => [...prev, newAtom]);
+    };
+    return (
+        <div>
+            {counts.map((countAtom) => (
+                <Counter countAtom={countAtom} key={countAtom} />
+            ))}
+            <button onClick={addNewCount}>Add</button>
+        </div>
+    );
 };
 ```
 
@@ -130,28 +139,28 @@ const Parent = () => {
 
 ```jsx
 const pricesAtom = atom({
-  apple: atom(15),
-  orange: atom(12),
-  pineapple: atom(25),
+    apple: atom(15),
+    orange: atom(12),
+    pineapple: atom(25),
 });
 
 const Fruit = ({ name, priceAtom }) => {
-  const [price] = useAtom(priceAtom);
-  return (
-    <div>
-      {name}: {price}
-    </div>
-  );
+    const [price] = useAtom(priceAtom);
+    return (
+        <div>
+            {name}: {price}
+        </div>
+    );
 };
 
 const Parent = () => {
-  const [prices] = useAtom(pricesAtom);
-  return (
-    <div>
-      {Object.keys(prices).map((name) => (
-        <Fruit name={name} priceAtom={prices[name]} key={name} />
-      ))}
-    </div>
-  );
+    const [prices] = useAtom(pricesAtom);
+    return (
+        <div>
+            {Object.keys(prices).map((name) => (
+                <Fruit name={name} priceAtom={prices[name]} key={name} />
+            ))}
+        </div>
+    );
 };
 ```

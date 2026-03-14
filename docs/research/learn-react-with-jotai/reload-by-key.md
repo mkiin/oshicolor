@@ -18,9 +18,9 @@ title: "派生atomの再読み込みとUIバージョニング"
 const refetchKeyAtom = atom(0);
 
 const userAtom = atom(async (get) => {
-  get(refetchKeyAtom); // 再読み込みキーを参照
-  const user = await fetchUser();
-  return user;
+    get(refetchKeyAtom); // 再読み込みキーを参照
+    const user = await fetchUser();
+    return user;
 });
 ```
 
@@ -30,17 +30,17 @@ const userAtom = atom(async (get) => {
 
 ```tsx
 const ReloadButton: React.FC = () => {
-  const setRefetchKey = useSetAtom(refetchKeyAtom);
+    const setRefetchKey = useSetAtom(refetchKeyAtom);
 
-  const handleReload = () => {
-    setRefetchKey((key) => key + 1); // 再読み込みキーを更新してuserAtomを再評価させる
-  };
+    const handleReload = () => {
+        setRefetchKey((key) => key + 1); // 再読み込みキーを更新してuserAtomを再評価させる
+    };
 
-  return (
-    <button type="button" onClick={handleReload}>
-      再読み込み
-    </button>
-  );
+    return (
+        <button type="button" onClick={handleReload}>
+            再読み込み
+        </button>
+    );
 };
 ```
 
@@ -54,7 +54,7 @@ const ReloadButton: React.FC = () => {
 
 ```tsx
 const reloadUserAtom = atom(null, (get, set) => {
-  set(refetchKeyAtom, (key) => key + 1); // 再読み込みキーを更新してuserAtomを再評価させる
+    set(refetchKeyAtom, (key) => key + 1); // 再読み込みキーを更新してuserAtomを再評価させる
 });
 ```
 
@@ -62,16 +62,16 @@ const reloadUserAtom = atom(null, (get, set) => {
 
 ```tsx
 const ReloadButton: React.FC = () => {
-  const reloadUser = useSetAtom(reloadUserAtom);
+    const reloadUser = useSetAtom(reloadUserAtom);
 
-  const handleReload = () => {
-    reloadUser(); // 再読み込みを発生させる
-  };
-  return (
-    <button type="button" onClick={handleReload}>
-      再読み込み
-    </button>
-  );
+    const handleReload = () => {
+        reloadUser(); // 再読み込みを発生させる
+    };
+    return (
+        <button type="button" onClick={handleReload}>
+            再読み込み
+        </button>
+    );
 };
 ```
 
@@ -156,39 +156,39 @@ function createReloadableAtom<T>(
 
 ```tsx
 function createReloadableAtom<T>(getter: (get: Getter) => T) {
-  const refetchKeyAtom = atom(0);
+    const refetchKeyAtom = atom(0);
 
-  return atom(
-    (get) => {
-      get(refetchKeyAtom);
-      return getter(get);
-    },
-    (get, set) => {
-      set(refetchKeyAtom, (key) => key + 1);
-    },
-  );
+    return atom(
+        (get) => {
+            get(refetchKeyAtom);
+            return getter(get);
+        },
+        (get, set) => {
+            set(refetchKeyAtom, (key) => key + 1);
+        },
+    );
 }
 
 // 使用例
 const userAtom = createReloadableAtom(async () => {
-  const user = await fetchUser();
-  return user;
+    const user = await fetchUser();
+    return user;
 });
 
 const UserProfile: React.FC = () => {
-  // userAtomを読み取ってユーザー情報を取得
-  const user = useAtomValue(userAtom);
-  // userAtomに書き込んで再読み込みを発生させる
-  const reloadUser = useSetAtom(userAtom);
+    // userAtomを読み取ってユーザー情報を取得
+    const user = useAtomValue(userAtom);
+    // userAtomに書き込んで再読み込みを発生させる
+    const reloadUser = useSetAtom(userAtom);
 
-  return (
-    <section>
-      <h1>{user.name}さんのプロフィール</h1>
-      <button type="button" onClick={() => reloadUser()}>
-        再読み込み
-      </button>
-    </section>
-  );
+    return (
+        <section>
+            <h1>{user.name}さんのプロフィール</h1>
+            <button type="button" onClick={() => reloadUser()}>
+                再読み込み
+            </button>
+        </section>
+    );
 };
 ```
 
@@ -204,21 +204,21 @@ const UserProfile: React.FC = () => {
 
 ```tsx
 function createReloadableAtom<T>(getter: (get: Getter) => T): {
-  dataAtom: Atom<T>;
-  reloadAtom: WritableAtom<null, [], void>;
+    dataAtom: Atom<T>;
+    reloadAtom: WritableAtom<null, [], void>;
 } {
-  const refetchKeyAtom = atom(0);
+    const refetchKeyAtom = atom(0);
 
-  const dataAtom = atom((get) => {
-    get(refetchKeyAtom);
-    return getter(get);
-  });
+    const dataAtom = atom((get) => {
+        get(refetchKeyAtom);
+        return getter(get);
+    });
 
-  const reloadAtom = atom(null, (get, set) => {
-    set(refetchKeyAtom, (key) => key + 1);
-  });
+    const reloadAtom = atom(null, (get, set) => {
+        set(refetchKeyAtom, (key) => key + 1);
+    });
 
-  return { dataAtom, reloadAtom };
+    return { dataAtom, reloadAtom };
 }
 ```
 

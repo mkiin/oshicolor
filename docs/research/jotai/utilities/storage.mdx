@@ -15,14 +15,14 @@ import { atomWithStorage } from "jotai/utils";
 const darkModeAtom = atomWithStorage("darkMode", false);
 
 const Page = () => {
-  const [darkMode, setDarkMode] = useAtom(darkModeAtom);
+    const [darkMode, setDarkMode] = useAtom(darkModeAtom);
 
-  return (
-    <>
-      <h1>Welcome to {darkMode ? "dark" : "light"} mode!</h1>
-      <button onClick={() => setDarkMode(!darkMode)}>toggle theme</button>
-    </>
-  );
+    return (
+        <>
+            <h1>Welcome to {darkMode ? "dark" : "light"} mode!</h1>
+            <button onClick={() => setDarkMode(!darkMode)}>toggle theme</button>
+        </>
+    );
 };
 ```
 
@@ -57,13 +57,13 @@ const Page = () => {
 
 ```js
 const storage = createJSONStorage(
-  // getStringStorage
-  () => localStorage, // または sessionStorage、asyncStorage など
-  // options（オプション）
-  {
-    reviver, // JSON.parse のオプションの reviver
-    replacer, // JSON.stringify のオプションの replacer
-  },
+    // getStringStorage
+    () => localStorage, // または sessionStorage、asyncStorage など
+    // options（オプション）
+    {
+        reviver, // JSON.parse のオプションの reviver
+        replacer, // JSON.stringify のオプションの replacer
+    },
 );
 ```
 
@@ -91,14 +91,14 @@ import { atomWithStorage, RESET } from "jotai/utils";
 const textAtom = atomWithStorage("text", "hello");
 
 const TextBox = () => {
-  const [text, setText] = useAtom(textAtom);
+    const [text, setText] = useAtom(textAtom);
 
-  return (
-    <>
-      <input value={text} onChange={(e) => setText(e.target.value)} />
-      <button onClick={() => setText(RESET)}>Reset (to 'hello')</button>
-    </>
-  );
+    return (
+        <>
+            <input value={text} onChange={(e) => setText(e.target.value)} />
+            <button onClick={() => setText(RESET)}>Reset (to 'hello')</button>
+        </>
+    );
 };
 ```
 
@@ -153,13 +153,13 @@ const storedAtom = atomWithStorage("stored-key", content, storage);
 const symbolAtom = atomWithStorage("symbol", "SOL_USDC");
 
 function App() {
-  const symbol = useAtomValue(symbolAtom);
+    const symbol = useAtomValue(symbolAtom);
 
-  useEffect(() => {
-    console.log("symbol", symbol);
-  }, [symbol]);
+    useEffect(() => {
+        console.log("symbol", symbol);
+    }, [symbol]);
 
-  return <div>{symbol}</div>;
+    return <div>{symbol}</div>;
 }
 
 // getOnInit なしのコンソール出力：
@@ -168,17 +168,17 @@ function App() {
 
 // getOnInit を true に設定
 const symbolAtom = atomWithStorage("symbol", "SOL_USDC", undefined, {
-  getOnInit: true,
+    getOnInit: true,
 });
 
 function App() {
-  const symbol = useAtomValue(symbolAtom);
+    const symbol = useAtomValue(symbolAtom);
 
-  useEffect(() => {
-    console.log("symbol", symbol);
-  }, [symbol]);
+    useEffect(() => {
+        console.log("symbol", symbol);
+    }, [symbol]);
 
-  return <div>{symbol}</div>;
+    return <div>{symbol}</div>;
 }
 
 // getOnInit ありのコンソール出力：
@@ -195,11 +195,11 @@ AsyncStorage（または他の非同期ストレージ）では、アトムの�
 ```js
 const countAtom = atomWithStorage("count-key", 0, anyAsyncStorage);
 const Component = () => {
-  const [count, setCount] = useAtom(countAtom);
-  const increment = () => {
-    setCount(async (promiseOrValue) => (await promiseOrValue) + 1);
-  };
-  // ...
+    const [count, setCount] = useAtom(countAtom);
+    const increment = () => {
+        setCount(async (promiseOrValue) => (await promiseOrValue) + 1);
+    };
+    // ...
 };
 ```
 
@@ -216,38 +216,43 @@ import { z } from "zod";
 const myNumberSchema = z.number().int().nonnegative();
 
 const storedNumberAtom = atomWithStorage("my-number", 0, {
-  getItem(key, initialValue) {
-    const storedValue = localStorage.getItem(key);
-    try {
-      return myNumberSchema.parse(JSON.parse(storedValue ?? ""));
-    } catch {
-      return initialValue;
-    }
-  },
-  setItem(key, value) {
-    localStorage.setItem(key, JSON.stringify(value));
-  },
-  removeItem(key) {
-    localStorage.removeItem(key);
-  },
-  subscribe(key, callback, initialValue) {
-    if (typeof window === "undefined" || typeof window.addEventListener === "undefined") {
-      return;
-    }
-    const handler = (e) => {
-      if (e.storageArea === localStorage && e.key === key) {
-        let newValue;
+    getItem(key, initialValue) {
+        const storedValue = localStorage.getItem(key);
         try {
-          newValue = myNumberSchema.parse(JSON.parse(e.newValue ?? ""));
+            return myNumberSchema.parse(JSON.parse(storedValue ?? ""));
         } catch {
-          newValue = initialValue;
+            return initialValue;
         }
-        callback(newValue);
-      }
-    };
-    window.addEventListener("storage", handler);
-    return () => window.removeEventListener("storage", handler);
-  },
+    },
+    setItem(key, value) {
+        localStorage.setItem(key, JSON.stringify(value));
+    },
+    removeItem(key) {
+        localStorage.removeItem(key);
+    },
+    subscribe(key, callback, initialValue) {
+        if (
+            typeof window === "undefined" ||
+            typeof window.addEventListener === "undefined"
+        ) {
+            return;
+        }
+        const handler = (e) => {
+            if (e.storageArea === localStorage && e.key === key) {
+                let newValue;
+                try {
+                    newValue = myNumberSchema.parse(
+                        JSON.parse(e.newValue ?? ""),
+                    );
+                } catch {
+                    newValue = initialValue;
+                }
+                callback(newValue);
+            }
+        };
+        window.addEventListener("storage", handler);
+        return () => window.removeEventListener("storage", handler);
+    },
 });
 ```
 
@@ -256,9 +261,9 @@ const storedNumberAtom = atomWithStorage("my-number", 0, {
 
 ```js
 import {
-  atomWithStorage,
-  createJSONStorage,
-  unstable_withStorageValidator as withStorageValidator,
+    atomWithStorage,
+    createJSONStorage,
+    unstable_withStorageValidator as withStorageValidator,
 } from "jotai/utils";
 import { z } from "zod";
 
@@ -266,8 +271,8 @@ const myNumberSchema = z.number().int().nonnegative();
 const isMyNumber = (v) => myNumberSchema.safeParse(v).success;
 
 const storedNumberAtom = atomWithStorage(
-  "my-number",
-  0,
-  withStorageValidator(isMyNumber)(createJSONStorage()),
+    "my-number",
+    0,
+    withStorageValidator(isMyNumber)(createJSONStorage()),
 );
 ```

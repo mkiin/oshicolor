@@ -74,7 +74,7 @@ Rec.601 輝度加重平均。人間の知覚に合わせた係数で、知覚的
 ```typescript
 // 距離計算: RGB ユークリッド
 const colorDistance = (color1: number[], color2: number[]) =>
-  Math.sqrt((r1 - r2) ** 2 + (g1 - g2) ** 2 + (b1 - b2) ** 2);
+    Math.sqrt((r1 - r2) ** 2 + (g1 - g2) ** 2 + (b1 - b2) ** 2);
 
 // 色名解決: nearest-color ライブラリ（RGB 距離）
 const nearest = nearestColor.from(colors); // {name: hex} のフラットオブジェクト
@@ -175,7 +175,10 @@ selectedIndices.add(bestIdx);
 
 ```typescript
 // モジュールトップレベルで即時初期化
-const colors = colornames.reduce((o, { name, hex }) => Object.assign(o, { [name]: hex }), {});
+const colors = colornames.reduce(
+    (o, { name, hex }) => Object.assign(o, { [name]: hex }),
+    {},
+);
 const nearest = nearestColor.from(colors);
 ```
 

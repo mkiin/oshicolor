@@ -123,13 +123,13 @@ C を C₀ × 0.35 程度に抑えることで、
 ```typescript
 // semantic 色の固定 base（慣習色）
 const SEMANTIC_BASE = {
-  error: "#e82424", // samuraiRed
-  warning: "#ff9e3b", // roninYellow
-  info: "#658594", // dragonBlue
-  hint: "#6a9589", // waveAqua1
-  gitAdd: "#76946a", // autumnGreen
-  gitDel: "#c34043", // autumnRed
-  gitChg: "#dca561", // autumnYellow
+    error: "#e82424", // samuraiRed
+    warning: "#ff9e3b", // roninYellow
+    info: "#658594", // dragonBlue
+    hint: "#6a9589", // waveAqua1
+    gitAdd: "#76946a", // autumnGreen
+    gitDel: "#c34043", // autumnRed
+    gitChg: "#dca561", // autumnYellow
 };
 
 // bg とブレンドして bg の色温度に馴染ませる

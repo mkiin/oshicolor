@@ -49,9 +49,27 @@ B 方式の「ユーザー選択」の簡易版として機能する。
 
 ```typescript
 export const THEME_CONCEPTS: Record<ConceptName, ConceptConfig> = {
-  darkClassic: { isDark: true, bgL: 0.12, fgL: 0.88, fgThreshold: 0.7, cRatio: 0.35 },
-  darkMuted: { isDark: true, bgL: 0.1, fgL: 0.85, fgThreshold: 0.7, cRatio: 0.2 },
-  lightPastel: { isDark: false, bgL: 0.97, fgL: 0.15, fgThreshold: 0.35, cRatio: 0.4 },
+    darkClassic: {
+        isDark: true,
+        bgL: 0.12,
+        fgL: 0.88,
+        fgThreshold: 0.7,
+        cRatio: 0.35,
+    },
+    darkMuted: {
+        isDark: true,
+        bgL: 0.1,
+        fgL: 0.85,
+        fgThreshold: 0.7,
+        cRatio: 0.2,
+    },
+    lightPastel: {
+        isDark: false,
+        bgL: 0.97,
+        fgL: 0.15,
+        fgThreshold: 0.35,
+        cRatio: 0.4,
+    },
 };
 ```
 
@@ -138,9 +156,9 @@ Zone A 割り当て:
 
 ```typescript
 export const ZONE_B_TARGETS = [
-  { group: "String", targetHue: 130, hueRange: 45 }, // 緑系
-  { group: "Type", targetHue: 195, hueRange: 45 }, // 水色系
-  { group: "Number", targetHue: 55, hueRange: 45 }, // 黄金系
+    { group: "String", targetHue: 130, hueRange: 45 }, // 緑系
+    { group: "Type", targetHue: 195, hueRange: 45 }, // 水色系
+    { group: "Number", targetHue: 55, hueRange: 45 }, // 黄金系
 ] as const;
 ```
 

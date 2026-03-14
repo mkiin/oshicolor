@@ -346,8 +346,8 @@ Keyword には補色方向（H≈195°, teal）を使う:
 
 1. **gruvbox・monokai-pro が同じ選択をしており実績がある**
 2. diag.error（`OKLch(L=0.55, C=0.20, H=25°)`）との差別化は L+C で可能:
-   - keyword: `OKLch(L≈0.65〜0.72, C≈0.18〜0.27, H≈signatureH)`
-   - 差: ΔL ≥ 0.10、視覚的に十分区別できる
+    - keyword: `OKLch(L≈0.65〜0.72, C≈0.18〜0.27, H≈signatureH)`
+    - 差: ΔL ≥ 0.10、視覚的に十分区別できる
 3. Function を「赤に近い Hue」にしてしまう（rose-pine 方式）と、
    「Function = 青」という期待を持つユーザーに混乱を与えるリスクが高い
 
@@ -383,8 +383,8 @@ signatureColor が H ∈ [0°, 35°] の場合:
 **示唆:**
 
 - constant(H≈55°) と identifier(H≈90°) が競合する場合、**L で分離する**戦略は正しい
-  - constant: L を signatureColor.L に合わせる（暖色・具体性）
-  - identifier: L = constant.L + 0.08 でシフト（より明るい）
+    - constant: L を signatureColor.L に合わせる（暖色・具体性）
+    - identifier: L = constant.L + 0.08 でシフト（より明るい）
 - 統合案（5ゾーン化）より**6ゾーン維持 + L 差分離**の方が表現力が高い
 
 ### 判断C: 合成色の L_target

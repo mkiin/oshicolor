@@ -84,22 +84,22 @@ Jotai editorAtom
 ```typescript
 // src/features/editor/utils/token-class-map.ts
 export const TOKEN_CLASS_MAP: Record<string, string> = {
-  comment: "Comment",
-  string: "String",
-  "template-string": "String",
-  char: "String",
-  function: "Function",
-  "function-variable": "Function",
-  method: "Function",
-  keyword: "Keyword",
-  "class-name": "Type",
-  number: "Number",
-  integer: "Number",
-  boolean: "Number", // Boolean は Number と同色
-  operator: "Keyword",
-  builtin: "Special",
-  regex: "Special",
-  punctuation: "Normal",
+    comment: "Comment",
+    string: "String",
+    "template-string": "String",
+    char: "String",
+    function: "Function",
+    "function-variable": "Function",
+    method: "Function",
+    keyword: "Keyword",
+    "class-name": "Type",
+    number: "Number",
+    integer: "Number",
+    boolean: "Number", // Boolean は Number と同色
+    operator: "Keyword",
+    builtin: "Special",
+    regex: "Special",
+    punctuation: "Normal",
 };
 // 未マッチのトークンは "Normal" にフォールバック
 ```
@@ -116,11 +116,11 @@ type EditorOverrides = Partial<HighlightMap>;
 
 // エディタ全体の状態（Jotai アトムが保持）
 type EditorState = {
-  variants: ThemeVariants; // R3 出力（元データ。書き換えない）
-  overrides: EditorOverrides; // ユーザーによる個別上書き
-  activeVariant: "dark" | "light";
-  meta: ThemeMeta;
-  activeLang: SampleLang; // プレビューするサンプルコードの言語
+    variants: ThemeVariants; // R3 出力（元データ。書き換えない）
+    overrides: EditorOverrides; // ユーザーによる個別上書き
+    activeVariant: "dark" | "light";
+    meta: ThemeMeta;
+    activeLang: SampleLang; // プレビューするサンプルコードの言語
 };
 
 // サンプルコード言語
