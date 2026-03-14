@@ -14,7 +14,7 @@ const config = defineConfig({
     lint: {
         options: { typeAware: true, typeCheck: true },
         plugins: ["react", "unicorn", "typescript", "import"],
-        ignorePatterns: ["src/routeTree.gen.ts", "src/styles.css"],
+        ignorePatterns: ["src/routeTree.gen.ts", "src/styles.css", "docs/**"],
     },
     fmt: {
         printWidth: 80,
