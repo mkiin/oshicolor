@@ -88,7 +88,7 @@ const [name, setName] = useState("");
     // これはトランジションにできない
     setName(e.target.value);
   }}
-/>
+/>;
 ```
 
 なぜかというと、制御コンポーネントの`onChange`でのステート更新は「**後追い**」のステート更新である点が特殊だからです。
@@ -111,7 +111,7 @@ const [name, setName] = useState("");
       setName(e.target.value);
     });
   }}
-/>
+/>;
 ```
 
 実際にこうしてしまうと、エラーになったりはしませんが、特に`setName`によってサスペンドが発生した場合はユーザーの入力した内容がDOMにすぐ反映されず、無視されたような違和感のある挙動になってしまいます。
@@ -135,14 +135,20 @@ function UserPage() {
   return (
     <div>
       <UserProfile />
-      <button onClick={() => {
-        startTransition(() => {
-          setShowPosts(true);
-        });
-      }}>投稿を見る</button>
-      {showPosts && <Suspense fallback={<LoadingSpinner />}>
-        <UserPosts />
-      </Suspense>}
+      <button
+        onClick={() => {
+          startTransition(() => {
+            setShowPosts(true);
+          });
+        }}
+      >
+        投稿を見る
+      </button>
+      {showPosts && (
+        <Suspense fallback={<LoadingSpinner />}>
+          <UserPosts />
+        </Suspense>
+      )}
     </div>
   );
 }
@@ -157,9 +163,7 @@ function UserPage() {
 ただし、書き方がちょっと変わると、同じようなケースでも古いUIが維持される場合があります。今回の場合、`Suspense`自体が条件付きレンダリングされている点がポイントです。次のように書き換えた場合を考えましょう。
 
 ```tsx
-<Suspense fallback={<LoadingSpinner />}>
-  {showPosts && <UserPosts />}
-</Suspense>
+<Suspense fallback={<LoadingSpinner />}>{showPosts && <UserPosts />}</Suspense>
 ```
 
 この場合、`showPosts`が`false`のときも`Suspense`はマウントされています。つまり、ボタンを押して`showPosts`が`true`になったときは、**すでにマウント済みの`Suspense`が再サスペンドした**ことになるのです。この場合は、Reactは古いUIを維持します。フォールバックUIは表示されません。
@@ -184,23 +188,27 @@ const App: React.FC = () => {
 
   return (
     <div>
-      <button onClick={() => {
-        startTransition(() => {
-          setActiveTab("A");
-        });
-      }}>タブA {activeTab === "A" ? "(選択中)" : ""}</button>
-      <button onClick={() => {
-        startTransition(() => {
-          setActiveTab("B");
-        });
-      }}>タブB {activeTab === "B" ? "(選択中)" : ""}</button>
+      <button
+        onClick={() => {
+          startTransition(() => {
+            setActiveTab("A");
+          });
+        }}
+      >
+        タブA {activeTab === "A" ? "(選択中)" : ""}
+      </button>
+      <button
+        onClick={() => {
+          startTransition(() => {
+            setActiveTab("B");
+          });
+        }}
+      >
+        タブB {activeTab === "B" ? "(選択中)" : ""}
+      </button>
 
       <Suspense fallback={<LoadingSpinner />}>
-        {activeTab === "A" ? (
-          <TabAContent />
-        ) : (
-          <TabBContent />
-        )}
+        {activeTab === "A" ? <TabAContent /> : <TabBContent />}
       </Suspense>
     </div>
   );
@@ -219,16 +227,24 @@ const App: React.FC = () => {
 
   return (
     <div>
-      <button onClick={() => {
-        startTransition(() => {
-          setActiveTab("A");
-        });
-      }}>タブA {activeTab === "A" ? "(選択中)" : ""}</button>
-      <button onClick={() => {
-        startTransition(() => {
-          setActiveTab("B");
-        });
-      }}>タブB {activeTab === "B" ? "(選択中)" : ""}</button>
+      <button
+        onClick={() => {
+          startTransition(() => {
+            setActiveTab("A");
+          });
+        }}
+      >
+        タブA {activeTab === "A" ? "(選択中)" : ""}
+      </button>
+      <button
+        onClick={() => {
+          startTransition(() => {
+            setActiveTab("B");
+          });
+        }}
+      >
+        タブB {activeTab === "B" ? "(選択中)" : ""}
+      </button>
 
       {activeTab === "A" && (
         <Suspense fallback={<LoadingSpinner />}>
@@ -255,11 +271,7 @@ const App: React.FC = () => {
 
 ```tsx
 <Suspense key={activeTab} fallback={<LoadingSpinner />}>
-  {activeTab === "A" ? (
-    <TabAContent />
-  ) : (
-    <TabBContent />
-  )}
+  {activeTab === "A" ? <TabAContent /> : <TabBContent />}
 </Suspense>
 ```
 
@@ -295,7 +307,7 @@ async function fetchPageContent(pageId: PageId): Promise<string> {
 }
 
 const pageContentAtomFamily = atomFamily((pageId: PageId) =>
-  atom(async () => fetchPageContent(pageId))
+  atom(async () => fetchPageContent(pageId)),
 );
 
 const App: React.FC = () => {
@@ -330,7 +342,11 @@ const App: React.FC = () => {
 
 const PageContent: React.FC<{ pageId: PageId }> = ({ pageId }) => {
   const content = useAtomValue(pageContentAtomFamily(pageId));
-  return <main><p>{content}</p></main>;
+  return (
+    <main>
+      <p>{content}</p>
+    </main>
+  );
 };
 ```
 

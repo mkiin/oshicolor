@@ -5,7 +5,7 @@
 ## 基本的な使い方
 
 ```jsx
-import { useDropzone } from 'react-dropzone';
+import { useDropzone } from "react-dropzone";
 
 async function customGetFilesFromEvent(event) {
   const fileList = event.dataTransfer?.files ?? event.target.files;
@@ -13,7 +13,7 @@ async function customGetFilesFromEvent(event) {
   for (let i = 0; i < fileList.length; i++) {
     const file = fileList.item(i);
     // カスタムプロパティを付与
-    Object.defineProperty(file, 'myProp', {
+    Object.defineProperty(file, "myProp", {
       value: true,
       writable: false,
     });
@@ -29,14 +29,16 @@ function PluginDropzone() {
 
   return (
     <section>
-      <div {...getRootProps({ className: 'dropzone' })}>
+      <div {...getRootProps({ className: "dropzone" })}>
         <input {...getInputProps()} />
         <p>ファイルをドロップ</p>
       </div>
       <aside>
         <ul>
-          {acceptedFiles.map(f => (
-            <li key={f.name}>{f.name}: myProp={String(f.myProp)}</li>
+          {acceptedFiles.map((f) => (
+            <li key={f.name}>
+              {f.name}: myProp={String(f.myProp)}
+            </li>
           ))}
         </ul>
       </aside>
@@ -53,8 +55,8 @@ function PluginDropzone() {
 **パターン**: Write atom でカスタムプロパティ付与と格納をカプセル化する
 
 ```jsx
-import { atom, useAtomValue, useSetAtom } from 'jotai';
-import { useDropzone } from 'react-dropzone';
+import { atom, useAtomValue, useSetAtom } from "jotai";
+import { useDropzone } from "react-dropzone";
 
 // --- atom 定義 ---
 
@@ -71,7 +73,7 @@ const enrichFilesAtom = atom(null, async (_get, set, event) => {
   const files = [];
   for (let i = 0; i < fileList.length; i++) {
     const file = fileList.item(i);
-    Object.defineProperty(file, 'myProp', { value: true });
+    Object.defineProperty(file, "myProp", { value: true });
     files.push(file);
   }
   set(enrichedFilesAtom, files);
@@ -94,7 +96,7 @@ function PluginDropzone() {
       const files = [];
       for (let i = 0; i < fileList.length; i++) {
         const file = fileList.item(i);
-        Object.defineProperty(file, 'myProp', { value: true });
+        Object.defineProperty(file, "myProp", { value: true });
         files.push(file);
       }
       return files;
@@ -103,7 +105,7 @@ function PluginDropzone() {
   });
 
   return (
-    <div {...getRootProps({ className: 'dropzone' })}>
+    <div {...getRootProps({ className: "dropzone" })}>
       <input {...getInputProps()} />
       <p>ファイルをドロップ</p>
     </div>

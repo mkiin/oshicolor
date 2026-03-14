@@ -43,13 +43,13 @@ function observe(effect: Effect, store?: Store): Unobserve
 ### 使用方法
 
 ```js
-import { observe } from 'jotai-effect'
+import { observe } from "jotai-effect";
 
 const unobserve = observe((get, set) => {
-  set(logAtom, `someAtom changed: ${get(someAtom)}`)
-})
+  set(logAtom, `someAtom changed: ${get(someAtom)}`);
+});
 
-unobserve()
+unobserve();
 ```
 
 これにより、React のライフサイクルの外で Jotai 状態依存のロジックを実行できます。アプリケーション全体のエフェクトに最適です。
@@ -76,7 +76,7 @@ const unobserve = observe((get, set) => {
 ### シグネチャ
 
 ```ts
-function atomEffect(effect: Effect): Atom<void>
+function atomEffect(effect: Effect): Atom<void>;
 ```
 
 **effect:** アトムの状態変更を観察して反応するための関数。
@@ -84,18 +84,18 @@ function atomEffect(effect: Effect): Atom<void>
 ### 使用方法
 
 ```js
-import { atomEffect } from 'jotai-effect'
+import { atomEffect } from "jotai-effect";
 
 const logEffect = atomEffect((get, set) => {
-  set(logAtom, get(someAtom)) // マウント時またはsomeAtomが変化したときに実行
+  set(logAtom, get(someAtom)); // マウント時またはsomeAtomが変化したときに実行
   return () => {
-    set(logAtom, 'unmounting') // アンマウント時のクリーンアップ
-  }
-})
+    set(logAtom, "unmounting"); // アンマウント時のクリーンアップ
+  };
+});
 
 // Component がマウントされている間 atomEffect をアクティブにする
 function Component() {
-  useAtom(logEffect)
+  useAtom(logEffect);
 }
 ```
 
@@ -106,7 +106,7 @@ function Component() {
 ### シグネチャ
 
 ```ts
-function withAtomEffect<T>(targetAtom: Atom<T>, effect: Effect): Atom<T>
+function withAtomEffect<T>(targetAtom: Atom<T>, effect: Effect): Atom<T>;
 ```
 
 **targetAtom:** エフェクトをバインドするアトム。
@@ -118,14 +118,14 @@ function withAtomEffect<T>(targetAtom: Atom<T>, effect: Effect): Atom<T>
 ### 使用方法
 
 ```js
-import { withAtomEffect } from 'jotai-effect'
+import { withAtomEffect } from "jotai-effect";
 
 const valuesAtom = withAtomEffect(atom(null), (get, set) => {
-  set(valuesAtom, get(countAtom))
+  set(valuesAtom, get(countAtom));
   return () => {
     // クリーンアップ
-  }
-})
+  };
+});
 ```
 
 ## 依存関係の管理
@@ -142,8 +142,8 @@ const valuesAtom = withAtomEffect(atom(null), (get, set) => {
   ```js
   atomEffect((get, set) => {
     // `anAtom` が変化するたびに更新されます
-    get(anAtom)
-  })
+    get(anAtom);
+  });
   ```
 
   </details>
@@ -159,9 +159,9 @@ const valuesAtom = withAtomEffect(atom(null), (get, set) => {
   atomEffect((get, set) => {
     setTimeout(() => {
       // `anAtom` を依存関係として追加しません
-      get(anAtom)
-    })
-  })
+      get(anAtom);
+    });
+  });
   ```
 
   </details>
@@ -177,9 +177,9 @@ const valuesAtom = withAtomEffect(atom(null), (get, set) => {
   atomEffect((get, set) => {
     return () => {
       // `anAtom` を依存関係として追加しません
-      get(anAtom)
-    }
-  })
+      get(anAtom);
+    };
+  });
   ```
 
   </details>
@@ -195,12 +195,12 @@ const valuesAtom = withAtomEffect(atom(null), (get, set) => {
   atomEffect((get, set) => {
     if (get(isEnabledAtom)) {
       // `isEnabledAtom` と `anAtom` が依存関係です
-      const aValue = get(anAtom)
+      const aValue = get(anAtom);
     } else {
       // `isEnabledAtom` と `anotherAtom` が依存関係です
-      const anotherValue = get(anotherAtom)
+      const anotherValue = get(anotherAtom);
     }
-  })
+  });
   ```
 
   </details>
@@ -216,15 +216,15 @@ const valuesAtom = withAtomEffect(atom(null), (get, set) => {
 
   ```js
   const logCounts = atomEffect((get, set) => {
-    set(logAtom, `count is ${get(countAtom)}`)
-  })
+    set(logAtom, `count is ${get(countAtom)}`);
+  });
   const actionAtom = atom(null, (get, set) => {
-    get(logAtom) // 'count is 0'
-    set(countAtom, (value) => value + 1) // エフェクトが同期的に実行されます
-    get(logAtom) // 'count is 1'
-  })
-  store.sub(logCounts, () => {})
-  store.set(actionAtom)
+    get(logAtom); // 'count is 0'
+    set(countAtom, (value) => value + 1); // エフェクトが同期的に実行されます
+    get(logAtom); // 'count is 1'
+  });
+  store.sub(logCounts, () => {});
+  store.set(actionAtom);
   ```
 
   </details>
@@ -237,20 +237,20 @@ const valuesAtom = withAtomEffect(atom(null), (get, set) => {
     <summary>例</summary>
 
   ```js
-  const tensAtom = atom(0)
-  const onesAtom = atom(0)
+  const tensAtom = atom(0);
+  const onesAtom = atom(0);
   const updateTensAndOnes = atom(null, (get, set) => {
-    set(tensAtom, (value) => value + 1)
-    set(onesAtom, (value) => value + 1)
-  })
-  const combos = atom([])
+    set(tensAtom, (value) => value + 1);
+    set(onesAtom, (value) => value + 1);
+  });
+  const combos = atom([]);
   const effectAtom = atomEffect((get, set) => {
-    const value = get(tensAtom) * 10 + get(onesAtom)
-    set(combos, (arr) => [...arr, value])
-  })
-  store.sub(effectAtom, () => {})
-  store.set(updateTensAndOnes)
-  store.get(combos) // [00, 11]
+    const value = get(tensAtom) * 10 + get(onesAtom);
+    set(combos, (arr) => [...arr, value]);
+  });
+  store.sub(effectAtom, () => {});
+  store.set(updateTensAndOnes);
+  store.get(combos); // [00, 11]
   ```
 
   </details>
@@ -264,9 +264,9 @@ const valuesAtom = withAtomEffect(atom(null), (get, set) => {
 
   ```js
   atomEffect((get, set) => {
-    get(countAtom)
-    set(countAtom, (value) => value + 1) // ループしません
-  })
+    get(countAtom);
+    set(countAtom, (value) => value + 1); // ループしません
+  });
   ```
 
   </details>
@@ -280,9 +280,9 @@ const valuesAtom = withAtomEffect(atom(null), (get, set) => {
 
   ```js
   atomEffect((get, set) => {
-    const intervalId = setInterval(() => set(clockAtom, Date.now()))
-    return () => clearInterval(intervalId)
-  })
+    const intervalId = setInterval(() => set(clockAtom, Date.now()));
+    return () => clearInterval(intervalId);
+  });
   ```
 
   </details>
@@ -295,15 +295,15 @@ const valuesAtom = withAtomEffect(atom(null), (get, set) => {
     <summary>例</summary>
 
   ```js
-  let i = 0
+  let i = 0;
   const effectAtom = atomEffect(() => {
-    get(countAtom)
-    i++
-  })
-  store.sub(effectAtom, () => {})
-  store.sub(effectAtom, () => {})
-  store.set(countAtom, (value) => value + 1)
-  console.log(i) // 1
+    get(countAtom);
+    i++;
+  });
+  store.sub(effectAtom, () => {});
+  store.sub(effectAtom, () => {});
+  store.set(countAtom, (value) => value + 1);
+  console.log(i); // 1
   ```
 
   </details>
@@ -318,9 +318,9 @@ const valuesAtom = withAtomEffect(atom(null), (get, set) => {
   ```js
   atom((get) => {
     if (get(isEnabledAtom)) {
-      get(effectAtom)
+      get(effectAtom);
     }
-  })
+  });
   ```
 
   </details>
@@ -333,10 +333,10 @@ const valuesAtom = withAtomEffect(atom(null), (get, set) => {
     <summary>例</summary>
 
   ```js
-  const countAtom = atom(0)
+  const countAtom = atom(0);
   atomEffect((get, set) => {
-    const count = get.peek(countAtom) // `countAtom` を依存関係として追加しません
-  })
+    const count = get.peek(countAtom); // `countAtom` を依存関係として追加しません
+  });
   ```
 
   </details>
@@ -350,12 +350,12 @@ const valuesAtom = withAtomEffect(atom(null), (get, set) => {
 
   ```js
   atomEffect((get, set) => {
-    const count = get(countAtom)
+    const count = get(countAtom);
     if (count % 10 === 0) {
-      return
+      return;
     }
-    set.recurse(countAtom, (value) => value + 1)
-  })
+    set.recurse(countAtom, (value) => value + 1);
+  });
   ```
 
   </details>

@@ -133,6 +133,7 @@ highlite.setup({ palette = palette })
 ## エクスポート対応
 
 nvim-highlite はエクスポート機能も持つ（`lua/highlite/export/`）:
+
 - `native/lua.lua` → Neovim Lua フォーマット
 - `native/vim.lua` → Vimscript フォーマット
 - `fish.lua`, `bat.lua`, `ghostty.lua`, `wezterm.lua` → ターミナルテーマ

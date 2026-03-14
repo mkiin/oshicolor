@@ -6,19 +6,17 @@
 ## 基本的な使い方
 
 ```jsx
-import { useEffect, useState } from 'react';
-import { useDropzone } from 'react-dropzone';
+import { useEffect, useState } from "react";
+import { useDropzone } from "react-dropzone";
 
 function PreviewDropzone() {
   const [files, setFiles] = useState([]);
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: { 'image/*': [] },
+    accept: { "image/*": [] },
     onDrop: (acceptedFiles) => {
       setFiles(
-        acceptedFiles.map((file) =>
-          Object.assign(file, { preview: URL.createObjectURL(file) })
-        )
+        acceptedFiles.map((file) => Object.assign(file, { preview: URL.createObjectURL(file) })),
       );
     },
   });
@@ -36,7 +34,7 @@ function PreviewDropzone() {
 
   return (
     <section>
-      <div {...getRootProps({ className: 'dropzone' })}>
+      <div {...getRootProps({ className: "dropzone" })}>
         <input {...getInputProps()} />
         <p>画像をドロップ</p>
       </div>
@@ -54,8 +52,8 @@ function PreviewDropzone() {
 **パターン**: Write atom に URL lifecycle を閉じ込める（最重要リライト）
 
 ```jsx
-import { atom, useAtomValue, useSetAtom } from 'jotai';
-import { useDropzone } from 'react-dropzone';
+import { atom, useAtomValue, useSetAtom } from "jotai";
+import { useDropzone } from "react-dropzone";
 
 // --- atom 定義 ---
 
@@ -79,7 +77,7 @@ const setPreviewFilesAtom = atom(null, (get, set, newFiles) => {
   get(filesWithPreviewAtom).forEach((f) => URL.revokeObjectURL(f.preview));
   set(
     filesWithPreviewAtom,
-    newFiles.map((f) => Object.assign(f, { preview: URL.createObjectURL(f) }))
+    newFiles.map((f) => Object.assign(f, { preview: URL.createObjectURL(f) })),
   );
 });
 
@@ -95,13 +93,13 @@ const clearPreviewFilesAtom = atom(null, (get, set) => {
 function PreviewDropzone() {
   const setPreviewFiles = useSetAtom(setPreviewFilesAtom);
   const { getRootProps, getInputProps } = useDropzone({
-    accept: { 'image/*': [] },
+    accept: { "image/*": [] },
     // useEffect cleanup が不要。setPreviewFilesAtom 内で旧 URL を revoke している。
     onDrop: setPreviewFiles,
   });
 
   return (
-    <div {...getRootProps({ className: 'dropzone' })}>
+    <div {...getRootProps({ className: "dropzone" })}>
       <input {...getInputProps()} />
       <p>画像をドロップ</p>
     </div>
@@ -115,7 +113,7 @@ function ThumbnailGrid() {
 
   return (
     <>
-      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
         {files.map((f) => (
           <img key={f.name} src={f.preview} alt={f.name} width={100} height={100} />
         ))}

@@ -8,27 +8,27 @@
 
 ## プロダクト一覧
 
-| ファイル | プロダクト | 言語 | 入力方式 |
-|---|---|---|---|
-| [xeno-nvim.md](./xeno-nvim.md) | xeno.nvim | Lua | 2色 → HSL 10段階スケール |
-| [root-loops.md](./root-loops.md) | Root Loops | TypeScript | 6パラメータ → Okhsl 均等分割 |
-| [nvim-highlite.md](./nvim-highlite.md) | nvim-highlite | Lua | 50+セマンティックロール |
-| [lush-nvim.md](./lush-nvim.md) | lush.nvim | Lua | DSL + 色の関係式 |
-| [colorgen-nvim.md](./colorgen-nvim.md) | colorgen-nvim | Rust | TOML テンプレート |
-| [vimcolors-org.md](./vimcolors-org.md) | vimcolors.org | TypeScript | Web UI 8スロット |
+| ファイル                               | プロダクト    | 言語       | 入力方式                     |
+| -------------------------------------- | ------------- | ---------- | ---------------------------- |
+| [xeno-nvim.md](./xeno-nvim.md)         | xeno.nvim     | Lua        | 2色 → HSL 10段階スケール     |
+| [root-loops.md](./root-loops.md)       | Root Loops    | TypeScript | 6パラメータ → Okhsl 均等分割 |
+| [nvim-highlite.md](./nvim-highlite.md) | nvim-highlite | Lua        | 50+セマンティックロール      |
+| [lush-nvim.md](./lush-nvim.md)         | lush.nvim     | Lua        | DSL + 色の関係式             |
+| [colorgen-nvim.md](./colorgen-nvim.md) | colorgen-nvim | Rust       | TOML テンプレート            |
+| [vimcolors-org.md](./vimcolors-org.md) | vimcolors.org | TypeScript | Web UI 8スロット             |
 
 ---
 
 ## 設計思想の比較
 
-| 観点 | xeno.nvim | Root Loops | nvim-highlite | lush.nvim | colorgen-nvim | vimcolors.org |
-|---|---|---|---|---|---|---|
-| 入力の少なさ | ★★★（2色） | ★★★（パラメータ） | ★（50+色） | △（DSL） | ★★（TOML） | ★★（8スロット） |
-| 色空間 | HSL | Okhsl | RGB整数 | HSL / HSLuv | RGB (#hex) | RGB (#hex) |
-| 生成方式 | トーンスケール | Hue均等分割 | 直接定義 | 関係式派生 | テンプレート展開 | パッケージ委譲 |
-| Diagnostic | 固定（red固定） | ANSI red 対応 | 専用4色 | ユーザー次第 | ユーザー次第 | vim-colors 依存 |
-| TreeSitter 対応 | link（一部直接） | link（ANSI経由） | link（FW） | link / inherit | link 記法 | vim-colors 依存 |
-| 配布用エクスポート | なし | .vim / JSON | .lua / .vim | Shipwright | .lua 生成 | .vim ダウンロード |
+| 観点               | xeno.nvim        | Root Loops        | nvim-highlite | lush.nvim      | colorgen-nvim    | vimcolors.org     |
+| ------------------ | ---------------- | ----------------- | ------------- | -------------- | ---------------- | ----------------- |
+| 入力の少なさ       | ★★★（2色）       | ★★★（パラメータ） | ★（50+色）    | △（DSL）       | ★★（TOML）       | ★★（8スロット）   |
+| 色空間             | HSL              | Okhsl             | RGB整数       | HSL / HSLuv    | RGB (#hex)       | RGB (#hex)        |
+| 生成方式           | トーンスケール   | Hue均等分割       | 直接定義      | 関係式派生     | テンプレート展開 | パッケージ委譲    |
+| Diagnostic         | 固定（red固定）  | ANSI red 対応     | 専用4色       | ユーザー次第   | ユーザー次第     | vim-colors 依存   |
+| TreeSitter 対応    | link（一部直接） | link（ANSI経由）  | link（FW）    | link / inherit | link 記法        | vim-colors 依存   |
+| 配布用エクスポート | なし             | .vim / JSON       | .lua / .vim   | Shipwright     | .lua 生成        | .vim ダウンロード |
 
 ---
 

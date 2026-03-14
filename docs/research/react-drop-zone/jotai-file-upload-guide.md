@@ -39,7 +39,7 @@ const [files, setFiles] = useState<File[]>([]);
       </FileUploadItem>
     ))}
   </FileUploadList>
-</FileUpload>
+</FileUpload>;
 ```
 
 `FileUpload`がルートのコンポーネントで、その中に`FileUploadDropzone`（ドロップエリア）や`FileUploadList`（ファイル一覧）が並んでいます。このような「親が文脈を提供し、子が必要な部分だけを使う」設計を**Compound Component**パターンといいます。
@@ -52,11 +52,11 @@ const [files, setFiles] = useState<File[]>([]);
 
 コードを書く前に「何を状態として持つか」を整理しましょう。ファイルアップローダーには、3つの状態が必要です。
 
-| 状態 | 型 | 意味 |
-| --- | --- | --- |
-| ファイル一覧 | `Map<File, FileState>` | 選択済みファイルとそれぞれの状態 |
-| ドラッグ中 | `boolean` | ファイルをドラッグしている最中かどうか |
-| バリデーションエラー | `boolean` | 不正なファイルが追加されたとき2秒間`true`になる |
+| 状態                 | 型                     | 意味                                            |
+| -------------------- | ---------------------- | ----------------------------------------------- |
+| ファイル一覧         | `Map<File, FileState>` | 選択済みファイルとそれぞれの状態                |
+| ドラッグ中           | `boolean`              | ファイルをドラッグしている最中かどうか          |
+| バリデーションエラー | `boolean`              | 不正なファイルが追加されたとき2秒間`true`になる |
 
 配列（`FileState[]`）ではなく`Map<File, FileState>`を使う理由があります。配列では「特定のファイルの状態を更新する」のに全件を走査する必要がありますが（O(n)）、Mapなら`Map.get(file)`で即座に取得できます（O(1)）[^note_key]。
 
@@ -67,9 +67,9 @@ const [files, setFiles] = useState<File[]>([]);
 ```ts
 type FileState = {
   file: File;
-  progress: number;                                     // アップロード進捗 0〜100
-  error?: string;                                       // エラーメッセージ
-  status: "idle" | "uploading" | "error" | "success";  // 状態
+  progress: number; // アップロード進捗 0〜100
+  error?: string; // エラーメッセージ
+  status: "idle" | "uploading" | "error" | "success"; // 状態
 };
 ```
 
@@ -78,9 +78,9 @@ type FileState = {
 ```ts
 import { atom } from "jotai";
 
-const filesAtom    = atom<Map<File, FileState>>(new Map());
+const filesAtom = atom<Map<File, FileState>>(new Map());
 const dragOverAtom = atom(false);
-const invalidAtom  = atom(false);
+const invalidAtom = atom(false);
 ```
 
 `useState`と比べると、jotaiでは「状態の定義」がコンポーネントの外に出ます。これが後で「複数コンポーネントが同じ状態を共有する」ための鍵になります。
@@ -94,11 +94,12 @@ const invalidAtom  = atom(false);
 ```ts
 // 書き込み専用atomの基本的な形
 const somethingAtom = atom(
-  null,                              // 読み取り値なし（nullを返す読み取り専用）
-  (get, set, 引数) => {              // 書き込み時に呼ばれる関数
+  null, // 読み取り値なし（nullを返す読み取り専用）
+  (get, set, 引数) => {
+    // 書き込み時に呼ばれる関数
     const current = get(somethingElseAtom);
-    set(somethingElseAtom, /* 新しい値 */);
-  }
+    set(somethingElseAtom /* 新しい値 */);
+  },
 );
 
 // 呼び出し方
@@ -194,7 +195,7 @@ const setProgressAtom = atom(
       });
     }
     set(filesAtom, next);
-  }
+  },
 );
 
 // ── 成功を記録する ──────────────────────────────────────
@@ -208,17 +209,14 @@ const setSuccessAtom = atom(null, (get, set, file: File) => {
 });
 
 // ── エラーを記録する ────────────────────────────────────
-const setErrorAtom = atom(
-  null,
-  (get, set, { file, error }: { file: File; error: string }) => {
-    const next = new Map(get(filesAtom));
-    const fileState = next.get(file);
-    if (fileState) {
-      next.set(file, { ...fileState, error, status: "error" });
-    }
-    set(filesAtom, next);
+const setErrorAtom = atom(null, (get, set, { file, error }: { file: File; error: string }) => {
+  const next = new Map(get(filesAtom));
+  const fileState = next.get(file);
+  if (fileState) {
+    next.set(file, { ...fileState, error, status: "error" });
   }
-);
+  set(filesAtom, next);
+});
 ```
 
 write atomを並べてみると、それぞれが「ある1つの操作」を表していることが分かります。元実装のredux風reducerと比べると、アクションが独立したatomとして定義されているため、どのatomが何をするかが一目瞭然です。これがjotaiにおけるカプセル化のひとつの形です。
@@ -308,14 +306,14 @@ const FileUploadDropzone = React.forwardRef<HTMLDivElement, FileUploadDropzonePr
     // useAtomValueでatomを購読する
     // dragOverAtomが変化したときだけこのコンポーネントが再レンダリングされる
     const dragOver = useAtomValue(dragOverAtom);
-    const invalid  = useAtomValue(invalidAtom);
+    const invalid = useAtomValue(invalidAtom);
 
     const onDragOver = useCallback(
       (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault(); // これがないとonDropが発火しない
         jotaiStore.set(dragOverAtom, true);
       },
-      [jotaiStore]
+      [jotaiStore],
     );
 
     const onDragLeave = useCallback(
@@ -323,7 +321,7 @@ const FileUploadDropzone = React.forwardRef<HTMLDivElement, FileUploadDropzonePr
         event.preventDefault();
         jotaiStore.set(dragOverAtom, false);
       },
-      [jotaiStore]
+      [jotaiStore],
     );
 
     const onDrop = useCallback(
@@ -333,7 +331,7 @@ const FileUploadDropzone = React.forwardRef<HTMLDivElement, FileUploadDropzonePr
         // ドロップされたファイルを input.files に渡す
         // （詳細は後述）
       },
-      [jotaiStore]
+      [jotaiStore],
     );
 
     return (
@@ -346,7 +344,7 @@ const FileUploadDropzone = React.forwardRef<HTMLDivElement, FileUploadDropzonePr
         ref={forwardedRef}
       />
     );
-  }
+  },
 );
 ```
 
@@ -378,17 +376,14 @@ const FileUploadItem = React.forwardRef<HTMLDivElement, FileUploadItemProps>(
 
     // selectAtomで「このファイルの状態」だけを選択する
     // useMemoで安定させることが重要（毎レンダリングで新しいatomを作らないように）
-    const fileStateAtom = useMemo(
-      () => selectAtom(filesAtom, (files) => files.get(file)),
-      [file]
-    );
+    const fileStateAtom = useMemo(() => selectAtom(filesAtom, (files) => files.get(file)), [file]);
     const fileState = useAtomValue(fileStateAtom);
 
     // fileStateがundefined = このファイルは削除済み → 何も表示しない
     if (!fileState) return null;
 
     // ...
-  }
+  },
 );
 ```
 
@@ -499,9 +494,7 @@ const FileUploadRoot: React.FC<FileUploadRootProps> = (props) => {
 
 ```ts
 // onUploadコールバックをRefで受け取るfactory関数
-const createUploadAtom = (
-  onUploadRef: React.RefObject<FileUploadRootProps["onUpload"]>
-) =>
+const createUploadAtom = (onUploadRef: React.RefObject<FileUploadRootProps["onUpload"]>) =>
   atom(null, async (get, set, files: File[]) => {
     if (!onUploadRef.current) return;
 
@@ -570,24 +563,24 @@ const FileUploadRoot: React.FC<FileUploadRootProps> = (props) => {
 
 ここまで実装してきた内容と、元の`file-upload.tsx`の実装がどう対応するかを整理しましょう。
 
-| 元の実装（カスタムStore） | jotai版 |
-| --- | --- |
-| `createStore()` 関数（約170行） | 削除（jotai本体に委譲） |
-| `listeners: Set<() => void>` | 削除（jotai内部で管理） |
-| `store.subscribe()` | 削除（`useAtomValue`が担う） |
-| `useSyncExternalStore()` | 削除（`useAtomValue`が担う） |
-| `useStore(selector)` フック | `useAtomValue(selectAtom(...))` |
-| `useLazyRef(() => new Set())` | 削除 |
-| `useLazyRef(() => new Map())` | 削除 |
-| reducer の `"ADD_FILES"` | `addFilesAtom` |
-| reducer の `"SET_FILES"` | `setFilesAtom` |
-| reducer の `"REMOVE_FILE"` | `removeFileAtom` |
-| reducer の `"SET_PROGRESS"` | `setProgressAtom` |
-| reducer の `"SET_SUCCESS"` | `setSuccessAtom` |
-| reducer の `"SET_ERROR"` | `setErrorAtom` |
-| reducer の `"SET_DRAG_OVER"` | `jotaiStore.set(dragOverAtom, bool)` |
-| reducer の `"SET_INVALID"` | `jotaiStore.set(invalidAtom, bool)` |
-| reducer の `"CLEAR"` | `clearFilesAtom` |
+| 元の実装（カスタムStore）       | jotai版                              |
+| ------------------------------- | ------------------------------------ |
+| `createStore()` 関数（約170行） | 削除（jotai本体に委譲）              |
+| `listeners: Set<() => void>`    | 削除（jotai内部で管理）              |
+| `store.subscribe()`             | 削除（`useAtomValue`が担う）         |
+| `useSyncExternalStore()`        | 削除（`useAtomValue`が担う）         |
+| `useStore(selector)` フック     | `useAtomValue(selectAtom(...))`      |
+| `useLazyRef(() => new Set())`   | 削除                                 |
+| `useLazyRef(() => new Map())`   | 削除                                 |
+| reducer の `"ADD_FILES"`        | `addFilesAtom`                       |
+| reducer の `"SET_FILES"`        | `setFilesAtom`                       |
+| reducer の `"REMOVE_FILE"`      | `removeFileAtom`                     |
+| reducer の `"SET_PROGRESS"`     | `setProgressAtom`                    |
+| reducer の `"SET_SUCCESS"`      | `setSuccessAtom`                     |
+| reducer の `"SET_ERROR"`        | `setErrorAtom`                       |
+| reducer の `"SET_DRAG_OVER"`    | `jotaiStore.set(dragOverAtom, bool)` |
+| reducer の `"SET_INVALID"`      | `jotaiStore.set(invalidAtom, bool)`  |
+| reducer の `"CLEAR"`            | `clearFilesAtom`                     |
 
 `createStore`関数と`useStore`フックを合わせると元コードで約170行ありました。jotaiに置き換えることで、それらがすべてatomの定義（数十行）に置き換えられます。
 
@@ -664,11 +657,7 @@ const FileUploadWithData: React.FC = () => {
   // savedFilesAtom が Promise を返すのでサスペンドし、データが来たら再レンダリングされる
   const savedFiles = useAtomValue(savedFilesAtom);
 
-  return (
-    <FileUpload defaultValue={savedFiles.map(toFile)}>
-      {/* ... */}
-    </FileUpload>
-  );
+  return <FileUpload defaultValue={savedFiles.map(toFile)}>{/* ... */}</FileUpload>;
 };
 ```
 
@@ -678,12 +667,12 @@ const FileUploadWithData: React.FC = () => {
 
 Suspense を使うかどうかは、「**その非同期処理がサスペンド（表示を止める）に値するか**」で判断します。
 
-| 非同期処理の種類 | Suspense を使う？ | 理由 |
-| --- | --- | --- |
-| 初期データの取得（ユーザー情報、既存ファイル一覧） | ✅ 使う | 取得できるまで表示するものがない |
-| ファイルのアップロード（進捗あり） | ❌ 使わない | 進捗をリアルタイムで見せる必要がある |
-| バリデーション結果（即時） | ❌ 使わない | 同期処理として扱える |
-| アップロード後の後処理（通知など） | ❌ 使わない | 完了後の副作用。UIをサスペンドする必要がない |
+| 非同期処理の種類                                   | Suspense を使う？ | 理由                                         |
+| -------------------------------------------------- | ----------------- | -------------------------------------------- |
+| 初期データの取得（ユーザー情報、既存ファイル一覧） | ✅ 使う           | 取得できるまで表示するものがない             |
+| ファイルのアップロード（進捗あり）                 | ❌ 使わない       | 進捗をリアルタイムで見せる必要がある         |
+| バリデーション結果（即時）                         | ❌ 使わない       | 同期処理として扱える                         |
+| アップロード後の後処理（通知など）                 | ❌ 使わない       | 完了後の副作用。UIをサスペンドする必要がない |
 
 ---
 
@@ -708,6 +697,7 @@ Suspense を使うかどうかは、「**その非同期処理がサスペンド
 ファイルアップローダーには、まだ実装していない機能があります。「全ファイルのクリア」ボタン（`FileUploadClear`）を実装してみましょう。
 
 仕様:
+
 - クリックすると全ファイルが削除される
 - ファイルが0件のときは表示されない（`forceMount` propが`true`のときは常に表示）
 
@@ -725,7 +715,7 @@ const FileUploadClear = React.forwardRef<HTMLButtonElement, FileUploadClearProps
     // ヒント1: filesAtomのfiles.sizeを参照する
     // ヒント2: forceMountがfalseのとき、ファイルが0件なら return null
     // ヒント3: クリックしたら clearFilesAtom を呼ぶ
-  }
+  },
 );
 ```
 
@@ -737,9 +727,7 @@ const FileUploadClear = React.forwardRef<HTMLButtonElement, FileUploadClearProps
     const { forceMount, ...clearProps } = props;
     const { jotaiStore } = useFileUploadContext(CLEAR_NAME);
 
-    const filesSize = useAtomValue(
-      useMemo(() => selectAtom(filesAtom, (files) => files.size), [])
-    );
+    const filesSize = useAtomValue(useMemo(() => selectAtom(filesAtom, (files) => files.size), []));
 
     const shouldRender = forceMount || filesSize > 0;
     if (!shouldRender) return null;
@@ -750,15 +738,8 @@ const FileUploadClear = React.forwardRef<HTMLButtonElement, FileUploadClearProps
       jotaiStore.set(clearFilesAtom, undefined);
     };
 
-    return (
-      <button
-        type="button"
-        {...clearProps}
-        ref={forwardedRef}
-        onClick={handleClick}
-      />
-    );
-  }
+    return <button type="button" {...clearProps} ref={forwardedRef} onClick={handleClick} />;
+  },
 );
 ```
 

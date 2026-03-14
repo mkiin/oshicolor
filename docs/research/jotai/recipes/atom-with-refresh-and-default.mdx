@@ -31,45 +31,42 @@ keywords: creators,refresh,default
 ここでは、`atomWithDefault` の代わりにリフレッシュ可能なアトムを作成する宣言的な方法を紹介します。
 
 ```js
-const refreshCountAtom = atom(0)
+const refreshCountAtom = atom(0);
 
-const baseDataAtom = atom(1) // 元データ、例: ベースの count1Atom
+const baseDataAtom = atom(1); // 元データ、例: ベースの count1Atom
 const dataAtom = atom(
   (get) => {
-    get(refreshCountAtom) // atomWithRefresh で紹介
-    return get(baseDataAtom)
+    get(refreshCountAtom); // atomWithRefresh で紹介
+    return get(baseDataAtom);
   },
   (get, set, update) => {
-    set(baseDataAtom, update)
+    set(baseDataAtom, update);
   },
-)
+);
 
 const atomWithRefreshAndDefault = (refreshAtom, getDefault) => {
-  const overwrittenAtom = atom(null)
+  const overwrittenAtom = atom(null);
   return atom(
     (get) => {
-      const lastState = get(overwrittenAtom)
+      const lastState = get(overwrittenAtom);
       if (lastState && lastState.refresh === get(refreshAtom)) {
-        return lastState.value
+        return lastState.value;
       }
-      return getDefault(get)
+      return getDefault(get);
     },
     (get, set, update) => {
-      set(overwrittenAtom, { refresh: get(refreshAtom), value: update })
+      set(overwrittenAtom, { refresh: get(refreshAtom), value: update });
     },
-  )
-}
+  );
+};
 
 // これは `atomWithDefault((get) => get(count1Atom) * 2)` の代替です
-const refreshableAtom = atomWithRefreshAndDefault(
-  refreshCountAtom,
-  (get) => get(dataAtom) * 2,
-)
+const refreshableAtom = atomWithRefreshAndDefault(refreshCountAtom, (get) => get(dataAtom) * 2);
 
 // 1つのアトムを更新するだけでリセットできます
 const resetRootAtom = atom(null, (get, set) => {
-  set(refreshCountAtom, get(refreshCountAtom) + 1)
-})
+  set(refreshCountAtom, get(refreshCountAtom) + 1);
+});
 ```
 
 <Stackblitz id="vitejs-vite-1m7ce3" file="src%2FApp.tsx" />

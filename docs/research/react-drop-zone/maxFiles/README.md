@@ -5,27 +5,29 @@
 ## 基本的な使い方
 
 ```jsx
-import { useDropzone } from 'react-dropzone';
+import { useDropzone } from "react-dropzone";
 
 function MaxFilesDropzone() {
   const { acceptedFiles, fileRejections, getRootProps, getInputProps } = useDropzone({
     maxFiles: 2,
   });
 
-  const acceptedItems = acceptedFiles.map(file => (
-    <li key={file.path}>{file.path}</li>
-  ));
+  const acceptedItems = acceptedFiles.map((file) => <li key={file.path}>{file.path}</li>);
 
   const rejectedItems = fileRejections.map(({ file, errors }) => (
     <li key={file.path}>
       {file.path}
-      <ul>{errors.map(e => <li key={e.code}>{e.message}</li>)}</ul>
+      <ul>
+        {errors.map((e) => (
+          <li key={e.code}>{e.message}</li>
+        ))}
+      </ul>
     </li>
   ));
 
   return (
     <section>
-      <div {...getRootProps({ className: 'dropzone' })}>
+      <div {...getRootProps({ className: "dropzone" })}>
         <input {...getInputProps()} />
         <p>最大 2 ファイルまで受け付けます</p>
       </div>
@@ -47,16 +49,16 @@ function MaxFilesDropzone() {
 **パターン**: `atomWithStorage` でページリロード後も設定が永続化される
 
 ```jsx
-import { useAtom, useAtomValue } from 'jotai';
-import { atomWithStorage } from 'jotai/utils';
-import { useDropzone } from 'react-dropzone';
+import { useAtom, useAtomValue } from "jotai";
+import { atomWithStorage } from "jotai/utils";
+import { useDropzone } from "react-dropzone";
 
 // --- atom 定義 ---
 
 // atomWithStorage: localStorage の 'dropzone-max-files' キーに値を永続化する
 // ページをリロードしても設定値が localStorage から自動復元される
 // 通常の atom(2) と異なり、ユーザーが変更した設定が次回も維持される
-const maxFilesAtom = atomWithStorage('dropzone-max-files', 2);
+const maxFilesAtom = atomWithStorage("dropzone-max-files", 2);
 
 // --- コンポーネント ---
 
@@ -68,15 +70,23 @@ function DynamicMaxFilesDropzone() {
 
   return (
     <section>
-      <div {...getRootProps({ className: 'dropzone' })}>
+      <div {...getRootProps({ className: "dropzone" })}>
         <input {...getInputProps()} />
         <p>最大 {maxFiles} ファイルまで受け付けます</p>
       </div>
       <aside>
         <h4>Accepted ({acceptedFiles.length})</h4>
-        <ul>{acceptedFiles.map((f) => <li key={f.name}>{f.name}</li>)}</ul>
+        <ul>
+          {acceptedFiles.map((f) => (
+            <li key={f.name}>{f.name}</li>
+          ))}
+        </ul>
         <h4>Rejected</h4>
-        <ul>{fileRejections.map(({ file }) => <li key={file.name}>{file.name}</li>)}</ul>
+        <ul>
+          {fileRejections.map(({ file }) => (
+            <li key={file.name}>{file.name}</li>
+          ))}
+        </ul>
       </aside>
     </section>
   );

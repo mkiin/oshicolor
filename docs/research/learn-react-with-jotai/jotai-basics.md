@@ -30,9 +30,9 @@ const [count, setCount] = useAtom(countAtom);
 
 ポイントは、**`useState`が持っていた2つの役割が`atom`と`useAtom`に分割されている**ことです。すなわち、「ステートの定義」と「ステートの読み書き」です。
 
-| | React | jotai|
-| - | - | - |
-| ステートの定義 | `useState` | `atom` |
+|                    | React      | jotai     |
+| ------------------ | ---------- | --------- |
+| ステートの定義     | `useState` | `atom`    |
 | ステートの読み書き | `useState` | `useAtom` |
 
 この分割により、jotaiではReact本体の機能よりも柔軟なステート管理アーキテクチャが実現します。
@@ -109,13 +109,10 @@ const 派生atom = atom(読み取り関数, 書き込み関数);
 ```ts
 const countAtom = atom(0);
 
-const incrementAtom = atom(
-  null,
-  (get, set) => {
-    const currentCount = get(countAtom);
-    set(countAtom, currentCount + 1);
-  },
-);
+const incrementAtom = atom(null, (get, set) => {
+  const currentCount = get(countAtom);
+  set(countAtom, currentCount + 1);
+});
 
 // 使い方
 const increment = useSetAtom(incrementAtom);
@@ -139,16 +136,13 @@ increment();
 例えば、`incrementAtom`の定義を変えて、書き込み時に引数を渡せるようにするのは、こうします。
 
 ```ts
-const incrementAtom = atom(
-  null,
-  (get, set, step = 1) => {
-    if (step < 0) {
-      throw new Error("負の数を足すことはできませんよ！！");
-    }
-    const currentCount = get(countAtom);
-    set(countAtom, currentCount + step);
-  },
-);
+const incrementAtom = atom(null, (get, set, step = 1) => {
+  if (step < 0) {
+    throw new Error("負の数を足すことはできませんよ！！");
+  }
+  const currentCount = get(countAtom);
+  set(countAtom, currentCount + step);
+});
 
 // 使い方
 const increment = useSetAtom(incrementAtom);
@@ -175,16 +169,13 @@ export const countDisplayAtom = atom((get) => {
   return count.toLocaleString();
 });
 
-export const incrementAtom = atom(
-  null,
-  (get, set, step = 1) => {
-    if (step < 0) {
-      throw new Error("負の数を足すことはできませんよ！！");
-    }
-    const currentCount = get(countAtom);
-    set(countAtom, currentCount + step);
-  },
-);
+export const incrementAtom = atom(null, (get, set, step = 1) => {
+  if (step < 0) {
+    throw new Error("負の数を足すことはできませんよ！！");
+  }
+  const currentCount = get(countAtom);
+  set(countAtom, currentCount + step);
+});
 ```
 
 この例では、`countAtom`はexportされておらず、モジュールの中に隠されています。代わりに`countDisplayAtom`と`incrementAtom`がexportされており、ユーザーはこれらを使って間接的に`countAtom`を読み書きできます。
@@ -215,7 +206,7 @@ const countAtom = atomWithReset(0);
 const setCount = useSetAtom(countAtom);
 
 setCount(1); // 1になる
-setCount(c => c + 1); // 2になる
+setCount((c) => c + 1); // 2になる
 setCount(RESET); // 0になる
 ```
 
@@ -244,7 +235,7 @@ const countAtom = atomWithReset(0);
 const [count, setCount] = useAtom(countAtom);
 
 setCount(5); // 5になる
-setCount(c => c + 1); // +1
+setCount((c) => c + 1); // +1
 setCount(RESET); // 0 に戻る
 ```
 
@@ -262,7 +253,7 @@ function atomWithReset<T>(initialValue: T) {
         return;
       }
       set(dataAtom, updater);
-    }
+    },
   );
   return resettableAtom;
 }

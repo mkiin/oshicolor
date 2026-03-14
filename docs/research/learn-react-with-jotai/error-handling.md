@@ -14,7 +14,7 @@ Reactには、エラーハンドリングの仕組みも組み込まれていま
 <MyErrorBoundary>
   {/* この中で発生したエラーをMyErrorBoundaryがキャッチ */}
   <MyComponent />
-</MyErrorBoundary>
+</MyErrorBoundary>;
 
 // エラーの例
 const MyComponent = (): React.FC => {
@@ -312,11 +312,14 @@ const ErrorHandlingContext = createContext<{
 export const ErrorHandlingProvider: React.FC = ({ children }) => {
   const [error, setError] = useState<Error | null>(null);
 
-  const contextValue = useMemo(() => ({
-    handleError: (error: Error) => {
-      setError(error);
-    },
-  }), []);
+  const contextValue = useMemo(
+    () => ({
+      handleError: (error: Error) => {
+        setError(error);
+      },
+    }),
+    [],
+  );
 
   return (
     <ErrorHandlingContext.Provider value={contextValue}>
@@ -353,12 +356,7 @@ const ErrorModalContainer: React.FC = () => {
     return null;
   }
 
-  return (
-    <ErrorModal
-      error={error}
-      onClose={() => setError(null)}
-    />
-  );
+  return <ErrorModal error={error} onClose={() => setError(null)} />;
 };
 ```
 
@@ -400,7 +398,7 @@ const userListAtom = createReloadableAtom(async (get) => {
   <Suspense fallback={<div>ローディング中...</div>}>
     <UserList />
   </Suspense>
-</ErrorBoundary>
+</ErrorBoundary>;
 
 // エラー時のフォールバックUI
 const UserListErrorFallback: React.FC<{
@@ -534,10 +532,7 @@ const ArticleList: React.FC = () => {
 };
 
 // エラー時のフォールバックUI
-const ArticleListFallback: React.FC<FallbackProps> = ({
-  error,
-  resetErrorBoundary,
-}) => {
+const ArticleListFallback: React.FC<FallbackProps> = ({ error, resetErrorBoundary }) => {
   const reloadArticles = useSetAtom(articlesAtom);
 
   const handleRetry = () => {

@@ -20,16 +20,16 @@
 
 ```typescript
 type Colors = {
-  bg?: string;       // 背景色
-  fg?: string;       // 前景色（文字色）
+  bg?: string; // 背景色
+  fg?: string; // 前景色（文字色）
   comments?: string; // コメント色
-  menus?: string;    // メニュー・ステータスバー色
-  color1?: string;   // アクセント1
-  color2?: string;   // アクセント2
-  color3?: string;   // アクセント3
-  color4?: string;   // アクセント4
-  color5?: string;   // アクセント5
-  color6?: string;   // アクセント6
+  menus?: string; // メニュー・ステータスバー色
+  color1?: string; // アクセント1
+  color2?: string; // アクセント2
+  color3?: string; // アクセント3
+  color4?: string; // アクセント4
+  color5?: string; // アクセント5
+  color6?: string; // アクセント6
 };
 ```
 
@@ -55,6 +55,7 @@ const Comment = ...  // コメント
 ```
 
 プレビューコード:
+
 ```typescript
 import vimColors from "vim-colors";
 // We'll use this later
@@ -140,14 +141,14 @@ UI: カラーピッカー（react-color SketchPicker）
 
 vimcolors.org のプレビューから推測した slot の意味:
 
-| スロット | プレビュー上の用途 |
-|---|---|
-| color1 | 変数・識別子 |
-| color2 | キーワード（function, class, private, static, return） |
-| color3 | 文字列リテラル |
-| color4 | 関数名・メソッド名 |
-| color5 | import キーワード |
-| color6 | 括弧 |
+| スロット | プレビュー上の用途                                     |
+| -------- | ------------------------------------------------------ |
+| color1   | 変数・識別子                                           |
+| color2   | キーワード（function, class, private, static, return） |
+| color3   | 文字列リテラル                                         |
+| color4   | 関数名・メソッド名                                     |
+| color5   | import キーワード                                      |
+| color6   | 括弧                                                   |
 
 実際の Vim グループへの展開は `vim-colors` パッケージ内部で行われる。
 

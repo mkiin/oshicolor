@@ -13,18 +13,16 @@ nav: 8.12
 
 ```jsx
 const Component = ({ atom1, atom2 }) => {
-  const [selectedAtom, setSelectedAtom] = useState(atom1)
-  const [value] = useAtom(selectedAtom)
+  const [selectedAtom, setSelectedAtom] = useState(atom1);
+  const [value] = useAtom(selectedAtom);
   return (
     <div>
       Selected value: {value}
       <button onClick={() => setSelectedAtom(atom1)}>Select an atom</button>
-      <button onClick={() => setSelectedAtom(atom2)}>
-        Select another atom
-      </button>
+      <button onClick={() => setSelectedAtom(atom2)}>Select another atom</button>
     </div>
-  )
-}
+  );
+};
 ```
 
 アトムコンフィグを props として渡せることに注意してください。
@@ -33,15 +31,15 @@ const Component = ({ atom1, atom2 }) => {
 
 ```jsx
 const Component = () => {
-  const [currentAtom, setCurrentAtom] = useState(() => atom(0))
-  const [count, setCount] = useAtom(currentAtom)
+  const [currentAtom, setCurrentAtom] = useState(() => atom(0));
+  const [count, setCount] = useAtom(currentAtom);
   return (
     <div>
       Count: {count} <button onClick={() => setCount((c) => c + 1)}>+1</button>
       <button onClick={() => setCurrentAtom(atom(0))}>Create new</button>
     </div>
-  )
-}
+  );
+};
 ```
 
 ### アトムにアトムコンフィグを格納する
@@ -49,36 +47,34 @@ const Component = () => {
 同様に、別のアトムの値としてアトムコンフィグを格納できます。
 
 ```jsx
-const firstNameAtom = atom('Tanjiro')
-const lastNameAtom = atom('Kamado')
+const firstNameAtom = atom("Tanjiro");
+const lastNameAtom = atom("Kamado");
 
-const showingNameAtom = atom(firstNameAtom)
+const showingNameAtom = atom(firstNameAtom);
 
 const Component = () => {
-  const [nameAtom, setNameAtom] = useAtom(showingNameAtom)
-  const [name] = useAtom(nameAtom)
+  const [nameAtom, setNameAtom] = useAtom(showingNameAtom);
+  const [name] = useAtom(nameAtom);
   return (
     <div>
       Name: {name}
-      <button onClick={() => setNameAtom(firstNameAtom)}>
-        Show First Name
-      </button>
+      <button onClick={() => setNameAtom(firstNameAtom)}>Show First Name</button>
       <button onClick={() => setNameAtom(lastNameAtom)}>Show Last Name</button>
     </div>
-  )
-}
+  );
+};
 ```
 
 派生アトムを作成することも可能です。
 
 ```js
 const derivedNameAtom = atom((get) => {
-  const nameAtom = get(showingNameAtom)
-  return get(nameAtom)
-})
+  const nameAtom = get(showingNameAtom);
+  return get(nameAtom);
+});
 
 // または短いバージョン
-const derivedNameAtom = atom((get) => get(get(showingNameAtom)))
+const derivedNameAtom = atom((get) => get(get(showingNameAtom)));
 ```
 
 アトムに何が入っているか混乱しないよう、アトムに明示的な名前をつけることが重要です。
@@ -89,23 +85,23 @@ const derivedNameAtom = atom((get) => get(get(showingNameAtom)))
 最後に、atoms in atom パターンはアトムコンフィグの配列をアトムに格納することです。
 
 ```jsx
-const countsAtom = atom([atom(1), atom(2), atom(3)])
+const countsAtom = atom([atom(1), atom(2), atom(3)]);
 
 const Counter = ({ countAtom }) => {
-  const [count, setCount] = useAtom(countAtom)
+  const [count, setCount] = useAtom(countAtom);
   return (
     <div>
       {count} <button onClick={() => setCount((c) => c + 1)}>+1</button>
     </div>
-  )
-}
+  );
+};
 
 const Parent = () => {
-  const [counts, setCounts] = useAtom(countsAtom)
+  const [counts, setCounts] = useAtom(countsAtom);
   const addNewCount = () => {
-    const newAtom = atom(0)
-    setCounts((prev) => [...prev, newAtom])
-  }
+    const newAtom = atom(0);
+    setCounts((prev) => [...prev, newAtom]);
+  };
   return (
     <div>
       {counts.map((countAtom) => (
@@ -113,8 +109,8 @@ const Parent = () => {
       ))}
       <button onClick={addNewCount}>Add</button>
     </div>
-  )
-}
+  );
+};
 ```
 
 このアプローチの利点は、カウントをインクリメントしたとき、
@@ -137,25 +133,25 @@ const pricesAtom = atom({
   apple: atom(15),
   orange: atom(12),
   pineapple: atom(25),
-})
+});
 
 const Fruit = ({ name, priceAtom }) => {
-  const [price] = useAtom(priceAtom)
+  const [price] = useAtom(priceAtom);
   return (
     <div>
       {name}: {price}
     </div>
-  )
-}
+  );
+};
 
 const Parent = () => {
-  const [prices] = useAtom(pricesAtom)
+  const [prices] = useAtom(pricesAtom);
   return (
     <div>
       {Object.keys(prices).map((name) => (
         <Fruit name={name} priceAtom={prices[name]} key={name} />
       ))}
     </div>
-  )
-}
+  );
+};
 ```

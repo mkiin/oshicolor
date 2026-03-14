@@ -45,21 +45,21 @@ atomWithLocation(options): PrimitiveAtom
 ### 例
 
 ```jsx
-import { useAtom } from 'jotai'
-import { atomWithLocation } from 'jotai-location'
+import { useAtom } from "jotai";
+import { atomWithLocation } from "jotai-location";
 
-const locationAtom = atomWithLocation()
+const locationAtom = atomWithLocation();
 
 const App = () => {
-  const [loc, setLoc] = useAtom(locationAtom)
+  const [loc, setLoc] = useAtom(locationAtom);
   return (
     <ul>
       <li>
         <button
           style={{
-            fontWeight: loc.pathname === '/' ? 'bold' : 'normal',
+            fontWeight: loc.pathname === "/" ? "bold" : "normal",
           }}
-          onClick={() => setLoc((prev) => ({ ...prev, pathname: '/' }))}
+          onClick={() => setLoc((prev) => ({ ...prev, pathname: "/" }))}
         >
           Home
         </button>
@@ -68,14 +68,12 @@ const App = () => {
         <button
           style={{
             fontWeight:
-              loc.pathname === '/foo' && !loc.searchParams?.get('bar')
-                ? 'bold'
-                : 'normal',
+              loc.pathname === "/foo" && !loc.searchParams?.get("bar") ? "bold" : "normal",
           }}
           onClick={() =>
             setLoc((prev) => ({
               ...prev,
-              pathname: '/foo',
+              pathname: "/foo",
               searchParams: new URLSearchParams(),
             }))
           }
@@ -87,15 +85,13 @@ const App = () => {
         <button
           style={{
             fontWeight:
-              loc.pathname === '/foo' && loc.searchParams?.get('bar') === '1'
-                ? 'bold'
-                : 'normal',
+              loc.pathname === "/foo" && loc.searchParams?.get("bar") === "1" ? "bold" : "normal",
           }}
           onClick={() =>
             setLoc((prev) => ({
               ...prev,
-              pathname: '/foo',
-              searchParams: new URLSearchParams([['bar', '1']]),
+              pathname: "/foo",
+              searchParams: new URLSearchParams([["bar", "1"]]),
             }))
           }
         >
@@ -103,8 +99,8 @@ const App = () => {
         </button>
       </li>
     </ul>
-  )
-}
+  );
+};
 ```
 
 ### Stackblitz
@@ -144,20 +140,20 @@ URL ハッシュに接続された新しいアトムを作成します。
 ### 例
 
 ```jsx
-import { useAtom } from 'jotai'
-import { atomWithHash } from 'jotai-location'
+import { useAtom } from "jotai";
+import { atomWithHash } from "jotai-location";
 
-const countAtom = atomWithHash('count', 1)
+const countAtom = atomWithHash("count", 1);
 
 const Counter = () => {
-  const [count, setCount] = useAtom(countAtom)
+  const [count, setCount] = useAtom(countAtom);
   return (
     <div>
       <div>count: {count}</div>
       <button onClick={() => setCount((c) => c + 1)}>+1</button>
     </div>
-  )
-}
+  );
+};
 ```
 
 ### Stackblitz

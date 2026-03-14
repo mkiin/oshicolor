@@ -19,10 +19,10 @@ npm install jotai-family
 
 ```ts
 // 以前
-import { atomFamily } from 'jotai/utils'
+import { atomFamily } from "jotai/utils";
 
 // 以降
-import { atomFamily } from 'jotai-family'
+import { atomFamily } from "jotai-family";
 ```
 
 API は同一のため、import 文以外のコード変更は不要です。
@@ -45,11 +45,11 @@ atomFamily(initializeAtom, areEqual): (param) => Atom
 `areEqual` に deepEqual 関数を指定します。例えば：
 
 ```js
-import { atom } from 'jotai'
-import { atomFamily } from 'jotai/utils'
-import deepEqual from 'fast-deep-equal'
+import { atom } from "jotai";
+import { atomFamily } from "jotai/utils";
+import deepEqual from "fast-deep-equal";
 
-const fooFamily = atomFamily((param) => atom(param), deepEqual)
+const fooFamily = atomFamily((param) => atom(param), deepEqual);
 ```
 
 ### TypeScript
@@ -57,13 +57,13 @@ const fooFamily = atomFamily((param) => atom(param), deepEqual)
 アトムファミリの型は initializeAtom から推論されます。プリミティブアトムの典型的な使用例です。
 
 ```ts
-import type { PrimitiveAtom } from 'jotai'
+import type { PrimitiveAtom } from "jotai";
 
 /**
  * ここで atom(id) は PrimitiveAtom<number> を返します
  * PrimitiveAtom<number> は WritableAtom<number, SetStateAction<number>> です
  */
-const myFamily = atomFamily((id: number) => atom(id))
+const myFamily = atomFamily((id: number) => atom(id));
 ```
 
 TypeScript のジェネリクスを使用して、パラメータとアトムの型を明示的に宣言できます。
@@ -78,13 +78,11 @@ atomFamily<Param, AtomType extends Atom<unknown>>(
 明示的な型の例：
 
 ```ts
-import { atom } from 'jotai'
-import type { PrimitiveAtom } from 'jotai'
-import { atomFamily } from 'jotai/utils'
+import { atom } from "jotai";
+import type { PrimitiveAtom } from "jotai";
+import { atomFamily } from "jotai/utils";
 
-const myFamily = atomFamily<number, PrimitiveAtom<number>>((id: number) =>
-  atom(id),
-)
+const myFamily = atomFamily<number, PrimitiveAtom<number>>((id: number) => atom(id));
 ```
 
 ### API メソッド
@@ -100,13 +98,13 @@ const myFamily = atomFamily<number, PrimitiveAtom<number>>((id: number) =>
 現在キャッシュにあるすべての params のイテラブルを返します。
 
 ```js
-const todoFamily = atomFamily((name) => atom(name))
+const todoFamily = atomFamily((name) => atom(name));
 
-todoFamily('foo')
-todoFamily('bar')
+todoFamily("foo");
+todoFamily("bar");
 
 for (const param of todoFamily.getParams()) {
-  console.log(param) // 'foo', 'bar'
+  console.log(param); // 'foo', 'bar'
 }
 ```
 
@@ -115,7 +113,7 @@ for (const param of todoFamily.getParams()) {
 キャッシュから特定の param を削除します。
 
 ```js
-todoFamily.remove('foo')
+todoFamily.remove("foo");
 ```
 
 #### `myFamily.setShouldRemove(shouldRemove)`
@@ -128,8 +126,8 @@ todoFamily.remove('foo')
 ```js
 // 1時間以上前のアトムを削除
 todoFamily.setShouldRemove((createdAt, param) => {
-  return Date.now() - createdAt > 60 * 60 * 1000
-})
+  return Date.now() - createdAt > 60 * 60 * 1000;
+});
 ```
 
 #### `myFamily.unstable_listen(callback)`
@@ -140,13 +138,13 @@ todoFamily.setShouldRemove((createdAt, param) => {
 
 ```js
 const cleanup = todoFamily.unstable_listen((event) => {
-  console.log(event.type) // 'CREATE' または 'REMOVE'
-  console.log(event.param) // param
-  console.log(event.atom) // アトム
-})
+  console.log(event.type); // 'CREATE' または 'REMOVE'
+  console.log(event.param); // param
+  console.log(event.atom); // アトム
+});
 
 // 後で、リスニングを停止
-cleanup()
+cleanup();
 ```
 
 ### 注意点：メモリリーク
@@ -160,38 +158,38 @@ cleanup()
 ### 例
 
 ```js
-import { atom } from 'jotai'
-import { atomFamily } from 'jotai/utils'
+import { atom } from "jotai";
+import { atomFamily } from "jotai/utils";
 
-const todoFamily = atomFamily((name) => atom(name))
+const todoFamily = atomFamily((name) => atom(name));
 
-todoFamily('foo')
+todoFamily("foo");
 // 新しい atom('foo') を作成するか、すでに作成されていればそれを返します
 ```
 
 ```js
-import { atom } from 'jotai'
-import { atomFamily } from 'jotai/utils'
+import { atom } from "jotai";
+import { atomFamily } from "jotai/utils";
 
 const todoFamily = atomFamily((name) =>
   atom(
     (get) => get(todosAtom)[name],
     (get, set, arg) => {
-      const prev = get(todosAtom)
-      set(todosAtom, { ...prev, [name]: { ...prev[name], ...arg } })
+      const prev = get(todosAtom);
+      set(todosAtom, { ...prev, [name]: { ...prev[name], ...arg } });
     },
   ),
-)
+);
 ```
 
 ```js
-import { atom } from 'jotai'
-import { atomFamily } from 'jotai/utils'
+import { atom } from "jotai";
+import { atomFamily } from "jotai/utils";
 
 const todoFamily = atomFamily(
   ({ id, name }) => atom({ name }),
   (a, b) => a.id === b.id,
-)
+);
 ```
 
 ### Stackblitz

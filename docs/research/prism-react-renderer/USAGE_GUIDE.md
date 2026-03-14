@@ -26,11 +26,7 @@ console.log(hello);
 
 export function CodeBlock() {
   return (
-    <Highlight
-      theme={themes.vsDark}
-      code={codeBlock}
-      language="typescript"
-    >
+    <Highlight theme={themes.vsDark} code={codeBlock} language="typescript">
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
         <pre className={className} style={style}>
           {tokens.map((line, i) => (
@@ -53,18 +49,18 @@ export function CodeBlock() {
 
 ### 必須 Props
 
-| Prop | 型 | 説明 |
-|---|---|---|
-| `code` | `string` | ハイライト対象のコード文字列 |
-| `language` | `string` | 言語指定（例: `"typescript"`, `"tsx"`, `"css"`） |
-| `children` | `function` | レンダー関数（後述） |
+| Prop       | 型         | 説明                                             |
+| ---------- | ---------- | ------------------------------------------------ |
+| `code`     | `string`   | ハイライト対象のコード文字列                     |
+| `language` | `string`   | 言語指定（例: `"typescript"`, `"tsx"`, `"css"`） |
+| `children` | `function` | レンダー関数（後述）                             |
 
 ### オプション Props
 
-| Prop | 型 | デフォルト | 説明 |
-|---|---|---|---|
-| `theme` | `PrismTheme` | `vsDark` | シンタックスハイライトのテーマ |
-| `prism` | `PrismLib` | 同梱版 | 独自の Prism インスタンスを使う場合 |
+| Prop    | 型           | デフォルト | 説明                                |
+| ------- | ------------ | ---------- | ----------------------------------- |
+| `theme` | `PrismTheme` | `vsDark`   | シンタックスハイライトのテーマ      |
+| `prism` | `PrismLib`   | 同梱版     | 独自の Prism インスタンスを使う場合 |
 
 ---
 
@@ -82,20 +78,18 @@ export function CodeBlock() {
 
 ### children 関数に渡されるオブジェクト
 
-| プロパティ | 型 | 説明 |
-|---|---|---|
-| `tokens` | `Token[][]` | 行ごとのトークン配列（外側が行、内側がトークン） |
-| `className` | `string` | `<pre>` に付与すべきクラス名（常に `.token-line` を含む） |
-| `style` | `CSSProperties` | テーマに基づくスタイル |
-| `getLineProps` | `function` | 行要素（`<div>`）に spread するpropsを返す |
-| `getTokenProps` | `function` | トークン要素（`<span>`）に spread するpropsを返す |
+| プロパティ      | 型              | 説明                                                      |
+| --------------- | --------------- | --------------------------------------------------------- |
+| `tokens`        | `Token[][]`     | 行ごとのトークン配列（外側が行、内側がトークン）          |
+| `className`     | `string`        | `<pre>` に付与すべきクラス名（常に `.token-line` を含む） |
+| `style`         | `CSSProperties` | テーマに基づくスタイル                                    |
+| `getLineProps`  | `function`      | 行要素（`<div>`）に spread するpropsを返す                |
+| `getTokenProps` | `function`      | トークン要素（`<span>`）に spread するpropsを返す         |
 
 #### `getLineProps` の使い方
 
 ```tsx
-<div {...getLineProps({ line })}>
-  {/* 行内のトークンを描画 */}
-</div>
+<div {...getLineProps({ line })}>{/* 行内のトークンを描画 */}</div>
 ```
 
 #### `getTokenProps` の使い方
@@ -116,17 +110,17 @@ export function CodeBlock() {
 import { themes } from "prism-react-renderer";
 
 // 利用可能なテーマ例
-themes.vsDark        // Visual Studio Code Dark（デフォルト）
-themes.vsLight       // Visual Studio Code Light
-themes.dracula       // Dracula
-themes.github        // GitHub
-themes.nightOwl      // Night Owl
-themes.shadesOfPurple // Shades of Purple
-themes.oceanicNext   // Oceanic Next
-themes.okaidia       // Okaidia
-themes.ultramin      // Ultramin
-themes.duotoneDark   // Duotone Dark
-themes.duotoneLight  // Duotone Light
+themes.vsDark; // Visual Studio Code Dark（デフォルト）
+themes.vsLight; // Visual Studio Code Light
+themes.dracula; // Dracula
+themes.github; // GitHub
+themes.nightOwl; // Night Owl
+themes.shadesOfPurple; // Shades of Purple
+themes.oceanicNext; // Oceanic Next
+themes.okaidia; // Okaidia
+themes.ultramin; // Ultramin
+themes.duotoneDark; // Duotone Dark
+themes.duotoneLight; // Duotone Light
 ```
 
 ### カスタムテーマ
@@ -167,7 +161,7 @@ const emptyTheme = { plain: {}, styles: [] };
 
 <Highlight theme={emptyTheme} code={code} language="typescript">
   {/* ... */}
-</Highlight>
+</Highlight>;
 ```
 
 ---
@@ -183,9 +177,7 @@ const emptyTheme = { plain: {}, styles: [] };
       {tokens.map((line, i) => (
         <div key={i} {...getLineProps({ line })}>
           {/* 行番号 */}
-          <span style={{ color: "#6c7086", userSelect: "none", marginRight: "1rem" }}>
-            {i + 1}
-          </span>
+          <span style={{ color: "#6c7086", userSelect: "none", marginRight: "1rem" }}>{i + 1}</span>
           {/* トークン */}
           {line.map((token, key) => (
             <span key={key} {...getTokenProps({ token })} />

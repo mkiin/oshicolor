@@ -3,6 +3,7 @@
 ## Context
 
 現在の API は以下の課題がある:
+
 1. **3ステップ必要** — `build()` → `getPalette()` → `result.colors` で全色取得
 2. **ImageSource が狭い** — `string | HTMLImageElement` のみ。`File` や `ImageBitmap` を直接渡せない
 3. **proportion がない** — population (ピクセル数) はあるが全体比率がない
@@ -27,23 +28,23 @@ export type ImageSource = string | HTMLImageElement | ImageBitmap | Blob;
 ```ts
 // ImageBitmap: canvas に直接描画
 if (src instanceof ImageBitmap) {
-    const canvas = document.createElement("canvas");
-    canvas.width = src.width;
-    canvas.height = src.height;
-    const ctx = canvas.getContext("2d")!;
-    ctx.drawImage(src, 0, 0);
-    this._canvas = canvas;
-    this._context = ctx;
-    this._width = src.width;
-    this._height = src.height;
-    return Promise.resolve(this);
+  const canvas = document.createElement("canvas");
+  canvas.width = src.width;
+  canvas.height = src.height;
+  const ctx = canvas.getContext("2d")!;
+  ctx.drawImage(src, 0, 0);
+  this._canvas = canvas;
+  this._context = ctx;
+  this._width = src.width;
+  this._height = src.height;
+  return Promise.resolve(this);
 }
 // Blob / File: objectURL 経由で既存 string ブランチに委譲
 if (src instanceof Blob) {
-    const url = URL.createObjectURL(src);
-    const result = await this.load(url);
-    URL.revokeObjectURL(url);
-    return result;
+  const url = URL.createObjectURL(src);
+  const result = await this.load(url);
+  URL.revokeObjectURL(url);
+  return result;
 }
 ```
 
@@ -74,7 +75,7 @@ get proportion(): number { return this._proportion; }
 ```ts
 const raw = task.fn(pixels, opts);
 const total = raw.reduce((s, c) => s + c.population, 0);
-return raw.map(s => new Swatch(s.rgb, s.population, total > 0 ? s.population / total : 0));
+return raw.map((s) => new Swatch(s.rgb, s.population, total > 0 ? s.population / total : 0));
 ```
 
 ---
@@ -93,12 +94,12 @@ export type { GeneratorOptions } from "./generator-default";
 
 ```ts
 export const extractColors = async (
-    src: ImageSource,
-    opts?: Partial<ExtractorOptions>,
+  src: ImageSource,
+  opts?: Partial<ExtractorOptions>,
 ): Promise<{ colors: Swatch[]; palette: Palette }> => {
-    const extractor = new Extractor(src, opts);
-    const palette = await extractor.getPalette();
-    return { colors: extractor.result!.colors, palette };
+  const extractor = new Extractor(src, opts);
+  const palette = await extractor.getPalette();
+  return { colors: extractor.result!.colors, palette };
 };
 ```
 
@@ -109,9 +110,9 @@ export const extractColors = async (
 ```ts
 // ① シンプル関数（colorthief スタイル） ← 新規
 const { colors, palette } = await extractColors(file, { colorCount: 48 });
-colors[0].population   // ピクセル数
-colors[0].proportion   // 0–1 の全体比率 ← 新規
-colors[0].hex          // "#e84fa3"
+colors[0].population; // ピクセル数
+colors[0].proportion; // 0–1 の全体比率 ← 新規
+colors[0].hex; // "#e84fa3"
 
 // ② ビルダーパターン（node-vibrant スタイル） ← 既存・引き続き使える
 const extractor = Extractor.from(file).maxColorCount(48).build(); // File 直接渡し ← 新規
@@ -119,8 +120,8 @@ await extractor.getPalette();
 const colors = extractor.result?.colors;
 
 // ③ 意味付けパレット（node-vibrant スタイル） ← 既存
-palette.Vibrant?.hex
-palette.DarkVibrant?.hex
+palette.Vibrant?.hex;
+palette.DarkVibrant?.hex;
 ```
 
 ---

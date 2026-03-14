@@ -44,7 +44,6 @@
 - React コンポーネント: `React.FC<Props>` + arrow function
 - それ以外（ユーティリティ・ハンドラ・Server Functions）: arrow function
 
-
 ## ディレクトリ構成
 
 - features-based 構成。機能固有は `src/features/<機能名>/`、共通モジュールは `src/` 直下に置く。
@@ -92,7 +91,6 @@ src/
 - コミットメッセージは Conventional Commits に従う
   - `feat:`, `fix:`, `refactor:`, `docs:`, `chore:`, `test:`
 - 1 コミット = 1 論理的変更
-
 
 ## その他
 

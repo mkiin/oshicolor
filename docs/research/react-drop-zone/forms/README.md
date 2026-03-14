@@ -5,18 +5,18 @@
 ## 基本的な使い方
 
 ```jsx
-import { useRef } from 'react';
-import { useDropzone } from 'react-dropzone';
+import { useRef } from "react";
+import { useDropzone } from "react-dropzone";
 
 function FormDropzone({ name }) {
   const hiddenInputRef = useRef(null);
 
   const { getRootProps, getInputProps } = useDropzone({
-    onDrop: incomingFiles => {
+    onDrop: (incomingFiles) => {
       // DataTransfer 経由で hidden input にセット（フォーム送信用）
       if (hiddenInputRef.current) {
         const dt = new DataTransfer();
-        incomingFiles.forEach(f => dt.items.add(f));
+        incomingFiles.forEach((f) => dt.items.add(f));
         hiddenInputRef.current.files = dt.files;
       }
     },
@@ -24,12 +24,12 @@ function FormDropzone({ name }) {
 
   return (
     <form method="post" encType="multipart/form-data">
-      <div {...getRootProps({ className: 'dropzone' })}>
+      <div {...getRootProps({ className: "dropzone" })}>
         <input {...getInputProps()} />
         <p>ファイルをドロップ</p>
       </div>
       {/* フォーム送信に使う hidden input */}
-      <input type="file" name={name} ref={hiddenInputRef} style={{ display: 'none' }} />
+      <input type="file" name={name} ref={hiddenInputRef} style={{ display: "none" }} />
       <button type="submit">送信</button>
     </form>
   );
@@ -43,9 +43,9 @@ function FormDropzone({ name }) {
 **パターン**: 派生 atom で送信可否を表現し、Dropzone とフォーム送信処理を分離する
 
 ```jsx
-import { useRef } from 'react';
-import { atom, useAtomValue, useSetAtom } from 'jotai';
-import { useDropzone } from 'react-dropzone';
+import { useRef } from "react";
+import { atom, useAtomValue, useSetAtom } from "jotai";
+import { useDropzone } from "react-dropzone";
 
 // --- atom 定義 ---
 
@@ -79,11 +79,11 @@ function FormDropzone({ name }) {
 
   return (
     <>
-      <div {...getRootProps({ className: 'dropzone' })}>
+      <div {...getRootProps({ className: "dropzone" })}>
         <input {...getInputProps()} />
         <p>ファイルをドロップ</p>
       </div>
-      <input type="file" name={name} ref={hiddenInputRef} style={{ display: 'none' }} />
+      <input type="file" name={name} ref={hiddenInputRef} style={{ display: "none" }} />
     </>
   );
 }

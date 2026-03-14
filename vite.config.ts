@@ -1,33 +1,34 @@
 import { fileURLToPath, URL } from "node:url";
+import babel from "@rolldown/plugin-babel";
 import tailwindcss from "@tailwindcss/vite";
 import { devtools } from "@tanstack/devtools-vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
-import viteReact from "@vitejs/plugin-react";
+import react, { reactCompilerPreset } from "@vitejs/plugin-react";
 import alchemy from "alchemy/cloudflare/tanstack-start";
-import { defineConfig } from "vite";
-import viteTsConfigPaths from "vite-tsconfig-paths";
+import { defineConfig } from "vite-plus";
 
 const config = defineConfig({
-    resolve: {
-        alias: {
-            "@": fileURLToPath(new URL("./src", import.meta.url)),
-        },
+  staged: {
+    "*": "vp check --fix",
+  },
+  lint: { options: { typeAware: true, typeCheck: true } },
+  resolve: {
+    alias: {
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
-    plugins: [
-        devtools(),
-        alchemy(),
-        tailwindcss(),
-        // this is the plugin that enables path aliases
-        viteTsConfigPaths({
-            projects: ["./tsconfig.json"],
-        }),
-        tanstackStart(),
-        viteReact({
-            babel: {
-                plugins: ["babel-plugin-react-compiler"],
-            },
-        }),
-    ],
+  },
+  plugins: [
+    devtools(),
+    alchemy(),
+    tailwindcss(),
+    tanstackStart(),
+    react(),
+    // @ts-expect-error - @rolldown/plugin-babel の型バグ: Pick<babel.InputOptions,...> が
+    // Pick<any,...> に解決され全フィールドが必須になる（公式 README 通りの使い方）
+    babel({
+      presets: [reactCompilerPreset()],
+    }),
+  ],
 });
 
 export default config;

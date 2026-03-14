@@ -30,10 +30,12 @@ const UserProfile: React.FC<{ userPromise: Promise<User> }> = ({ userPromise }) 
   // useでPromiseの中身を取り出す
   const user: User = use(userPromise);
 
-  return <section>
-    <h1>{user.name}のプロフィール</h1>
-    ...
-  </section>;
+  return (
+    <section>
+      <h1>{user.name}のプロフィール</h1>
+      ...
+    </section>
+  );
 };
 ```
 

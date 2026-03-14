@@ -18,7 +18,7 @@ npm install jotai-trpc @trpc/client @trpc/server
 ### 使用方法
 
 ```ts
-import { createTRPCJotai } from 'jotai-trpc'
+import { createTRPCJotai } from "jotai-trpc";
 
 const trpc = createTRPCJotai<MyRouter>({
   links: [
@@ -26,10 +26,10 @@ const trpc = createTRPCJotai<MyRouter>({
       url: myUrl,
     }),
   ],
-})
+});
 
-const idAtom = atom('foo')
-const queryAtom = trpc.bar.baz.atomWithQuery((get) => get(idAtom))
+const idAtom = atom("foo");
+const queryAtom = trpc.bar.baz.atomWithQuery((get) => get(idAtom));
 ```
 
 ### atomWithQuery
@@ -37,11 +37,11 @@ const queryAtom = trpc.bar.baz.atomWithQuery((get) => get(idAtom))
 `...atomWithQuery` は「クエリ」で新しいアトムを作成します。内部的には [Vanilla クライアント](https://trpc.io/docs/vanilla) の `...query` プロシージャを使用します。
 
 ```tsx
-import { atom, useAtom } from 'jotai'
-import { httpLink } from '@trpc/client'
-import { createTRPCJotai } from 'jotai-trpc'
-import { trpcPokemonUrl } from 'trpc-pokemon'
-import type { PokemonRouter } from 'trpc-pokemon'
+import { atom, useAtom } from "jotai";
+import { httpLink } from "@trpc/client";
+import { createTRPCJotai } from "jotai-trpc";
+import { trpcPokemonUrl } from "trpc-pokemon";
+import type { PokemonRouter } from "trpc-pokemon";
 
 const trpc = createTRPCJotai<PokemonRouter>({
   links: [
@@ -49,26 +49,26 @@ const trpc = createTRPCJotai<PokemonRouter>({
       url: trpcPokemonUrl,
     }),
   ],
-})
+});
 
 const NAMES = [
-  'bulbasaur',
-  'ivysaur',
-  'venusaur',
-  'charmander',
-  'charmeleon',
-  'charizard',
-  'squirtle',
-  'wartortle',
-  'blastoise',
-]
+  "bulbasaur",
+  "ivysaur",
+  "venusaur",
+  "charmander",
+  "charmeleon",
+  "charizard",
+  "squirtle",
+  "wartortle",
+  "blastoise",
+];
 
-const nameAtom = atom(NAMES[0])
+const nameAtom = atom(NAMES[0]);
 
-const pokemonAtom = trpc.pokemon.byId.atomWithQuery((get) => get(nameAtom))
+const pokemonAtom = trpc.pokemon.byId.atomWithQuery((get) => get(nameAtom));
 
 const Pokemon = () => {
-  const [data, refresh] = useAtom(pokemonAtom)
+  const [data, refresh] = useAtom(pokemonAtom);
   return (
     <div>
       <div>ID: {data.id}</div>
@@ -76,8 +76,8 @@ const Pokemon = () => {
       <div>Weight: {data.weight}</div>
       <button onClick={refresh}>Refresh</button>
     </div>
-  )
-}
+  );
+};
 ```
 
 #### 例

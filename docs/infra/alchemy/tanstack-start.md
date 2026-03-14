@@ -211,7 +211,6 @@ declare module "cloudflare:workers" {
 
 The CLI updated the `tsconfig.json` to include `alchemy.run.ts` and register `@cloudflare/workers-types` + `types/env.d.ts` globally
 
-
 :::tip
 The `alchemy.run.ts` script will be run by `node` but still needs to infer the [Binding](/concepts/bindings) types which depends on `@cloudflare/workers-types`:
 :::
@@ -229,7 +228,7 @@ The `alchemy.run.ts` script will be run by `node` but still needs to infer the [
   },
   "include": ["types/**/*.ts", "alchemy.run.ts", "src/**/*.ts"]
 }
-``` 
+```
 
 ### `vite.config.ts`
 
@@ -262,10 +261,10 @@ export default defineConfig({
   ],
 });
 ```
+
 ⚛️React Not Detected
 React is not detected on this page.
 Please ensure you're visiting a React application.
-
 
 Deploy a TanStack Start application to Cloudflare Workers with automatically configured defaults.
 

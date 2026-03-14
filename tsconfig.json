@@ -26,12 +26,8 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@oshicolor/color": ["./packages/color/src/index.ts"],
-      "@oshicolor/image": ["./packages/image/src/index.ts"],
-      "@oshicolor/core": ["./packages/core/src/index.ts"]
+      "@/*": ["./src/*"]
     }
   }
 }

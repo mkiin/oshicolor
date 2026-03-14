@@ -123,13 +123,13 @@ C を C₀ × 0.35 程度に抑えることで、
 ```typescript
 // semantic 色の固定 base（慣習色）
 const SEMANTIC_BASE = {
-    error:   "#e82424",  // samuraiRed
-    warning: "#ff9e3b",  // roninYellow
-    info:    "#658594",  // dragonBlue
-    hint:    "#6a9589",  // waveAqua1
-    gitAdd:  "#76946a",  // autumnGreen
-    gitDel:  "#c34043",  // autumnRed
-    gitChg:  "#dca561",  // autumnYellow
+  error: "#e82424", // samuraiRed
+  warning: "#ff9e3b", // roninYellow
+  info: "#658594", // dragonBlue
+  hint: "#6a9589", // waveAqua1
+  gitAdd: "#76946a", // autumnGreen
+  gitDel: "#c34043", // autumnRed
+  gitChg: "#dca561", // autumnYellow
 };
 
 // bg とブレンドして bg の色温度に馴染ませる
@@ -217,8 +217,8 @@ kanagawa に倣い `"none"` を使うことで「Normal.fg を継承する」こ
 
 ## 優先度まとめ
 
-| 優先度 | 課題 | 理由 |
-|---|---|---|
-| 🔴 高 | 課題 1, 2, 3 | キャラクターテーマとして成立しない根本問題 |
-| 🟡 中 | 課題 4, 5 | Neovim テーマとして使えるレベルに到達するために必要 |
-| 🟢 低 | 課題 6, 7, 8 | 将来の品質向上。現フェーズはスキップ可 |
+| 優先度 | 課題         | 理由                                                |
+| ------ | ------------ | --------------------------------------------------- |
+| 🔴 高  | 課題 1, 2, 3 | キャラクターテーマとして成立しない根本問題          |
+| 🟡 中  | 課題 4, 5    | Neovim テーマとして使えるレベルに到達するために必要 |
+| 🟢 低  | 課題 6, 7, 8 | 将来の品質向上。現フェーズはスキップ可              |

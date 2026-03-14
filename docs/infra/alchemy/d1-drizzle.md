@@ -83,21 +83,23 @@ Build a full-stack application with Drizzle ORM and Cloudflare D1 Database. This
 
    ```typescript
    // src/schema.ts
-   import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+   import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
-   export const users = sqliteTable('users', {
-     id: integer('id').primaryKey({ autoIncrement: true }),
-     name: text('name').notNull(),
-     email: text('email').notNull().unique(),
-     createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
+   export const users = sqliteTable("users", {
+     id: integer("id").primaryKey({ autoIncrement: true }),
+     name: text("name").notNull(),
+     email: text("email").notNull().unique(),
+     createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
    });
 
-   export const posts = sqliteTable('posts', {
-     id: integer('id').primaryKey({ autoIncrement: true }),
-     title: text('title').notNull(),
-     content: text('content').notNull(),
-     authorId: integer('author_id').notNull().references(() => users.id),
-     createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
+   export const posts = sqliteTable("posts", {
+     id: integer("id").primaryKey({ autoIncrement: true }),
+     title: text("title").notNull(),
+     content: text("content").notNull(),
+     authorId: integer("author_id")
+       .notNull()
+       .references(() => users.id),
+     createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
    });
    ```
 
@@ -107,12 +109,12 @@ Build a full-stack application with Drizzle ORM and Cloudflare D1 Database. This
 
    ```typescript
    // drizzle.config.ts
-   import { defineConfig } from 'drizzle-kit';
+   import { defineConfig } from "drizzle-kit";
 
    export default defineConfig({
-     schema: './src/schema.ts',
-     out: './migrations',
-     dialect: 'sqlite',
+     schema: "./src/schema.ts",
+     out: "./migrations",
+     dialect: "sqlite",
    });
    ```
 
@@ -181,34 +183,40 @@ Build a full-stack application with Drizzle ORM and Cloudflare D1 Database. This
 
    ```typescript
    // src/worker.ts
-   import { drizzle } from 'drizzle-orm/d1';
-   import { users } from './schema';
-   import type { worker } from "../alchemy.run.ts"
+   import { drizzle } from "drizzle-orm/d1";
+   import { users } from "./schema";
+   import type { worker } from "../alchemy.run.ts";
 
    // infer the types
-   type Env = typeof worker.Env
+   type Env = typeof worker.Env;
 
    export default {
      async fetch(request: Request, env: Env): Promise<Response> {
        const db = drizzle(env.DB);
-       
+
        // Create a sample user
-       const newUser = await db.insert(users).values({
-         name: 'John Doe',
-         email: 'john@example.com',
-         createdAt: new Date(),
-       }).returning();
-       
+       const newUser = await db
+         .insert(users)
+         .values({
+           name: "John Doe",
+           email: "john@example.com",
+           createdAt: new Date(),
+         })
+         .returning();
+
        // Query all users
        const allUsers = await db.select().from(users);
-       
-       return new Response(JSON.stringify({
-         message: 'Drizzle D1 working!',
-         newUser: newUser[0],
-         allUsers
-       }), {
-         headers: { 'Content-Type': 'application/json' }
-       });
+
+       return new Response(
+         JSON.stringify({
+           message: "Drizzle D1 working!",
+           newUser: newUser[0],
+           allUsers,
+         }),
+         {
+           headers: { "Content-Type": "application/json" },
+         },
+       );
      },
    };
    ```
@@ -249,30 +257,30 @@ Build a full-stack application with Drizzle ORM and Cloudflare D1 Database. This
 
 9. **(Optional) Tear down**
 
-    Clean up all resources when you're done:
+   Clean up all resources when you're done:
 
-    <Tabs syncKey="pkgManager">
-      <TabItem label="bun">
-        ```sh
-        bun alchemy destroy
-        ```
-      </TabItem>
-      <TabItem label="npm">
-        ```sh
-        npx alchemy destroy
-        ```
-      </TabItem>
-      <TabItem label="pnpm">
-        ```sh
-        pnpm alchemy destroy
-        ```
-      </TabItem>
-      <TabItem label="yarn">
-        ```sh
-        yarn alchemy destroy
-        ```
-      </TabItem>
-    </Tabs>
+   <Tabs syncKey="pkgManager">
+     <TabItem label="bun">
+       ```sh
+       bun alchemy destroy
+       ```
+     </TabItem>
+     <TabItem label="npm">
+       ```sh
+       npx alchemy destroy
+       ```
+     </TabItem>
+     <TabItem label="pnpm">
+       ```sh
+       pnpm alchemy destroy
+       ```
+     </TabItem>
+     <TabItem label="yarn">
+       ```sh
+       yarn alchemy destroy
+       ```
+     </TabItem>
+   </Tabs>
 
 </Steps>
 ⚛️React Not Detected

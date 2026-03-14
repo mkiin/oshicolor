@@ -11,8 +11,8 @@ keywords: custom,hook
 #### useSelectAtom
 
 ```js
-import { useAtomValue } from 'jotai'
-import { selectAtom } from 'jotai/utils'
+import { useAtomValue } from "jotai";
+import { selectAtom } from "jotai/utils";
 
 export function useSelectAtom(anAtom, selector) {
   const selectorAtom = selectAtom(
@@ -20,14 +20,14 @@ export function useSelectAtom(anAtom, selector) {
     selector,
     // 必要に応じて `equalityFn` をカスタマイズして再レンダリングのタイミングを制御できます
     // 詳細は selectAtom のシグネチャを確認してください
-  )
-  return useAtomValue(selectorAtom)
+  );
+  return useAtomValue(selectorAtom);
 }
 
 // 使用方法
 function useN(n) {
-  const selector = useCallback((v) => v[n], [n])
-  return useSelectAtom(arrayAtom, selector)
+  const selector = useCallback((v) => v[n], [n]);
+  return useSelectAtom(arrayAtom, selector);
 }
 ```
 
@@ -36,22 +36,22 @@ function useN(n) {
 #### useFreezeAtom
 
 ```js
-import { useAtom } from 'jotai'
-import { freezeAtom } from 'jotai/utils'
+import { useAtom } from "jotai";
+import { freezeAtom } from "jotai/utils";
 
 export function useFreezeAtom(anAtom) {
-  return useAtom(freezeAtom(anAtom))
+  return useAtom(freezeAtom(anAtom));
 }
 ```
 
 #### useSplitAtom
 
 ```js
-import { useAtom } from 'jotai'
-import { splitAtom } from 'jotai/utils'
+import { useAtom } from "jotai";
+import { splitAtom } from "jotai/utils";
 
 export function useSplitAtom(anAtom) {
-  return useAtom(splitAtom(anAtom))
+  return useAtom(splitAtom(anAtom));
 }
 ```
 

@@ -56,18 +56,18 @@ Secrets can be passed to resources like Cloudflare Workers. First, define your w
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
-    
-    if (url.pathname.startsWith('/env/')) {
-      const varName = url.pathname.split('/env/')[1];
+
+    if (url.pathname.startsWith("/env/")) {
+      const varName = url.pathname.split("/env/")[1];
       const value = env[varName];
-      return new Response(value || 'undefined', { 
+      return new Response(value || "undefined", {
         status: 200,
-        headers: { 'Content-Type': 'text/plain' }
+        headers: { "Content-Type": "text/plain" },
       });
     }
-    
-    return new Response('Secret is safe: ' + env.API_KEY, { status: 200 });
-  }
+
+    return new Response("Secret is safe: " + env.API_KEY, { status: 200 });
+  },
 };
 ```
 
@@ -82,7 +82,7 @@ const worker = await Worker("multi-secret-worker", {
   bindings: {
     API_KEY: alchemy.secret(process.env.API_KEY),
     DATABASE_URL: alchemy.secret(process.env.DATABASE_URL),
-    JWT_SECRET: alchemy.secret(process.env.JWT_SECRET)
-  }
+    JWT_SECRET: alchemy.secret(process.env.JWT_SECRET),
+  },
 });
 ```

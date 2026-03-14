@@ -6,32 +6,36 @@
 ## 基本的な使い方
 
 ```jsx
-import { useDropzone } from 'react-dropzone';
+import { useDropzone } from "react-dropzone";
 
 function AcceptDropzone() {
   const { acceptedFiles, fileRejections, getRootProps, getInputProps } = useDropzone({
     accept: {
-      'image/jpeg': [],
-      'image/png': []
-    }
+      "image/jpeg": [],
+      "image/png": [],
+    },
   });
 
-  const acceptedItems = acceptedFiles.map(file => (
-    <li key={file.path}>{file.path} - {file.size} bytes</li>
+  const acceptedItems = acceptedFiles.map((file) => (
+    <li key={file.path}>
+      {file.path} - {file.size} bytes
+    </li>
   ));
 
   const rejectedItems = fileRejections.map(({ file, errors }) => (
     <li key={file.path}>
       {file.path} - {file.size} bytes
       <ul>
-        {errors.map(e => <li key={e.code}>{e.message}</li>)}
+        {errors.map((e) => (
+          <li key={e.code}>{e.message}</li>
+        ))}
       </ul>
     </li>
   ));
 
   return (
     <section>
-      <div {...getRootProps({ className: 'dropzone' })}>
+      <div {...getRootProps({ className: "dropzone" })}>
         <input {...getInputProps()} />
         <p>JPEG/PNG のみ受け付けます</p>
       </div>
@@ -54,8 +58,8 @@ function AcceptDropzone() {
 **パターン**: 派生 atom でエラー有無を表現 + アクション atom でクリア
 
 ```jsx
-import { atom, useAtomValue, useSetAtom } from 'jotai';
-import { useDropzone } from 'react-dropzone';
+import { atom, useAtomValue, useSetAtom } from "jotai";
+import { useDropzone } from "react-dropzone";
 
 // --- atom 定義 ---
 
@@ -67,21 +71,19 @@ const hasRejectionAtom = atom((get) => get(fileRejectionsAtom).length > 0);
 const rejectionCountAtom = atom((get) => get(fileRejectionsAtom).length);
 
 // アクション atom: エラーリストのクリアをカプセル化する
-const clearRejectionsAtom = atom(null, (_get, set) =>
-  set(fileRejectionsAtom, [])
-);
+const clearRejectionsAtom = atom(null, (_get, set) => set(fileRejectionsAtom, []));
 
 // --- コンポーネント ---
 
 function AcceptDropzone() {
   const setRejections = useSetAtom(fileRejectionsAtom);
   const { getRootProps, getInputProps } = useDropzone({
-    accept: { 'image/*': [] },
+    accept: { "image/*": [] },
     onDropRejected: (rejections) => setRejections(rejections),
   });
 
   return (
-    <div {...getRootProps({ className: 'dropzone' })}>
+    <div {...getRootProps({ className: "dropzone" })}>
       <input {...getInputProps()} />
       <p>画像ファイルのみ受け付けます</p>
     </div>

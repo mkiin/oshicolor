@@ -32,9 +32,7 @@ async function fetchUser(): Promise<User> {
   };
 }
 
-function createReloadableAtom<T>(
-  getter: (get: Getter) => T
-) {
+function createReloadableAtom<T>(getter: (get: Getter) => T) {
   const refetchKeyAtom = atom(0);
 
   return atom(
@@ -44,7 +42,7 @@ function createReloadableAtom<T>(
     },
     (get, set) => {
       set(refetchKeyAtom, (key) => key + 1);
-    }
+    },
   );
 }
 
@@ -69,7 +67,9 @@ const UserProfile: React.FC = () => {
     <section>
       <h1>{user.name}さんのプロフィール</h1>
       <p>フォロワー数: {user.followers}</p>
-      <button type="button" onClick={() => reloadUser()}>再読み込み</button>
+      <button type="button" onClick={() => reloadUser()}>
+        再読み込み
+      </button>
     </section>
   );
 };
@@ -163,8 +163,12 @@ const UserSelector: React.FC = () => {
 
   return (
     <div>
-      <button type="button" onClick={() => handleSelectUser("user1")}>ユーザー1を選択</button>
-      <button type="button" onClick={() => handleSelectUser("user2")}>ユーザー2を選択</button>
+      <button type="button" onClick={() => handleSelectUser("user1")}>
+        ユーザー1を選択
+      </button>
+      <button type="button" onClick={() => handleSelectUser("user2")}>
+        ユーザー2を選択
+      </button>
     </div>
   );
 };

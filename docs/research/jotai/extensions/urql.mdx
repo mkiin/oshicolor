@@ -32,76 +32,66 @@ npm install jotai-urql @urql/core wonka
 #### クエリ：
 
 ```tsx
-import { useAtom } from 'jotai'
+import { useAtom } from "jotai";
 
 const countQueryAtom = atomWithQuery<{ count: number }>({
-  query: 'query Count { count }',
+  query: "query Count { count }",
   getClient: () => client, // このオプションは `useRehydrateAtom([[clientAtom, client]])` がグローバルに使用されている場合はオプションです
-})
+});
 
 const Counter = () => {
   // 最初のオペレーション結果が解決されるまでサスペンドします。エラー、部分データ、データのいずれかで解決されます
-  const [operationResult, reexecute] = useAtom(countQueryAtom)
+  const [operationResult, reexecute] = useAtom(countQueryAtom);
 
   if (operationResult.error) {
     // これは上位の ErrorBoundary で処理する必要があります
-    throw operationResult.error
+    throw operationResult.error;
   }
 
   // データはこの時点で undefined の可能性があるため（エラーの場合のみ）、オプショナルチェーンを使用する必要があります
-  return <>{operationResult.data?.count}</>
-}
+  return <>{operationResult.data?.count}</>;
+};
 ```
 
 #### ミューテーション：
 
 ```tsx
-import { useAtom } from 'jotai'
+import { useAtom } from "jotai";
 
 const incrementMutationAtom = atomWithMutation<{ increment: number }>({
-  query: 'mutation Increment { increment }',
-})
+  query: "mutation Increment { increment }",
+});
 
 const Counter = () => {
-  const [operationResult, executeMutation] = useAtom(incrementMutationAtom)
+  const [operationResult, executeMutation] = useAtom(incrementMutationAtom);
   return (
     <div>
-      <button
-        onClick={() =>
-          executeMutation().then((it) => console.log(it.data?.increment))
-        }
-      >
+      <button onClick={() => executeMutation().then((it) => console.log(it.data?.increment))}>
         Increment
       </button>
       <div>{operationResult.data?.increment}</div>
     </div>
-  )
-}
+  );
+};
 ```
 
 ### 関数に渡されるオプションの簡略化された型
 
 ```tsx
-type AtomWithQueryOptions<
-  Data = unknown,
-  Variables extends AnyVariables = AnyVariables,
-> = {
+type AtomWithQueryOptions<Data = unknown, Variables extends AnyVariables = AnyVariables> = {
   // 文字列クエリ、typed-document-node、document node などをサポート
-  query: DocumentInput<Data, Variables>
+  query: DocumentInput<Data, Variables>;
   // ジェネリック/typed-document-node の型に基づいて動的に強制されます
-  getVariables?: (get: Getter) => Variables
-  getContext?: (get: Getter) => Partial<OperationContext>
-  getPause?: (get: Getter) => boolean
-  getClient?: (get: Getter) => Client
-}
+  getVariables?: (get: Getter) => Variables;
+  getContext?: (get: Getter) => Partial<OperationContext>;
+  getPause?: (get: Getter) => boolean;
+  getClient?: (get: Getter) => Client;
+};
 
-type AtomWithMutationOptions<
-  Data = unknown,
-  Variables extends AnyVariables = AnyVariables,
-> = {
-  query: DocumentInput<Data, Variables>
-  getClient?: (get: Getter) => Client
-}
+type AtomWithMutationOptions<Data = unknown, Variables extends AnyVariables = AnyVariables> = {
+  query: DocumentInput<Data, Variables>;
+  getClient?: (get: Getter) => Client;
+};
 
 // サブスクリプションの型は AtomWithQueryOptions と同じです
 ```
@@ -111,13 +101,13 @@ type AtomWithMutationOptions<
 より安定していることが証明されているため、代わりに `import { loadable } from "jotai/utils"` の使用が推奨されます。ただし、それでも無効にしたい場合は以下のように行います：
 
 ```tsx
-import { suspenseAtom } from 'jotai-urql'
+import { suspenseAtom } from "jotai-urql";
 
 export const App = () => {
   // アプリ全体のサスペンスを無効にします
-  useHydrateAtoms([[suspenseAtom, false]])
-  return <Counter />
-}
+  useHydrateAtoms([[suspenseAtom, false]]);
+  return <Counter />;
+};
 ```
 
 ### 便利なヘルパーフック
@@ -130,17 +120,14 @@ export const App = () => {
 型がオーバーライドされているため、`data` はクエリ自体の期待する戻り型でない限り、`undefined` にも `null` にもなりません。
 
 ```tsx
-import type { AnyVariables, OperationResult } from '@urql/core'
-import { useAtom } from 'jotai'
-import type { AtomWithQuery } from 'jotai-urql'
+import type { AnyVariables, OperationResult } from "@urql/core";
+import { useAtom } from "jotai";
+import type { AtomWithQuery } from "jotai-urql";
 
-export const useQueryAtomData = <
-  Data = unknown,
-  Variables extends AnyVariables = AnyVariables,
->(
+export const useQueryAtomData = <Data = unknown, Variables extends AnyVariables = AnyVariables>(
   queryAtom: AtomWithQuery<Data, Variables>,
 ) => {
-  const [opResult, dispatch] = useAtom(queryAtom)
+  const [opResult, dispatch] = useAtom(queryAtom);
 
   if (opResult.error && opResult.stale) {
     use(
@@ -150,52 +137,52 @@ export const useQueryAtomData = <
       // (Jotai URQL バインディングのみ)。
       // eslint-disable-next-line promise/avoid-new
       new Promise((resolve) => {
-        setTimeout(resolve, 10000) // このタイムアウト時間は新しいオペレーション結果が来るまで
+        setTimeout(resolve, 10000); // このタイムアウト時間は新しいオペレーション結果が来るまで
         // このコンポーネントをサスペンドし続けます。10秒後には単純にコンポーネント自体のレンダリングを試み、
         // 無限ループで再びサスペンドします
       }),
-    )
+    );
   }
 
   if (opResult.error) {
-    throw opResult.error
+    throw opResult.error;
   }
 
   if (!opResult.data) {
     throw Error(
-      'Query data is undefined. Probably you paused the query? In that case use `useQueryAtom` instead.',
-    )
+      "Query data is undefined. Probably you paused the query? In that case use `useQueryAtom` instead.",
+    );
   }
   return [opResult.data, dispatch, opResult] as [
     Exclude<typeof opResult.data, undefined>,
     typeof dispatch,
     typeof opResult,
-  ]
-}
+  ];
+};
 
 // Promise が解決中にツリーをサスペンド（React の次のバージョンでは不要になります）
 function use(promise: Promise<any> | any) {
-  if (promise.status === 'fulfilled') {
-    return promise.value
+  if (promise.status === "fulfilled") {
+    return promise.value;
   }
-  if (promise.status === 'rejected') {
-    throw promise.reason
-  } else if (promise.status === 'pending') {
-    throw promise
+  if (promise.status === "rejected") {
+    throw promise.reason;
+  } else if (promise.status === "pending") {
+    throw promise;
   } else {
-    promise.status = 'pending'
+    promise.status = "pending";
     // eslint-disable-next-line promise/catch-or-return
-    ;(promise as Promise<any>).then(
+    (promise as Promise<any>).then(
       (result: any) => {
-        promise.status = 'fulfilled'
-        promise.value = result
+        promise.status = "fulfilled";
+        promise.value = result;
       },
       (reason: any) => {
-        promise.status = 'rejected'
-        promise.reason = reason
+        promise.status = "rejected";
+        promise.reason = reason;
       },
-    )
-    throw promise
+    );
+    throw promise;
   }
 }
 ```
@@ -211,30 +198,25 @@ function use(promise: Promise<any> | any) {
 この手順なしでは、`atomWithQuery` を使用するたびにクライアントを指定しなければならない場合があります。これにより、オプションの `getClient` パラメータを無視して、コンテキストからクライアントを使用できるようになります。
 
 ```jsx
-import { Suspense } from 'react'
-import { Provider } from 'jotai/react'
-import { useHydrateAtoms } from 'jotai/react/utils'
-import { clientAtom } from 'jotai-urql'
+import { Suspense } from "react";
+import { Provider } from "jotai/react";
+import { useHydrateAtoms } from "jotai/react/utils";
+import { clientAtom } from "jotai-urql";
 
-import {
-  createClient,
-  cacheExchange,
-  fetchExchange,
-  Provider as UrqlProvider,
-} from 'urql'
+import { createClient, cacheExchange, fetchExchange, Provider as UrqlProvider } from "urql";
 
 const urqlClient = createClient({
-  url: 'https://countries.trevorblades.com/',
+  url: "https://countries.trevorblades.com/",
   exchanges: [cacheExchange, fetchExchange],
   fetchOptions: () => {
-    return { headers: {} }
+    return { headers: {} };
   },
-})
+});
 
 const HydrateAtoms = ({ children }) => {
-  useHydrateAtoms([[clientAtom, urqlClient]])
-  return children
-}
+  useHydrateAtoms([[clientAtom, urqlClient]]);
+  return children;
+};
 
 export default function MyApp({ Component, pageProps }) {
   return (
@@ -247,6 +229,6 @@ export default function MyApp({ Component, pageProps }) {
         </HydrateAtoms>
       </Provider>
     </UrqlProvider>
-  )
+  );
 }
 ```

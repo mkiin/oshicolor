@@ -25,15 +25,15 @@ const SubTree = () => (
   <Provider>
     <Child />
   </Provider>
-)
+);
 ```
 
 ### シグネチャ
 
 ```ts
 const Provider: React.FC<{
-  store?: Store
-}>
+  store?: Store;
+}>;
 ```
 
 アトムコンフィグは値を保持しません。アトムの値は別のストアに存在します。Provider はストアを含み、コンポーネントツリー下にアトムの値を提供するコンポーネントです。Provider は React コンテキストプロバイダーのように機能します。Provider を使用しない場合、デフォルトストアを使用したプロバイダーレスモードで動作します。異なるコンポーネントツリーに異なるアトムの値を保持する必要がある場合は Provider が必要です。Provider はオプションの prop `store` を受け取れます。
@@ -43,7 +43,7 @@ const Root = () => (
   <Provider>
     <App />
   </Provider>
-)
+);
 ```
 
 ### `store` prop
@@ -53,13 +53,13 @@ Provider はオプションの prop `store` を受け取れます。Provider の
 #### 例
 
 ```jsx
-const myStore = createStore()
+const myStore = createStore();
 
 const Root = () => (
   <Provider store={myStore}>
     <App />
   </Provider>
-)
+);
 ```
 
 ## useStore
@@ -68,7 +68,7 @@ const Root = () => (
 
 ```jsx
 const Component = () => {
-  const store = useStore()
+  const store = useStore();
   // ...
-}
+};
 ```

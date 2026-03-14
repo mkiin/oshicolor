@@ -6,27 +6,27 @@
 ## 基本的な使い方
 
 ```jsx
-import { useState } from 'react';
-import { useDropzone } from 'react-dropzone';
+import { useState } from "react";
+import { useDropzone } from "react-dropzone";
 
 function OuterDropzone() {
   const [outerFiles, setOuterFiles] = useState([]);
   const [innerFiles, setInnerFiles] = useState([]);
 
   const { getRootProps: outerRootProps, getInputProps: outerInputProps } = useDropzone({
-    onDrop: files => setOuterFiles(files),
+    onDrop: (files) => setOuterFiles(files),
   });
 
   const { getRootProps: innerRootProps, getInputProps: innerInputProps } = useDropzone({
     noDragEventsBubbling: true, // outer の onDrop を発火させない
-    onDrop: files => setInnerFiles(files),
+    onDrop: (files) => setInnerFiles(files),
   });
 
   return (
-    <div {...outerRootProps({ className: 'dropzone outer' })}>
+    <div {...outerRootProps({ className: "dropzone outer" })}>
       <input {...outerInputProps()} />
       <p>Outer dropzone</p>
-      <div {...innerRootProps({ className: 'dropzone inner' })}>
+      <div {...innerRootProps({ className: "dropzone inner" })}>
         <input {...innerInputProps()} />
         <p>Inner dropzone</p>
       </div>
@@ -45,9 +45,9 @@ function OuterDropzone() {
 固定の 2 個ではなく、ID ベースで任意の数の Dropzone を管理できる設計。
 
 ```jsx
-import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { atomFamily, splitAtom } from 'jotai/utils';
-import { useDropzone } from 'react-dropzone';
+import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
+import { atomFamily, splitAtom } from "jotai/utils";
+import { useDropzone } from "react-dropzone";
 
 // --- atom 定義 ---
 
@@ -58,9 +58,7 @@ const dropzoneFilesFamily = atomFamily((id) => atom([]));
 
 // splitAtom: ファイルリスト atom を個別ファイルの atom の配列に分解する
 // これにより個別ファイルの削除が O(1) で行え、削除されたファイルだけが再レンダリングされる
-const dropzoneFileAtomsFamily = atomFamily((id) =>
-  splitAtom(dropzoneFilesFamily(id))
-);
+const dropzoneFileAtomsFamily = atomFamily((id) => splitAtom(dropzoneFilesFamily(id)));
 
 // --- コンポーネント ---
 
@@ -95,10 +93,7 @@ function FileItem({ fileAtom, dispatch }) {
     <li>
       {file.name}
       {/* splitAtom の dispatch を使って特定のファイルだけを削除 */}
-      <button
-        type="button"
-        onClick={() => dispatch({ type: 'remove', atom: fileAtom })}
-      >
+      <button type="button" onClick={() => dispatch({ type: "remove", atom: fileAtom })}>
         ×
       </button>
     </li>
@@ -117,8 +112,8 @@ function NestedDropzones() {
 
 // 任意の場所でファイル状況を集計できる
 function DropzoneSummary() {
-  const outerFiles = useAtomValue(dropzoneFilesFamily('outer'));
-  const innerFiles = useAtomValue(dropzoneFilesFamily('inner'));
+  const outerFiles = useAtomValue(dropzoneFilesFamily("outer"));
+  const innerFiles = useAtomValue(dropzoneFilesFamily("inner"));
 
   return (
     <div>

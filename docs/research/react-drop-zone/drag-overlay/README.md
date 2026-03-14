@@ -5,14 +5,14 @@
 ## 基本的な使い方
 
 ```jsx
-import { useDropzone } from 'react-dropzone';
+import { useDropzone } from "react-dropzone";
 
 function DropzoneWithOverlay() {
   const { getRootProps, getInputProps, isDragGlobal } = useDropzone();
 
   return (
     <div>
-      <div {...getRootProps({ className: 'dropzone' })}>
+      <div {...getRootProps({ className: "dropzone" })}>
         <input {...getInputProps()} />
         <p>ここにドロップ</p>
       </div>
@@ -21,9 +21,9 @@ function DropzoneWithOverlay() {
       {isDragGlobal && (
         <div
           style={{
-            position: 'fixed',
+            position: "fixed",
             inset: 0,
-            background: 'rgba(0, 0, 255, 0.1)',
+            background: "rgba(0, 0, 255, 0.1)",
             zIndex: 9999,
           }}
         >
@@ -43,9 +43,9 @@ Dropzone 直下にオーバーレイを書くだけなら atom は不要。
 **パターン**: Write atom で橋渡しをカプセル化し、別コンポーネントのオーバーレイを制御する
 
 ```jsx
-import { useEffect } from 'react';
-import { atom, useAtomValue, useSetAtom } from 'jotai';
-import { useDropzone } from 'react-dropzone';
+import { useEffect } from "react";
+import { atom, useAtomValue, useSetAtom } from "jotai";
+import { useDropzone } from "react-dropzone";
 
 // --- atom 定義 ---
 
@@ -72,7 +72,7 @@ function DropzoneWithOverlaySignal() {
   }, [isDragGlobal, setDragState]);
 
   return (
-    <div {...getRootProps({ className: 'dropzone' })}>
+    <div {...getRootProps({ className: "dropzone" })}>
       <input {...getInputProps()} />
       <p>ここにドロップ</p>
     </div>
@@ -87,9 +87,9 @@ function GlobalDragOverlay() {
   return (
     <div
       style={{
-        position: 'fixed',
+        position: "fixed",
         inset: 0,
-        background: 'rgba(0, 0, 255, 0.1)',
+        background: "rgba(0, 0, 255, 0.1)",
         zIndex: 9999,
       }}
     >

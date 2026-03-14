@@ -23,9 +23,7 @@ const filesAtom = atom([]);
 // あるべき姿 - 派生 atom で関連する状態を計算
 const filesAtom = atom([]);
 const hasFilesAtom = atom((get) => get(filesAtom).length > 0);
-const totalSizeAtom = atom((get) =>
-  get(filesAtom).reduce((sum, f) => sum + f.size, 0)
-);
+const totalSizeAtom = atom((get) => get(filesAtom).reduce((sum, f) => sum + f.size, 0));
 ```
 
 ### 問題 2: アクション atom（Write-Only Atom）が一切ない
@@ -36,25 +34,27 @@ const totalSizeAtom = atom((get) =>
 ```javascript
 // 現状 - コンポーネントに URL cleanup ロジックが漏れる
 const { getRootProps } = useDropzone({
-  onDrop: acceptedFiles => {
-    setFiles(acceptedFiles.map(f => Object.assign(f, { preview: URL.createObjectURL(f) })));
+  onDrop: (acceptedFiles) => {
+    setFiles(acceptedFiles.map((f) => Object.assign(f, { preview: URL.createObjectURL(f) })));
     // cleanup はどこかの useEffect で...（場所が散らばる）
-  }
+  },
 });
 
 // あるべき姿 - Write atom に副作用を閉じ込める
 const updateFilesAtom = atom(null, (get, set, newFiles) => {
   // 旧 URL を revoke してから新ファイルをセット（副作用がここに集約される）
-  get(filesWithPreviewAtom).forEach(f => URL.revokeObjectURL(f.preview));
-  set(filesWithPreviewAtom, newFiles.map(f =>
-    Object.assign(f, { preview: URL.createObjectURL(f) })
-  ));
+  get(filesWithPreviewAtom).forEach((f) => URL.revokeObjectURL(f.preview));
+  set(
+    filesWithPreviewAtom,
+    newFiles.map((f) => Object.assign(f, { preview: URL.createObjectURL(f) })),
+  );
 });
 ```
 
 ### 問題 3: `file-dialog` の関数-as-updater バグ
 
 Jotai の setter に関数を渡すと「現在値からの更新関数」として扱われる。
+
 ```javascript
 // バグ: setOpenDialog(() => open) は
 // Jotai が (prev) => open として解釈し、結果として open が格納される。
@@ -97,10 +97,8 @@ openDialog?.fn(); // 呼び出し側
 ```javascript
 const filesAtom = atom([]);
 // 派生 atom - 合成の基本
-const hasFilesAtom   = atom((get) => get(filesAtom).length > 0);
-const totalSizeAtom  = atom((get) =>
-  get(filesAtom).reduce((sum, f) => sum + f.size, 0)
-);
+const hasFilesAtom = atom((get) => get(filesAtom).length > 0);
+const totalSizeAtom = atom((get) => get(filesAtom).reduce((sum, f) => sum + f.size, 0));
 // アクション atom - ファイルクリア
 const clearFilesAtom = atom(null, (_get, set) => set(filesAtom, []));
 ```
@@ -114,7 +112,7 @@ const clearFilesAtom = atom(null, (_get, set) => set(filesAtom, []));
 
 ```javascript
 const fileRejectionsAtom = atom([]);
-const hasRejectionAtom   = atom((get) => get(fileRejectionsAtom).length > 0);
+const hasRejectionAtom = atom((get) => get(fileRejectionsAtom).length > 0);
 const clearRejectionsAtom = atom(null, (_get, set) => set(fileRejectionsAtom, []));
 ```
 
@@ -132,7 +130,9 @@ const setDragStateAtom = atom(null, (_get, set, isDragging) => {
   set(isDraggingGloballyAtom, isDragging);
 });
 // useEffect は外部ライブラリ→Jotai の橋渡しとして唯一正当なパターン
-useEffect(() => { setDragState(isDragGlobal); }, [isDragGlobal]);
+useEffect(() => {
+  setDragState(isDragGlobal);
+}, [isDragGlobal]);
 ```
 
 ---
@@ -153,7 +153,7 @@ useEffect(() => {
 
 // 呼び出し側
 const dialog = useAtomValue(openFileDialogAtom);
-<button onClick={() => dialog?.fn()}>Upload</button>
+<button onClick={() => dialog?.fn()}>Upload</button>;
 ```
 
 ---
@@ -170,7 +170,11 @@ const isSubmittableAtom = atom((get) => get(pendingFilesAtom).length > 0);
 // 送信ボタンは derived atom で disabled を制御
 function SubmitButton() {
   const isSubmittable = useAtomValue(isSubmittableAtom);
-  return <button type="submit" disabled={!isSubmittable}>送信</button>;
+  return (
+    <button type="submit" disabled={!isSubmittable}>
+      送信
+    </button>
+  );
 }
 ```
 
@@ -182,9 +186,9 @@ function SubmitButton() {
 **新**: `atomWithStorage` でページリロード後も設定が残る
 
 ```javascript
-import { atomWithStorage } from 'jotai/utils';
+import { atomWithStorage } from "jotai/utils";
 
-const maxFilesAtom = atomWithStorage('dropzone-max-files', 2);
+const maxFilesAtom = atomWithStorage("dropzone-max-files", 2);
 // ページをリロードしても設定値が localStorage から復元される
 ```
 
@@ -200,10 +204,11 @@ const filesWithPreviewAtom = atom([]); // 生の値を保持する base atom
 
 // Write atom: 旧 URL の revoke と新ファイルのセットをアトミックに実行
 const setPreviewFilesAtom = atom(null, (get, set, newFiles) => {
-  get(filesWithPreviewAtom).forEach(f => URL.revokeObjectURL(f.preview));
-  set(filesWithPreviewAtom, newFiles.map(f =>
-    Object.assign(f, { preview: URL.createObjectURL(f) })
-  ));
+  get(filesWithPreviewAtom).forEach((f) => URL.revokeObjectURL(f.preview));
+  set(
+    filesWithPreviewAtom,
+    newFiles.map((f) => Object.assign(f, { preview: URL.createObjectURL(f) })),
+  );
 });
 
 // Dropzone は setPreviewFilesAtom だけ使う（cleanup 不要）
@@ -219,10 +224,7 @@ const { getRootProps, getInputProps } = useDropzone({ onDrop: setPreviewFiles })
 **新**: `atomWithStorage` で MIME タイプ設定を永続化
 
 ```javascript
-const acceptedMimeTypesAtom = atomWithStorage(
-  'dropzone-accepted-mime',
-  { 'image/*': [] }
-);
+const acceptedMimeTypesAtom = atomWithStorage("dropzone-accepted-mime", { "image/*": [] });
 ```
 
 ---
@@ -259,14 +261,12 @@ const { ... } = useDropzone({ validator });
 **新**: `atomFamily` で n 個の dropzone を柔軟に管理 + `splitAtom` で個別ファイル削除
 
 ```javascript
-import { atom } from 'jotai';
-import { atomFamily, splitAtom } from 'jotai/utils';
+import { atom } from "jotai";
+import { atomFamily, splitAtom } from "jotai/utils";
 
 // 任意の ID を持つ dropzone のファイルリスト
 const dropzoneFilesFamily = atomFamily((id) => atom([]));
-const dropzoneFileAtomsFamily = atomFamily((id) =>
-  splitAtom(dropzoneFilesFamily(id))
-);
+const dropzoneFileAtomsFamily = atomFamily((id) => splitAtom(dropzoneFilesFamily(id)));
 
 function Dropzone({ id }) {
   const setFiles = useSetAtom(dropzoneFilesFamily(id));
@@ -298,7 +298,7 @@ const enrichFilesAtom = atom(null, async (_get, set, event) => {
   const files = [];
   for (let i = 0; i < fileList.length; i++) {
     const file = fileList.item(i);
-    Object.defineProperty(file, 'myProp', { value: true });
+    Object.defineProperty(file, "myProp", { value: true });
     files.push(file);
   }
   set(enrichedFilesAtom, files);
@@ -341,31 +341,29 @@ const updateEditedFileAtom = atom(null, (get, set, { index, dest }) => {
 
 ```javascript
 const filesAtom = atom([]);
-const totalSizeAtom = atom((get) =>
-  get(filesAtom).reduce((sum, f) => sum + f.size, 0)
-);
+const totalSizeAtom = atom((get) => get(filesAtom).reduce((sum, f) => sum + f.size, 0));
 ```
 
 ---
 
 ## 対象ファイル一覧
 
-| ファイル | 変更内容 |
-|---|---|
-| `basic/README.md` | 派生 atom + アクション atom を追加 |
-| `accept/README.md` | 派生 atom + clear アクション atom を追加 |
-| `drag-overlay/README.md` | Write atom でカプセル化、useEffect の正当性を説明 |
-| `file-dialog/README.md` | 関数をオブジェクトで包んでバグ修正 |
-| `forms/README.md` | 派生 atom で送信可否を表現 |
-| `maxFiles/README.md` | `atomWithStorage` で永続化 |
-| `previews/README.md` | Write atom で URL lifecycle を閉じ込める（最重要） |
-| `styling/README.md` | `atomWithStorage` で永続化 |
-| `validator/README.md` | `atomWithStorage` + 派生 atom でバリデーター生成 |
-| `events/README.md` | `atomFamily` + `splitAtom` で n 個の dropzone 管理 |
-| `plugins/README.md` | Write atom でカプセル化 |
-| `pintura/README.md` | Write atom で URL lifecycle を管理 |
-| `class-component/README.md` | 変更なし（解説を加筆） |
-| `no-jsx/README.md` | 派生 atom を追加 |
+| ファイル                    | 変更内容                                           |
+| --------------------------- | -------------------------------------------------- |
+| `basic/README.md`           | 派生 atom + アクション atom を追加                 |
+| `accept/README.md`          | 派生 atom + clear アクション atom を追加           |
+| `drag-overlay/README.md`    | Write atom でカプセル化、useEffect の正当性を説明  |
+| `file-dialog/README.md`     | 関数をオブジェクトで包んでバグ修正                 |
+| `forms/README.md`           | 派生 atom で送信可否を表現                         |
+| `maxFiles/README.md`        | `atomWithStorage` で永続化                         |
+| `previews/README.md`        | Write atom で URL lifecycle を閉じ込める（最重要） |
+| `styling/README.md`         | `atomWithStorage` で永続化                         |
+| `validator/README.md`       | `atomWithStorage` + 派生 atom でバリデーター生成   |
+| `events/README.md`          | `atomFamily` + `splitAtom` で n 個の dropzone 管理 |
+| `plugins/README.md`         | Write atom でカプセル化                            |
+| `pintura/README.md`         | Write atom で URL lifecycle を管理                 |
+| `class-component/README.md` | 変更なし（解説を加筆）                             |
+| `no-jsx/README.md`          | 派生 atom を追加                                   |
 
 ---
 
@@ -373,6 +371,7 @@ const totalSizeAtom = atom((get) =>
 
 対象はドキュメントファイルのみ（`.md` ファイル）なのでコード実行は不要。
 書き直し後に以下を確認する：
+
 1. Jotai の derived atom パターンが各ファイルで正しく示されているか
 2. Write atom（action atom）のシグネチャが正しいか（`atom(null, (get, set, payload) => ...)`)
 3. `atomWithStorage` のインポート元が正しいか（`jotai/utils`）

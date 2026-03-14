@@ -15,16 +15,16 @@ R1 で抽出した `ColorPoint[]` を受け取り、Neovim カラースキーム
 // 入力（R1 から受け取る）
 type ColorPoint = {
   id: number;
-  x: number;      // 正規化座標（0〜1）
-  y: number;      // 正規化座標（0〜1）
-  color: string;  // "#RRGGBB"
+  x: number; // 正規化座標（0〜1）
+  y: number; // 正規化座標（0〜1）
+  color: string; // "#RRGGBB"
   name?: string;
 };
 
 // ハイライトグループの属性
 type HighlightAttr = {
-  fg?: string;         // "#RRGGBB"
-  bg?: string;         // "#RRGGBB"
+  fg?: string; // "#RRGGBB"
+  bg?: string; // "#RRGGBB"
   bold?: boolean;
   italic?: boolean;
   underline?: boolean;
@@ -46,30 +46,30 @@ type ThemeVariants = {
 
 ### 直接割り当て（抽出色から選ぶ）
 
-| グループ | 意味 | 典型的な色 |
-|---|---|---|
-| `Normal` | 背景・前景（基準） | bg=最暗色, fg=最明色 |
-| `Comment` | コメント文字色 | 低彩度・中明度 |
-| `String` | 文字列リテラル | 緑系（H 90〜150） |
-| `Function` | 関数・メソッド名 | 黄/橙系（H 30〜90） |
-| `Keyword` | 予約語 | 青/紫系（H 210〜330） |
-| `Type` | 型名・クラス名 | 青緑系（H 150〜210） |
-| `Number` | 数値・Boolean | 黄/橙系（Function に近い） |
-| `Special` | 特殊記号・エスケープ | ピンク/赤系（H 330〜30） |
+| グループ   | 意味                 | 典型的な色                 |
+| ---------- | -------------------- | -------------------------- |
+| `Normal`   | 背景・前景（基準）   | bg=最暗色, fg=最明色       |
+| `Comment`  | コメント文字色       | 低彩度・中明度             |
+| `String`   | 文字列リテラル       | 緑系（H 90〜150）          |
+| `Function` | 関数・メソッド名     | 黄/橙系（H 30〜90）        |
+| `Keyword`  | 予約語               | 青/紫系（H 210〜330）      |
+| `Type`     | 型名・クラス名       | 青緑系（H 150〜210）       |
+| `Number`   | 数値・Boolean        | 黄/橙系（Function に近い） |
+| `Special`  | 特殊記号・エスケープ | ピンク/赤系（H 330〜30）   |
 
 ### 派生（計算で生成）
 
-| グループ | 派生元 | 生成方法 |
-|---|---|---|
-| `Variable` | `Normal.fg` | そのまま使用 |
-| `Operator` | `Keyword` | 同色または OKLch L ±5% |
-| `Boolean` | `Number` | 同色 |
-| `CursorLine` | `Normal.bg` | OKLch L +4% |
-| `Visual` | `Normal.bg` | OKLch L +8% |
-| `LineNr` | `Comment` | 同色 |
-| `CursorLineNr` | `Normal.fg` | OKLch L -10% |
-| `Pmenu` | `Normal.bg` | OKLch L +3% |
-| `PmenuSel` | 最高彩度の accent 色 | bg として使用 |
+| グループ       | 派生元               | 生成方法               |
+| -------------- | -------------------- | ---------------------- |
+| `Variable`     | `Normal.fg`          | そのまま使用           |
+| `Operator`     | `Keyword`            | 同色または OKLch L ±5% |
+| `Boolean`      | `Number`             | 同色                   |
+| `CursorLine`   | `Normal.bg`          | OKLch L +4%            |
+| `Visual`       | `Normal.bg`          | OKLch L +8%            |
+| `LineNr`       | `Comment`            | 同色                   |
+| `CursorLineNr` | `Normal.fg`          | OKLch L -10%           |
+| `Pmenu`        | `Normal.bg`          | OKLch L +3%            |
+| `PmenuSel`     | 最高彩度の accent 色 | bg として使用          |
 
 ---
 
@@ -100,14 +100,14 @@ const toOklch = (hex: string) => oklch(parse(hex));
 
 各 accent 候補色の H 値を下表のレンジに照合し、グループを決定する。
 
-| H レンジ | 優先割り当てグループ |
-|---|---|
-| 330〜360 / 0〜30 | `Special` |
-| 30〜90 | `Function`, `Number` |
-| 90〜150 | `String` |
-| 150〜210 | `Type` |
-| 210〜270 | `Keyword` |
-| 270〜330 | `Keyword`（青紫）/ `Operator` |
+| H レンジ         | 優先割り当てグループ          |
+| ---------------- | ----------------------------- |
+| 330〜360 / 0〜30 | `Special`                     |
+| 30〜90           | `Function`, `Number`          |
+| 90〜150          | `String`                      |
+| 150〜210         | `Type`                        |
+| 210〜270         | `Keyword`                     |
+| 270〜330         | `Keyword`（青紫）/ `Operator` |
 
 - 各レンジに候補色が複数ある場合: **最高彩度の色** を採用する
 - 候補がない場合: **最も Hue 距離が近い accent 色** を代用する
@@ -135,7 +135,7 @@ const shiftLightness = (hex: string, delta: number): string => {
 const cursorLine = shiftLightness(normalBg, 0.04);
 const visual = shiftLightness(normalBg, 0.08);
 const pmenu = shiftLightness(normalBg, 0.03);
-const cursorLineNr = shiftLightness(normalFg, -0.10);
+const cursorLineNr = shiftLightness(normalFg, -0.1);
 ```
 
 ---
@@ -168,33 +168,33 @@ const invertForLight = (hex: string, isFg: boolean): string => {
 
 5色のみの場合はハイライトグループが不足する。以下の優先度で割り当てる。
 
-| 優先度 | 割り当て先 | 方法 |
-|---|---|---|
-| 1 | `Normal.bg` | 最小 L の色 |
-| 2 | `Normal.fg` | 最大 L の色 |
-| 3 | `Comment.fg` | 最小 C の残り色 |
-| 4 | `Keyword.fg` | 最高彩度の青紫系（H 210〜330）または彩度最大色 |
-| 5 | `String.fg` | 2番目の accent 色 |
-| 派生 | `Function`, `Type`, `Number` | `String` または `Keyword` から Hue 固定・L 調整で生成 |
+| 優先度 | 割り当て先                   | 方法                                                  |
+| ------ | ---------------------------- | ----------------------------------------------------- |
+| 1      | `Normal.bg`                  | 最小 L の色                                           |
+| 2      | `Normal.fg`                  | 最大 L の色                                           |
+| 3      | `Comment.fg`                 | 最小 C の残り色                                       |
+| 4      | `Keyword.fg`                 | 最高彩度の青紫系（H 210〜330）または彩度最大色        |
+| 5      | `String.fg`                  | 2番目の accent 色                                     |
+| 派生   | `Function`, `Type`, `Number` | `String` または `Keyword` から Hue 固定・L 調整で生成 |
 
 ---
 
 ## 依存パッケージ
 
-| パッケージ | バージョン | 用途 |
-|---|---|---|
-| `culori` | ^4.0.2 | OKLch 変換・Hue/L/C 操作（R1 と共用） |
+| パッケージ | バージョン | 用途                                  |
+| ---------- | ---------- | ------------------------------------- |
+| `culori`   | ^4.0.2     | OKLch 変換・Hue/L/C 操作（R1 と共用） |
 
 **新規パッケージの追加なし。**
 
 ### 調査・不採用ライブラリ
 
-| ライブラリ | 不採用理由 |
-|---|---|
+| ライブラリ                           | 不採用理由                                                                                                          |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
 | `@material/material-color-utilities` | 単一ソースカラーから Material Design ロールを生成する設計。我々は既に抽出済みの多色パレットを持つため用途が合わない |
-| `dittoTones` | 既存デザインシステムの L/C カーブをコピーしてパレットを生成するツール。ロール割り当てには不要 |
-| `color-harmony` / `colord` | 補色・類似色のハーモニー生成用。Hue 分類には不要 |
-| `iwanthue` | 知覚的に均一なパレット生成ツール。R1 で色は既に抽出済み |
+| `dittoTones`                         | 既存デザインシステムの L/C カーブをコピーしてパレットを生成するツール。ロール割り当てには不要                       |
+| `color-harmony` / `colord`           | 補色・類似色のハーモニー生成用。Hue 分類には不要                                                                    |
+| `iwanthue`                           | 知覚的に均一なパレット生成ツール。R1 で色は既に抽出済み                                                             |
 
 R2 の核心は「Hue レンジによるカスタム分類」であり、汎用セマンティックロール割り当てライブラリとはユースケースが異なる。`culori` が提供する OKLch 操作だけで全ステップを実装できる。
 
@@ -230,9 +230,9 @@ export type ThemeVariants = { dark: HighlightMap; light: HighlightMap };
 // レンジを変更する際はここだけ修正する
 export const HUE_RULES: Array<{ min: number; max: number; group: string }> = [
   { min: 330, max: 360, group: "Special" },
-  { min: 0,   max: 30,  group: "Special" },
-  { min: 30,  max: 90,  group: "Function" },
-  { min: 90,  max: 150, group: "String" },
+  { min: 0, max: 30, group: "Special" },
+  { min: 30, max: 90, group: "Function" },
+  { min: 90, max: 150, group: "String" },
   { min: 150, max: 210, group: "Type" },
   { min: 210, max: 270, group: "Keyword" },
   { min: 270, max: 330, group: "Keyword" },

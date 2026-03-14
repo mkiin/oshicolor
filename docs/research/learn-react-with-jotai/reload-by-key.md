@@ -37,7 +37,9 @@ const ReloadButton: React.FC = () => {
   };
 
   return (
-    <button type="button" onClick={handleReload}>再読み込み</button>
+    <button type="button" onClick={handleReload}>
+      再読み込み
+    </button>
   );
 };
 ```
@@ -66,7 +68,9 @@ const ReloadButton: React.FC = () => {
     reloadUser(); // 再読み込みを発生させる
   };
   return (
-    <button type="button" onClick={handleReload}>再読み込み</button>
+    <button type="button" onClick={handleReload}>
+      再読み込み
+    </button>
   );
 };
 ```
@@ -94,7 +98,7 @@ const ReloadButton: React.FC = () => {
 つまり、React目線での考え方はこうです。
 
 - データ取得もUIの計算の一部であり、UIの計算は純粋でなければならない。
-- したがって、必然的にデータ取得も純粋な計算であり、同じパラメータに対しては同じ結果が得られるはずだ。 
+- したがって、必然的にデータ取得も純粋な計算であり、同じパラメータに対しては同じ結果が得られるはずだ。
 
 そして、この**React目線に合わせた実装**が、データ取得結果のキャッシュということになります。前記の仮定のもと、Reactは再レンダリングのたびに「データ取得という計算」を毎回再実行していると考えていいのだけど、実装目線だと愚直にそれをやると毎回結果が変わってしまう（恐れがある）ので、キャッシュを駆使してReactの要望どおりにデータ取得が純粋かのように振る舞わせている、というわけです。
 
@@ -151,9 +155,7 @@ function createReloadableAtom<T>(
 :::details 答え
 
 ```tsx
-function createReloadableAtom<T>(
-  getter: (get: Getter) => T
-) {
+function createReloadableAtom<T>(getter: (get: Getter) => T) {
   const refetchKeyAtom = atom(0);
 
   return atom(
@@ -163,7 +165,7 @@ function createReloadableAtom<T>(
     },
     (get, set) => {
       set(refetchKeyAtom, (key) => key + 1);
-    }
+    },
   );
 }
 
@@ -182,7 +184,9 @@ const UserProfile: React.FC = () => {
   return (
     <section>
       <h1>{user.name}さんのプロフィール</h1>
-      <button type="button" onClick={() => reloadUser()}>再読み込み</button>
+      <button type="button" onClick={() => reloadUser()}>
+        再読み込み
+      </button>
     </section>
   );
 };
@@ -199,9 +203,7 @@ const UserProfile: React.FC = () => {
 読み取り用と書き込み用のatomを別々に返す方法もあります。
 
 ```tsx
-function createReloadableAtom<T>(
-  getter: (get: Getter) => T
-): {
+function createReloadableAtom<T>(getter: (get: Getter) => T): {
   dataAtom: Atom<T>;
   reloadAtom: WritableAtom<null, [], void>;
 } {
@@ -223,4 +225,3 @@ function createReloadableAtom<T>(
 この方法は、読み取りと書き込みの責務を明確に分離したい場合に有用です。使用する側では`dataAtom`と`reloadAtom`を別々に扱うことになります。
 
 :::
-

@@ -5,12 +5,12 @@
 ## 基本的な使い方
 
 ```jsx
-import { useDropzone } from 'react-dropzone';
+import { useDropzone } from "react-dropzone";
 
 function BasicDropzone() {
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
 
-  const files = acceptedFiles.map(file => (
+  const files = acceptedFiles.map((file) => (
     <li key={file.path}>
       {file.path} - {file.size} bytes
     </li>
@@ -18,7 +18,7 @@ function BasicDropzone() {
 
   return (
     <section className="container">
-      <div {...getRootProps({ className: 'dropzone' })}>
+      <div {...getRootProps({ className: "dropzone" })}>
         <input {...getInputProps()} />
         <p>ここにファイルをドラッグ＆ドロップ、またはクリックしてファイルを選択</p>
       </div>
@@ -39,8 +39,8 @@ function BasicDropzone() {
 **パターン**: 派生 atom（Derived Atom）+ アクション atom（Write-Only Atom）で Jotai らしい設計にする
 
 ```jsx
-import { atom, useAtomValue, useSetAtom } from 'jotai';
-import { useDropzone } from 'react-dropzone';
+import { atom, useAtomValue, useSetAtom } from "jotai";
+import { useDropzone } from "react-dropzone";
 
 // --- atom 定義（モジュールスコープ） ---
 
@@ -50,9 +50,7 @@ const filesAtom = atom([]);
 // 派生 atom: base atom から計算できる状態は派生させる
 // コンポーネント内で `files.length > 0` と書かない
 const hasFilesAtom = atom((get) => get(filesAtom).length > 0);
-const totalSizeAtom = atom((get) =>
-  get(filesAtom).reduce((sum, f) => sum + f.size, 0)
-);
+const totalSizeAtom = atom((get) => get(filesAtom).reduce((sum, f) => sum + f.size, 0));
 const fileCountAtom = atom((get) => get(filesAtom).length);
 
 // アクション atom（Write-Only Atom）: 副作用のある操作をカプセル化する
@@ -69,7 +67,7 @@ function BasicDropzone() {
   });
 
   return (
-    <div {...getRootProps({ className: 'dropzone' })}>
+    <div {...getRootProps({ className: "dropzone" })}>
       <input {...getInputProps()} />
       <p>ここにファイルをドロップ</p>
     </div>

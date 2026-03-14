@@ -26,26 +26,24 @@ npm install zustand jotai-zustand
 双方向バインディングで、両端から値を変更できます。
 
 ```jsx
-import { useAtom } from 'jotai'
-import { atomWithStore } from 'jotai-zustand'
-import create from 'zustand/vanilla'
+import { useAtom } from "jotai";
+import { atomWithStore } from "jotai-zustand";
+import create from "zustand/vanilla";
 
-const store = create(() => ({ count: 0 }))
-const stateAtom = atomWithStore(store)
+const store = create(() => ({ count: 0 }));
+const stateAtom = atomWithStore(store);
 const Counter = () => {
-  const [state, setState] = useAtom(stateAtom)
+  const [state, setState] = useAtom(stateAtom);
 
   return (
     <>
       count: {state.count}
-      <button
-        onClick={() => setState((prev) => ({ ...prev, count: prev.count + 1 }))}
-      >
+      <button onClick={() => setState((prev) => ({ ...prev, count: prev.count + 1 }))}>
         button
       </button>
     </>
-  )
-}
+  );
+};
 ```
 
 ### 例

@@ -121,8 +121,12 @@ const UserProfile: React.FC = () => {
 const UserSelector: React.FC<{ onSelectUser: (id: string) => void }> = ({ onSelectUser }) => {
   return (
     <div>
-      <button type="button" onClick={() => onSelectUser("user1")}>ユーザー1を選択</button>
-      <button type="button" onClick={() => onSelectUser("user2")}>ユーザー2を選択</button>
+      <button type="button" onClick={() => onSelectUser("user1")}>
+        ユーザー1を選択
+      </button>
+      <button type="button" onClick={() => onSelectUser("user2")}>
+        ユーザー2を選択
+      </button>
     </div>
   );
 };
@@ -194,13 +198,13 @@ https://github.com/jotaijs/jotai-family
 `atomFamily`を使うと、上記の`createUserAtom`や`getUserAtom`の実装を自前で行う必要がなくなり、以下のように書けます。
 
 ```tsx
-import { atomFamily } from 'jotai-family';
+import { atomFamily } from "jotai-family";
 
 const userAtomFamily = atomFamily((userId: string) =>
   atom(async (): Promise<User> => {
     const user = await fetchUser(userId);
     return user;
-  })
+  }),
 );
 
 const UserProfile: React.FC<{ userId: string }> = ({ userId }) => {

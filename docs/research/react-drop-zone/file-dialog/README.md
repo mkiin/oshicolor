@@ -5,7 +5,7 @@
 ## 基本的な使い方
 
 ```jsx
-import { useDropzone } from 'react-dropzone';
+import { useDropzone } from "react-dropzone";
 
 function Dropzone() {
   const { acceptedFiles, getRootProps, getInputProps, open } = useDropzone({
@@ -13,13 +13,11 @@ function Dropzone() {
     noKeyboard: true,
   });
 
-  const files = acceptedFiles.map(file => (
-    <li key={file.path}>{file.path}</li>
-  ));
+  const files = acceptedFiles.map((file) => <li key={file.path}>{file.path}</li>);
 
   return (
     <div className="container">
-      <div {...getRootProps({ className: 'dropzone' })}>
+      <div {...getRootProps({ className: "dropzone" })}>
         <input {...getInputProps()} />
         <p>ここにドロップ（クリック無効）</p>
         <button type="button" onClick={open}>
@@ -43,9 +41,9 @@ function Dropzone() {
 **パターン**: `open()` 関数をオブジェクトで包んで atom に格納し、Dropzone 外のボタンからダイアログを開く
 
 ```jsx
-import { useEffect } from 'react';
-import { atom, useAtomValue, useSetAtom } from 'jotai';
-import { useDropzone } from 'react-dropzone';
+import { useEffect } from "react";
+import { atom, useAtomValue, useSetAtom } from "jotai";
+import { useDropzone } from "react-dropzone";
 
 // atom<{ fn: () => void } | null>
 //
@@ -74,7 +72,7 @@ function Dropzone() {
   }, [open, setOpenDialog]);
 
   return (
-    <div {...getRootProps({ className: 'dropzone' })}>
+    <div {...getRootProps({ className: "dropzone" })}>
       <input {...getInputProps()} />
       <p>ここにドロップ</p>
     </div>

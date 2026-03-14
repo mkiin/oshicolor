@@ -11,15 +11,15 @@ Ref: https://github.com/pmndrs/jotai/issues/340
 ### 使用方法
 
 ```js
-import { atom, useAtom } from 'jotai'
-import { useHydrateAtoms } from 'jotai/utils'
+import { atom, useAtom } from "jotai";
+import { useHydrateAtoms } from "jotai/utils";
 
-const countAtom = atom(0)
+const countAtom = atom(0);
 const CounterPage = ({ countFromServer }) => {
-  useHydrateAtoms([[countAtom, countFromServer]])
-  const [count] = useAtom(countAtom)
+  useHydrateAtoms([[countAtom, countFromServer]]);
+  const [count] = useAtom(countAtom);
   // count は 0 ではなく `countFromServer` の値になります
-}
+};
 ```
 
 `useHydrateAtoms` の主なユースケースは Next.js などの SSR アプリで、初期値がサーバーでフェッチされ、props としてコンポーネントに渡される場合です。
@@ -31,7 +31,7 @@ const CounterPage = ({ countFromServer }) => {
 function useHydrateAtoms(
   values: Iterable<readonly [Atom<unknown>, unknown]>,
   options?: { store?: Store },
-): void
+): void;
 ```
 
 フックは `[atom, value]` を含むタプルのイテラブルを引数として受け取り、オプションのオプションも受け取ります。
@@ -41,12 +41,12 @@ function useHydrateAtoms(
 useHydrateAtoms(
   [
     [countAtom, 42],
-    [frameworkAtom, 'Next.js'],
+    [frameworkAtom, "Next.js"],
   ],
   { store: myStore },
-)
+);
 // または Map を使用する
-useHydrateAtoms(new Map([[count, 42]]))
+useHydrateAtoms(new Map([[count, 42]]));
 ```
 
 アトムはストアごとに1回のみハイドレートできます。そのため、再レンダリング中に使用される初期値が変更されても、アトムの値は更新されません。
@@ -56,12 +56,12 @@ useHydrateAtoms(new Map([[count, 42]]))
 useHydrateAtoms(
   [
     [countAtom, 42],
-    [frameworkAtom, 'Next.js'],
+    [frameworkAtom, "Next.js"],
   ],
   {
     dangerouslyForceHydrate: true,
   },
-)
+);
 ```
 
 複数のストアでハイドレートする必要がある場合は、複数の `useHydrateAtoms` フックを使用してください。
@@ -69,15 +69,15 @@ useHydrateAtoms(
 ```js
 useHydrateAtoms([
   [countAtom, 42],
-  [frameworkAtom, 'Next.js'],
-])
+  [frameworkAtom, "Next.js"],
+]);
 useHydrateAtoms(
   [
     [countAtom, 17],
-    [frameworkAtom, 'Gatsby'],
+    [frameworkAtom, "Gatsby"],
   ],
   { store: myStore },
-)
+);
 ```
 
 `ES5` をターゲットとした TypeScript を使用している場合、タプル型を保持するために配列に `as const` キャストが必要な場合があります。
@@ -85,8 +85,8 @@ useHydrateAtoms(
 ```ts
 useHydrateAtoms([
   [countAtom, 42],
-  [frameworkAtom, 'Next.js'],
-] as const)
+  [frameworkAtom, "Next.js"],
+] as const);
 ```
 
 または、useHydrateAtoms にアトムの値を渡す際に Map を使用する必要があるかもしれません。動作する例は[レンダリング時の状態初期化ドキュメント](https://jotai.org/docs/guides/initialize-atom-on-render#using-typescript)で確認できます。

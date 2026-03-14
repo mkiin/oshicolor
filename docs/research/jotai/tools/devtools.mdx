@@ -61,11 +61,11 @@ export default defineConfig({
   plugins: [
     react({
       babel: {
-        presets: ['jotai-babel/preset'],
+        presets: ["jotai-babel/preset"],
       },
     }),
   ],
-})
+});
 ```
 
 ### Next JS の設定
@@ -79,9 +79,9 @@ UI の CSS とコンポーネントが正しくトランスパイルされるよ
 const nextConfig = {
   // 詳細はこちら - https://nextjs.org/docs/advanced-features/compiler#module-transpilation
   // UI css が正しくトランスパイルされるために必要 👇
-  transpilePackages: ['jotai-devtools'],
-}
-module.exports = nextConfig
+  transpilePackages: ["jotai-devtools"],
+};
+module.exports = nextConfig;
 ```
 
 ### 利用可能な props
@@ -89,33 +89,33 @@ module.exports = nextConfig
 ```ts
 type DevToolsProps = {
   // デフォルトは false
-  isInitialOpen?: boolean
+  isInitialOpen?: boolean;
   // カスタムストアを渡す
-  store?: Store
+  store?: Store;
   // デフォルトは light
-  theme?: 'dark' | 'light'
+  theme?: "dark" | "light";
   // トリガーボタンの位置を設定
   // デフォルトは `bottom-left`
-  position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
+  position?: "top-right" | "top-left" | "bottom-right" | "bottom-left";
   // CSP 経由で jotai-devtools 固有のインラインスタイルをホワイトリストに追加するカスタム nonce
-  nonce?: string
+  nonce?: string;
   options?: {
     // プライベートアトムは `atomWithStorage` や `atomWithLocation` などのアトムクリエーター内で
     // 内部状態を管理するために使用されます。
     // デフォルトは `false`
-    shouldShowPrivateAtoms?: boolean
+    shouldShowPrivateAtoms?: boolean;
     // Atom Viewer タブ、Timeline タブなどで初回レンダリング時に JSON ツリービューを展開します。
     // デフォルトは `false`
-    shouldExpandJsonTreeViewInitially?: boolean
+    shouldExpandJsonTreeViewInitially?: boolean;
     // タイムトラベルの再生の各ステップ間の間隔（ミリ秒）。
     // デフォルトは `750ms`
-    timeTravelPlaybackInterval?: number
+    timeTravelPlaybackInterval?: number;
     // 履歴に保持するスナップショットの最大数。
     // 数が多いほどメモリを消費します。
     // デフォルトは `Infinity`。推奨: `~30`
-    snapshotHistoryLimit?: number
-  }
-}
+    snapshotHistoryLimit?: number;
+  };
+};
 ```
 
 ### 使用方法
@@ -123,8 +123,8 @@ type DevToolsProps = {
 #### Provider なし
 
 ```tsx
-import { DevTools } from 'jotai-devtools'
-import 'jotai-devtools/styles.css'
+import { DevTools } from "jotai-devtools";
+import "jotai-devtools/styles.css";
 
 const App = () => {
   return (
@@ -132,18 +132,18 @@ const App = () => {
       <DevTools />
       {/* your app */}
     </>
-  )
-}
+  );
+};
 ```
 
 #### Provider あり
 
 ```tsx
-import { createStore } from 'jotai'
-import { DevTools } from 'jotai-devtools'
-import 'jotai-devtools/styles.css'
+import { createStore } from "jotai";
+import { DevTools } from "jotai-devtools";
+import "jotai-devtools/styles.css";
 
-const customStore = createStore()
+const customStore = createStore();
 
 const App = () => {
   return (
@@ -151,8 +151,8 @@ const App = () => {
       <DevTools store={customStore} />
       {/* your app */}
     </Provider>
-  )
-}
+  );
+};
 ```
 
 ### プレビュー
@@ -164,10 +164,7 @@ const App = () => {
 `useAtomsDebugValue` は React Devtools にすべてのアトム値を表示する React フックです。
 
 ```ts
-function useAtomsDebugValue(options?: {
-  store?: Store
-  enabled?: boolean
-}): void
+function useAtomsDebugValue(options?: { store?: Store; enabled?: boolean }): void;
 ```
 
 内部的には `useDebugValue` を使用しており、DEV モードでのみ有効です。
@@ -176,35 +173,35 @@ function useAtomsDebugValue(options?: {
 ### 例
 
 ```jsx
-import { useAtomsDebugValue } from 'jotai-devtools/utils'
+import { useAtomsDebugValue } from "jotai-devtools/utils";
 
-const textAtom = atom('hello')
-textAtom.debugLabel = 'textAtom'
+const textAtom = atom("hello");
+textAtom.debugLabel = "textAtom";
 
-const lenAtom = atom((get) => get(textAtom).length)
-lenAtom.debugLabel = 'lenAtom'
+const lenAtom = atom((get) => get(textAtom).length);
+lenAtom.debugLabel = "lenAtom";
 
 const TextBox = () => {
-  const [text, setText] = useAtom(textAtom)
-  const [len] = useAtom(lenAtom)
+  const [text, setText] = useAtom(textAtom);
+  const [len] = useAtom(lenAtom);
   return (
     <span>
       <input value={text} onChange={(e) => setText(e.target.value)} />({len})
     </span>
-  )
-}
+  );
+};
 
 const DebugAtoms = () => {
-  useAtomsDebugValue()
-  return null
-}
+  useAtomsDebugValue();
+  return null;
+};
 
 const App = () => (
   <Provider>
     <DebugAtoms />
     <TextBox />
   </Provider>
-)
+);
 ```
 
 <Stackblitz id="vitejs-vite-dmts5e" file="src%2FApp.tsx" />
@@ -217,11 +214,11 @@ const App = () => (
 function useAtomDevtools<Value>(
   anAtom: WritableAtom<Value, Value>,
   options?: {
-    store?: Store
-    name?: string
-    enabled?: boolean
+    store?: Store;
+    name?: string;
+    enabled?: boolean;
   },
-): void
+): void;
 ```
 
 `useAtomDevtools` フックはジェネリック型パラメータ（アトムに格納されている型を反映）を受け取ります。また、フックは `anAtom` と `name` の2つの呼び出しパラメータを受け取ります。
@@ -230,31 +227,31 @@ function useAtomDevtools<Value>(
 ### 例
 
 ```ts
-import { useAtomDevtools } from 'jotai-devtools/utils'
+import { useAtomDevtools } from "jotai-devtools/utils";
 
 // アトムに格納される型のインターフェース
 export interface Task {
-  label: string
-  complete: boolean
+  label: string;
+  complete: boolean;
 }
 
 // デバッグするアトム
-export const tasksAtom = atom<Task[]>([])
+export const tasksAtom = atom<Task[]>([]);
 
 // useAtomDevtools の name パラメータが undefined の場合、この値が代わりに使用されます
-tasksAtom.debugLabel = 'Tasks'
+tasksAtom.debugLabel = "Tasks";
 
 export const useTasksDevtools = () => {
   // デバッグするアトムを渡すだけでフックを呼び出せます
-  useAtomDevtools(tasksAtom)
+  useAtomDevtools(tasksAtom);
 
   // カスタム型パラメータを指定
-  useAtomDevtools<Task[]>(tasksAtom)
+  useAtomDevtools<Task[]>(tasksAtom);
 
   // 同じアトムに2つの devtools インスタンスをアタッチし、カスタム名で区別できます
-  useAtomDevtools(tasksAtom, 'Tasks (Instance 1)')
-  useAtomDevtools(tasksAtom, 'Tasks (Instance 2)')
-}
+  useAtomDevtools(tasksAtom, "Tasks (Instance 1)");
+  useAtomDevtools(tasksAtom, "Tasks (Instance 2)");
+};
 ```
 
 ## useAtomsDevtools
@@ -267,10 +264,10 @@ export const useTasksDevtools = () => {
 function useAtomsDevtools(
   name: string,
   options?: {
-    store?: Store
-    enabled?: boolean
+    store?: Store;
+    enabled?: boolean;
   },
-): void
+): void;
 ```
 
 Redux devtools インスタンスの命名に必要な `name` パラメータと `store` パラメータを受け取ります。
@@ -314,7 +311,7 @@ export default function App()  {
 `useAtomsSnapshot` は現在マウントされているアトムとその状態のスナップショットを取得します。
 
 ```ts
-function useAtomsSnapshot(options?: { store?: Store }): AtomsSnapshot
+function useAtomsSnapshot(options?: { store?: Store }): AtomsSnapshot;
 ```
 
 `store` パラメータを受け取り、基本的に `Map<AnyAtom, unknown>` である `AtomsSnapshot` を返します。`Map` API を使用してアトムとその状態を反復処理できます。
@@ -325,11 +322,11 @@ function useAtomsSnapshot(options?: { store?: Store }): AtomsSnapshot
 ### 例
 
 ```jsx
-import { Provider } from 'jotai'
-import { useAtomsSnapshot } from 'jotai-devtools/utils'
+import { Provider } from "jotai";
+import { useAtomsSnapshot } from "jotai-devtools/utils";
 
 const RegisteredAtoms = () => {
-  const atoms = useAtomsSnapshot()
+  const atoms = useAtomsSnapshot();
 
   return (
     <div>
@@ -340,14 +337,14 @@ const RegisteredAtoms = () => {
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
 const App = () => (
   <Provider>
     <RegisteredAtoms />
   </Provider>
-)
+);
 ```
 
 ## useGotoAtomsSnapshot
@@ -358,8 +355,8 @@ const App = () => (
 
 ```ts
 function useGotoAtomsSnapshot(options?: {
-  store?: Store
-}): (values: Iterable<readonly [AnyAtom, unknown]>) => void
+  store?: Store;
+}): (values: Iterable<readonly [AnyAtom, unknown]>) => void;
 ```
 
 このフックはコールバックを返します。コールバックは `useAtomsSnapshot` フックのスナップショットを受け取り、Jotai の状態を更新します。`store` パラメータを受け取ります。
@@ -368,26 +365,26 @@ function useGotoAtomsSnapshot(options?: {
 ### 例
 
 ```jsx
-import { Provider } from 'jotai'
-import { useAtomsSnapshot, useGotoAtomsSnapshot } from 'jotai-devtools/utils'
+import { Provider } from "jotai";
+import { useAtomsSnapshot, useGotoAtomsSnapshot } from "jotai-devtools/utils";
 
-const petAtom = atom('cat')
-const colorAtom = atom('blue')
+const petAtom = atom("cat");
+const colorAtom = atom("blue");
 
 const UpdateSnapshot = () => {
-  const snapshot = useAtomsSnapshot()
-  const goToSnapshot = useGotoAtomsSnapshot()
+  const snapshot = useAtomsSnapshot();
+  const goToSnapshot = useGotoAtomsSnapshot();
   return (
     <button
       onClick={() => {
-        const newSnapshot = new Map(snapshot)
-        newSnapshot.set(petAtom, 'dog')
-        newSnapshot.set(colorAtom, 'green')
-        goToSnapshot(newSnapshot)
+        const newSnapshot = new Map(snapshot);
+        newSnapshot.set(petAtom, "dog");
+        newSnapshot.set(colorAtom, "green");
+        goToSnapshot(newSnapshot);
       }}
     >
       Go to snapshot
     </button>
-  )
-}
+  );
+};
 ```

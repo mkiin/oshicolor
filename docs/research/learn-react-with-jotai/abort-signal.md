@@ -68,9 +68,13 @@ async function fetchUser(userId: string, signal: AbortSignal): Promise<User> {
   await new Promise((resolve, reject) => {
     signal.throwIfAborted();
     setTimeout(resolve, 500);
-    signal.addEventListener("abort", () => {
-      reject(signal.reason);
-    }, { once: true });
+    signal.addEventListener(
+      "abort",
+      () => {
+        reject(signal.reason);
+      },
+      { once: true },
+    );
   });
   return { name: `ユーザー${userId}` };
 }
@@ -125,7 +129,7 @@ const userAtomFamily = atomFamily((userId: string) =>
   atom(async (get, { signal }): Promise<User> => {
     const user = await fetchUser(userId, signal);
     return user;
-  })
+  }),
 );
 ```
 
@@ -177,10 +181,7 @@ const userDataAtom = atom(async (get, { signal }): Promise<{ user: User; posts: 
 ```ts
 const userDataAtom = atom(async (get, { signal }): Promise<{ user: User; posts: Post[] }> => {
   const userId = get(userIdAtom);
-  const [user, posts] = await Promise.all([
-    fetchUser(userId, signal),
-    fetchPosts(userId, signal),
-  ]);
+  const [user, posts] = await Promise.all([fetchUser(userId, signal), fetchPosts(userId, signal)]);
   return { user, posts };
 });
 ```

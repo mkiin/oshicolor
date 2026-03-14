@@ -29,21 +29,21 @@ interface User {
 
 async function fetchUser(userId: string): Promise<User> {
   await new Promise((resolve) => setTimeout(resolve, 500));
-  return  { name: `ユーザー${userId}` };
+  return { name: `ユーザー${userId}` };
 }
 
 const userAtomFamily = atomFamily((userId: string) =>
   atom(async (): Promise<User> => {
     const user = await fetchUser(userId);
     return user;
-  })
+  }),
 );
 
 const App: React.FC = () => {
   const [userId, setUserId] = useState("user1");
   const handleSelectUser = (id: string) => {
     setUserId(id);
-  }
+  };
   return (
     <>
       <UserSelector onSelectUser={handleSelectUser} />
@@ -68,8 +68,12 @@ const UserProfile: React.FC<{ userId: string }> = ({ userId }) => {
 const UserSelector: React.FC<{ onSelectUser: (id: string) => void }> = ({ onSelectUser }) => {
   return (
     <div>
-      <button type="button" onClick={() => onSelectUser("user1")}>ユーザー1を選択</button>
-      <button type="button" onClick={() => onSelectUser("user2")}>ユーザー2を選択</button>
+      <button type="button" onClick={() => onSelectUser("user1")}>
+        ユーザー1を選択
+      </button>
+      <button type="button" onClick={() => onSelectUser("user2")}>
+        ユーザー2を選択
+      </button>
     </div>
   );
 };
@@ -89,7 +93,7 @@ const handleSelectUser = (id: string) => {
   startTransition(() => {
     setUserId(id);
   });
-}
+};
 ```
 
 このように、`startTransition`はコールバック関数を受け取り、その関数を即時実行します。コールバック関数内で行われたステート更新はすべてトランジション扱いになります。
@@ -112,7 +116,7 @@ const App: React.FC = () => {
     startTransition(() => {
       setUserId(id);
     });
-  }
+  };
   return (
     <>
       <UserSelector onSelectUser={handleSelectUser} />
@@ -150,11 +154,11 @@ const UserProfile: React.FC<{ userId: string; isPending: boolean }> = ({ userId,
 
 表で整理するとこのようになります。
 
-| 状況 | `userId` | `isPending` | 表示されるUI |
-| --- | --- | --- | --- |
-| 初期状態 | `"user1"` | false | ユーザー1のプロフィール |
-| ボタンを押した直後 | `"user2"` | true | ユーザー1のプロフィール + (読み込み中...) |
-| データ取得後 | `"user2"` | false | ユーザー2のプロフィール |
+| 状況               | `userId`  | `isPending` | 表示されるUI                              |
+| ------------------ | --------- | ----------- | ----------------------------------------- |
+| 初期状態           | `"user1"` | false       | ユーザー1のプロフィール                   |
+| ボタンを押した直後 | `"user2"` | true        | ユーザー1のプロフィール + (読み込み中...) |
+| データ取得後       | `"user2"` | false       | ユーザー2のプロフィール                   |
 
 これにより、ユーザーはボタンを押したことに対するフィードバックを得られつつ、フォールバックUIのちらつきは防止できます。`isPending`は、フォールバックUIとは異なり、現在の表示に対する「プラスアルファ」の表示をするのに適しています。例えば、ローディングスピナーを表示したり、古い表示を薄く出したりするのも良いでしょう。
 
@@ -203,19 +207,23 @@ async function fetchUser(userId: string): Promise<User> {
 async function fetchPostsByCategory(category: Category): Promise<Post[]> {
   await new Promise((resolve) => setTimeout(resolve, 800));
   const posts: Record<Category, Post[]> = {
-    tech: [{ id: 1, title: "Reactの最新動向" }, { id: 2, title: "TypeScript入門" }],
-    life: [{ id: 3, title: "おすすめの本" }, { id: 4, title: "休日の過ごし方" }],
+    tech: [
+      { id: 1, title: "Reactの最新動向" },
+      { id: 2, title: "TypeScript入門" },
+    ],
+    life: [
+      { id: 3, title: "おすすめの本" },
+      { id: 4, title: "休日の過ごし方" },
+    ],
     news: [{ id: 5, title: "新機能リリース" }],
   };
   return posts[category];
 }
 
-const userAtomFamily = atomFamily((userId: string) =>
-  atom(async () => fetchUser(userId))
-);
+const userAtomFamily = atomFamily((userId: string) => atom(async () => fetchUser(userId)));
 
 const postsByCategoryAtomFamily = atomFamily((category: Category) =>
-  atom(async () => fetchPostsByCategory(category))
+  atom(async () => fetchPostsByCategory(category)),
 );
 
 const Dashboard: React.FC = () => {
@@ -261,16 +269,28 @@ const PostList: React.FC<{ category: Category }> = ({ category }) => {
 
 const UserSelector: React.FC<{ onSelectUser: (id: string) => void }> = ({ onSelectUser }) => (
   <div>
-    <button type="button" onClick={() => onSelectUser("user1")}>ユーザー1</button>
-    <button type="button" onClick={() => onSelectUser("user2")}>ユーザー2</button>
+    <button type="button" onClick={() => onSelectUser("user1")}>
+      ユーザー1
+    </button>
+    <button type="button" onClick={() => onSelectUser("user2")}>
+      ユーザー2
+    </button>
   </div>
 );
 
-const CategorySelector: React.FC<{ onSelectCategory: (cat: Category) => void }> = ({ onSelectCategory }) => (
+const CategorySelector: React.FC<{ onSelectCategory: (cat: Category) => void }> = ({
+  onSelectCategory,
+}) => (
   <div>
-    <button type="button" onClick={() => onSelectCategory("tech")}>Tech</button>
-    <button type="button" onClick={() => onSelectCategory("life")}>Life</button>
-    <button type="button" onClick={() => onSelectCategory("news")}>News</button>
+    <button type="button" onClick={() => onSelectCategory("tech")}>
+      Tech
+    </button>
+    <button type="button" onClick={() => onSelectCategory("life")}>
+      Life
+    </button>
+    <button type="button" onClick={() => onSelectCategory("news")}>
+      News
+    </button>
   </div>
 );
 ```

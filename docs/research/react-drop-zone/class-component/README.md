@@ -5,8 +5,8 @@
 ## 基本的な使い方
 
 ```jsx
-import { Component } from 'react';
-import Dropzone from 'react-dropzone';
+import { Component } from "react";
+import Dropzone from "react-dropzone";
 
 class ClassDropzone extends Component {
   constructor(props) {
@@ -16,16 +16,16 @@ class ClassDropzone extends Component {
 
   render() {
     return (
-      <Dropzone onDrop={acceptedFiles => this.setState({ files: acceptedFiles })}>
+      <Dropzone onDrop={(acceptedFiles) => this.setState({ files: acceptedFiles })}>
         {({ getRootProps, getInputProps }) => (
           <section>
-            <div {...getRootProps({ className: 'dropzone' })}>
+            <div {...getRootProps({ className: "dropzone" })}>
               <input {...getInputProps()} />
               <p>ファイルをドロップ</p>
             </div>
             <aside>
               <ul>
-                {this.state.files.map(f => (
+                {this.state.files.map((f) => (
                   <li key={f.name}>{f.name}</li>
                 ))}
               </ul>
@@ -46,9 +46,9 @@ class ClassDropzone extends Component {
 **パターン**: Jotai フックはクラスコンポーネントで使えないため、薄い関数コンポーネントラッパーで橋渡しする
 
 ```jsx
-import { Component } from 'react';
-import Dropzone from 'react-dropzone';
-import { atom, useAtomValue, useSetAtom } from 'jotai';
+import { Component } from "react";
+import Dropzone from "react-dropzone";
+import { atom, useAtomValue, useSetAtom } from "jotai";
 
 // --- atom 定義 ---
 
@@ -71,13 +71,7 @@ function ClassDropzoneWrapper() {
   const files = useAtomValue(filesAtom);
   const fileCount = useAtomValue(fileCountAtom);
 
-  return (
-    <ClassDropzone
-      onDrop={setFiles}
-      files={files}
-      fileCount={fileCount}
-    />
-  );
+  return <ClassDropzone onDrop={setFiles} files={files} fileCount={fileCount} />;
 }
 
 class ClassDropzone extends Component {
@@ -88,7 +82,7 @@ class ClassDropzone extends Component {
       <Dropzone onDrop={onDrop}>
         {({ getRootProps, getInputProps }) => (
           <section>
-            <div {...getRootProps({ className: 'dropzone' })}>
+            <div {...getRootProps({ className: "dropzone" })}>
               <input {...getInputProps()} />
               <p>ファイルをドロップ</p>
             </div>

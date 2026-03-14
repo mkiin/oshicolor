@@ -3,6 +3,7 @@
 Claude Codeへの引き渡し用ドキュメント。色抽出に関連するファイルと、その役割・原理をまとめたもの。
 
 **関連ドキュメント**:
+
 - 髪色抽出アルゴリズムの詳細 → [hair-color-extraction.md](./hair-color-extraction.md)
 - oshicolor との color-extractor 実装比較 → [color-extractor-comparison.md](./color-extractor-comparison.md)
 
@@ -22,6 +23,7 @@ Claude Codeへの引き渡し用ドキュメント。色抽出に関連するフ
 ### 1. 手動ピッカー系（Canvas + ピクセル読み取り）
 
 #### `nextjs/src/components/palette/picker-colors.tsx`
+
 - **役割**: メインの色ピッカーUIコンポーネント
 - **原理**: 画像をCanvasに描画し、ユーザーがドラッグした座標のピクセル色を `getImageData` で取得
 - **主要機能**:
@@ -33,6 +35,7 @@ Claude Codeへの引き渡し用ドキュメント。色抽出に関連するフ
 - **型定義**: `ColorPoint` （id, x, y, color, name）がここで定義されている
 
 #### `nextjs/src/components/palette/coordinate-utils.ts`
+
 - **役割**: object-contain表示時の座標変換ユーティリティ
 - **原理**: 画像のアスペクト比とコンテナサイズから、実際の描画領域（offset, renderSize）を計算
 - **主要関数**:
@@ -41,6 +44,7 @@ Claude Codeへの引き渡し用ドキュメント。色抽出に関連するフ
   - `calculateColorPointPosition()` - Canvas座標→コンテナ表示座標→正規化座標
 
 #### `nextjs/src/components/palette/color-extractor.ts`
+
 - **役割**: 画像から自動的に主要色を抽出するアルゴリズム（手動ピッカーの「自動抽出」ボタン用）
 - **原理**:
   1. 8px間隔でピクセルをサンプリング
@@ -54,6 +58,7 @@ Claude Codeへの引き渡し用ドキュメント。色抽出に関連するフ
 ### 2. 自動量子化方式（Median Cut / quantize ライブラリ）
 
 #### `nextjs/src/app/tools/[slug]/tools/create-cinematic-color-palettes-with-colorpalette-cinema/utils.ts`
+
 - **役割**: Cinematic Palette生成ツール用の色抽出
 - **原理**: `quantize` ライブラリ（Median Cut アルゴリズム）を使用
   1. Canvas上の全ピクセルを4px間隔でサンプリング
@@ -64,12 +69,14 @@ Claude Codeへの引き渡し用ドキュメント。色抽出に関連するフ
 - **依存**: `quantize` パッケージ（npm）
 
 #### `nextjs/src/app/tools/[slug]/tools/create-cinematic-color-palettes-with-colorpalette-cinema/index.tsx`
+
 - **役割**: Cinematic Paletteツールの画面コンポーネント
 - **機能**: 複数画像の一括処理、12色抽出、パレットカードの表示・保存
 
 ### 3. 色名前解決（Nearest Color）
 
 #### `nextjs/src/lib/nearest.ts`
+
 - **役割**: HEX値から最も近い色名を返すユーティリティ
 - **原理**: `nearest-color` ライブラリ + `color-name-list`（30,000色以上の名前リスト）
 - **主要関数**:
@@ -78,16 +85,19 @@ Claude Codeへの引き渡し用ドキュメント。色抽出に関連するフ
   - `getColorsByKeyword(keyword)` - キーワードで色を検索
 
 #### `nextjs/src/lib/sort-colors/index.ts`
+
 - **役割**: 色の配列を視覚的に自然な順序にソート
 - **原理**: `nearest-color` で各色をCSS標準色に分類し、カテゴリ順（黒→赤→橙→黄→緑→青→紫→ピンク→茶）でソート。同カテゴリ内は距離順。
 
 #### `nextjs/src/lib/sort-colors/color-name.ts`
+
 - **役割**: CSS標準色名のHEX定義とソート順序定義
 - **内容**: `colorNames`（140色のHEXマップ）と `colorNameOrder`（ソート優先度の数値マップ）
 
 ### 4. 髪色分類（特殊用途）
 
 #### `nextjs/src/lib/hair-color/index.ts`
+
 - **役割**: アニメキャラクターの髪色をカテゴリ分類する専用ライブラリ
 - **原理**:
   1. 髪色定数（HSL範囲ベース）から代表色パレットを生成
@@ -99,12 +109,14 @@ Claude Codeへの引き渡し用ドキュメント。色抽出に関連するフ
   - `getMostCommonHairColor(hexColors[])` - 最頻出の髪色カテゴリを返す
 
 #### `nextjs/src/lib/hair-color/constant.ts`
+
 - **役割**: 髪色の定義データ（HSL範囲、HEX範囲）
 - **内容**: `HAIR_COLORS` 配列（各髪色のname, hsl_hue_range, hsl_saturation_range, hsl_lightness_range, hex_range）
 
 ### 5. SVG色変更ツール
 
 #### `nextjs/src/app/tools/[slug]/tools/change-svg-color/index.tsx`
+
 - **役割**: SVGファイル内の色属性を検出・編集するツール
 - **原理**: 正規表現でfill/stroke/stop-colorなどの属性値を抽出し、ユーザーが色を変更するとSVG文字列を直接置換
 - **対応属性**: fill, stroke, stop-color, flood-color, lighting-color
@@ -112,6 +124,7 @@ Claude Codeへの引き渡し用ドキュメント。色抽出に関連するフ
 ### 6. 文字列→色変換ツール
 
 #### `nextjs/src/app/tools/[slug]/tools/what-color-is-my-name/utils.ts`
+
 - **役割**: 任意の文字列から一意な色を生成
 - **原理**:
   1. まず `getHexByName()` で色名として検索
@@ -121,27 +134,30 @@ Claude Codeへの引き渡し用ドキュメント。色抽出に関連するフ
 ### 7. 統合コンポーネント
 
 #### `nextjs/src/components/palette/generator.tsx`
+
 - **役割**: PickerColorsとChooseImageを統合するメインジェネレータ
 - **機能**: 画像アップロード→自動色抽出→手動調整の一連のフローを管理
 
 #### `nextjs/src/components/palette/picker-part.tsx`
+
 - **役割**: キャラクターの部位別色ピッカー（目・髪・肌・服など）
 - **原理**: ブラウザのEyeDropper APIを使用（`use-eye-dropper` ライブラリ経由）
 
 #### `nextjs/src/components/palette/picker-palette.tsx`
+
 - **役割**: PickerColorsのラッパー。色ポイントの追加・削除UIを含む
 
 ---
 
 ## 主要依存パッケージ（色関連）
 
-| パッケージ | 用途 |
-|---|---|
-| `quantize` | Median Cutアルゴリズムによる色量子化 |
-| `nearest-color` | HEX色から最近傍の名前付き色を検索 |
-| `color-name-list` | 30,000色超の色名データベース |
-| `color` | 色空間変換（RGB/HSL/LAB等） |
-| `use-eye-dropper` | ブラウザEyeDropper APIのReactフック |
+| パッケージ        | 用途                                 |
+| ----------------- | ------------------------------------ |
+| `quantize`        | Median Cutアルゴリズムによる色量子化 |
+| `nearest-color`   | HEX色から最近傍の名前付き色を検索    |
+| `color-name-list` | 30,000色超の色名データベース         |
+| `color`           | 色空間変換（RGB/HSL/LAB等）          |
+| `use-eye-dropper` | ブラウザEyeDropper APIのReactフック  |
 
 ---
 

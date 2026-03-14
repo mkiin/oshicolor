@@ -14,20 +14,20 @@ keywords: store,createstore,getdefaultstore,defaultstore
 アトムの値を設定するための `set`、アトムの変更をサブスクライブするための `sub` です。
 
 ```jsx
-const myStore = createStore()
+const myStore = createStore();
 
-const countAtom = atom(0)
-myStore.set(countAtom, 1)
+const countAtom = atom(0);
+myStore.set(countAtom, 1);
 const unsub = myStore.sub(countAtom, () => {
-  console.log('countAtom value is changed to', myStore.get(countAtom))
-})
+  console.log("countAtom value is changed to", myStore.get(countAtom));
+});
 // サブスクライブを解除するには unsub() を呼び出す
 
 const Root = () => (
   <Provider store={myStore}>
     <App />
   </Provider>
-)
+);
 ```
 
 ## getDefaultStore
@@ -35,5 +35,5 @@ const Root = () => (
 この関数はプロバイダーレスモードで使用されるデフォルトストアを返します。
 
 ```js
-const defaultStore = getDefaultStore()
+const defaultStore = getDefaultStore();
 ```

@@ -8,33 +8,33 @@ nav: 7.04
 getter 関数をじっくり見ていると、ある JavaScript 言語機能との驚くべき類似性に気づくかもしれません。
 
 ```tsx
-const nameAtom = atom('Visitor')
-const countAtom = atom(1)
+const nameAtom = atom("Visitor");
+const countAtom = atom(1);
 const greetingAtom = atom((get) => {
-  const name = get(nameAtom)
-  const count = get(countAtom)
+  const name = get(nameAtom);
+  const count = get(countAtom);
   return (
     <div>
       Hello, {name}! You have visited this page {count} times.
     </div>
-  )
-})
+  );
+});
 ```
 
 このコードを `async`–`await` と比較してみてください。
 
 ```tsx
-const namePromise = Promise.resolve('Visitor')
-const countPromise = Promise.resolve(1)
+const namePromise = Promise.resolve("Visitor");
+const countPromise = Promise.resolve(1);
 const greetingPromise = (async function () {
-  const name = await namePromise
-  const count = await countPromise
+  const name = await namePromise;
+  const count = await countPromise;
   return (
     <div>
       Hello, {name}! You have visited this page {count} times.
     </div>
-  )
-})()
+  );
+})();
 ```
 
 この類似性は偶然ではありません。アトムも Promise も、関数型プログラミングの概念である**モナド**†です。`greetingAtom` と `greetingPromise` の両方で使われている構文は、よりプレーンなモナドインターフェースの糖衣構文である **do記法** として知られています。
@@ -46,13 +46,13 @@ const greetingPromise = (async function () {
 興味があれば、ある構造（`Atom` や `Promise` など）がモナドであるには、以下の関数を実装できる必要があります。Arrays に対して `of`、`map`、`join` を実装してみるのは楽しい演習です。
 
 ```ts
-type SomeMonad<T> = /* 例えば... */ Array<T>
-declare function of<T>(plainValue: T): SomeMonad<T>
+type SomeMonad<T> = /* 例えば... */ Array<T>;
+declare function of<T>(plainValue: T): SomeMonad<T>;
 declare function map<T, V>(
   anInstance: SomeMonad<T>,
   transformContents: (contents: T) => V,
-): SomeMonad<V>
-declare function join<T>(nestedInstances: SomeMonad<SomeMonad<T>>): SomeMonad<T>
+): SomeMonad<V>;
+declare function join<T>(nestedInstances: SomeMonad<SomeMonad<T>>): SomeMonad<T>;
 ```
 
 Promise とアトムの共通の起源は、多くのパターンとベストプラクティスをそれらの間で再利用できることを意味します。一つ見てみましょう。
@@ -62,11 +62,11 @@ Promise とアトムの共通の起源は、多くのパターンとベストプ
 コールバック地獄について話すとき、ボイラープレート、インデント、見落としやすいミスについてよく言及します。しかし、一つの非同期操作を別の非同期操作につなげることだけがコールバックの苦労ではありませんでした。4つのネットワーク呼び出しをして、すべてを待つ必要があったらどうでしょうか？このようなスニペットが一般的でした：
 
 ```ts
-const nPending = 4
-const results: string[]
+const nPending = 4;
+const results: string[];
 function callback(err, data) {
-  if (err) throw err
-  results.push(data)
+  if (err) throw err;
+  results.push(data);
   if (results.length === nPending) {
     // results で何かをする...
   }
@@ -76,14 +76,14 @@ function callback(err, data) {
 しかし、結果が異なる型で、順序が重要だったら？さらに多くの面倒な作業が必要になります！このロジックは各使用箇所で重複し、間違えやすくなります。ES6 以降は単純に `Promise.all` を呼び出せます：
 
 ```ts
-declare function promiseAll<T>(promises: Array<Promise<T>>): Promise<Array<T>>
+declare function promiseAll<T>(promises: Array<Promise<T>>): Promise<Array<T>>;
 ```
 
 `Promise.all` は `Array` と `Promise` を「再配置」します。この概念、_シーケンシング_ は、すべてのモナド-_Traversable_ ペアで実装できます。Arrays を含む多くの種類のコレクションが Traversable です。例えば、これはアトムと配列に特化したシーケンシングの例です：
 
 ```ts
 function sequenceAtomArray<T>(atoms: Array<Atom<T>>): Atom<Array<T>> {
-  return atom((get) => atoms.map(get))
+  return atom((get) => atoms.map(get));
 }
 ```
 

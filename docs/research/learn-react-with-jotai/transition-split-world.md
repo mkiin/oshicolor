@@ -75,10 +75,15 @@ const UserProfile: React.FC<{ userId: string; isPending: boolean }> = ({ userId,
   return (
     <section>
       <h1>{user.name}さんのプロフィール</h1>
-      <p aria-hidden={!isPending} style={{
-        opacity: isPending ? 1 : 0,
-        transition: 'opacity 0.3s ease',
-      }}>(読み込み中...)</p>
+      <p
+        aria-hidden={!isPending}
+        style={{
+          opacity: isPending ? 1 : 0,
+          transition: "opacity 0.3s ease",
+        }}
+      >
+        (読み込み中...)
+      </p>
       ...
     </section>
   );

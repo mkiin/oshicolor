@@ -22,7 +22,7 @@ import { Worker, KVNamespace } from "alchemy/cloudflare";
 
 // Create a KV namespace
 const myKV = await KVNamespace("MY_KV", {
-  title: "my-kv-namespace"
+  title: "my-kv-namespace",
 });
 
 // Bind the KV namespace to a worker
@@ -36,7 +36,7 @@ const myWorker = await Worker("my-worker", {
     API_KEY: alchemy.secret("secret-key"),
     // a resource (binds as an object with methods)
     MY_KV: myKV,
-  }
+  },
 });
 ```
 
@@ -50,13 +50,13 @@ export default {
   async fetch(request: Request, env: typeof myWorker.Env, ctx: any) {
     // Access the KV namespace binding
     const value = await env.MY_KV.get("key");
-    
+
     // Access other bindings
     const apiKey = env.API_KEY;
     const isDebug = env.STAGE === "prod";
-    
+
     return new Response(`Value: ${value}`);
-  }
+  },
 };
 ```
 
@@ -73,8 +73,8 @@ export default {
   async fetch(request: Request, env: typeof myWorker.Env, ctx: any) {
     env.MY_KV.get("key"); // allowed
     env.NON_EXISTING_BINDING; // type error
-  }
-}
+  },
+};
 ```
 
 2. Augment `env` from the `cloudflare:workers` module to infer the types globally:
@@ -92,6 +92,7 @@ declare module "cloudflare:workers" {
 ```
 
 Register `env.d.ts` in your `tsconfig.json`'s `types`.
+
 ```json
 {
   "compilerOptions": {
@@ -109,17 +110,18 @@ export default {
     // Type-safe access to bindings
     const value = await env.MY_KV.get("key");
     const apiKey = env.API_KEY;
-    
+
     return new Response(`Value: ${value}`);
-  }
+  },
 };
 ```
 
 Or use the global import:
+
 ```ts
 import { env } from "cloudflare:workers";
 
-await env.MY_KV.get("key")
+await env.MY_KV.get("key");
 ```
 
 ## Binding Types
@@ -127,6 +129,7 @@ await env.MY_KV.get("key")
 Alchemy supports three types of bindings:
 
 ### Strings
+
 For non-sensitive configuration values (visible in logs):
 
 ```typescript
@@ -134,24 +137,26 @@ const worker = await Worker("my-worker", {
   bindings: {
     STAGE: app.stage,
     VERSION: "1.0.0",
-    DEBUG_MODE: "true"
-  }
+    DEBUG_MODE: "true",
+  },
 });
 ```
 
 ### Secrets
+
 For sensitive values like API keys (always use `alchemy.secret()`):
 
 ```typescript
 const worker = await Worker("my-worker", {
   bindings: {
     API_KEY: alchemy.secret("secret-key"),
-    DATABASE_PASSWORD: alchemy.secret("db-pass")
-  }
+    DATABASE_PASSWORD: alchemy.secret("db-pass"),
+  },
 });
 ```
 
 ### Resources
+
 For infrastructure connections:
 
 ```typescript
@@ -165,7 +170,7 @@ const worker = await Worker("my-worker", {
     KV_STORE: kvStore,
     STORAGE: bucket,
     STAGE: app.stage,
-    API_KEY: alchemy.secret("key")
-  }
+    API_KEY: alchemy.secret("key"),
+  },
 });
 ```

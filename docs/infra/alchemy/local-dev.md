@@ -16,7 +16,6 @@ To run Alchemy in development mode, use the [`alchemy dev`](/concepts/cli#dev) c
 - Watch for and auto-apply changes to your infrastructure
 - Hot reload Workers when you make changes to your runtime code
 
-
 <Tabs syncKey="pkgManager">
   <TabItem label="bun">
     ```bash
@@ -38,6 +37,7 @@ To run Alchemy in development mode, use the [`alchemy dev`](/concepts/cli#dev) c
     # use an environment file
     bun alchemy dev --env-file .env.dev
     ```
+
   </TabItem>
   <TabItem label="npm">
     ```bash
@@ -59,6 +59,7 @@ To run Alchemy in development mode, use the [`alchemy dev`](/concepts/cli#dev) c
     # use an environment file
     npx alchemy dev --env-file .env.dev
     ```
+
   </TabItem>
   <TabItem label="pnpm">
     ```bash
@@ -80,6 +81,7 @@ To run Alchemy in development mode, use the [`alchemy dev`](/concepts/cli#dev) c
     # use an environment file
     pnpm alchemy dev --env-file .env.dev
     ```
+
   </TabItem>
   <TabItem label="yarn">
     ```bash
@@ -101,9 +103,9 @@ To run Alchemy in development mode, use the [`alchemy dev`](/concepts/cli#dev) c
     # use an environment file
     yarn alchemy dev --env-file .env.dev
     ```
+
   </TabItem>
 </Tabs>
-
 
 :::note
 For more CLI options and commands, see the [CLI documentation](/concepts/cli).
@@ -152,8 +154,6 @@ You must download and install `cloudflared` - see the [Cloudflare Tunnels docume
 :::note
 **How it works**: a temporary ["Quick Tunnel"](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/do-more-with-tunnels/trycloudflare/) is created and bound to the remote Worker (e.g. `my-worker`) which proxies requests to your locally running Worker via the Tunnel.
 :::
-
-
 
 ## Bindings
 
@@ -214,27 +214,27 @@ const worker = await Worker("my-worker", {
 
 ### Binding Support
 
-| Resource | Local Emulation | Remote Binding | Documentation |
-|----------|----------------|----------------|---------------|
-| `Ai` | 笶� | 笨� | [Ai](/providers/cloudflare/ai/) |
-| `AnalyticsEngine` | 笨� | 笶� | [AnalyticsEngine](/providers/cloudflare/analytics-engine/) |
-| `Assets` | 笨� | 笶� | [Assets](/providers/cloudflare/assets/) |
-| `BrowserRendering` | 笶� | 笨� | [BrowserRendering](/providers/cloudflare/browser-rendering/) |
-| `Container` | 笨� | 笨� | [Container](/providers/cloudflare/container/) |
-| `DispatchNamespace` | 笶� | 笨� | [DispatchNamespace](/providers/cloudflare/dispatch-namespace/) |
-| `D1Database` | 笨� | 笨� | [D1Database](/providers/cloudflare/d1-database/) |
-| `DurableObjectNamespace` | 笶� | 笨� | [DurableObjectNamespace](/providers/cloudflare/durable-object-namespace/) |
-| `Hyperdrive` | 笨� | 笶� | [Hyperdrive](/providers/cloudflare/hyperdrive/) |
-| `Images` | 笨� | 笨� | [Images](/providers/cloudflare/images/) |
-| `KVNamespace` | 笨� | 笨� | [KVNamespace](/providers/cloudflare/kv-namespace/) |
-| `Queue` | 笨� | 笨� | [Queue](/providers/cloudflare/queue/) |
-| `Pipeline` | 笨� | 笶� | [Pipeline](/providers/cloudflare/pipeline/) |
-| `RateLimit` | 笨� | 笶� | [RateLimit](/providers/cloudflare/rate-limit/) |
-| `R2Bucket` | 笨� | 笨� | [R2Bucket](/providers/cloudflare/bucket/) |
-| `VectorizeIndex` | 笶� | 笨� | VectorizeIndex | [VectorizeIndex](https://developers.cloudflare.com/vectorize/best-practices/create-indexes/) |
-| `VersionMetadata` | 笨� | 笶� | [VersionMetadata](/providers/cloudflare/version-metadata/) |
-| `Worker` | 笨� | 笨� | [Worker](/providers/cloudflare/worker/) |
-| `Workflow` | 笨� | 笶� | [Workflow](/providers/cloudflare/workflow/) |
+| Resource                 | Local Emulation | Remote Binding | Documentation                                                             |
+| ------------------------ | --------------- | -------------- | ------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| `Ai`                     | 笶�             | 笨�            | [Ai](/providers/cloudflare/ai/)                                           |
+| `AnalyticsEngine`        | 笨�             | 笶�            | [AnalyticsEngine](/providers/cloudflare/analytics-engine/)                |
+| `Assets`                 | 笨�             | 笶�            | [Assets](/providers/cloudflare/assets/)                                   |
+| `BrowserRendering`       | 笶�             | 笨�            | [BrowserRendering](/providers/cloudflare/browser-rendering/)              |
+| `Container`              | 笨�             | 笨�            | [Container](/providers/cloudflare/container/)                             |
+| `DispatchNamespace`      | 笶�             | 笨�            | [DispatchNamespace](/providers/cloudflare/dispatch-namespace/)            |
+| `D1Database`             | 笨�             | 笨�            | [D1Database](/providers/cloudflare/d1-database/)                          |
+| `DurableObjectNamespace` | 笶�             | 笨�            | [DurableObjectNamespace](/providers/cloudflare/durable-object-namespace/) |
+| `Hyperdrive`             | 笨�             | 笶�            | [Hyperdrive](/providers/cloudflare/hyperdrive/)                           |
+| `Images`                 | 笨�             | 笨�            | [Images](/providers/cloudflare/images/)                                   |
+| `KVNamespace`            | 笨�             | 笨�            | [KVNamespace](/providers/cloudflare/kv-namespace/)                        |
+| `Queue`                  | 笨�             | 笨�            | [Queue](/providers/cloudflare/queue/)                                     |
+| `Pipeline`               | 笨�             | 笶�            | [Pipeline](/providers/cloudflare/pipeline/)                               |
+| `RateLimit`              | 笨�             | 笶�            | [RateLimit](/providers/cloudflare/rate-limit/)                            |
+| `R2Bucket`               | 笨�             | 笨�            | [R2Bucket](/providers/cloudflare/bucket/)                                 |
+| `VectorizeIndex`         | 笶�             | 笨�            | VectorizeIndex                                                            | [VectorizeIndex](https://developers.cloudflare.com/vectorize/best-practices/create-indexes/) |
+| `VersionMetadata`        | 笨�             | 笶�            | [VersionMetadata](/providers/cloudflare/version-metadata/)                |
+| `Worker`                 | 笨�             | 笨�            | [Worker](/providers/cloudflare/worker/)                                   |
+| `Workflow`               | 笨�             | 笶�            | [Workflow](/providers/cloudflare/workflow/)                               |
 
 :::tip
 Local emulation is enabled by default for resources that support it. Resources that can run in both local and remote modes can optionally set `dev.remote: true` to use the deployed resource instead.
@@ -255,7 +255,7 @@ Alchemy integrates with popular web frameworks, so you can use them with Alchemy
     ```
 
     Then, update your `astro.config.mjs` file:
-    
+
     ```ts title="astro.config.mjs"
     import alchemy from "alchemy/cloudflare/astro";
 
@@ -263,6 +263,7 @@ Alchemy integrates with popular web frameworks, so you can use them with Alchemy
       integrations: [alchemy()],
     });
     ```
+
   </TabItem>
   <TabItem label="React Router">
     First, use the `ReactRouter` resource in your `alchemy.run.ts` script:
@@ -296,6 +297,7 @@ Alchemy integrates with popular web frameworks, so you can use them with Alchemy
       plugins: [alchemy(), reactRouter()],
     });
     ```
+
   </TabItem>
   <TabItem label="TanStack Start">
     First, use the `TanStackStart` resource in your `alchemy.run.ts` script:
@@ -315,7 +317,7 @@ Alchemy integrates with popular web frameworks, so you can use them with Alchemy
 
     export default defineConfig({
       plugins: [
-        alchemy(), 
+        alchemy(),
         tanstackStart({
           target: "cloudflare-module",
           customViteReactPlugin: true,
@@ -324,6 +326,7 @@ Alchemy integrates with popular web frameworks, so you can use them with Alchemy
       ],
     });
     ```
+
   </TabItem>
   <TabItem label="Vite">
     :::caution
@@ -348,6 +351,7 @@ Alchemy integrates with popular web frameworks, so you can use them with Alchemy
       plugins: [alchemy()],
     });
     ```
+
   </TabItem>
   <TabItem label="BunSPA">
     :::note
@@ -380,6 +384,7 @@ Alchemy integrates with popular web frameworks, so you can use them with Alchemy
     - **Frontend:** Bun's native dev server with hot module reloading
     - **Backend:** alchemy dev runs your Worker locally with full binding support
     - No additional configuration needed - just run `alchemy dev`
+
   </TabItem>
   <TabItem label="SvelteKit">
     First, use the `SvelteKit` resource in your `alchemy.run.ts` script:
@@ -408,6 +413,7 @@ Alchemy integrates with popular web frameworks, so you can use them with Alchemy
     ```
 
     You should not need to update your `vite.config.ts` file.
+
   </TabItem>
   <TabItem label="Nuxt">
     First, use the `Nuxt` resource in your `alchemy.run.ts` script:
@@ -432,6 +438,7 @@ Alchemy integrates with popular web frameworks, so you can use them with Alchemy
       modules: ["nitro-cloudflare-dev"],
     });
     ```
+
   </TabItem>
 </Tabs>
 
@@ -442,8 +449,9 @@ If you initialize a new project using the `alchemy create` command, the framewor
 ## Limitations
 
 :::caution
+
 - Local Workers can push to remote queues, but cannot consume from them.
 - Hyperdrive support is experimental. Hyperdrive configurations that use Cloudflare Access are not supported, and only configurations provisioned in the same alchemy.run.ts file will work. This is a limitation from Cloudflare that is actively being worked on.
 - Container bindings with `dev: { remote: true }` cannot be used as local bindings in development mode.
 - You may see 窶廚onnection refused窶� errors in the console when containers are starting up - these can be safely ignored.
-:::
+  :::

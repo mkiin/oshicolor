@@ -6,11 +6,11 @@
 import Vibrant from "node-vibrant";
 
 const palette = await Vibrant.from("image.jpg")
-  .quality(5)             // 1/5 にダウンサンプル
-  .maxColorCount(64)      // 最大64色抽出
+  .quality(5) // 1/5 にダウンサンプル
+  .maxColorCount(64) // 最大64色抽出
   .getPalette();
 
-palette.Vibrant;     // → Swatch | null
+palette.Vibrant; // → Swatch | null
 palette.DarkVibrant; // → Swatch | null
 // ...
 ```
@@ -212,5 +212,6 @@ Palette {
 ```
 
 スロットが `null` になるのは:
+
 - 実際の画像にその特性の色がない場合
 - フォールバック合成も不可能だった場合（ごくまれ）

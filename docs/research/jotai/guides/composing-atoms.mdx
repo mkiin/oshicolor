@@ -15,8 +15,8 @@ nav: 8.11
 派生アトムの最もシンプルな例の1つを示します：
 
 ```js
-export const textAtom = atom('hello')
-export const textLenAtom = atom((get) => get(textAtom).length)
+export const textAtom = atom("hello");
+export const textLenAtom = atom((get) => get(textAtom).length);
 ```
 
 `textLenAtom` は `write` 関数が定義されていないため、読み取り専用アトムと呼ばれます。
@@ -24,11 +24,11 @@ export const textLenAtom = atom((get) => get(textAtom).length)
 以下は `write` 関数を持つ別のシンプルな例です：
 
 ```js
-const textAtom = atom('hello')
+const textAtom = atom("hello");
 export const textUpperCaseAtom = atom(
   (get) => get(textAtom).toUpperCase(),
   (_get, set, newText) => set(textAtom, newText),
-)
+);
 ```
 
 この場合、`textUpperCaseAtom` は元の `textAtom` をセットできます。
@@ -44,17 +44,16 @@ export const textUpperCaseAtom = atom(
 読み取り専用アトムの値を上書きできます。
 
 ```js
-const rawNumberAtom = atom(10.1) // エクスポート可能
-const roundNumberAtom = atom((get) => Math.round(get(rawNumberAtom)))
-const overwrittenAtom = atom(null)
+const rawNumberAtom = atom(10.1); // エクスポート可能
+const roundNumberAtom = atom((get) => Math.round(get(rawNumberAtom)));
+const overwrittenAtom = atom(null);
 export const numberAtom = atom(
   (get) => get(overwrittenAtom) ?? get(roundNumberAtom),
   (get, set, newValue) => {
-    const nextValue =
-      typeof newValue === 'function' ? newValue(get(numberAtom)) : newValue
-    set(overwrittenAtom, nextValue)
+    const nextValue = typeof newValue === "function" ? newValue(get(numberAtom)) : newValue;
+    set(overwrittenAtom, nextValue);
   },
-)
+);
 ```
 
 最終的な `numberAtom` は `atom(10)` のような通常のプリミティブアトムと同様に機能します。
@@ -73,16 +72,15 @@ export const numberAtom = atom(
 `localStorage` と同期するアトムの作成方法を見てみましょう。
 
 ```js
-const baseAtom = atom(localStorage.getItem('mykey') || '')
+const baseAtom = atom(localStorage.getItem("mykey") || "");
 export const persistedAtom = atom(
   (get) => get(baseAtom),
   (get, set, newValue) => {
-    const nextValue =
-      typeof newValue === 'function' ? newValue(get(baseAtom)) : newValue
-    set(baseAtom, nextValue)
-    localStorage.setItem('mykey', nextValue)
+    const nextValue = typeof newValue === "function" ? newValue(get(baseAtom)) : newValue;
+    set(baseAtom, nextValue);
+    localStorage.setItem("mykey", nextValue);
   },
-)
+);
 ```
 
 `persistedAtom` はプリミティブアトムのように機能しますが、その値は
@@ -142,14 +140,14 @@ README に説明されているため、既知のパターンのはずです。
 
 ```js
 const countAtom = atomWithReducer(0, (prev, action) => {
-  if (action === 'INC') {
-    return prev + 1
+  if (action === "INC") {
+    return prev + 1;
   }
-  if (action === 'DEC') {
-    return prev - 1
+  if (action === "DEC") {
+    return prev - 1;
   }
-  throw new Error('unknown action')
-})
+  throw new Error("unknown action");
+});
 ```
 
 これは問題ありませんが、あまりアトミックではありません。
@@ -157,14 +155,14 @@ const countAtom = atomWithReducer(0, (prev, action) => {
 書き込み専用アトム、つまりアクションアトムを作成したいと思うでしょう。
 
 ```js
-const baseAtom = atom(0) // エクスポートしない
-export const countAtom = atom((get) => get(baseAtom)) // 読み取り専用
+const baseAtom = atom(0); // エクスポートしない
+export const countAtom = atom((get) => get(baseAtom)); // 読み取り専用
 export const incAtom = atom(null, (_get, set) => {
-  set(baseAtom, (prev) => prev + 1)
-})
+  set(baseAtom, (prev) => prev + 1);
+});
 export const decAtom = atom(null, (_get, set) => {
-  set(baseAtom, (prev) => prev - 1)
-})
+  set(baseAtom, (prev) => prev - 1);
+});
 ```
 
 これはよりアトミックで、Jotai らしいやり方です。
@@ -174,14 +172,14 @@ export const decAtom = atom(null, (_get, set) => {
 ```js
 // 前のコードから続く
 export const dispatchAtom = atom(null, (_get, set, action) => {
-  if (action === 'INC') {
-    set(incAtom)
-  } else if (action === 'DEC') {
-    set(decAtom)
+  if (action === "INC") {
+    set(incAtom);
+  } else if (action === "DEC") {
+    set(decAtom);
   } else {
-    throw new Error('unknown action')
+    throw new Error("unknown action");
   }
-})
+});
 ```
 
 なぜこれが必要なのでしょうか？必要なときだけ使用されるからです。
@@ -201,8 +199,8 @@ export const dispatchAtom = atom(null, (_get, set, action) => {
 そのような場合は、関数をオブジェクトでラップするだけです。
 
 ```js
-const doublerAtom = atom({ callback: (n) => n * 2 })
+const doublerAtom = atom({ callback: (n) => n * 2 });
 // 使用方法
-const [doubler] = useAtom(doublerAtom)
-const doubledValue = doubler.callback(50) // 100 を計算します
+const [doubler] = useAtom(doublerAtom);
+const doubledValue = doubler.callback(50); // 100 を計算します
 ```

@@ -23,27 +23,27 @@ NG：
 
 ```js
 // 各アイテムに対する重い計算処理
-const selector = (s) => s.filter(heavyComputation)
+const selector = (s) => s.filter(heavyComputation);
 const Profile = () => {
-  const [computed] = useAtom(selectAtom(friendsAtom, selector))
-}
+  const [computed] = useAtom(selectAtom(friendsAtom, selector));
+};
 ```
 
 OK：
 
 ```js
-const friendsAtom = atom([])
+const friendsAtom = atom([]);
 const fetchFriendsAtom = atom(null, async (get, set, payload) => {
   // 全友達をフェッチ
-  const res = await fetch('https://...')
+  const res = await fetch("https://...");
   // 重い計算処理を一度だけ実行
-  const computed = res.filter(heavyComputation)
-  set(friendsAtom, computed)
-})
+  const computed = res.filter(heavyComputation);
+  set(friendsAtom, computed);
+});
 // コンポーネントでの使用
 const Profile = () => {
-  const [friends] = useAtom(friendsAtom)
-}
+  const [friends] = useAtom(friendsAtom);
+};
 ```
 
 #### 小さなコンポーネント
@@ -54,36 +54,36 @@ NG：
 
 ```jsx
 const Profile = () => {
-  const [name] = useAtom(nameAtom)
-  const [age] = useAtom(ageAtom)
+  const [name] = useAtom(nameAtom);
+  const [age] = useAtom(ageAtom);
   return (
     <>
       <div>{name}</div>
       <div>{age}</div>
     </>
-  )
-}
+  );
+};
 ```
 
 OK：
 
 ```jsx
 const NameComponent = () => {
-  const [name] = useAtom(nameAtom)
-  return <div>{name}</div>
-}
+  const [name] = useAtom(nameAtom);
+  return <div>{name}</div>;
+};
 const AgeComponent = () => {
-  const [age] = useAtom(ageAtom)
-  return <div>{age}</div>
-}
+  const [age] = useAtom(ageAtom);
+  return <div>{age}</div>;
+};
 const Profile = () => {
   return (
     <>
       <NameComponent />
       <AgeComponent />
     </>
-  )
-}
+  );
+};
 ```
 
 ### オンデマンドレンダリング

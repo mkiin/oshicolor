@@ -41,18 +41,15 @@ const usersAtom = atom(async () => {
 
 const selectedUserIdsAtom = atom<Set<string>>(new Set());
 
-const toggleUserSelectionAtom = atom(
-  null,
-  (get, set, userId: string) => {
-    const selectedUserIds = new Set(get(selectedUserIdsAtom));
-    if (selectedUserIds.has(userId)) {
-      selectedUserIds.delete(userId);
-    } else {
-      selectedUserIds.add(userId);
-    }
-    set(selectedUserIdsAtom, selectedUserIds);
+const toggleUserSelectionAtom = atom(null, (get, set, userId: string) => {
+  const selectedUserIds = new Set(get(selectedUserIdsAtom));
+  if (selectedUserIds.has(userId)) {
+    selectedUserIds.delete(userId);
+  } else {
+    selectedUserIds.add(userId);
   }
-);
+  set(selectedUserIdsAtom, selectedUserIds);
+});
 
 const UserList: React.FC = () => {
   const users = useAtomValue(usersAtom);
@@ -118,18 +115,15 @@ const selectedUserIdsAtom = atom<Promise<Set<string>>>(async (get) => {
   return new Set(users.map((user) => user.id));
 });
 
-const toggleUserSelectionAtom = atom(
-  null,
-  async (get, set, userId: string) => {
-    const selectedUserIds = new Set(await get(selectedUserIdsAtom));
-    if (selectedUserIds.has(userId)) {
-      selectedUserIds.delete(userId);
-    } else {
-      selectedUserIds.add(userId);
-    }
-    set(internalSelectedUserIdsAtom, selectedUserIds);
+const toggleUserSelectionAtom = atom(null, async (get, set, userId: string) => {
+  const selectedUserIds = new Set(await get(selectedUserIdsAtom));
+  if (selectedUserIds.has(userId)) {
+    selectedUserIds.delete(userId);
+  } else {
+    selectedUserIds.add(userId);
   }
-);
+  set(internalSelectedUserIdsAtom, selectedUserIds);
+});
 ```
 
 このコードでは、実際の選択状態を保存するプリミティブatomである`internalSelectedUserIdsAtom`を用意し、中身は`Set<string> | null`型としています。初期状態は`null`です。常にSetが入っているのではなく、初期値を表す特別な値として`null`を使っています。
@@ -189,7 +183,7 @@ const selectedUserIdsAtom = eagerAtom((get) => {
 VS Codeなどのエディタを使って`selectedUserIdsAtom`の型を調べると、jotai-eagerの秘密が明らかになります。次のような型になっているはずです。
 
 ```ts
-Atom<Set<string> | Promise<Set<string>>>
+Atom<Set<string> | Promise<Set<string>>>;
 ```
 
 つまり、`selectedUserIdsAtom`は`Set<string>`型か`Promise<Set<string>>`型のどちらかを返すatomになっています。
@@ -199,15 +193,17 @@ Atom<Set<string> | Promise<Set<string>>>
 jotai-eagerのポイントは、ReactのSuspenseと同様の仕組みで非同期処理を隠蔽してくれる点にあります。先ほどのコードを、型注釈マシマシで再掲します。
 
 ```ts
-const selectedUserIdsAtom: Atom<Set<string> | Promise<Set<string>>> = eagerAtom((get): Set<string> => {
-  const selectedUserIds: Set<string> | null = get(internalSelectedUserIdsAtom);
-  if (selectedUserIds !== null) {
-    return selectedUserIds;
-  }
+const selectedUserIdsAtom: Atom<Set<string> | Promise<Set<string>>> = eagerAtom(
+  (get): Set<string> => {
+    const selectedUserIds: Set<string> | null = get(internalSelectedUserIdsAtom);
+    if (selectedUserIds !== null) {
+      return selectedUserIds;
+    }
 
-  const users: User[] = get(usersAtom);
-  return new Set(users.map((user) => user.id));
-});
+    const users: User[] = get(usersAtom);
+    return new Set(users.map((user) => user.id));
+  },
+);
 ```
 
 すると、2つのポイントが見えてきます。
@@ -223,21 +219,23 @@ jotai-eagerの場合は、`get`関数がReactの`use`のような働きをして
 そして、**`get`でPromiseの中身を取り出したときだけ、`eagerAtom`の読み取り結果がPromiseになる**のです。今回の場合、条件分岐の結果次第で結果がPromiseになるかどうか決まります。
 
 ```ts
-const selectedUserIdsAtom: Atom<Set<string> | Promise<Set<string>>> = eagerAtom((get): Set<string> => {
-  // このgetは同期的な読み取り
-  const selectedUserIds: Set<string> | null = get(internalSelectedUserIdsAtom);
-  if (selectedUserIds !== null) {
-    // ここでreturnした場合、非同期処理をしていないので、
-    // selectedUserIdsAtomの値はSet<string>になる
-    return selectedUserIds;
-  }
+const selectedUserIdsAtom: Atom<Set<string> | Promise<Set<string>>> = eagerAtom(
+  (get): Set<string> => {
+    // このgetは同期的な読み取り
+    const selectedUserIds: Set<string> | null = get(internalSelectedUserIdsAtom);
+    if (selectedUserIds !== null) {
+      // ここでreturnした場合、非同期処理をしていないので、
+      // selectedUserIdsAtomの値はSet<string>になる
+      return selectedUserIds;
+    }
 
-  // このgetは非同期的な読み取り
-  const users: User[] = get(usersAtom);
-  // ここでreturnした場合、usersAtomの値を非同期的に取得しているので、
-  // selectedUserIdsAtomの値はPromise<Set<string>>になる
-  return new Set(users.map((user) => user.id));
-});
+    // このgetは非同期的な読み取り
+    const users: User[] = get(usersAtom);
+    // ここでreturnした場合、usersAtomの値を非同期的に取得しているので、
+    // selectedUserIdsAtomの値はPromise<Set<string>>になる
+    return new Set(users.map((user) => user.id));
+  },
+);
 ```
 
 よって、`selectedUserIds`の値がPromiseになるのは初期状態の場合だけで、それ以降（チェックボックスを1回でも操作した後）は`selectedUserIds`の値はPromiseではなく同期的な値になります。
@@ -249,16 +247,18 @@ const selectedUserIdsAtom: Atom<Set<string> | Promise<Set<string>>> = eagerAtom(
 実は、今回の場合はjotai-eagerを以下のように使っても目的を達成できます。
 
 ```ts
-const selectedUserIdsAtom: Atom<Set<string> | Promise<Set<string>>> = eagerAtom((get): Set<string> => {
-  const selectedUserIds: Set<string> | null = get(internalSelectedUserIdsAtom);
-  const users: User[] = get(usersAtom);
+const selectedUserIdsAtom: Atom<Set<string> | Promise<Set<string>>> = eagerAtom(
+  (get): Set<string> => {
+    const selectedUserIds: Set<string> | null = get(internalSelectedUserIdsAtom);
+    const users: User[] = get(usersAtom);
 
-  if (selectedUserIds !== null) {
-    return selectedUserIds;
-  }
+    if (selectedUserIds !== null) {
+      return selectedUserIds;
+    }
 
-  return new Set(users.map((user) => user.id));
-});
+    return new Set(users.map((user) => user.id));
+  },
+);
 ```
 
 あまり意味はないけど、`users`の取得を先に持ってきました。こうすると、常に`get(usersAtom)`しているので結局常に`selectedUserIdsAtom`の値がPromiseになってしまうように思えますが、**実はそうなりません**。

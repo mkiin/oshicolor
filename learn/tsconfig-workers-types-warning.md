@@ -36,9 +36,9 @@ Cannot find type definition file for '@cloudflare/workers-types'.
 
 ## まとめ
 
-| 状況 | 対処 |
-|---|---|
-| Cloudflare Workers API の型を直接使っていない | `types` から `@cloudflare/workers-types` を削除 |
-| `KVNamespace` 等を直接参照している | `pnpm add -D @cloudflare/workers-types` でインストール |
+| 状況                                          | 対処                                                   |
+| --------------------------------------------- | ------------------------------------------------------ |
+| Cloudflare Workers API の型を直接使っていない | `types` から `@cloudflare/workers-types` を削除        |
+| `KVNamespace` 等を直接参照している            | `pnpm add -D @cloudflare/workers-types` でインストール |
 
 `compilerOptions.types` に書いたパッケージが `node_modules` に存在しないと警告になる。使っていないなら削除、使っているなら入れる、がシンプルな判断基準。

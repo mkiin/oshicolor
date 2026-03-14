@@ -58,16 +58,16 @@ ColorPoint[]（抽出色・最大12色）
 
 ## v2 からの変更点サマリ
 
-| 箇所 | v2 | v3 |
-|---|---|---|
-| bg の取得 | L 最小の抽出色 | signatureHue を借用した neutral 生成 |
-| fg の取得 | L 最大の抽出色 | fgThreshold チェック → 未達は neutral 生成 |
-| accent の除外 | bg + fg + comment | comment のみ |
-| accent 最大数 | 9 色 | 11 色 |
-| Zone B L 計算 | `max(bgL + 0.35, sig.l + 0.08)` | ダーク同上、ライト `max(fgL + 0.25, sig.l - 0.08)` |
-| Zone B C 計算 | `sig.c × 0.35` | `sig.c × concept.cRatio`（コンセプト別） |
-| shiftL 方向 | 常に + | `concept.isDark ? + : -` |
-| 関数シグネチャ | `(palette)` | `(palette, conceptName = "darkClassic")` |
+| 箇所           | v2                              | v3                                                 |
+| -------------- | ------------------------------- | -------------------------------------------------- |
+| bg の取得      | L 最小の抽出色                  | signatureHue を借用した neutral 生成               |
+| fg の取得      | L 最大の抽出色                  | fgThreshold チェック → 未達は neutral 生成         |
+| accent の除外  | bg + fg + comment               | comment のみ                                       |
+| accent 最大数  | 9 色                            | 11 色                                              |
+| Zone B L 計算  | `max(bgL + 0.35, sig.l + 0.08)` | ダーク同上、ライト `max(fgL + 0.25, sig.l - 0.08)` |
+| Zone B C 計算  | `sig.c × 0.35`                  | `sig.c × concept.cRatio`（コンセプト別）           |
+| shiftL 方向    | 常に +                          | `concept.isDark ? + : -`                           |
+| 関数シグネチャ | `(palette)`                     | `(palette, conceptName = "darkClassic")`           |
 
 ---
 
@@ -92,12 +92,8 @@ const bgHex = generateNeutral(concept.bgL, signatureHue);
 
 ```typescript
 const generateNeutral = (l: number, h: number): string => {
-    const generated = clampChroma(
-        { mode: "oklch" as const, l, c: 0.02, h },
-        "oklch",
-        "rgb",
-    );
-    return formatHex(generated) ?? "#000000";
+  const generated = clampChroma({ mode: "oklch" as const, l, c: 0.02, h }, "oklch", "rgb");
+  return formatHex(generated) ?? "#000000";
 };
 ```
 
@@ -121,9 +117,9 @@ Hue だけ引き継ぐのでキャラクターの「空気感」が薄く bg に
 const sortedByLDesc = [...colors].sort((a, b) => b.l - a.l);
 const fgCandidate = sortedByLDesc[0];
 fgHex =
-    fgCandidate && fgCandidate.l >= concept.fgThreshold  // 0.70
-        ? fgCandidate.hex
-        : generateNeutral(concept.fgL, signatureHue);   // L=0.88 or 0.85
+  fgCandidate && fgCandidate.l >= concept.fgThreshold // 0.70
+    ? fgCandidate.hex
+    : generateNeutral(concept.fgL, signatureHue); // L=0.88 or 0.85
 ```
 
 ### Light Pastel
@@ -132,9 +128,9 @@ fgHex =
 const sortedByLAsc = [...colors].sort((a, b) => a.l - b.l);
 const fgCandidate = sortedByLAsc[0];
 fgHex =
-    fgCandidate && fgCandidate.l <= concept.fgThreshold  // 0.35
-        ? fgCandidate.hex
-        : generateNeutral(concept.fgL, signatureHue);   // L=0.15
+  fgCandidate && fgCandidate.l <= concept.fgThreshold // 0.35
+    ? fgCandidate.hex
+    : generateNeutral(concept.fgL, signatureHue); // L=0.15
 ```
 
 ---
@@ -148,12 +144,10 @@ fg の採用有無に関わらず除外しない。comment のみ除外する。
 ```typescript
 const usedHexes = new Set<string>();
 if (commentColor) {
-    usedHexes.add(commentColor.hex);
+  usedHexes.add(commentColor.hex);
 }
 
-const accents = colors
-    .filter((c) => !usedHexes.has(c.hex))
-    .sort((a, b) => b.c - a.c);
+const accents = colors.filter((c) => !usedHexes.has(c.hex)).sort((a, b) => b.c - a.c);
 ```
 
 結果として最大 11 色（12色 - comment 1色）が accent 候補になる（v2 は最大 9 色）。
@@ -178,8 +172,8 @@ accents[2] → Special   （C3位）
 
 ```typescript
 const l = isDark
-    ? Math.max(bgL + 0.35, signature.l + 0.08)
-    : Math.max(fgL + 0.25, signature.l - 0.08);
+  ? Math.max(bgL + 0.35, signature.l + 0.08)
+  : Math.max(fgL + 0.25, signature.l - 0.08);
 ```
 
 **ダークテーマ**: bg(暗い) より 0.35 明るく保証。コードは明るいほど視認しやすい。
@@ -201,9 +195,9 @@ darkMuted はより控えめな補完色になる。
 ダークテーマは bg が暗いので「明るくシフト」、ライトテーマは bg が明るいので「暗くシフト」する。
 
 ```typescript
-CursorLine: shiftL(bgHex, concept.isDark ? +0.04 : -0.04)
-Visual:     shiftL(bgHex, concept.isDark ? +0.08 : -0.08)
-Pmenu:      shiftL(bgHex, concept.isDark ? +0.03 : -0.03)
+CursorLine: shiftL(bgHex, concept.isDark ? +0.04 : -0.04);
+Visual: shiftL(bgHex, concept.isDark ? +0.08 : -0.08);
+Pmenu: shiftL(bgHex, concept.isDark ? +0.03 : -0.03);
 ```
 
 ---

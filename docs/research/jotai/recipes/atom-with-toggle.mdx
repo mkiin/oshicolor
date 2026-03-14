@@ -9,17 +9,15 @@ keywords: creators,toggle
 これにより、最初のアトムの状態を更新するためだけに別のアトムを用意するというボイラープレートを避けることができます。
 
 ```ts
-import { WritableAtom, atom } from 'jotai'
+import { WritableAtom, atom } from "jotai";
 
-export function atomWithToggle(
-  initialValue?: boolean,
-): WritableAtom<boolean, [boolean?], void> {
+export function atomWithToggle(initialValue?: boolean): WritableAtom<boolean, [boolean?], void> {
   const anAtom = atom(initialValue, (get, set, nextValue?: boolean) => {
-    const update = nextValue ?? !get(anAtom)
-    set(anAtom, update)
-  })
+    const update = nextValue ?? !get(anAtom);
+    set(anAtom, update);
+  });
 
-  return anAtom as WritableAtom<boolean, [boolean?], void>
+  return anAtom as WritableAtom<boolean, [boolean?], void>;
 }
 ```
 
@@ -30,26 +28,24 @@ export function atomWithToggle(
 使用例：
 
 ```js
-import { atomWithToggle } from 'XXX'
+import { atomWithToggle } from "XXX";
 
 // 初期値が true に設定されます
-const isActiveAtom = atomWithToggle(true)
+const isActiveAtom = atomWithToggle(true);
 ```
 
 コンポーネント内での使用：
 
 ```jsx
 const Toggle = () => {
-  const [isActive, toggle] = useAtom(isActiveAtom)
+  const [isActive, toggle] = useAtom(isActiveAtom);
 
   return (
     <>
-      <button onClick={() => toggle()}>
-        isActive: {isActive ? 'yes' : 'no'}
-      </button>
+      <button onClick={() => toggle()}>isActive: {isActive ? "yes" : "no"}</button>
       <button onClick={() => toggle(true)}>force true</button>
       <button onClick={() => toggle(false)}>force false</button>
     </>
-  )
-}
+  );
+};
 ```

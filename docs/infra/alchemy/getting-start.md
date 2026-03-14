@@ -42,10 +42,7 @@
  * @param count - 抽出する色の数（デフォルト: 5）
  * @returns 抽出されたカラーポイントの配列
  */
-export const extractColors = (
-  imageData: ImageData,
-  count = 5,
-): ColorPoint[] => {
+export const extractColors = (imageData: ImageData, count = 5): ColorPoint[] => {
   // ...
 };
 ```
@@ -76,12 +73,12 @@ if (brightness < 30 || brightness > 225) continue;
 
 ### 変数・関数
 
-| 対象 | ケース | 例 |
-|---|---|---|
-| 変数・引数 | camelCase | `themeData`, `colorPoints` |
-| 関数 | camelCase | `extractColors`, `generateLua` |
+| 対象                     | ケース           | 例                                        |
+| ------------------------ | ---------------- | ----------------------------------------- |
+| 変数・引数               | camelCase        | `themeData`, `colorPoints`                |
+| 関数                     | camelCase        | `extractColors`, `generateLua`            |
 | 定数（イミュータブル値） | UPPER_SNAKE_CASE | `MAX_COLOR_COUNT`, `DEFAULT_PALETTE_SIZE` |
-| 環境変数 | UPPER_SNAKE_CASE | `DATABASE_URL`, `CF_BUCKET` |
+| 環境変数                 | UPPER_SNAKE_CASE | `DATABASE_URL`, `CF_BUCKET`               |
 
 ### boolean
 
@@ -115,22 +112,22 @@ type ColorPickerProps = {
 
 ### 型・コンポーネント
 
-| 対象 | ケース | 例 |
-|---|---|---|
-| 型 (type) | PascalCase | `ThemeData`, `ColorPoint` |
-| React コンポーネント | PascalCase | `ThemeEditor`, `GalleryCard` |
-| Props 型 | `~Props` サフィックス | `ThemeEditorProps` |
+| 対象                 | ケース                | 例                           |
+| -------------------- | --------------------- | ---------------------------- |
+| 型 (type)            | PascalCase            | `ThemeData`, `ColorPoint`    |
+| React コンポーネント | PascalCase            | `ThemeEditor`, `GalleryCard` |
+| Props 型             | `~Props` サフィックス | `ThemeEditorProps`           |
 
 ### ファイル・ディレクトリ
 
-| 対象 | ケース | 例 |
-|---|---|---|
-| ファイル名 | kebab-case | `theme-editor.tsx`, `color-utils.ts` |
-| ディレクトリ名 | kebab-case | `server-functions/`, `ui-components/` |
-| テストファイル | `~.test.ts` | `color-utils.test.ts` |
-| 型定義ファイル | `~.d.ts` | `env.d.ts` |
-| Server Function | `~.functions.ts` | `gallery.functions.ts` |
-| サーバー専用ヘルパー | `~.server.ts` | `gallery.server.ts` |
+| 対象                 | ケース           | 例                                    |
+| -------------------- | ---------------- | ------------------------------------- |
+| ファイル名           | kebab-case       | `theme-editor.tsx`, `color-utils.ts`  |
+| ディレクトリ名       | kebab-case       | `server-functions/`, `ui-components/` |
+| テストファイル       | `~.test.ts`      | `color-utils.test.ts`                 |
+| 型定義ファイル       | `~.d.ts`         | `env.d.ts`                            |
+| Server Function      | `~.functions.ts` | `gallery.functions.ts`                |
+| サーバー専用ヘルパー | `~.server.ts`    | `gallery.server.ts`                   |
 
 ドット区切りサフィックス（`.test.ts`, `.d.ts`, `.functions.ts`, `.server.ts`）はファイルの種別を示す慣習であり、ケバブケースのルールとは別枠として扱う。ファイル名本体部分はケバブケースを守る（例: `theme-export.functions.ts`）。
 
@@ -297,11 +294,11 @@ oshicolor/
 
 サーバーサイドコードは以下の3種のファイルに分離する。
 
-| サフィックス | 役割 | インポート可能な場所 |
-|---|---|---|
-| `~.functions.ts` | `createServerFn` のラッパー定義 | どこからでも（クライアント含む） |
-| `~.server.ts` | サーバー専用ヘルパー（DB クエリ、内部ロジック） | `.functions.ts` の handler 内のみ |
-| `~.ts`（サフィックスなし） | クライアント安全なコード（型、スキーマ、定数） | どこからでも |
+| サフィックス               | 役割                                            | インポート可能な場所              |
+| -------------------------- | ----------------------------------------------- | --------------------------------- |
+| `~.functions.ts`           | `createServerFn` のラッパー定義                 | どこからでも（クライアント含む）  |
+| `~.server.ts`              | サーバー専用ヘルパー（DB クエリ、内部ロジック） | `.functions.ts` の handler 内のみ |
+| `~.ts`（サフィックスなし） | クライアント安全なコード（型、スキーマ、定数）  | どこからでも                      |
 
 ```typescript
 // src/features/gallery/themes.server.ts - サーバー専用ヘルパー
@@ -354,11 +351,11 @@ export const Route = createFileRoute("/api/webhooks")({
 
 ## 状態管理の使い分け
 
-| 種類 | ツール | 用途 |
-|---|---|---|
-| サーバー状態 | TanStack Query (via Jotai) | API データのフェッチ・キャッシュ・再検証 |
-| クライアント状態 | Jotai | UI 状態、カラーエディタ、テーマプレビュー設定 |
-| URL 状態 | TanStack Router | ページネーション、フィルタ、検索パラメータ |
+| 種類             | ツール                     | 用途                                          |
+| ---------------- | -------------------------- | --------------------------------------------- |
+| サーバー状態     | TanStack Query (via Jotai) | API データのフェッチ・キャッシュ・再検証      |
+| クライアント状態 | Jotai                      | UI 状態、カラーエディタ、テーマプレビュー設定 |
+| URL 状態         | TanStack Router            | ページネーション、フィルタ、検索パラメータ    |
 
 - サーバーから取得したデータを Jotai アトムにコピーしない。TanStack Query のキャッシュを信頼する
 - URL に反映すべき状態（ページ番号、検索条件）は Router の search params を使う
@@ -410,10 +407,7 @@ TanStack Query との統合には **`jotai-tanstack-query`** を使用する。`
 
 ```typescript
 // Good - シグネチャに型、本体は推論に任せる
-export const extractColors = (
-  imageData: ImageData,
-  count: number,
-): ColorPoint[] => {
+export const extractColors = (imageData: ImageData, count: number): ColorPoint[] => {
   const pixels = collectPixels(imageData);
   const quantized = quantizeColors(pixels, count);
   const sorted = sortByFrequency(quantized);
@@ -421,10 +415,7 @@ export const extractColors = (
 };
 
 // Bad - ローカル変数に冗長な型アノテーション
-export const extractColors = (
-  imageData: ImageData,
-  count: number,
-): ColorPoint[] => {
+export const extractColors = (imageData: ImageData, count: number): ColorPoint[] => {
   const pixels: Pixel[] = collectPixels(imageData);
   const quantized: QuantizedColor[] = quantizeColors(pixels, count);
   const sorted: ColorPoint[] = sortByFrequency(quantized);

@@ -94,10 +94,10 @@ pnpm add prism-react-renderer
 Prism React Renderer has a named export for the `<Highlight />` component along with `themes`. To see Prism React Render in action with base styling, clone the repo and follow the [steps for local development](#development).
 
 ```tsx
-import React from "react"
-import ReactDOM from "react-dom/client"
-import { Highlight, themes } from "prism-react-renderer"
-import styles from 'styles.module.css'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { Highlight, themes } from "prism-react-renderer";
+import styles from "styles.module.css";
 
 const codeBlock = `
 const GroceryItem: React.FC<GroceryItemProps> = ({ item }) => {
@@ -109,14 +109,10 @@ const GroceryItem: React.FC<GroceryItemProps> = ({ item }) => {
     </div>
   );
 }
-`
+`;
 
 export const App = () => (
-  <Highlight
-    theme={themes.shadesOfPurple}
-    code={codeBlock}
-    language="tsx"
-  >
+  <Highlight theme={themes.shadesOfPurple} code={codeBlock} language="tsx">
     {({ className, style, tokens, getLineProps, getTokenProps }) => (
       <pre style={style}>
         {tokens.map((line, i) => (
@@ -130,16 +126,14 @@ export const App = () => (
       </pre>
     )}
   </Highlight>
-)
+);
 
-ReactDOM
-  .createRoot(document.getElementById("root") as HTMLElement)
-  .render(<App />)
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(<App />);
 ```
 
 ### Custom Language Support
 
-By default `prism-react-renderer` only includes a [base set of languages](https://github.com/FormidableLabs/prism-react-renderer/blob/master/packages/generate-prism-languages/index.ts#L9-L23) that Prism supports. 
+By default `prism-react-renderer` only includes a [base set of languages](https://github.com/FormidableLabs/prism-react-renderer/blob/master/packages/generate-prism-languages/index.ts#L9-L23) that Prism supports.
 
 > _Note_: Some languages (such as Javascript) are part of the bundle of other languages
 
@@ -148,12 +142,11 @@ By default `prism-react-renderer` only includes a [base set of languages](https:
 ```js
 import { Highlight, Prism } from "prism-react-renderer";
 
-(typeof global !== "undefined" ? global : window).Prism = Prism
-await import("prismjs/components/prism-applescript")
+(typeof global !== "undefined" ? global : window).Prism = Prism;
+await import("prismjs/components/prism-applescript");
 /** or **/
-require("prismjs/components/prism-applescript")
+require("prismjs/components/prism-applescript");
 ```
-
 
 ## Basic Props
 
@@ -223,7 +216,7 @@ You use it like so:
 ```js
 const ui = (
   <Highlight>
-    {highlight => (
+    {(highlight) => (
       // use utilities and prop getters here, like highlight.className, highlight.getTokenProps, etc.
       <pre>{/* more jsx here */}</pre>
     )}
@@ -303,12 +296,11 @@ your old Prism CSS-file themes.
 
 ```ts
 type TokenizeOptions = {
-  prism: PrismLib
-  code: string
-  grammar?: PrismGrammar
-  language: Language
-}
-
+  prism: PrismLib;
+  code: string;
+  grammar?: PrismGrammar;
+  language: Language;
+};
 ```
 
 This is a React hook that tokenizes code using Prism. It returns an array of tokens that can be rendered using the built-in `<Highlight />` component or your own custom component. It uses `normalizeTokens` internally to convert the tokens into a shape that can be rendered.
@@ -349,13 +341,13 @@ These themes are JSON-based and are heavily inspired by VSCode's theme format.
 
 ```ts
 export type PrismTheme = {
-  plain: PrismThemeEntry
+  plain: PrismThemeEntry;
   styles: Array<{
-    types: string[]
-    style: PrismThemeEntry
-    languages?: Language[]
-  }>
-}
+    types: string[];
+    style: PrismThemeEntry;
+    languages?: Language[];
+  }>;
+};
 ```
 
 The `plain` property provides a base style-object. This style object is directly used
