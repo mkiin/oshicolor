@@ -7,7 +7,7 @@
                 "hooks": [
                     {
                         "type": "command",
-                        "command": "jq -r '.tool_input.file_path | select(endswith(\".js\") or select(endswith(\".jsx\") or select(endswith(\".ts\") or select(endswith(\".tsx\") ' | xargs -r pnpm biome check --write"
+                        "command": "jq -r '.tool_input.file_path | select(endswith(\".js\") or select(endswith(\".jsx\") or select(endswith(\".ts\") or select(endswith(\".tsx\") ' | xargs -r vp check --fix"
                     }
                 ]
             }

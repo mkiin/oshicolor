@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { getColor, getPalette, getSwatches } from "colorthief";
 import { atom, useAtomValue, useSetAtom } from "jotai";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
 import { Dropzone, ImagePreview } from "@/components/ui/dropzone";
 import { ColorResults } from "@/features/color-extractor/components/color-results";
@@ -78,16 +79,14 @@ function RouteComponent() {
             />
             {file && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-                    <div className="w-full aspect-[3/4] bg-gray-100 rounded-lg overflow-hidden">
+                    <div className="w-full aspect-3/4 bg-gray-100 rounded-lg overflow-hidden">
                         <ImagePreview
                             url={previewUrl}
                             className="w-full h-full object-contain"
                         />
                     </div>
                     <Suspense
-                        fallback={
-                            <p className="text-sm text-gray-400">抽出中...</p>
-                        }
+                        fallback={<Skeleton className="w-full aspect-3/4" />}
                     >
                         <ColorResultsLoader />
                     </Suspense>
