@@ -1,5 +1,6 @@
 [tools]
-"github:IanManske/Okolors" = "latest"
+node = "24.14.0"
+pnpm = "10.32.1"
 
 [env]
 PLAYWRIGHT_BROWSERS_PATH = 0

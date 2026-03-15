@@ -25,7 +25,7 @@ type SwatchCardProps = {
 
 const SwatchCard: React.FC<SwatchCardProps> = ({ role, swatch }) => (
     <div
-        className="rounded-lg overflow-hidden ring-1 ring-black/10 min-h-[72px] flex flex-col justify-between p-3"
+        className="rounded-lg overflow-hidden ring-1 ring-black/10 min-h-72px flex flex-col justify-between p-3"
         style={{ backgroundColor: swatch?.color.hex() ?? "#f3f4f6" }}
     >
         <p

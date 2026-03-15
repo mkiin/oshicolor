@@ -18,6 +18,24 @@
 - **バリデーション**: Zod
 - **フォーマッタ / リンター**: Biome
 - **パッケージマネージャー**: pnpm
+- **ツールチェーン**: vite-plus (`vp`)
+
+### vp (vite-plus) の使い方
+
+`vp` は Vite ビルド・テスト・リント・dev server を統合する CLI。バイナリは `~/.vite-plus/bin/vp` にある。
+
+| 用途             | コマンド   |
+| ---------------- | ---------- |
+| 開発サーバー起動 | `vp dev`   |
+| ビルド           | `vp build` |
+| テスト           | `vp test`  |
+| リント           | `vp lint`  |
+
+**注意点**:
+
+- `vp install` は使わない。依存関係のインストールは `pnpm install` を使う
+- Node.js・pnpm のバージョン管理は mise が担当（vp の Node.js/PM 管理機能は無効）
+- `vp` は PATH（`~/.vite-plus/bin/`）から直接呼ぶ。`pnpm vp` は NG（`node_modules/.bin/` にないため）
 
 ### コメント・ドキュメンテーション
 
@@ -48,8 +66,9 @@
 
 - features-based 構成。機能固有は `src/features/<機能名>/`、共通モジュールは `src/` 直下に置く。
 - Route は薄く保つ。ビジネスロジックは feature 側に書く
+- features内でファイル名をつける場合、種別サフィックスをつけること("<機能名>.types.ts, <機能名>.atoms.ts")
 
-```
+```bash
 src/
 ├── routes/       # ファイルベースルーティング（薄く保つ）
 ├── components/   # 共通 UI コンポーネント
@@ -61,7 +80,7 @@ src/
 ├── styles/       # グローバルスタイル
 └── features/
     └── <feature>/
-        ├── components/, hooks/, stores/, types/  # 必要なものだけ作成
+        ├── components/, hooks/, atoms/, types/  # 必要なものだけ作成
         ├── <feature>.functions.ts
         └── <feature>.server.ts
 ```
@@ -89,7 +108,7 @@ src/
 ## コミット
 
 - コミットメッセージは Conventional Commits に従う
-    - `feat:`, `fix:`, `refactor:`, `docs:`, `chore:`, `test:`
+- `feat:`, `fix:`, `refactor:`, `docs:`, `chore:`, `test:`
 - 1 コミット = 1 論理的変更
 
 ## その他

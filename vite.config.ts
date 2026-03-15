@@ -3,7 +3,7 @@ import babel from "@rolldown/plugin-babel";
 import tailwindcss from "@tailwindcss/vite";
 import { devtools } from "@tanstack/devtools-vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
-import react, { reactCompilerPreset } from "@vitejs/plugin-react";
+import viteReact, { reactCompilerPreset } from "@vitejs/plugin-react";
 import alchemy from "alchemy/cloudflare/tanstack-start";
 import { defineConfig } from "vite-plus";
 
@@ -34,12 +34,9 @@ const config = defineConfig({
         alchemy(),
         tailwindcss(),
         tanstackStart(),
-        react(),
-        // @ts-expect-error - @rolldown/plugin-babel の型バグ: Pick<babel.InputOptions,...> が
-        // Pick<any,...> に解決され全フィールドが必須になる（公式 README 通りの使い方）
-        babel({
-            presets: [reactCompilerPreset()],
-        }),
+        viteReact(),
+        // @ts-expect-error - @rolldown/plugin-babel の型バグ: Pick<any,...> で全フィールドが必須になる
+        babel({ presets: [reactCompilerPreset()] }),
     ],
 });
 

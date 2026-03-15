@@ -5,6 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
 import { Dropzone, ImagePreview } from "@/components/ui/dropzone";
 import { ColorResults } from "@/features/color-extractor/components/color-results";
+import { deriveColorAxes } from "@/features/color-extractor/utils/color-axes.utils";
 
 export const Route = createFileRoute("/")({
     component: RouteComponent,
@@ -49,16 +50,24 @@ const colorSwatchesAtom = atom(async (get) => {
     return getSwatches(bitmap, OPTIONS);
 });
 
+const colorAxesAtom = atom(async (get) => {
+    const colors = await get(colorPaletteAtom);
+    if (!colors) return null;
+    return deriveColorAxes(colors);
+});
+
 // Suspense 境界の内側で atom を読んで ColorResults に渡すローダー
 const ColorResultsLoader: React.FC = () => {
     const dominantColor = useAtomValue(colorAtom);
     const palette = useAtomValue(colorPaletteAtom);
     const swatches = useAtomValue(colorSwatchesAtom);
+    const colorAxes = useAtomValue(colorAxesAtom);
     return (
         <ColorResults
             dominantColor={dominantColor}
             palette={palette}
             swatches={swatches}
+            colorAxes={colorAxes}
         />
     );
 };
