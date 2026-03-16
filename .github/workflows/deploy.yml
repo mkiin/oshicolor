@@ -24,7 +24,7 @@ jobs:
             - name: Install dependencies
               run: vp install
             - name: Deploy
-              run: pnpm alchemy deploy --stage ${{ env.STAGE }} --adopt
+              run: vp pm exec alchemy deploy --stage ${{ env.STAGE }} --adopt
               env:
                   ALCHEMY_PASSWORD: ${{ secrets.ALCHEMY_PASSWORD }}
                   ALCHEMY_STATE_TOKEN: ${{ secrets.ALCHEMY_STATE_TOKEN }}
