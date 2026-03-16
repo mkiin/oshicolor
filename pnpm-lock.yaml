@@ -18,9 +18,6 @@ importers:
       '@cloudflare/vite-plugin':
         specifier: ^1.28.0
         version: 1.28.0(@voidzero-dev/vite-plus-core@0.1.11(@types/node@22.19.11)(esbuild@0.27.3)(jiti@2.6.1)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2))(workerd@1.20260312.1)(wrangler@4.73.0(@cloudflare/workers-types@4.20260313.1))
-      '@robzzson/silhouette':
-        specifier: ^0.0.7
-        version: 0.0.7
       '@t3-oss/env-core':
         specifier: ^0.13.8
         version: 0.13.10(typescript@5.9.3)(zod@4.3.6)
@@ -1679,9 +1676,6 @@ packages:
 
   '@poppinss/exception@1.2.3':
     resolution: {integrity: sha512-dCED+QRChTVatE9ibtoaxc+WkdzOSjYTKi/+uacHWIsfodVfpsueo3+DKpgU5Px8qXjgmXkSvhXvSCz3fnP9lw==}
-
-  '@robzzson/silhouette@0.0.7':
-    resolution: {integrity: sha512-k1JiqaxsL0oNA1jl3s882s4iUkNOiBRBWH+qlufcgFL6m5Y4jovrKAau6nc2x/cCYrn2kPGA6ZgNUGwMRzqwIg==}
 
   '@rolldown/binding-android-arm64@1.0.0-rc.9':
     resolution: {integrity: sha512-lcJL0bN5hpgJfSIz/8PIf02irmyL43P+j1pTCfbD1DbLkmGRuFIA4DD3B3ZOvGqG0XiVvRznbKtN0COQVaKUTg==}
@@ -3799,14 +3793,8 @@ packages:
   ml-array-rescale@1.3.7:
     resolution: {integrity: sha512-48NGChTouvEo9KBctDfHC3udWnQKNKEWN0ziELvY3KG25GR5cA8K8wNVzracsqSW1QEkAXjTNx+ycgAv06/1mQ==}
 
-  ml-distance-euclidean@2.0.0:
-    resolution: {integrity: sha512-yC9/2o8QF0A3m/0IXqCTXCzz2pNEzvmcE/9HFKOZGnTjatvBbsn4lWYJkxENkA4Ug2fnYl7PXQxnPi21sgMy/Q==}
-
   ml-distance-euclidean@3.0.1:
     resolution: {integrity: sha512-jEEu/1a73ArPmIiwOzrcah6TfhtV19dCKnnM7JvdR2xTzyVJFGgIIR78Vg8Pl9z2NVeSRoFOpzc0910sPMINsA==}
-
-  ml-distance-matrix@2.0.1:
-    resolution: {integrity: sha512-6wt3bvK8WzAjyuBt9+wnyGanphrAZyqJGwiEEfuknfu8IQBtHYWpyLhjtQ8R7rjiPyXlF9eP7GcI5L7OA1NLEQ==}
 
   ml-kmeans@7.0.0:
     resolution: {integrity: sha512-Ud8x4YMURVgupAcuSxD9iwc/us4mqyryFnx08gjEGfAyP1iWlJSdBADD96PlpkpHUvRVDNEmk28euGQJZeuU7A==}
@@ -6104,11 +6092,6 @@ snapshots:
 
   '@poppinss/exception@1.2.3': {}
 
-  '@robzzson/silhouette@0.0.7':
-    dependencies:
-      ml-distance-euclidean: 2.0.0
-      ml-distance-matrix: 2.0.1
-
   '@rolldown/binding-android-arm64@1.0.0-rc.9':
     optional: true
 
@@ -8060,11 +8043,7 @@ snapshots:
       ml-array-max: 1.2.4
       ml-array-min: 1.2.3
 
-  ml-distance-euclidean@2.0.0: {}
-
   ml-distance-euclidean@3.0.1: {}
-
-  ml-distance-matrix@2.0.1: {}
 
   ml-kmeans@7.0.0:
     dependencies:

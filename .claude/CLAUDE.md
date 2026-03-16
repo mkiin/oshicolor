@@ -66,7 +66,6 @@
 
 - features-based 構成。機能固有は `src/features/<機能名>/`、共通モジュールは `src/` 直下に置く。
 - Route は薄く保つ。ビジネスロジックは feature 側に書く
-- features内でファイル名をつける場合、種別サフィックスをつけること("<機能名>.types.ts, <機能名>.atoms.ts")
 
 ```bash
 src/
@@ -80,10 +79,21 @@ src/
 ├── styles/       # グローバルスタイル
 └── features/
     └── <feature>/
-        ├── components/, hooks/, atoms/, types/  # 必要なものだけ作成
+        ├── components/           # UI コンポーネント
+        ├── core/                 # ドメインロジック（ファイルが2つ以上になったら作成）
+        ├── <feature>.types.ts    # feature 共通の型定義
+        ├── <feature>.atoms.ts    # Jotai atoms
         ├── <feature>.functions.ts
         └── <feature>.server.ts
 ```
+
+### feature 内のファイル命名規則
+
+- **feature 横断のファイル**: `<機能名>.<種別>.ts`（例: `color-extractor.types.ts`, `color-extractor.atoms.ts`）
+- **サブドメイン固有のロジック**: `<サブドメイン名>.ts`（例: `color-axes.ts`）
+    - サフィックスなし = そのドメイン概念のコアロジック
+    - サブドメインにも型や atoms が必要になった場合は `<サブドメイン名>.<種別>.ts` で拡張する
+- ドメインロジックのファイルが **2つ以上** になったら `core/` ディレクトリに格上げする
 
 ## 状態管理の使い分け
 

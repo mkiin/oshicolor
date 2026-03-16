@@ -1,4 +1,4 @@
-import type { ColorAxis } from "../utils/color-axes.utils";
+import type { ColorAxis } from "../color-extractor.types";
 
 type ColorAxisCardProps = {
     colorAxis: ColorAxis;

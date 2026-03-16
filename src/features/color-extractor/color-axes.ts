@@ -1,36 +1,21 @@
 import type { Color } from "colorthief";
 import { useMode, modeOklch, type Rgb } from "culori/fn";
 import { kmeans } from "ml-kmeans";
-import silhouetteScore from "@robzzson/silhouette";
+import type { ColorAxis } from "./color-extractor.types";
+
+const CLUSTER_COUNT = 3;
 
 // culoriの変換関数
 const toOklch = useMode(modeOklch);
 
 /**
- * 抽出した16色のカラーマップからクラスタに分けてキャラの色の軸を抽出する
+ * 抽出した16色のカラーマップからK=3のクラスタに分けてキャラの色の軸を抽出する
  *
- * 1. colorsをoklch変換、C < 0.03 またL < 0.22の色を除外して有彩色リストを作成する
+ * 1. colorsをoklch変換、無彩色・暗色を除外して有彩色リストを作成する
  * 2. 各色の色相Hをcos/sinの2次元座標に変換
- * 3. K=2, K=3でそれぞれKmeansを実行する。シルエット係数を計算する
- * 4. シルエット係数が高い方のKを採用する
- * 5. クラスタをidx(colorsの並び順)でソートして返す。
+ * 3. K=3でKmeansを実行する
+ * 4. クラスタをidx(colorsの並び順)でソートしてmain/sub/accentのroleを割り当てて返す
  */
-
-/**
- * クラスタ数が2個だとroleは mainまたはsub
- * クラスタ数が3個だとmian, sub, accentに増やす
- */
-export type ColorAxis = {
-    colors: Color[];
-    role: "main" | "sub" | "accent";
-};
-
-type KMeansCandidate = {
-    k: number;
-    score: number;
-    kmeansResult: ReturnType<typeof kmeans>;
-};
-
 export const deriveColorAxes = (colors: Color[]): ColorAxis[] => {
     // Step 1. colorsをoklch変換し、無彩色（C < 0.03）と暗色（L < 0.22）を除外した有彩色リストを作成する
     // idxを保存しておくことで、クラスタリング後に元のcolorsの並び順でソートできる
@@ -61,30 +46,20 @@ export const deriveColorAxes = (colors: Color[]): ColorAxis[] => {
         return [x, y];
     });
 
-    // Step 3. K=2, K=3でそれぞれKmeansを実行し、シルエット係数を計算する
-    const results: KMeansCandidate[] = [];
-    for (const k of [2, 3]) {
-        const kmeansResult = kmeans(huePoints, k, {
-            initialization: "kmeans++",
-            seed: 42,
-        });
-        const score = silhouetteScore(huePoints, kmeansResult.clusters);
-        results.push({ k, score, kmeansResult });
-    }
-
-    // Step 4. シルエット係数が高い方のKを採用する
-    const best = results.reduce((a, b) => (a.score > b.score ? a : b));
-
-    // 各色にclusterIdを紐付ける
-    const labeled = best.kmeansResult.clusters.map((clusterId, i) => {
-        return {
-            clusterId,
-            color: oklchs[i].color,
-            idx: oklchs[i].idx,
-        };
+    // Step 3. K=3でKmeansを実行する
+    const kmeansResult = kmeans(huePoints, CLUSTER_COUNT, {
+        initialization: "kmeans++",
+        seed: 42,
     });
 
-    // Step 5. クラスタをidx（colorsの並び順）でソートしてroleを割り当てて返す
+    // 各色にclusterIdを紐付ける
+    const labeled = kmeansResult.clusters.map((clusterId, i) => ({
+        clusterId,
+        color: oklchs[i].color,
+        idx: oklchs[i].idx,
+    }));
+
+    // Step 4. クラスタをidx（colorsの並び順）でソートしてroleを割り当てて返す
     const groups = Map.groupBy(labeled, (o) => o.clusterId);
     const ROLES = [
         "main",

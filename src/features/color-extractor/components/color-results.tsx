@@ -2,7 +2,7 @@ import type { Color, SwatchMap } from "colorthief";
 import { DominantColorView } from "./dominant-color-view";
 import { PaletteView } from "./palette-view";
 import { SwatchesView } from "./swatches-view";
-import type { ColorAxis } from "../utils/color-axes.utils";
+import type { ColorAxis } from "../color-extractor.types";
 import { ColorAxesView } from "./color-axes-view";
 
 export type ColorResultsProps = {

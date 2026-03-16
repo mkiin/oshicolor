@@ -1,59 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { getColor, getPalette, getSwatches } from "colorthief";
-import { atom, useAtomValue, useSetAtom } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
 import { Dropzone, ImagePreview } from "@/components/ui/dropzone";
 import { ColorResults } from "@/features/color-extractor/components/color-results";
-import { deriveColorAxes } from "@/features/color-extractor/utils/color-axes.utils";
+import {
+    colorAtom,
+    colorAxesAtom,
+    colorPaletteAtom,
+    colorSwatchesAtom,
+    fileAtom,
+    previewUrlAtom,
+} from "@/features/color-extractor/color-extractor.atoms";
 
 export const Route = createFileRoute("/")({
     component: RouteComponent,
-});
-
-const fileAtom = atom<File | null>(null);
-
-const previewUrlAtom = atom((get) => {
-    const file = get(fileAtom);
-    return file ? URL.createObjectURL(file) : null;
-});
-
-const OPTIONS_BASE = {
-    quality: 10,
-    colorSpace: "rgb" as const,
-    ignoreWhite: true,
-    minSaturation: 0.05,
-} satisfies Parameters<typeof getPalette>[1];
-
-const OPTIONS = { ...OPTIONS_BASE, colorCount: 16 } satisfies Parameters<
-    typeof getPalette
->[1];
-
-const colorPaletteAtom = atom(async (get) => {
-    const file = get(fileAtom);
-    if (!file) return null;
-    const bitmap = await createImageBitmap(file);
-    return getPalette(bitmap, OPTIONS);
-});
-
-const colorAtom = atom(async (get) => {
-    const file = get(fileAtom);
-    if (!file) return null;
-    const bitmap = await createImageBitmap(file);
-    return getColor(bitmap, OPTIONS_BASE);
-});
-
-const colorSwatchesAtom = atom(async (get) => {
-    const file = get(fileAtom);
-    if (!file) return null;
-    const bitmap = await createImageBitmap(file);
-    return getSwatches(bitmap, OPTIONS);
-});
-
-const colorAxesAtom = atom(async (get) => {
-    const colors = await get(colorPaletteAtom);
-    if (!colors) return null;
-    return deriveColorAxes(colors);
 });
 
 // Suspense 境界の内側で atom を読んで ColorResults に渡すローダー
