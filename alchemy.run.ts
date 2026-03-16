@@ -9,7 +9,9 @@ const app = await alchemy("oshicolor", {
         : undefined,
 });
 
-export const worker = await TanStackStart("website");
+export const worker = await TanStackStart("website", {
+    build: { command: "vp build" },
+});
 
 console.log({
     url: worker.url,
