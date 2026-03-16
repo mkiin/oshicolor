@@ -17,7 +17,7 @@
 - **スタイリング**: Tailwind CSS
 - **バリデーション**: Zod
 - **フォーマッタ / リンター**: Biome
-- **パッケージマネージャー**: pnpm
+- **パッケージマネージャー**: vite-plus(vp)
 - **ツールチェーン**: vite-plus (`vp`)
 
 ### vp (vite-plus) の使い方
@@ -30,12 +30,6 @@
 | ビルド           | `vp build` |
 | テスト           | `vp test`  |
 | リント           | `vp lint`  |
-
-**注意点**:
-
-- `vp install` は使わない。依存関係のインストールは `pnpm install` を使う
-- Node.js・pnpm のバージョン管理は mise が担当（vp の Node.js/PM 管理機能は無効）
-- `vp` は PATH（`~/.vite-plus/bin/`）から直接呼ぶ。`pnpm vp` は NG（`node_modules/.bin/` にないため）
 
 ### コメント・ドキュメンテーション
 
