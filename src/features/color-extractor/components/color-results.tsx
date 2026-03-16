@@ -18,7 +18,7 @@ export const ColorResults: React.FC<ColorResultsProps> = ({
     swatches,
     colorAxes,
 }) => (
-    <div className="space-y-6">
+    <div className="space-y-3">
         {dominantColor && <DominantColorView color={dominantColor} />}
         {palette && <PaletteView colors={palette} />}
         {swatches && <SwatchesView swatches={swatches} />}

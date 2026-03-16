@@ -55,11 +55,15 @@ function RouteComponent() {
                             className="w-full h-full object-contain"
                         />
                     </div>
-                    <Suspense
-                        fallback={<Skeleton className="w-full aspect-3/4" />}
-                    >
-                        <ColorResultsLoader />
-                    </Suspense>
+                    <div className="aspect-3/4 overflow-y-auto">
+                        <Suspense
+                            fallback={
+                                <Skeleton className="w-full aspect-3/4" />
+                            }
+                        >
+                            <ColorResultsLoader />
+                        </Suspense>
+                    </div>
                 </div>
             )}
         </div>

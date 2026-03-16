@@ -40,7 +40,7 @@ const ColorAxisCard: React.FC<ColorAxisCardProps> = ({ colorAxis }) => {
 
 export const ColorAxesView: React.FC<ColorAxesViewProps> = ({ colorAxes }) => {
     return (
-        <div className="space-y-2">
+        <div className="space-y-0">
             <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-widest">
                 Axes
             </h2>
