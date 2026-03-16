@@ -12,7 +12,6 @@ const config = defineConfig({
         "*": "vp check --fix",
     },
     lint: {
-        options: { typeAware: true, typeCheck: true },
         plugins: ["react", "unicorn", "typescript", "import"],
         ignorePatterns: ["src/routeTree.gen.ts", "src/styles.css", "docs/**"],
     },
