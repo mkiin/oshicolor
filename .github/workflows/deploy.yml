@@ -24,9 +24,8 @@ jobs:
             - name: Install dependencies
               run: vp install
             - name: Deploy
-              run: vp run deploy
+              run: vp exec alchemy deploy --stage ${{ env.STAGE }} --adopt
               env:
-                  STAGE: ${{ env.STAGE }}
                   ALCHEMY_PASSWORD: ${{ secrets.ALCHEMY_PASSWORD }}
                   ALCHEMY_STATE_TOKEN: ${{ secrets.ALCHEMY_STATE_TOKEN }}
                   CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

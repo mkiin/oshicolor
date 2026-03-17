@@ -8,14 +8,6 @@ import alchemy from "alchemy/cloudflare/tanstack-start";
 import { defineConfig } from "vite-plus";
 
 const config = defineConfig({
-    run: {
-        tasks: {
-            deploy: {
-                command: "alchemy deploy --stage $STAGE --adopt",
-                cache: false,
-            },
-        },
-    },
     staged: {
         "*": "vp check --fix",
     },
