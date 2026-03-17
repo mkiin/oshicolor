@@ -11,11 +11,11 @@ import type { worker } from "../alchemy.run.ts"; // importがある
 export type CloudflareEnv = typeof worker.Env;
 
 declare module "@robzzson/silhouette" {
-    // ← 効かない
-    export default function silhouette(
-        data: number[][],
-        labels: number[],
-    ): number;
+  // ← 効かない
+  export default function silhouette(
+    data: number[][],
+    labels: number[],
+  ): number;
 }
 ```
 
@@ -40,10 +40,10 @@ TypeScript のファイルは2種類に分類される。
 ```typescript
 // src/types/vendor.d.ts（importなし = スクリプトファイル）
 declare module "@robzzson/silhouette" {
-    export default function silhouette(
-        data: number[][],
-        labels: number[],
-    ): number;
+  export default function silhouette(
+    data: number[][],
+    labels: number[],
+  ): number;
 }
 ```
 

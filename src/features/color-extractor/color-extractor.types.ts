@@ -7,6 +7,6 @@ import type { Color } from "colorthief";
  * クラスタ数が3個だと main, sub, accent になる
  */
 export type ColorAxis = {
-    colors: Color[];
-    role: "main" | "sub" | "accent";
+  colors: Color[];
+  role: "main" | "sub" | "accent";
 };

@@ -145,16 +145,16 @@ pnpm dev
 ```ts
 // Before（float を返す）
 return [
-    hue2rgb(p, q, h + 1 / 3) * 255,
-    hue2rgb(p, q, h) * 255,
-    hue2rgb(p, q, h - 1 / 3) * 255,
+  hue2rgb(p, q, h + 1 / 3) * 255,
+  hue2rgb(p, q, h) * 255,
+  hue2rgb(p, q, h - 1 / 3) * 255,
 ];
 
 // After（整数に丸める）
 return [
-    Math.round(hue2rgb(p, q, h + 1 / 3) * 255),
-    Math.round(hue2rgb(p, q, h) * 255),
-    Math.round(hue2rgb(p, q, h - 1 / 3) * 255),
+  Math.round(hue2rgb(p, q, h + 1 / 3) * 255),
+  Math.round(hue2rgb(p, q, h) * 255),
+  Math.round(hue2rgb(p, q, h - 1 / 3) * 255),
 ] as Vec3;
 ```
 
@@ -184,9 +184,9 @@ this._avg = [~~(rsum / ntot), ~~(gsum / ntot), ~~(bsum / ntot)];
 
 // After（丸め）
 this._avg = [
-    Math.round(rsum / ntot),
-    Math.round(gsum / ntot),
-    Math.round(bsum / ntot),
+  Math.round(rsum / ntot),
+  Math.round(gsum / ntot),
+  Math.round(bsum / ntot),
 ];
 ```
 
@@ -195,15 +195,15 @@ this._avg = [
 ```ts
 // Before
 this._avg = [
-    ~~((mult * (r1 + r2 + 1)) / 2),
-    ~~((mult * (g1 + g2 + 1)) / 2),
-    ~~((mult * (b1 + b2 + 1)) / 2),
+  ~~((mult * (r1 + r2 + 1)) / 2),
+  ~~((mult * (g1 + g2 + 1)) / 2),
+  ~~((mult * (b1 + b2 + 1)) / 2),
 ];
 // After（Math.round に統一）
 this._avg = [
-    Math.round((mult * (r1 + r2 + 1)) / 2),
-    Math.round((mult * (g1 + g2 + 1)) / 2),
-    Math.round((mult * (b1 + b2 + 1)) / 2),
+  Math.round((mult * (r1 + r2 + 1)) / 2),
+  Math.round((mult * (g1 + g2 + 1)) / 2),
+  Math.round((mult * (b1 + b2 + 1)) / 2),
 ];
 ```
 
@@ -284,13 +284,13 @@ export const DEFAULT_OPTS: GeneratorOptions = {
 ```ts
 // Before
 export type Palette = {
-    Vibrant: Swatch | null;
-    Muted: Swatch | null;
-    DarkVibrant: Swatch | null;
-    DarkMuted: Swatch | null;
-    LightVibrant: Swatch | null;
-    LightMuted: Swatch | null;
-    [name: string]: Swatch | null; // ← 削除（使用箇所ゼロ）
+  Vibrant: Swatch | null;
+  Muted: Swatch | null;
+  DarkVibrant: Swatch | null;
+  DarkMuted: Swatch | null;
+  LightVibrant: Swatch | null;
+  LightMuted: Swatch | null;
+  [name: string]: Swatch | null; // ← 削除（使用箇所ゼロ）
 };
 ```
 

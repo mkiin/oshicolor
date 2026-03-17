@@ -7,7 +7,7 @@
 ```typescript
 // Bad: ! が必要になる
 SLOTS.filter((slot) => palette[slot] != null).map((slot) => ({
-    hex: palette[slot]!.hex,
+  hex: palette[slot]!.hex,
 })); // ! が必要
 ```
 
@@ -16,9 +16,9 @@ SLOTS.filter((slot) => palette[slot] != null).map((slot) => ({
 ```typescript
 // Good: ! 不要
 SLOTS.flatMap((slot) => {
-    const swatch = palette[slot];
-    if (!swatch) return []; // スキップ
-    return [{ hex: swatch.hex, slot }];
+  const swatch = palette[slot];
+  if (!swatch) return []; // スキップ
+  return [{ hex: swatch.hex, slot }];
 });
 ```
 
@@ -39,6 +39,6 @@ SLOTS.flatMap((slot) => {
 
 ```typescript
 SLOTS.map((slot) =>
-    palette[slot] ? { hex: palette[slot]!.hex, slot } : null,
+  palette[slot] ? { hex: palette[slot]!.hex, slot } : null,
 ).filter((c): c is VibrantColor => c !== null);
 ```

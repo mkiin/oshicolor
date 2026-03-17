@@ -28,7 +28,7 @@ TypeError: Cannot read properties of null (reading 'useMemoCache')
 
 ```ts
 babel({
-    plugins: ["babel-plugin-react-compiler"],
+  plugins: ["babel-plugin-react-compiler"],
 });
 ```
 
@@ -56,16 +56,16 @@ applyToEnvironment(environment: PartialEnvironment) {
 ```ts
 // packages/babel/src/options.ts
 export function filterPresetsWithEnvironment(
-    options: PluginOptions,
-    environment: PartialEnvironment,
+  options: PluginOptions,
+  environment: PartialEnvironment,
 ): PluginOptions {
-    return {
-        ...options,
-        presets: options.presets
-            ? filterPresetArrayWithEnvironment(options.presets, environment)
-            : undefined,
-        // plugins はフィルタされない
-    };
+  return {
+    ...options,
+    presets: options.presets
+      ? filterPresetArrayWithEnvironment(options.presets, environment)
+      : undefined,
+    // plugins はフィルタされない
+  };
 }
 ```
 
@@ -80,26 +80,26 @@ export function filterPresetsWithEnvironment(
 ```ts
 // packages/plugin-react/src/reactCompilerPreset.ts
 export const reactCompilerPreset = (options = {}): RolldownBabelPreset => ({
-    preset: () => ({
-        plugins: [["babel-plugin-react-compiler", options]],
-    }),
-    rolldown: {
-        filter: {
-            // React コンポーネントらしいファイルのみ変換（パフォーマンス最適化）
-            code:
-                options.compilationMode === "annotation"
-                    ? /['"]use memo['"]/
-                    : /\b[A-Z]|\buse/,
-        },
-        // クライアント環境のみに適用
-        applyToEnvironmentHook: (env) => env.config.consumer === "client",
-        optimizeDeps: {
-            include:
-                options.target === "17" || options.target === "18"
-                    ? ["react-compiler-runtime"]
-                    : ["react/compiler-runtime"],
-        },
+  preset: () => ({
+    plugins: [["babel-plugin-react-compiler", options]],
+  }),
+  rolldown: {
+    filter: {
+      // React コンポーネントらしいファイルのみ変換（パフォーマンス最適化）
+      code:
+        options.compilationMode === "annotation"
+          ? /['"]use memo['"]/
+          : /\b[A-Z]|\buse/,
     },
+    // クライアント環境のみに適用
+    applyToEnvironmentHook: (env) => env.config.consumer === "client",
+    optimizeDeps: {
+      include:
+        options.target === "17" || options.target === "18"
+          ? ["react-compiler-runtime"]
+          : ["react/compiler-runtime"],
+    },
+  },
 });
 ```
 

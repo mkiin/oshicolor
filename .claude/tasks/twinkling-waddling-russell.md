@@ -28,23 +28,23 @@ export type ImageSource = string | HTMLImageElement | ImageBitmap | Blob;
 ```ts
 // ImageBitmap: canvas に直接描画
 if (src instanceof ImageBitmap) {
-    const canvas = document.createElement("canvas");
-    canvas.width = src.width;
-    canvas.height = src.height;
-    const ctx = canvas.getContext("2d")!;
-    ctx.drawImage(src, 0, 0);
-    this._canvas = canvas;
-    this._context = ctx;
-    this._width = src.width;
-    this._height = src.height;
-    return Promise.resolve(this);
+  const canvas = document.createElement("canvas");
+  canvas.width = src.width;
+  canvas.height = src.height;
+  const ctx = canvas.getContext("2d")!;
+  ctx.drawImage(src, 0, 0);
+  this._canvas = canvas;
+  this._context = ctx;
+  this._width = src.width;
+  this._height = src.height;
+  return Promise.resolve(this);
 }
 // Blob / File: objectURL 経由で既存 string ブランチに委譲
 if (src instanceof Blob) {
-    const url = URL.createObjectURL(src);
-    const result = await this.load(url);
-    URL.revokeObjectURL(url);
-    return result;
+  const url = URL.createObjectURL(src);
+  const result = await this.load(url);
+  URL.revokeObjectURL(url);
+  return result;
 }
 ```
 
@@ -76,8 +76,7 @@ get proportion(): number { return this._proportion; }
 const raw = task.fn(pixels, opts);
 const total = raw.reduce((s, c) => s + c.population, 0);
 return raw.map(
-    (s) =>
-        new Swatch(s.rgb, s.population, total > 0 ? s.population / total : 0),
+  (s) => new Swatch(s.rgb, s.population, total > 0 ? s.population / total : 0),
 );
 ```
 
@@ -97,12 +96,12 @@ export type { GeneratorOptions } from "./generator-default";
 
 ```ts
 export const extractColors = async (
-    src: ImageSource,
-    opts?: Partial<ExtractorOptions>,
+  src: ImageSource,
+  opts?: Partial<ExtractorOptions>,
 ): Promise<{ colors: Swatch[]; palette: Palette }> => {
-    const extractor = new Extractor(src, opts);
-    const palette = await extractor.getPalette();
-    return { colors: extractor.result!.colors, palette };
+  const extractor = new Extractor(src, opts);
+  const palette = await extractor.getPalette();
+  return { colors: extractor.result!.colors, palette };
 };
 ```
 

@@ -10,20 +10,20 @@ title: Biome a11y — div に onClick を付けたときのアクセシビリテ
 
 ```tsx
 <div
-    onDrop={handleDrop}
-    onDragOver={handleDragOver}
-    onDragLeave={handleDragLeave}
-    onClick={() => inputRef.current?.click()}
-    className="border-2 border-dashed rounded-xl p-12 ..."
+  onDrop={handleDrop}
+  onDragOver={handleDragOver}
+  onDragLeave={handleDragLeave}
+  onClick={() => inputRef.current?.click()}
+  className="border-2 border-dashed rounded-xl p-12 ..."
 >
-    <p>画像をドラッグ&ドロップ、またはクリックして選択</p>
-    <input
-        ref={inputRef}
-        type="file"
-        accept="image/*"
-        className="hidden"
-        onChange={handleChange}
-    />
+  <p>画像をドラッグ&ドロップ、またはクリックして選択</p>
+  <input
+    ref={inputRef}
+    type="file"
+    accept="image/*"
+    className="hidden"
+    onChange={handleChange}
+  />
 </div>
 ```
 
@@ -104,8 +104,8 @@ WAI-ARIA の仕様には **ARIA の第一のルール** がある。
 
 ```css
 button {
-    all: unset;
-    cursor: pointer;
+  all: unset;
+  cursor: pointer;
 }
 ```
 

@@ -95,12 +95,12 @@ Vite+ の公式 CI ガイドでは `voidzero-dev/setup-vp` アクションが提
 - name: Setup pnpm
   uses: pnpm/action-setup@v4
   with:
-      run_install: false
+    run_install: false
 - name: Setup Node.js
   uses: actions/setup-node@v4
   with:
-      node-version: "24"
-      cache: pnpm
+    node-version: "24"
+    cache: pnpm
 - name: Install dependencies
   run: pnpm install
 
@@ -108,8 +108,8 @@ Vite+ の公式 CI ガイドでは `voidzero-dev/setup-vp` アクションが提
 - name: Setup Vite+
   uses: voidzero-dev/setup-vp@v1
   with:
-      node-version: "24"
-      cache: true
+    node-version: "24"
+    cache: true
 - name: Install dependencies
   run: vp install
 ```
@@ -124,7 +124,7 @@ export const worker = await TanStackStart("website");
 
 // 変更後
 export const worker = await TanStackStart("website", {
-    build: { command: "vp build" },
+  build: { command: "vp build" },
 });
 ```
 
@@ -136,36 +136,36 @@ export const worker = await TanStackStart("website", {
 name: Deploy
 
 on:
-    push:
-        branches:
-            - main
-            - dev
+  push:
+    branches:
+      - main
+      - dev
 
 env:
-    STAGE: ${{ github.ref_name == 'main' && 'prod' || github.ref_name }}
+  STAGE: ${{ github.ref_name == 'main' && 'prod' || github.ref_name }}
 
 jobs:
-    deploy:
-        runs-on: ubuntu-latest
-        permissions:
-            contents: read
-        steps:
-            - uses: actions/checkout@v4
-            - name: Setup Vite+
-              uses: voidzero-dev/setup-vp@v1
-              with:
-                  node-version: "24"
-                  cache: true
-            - name: Install dependencies
-              run: vp install
-            - name: Deploy
-              run: pnpm alchemy deploy --stage ${{ env.STAGE }} --adopt
-              env:
-                  ALCHEMY_PASSWORD: ${{ secrets.ALCHEMY_PASSWORD }}
-                  ALCHEMY_STATE_TOKEN: ${{ secrets.ALCHEMY_STATE_TOKEN }}
-                  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-                  CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-                  CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Vite+
+        uses: voidzero-dev/setup-vp@v1
+        with:
+          node-version: "24"
+          cache: true
+      - name: Install dependencies
+        run: vp install
+      - name: Deploy
+        run: pnpm alchemy deploy --stage ${{ env.STAGE }} --adopt
+        env:
+          ALCHEMY_PASSWORD: ${{ secrets.ALCHEMY_PASSWORD }}
+          ALCHEMY_STATE_TOKEN: ${{ secrets.ALCHEMY_STATE_TOKEN }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
 ```
 
 ---
