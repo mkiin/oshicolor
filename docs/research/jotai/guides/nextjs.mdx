@@ -1,0 +1,105 @@
+---
+title: Next.js
+description: Jotai を Next.js で使用する方法
+nav: 8.03
+keywords: next,nextjs
+---
+
+### ハイドレーション
+
+Jotai は `useHydrateAtoms` でのアトムのハイドレーションをサポートしています。フックのドキュメントは[こちら](../utilities/ssr.mdx)を参照してください。
+
+### ルーターとの同期
+
+Jotai をルーターと同期することができます。`atomWithHash` でこれを実現できます：
+
+```js
+const pageAtom = atomWithHash("page", 1, {
+    replaceState: true,
+    subscribe: (callback) => {
+        Router.events.on("routeChangeComplete", callback);
+        window.addEventListener("hashchange", callback);
+        return () => {
+            Router.events.off("routeChangeComplete", callback);
+            window.removeEventListener("hashchange", callback);
+        };
+    },
+});
+```
+
+これにより、どの[ルーターイベント](https://nextjs.org/docs/api-reference/next/router#routerevents)をサブスクライブするかを完全に制御できます。
+
+> #### Next.js 13 以降
+>
+> Next.js 13 以降、`Router.events.on()` にいくつかの変更があり、イベントが公開されなくなりました。[App Router ロードマップ](https://beta.nextjs.org/docs/app-directory-roadmap#planned-features)にはイベントのインターセプトとハッシュ処理の計画があります。ただし、いつ利用可能になるか、どのような形になるかについての ETA はありません。現時点では `atomWithHash()` を使用しようとすると、ルーターを使ったナビゲーション時にはデータが読み込まれず、ページのリロードまたはコンポーネントの再レンダリング時のみ読み込まれます。また、Next.js はバックグラウンドで window.history を使用しているようなので、ユーザーがブラウザの戻るボタンを使えるよう `setHash` オプションを `replaceState` に設定することを推奨します。
+
+### サーバーサイドレンダリングでプロミスを返すことはできません
+
+SSR ではプロミスを返すことができないことに注意することが重要です。ただし、アトム定義内でこれを防ぐことは可能です。
+
+可能であれば `useHydrateAtoms` を使用してサーバーから値をハイドレートしてください。
+
+```js
+const postData = atom((get) => {
+    const id = get(postId);
+    if (isSSR || prefetchedPostData[id]) {
+        return prefetchedPostData[id] || EMPTY_POST_DATA;
+    }
+    return fetchData(id); // プロミスを返します
+});
+```
+
+### Provider
+
+デフォルトでは、Jotai はアトムの値を追跡するために暗黙のグローバルストアを使用します。これが「プロバイダーレス」モードと呼ばれるものです。SSR シナリオではこれが問題になります。このグローバルストアは存続し複数のリクエスト間で共有されるため、バグやセキュリティリスクにつながる可能性があります。
+
+ストアの存続期間を1つのリクエストのスコープに制限するには、アプリのルート（またはアプリケーションの一部だけ Jotai を使用している場合はサブツリー）に [Provider](../core/provider.mdx) を使用する必要があります。
+
+```typescript
+import { Provider } from 'jotai'
+
+function App({ Component, pageProps }: AppProps) {
+  return (
+    <Provider>
+      <Component {...pageProps} />
+    </Provider>
+  )
+}
+```
+
+この場合：
+
+1. `Provider` はグローバルストアの代わりに、そのサブツリーで使用されるアトムの状態を保持します。
+2. `Provider` の存続期間はアプリ自体と同じになり、アプリは各 SSR リクエストで再作成されるため、ストアの存続期間も実質的に1つのリクエストに制限されます。
+
+### SWC プラグイン
+
+Jotai は Next.js での開発中の DX 向上のために SWC プラグインを提供しています。[SWC セクションで詳細を確認してください。](../tools/swc.mdx)
+
+### 例
+
+#### Clock
+
+<Stackblitz
+    id="stackblitz-starters-nsugnt"
+    file="store%2Findex.ts,components%2FClock.tsx"
+/>
+
+#### HN Posts
+
+Page Router デモ：
+
+<Stackblitz
+    id="stackblitz-starters-cnz9lg"
+    file="store%2Findex.ts,pages%2F_app.tsx,pages%2Findex.tsx"
+/>
+
+App Router [Stackblitz デモ](https://stackblitz.com/edit/jotai-nextjs-app-router-demo?file=store%2Findex.ts,app%2Flayout.tsx,components%2FPost.tsx,app%2Fpage.tsx)
+
+#### Next.js リポジトリ
+
+```bash
+npx create-next-app --example with-jotai with-jotai-app
+```
+
+[リンク](https://github.com/vercel/next.js/tree/canary/examples/with-jotai)はこちら。

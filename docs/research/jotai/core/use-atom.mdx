@@ -1,0 +1,163 @@
+---
+title: useAtom
+description: このドキュメントはコアの `jotai` バンドルについて説明します。
+nav: 2.02
+keywords: use,useatom,useatomvalue,usesetatom,atomvalue,setatom
+---
+
+## useAtom
+
+`useAtom` フックは状態からアトムを読み取るために使用します。
+状態はアトムコンフィグとアトムの値の WeakMap と見なすことができます。
+
+`useAtom` フックは React の `useState` と同様に、
+アトムの値と更新関数をタプルとして返します。
+パラメータとして `atom()` で作成されたアトムコンフィグを受け取ります。
+
+アトムコンフィグ作成時、関連付けられた値はありません。
+`useAtom` でアトムが使用されて初めて、初期値が状態に格納されます。
+アトムが派生アトムの場合、read 関数が呼び出されて初期値が計算されます。
+アトムが使用されなくなった場合、つまりそれを使用しているすべてのコンポーネントがアンマウントされ
+アトムコンフィグが存在しなくなった場合、状態内の値はガベージコレクションされます。
+
+```js
+const [value, setValue] = useAtom(anAtom);
+```
+
+`setValue` は引数を1つだけ受け取り、それがアトムの write 関数の第3パラメータとして渡されます。
+最終的な結果は write 関数の実装方法によって異なります。
+write 関数が明示的に設定されていない場合、アトムは `setValue` に渡された値を単純に受け取ります。
+
+**注意：** _atom_ セクションで述べたように、アトムを作成する際に参照等価性が重要です。
+適切に処理しないと無限ループが発生する可能性があります。
+
+```js
+const stableAtom = atom(0);
+const Component = () => {
+    const [atomValue] = useAtom(atom(0)); // レンダリングのたびにアトムインスタンスが再作成されるため無限ループが発生します
+    const [atomValue] = useAtom(stableAtom); // これは問題ありません
+    const [derivedAtomValue] = useAtom(
+        useMemo(
+            // これも問題ありません
+            () => atom((get) => get(stableAtom) * 2),
+            [],
+        ),
+    );
+};
+```
+
+**注意：** React はコンポーネントの呼び出しに責任があるため、冪等で複数回呼び出せる必要があることを覚えておいてください。props やアトムが変更されていなくても余分な再レンダリングが発生することがよくあります。コミットなしの余分な再レンダリングは、React 18 の useReducer のデフォルト動作であるため、期待される動作です。
+
+### シグネチャ
+
+```ts
+// プリミティブまたは書き込み可能な派生アトム
+function useAtom<Value, Update>(
+    atom: WritableAtom<Value, Update>,
+    options?: { store?: Store },
+): [Value, SetAtom<Update>];
+
+// 読み取り専用アトム
+function useAtom<Value>(
+    atom: Atom<Value>,
+    options?: { store?: Store },
+): [Value, never];
+```
+
+### アトムの依存関係の仕組み
+
+「read」関数を呼び出すたびに、依存関係と依存先を更新します。
+
+> read 関数はアトムの第1パラメータです。
+> B が A に依存する場合、A は B の依存関係であり、B は A の依存先です。
+
+```js
+const uppercaseAtom = atom((get) => get(textAtom).toUpperCase());
+```
+
+アトムを作成した時点では依存関係は存在しません。初回使用時に read 関数を実行し、`uppercaseAtom` が `textAtom` に依存することを確認します。そのため `uppercaseAtom` は `textAtom` の依存先として追加されます。
+`uppercaseAtom` の read 関数を再実行する際（`textAtom` の依存関係が更新されたため）、
+依存関係が再作成されます（この場合は同じです）。その後、`textAtom` から古い依存先を削除し、最新のバージョンに置き換えます。
+
+### アトムはオンデマンドで作成できます
+
+ここでの基本的な例はコンポーネント外でグローバルにアトムを定義していますが、
+アトムをどこで、いつ作成するかについての制限はありません。
+アトムはオブジェクトの参照同一性によって識別されることを覚えていれば、
+いつでも作成できます。
+
+render 関数内でアトムを作成する場合は、通常メモ化のために `useRef` や `useMemo` などの
+フックを使用したいと思うでしょう。そうしないと、コンポーネントがレンダリングされるたびにアトムが再作成されます。
+
+`useState` で、あるいは別のアトム内にアトムを作成して格納することもできます。
+[issue #5](https://github.com/pmndrs/jotai/issues/5) に例があります。
+
+グローバルにどこかにアトムをキャッシュすることもできます。
+[この例](https://twitter.com/dai_shi/status/1317653548314718208) や
+[別の例](https://github.com/pmndrs/jotai/issues/119#issuecomment-706046321) を参照してください。
+
+パラメータ化されたアトムについては utils の [`atomFamily`](../utilities/family.mdx) を確認してください。
+
+## useAtomValue
+
+```jsx
+const countAtom = atom(0);
+
+const Counter = () => {
+    const setCount = useSetAtom(countAtom);
+    const count = useAtomValue(countAtom);
+
+    return (
+        <>
+            <div>count: {count}</div>
+            <button onClick={() => setCount(count + 1)}>+1</button>
+        </>
+    );
+};
+```
+
+`useSetAtom` フックと同様に、`useAtomValue` は読み取り専用アトムにアクセスできます。ただし、読み書き可能なアトムの値にアクセスするためにも使用できます。
+
+## useSetAtom
+
+```jsx
+const switchAtom = atom(false);
+
+const SetTrueButton = () => {
+    const setCount = useSetAtom(switchAtom);
+    const setTrue = () => setCount(true);
+
+    return (
+        <div>
+            <button onClick={setTrue}>Set True</button>
+        </div>
+    );
+};
+
+const SetFalseButton = () => {
+    const setCount = useSetAtom(switchAtom);
+    const setFalse = () => setCount(false);
+
+    return (
+        <div>
+            <button onClick={setFalse}>Set False</button>
+        </div>
+    );
+};
+
+export default function App() {
+    const state = useAtomValue(switchAtom);
+
+    return (
+        <div>
+            State: <b>{state.toString()}</b>
+            <SetTrueButton />
+            <SetFalseButton />
+        </div>
+    );
+}
+```
+
+アトムの値を読み取らずに更新する必要がある場合は `useSetAtom()` を使用できます。
+
+これはパフォーマンスが懸念される場合に特に有用です。`const [, setValue] = useAtom(valueAtom)` は `valueAtom` が更新されるたびに不必要な再レンダリングを引き起こすためです。

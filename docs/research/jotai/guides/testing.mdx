@@ -1,0 +1,162 @@
+---
+title: Testing
+description: Jotai を使ったコードのテスト方法
+nav: 8.09
+keywords: test,testing
+---
+
+私たちは [Testing library の指針](https://testing-library.com/docs/guiding-principles/)に同意しています：
+
+- 「テストがソフトウェアの使われ方に似ているほど、より多くの自信を与えてくれます。」
+
+ユーザーがアトムやコンポーネントと対話する方法のようにテストを書き、
+Jotai を実装の詳細として扱うことを推奨します。
+
+[React testing library](https://github.com/testing-library/react-testing-library) を使った例：
+
+`Counter.tsx`:
+
+```jsx
+import { atom, useAtom } from "jotai";
+
+export const countAtom = atom(0);
+
+export function Counter() {
+    const [count, setCount] = useAtom(countAtom);
+    return (
+        <h1>
+            <p>{count}</p>
+            <button onClick={() => setCount((c) => c + 1)}>one up</button>
+        </h1>
+    );
+}
+```
+
+`Counter.test.ts`:
+
+```jsx
+import React from 'react'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { Counter } from './Counter'
+
+test('should increment counter', () => {
+  // Arrange
+  render(<Counter />)
+
+  const counter = screen.getByText('0')
+  const incrementButton = screen.getByText('one up')
+  // Act
+  await userEvent.click(incrementButton)
+  // Assert
+  expect(counter.textContent).toEqual('1')
+})
+```
+
+### 注入された値
+
+一部のテストを開始する前にアトムに任意の値を注入したい場合があります。
+カウンターを100に制限する場合を考えましょう。100に達した後にインクリメントされないことをテストする方法を見てみましょう。
+そのためには、単に [Provider](../core/provider.mdx) を使用し、アトムをエクスポートして注入できるようにします。
+
+```tsx
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { useHydrateAtoms } from "jotai/utils";
+import { countAtom, Counter } from "./Counter";
+import { Provider } from "jotai";
+
+const HydrateAtoms = ({ initialValues, children }) => {
+    useHydrateAtoms(initialValues);
+    return children;
+};
+
+const TestProvider = ({ initialValues, children }) => (
+    <Provider>
+        <HydrateAtoms initialValues={initialValues}>{children}</HydrateAtoms>
+    </Provider>
+);
+
+const CounterProvider = () => {
+    return (
+        <TestProvider initialValues={[[countAtom, 100]]}>
+            <Counter />
+        </TestProvider>
+    );
+};
+
+test("should not increment on max (100)", () => {
+    render(<CounterProvider />);
+
+    const counter = screen.getByText("100");
+    const incrementButton = screen.getByText("one up");
+    await userEvent.click(incrementButton);
+    expect(counter.textContent).toEqual("100");
+});
+```
+
+### カスタムフック
+
+複雑なアトムがある場合、単独でテストしたいことがあります。
+
+そのためには [React Hooks Testing Library](https://github.com/testing-library/react-hooks-testing-library) を使用できます。
+以下に例を示します：
+
+`countAtom.ts`:
+
+```ts
+import { useAtom } from "jotai";
+import { atomWithReducer } from "jotai/utils";
+
+const reducer = (state: number, action?: "INCREASE" | "DECREASE") => {
+    switch (action) {
+        case "INCREASE":
+            return state + 1;
+        case "DECREASE":
+            return state - 1;
+        case undefined:
+            return state;
+    }
+};
+export const countAtom = atomWithReducer(0, reducer);
+```
+
+`countAtom.test.ts`:
+
+```ts
+import { renderHook, act } from "@testing-library/react-hooks";
+import { useAtom } from "jotai";
+import { countAtom } from "./countAtom";
+
+test("should increment counter", () => {
+    const { result } = renderHook(() => useAtom(countAtom));
+
+    act(() => {
+        result.current[1]("INCREASE");
+    });
+
+    expect(result.current[0]).toBe(1);
+});
+```
+
+### React-Native を使った例
+
+もちろん、`Provider` の有無にかかわらず、同じ方法で React-Native コンポーネントもテストできます。
+
+```tsx
+import React from "react";
+import { render, fireEvent } from "@testing-library/react-native";
+import { Counter } from "./counter";
+
+test("should increment counter", () => {
+    // Arrange
+    const { getByText } = render(<Counter />);
+    const counter = getByText("0");
+    const incrementButton = getByText("one up");
+    // Act
+    fireEvent.press(incrementButton);
+    // Assert
+    expect(counter.props.children.toString()).toEqual("1");
+});
+```

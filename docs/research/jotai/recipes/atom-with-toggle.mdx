@@ -1,0 +1,55 @@
+---
+title: atomWithToggle
+nav: 9.04
+keywords: creators,toggle
+---
+
+> `atomWithToggle` は boolean を初期状態として持つ新しいアトムと、それをトグルするセッター関数を作成します。
+
+これにより、最初のアトムの状態を更新するためだけに別のアトムを用意するというボイラープレートを避けることができます。
+
+```ts
+import { WritableAtom, atom } from "jotai";
+
+export function atomWithToggle(
+    initialValue?: boolean,
+): WritableAtom<boolean, [boolean?], void> {
+    const anAtom = atom(initialValue, (get, set, nextValue?: boolean) => {
+        const update = nextValue ?? !get(anAtom);
+        set(anAtom, update);
+    });
+
+    return anAtom as WritableAtom<boolean, [boolean?], void>;
+}
+```
+
+第1引数としてオプションの初期状態を指定できます。
+
+セッター関数にはオプションの引数を渡して特定の状態を強制的に設定できます。例えば、`setActive` 関数を作りたい場合などに使用します。
+
+使用例：
+
+```js
+import { atomWithToggle } from "XXX";
+
+// 初期値が true に設定されます
+const isActiveAtom = atomWithToggle(true);
+```
+
+コンポーネント内での使用：
+
+```jsx
+const Toggle = () => {
+    const [isActive, toggle] = useAtom(isActiveAtom);
+
+    return (
+        <>
+            <button onClick={() => toggle()}>
+                isActive: {isActive ? "yes" : "no"}
+            </button>
+            <button onClick={() => toggle(true)}>force true</button>
+            <button onClick={() => toggle(false)}>force false</button>
+        </>
+    );
+};
+```

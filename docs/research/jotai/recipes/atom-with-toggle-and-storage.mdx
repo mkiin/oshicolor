@@ -1,0 +1,42 @@
+---
+title: atomWithToggleAndStorage
+nav: 9.05
+keywords: creators,storage
+---
+
+> `atomWithToggleAndStorage` は `atomWithToggle` に似ていますが、[`atomWithStorage`](../utilities/storage.mdx) を使用して状態が変化するたびに指定されたストレージに状態を永続化します。
+
+ソースコード：
+
+```ts
+import { WritableAtom, atom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
+
+export function atomWithToggleAndStorage(
+    key: string,
+    initialValue?: boolean,
+    storage?: any,
+): WritableAtom<boolean, [boolean?], void> {
+    const anAtom = atomWithStorage(key, initialValue, storage);
+    const derivedAtom = atom(
+        (get) => get(anAtom),
+        (get, set, nextValue?: boolean) => {
+            const update = nextValue ?? !get(anAtom);
+            void set(anAtom, update);
+        },
+    );
+
+    return derivedAtom as WritableAtom<boolean, [boolean?], void>;
+}
+```
+
+使用方法：
+
+```js
+import { atomWithToggleAndStorage } from "XXX";
+
+// 初期値は false に設定され、"isActive" というキーで localStorage に保存されます
+const isActiveAtom = atomWithToggleAndStorage("isActive");
+```
+
+コンポーネント内での使用方法は `atomWithToggle` と同じです。

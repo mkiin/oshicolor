@@ -6,10 +6,10 @@ R3 が出力した `ContrastResult.adjusted`（`ThemeVariants`）を受け取り
 
 ### 入出力
 
-| 項目 | 内容 |
-|---|---|
+| 項目     | 内容                                                                                            |
+| -------- | ----------------------------------------------------------------------------------------------- |
 | **入力** | `ThemeVariants`（R3 出力 `ContrastResult.adjusted`）＋ テーマメタデータ（名前・キャラクター名） |
-| **出力** | Lua ファイル文字列（`string`）→ ブラウザでダウンロード |
+| **出力** | Lua ファイル文字列（`string`）→ ブラウザでダウンロード                                          |
 
 ### ファイル配置
 
@@ -31,9 +31,9 @@ src/features/theme-generator/
 ```typescript
 // テーマのメタデータ
 type ThemeMeta = {
-  name: string;           // テーマ名（ファイル名・vim.g.colors_name に使用）
-  characterName?: string; // キャラクター名（ファイルヘッダーコメントに使用）
-  variant: "dark" | "light";  // 生成するバリアント
+    name: string; // テーマ名（ファイル名・vim.g.colors_name に使用）
+    characterName?: string; // キャラクター名（ファイルヘッダーコメントに使用）
+    variant: "dark" | "light"; // 生成するバリアント
 };
 
 // エクスポート形式
@@ -192,14 +192,14 @@ hi("@attribute",          { link = "Special" })
 
 ## ハイライトグループのカテゴリと優先度
 
-| カテゴリ | グループ数 | 優先度 |
-|---|---|---|
-| エディタ UI | ~15 | MVP 必須 |
-| シンタックス（base） | ~10 | MVP 必須 |
-| Diagnostics | ~10 | MVP 必須 |
-| TreeSitter | ~25（link ベース） | MVP 必須（LazyVim 要件） |
-| LSP セマンティックトークン | ~10 | 将来対応 |
-| プラグイン専用（Telescope, which-key 等） | ~20 | 将来対応 |
+| カテゴリ                                  | グループ数         | 優先度                   |
+| ----------------------------------------- | ------------------ | ------------------------ |
+| エディタ UI                               | ~15                | MVP 必須                 |
+| シンタックス（base）                      | ~10                | MVP 必須                 |
+| Diagnostics                               | ~10                | MVP 必須                 |
+| TreeSitter                                | ~25（link ベース） | MVP 必須（LazyVim 要件） |
+| LSP セマンティックトークン                | ~10                | 将来対応                 |
+| プラグイン専用（Telescope, which-key 等） | ~20                | 将来対応                 |
 
 TreeSitter グループは**既存の base グループへの `link`** で定義するため、新しい色を追加する必要はない。フォールバックの仕組みにより `@string.escape` が未定義でも `@string` へ自動フォールバックするが、明示的に定義することで一貫性を保つ。
 
@@ -223,10 +223,10 @@ string   #39c5bb
 
 ```css
 :root {
-  --color-bg: #0d1117;
-  --color-fg: #e8f4f8;
-  --color-comment: #4a7a8a;
-  --color-string: #39c5bb;
+    --color-bg: #0d1117;
+    --color-fg: #e8f4f8;
+    --color-comment: #4a7a8a;
+    --color-string: #39c5bb;
 }
 ```
 
@@ -234,10 +234,10 @@ string   #39c5bb
 
 ```json
 {
-  "bg": "#0d1117",
-  "fg": "#e8f4f8",
-  "comment": "#4a7a8a",
-  "string": "#39c5bb"
+    "bg": "#0d1117",
+    "fg": "#e8f4f8",
+    "comment": "#4a7a8a",
+    "string": "#39c5bb"
 }
 ```
 
@@ -247,14 +247,18 @@ string   #39c5bb
 
 ```typescript
 // exporters.ts の download ユーティリティ
-export const downloadFile = (content: string, filename: string, mimeType: string): void => {
-  const blob = new Blob([content], { type: mimeType });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(url);
+export const downloadFile = (
+    content: string,
+    filename: string,
+    mimeType: string,
+): void => {
+    const blob = new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
 };
 
 // Lua ダウンロード
@@ -265,9 +269,9 @@ downloadFile(luaContent, `${meta.name}.lua`, "text/plain");
 
 ## 検証方法
 
-| 検証項目 | 手順 |
-|---|---|
-| **構文確認** | 生成された Lua ファイルを `luac -p` でパース（構文エラーがないか） |
-| **実機確認** | `~/.config/nvim/colors/oshicolor.lua` に置いて LazyVim 上で `:colorscheme oshicolor` が通ることを確認 |
+| 検証項目            | 手順                                                                                                           |
+| ------------------- | -------------------------------------------------------------------------------------------------------------- |
+| **構文確認**        | 生成された Lua ファイルを `luac -p` でパース（構文エラーがないか）                                             |
+| **実機確認**        | `~/.config/nvim/colors/oshicolor.lua` に置いて LazyVim 上で `:colorscheme oshicolor` が通ることを確認          |
 | **TreeSitter 確認** | `:TSInstall` 後に TypeScript ファイルを開き、`@function`, `@keyword`, `@string` が正しく色付けされることを確認 |
-| **Diagnostic 確認** | LSP が有効な状態でエラー・警告が正しく色付けされることを確認 |
+| **Diagnostic 確認** | LSP が有効な状態でエラー・警告が正しく色付けされることを確認                                                   |

@@ -1,0 +1,96 @@
+---
+title: Lazy
+nav: 3.03
+keywords: lazy,initialize,init,loading
+---
+
+プリミティブアトムを定義する場合、初期値は定義時にバインドされている必要があります。
+その初期値の作成が計算コストが高い場合、または定義時にアクセスできない場合は、
+アトムの初期化を[ストアでの最初の使用時](#複数のストアを使用する)まで延期するのが最善です。
+
+```jsx
+const imageDataAtom = atom(initializeExpensiveImage()) // 1) ここで計算する必要があります
+
+function Home() {
+  ...
+}
+
+function ImageEditor() {
+  // 2) このルートのみで使用
+  const [imageData, setImageData] = useAtom(imageDataAtom);
+  ...
+}
+
+function App() {
+  return (
+    <Router>
+      <Route path="/" component={Home} />
+      <Route path="/edit" component={ImageEditor} />
+    </Router>
+  )
+}
+```
+
+## atomWithLazy
+
+Ref: https://github.com/pmndrs/jotai/pull/2465
+
+`atomWithLazy` を使用して、初期値が[ストアでの最初の使用時](#複数のストアを使用する)に計算されるプリミティブアトムを作成できます。
+初期化後は、通常のプリミティブアトム（書き込み可能）として動作します。
+
+### 使用方法
+
+```jsx
+import { atomWithLazy } from 'jotai/utils'
+
+// 初期化関数を渡す
+const imageDataAtom = atomWithLazy(initializeExpensiveImage)
+
+function Home() {
+  ...
+}
+
+function ImageEditor() {
+  // ユーザーが `/edit` に移動した場合のみ初期化されます
+  const [imageData, setImageData] = useAtom(imageDataAtom);
+  ...
+}
+
+function App() {
+  return (
+    <Router>
+      <Route path="/" component={Home} />
+      <Route path="/edit" component={ImageEditor} />
+    </Router>
+  )
+}
+```
+
+### 複数のストアを使用する
+
+各ストアは独立した宇宙なので、初期値はストアごとに正確に1回再作成されます（ストアをより小さな宇宙に分割する `jotai-scope` などを使用していない限り）。
+
+```ts
+type RGB = [number, number, number];
+
+function randomRGB(): RGB {
+  ...
+}
+
+const lift = (value: number) => ([r, g, b]: RGB) => {
+  return [r + value, g + value, b + value]
+}
+
+const colorAtom = lazyAtom(randomRGB)
+
+let store = createStore()
+
+console.log(store.get(colorAtom)) // [0, 36, 128]
+store.set(colorAtom, lift(8))
+console.log(store.get(colorAtom)) // [8, 44, 136]
+
+// ストアを再作成（ログアウト時やアプリのリセット時に行うことがあります）
+store = createStore()
+
+console.log(store.get(colorAtom)) // [255, 12, 46] -- 新しいランダムな色
+```

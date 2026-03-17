@@ -1,0 +1,121 @@
+---
+title: 大規模オブジェクト
+nav: 9.01
+keywords: large,object
+---
+
+> 以下の例と説明は、この [codesandbox](https://codesandbox.io/s/zealous-sun-f2qnl?file=/src/App.tsx) に基づいています。例と合わせて確認するとより理解が深まります。
+
+アトムに格納する必要のあるネストされたデータがある場合、異なるレベルでそのデータを変更したり、すべての変更をリッスンせずにデータの一部を使用したりする必要があることがあります。
+
+次の例を考えてみましょう：
+
+```js
+const initialData = {
+    people: [
+        {
+            name: "Luke Skywalker",
+            information: { height: 172 },
+            siblings: ["John Skywalker", "Doe Skywalker"],
+        },
+        {
+            name: "C-3PO",
+            information: { height: 167 },
+            siblings: ["John Doe", "Doe John"],
+        },
+    ],
+    films: [
+        {
+            title: "A New Hope",
+            planets: ["Tatooine", "Alderaan"],
+        },
+        {
+            title: "The Empire Strikes Back",
+            planets: ["Hoth"],
+        },
+    ],
+    info: {
+        tags: ["People", "Films", "Planets", "Titles"],
+    },
+};
+```
+
+## focusAtom
+
+> `focusAtom` は、渡したフォーカスに基づいて新しいアトムを作成します。[jotai-optics](../extensions/optics.mdx#focusatom)
+
+このユーティリティを使ってアトムをフォーカスし、データの特定の部分からアトムを作成します。例えば、上のデータの `people` プロパティを使用する必要がある場合は次のようにします：
+
+```js
+import { atom } from "jotai";
+import { focusAtom } from "jotai-optics";
+
+const dataAtom = atom(initialData);
+
+const peopleAtom = focusAtom(dataAtom, (optic) => optic.prop("people"));
+```
+
+`focusAtom` は `WritableAtom` を返すため、`peopleAtom` のデータを変更することも可能です。
+
+上のデータ例の `films` プロパティを変更しても `peopleAtom` は再レンダリングを引き起こしません。これが `focusAtom` を使用する利点の1つです。
+
+## splitAtom
+
+> `splitAtom` ユーティリティは、リスト内の各要素に対してアトムを取得したい場合に便利です。[jotai/utils](../utilities/split.mdx)
+
+配列を値として返すアトムに対してこのユーティリティを使用します。例えば、上で作成した `peopleAtom` は people プロパティの配列を返すため、その配列の各アイテムに対してアトムを返せます。配列アトムが書き込み可能な場合、`splitAtom` が返すアトムも書き込み可能になります。読み取り専用の配列アトムの場合、返されるアトムも読み取り専用になります。
+
+```js
+import { splitAtom } from "jotai/utils";
+
+const peopleAtomsAtom = splitAtom(peopleAtom);
+```
+
+コンポーネント内での使用例：
+
+```jsx
+const People = () => {
+    const [peopleAtoms] = useAtom(peopleAtomsAtom);
+    return (
+        <div>
+            {peopleAtoms.map((personAtom) => (
+                <Person personAtom={personAtom} key={`${personAtom}`} />
+            ))}
+        </div>
+    );
+};
+```
+
+## selectAtom
+
+> この関数は、元のアトムの値の関数として値を持つ派生アトムを作成します。[jotai/utils](../utilities/select.mdx)
+
+このユーティリティは `focusAtom` に似ていますが、常に読み取り専用のアトムを返します。
+
+`info` データを使用し、そのデータが常に変更不可能だとします。そこから読み取り専用のアトムを作成し、そのアトムを選択します。
+
+```js
+// まず initialData.info に基づいた派生アトムを作成します
+const infoAtom = atom((get) => get(dataAtom).info);
+```
+
+コンポーネント内での使用例：
+
+```jsx
+import { atom, useAtom } from "jotai";
+import { selectAtom, splitAtom } from "jotai/utils";
+
+const tagsSelector = (s) => s.tags;
+const Tags = () => {
+    const tagsAtom = selectAtom(infoAtom, tagsSelector);
+    const tagsAtomsAtom = splitAtom(tagsAtom);
+    const [tagAtoms] = useAtom(tagsAtomsAtom);
+    return (
+        <div>
+            {tagAtoms.map((tagAtom) => (
+                <Tag key={`${tagAtom}`} tagAtom={tagAtom} />
+            ))}
+        </div>
+    );
+};
+```

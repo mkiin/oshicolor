@@ -1,0 +1,98 @@
+---
+title: SSR
+nav: 3.02
+keywords: ssr,server,hydrate,hydration,next,nextjs,gatsby,remix,waku,framework
+---
+
+## useHydrateAtoms
+
+Ref: https://github.com/pmndrs/jotai/issues/340
+
+### 使用方法
+
+```js
+import { atom, useAtom } from "jotai";
+import { useHydrateAtoms } from "jotai/utils";
+
+const countAtom = atom(0);
+const CounterPage = ({ countFromServer }) => {
+    useHydrateAtoms([[countAtom, countFromServer]]);
+    const [count] = useAtom(countAtom);
+    // count は 0 ではなく `countFromServer` の値になります
+};
+```
+
+`useHydrateAtoms` の主なユースケースは Next.js などの SSR アプリで、初期値がサーバーでフェッチされ、props としてコンポーネントに渡される場合です。
+
+⚠️ 注意：「ハイドレート」という言葉はサーバーサイドの使用を示唆するかもしれませんが、このフックはクライアントサイドのコード向けに設計されており、[`'use client'` ディレクティブ](https://react.dev/reference/rsc/use-client)とともに使用する必要があります。
+
+```ts
+// 定義
+function useHydrateAtoms(
+    values: Iterable<readonly [Atom<unknown>, unknown]>,
+    options?: { store?: Store },
+): void;
+```
+
+フックは `[atom, value]` を含むタプルのイテラブルを引数として受け取り、オプションのオプションも受け取ります。
+
+```js
+// 配列を使用し、ストアを指定する
+useHydrateAtoms(
+    [
+        [countAtom, 42],
+        [frameworkAtom, "Next.js"],
+    ],
+    { store: myStore },
+);
+// または Map を使用する
+useHydrateAtoms(new Map([[count, 42]]));
+```
+
+アトムはストアごとに1回のみハイドレートできます。そのため、再レンダリング中に使用される初期値が変更されても、アトムの値は更新されません。
+以前にハイドレートされたアトムを再ハイドレートする特別な必要がある場合は、オプションの dangerouslyForceHydrate を true として渡してください。ただし、並行レンダリングでは誤って動作する可能性があることに注意してください。
+
+```js
+useHydrateAtoms(
+    [
+        [countAtom, 42],
+        [frameworkAtom, "Next.js"],
+    ],
+    {
+        dangerouslyForceHydrate: true,
+    },
+);
+```
+
+複数のストアでハイドレートする必要がある場合は、複数の `useHydrateAtoms` フックを使用してください。
+
+```js
+useHydrateAtoms([
+    [countAtom, 42],
+    [frameworkAtom, "Next.js"],
+]);
+useHydrateAtoms(
+    [
+        [countAtom, 17],
+        [frameworkAtom, "Gatsby"],
+    ],
+    { store: myStore },
+);
+```
+
+`ES5` をターゲットとした TypeScript を使用している場合、タプル型を保持するために配列に `as const` キャストが必要な場合があります。
+
+```ts
+useHydrateAtoms([
+    [countAtom, 42],
+    [frameworkAtom, "Next.js"],
+] as const);
+```
+
+または、useHydrateAtoms にアトムの値を渡す際に Map を使用する必要があるかもしれません。動作する例は[レンダリング時の状態初期化ドキュメント](https://jotai.org/docs/guides/initialize-atom-on-render#using-typescript)で確認できます。
+
+### デモ
+
+<Stackblitz id="stackblitz-starters-b7cvxi" file="pages%2Findex.tsx" />
+
+[Next.js セクション](../guides/nextjs.mdx)にさらに多くの例があります。

@@ -1,0 +1,117 @@
+---
+title: Cache
+description: このドキュメントは cache 拡張について説明します。
+nav: 4.07
+keywords: cache
+---
+
+Jotai は再レンダリングを最適化するためのプリミティブ関数を提供します。
+「現在の」アトム値のみを保持するように設計されており、古い値をキャッシュしません。
+
+キャッシュが有用な場合もあります。例えば、非同期アトムがネットワークリクエストをトリガーする場合、レスポンスをキャッシュしたいことがあります。
+
+[jotai-cache](https://github.com/jotai-labs/jotai-cache) はそのようなユースケースを支援するサードパーティライブラリです。
+
+### インストール
+
+```
+npm install jotai-cache
+```
+
+## atomWithCache
+
+```js
+atomWithCache(read, options): Atom
+```
+
+`atomWithCache` はキャッシュ付きの新しい読み取り専用アトムを作成します。
+
+### パラメータ
+
+**read**: 読み取り専用アトムを定義する read 関数。
+
+**options**（オプション）: アトムの動作をカスタマイズするオプションオブジェクト
+
+### オプション
+
+**size**（オプション）: キャッシュアイテムの最大サイズ。
+
+**shouldRemove**（オプション）: キャッシュアイテムを削除すべきかどうかを確認する関数。
+
+**areEqual**（オプション）: アトム値を比較する関数。
+
+### 例
+
+```jsx
+import { atom, useAtom } from "jotai";
+import { atomWithCache } from "jotai-cache";
+
+const idAtom = atom(1);
+
+const normalAtom = atom(async (get) => {
+    const id = get(idAtom);
+    const response = await fetch(`https://reqres.in/api/users/${id}?delay=1`);
+    return response.json();
+});
+
+const cachedAtom = atomWithCache(async (get) => {
+    const id = get(idAtom);
+    const response = await fetch(`https://reqres.in/api/users/${id}?delay=1`);
+    return response.json();
+});
+
+const NormalUser = () => {
+    const [{ data }] = useAtom(normalAtom);
+    return (
+        <div>
+            <h1>User (normal atom)</h1>
+            <ul>
+                <li>ID: {data.id}</li>
+                <li>First name: {data.first_name}</li>
+                <li>Last name: {data.last_name}</li>
+            </ul>
+        </div>
+    );
+};
+
+const CachedUser = () => {
+    const [{ data }] = useAtom(cachedAtom);
+    return (
+        <div>
+            <h1>User (cached atom)</h1>
+            <ul>
+                <li>ID: {data.id}</li>
+                <li>First name: {data.first_name}</li>
+                <li>Last name: {data.last_name}</li>
+            </ul>
+        </div>
+    );
+};
+
+const App = () => {
+    const [id, setId] = useAtom(idAtom);
+    return (
+        <div>
+            ID: {id}{" "}
+            <button type="button" onClick={() => setId((c) => c - 1)}>
+                Prev
+            </button>{" "}
+            <button type="button" onClick={() => setId((c) => c + 1)}>
+                Next
+            </button>
+            <hr />
+            <Suspense fallback="Loading...">
+                <CachedUser />
+            </Suspense>
+            <hr />
+            <Suspense fallback="Loading...">
+                <NormalUser />
+            </Suspense>
+        </div>
+    );
+};
+```
+
+### Stackblitz
+
+<Stackblitz id="vitejs-vite-p86ajq" file="src%2FApp.tsx" />

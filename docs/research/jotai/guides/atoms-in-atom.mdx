@@ -1,0 +1,166 @@
+---
+title: Atoms in atom
+nav: 8.12
+---
+
+`atom()` はアトムコンフィグを作成します。それはオブジェクトですが、値を保持しません。
+アトムコンフィグには文字列のキーがなく、参照等価性で識別します。
+言い換えると、アトムコンフィグをキーのように使用できます。
+
+### useState にアトムコンフィグを格納する
+
+まず最初に、useState にアトムコンフィグを格納できます。
+
+```jsx
+const Component = ({ atom1, atom2 }) => {
+    const [selectedAtom, setSelectedAtom] = useState(atom1);
+    const [value] = useAtom(selectedAtom);
+    return (
+        <div>
+            Selected value: {value}
+            <button onClick={() => setSelectedAtom(atom1)}>
+                Select an atom
+            </button>
+            <button onClick={() => setSelectedAtom(atom2)}>
+                Select another atom
+            </button>
+        </div>
+    );
+};
+```
+
+アトムコンフィグを props として渡せることに注意してください。
+
+意味がないかもしれませんが、オンデマンドでアトムコンフィグを作成することもできます。
+
+```jsx
+const Component = () => {
+    const [currentAtom, setCurrentAtom] = useState(() => atom(0));
+    const [count, setCount] = useAtom(currentAtom);
+    return (
+        <div>
+            Count: {count}{" "}
+            <button onClick={() => setCount((c) => c + 1)}>+1</button>
+            <button onClick={() => setCurrentAtom(atom(0))}>Create new</button>
+        </div>
+    );
+};
+```
+
+### アトムにアトムコンフィグを格納する
+
+同様に、別のアトムの値としてアトムコンフィグを格納できます。
+
+```jsx
+const firstNameAtom = atom("Tanjiro");
+const lastNameAtom = atom("Kamado");
+
+const showingNameAtom = atom(firstNameAtom);
+
+const Component = () => {
+    const [nameAtom, setNameAtom] = useAtom(showingNameAtom);
+    const [name] = useAtom(nameAtom);
+    return (
+        <div>
+            Name: {name}
+            <button onClick={() => setNameAtom(firstNameAtom)}>
+                Show First Name
+            </button>
+            <button onClick={() => setNameAtom(lastNameAtom)}>
+                Show Last Name
+            </button>
+        </div>
+    );
+};
+```
+
+派生アトムを作成することも可能です。
+
+```js
+const derivedNameAtom = atom((get) => {
+    const nameAtom = get(showingNameAtom);
+    return get(nameAtom);
+});
+
+// または短いバージョン
+const derivedNameAtom = atom((get) => get(get(showingNameAtom)));
+```
+
+アトムに何が入っているか混乱しないよう、アトムに明示的な名前をつけることが重要です。
+また、TypeScript の型情報も役立ちます。
+
+### アトムコンフィグの配列をアトムに格納する
+
+最後に、atoms in atom パターンはアトムコンフィグの配列をアトムに格納することです。
+
+```jsx
+const countsAtom = atom([atom(1), atom(2), atom(3)]);
+
+const Counter = ({ countAtom }) => {
+    const [count, setCount] = useAtom(countAtom);
+    return (
+        <div>
+            {count} <button onClick={() => setCount((c) => c + 1)}>+1</button>
+        </div>
+    );
+};
+
+const Parent = () => {
+    const [counts, setCounts] = useAtom(countsAtom);
+    const addNewCount = () => {
+        const newAtom = atom(0);
+        setCounts((prev) => [...prev, newAtom]);
+    };
+    return (
+        <div>
+            {counts.map((countAtom) => (
+                <Counter countAtom={countAtom} key={countAtom} />
+            ))}
+            <button onClick={addNewCount}>Add</button>
+        </div>
+    );
+};
+```
+
+このアプローチの利点は、カウントをインクリメントしたとき、
+対応する Counter コンポーネントのみが再レンダリングされ、他のコンポーネントは再レンダリングされないことです。
+
+`anAtom.toString()` がユニークな id を返すことに注意してください。これは map の `key` として使用できます。
+
+#### TypeScript ユーザーへのヒント
+
+```jsx
+<Counter countAtom={countAtom} key={`${countAtom}`} />
+```
+
+### アトムコンフィグのマップをアトムに格納する
+
+同様に、配列の代わりにオブジェクトマップを格納することもできます。
+
+```jsx
+const pricesAtom = atom({
+    apple: atom(15),
+    orange: atom(12),
+    pineapple: atom(25),
+});
+
+const Fruit = ({ name, priceAtom }) => {
+    const [price] = useAtom(priceAtom);
+    return (
+        <div>
+            {name}: {price}
+        </div>
+    );
+};
+
+const Parent = () => {
+    const [prices] = useAtom(pricesAtom);
+    return (
+        <div>
+            {Object.keys(prices).map((name) => (
+                <Fruit name={name} priceAtom={prices[name]} key={name} />
+            ))}
+        </div>
+    );
+};
+```

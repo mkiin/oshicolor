@@ -1,0 +1,64 @@
+---
+title: useAtomEffect
+nav: 9.03
+keywords: effect, atom effect, side effect, side-effect, sideeffect, hook, useAtomEffect
+---
+
+> `useAtomEffect` は [atomEffect](../extensions/effect.mdx) を使って、アトムや props の変化に応じてサイドエフェクトを実行します。
+
+`effectFn` は、依存するアトムが変化するか、`effectFn` 自体が変化するたびに再実行されます。コンポーネント内で定義された関数の場合は、必ず `effectFn` をメモ化してください。
+
+⚠️ 注意：追加の `atomEffect` の再計算を避けるために、常に [useMemo と useCallback の安定バージョン](https://github.com/alexreardon/use-memo-one) を使用することを推奨します。`useMemo` はパフォーマンスの最適化として使用できますが、意味的な保証としては使用できません。将来的に、React はオフスクリーンコンポーネントのメモリを解放するために一部のメモ化された値を「忘れ」て次のレンダリング時に再計算する場合があります。
+
+```ts
+import { useMemoOne as useStableMemo } from "use-memo-one";
+import { useAtomValue } from "jotai/react";
+import { atomEffect } from "jotai-effect";
+
+type EffectFn = Parameters<typeof atomEffect>[0];
+
+export function useAtomEffect(effectFn: EffectFn) {
+    useAtomValue(useStableMemo(() => atomEffect(effectFn), [effectFn]));
+}
+```
+
+### 使用例
+
+```tsx
+import { useCallbackOne as useStableCallback } from "use-memo-one";
+import { atom, useAtom } from "jotai";
+import { atomFamily } from "jotai/utils";
+import { useAtomEffect } from "./useAtomEffect";
+
+const channelSubscriptionAtomFamily = atomFamily<Channel>(
+    (channelId: string) => {
+        return atom(new Channel(channelId));
+    },
+);
+const messagesAtom = atom<Message[]>([]);
+
+function Messages({ channelId }: { channelId: string }) {
+    const [messages] = useAtom(messagesAtom);
+    useAtomEffect(
+        useStableCallback(
+            (get, set) => {
+                const channel = get(channelSubscriptionAtomFamily(channelId));
+                const unsubscribe = channel.subscribe((message) => {
+                    set(messagesAtom, (prev) => [...prev, message]);
+                });
+                return unsubscribe;
+            },
+            [channelId],
+        ),
+    );
+    return (
+        <>
+            <h1>You have {messages.length} messages</h1>
+            <hr />
+            {messages.map((message) => (
+                <div key={message.id}>{message.text}</div>
+            ))}
+        </>
+    );
+}
+```

@@ -1,0 +1,140 @@
+---
+title: Initializing state on render
+description: 初回レンダリング時にアトムの状態を初期化する方法
+nav: 8.13
+---
+
+アトムを使用する再利用可能なコンポーネントを作成する必要がある場合があります。
+
+これらのアトムの初期状態はコンポーネントに渡された props によって決まります。
+
+以下は `Provider` とその prop `initialValues` を使用して状態を初期化する方法を示す基本的な例です。
+
+### 基本的な例
+
+> CodeSandbox リンク: [codesandbox](https://codesandbox.io/s/init-atoms-with-usehydrateatoms-nryk1w)
+
+プレーンテキストを表示・更新できる再利用可能な `TextDisplay` コンポーネントの基本的な例を考えましょう。
+
+このコンポーネントには `PrettyText` と `UpdateTextInput` の2つの子コンポーネントがあります。
+
+- `PrettyText` はテキストを青色で表示します。
+- `UpdateTextInput` はテキストの値を更新する入力フィールドです。
+
+2つの子コンポーネントに `text` を prop として渡す代わりに、`text` の状態をアトムとしてコンポーネント間で共有することにしました。
+
+`TextDisplay` コンポーネントを再利用可能にするために、`text` アトムの初期状態を決定する prop `initialTextValue` を受け取ります。
+
+`initialTextValue` を `textAtom` に結びつけるために、新しいストアを作成し `Provider` コンポーネントに渡すコンポーネントで子コンポーネントをラップします。
+
+```jsx
+const textAtom = atom("");
+
+const PrettyText = () => {
+    const [text] = useAtom(textAtom);
+    return (
+        <>
+            <text
+                style={{
+                    color: "blue",
+                }}
+            >
+                {text}
+            </text>
+        </>
+    );
+};
+
+const UpdateTextInput = () => {
+    const [text, setText] = useAtom(textAtom);
+    const handleInputChange = (e) => {
+        setText(e.target.value);
+    };
+    return (
+        <>
+            <input onChange={handleInputChange} value={text} />
+        </>
+    );
+};
+
+const HydrateAtoms = ({ initialValues, children }) => {
+    // ここでレンダリング時に props から状態を初期化します
+    useHydrateAtoms(initialValues);
+    return children;
+};
+
+export const TextDisplay = ({ initialTextValue }) => (
+    <Provider>
+        <HydrateAtoms initialValues={[[textAtom, initialTextValue]]}>
+            <PrettyText />
+            <br />
+            <UpdateTextInput />
+        </HydrateAtoms>
+    </Provider>
+);
+```
+
+これで、「同じ」アトムを参照しているにもかかわらず、異なる初期テキスト値で `TextDisplay` コンポーネントを簡単に再利用できます。
+
+```jsx
+export default function App() {
+    return (
+        <div className="App">
+            <TextDisplay initialTextValue="initial text value 1" />
+
+            <TextDisplay initialTextValue="initial text value 2" />
+        </div>
+    );
+}
+```
+
+この動作は、子コンポーネントが値を導出するために最も近い共通の `Provider` の祖先を探すためです。
+
+`Provider` の動作に関する詳細は[こちらのドキュメント](../core/provider.mdx)を参照してください。
+
+より複雑なユースケースについては、[Scope 拡張機能](../extensions/scope.mdx)を確認してください。
+
+### TypeScript を使う
+
+`useHydrateAtoms` はオーバーロードされた型を持っており、TypeScript はオーバーロードされた関数から型を抽出できません。`useHydrateAtoms` に初期アトム値を渡す際は `Map` を使用することを推奨します。
+
+動作する例：
+
+```tsx
+import type { ReactNode } from "react";
+import { Provider, atom, useAtomValue } from "jotai";
+import type { WritableAtom } from "jotai";
+import { useHydrateAtoms } from "jotai/utils";
+
+const testAtom = atom("");
+
+export default function App() {
+    return (
+        <Provider>
+            <AtomsHydrator atomValues={[[testAtom, "hello"]]}>
+                <Component />
+            </AtomsHydrator>
+        </Provider>
+    );
+}
+
+//このコンポーネントにはすべての状態とロジックが含まれています
+function Component() {
+    const testAtomValue = useAtomValue(testAtom);
+    return <div>{testAtomValue}</div>;
+}
+
+function AtomsHydrator({
+    atomValues,
+    children,
+}: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    atomValues: Iterable<
+        readonly [WritableAtom<unknown, [any], unknown>, unknown]
+    >;
+    children: ReactNode;
+}) {
+    useHydrateAtoms(new Map(atomValues));
+    return children;
+}
+```

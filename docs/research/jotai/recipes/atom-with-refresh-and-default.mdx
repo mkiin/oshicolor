@@ -1,0 +1,75 @@
+---
+title: atomWithRefreshAndDefault
+nav: 9.07
+keywords: creators,refresh,default
+---
+
+> これは [atomWithDefault](../utilities/resettable.mdx#atomwithdefault) の別実装です。
+
+### atomWithDefault の動作を振り返る
+
+`atomWithDefault` セクションのサンプルコードに示されているように、`count2Atom = atomWithDefault((get) => get(count1Atom) * 2)` と作成したアトムを更新した後、2つのアトムの関係が切断されます。
+何が起こったか確認してみましょう：
+
+-   1. "increment count1" をクリックすると、count1 が 2、count2 が 4 になります
+-   2. "increment count2" をクリックすると、count1 が 2、count2 が 5 になります（切断済み！！）
+
+`count2Atom` を更新した後、これらのアトムは関係を持たなくなります。そのため、
+
+- "increment count1" をクリックしても、count1 のみがインクリメントされます
+- `count2Atom` をリセットしても、依存関係は戻りません
+
+### モチベーション
+
+以下のようなケースでは、
+
+- 切断後にリセットすると、関係を取り戻したい
+- 派生アトムは元のアトムの更新に基づいてリセットされるべき
+- すべての派生アトムをリセットしたいが、できるだけシンプルに操作したい
+
+このようなケースはどのように実現できるでしょうか？
+ここでは、`atomWithDefault` の代わりにリフレッシュ可能なアトムを作成する宣言的な方法を紹介します。
+
+```js
+const refreshCountAtom = atom(0);
+
+const baseDataAtom = atom(1); // 元データ、例: ベースの count1Atom
+const dataAtom = atom(
+    (get) => {
+        get(refreshCountAtom); // atomWithRefresh で紹介
+        return get(baseDataAtom);
+    },
+    (get, set, update) => {
+        set(baseDataAtom, update);
+    },
+);
+
+const atomWithRefreshAndDefault = (refreshAtom, getDefault) => {
+    const overwrittenAtom = atom(null);
+    return atom(
+        (get) => {
+            const lastState = get(overwrittenAtom);
+            if (lastState && lastState.refresh === get(refreshAtom)) {
+                return lastState.value;
+            }
+            return getDefault(get);
+        },
+        (get, set, update) => {
+            set(overwrittenAtom, { refresh: get(refreshAtom), value: update });
+        },
+    );
+};
+
+// これは `atomWithDefault((get) => get(count1Atom) * 2)` の代替です
+const refreshableAtom = atomWithRefreshAndDefault(
+    refreshCountAtom,
+    (get) => get(dataAtom) * 2,
+);
+
+// 1つのアトムを更新するだけでリセットできます
+const resetRootAtom = atom(null, (get, set) => {
+    set(refreshCountAtom, get(refreshCountAtom) + 1);
+});
+```
+
+<Stackblitz id="vitejs-vite-1m7ce3" file="src%2FApp.tsx" />

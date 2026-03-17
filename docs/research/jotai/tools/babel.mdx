@@ -1,0 +1,137 @@
+---
+title: Babel
+description: このドキュメントは `jotai-babel` パッケージについて説明します。
+nav: 6.02
+keywords: babel,gatsby,fast,refresh
+---
+
+> **非推奨**: `jotai/babel` バンドルは非推奨であり、v3 で削除される予定です。代わりに [`jotai-babel`](https://github.com/jotaijs/jotai-babel) パッケージを使用してください。
+
+## jotai-babel/plugin-react-refresh
+
+このプラグインは Jotai アトムに対する React Refresh のサポートを追加します。React Refresh を使用して開発する際に状態がリセットされないことを保証します。
+
+### 使用方法
+
+`babel` 設定ファイルを使用する場合：
+
+```json
+{
+    "plugins": ["jotai-babel/plugin-react-refresh"]
+}
+```
+
+プラグインはアトム関数名の事前定義されたリスト（例：'atom', 'atomFamily', 'atomWithDefault'）を認識します。カスタムアトム関数名を使用している場合は、それらが認識されるように明示的に指定できます。
+
+Babel セットアップでの設定方法：
+
+```json
+{
+    "plugins": [
+        [
+            "jotai-babel/plugin-react-refresh",
+            { "customAtomNames": ["customAtom"] }
+        ]
+    ]
+}
+```
+
+以下に例があります。
+
+## jotai-babel/plugin-debug-label
+
+Jotai はキー（Recoil のような）ではなくオブジェクト参照に基づいています。そのため、アトムの識別子がありません。アトムを識別するために、React devtools で確認できる `debugLabel` をアトムに追加することが可能です。
+
+しかし、すべてのアトムに `debugLabel` を追加するのはすぐに煩雑になります。
+
+この `babel` プラグインは識別子に基づいて各アトムに `debugLabel` を自動的に追加します。
+
+プラグインは以下のコードを変換します：
+
+```js
+export const countAtom = atom(0);
+```
+
+以下のように変換されます：
+
+```js
+export const countAtom = atom(0);
+countAtom.debugLabel = "countAtom";
+```
+
+デフォルトエクスポートもファイル名に基づいて処理されます：
+
+```js
+// countAtom.ts
+export default atom(0);
+```
+
+以下のように変換されます：
+
+```js
+// countAtom.ts
+const countAtom = atom(0);
+countAtom.debugLabel = "countAtom";
+export default countAtom;
+```
+
+### 使用方法
+
+不要なオーバーヘッドを避けるために、本番ビルドではこのプラグインを無効にすることを推奨します。環境に基づいて Babel 設定に条件付きで含めることができます。
+
+`babel` 設定ファイルを使用する場合：
+
+```json
+{
+    "plugins": ["jotai-babel/plugin-debug-label"]
+}
+```
+
+プラグインはアトム関数名の事前定義されたリスト（例：'atom', 'atomFamily', 'atomWithDefault'）を認識します。カスタムアトム関数名を使用している場合は、それらが認識されるように明示的に指定できます。
+
+Babel セットアップでの設定方法：
+
+```json
+{
+    "plugins": [
+        [
+            "jotai-babel/plugin-debug-label",
+            { "customAtomNames": ["customAtom"] }
+        ]
+    ]
+}
+```
+
+以下に例があります。
+
+## jotai-babel/preset
+
+Jotai は Jotai 用に作成されたプラグインを含む `babel preset` を提供しています。
+
+### 使用方法
+
+`babel` 設定ファイルを使用する場合：
+
+```json
+{
+    "presets": ["jotai-babel/preset"]
+}
+```
+
+プリセットにアトム名を指定することもできます：
+
+```json
+{
+    "presets": [["jotai-babel/preset", { "customAtomNames": ["customAtom"] }]]
+}
+```
+
+### 例
+
+#### Next.js
+
+<CodeSandbox id="o2di2" />
+
+#### Parcel
+
+<CodeSandbox id="bgf3b" />

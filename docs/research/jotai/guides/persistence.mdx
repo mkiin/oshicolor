@@ -1,0 +1,205 @@
+---
+title: Persistence
+description: アトムを永続化する方法
+nav: 8.14
+---
+
+Jotai には `sessionStorage`、`localStorage`、`AsyncStorage`、または URL ハッシュへの状態の永続化をサポートする[utils バンドルの atomWithStorage 関数](../utilities/storage.mdx)があります。
+
+（注意：このガイドは少し古く、書き直しが必要です。）
+
+いくつかの代替実装もここに示します：
+
+### localStorage を使ったシンプルなパターン
+
+```js
+const strAtom = atom(localStorage.getItem("myKey") ?? "foo");
+
+const strAtomWithPersistence = atom(
+    (get) => get(strAtom),
+    (get, set, newStr) => {
+        set(strAtom, newStr);
+        localStorage.setItem("myKey", newStr);
+    },
+);
+```
+
+### localStorage と JSON パースを使ったヘルパー関数
+
+```js
+const atomWithLocalStorage = (key, initialValue) => {
+    const getInitialValue = () => {
+        const item = localStorage.getItem(key);
+        if (item !== null) {
+            return JSON.parse(item);
+        }
+        return initialValue;
+    };
+    const baseAtom = atom(getInitialValue());
+    const derivedAtom = atom(
+        (get) => get(baseAtom),
+        (get, set, update) => {
+            const nextValue =
+                typeof update === "function" ? update(get(baseAtom)) : update;
+            set(baseAtom, nextValue);
+            localStorage.setItem(key, JSON.stringify(nextValue));
+        },
+    );
+    return derivedAtom;
+};
+```
+
+（エラーハンドリングを追加する必要があります。）
+
+### AsyncStorage と JSON パースを使ったヘルパー関数
+
+これには [onMount](../core/atom.mdx#onmount-property) が必要です。
+
+```js
+const atomWithAsyncStorage = (key, initialValue) => {
+    const baseAtom = atom(initialValue);
+    baseAtom.onMount = (setValue) => {
+        (async () => {
+            const item = await AsyncStorage.getItem(key);
+            setValue(JSON.parse(item));
+        })();
+    };
+    const derivedAtom = atom(
+        (get) => get(baseAtom),
+        (get, set, update) => {
+            const nextValue =
+                typeof update === "function" ? update(get(baseAtom)) : update;
+            set(baseAtom, nextValue);
+            AsyncStorage.setItem(key, JSON.stringify(nextValue));
+        },
+    );
+    return derivedAtom;
+};
+```
+
+非同期アトムの使い方の詳細については[非同期ドキュメント](../guides/async.mdx)を確認してください。
+
+### sessionStorage を使った例
+
+AsyncStorage と同様に、`atomWithStorage` ユーティリティを使用し、デフォルトのストレージを `sessionStorage` で上書きするだけです。
+
+```js
+import { atomWithStorage, createJSONStorage } from "jotai/utils";
+
+const storage = createJSONStorage(() => sessionStorage);
+const someAtom = atomWithStorage("some-key", someInitialValue, storage);
+```
+
+### シリアライズアトムパターン
+
+```tsx
+type Actions =
+    | { type: "serialize"; callback: (value: string) => void }
+    | { type: "deserialize"; value: string };
+
+const serializeAtom = atom(null, (get, set, action: Actions) => {
+    if (action.type === "serialize") {
+        const obj = {
+            todos: get(todosAtom).map(get),
+        };
+        action.callback(JSON.stringify(obj));
+    } else if (action.type === "deserialize") {
+        const obj = JSON.parse(action.value);
+        // エラーハンドリングと型チェックが必要
+        set(
+            todosAtom,
+            obj.todos.map((todo: Todo) => atom(todo)),
+        );
+    }
+});
+
+const Persist = () => {
+    const [, dispatch] = useAtom(serializeAtom);
+    const save = () => {
+        dispatch({
+            type: "serialize",
+            callback: (value) => {
+                localStorage.setItem("serializedTodos", value);
+            },
+        });
+    };
+    const load = () => {
+        const value = localStorage.getItem("serializedTodos");
+        if (value) {
+            dispatch({ type: "deserialize", value });
+        }
+    };
+    return (
+        <div>
+            <button onClick={save}>Save to localStorage</button>
+            <button onClick={load}>Load from localStorage</button>
+        </div>
+    );
+};
+```
+
+#### 例
+
+<Stackblitz id="vitejs-vite-zda5uw" file="src%2FApp.tsx" />
+
+### atomFamily を使ったパターン
+
+```tsx
+type Actions =
+    | { type: "serialize"; callback: (value: string) => void }
+    | { type: "deserialize"; value: string };
+
+const serializeAtom = atom(null, (get, set, action: Actions) => {
+    if (action.type === "serialize") {
+        const todos = get(todosAtom);
+        const todoMap: Record<string, { title: string; completed: boolean }> =
+            {};
+        todos.forEach((id) => {
+            todoMap[id] = get(todoAtomFamily({ id }));
+        });
+        const obj = {
+            todos,
+            todoMap,
+            filter: get(filterAtom),
+        };
+        action.callback(JSON.stringify(obj));
+    } else if (action.type === "deserialize") {
+        const obj = JSON.parse(action.value);
+        // エラーハンドリングと型チェックが必要
+        set(filterAtom, obj.filter);
+        obj.todos.forEach((id: string) => {
+            const todo = obj.todoMap[id];
+            set(todoAtomFamily({ id, ...todo }), todo);
+        });
+        set(todosAtom, obj.todos);
+    }
+});
+
+const Persist = () => {
+    const [, dispatch] = useAtom(serializeAtom);
+    const save = () => {
+        dispatch({
+            type: "serialize",
+            callback: (value) => {
+                localStorage.setItem("serializedTodos", value);
+            },
+        });
+    };
+    const load = () => {
+        const value = localStorage.getItem("serializedTodos");
+        if (value) {
+            dispatch({ type: "deserialize", value });
+        }
+    };
+    return (
+        <div>
+            <button onClick={save}>Save to localStorage</button>
+            <button onClick={load}>Load from localStorage</button>
+        </div>
+    );
+};
+```
+
+#### 例
+
+<Stackblitz id="vitejs-vite-z4kjv3" file="src%2FApp.tsx" />

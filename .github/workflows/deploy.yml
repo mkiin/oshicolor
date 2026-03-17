@@ -16,20 +16,15 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: "10"
-          run_install: false
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Vite+
+        uses: voidzero-dev/setup-vp@v1
         with:
           node-version: "24"
-          cache: pnpm
+          cache: true
       - name: Install dependencies
-        run: pnpm install
+        run: vp install
       - name: Deploy
-        run: pnpm alchemy deploy --stage ${{ env.STAGE }} --adopt
+        run: vp exec alchemy deploy --stage ${{ env.STAGE }} --adopt
         env:
           ALCHEMY_PASSWORD: ${{ secrets.ALCHEMY_PASSWORD }}
           ALCHEMY_STATE_TOKEN: ${{ secrets.ALCHEMY_STATE_TOKEN }}

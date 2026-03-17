@@ -1,0 +1,68 @@
+---
+title: Callback
+nav: 3.99
+keywords: callback
+published: false
+---
+
+## useAtomCallback
+
+Ref: https://github.com/pmndrs/jotai/issues/60
+
+### 使用方法
+
+```ts
+useAtomCallback<Result, Args extends unknown[]>(
+  callback: (get: Getter, set: Setter, ...arg: Args) => Result,
+  options?: Options
+): (...args: Args) => Result
+```
+
+このフックはアトムと命令的に対話するためのものです。
+アトムの write 関数のように機能するコールバック関数を受け取り、
+アトムの値を返す関数を返します。
+
+フックに渡すコールバックは安定している必要があります（useCallback でラップする必要があります）。
+
+### 例
+
+```jsx
+import { useEffect, useState, useCallback } from "react";
+import { Provider, atom, useAtom } from "jotai";
+import { useAtomCallback } from "jotai/utils";
+
+const countAtom = atom(0);
+
+const Counter = () => {
+    const [count, setCount] = useAtom(countAtom);
+    return (
+        <>
+            {count} <button onClick={() => setCount((c) => c + 1)}>+1</button>
+        </>
+    );
+};
+
+const Monitor = () => {
+    const [count, setCount] = useState(0);
+    const readCount = useAtomCallback(
+        useCallback((get) => {
+            const currCount = get(countAtom);
+            setCount(currCount);
+            return currCount;
+        }, []),
+    );
+    useEffect(() => {
+        const timer = setInterval(async () => {
+            console.log(readCount());
+        }, 1000);
+        return () => {
+            clearInterval(timer);
+        };
+    }, [readCount]);
+    return <div>current count: {count}</div>;
+};
+```
+
+### Stackblitz
+
+<Stackblitz id="vitejs-vite-ekxjhs" file="src%2FApp.tsx" />

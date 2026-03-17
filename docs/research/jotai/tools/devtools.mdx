@@ -1,0 +1,394 @@
+---
+title: Devtools
+description: このドキュメントは Jotai の Devtools について説明します。
+nav: 6.03
+keywords: devtools,debug,snapshot
+---
+
+### インストール
+
+開始するには、プロジェクトに `jotai-devtools` をインストールします。
+
+```sh
+npm install jotai-devtools
+```
+
+### 注意事項
+
+- `<DevTools/>` は本番ビルドでツリーシェイクできるように最適化されており、**非本番環境でのみ動作します**
+- フックは開発専用で、非本番環境で動作するように設計されています
+- フィードバックは歓迎します。[Jotai DevTools GitHub リポジトリ](https://github.com/jotaijs/jotai-devtools/discussions) に issue を立てるか質問してください
+
+### クイックリンク
+
+- [UI Devtools](#ui-devtools)
+- フック
+    - [useAtomsDebugValue](#useatomsdebugvalue)
+    - [useAtomDevtools](#useatomdevtools)
+    - [useAtomsDevtools](#useatomsdevtools)
+    - [useAtomsSnapshot](#useatomssnapshot)
+    - [useGotoAtomsSnapshot](#usegotoatomssnapshot)
+- 移行ガイド
+    - [`@emotion/react` からの移行](https://github.com/jotaijs/jotai-devtools?tab=readme-ov-file#migrate-%C6%92rom-emotionreact-to-native-css)
+
+### UI DevTools
+
+UI ベースの Jotai DevTool で開発体験を向上させましょう。
+
+#### Babel プラグインの設定 - (_オプションですが強く推奨_)
+
+最適なデバッグ体験のために [`jotai-babel`](https://github.com/jotaijs/jotai-babel) プラグインを使用してください。完全なガイドは [babel](../tools/babel) ページや [swc](../tools/swc) ページで確認できます。
+
+例：
+
+```ts
+{
+  "presets": [
+    // このプリセットには2つのプラグインが含まれています：
+    // - jotai-babel/plugin-react-refresh：アトムのホットリロードを有効化
+    // - jotai-babel/plugin-debug-label：アトムにデバッグラベルを自動追加
+    'jotai-babel/preset'
+  ]
+}
+```
+
+Vite + React プロジェクトの例：
+
+```ts
+// vite.config.ts
+
+export default defineConfig({
+    plugins: [
+        react({
+            babel: {
+                presets: ["jotai-babel/preset"],
+            },
+        }),
+    ],
+});
+```
+
+### Next JS の設定
+
+_[Next.js](https://nextjs.org) を使用していない場合は、このセクションをスキップしてください。_
+
+UI の CSS とコンポーネントが正しくトランスパイルされるように `transpilePackages` を有効にしてください。
+
+```ts
+// next.config.ts
+const nextConfig = {
+    // 詳細はこちら - https://nextjs.org/docs/advanced-features/compiler#module-transpilation
+    // UI css が正しくトランスパイルされるために必要 👇
+    transpilePackages: ["jotai-devtools"],
+};
+module.exports = nextConfig;
+```
+
+### 利用可能な props
+
+```ts
+type DevToolsProps = {
+    // デフォルトは false
+    isInitialOpen?: boolean;
+    // カスタムストアを渡す
+    store?: Store;
+    // デフォルトは light
+    theme?: "dark" | "light";
+    // トリガーボタンの位置を設定
+    // デフォルトは `bottom-left`
+    position?: "top-right" | "top-left" | "bottom-right" | "bottom-left";
+    // CSP 経由で jotai-devtools 固有のインラインスタイルをホワイトリストに追加するカスタム nonce
+    nonce?: string;
+    options?: {
+        // プライベートアトムは `atomWithStorage` や `atomWithLocation` などのアトムクリエーター内で
+        // 内部状態を管理するために使用されます。
+        // デフォルトは `false`
+        shouldShowPrivateAtoms?: boolean;
+        // Atom Viewer タブ、Timeline タブなどで初回レンダリング時に JSON ツリービューを展開します。
+        // デフォルトは `false`
+        shouldExpandJsonTreeViewInitially?: boolean;
+        // タイムトラベルの再生の各ステップ間の間隔（ミリ秒）。
+        // デフォルトは `750ms`
+        timeTravelPlaybackInterval?: number;
+        // 履歴に保持するスナップショットの最大数。
+        // 数が多いほどメモリを消費します。
+        // デフォルトは `Infinity`。推奨: `~30`
+        snapshotHistoryLimit?: number;
+    };
+};
+```
+
+### 使用方法
+
+#### Provider なし
+
+```tsx
+import { DevTools } from "jotai-devtools";
+import "jotai-devtools/styles.css";
+
+const App = () => {
+    return (
+        <>
+            <DevTools />
+            {/* your app */}
+        </>
+    );
+};
+```
+
+#### Provider あり
+
+```tsx
+import { createStore } from "jotai";
+import { DevTools } from "jotai-devtools";
+import "jotai-devtools/styles.css";
+
+const customStore = createStore();
+
+const App = () => {
+    return (
+        <Provider store={customStore}>
+            <DevTools store={customStore} />
+            {/* your app */}
+        </Provider>
+    );
+};
+```
+
+### プレビュー
+
+<Stackblitz id="vitejs-vite-hzldhk" file="src%2FApp.tsx" />
+
+## useAtomsDebugValue
+
+`useAtomsDebugValue` は React Devtools にすべてのアトム値を表示する React フックです。
+
+```ts
+function useAtomsDebugValue(options?: {
+    store?: Store;
+    enabled?: boolean;
+}): void;
+```
+
+内部的には `useDebugValue` を使用しており、DEV モードでのみ有効です。
+フックが配置されている場所からアクセスできるすべてのアトムをキャプチャします。
+
+### 例
+
+```jsx
+import { useAtomsDebugValue } from "jotai-devtools/utils";
+
+const textAtom = atom("hello");
+textAtom.debugLabel = "textAtom";
+
+const lenAtom = atom((get) => get(textAtom).length);
+lenAtom.debugLabel = "lenAtom";
+
+const TextBox = () => {
+    const [text, setText] = useAtom(textAtom);
+    const [len] = useAtom(lenAtom);
+    return (
+        <span>
+            <input value={text} onChange={(e) => setText(e.target.value)} />(
+            {len})
+        </span>
+    );
+};
+
+const DebugAtoms = () => {
+    useAtomsDebugValue();
+    return null;
+};
+
+const App = () => (
+    <Provider>
+        <DebugAtoms />
+        <TextBox />
+    </Provider>
+);
+```
+
+<Stackblitz id="vitejs-vite-dmts5e" file="src%2FApp.tsx" />
+
+## useAtomDevtools
+
+`useAtomDevtools` は特定のアトムに対して ReduxDevTools 拡張を管理する React フックです。
+
+```ts
+function useAtomDevtools<Value>(
+    anAtom: WritableAtom<Value, Value>,
+    options?: {
+        store?: Store;
+        name?: string;
+        enabled?: boolean;
+    },
+): void;
+```
+
+`useAtomDevtools` フックはジェネリック型パラメータ（アトムに格納されている型を反映）を受け取ります。また、フックは `anAtom` と `name` の2つの呼び出しパラメータを受け取ります。
+`anAtom` は devtools インスタンスにアタッチされるアトムです。`name` は devtools インスタンスのデバッグラベルを定義するオプションのパラメータです。`name` が undefined の場合、代わりに `atom.debugLabel` が使用されます。
+
+### 例
+
+```ts
+import { useAtomDevtools } from "jotai-devtools/utils";
+
+// アトムに格納される型のインターフェース
+export interface Task {
+    label: string;
+    complete: boolean;
+}
+
+// デバッグするアトム
+export const tasksAtom = atom<Task[]>([]);
+
+// useAtomDevtools の name パラメータが undefined の場合、この値が代わりに使用されます
+tasksAtom.debugLabel = "Tasks";
+
+export const useTasksDevtools = () => {
+    // デバッグするアトムを渡すだけでフックを呼び出せます
+    useAtomDevtools(tasksAtom);
+
+    // カスタム型パラメータを指定
+    useAtomDevtools<Task[]>(tasksAtom);
+
+    // 同じアトムに2つの devtools インスタンスをアタッチし、カスタム名で区別できます
+    useAtomDevtools(tasksAtom, "Tasks (Instance 1)");
+    useAtomDevtools(tasksAtom, "Tasks (Instance 2)");
+};
+```
+
+## useAtomsDevtools
+
+⚠️ 注意：このフックは実験的（フィードバック歓迎）であり、`process.env.NODE_ENV !== 'production'` 環境でのみ動作します。
+
+`useAtomsDevtools` は `useAtomDevtools` のキャッチオール版で、特定のアトムの代わりにストア内のすべてのアトムを表示します。
+
+```ts
+function useAtomsDevtools(
+    name: string,
+    options?: {
+        store?: Store;
+        enabled?: boolean;
+    },
+): void;
+```
+
+Redux devtools インスタンスの命名に必要な `name` パラメータと `store` パラメータを受け取ります。
+
+この API の制限として、`useAtomsDevtools` を配置するコンポーネントは、消費するアトムがそのコンポーネントよりも React ツリーの下位にある必要があります（以下の例の `AtomsDevtools`）。
+`AtomsDevtools` コンポーネントはアプリのベストプラクティスと見なすことができます。
+
+### 例
+
+```jsx
+const countAtom = atom(0);
+const doubleCountAtom = atom((get) => get(countAtom) * 2);
+
+function Counter() {
+  const  [count, setCount] =  useAtom(countAtom);
+  const  [doubleCount] =  useAtom(doubleCountAtom);
+
+  ...
+}
+
+const AtomsDevtools = ({ children }) => {
+  useAtomsDevtools('demo')
+  return children
+}
+
+export default function App()  {
+  return (
+    <AtomsDevtools>
+      <Counter />
+    </AtomsDevtools>
+  )
+ }
+```
+
+<Stackblitz id="vitejs-vite-lpr5rs" file="src%2FApp.tsx" />
+
+## useAtomsSnapshot
+
+⚠️ 注意：このフックは `process.env.NODE_ENV !== 'production'` 環境でのみ動作します。本番環境では静的な空の値を返します。
+
+`useAtomsSnapshot` は現在マウントされているアトムとその状態のスナップショットを取得します。
+
+```ts
+function useAtomsSnapshot(options?: { store?: Store }): AtomsSnapshot;
+```
+
+`store` パラメータを受け取り、基本的に `Map<AnyAtom, unknown>` である `AtomsSnapshot` を返します。`Map` API を使用してアトムとその状態を反復処理できます。
+このフックは主にデバッグと devtools のユースケース向けです。
+
+すべての状態変更でコンポーネントが再レンダリングされるため、このフックの使用には注意が必要です。
+
+### 例
+
+```jsx
+import { Provider } from "jotai";
+import { useAtomsSnapshot } from "jotai-devtools/utils";
+
+const RegisteredAtoms = () => {
+    const atoms = useAtomsSnapshot();
+
+    return (
+        <div>
+            <p>Atom count: {atoms.size}</p>
+            <div>
+                {Array.from(atoms).map(([atom, atomValue]) => (
+                    <p key={`${atom}`}>{`${atom.debugLabel}: ${atomValue}`}</p>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+const App = () => (
+    <Provider>
+        <RegisteredAtoms />
+    </Provider>
+);
+```
+
+## useGotoAtomsSnapshot
+
+⚠️ 注意：このフックは `process.env.NODE_ENV !== 'production'` 環境でのみ動作します。本番環境では空の関数として動作します。
+
+`useGotoAtomsSnapshot` は現在の Jotai の状態を渡されたスナップショットに合わせて更新します。
+
+```ts
+function useGotoAtomsSnapshot(options?: {
+    store?: Store;
+}): (values: Iterable<readonly [AnyAtom, unknown]>) => void;
+```
+
+このフックはコールバックを返します。コールバックは `useAtomsSnapshot` フックのスナップショットを受け取り、Jotai の状態を更新します。`store` パラメータを受け取ります。
+このフックは主にデバッグと devtools のユースケース向けです。
+
+### 例
+
+```jsx
+import { Provider } from "jotai";
+import { useAtomsSnapshot, useGotoAtomsSnapshot } from "jotai-devtools/utils";
+
+const petAtom = atom("cat");
+const colorAtom = atom("blue");
+
+const UpdateSnapshot = () => {
+    const snapshot = useAtomsSnapshot();
+    const goToSnapshot = useGotoAtomsSnapshot();
+    return (
+        <button
+            onClick={() => {
+                const newSnapshot = new Map(snapshot);
+                newSnapshot.set(petAtom, "dog");
+                newSnapshot.set(colorAtom, "green");
+                goToSnapshot(newSnapshot);
+            }}
+        >
+            Go to snapshot
+        </button>
+    );
+};
+```

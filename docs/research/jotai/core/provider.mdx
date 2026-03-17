@@ -1,0 +1,74 @@
+---
+title: Provider
+description: このドキュメントはコアの `jotai` バンドルについて説明します。
+nav: 2.04
+keywords: provider,usestore,ssr
+---
+
+## Provider
+
+`Provider` コンポーネントはコンポーネントサブツリーに状態を提供するためのものです。
+複数のサブツリーに対して複数の Provider を使用でき、ネストも可能です。
+これは React Context と同様に機能します。
+
+Provider なしのツリーでアトムが使用された場合、
+デフォルトの状態が使用されます。これはプロバイダーレスモードと呼ばれます。
+
+Provider は3つの理由で有用です：
+
+1. 各サブツリーに異なる状態を提供するため。
+2. アトムの初期値を受け入れるため。
+3. 再マウントによってすべてのアトムをクリアするため。
+
+```jsx
+const SubTree = () => (
+    <Provider>
+        <Child />
+    </Provider>
+);
+```
+
+### シグネチャ
+
+```ts
+const Provider: React.FC<{
+    store?: Store;
+}>;
+```
+
+アトムコンフィグは値を保持しません。アトムの値は別のストアに存在します。Provider はストアを含み、コンポーネントツリー下にアトムの値を提供するコンポーネントです。Provider は React コンテキストプロバイダーのように機能します。Provider を使用しない場合、デフォルトストアを使用したプロバイダーレスモードで動作します。異なるコンポーネントツリーに異なるアトムの値を保持する必要がある場合は Provider が必要です。Provider はオプションの prop `store` を受け取れます。
+
+```jsx
+const Root = () => (
+    <Provider>
+        <App />
+    </Provider>
+);
+```
+
+### `store` prop
+
+Provider はオプションの prop `store` を受け取れます。Provider のサブツリーで使用できます。
+
+#### 例
+
+```jsx
+const myStore = createStore();
+
+const Root = () => (
+    <Provider store={myStore}>
+        <App />
+    </Provider>
+);
+```
+
+## useStore
+
+このフックはコンポーネントツリー内のストアを返します。
+
+```jsx
+const Component = () => {
+    const store = useStore();
+    // ...
+};
+```

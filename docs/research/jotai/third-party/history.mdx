@@ -1,0 +1,92 @@
+---
+title: History
+description: 状態履歴のための Jōtai ユーティリティパッケージ
+nav: 4.04
+keywords: history, undo, redo, track changes
+---
+
+[jotai-history](https://github.com/jotaijs/jotai-history) は Jotai で状態履歴を追跡するためのユーティリティパッケージです。
+
+## インストール
+
+```
+npm install jotai-history
+```
+
+## `withHistory`
+
+```js
+import { withHistory } from 'jotai-history'
+
+const targetAtom = atom(0)
+const limit = 2
+const historyAtom = withHistory(targetAtom, limit)
+
+function Component() {
+  const [current, previous] = useAtomValue(historyAtom)
+  ...
+}
+```
+
+### 説明
+
+`withHistory` は指定された `targetAtom` の状態履歴を追跡するアトムを作成します。最新の `limit` 件の状態が保持されます。
+
+### アクションシンボル
+
+- **RESET**
+  履歴全体をクリアし、以前のすべての状態（undo/redo スタックを含む）を削除します。
+
+    ```js
+    import { RESET } from 'jotai-history'
+
+    ...
+
+    function Component() {
+      const setHistoryAtom = useSetAtom(historyAtom)
+      ...
+      setHistoryAtom(RESET)
+    }
+    ```
+
+- **UNDO** と **REDO**
+  `targetAtom` を履歴の中で前後に移動します。
+
+    ```js
+    import { REDO, UNDO } from 'jotai-history'
+
+    ...
+
+    function Component() {
+      const setHistoryAtom = useSetAtom(historyAtom)
+      ...
+      setHistoryAtom(UNDO)
+      setHistoryAtom(REDO)
+    }
+    ```
+
+### インジケーター
+
+- **canUndo** と **canRedo**
+  undo または redo アクションが現在可能かどうかを示す boolean 値。これらを使用してボタンを無効化したり、条件付きでアクションをトリガーしたりできます。
+
+    ```jsx
+    ...
+
+    function Component() {
+      const history = useAtomValue(historyAtom)
+
+      return (
+        <>
+          <button disabled={!history.canUndo}>Undo</button>
+          <button disabled={!history.canRedo}>Redo</button>
+        </>
+      )
+    }
+    ```
+
+<CodeSandbox id="g6qj3q" />
+
+## メモリ管理
+
+> `withHistory` は以前の状態のリストを保持するため、合理的な `limit` を設定してメモリ使用量に注意してください。状態を頻繁に更新するアプリケーションでは、メモリ使用量が大幅に増加する可能性があります。

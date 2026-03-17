@@ -1,0 +1,109 @@
+---
+title: 関数型プログラミングと Jotai
+nav: 7.04
+---
+
+### 予期せぬ類似性
+
+getter 関数をじっくり見ていると、ある JavaScript 言語機能との驚くべき類似性に気づくかもしれません。
+
+```tsx
+const nameAtom = atom("Visitor");
+const countAtom = atom(1);
+const greetingAtom = atom((get) => {
+    const name = get(nameAtom);
+    const count = get(countAtom);
+    return (
+        <div>
+            Hello, {name}! You have visited this page {count} times.
+        </div>
+    );
+});
+```
+
+このコードを `async`–`await` と比較してみてください。
+
+```tsx
+const namePromise = Promise.resolve("Visitor");
+const countPromise = Promise.resolve(1);
+const greetingPromise = (async function () {
+    const name = await namePromise;
+    const count = await countPromise;
+    return (
+        <div>
+            Hello, {name}! You have visited this page {count} times.
+        </div>
+    );
+})();
+```
+
+この類似性は偶然ではありません。アトムも Promise も、関数型プログラミングの概念である**モナド**†です。`greetingAtom` と `greetingPromise` の両方で使われている構文は、よりプレーンなモナドインターフェースの糖衣構文である **do記法** として知られています。
+
+### モナドについて
+
+モナドインターフェースは、アトムと Promise インターフェースの流動性を担っています。モナドインターフェースにより、`nameAtom` と `countAtom` を使って `greetingAtom` を定義し、`namePromise` と `countPromise` を使って `greetingPromise` を定義することが可能になります。
+
+興味があれば、ある構造（`Atom` や `Promise` など）がモナドであるには、以下の関数を実装できる必要があります。Arrays に対して `of`、`map`、`join` を実装してみるのは楽しい演習です。
+
+```ts
+type SomeMonad<T> = /* 例えば... */ Array<T>;
+declare function of<T>(plainValue: T): SomeMonad<T>;
+declare function map<T, V>(
+    anInstance: SomeMonad<T>,
+    transformContents: (contents: T) => V,
+): SomeMonad<V>;
+declare function join<T>(
+    nestedInstances: SomeMonad<SomeMonad<T>>,
+): SomeMonad<T>;
+```
+
+Promise とアトムの共通の起源は、多くのパターンとベストプラクティスをそれらの間で再利用できることを意味します。一つ見てみましょう。
+
+### シーケンシング
+
+コールバック地獄について話すとき、ボイラープレート、インデント、見落としやすいミスについてよく言及します。しかし、一つの非同期操作を別の非同期操作につなげることだけがコールバックの苦労ではありませんでした。4つのネットワーク呼び出しをして、すべてを待つ必要があったらどうでしょうか？このようなスニペットが一般的でした：
+
+```ts
+const nPending = 4;
+const results: string[];
+function callback(err, data) {
+    if (err) throw err;
+    results.push(data);
+    if (results.length === nPending) {
+        // results で何かをする...
+    }
+}
+```
+
+しかし、結果が異なる型で、順序が重要だったら？さらに多くの面倒な作業が必要になります！このロジックは各使用箇所で重複し、間違えやすくなります。ES6 以降は単純に `Promise.all` を呼び出せます：
+
+```ts
+declare function promiseAll<T>(promises: Array<Promise<T>>): Promise<Array<T>>;
+```
+
+`Promise.all` は `Array` と `Promise` を「再配置」します。この概念、_シーケンシング_ は、すべてのモナド-_Traversable_ ペアで実装できます。Arrays を含む多くの種類のコレクションが Traversable です。例えば、これはアトムと配列に特化したシーケンシングの例です：
+
+```ts
+function sequenceAtomArray<T>(atoms: Array<Atom<T>>): Atom<Array<T>> {
+    return atom((get) => atoms.map(get));
+}
+```
+
+### まとめ
+
+モナドは60年間数学者の関心事であり、40年間プログラマーの関心事でした。モナドのパターンに関する多くのリソースがあります。ぜひ見てみてください！いくつか選んで紹介します：
+
+- Stepan Parunashvili による [_Inventing Monads_](https://stopa.io/post/247)
+- ThatsNoMoon による [_How Monads Solve Problems_](https://thatsnomoon.dev/posts/ts-monads/)
+- Wiki ページ [モナドチュートリアルのリスト](https://wiki.haskell.org/Monad_tutorials_timeline)
+- [Typeclassopedia](https://wiki.haskell.org/Typeclassopedia)（好奇心旺盛な方向け）
+
+Promise に関する巧みなトリックを学ぶことで、`Promise.all` と `sequenceAtomArray` が示したように、アトムにも活かせます。モナドは魔法ではなく、ただ珍しく有用であり、知る価値のあるツールです。
+
+---
+
+_注記_
+
+**[†]** ES6 の Promise は、`Promise<Promise<number>>` が意味的に `Promise<number>` と等価であるなど、他の Promise をネストできないため、完全に有効なモナドではありません。そのため Promise は `.then` だけを持ち、`.map` と `.flatMap` の両方を持ちません。ES6 Promise はモナドではなく「モナド的」と表現するのが適切かもしれません。
+
+ES6 Array とは異なり、ES6 の Array は完全に合法的なモナドです。

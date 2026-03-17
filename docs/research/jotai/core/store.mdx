@@ -1,0 +1,39 @@
+---
+title: Store
+description: このドキュメントはコアの `jotai` バンドルについて説明します。
+nav: 2.03
+keywords: store,createstore,getdefaultstore,defaultstore
+---
+
+## createStore
+
+この関数は新しい空のストアを作成するためのものです。
+ストアは `Provider` に渡すことができます。
+
+ストアには3つのメソッドがあります：アトムの値を取得するための `get`、
+アトムの値を設定するための `set`、アトムの変更をサブスクライブするための `sub` です。
+
+```jsx
+const myStore = createStore();
+
+const countAtom = atom(0);
+myStore.set(countAtom, 1);
+const unsub = myStore.sub(countAtom, () => {
+    console.log("countAtom value is changed to", myStore.get(countAtom));
+});
+// サブスクライブを解除するには unsub() を呼び出す
+
+const Root = () => (
+    <Provider store={myStore}>
+        <App />
+    </Provider>
+);
+```
+
+## getDefaultStore
+
+この関数はプロバイダーレスモードで使用されるデフォルトストアを返します。
+
+```js
+const defaultStore = getDefaultStore();
+```

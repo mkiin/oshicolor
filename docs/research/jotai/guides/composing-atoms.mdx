@@ -1,0 +1,210 @@
+---
+title: Composing atoms
+nav: 8.11
+---
+
+ライブラリが提供する `atom` 関数は非常にプリミティブですが、
+複数のアトムを組み合わせて機能を実装できるほど柔軟です。
+
+> 再度注意：`atom()` はアトムコンフィグを作成します。それはアトムの動作を定義するオブジェクトです。
+
+アトムを派生させる方法をおさらいしましょう。
+
+### 基本的な派生アトム
+
+派生アトムの最もシンプルな例の1つを示します：
+
+```js
+export const textAtom = atom("hello");
+export const textLenAtom = atom((get) => get(textAtom).length);
+```
+
+`textLenAtom` は `write` 関数が定義されていないため、読み取り専用アトムと呼ばれます。
+
+以下は `write` 関数を持つ別のシンプルな例です：
+
+```js
+const textAtom = atom("hello");
+export const textUpperCaseAtom = atom(
+    (get) => get(textAtom).toUpperCase(),
+    (_get, set, newText) => set(textAtom, newText),
+);
+```
+
+この場合、`textUpperCaseAtom` は元の `textAtom` をセットできます。
+そのため、`textUpperCaseAtom` だけをエクスポートして、
+`textAtom` をより小さいスコープに隠すことができます。
+
+では、いくつかの実際の例を見てみましょう。
+
+### デフォルトのアトム値を上書きする
+
+読み取り専用アトムがあるとします。
+明らかに読み取り専用アトムは書き込みができませんが、2つのアトムを組み合わせて
+読み取り専用アトムの値を上書きできます。
+
+```js
+const rawNumberAtom = atom(10.1); // エクスポート可能
+const roundNumberAtom = atom((get) => Math.round(get(rawNumberAtom)));
+const overwrittenAtom = atom(null);
+export const numberAtom = atom(
+    (get) => get(overwrittenAtom) ?? get(roundNumberAtom),
+    (get, set, newValue) => {
+        const nextValue =
+            typeof newValue === "function"
+                ? newValue(get(numberAtom))
+                : newValue;
+        set(overwrittenAtom, nextValue);
+    },
+);
+```
+
+最終的な `numberAtom` は `atom(10)` のような通常のプリミティブアトムと同様に機能します。
+数値をセットすると `overwrittenAtom` の値を上書きし、
+`null` をセットすると `roundNumberAtom` の値になります。
+
+再利用可能な実装は `jotai/utils` の `atomWithDefault` として利用できます。[atomWithDefault](../utilities/resettable.mdx) を参照してください。
+
+次に、外部値との同期に関する別の例を見てみましょう。
+
+### 外部値とアトム値を同期する
+
+扱いたい外部値があります。
+`localStorage` はその一例です。もう一つは `window.title` です。
+
+`localStorage` と同期するアトムの作成方法を見てみましょう。
+
+```js
+const baseAtom = atom(localStorage.getItem("mykey") || "");
+export const persistedAtom = atom(
+    (get) => get(baseAtom),
+    (get, set, newValue) => {
+        const nextValue =
+            typeof newValue === "function" ? newValue(get(baseAtom)) : newValue;
+        set(baseAtom, nextValue);
+        localStorage.setItem("mykey", nextValue);
+    },
+);
+```
+
+`persistedAtom` はプリミティブアトムのように機能しますが、その値は
+`localStorage` に永続化されます。
+
+再利用可能な実装は `jotai/utils` の `atomWithStorage` として利用できます。[atomWithStorage](../utilities/storage.mdx) を参照してください。
+
+この使用方法には注意点があります。アトムコンフィグは値を保持しませんが、
+外部値はシングルトン値です。
+そのため、このアトムを2つの異なる Provider で使用すると、
+2つの `persistedAtom` の値の間に不整合が生じます。
+外部値にサブスクリプション機構があれば解決できます。
+
+例えば、`jotai-valtio` の `atomWithProxy` はサブスクリプションを持つため、
+そのような制限がありません。異なる Provider の値は同期されます。
+
+本題に戻り、別の例を探求しましょう。
+
+### `atomWith*` ユーティリティでアトムを拡張する
+
+`atomWith` で始まる名前のユーティリティがいくつかあります。
+これらは特定の機能を持つアトムを作成します。
+残念ながら、2つのアトムユーティリティを組み合わせることはできません。
+例えば、`atomWithStorage` と `atomWithReducer` を使用して
+1つのアトムを定義することはできません。
+
+そのような場合、自分でアトムを派生させる必要があります。
+`atomWithStorage` に reducer 機能を追加してみましょう：
+
+```js
+const reducer = ...
+const baseAtom = atomWithStorage('mykey', '')
+export const derivedAtom = atom(
+  (get) => get(baseAtom),
+  (get, set, action) => {
+    set(baseAtom, reducer(get(baseAtom), action))
+  }
+)
+```
+
+この場合、`atomWithReducer` は `atomWithStorage` に比べてシンプルな実装なので
+簡単です。
+
+より複雑なケースでは、それほど簡単ではないかもしれません。
+まだ研究が続いているオープンな領域です。
+
+最後に、アクションに関する別の例を見てみましょう。
+
+### アクションアトム
+
+README に説明されているため、既知のパターンのはずです。
+それでも、見直すことが有用かもしれません。
+
+1ずつしかインクリメントまたはデクリメントできないカウンターを作成しましょう。
+
+一つの解決策は `atomWithReducer` です：
+
+```js
+const countAtom = atomWithReducer(0, (prev, action) => {
+    if (action === "INC") {
+        return prev + 1;
+    }
+    if (action === "DEC") {
+        return prev - 1;
+    }
+    throw new Error("unknown action");
+});
+```
+
+これは問題ありませんが、あまりアトミックではありません。
+コード分割 / 遅延ロードのメリットを得たい場合は、
+書き込み専用アトム、つまりアクションアトムを作成したいと思うでしょう。
+
+```js
+const baseAtom = atom(0); // エクスポートしない
+export const countAtom = atom((get) => get(baseAtom)); // 読み取り専用
+export const incAtom = atom(null, (_get, set) => {
+    set(baseAtom, (prev) => prev + 1);
+});
+export const decAtom = atom(null, (_get, set) => {
+    set(baseAtom, (prev) => prev - 1);
+});
+```
+
+これはよりアトミックで、Jotai らしいやり方です。
+
+別のアクションアトムを呼び出すアクションアトムを作成することもできます：
+
+```js
+// 前のコードから続く
+export const dispatchAtom = atom(null, (_get, set, action) => {
+    if (action === "INC") {
+        set(incAtom);
+    } else if (action === "DEC") {
+        set(decAtom);
+    } else {
+        throw new Error("unknown action");
+    }
+});
+```
+
+なぜこれが必要なのでしょうか？必要なときだけ使用されるからです。
+コード分割とデッドコードの除去を可能にします。
+
+### まとめ
+
+アトムはビルディングブロックです。
+他のアトムを基にアトムを組み合わせることで、
+複雑なロジックを実装できます。
+これは読み取り派生アトムだけでなく、書き込みアクションアトムにも当てはまります。
+
+本質的に、アトムは関数のようなものなので、アトムを組み合わせることは
+関数を他の関数と組み合わせることに似ています。
+
+**注意**：アトムは文字列、Blob、Observer など、あらゆる種類のデータを含むことができると述べました。ただし1つの例外があります。派生アトムは関数で定義されているため、Jotai は純粋なゲッターでない関数を渡した場合に理解できません。
+そのような場合は、関数をオブジェクトでラップするだけです。
+
+```js
+const doublerAtom = atom({ callback: (n) => n * 2 });
+// 使用方法
+const [doubler] = useAtom(doublerAtom);
+const doubledValue = doubler.callback(50); // 100 を計算します
+```
