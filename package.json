@@ -15,7 +15,6 @@
     "db:pull": "drizzle-kit pull",
     "db:studio": "drizzle-kit studio",
     "debug:gen-svg": "tsx scripts/gen-palette-svg-sharp.ts",
-    "debug:gen-svg:playwright": "tsx scripts/gen-palette-svg-playwright.ts",
     "prepare": "vp config"
   },
   "dependencies": {
