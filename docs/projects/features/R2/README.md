@@ -1,7 +1,7 @@
 # R2 カラースキーム生成（カラーマッピング）
 
 抽出パレットから Neovim カラースキームの HighlightMap を自動生成する機能。
-開発途中であり、次期 V5 を計画中。
+開発途中であり、V6 を開発中。
 
 ## バージョン履歴
 
@@ -11,7 +11,8 @@
 | V2  | C値ランク(Zone A) + 補完色生成(Zone B) | 鮮やかな暗色が bg に来る / パステルで bg 崩壊    |
 | V3  | bg neutral 生成 + コンセプトシステム   | k-means 12色では Hue 多様性不足 / C ランク限界   |
 | V4  | node-vibrant MMCQ 64色 + mini.hues     | 生成色が浮く / HSL-OkLch 混在の複雑さ / R1 の3軸を活かせていない |
-| V5  | 3 seed × tonal palette (HCT) + neutral | 開発中                                           |
+| V5  | 3 seed × tonal palette (HCT) + neutral | 各軸1色では特徴色を逃す / seed スコアリングが OkLch 依存 |
+| V6  | 明度2分割 seed (Vibrant/DarkVibrant) × tonal palette | 開発中                                           |
 
 ## 設計変遷
 
@@ -34,12 +35,17 @@ V4: "node-vibrant の MMCQ 64色で Hue カバレッジを拡大"
 V5: "R1 の3軸から seed → HCT tonal palette で展開"
      + neutral palette で bg 階層を構造的に生成
      + Tone 差で WCAG AA コントラストを保証
+     → 各軸1色では特徴色を逃す
+
+V6: "明度2分割 seed（Vibrant/DarkVibrant）で軸あたり2色"
+     + node-vibrant target 方式でスコアリング
+     + bright → syntax、dark → UI アクセントの用途分担
      → 開発中
 ```
 
-## 現行: V5
+## 現行: V6
 
-[`V5/plan.md`](V5/plan.md)
+[`V6/plan.md`](V6/plan.md)
 
 ## VX/ 配下のファイル命名規則
 
