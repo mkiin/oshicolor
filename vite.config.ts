@@ -8,8 +8,16 @@ import alchemy from "alchemy/cloudflare/tanstack-start";
 import { defineConfig } from "vite-plus";
 
 const config = defineConfig({
+  run: {
+    tasks: {
+      check: {
+        command: "vp check --fix",
+        cache: true,
+      },
+    },
+  },
   staged: {
-    "*": "vp check --fix",
+    "*": "vp run check",
   },
   lint: {
     options: { typeAware: true, typeCheck: true },
