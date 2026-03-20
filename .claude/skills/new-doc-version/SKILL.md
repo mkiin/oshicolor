@@ -5,19 +5,30 @@ description: >
   討論で決まった設計方針を plan.md としてまとめ、ディレクトリを作成し、README.md を更新する。
   「次のバージョンを切る」「V5を作る」「新しいバージョンを発行」「planをまとめて」
   「今の議論をまとめてドキュメントにして」といった依頼に使うこと。
-invocation: manual
+disable-model-invocation: true
 argument-hint: <RX> [概要メモ]
+allowed-tools: Read, Grep, Glob, Write, Bash(gh issue *), Bash(gh label *), Bash(mkdir *)
 ---
 
 # new-doc-version
 
 フィーチャーの次バージョンを発行する。
-討論の内容を構造化されたドキュメントに変換するのが主な役割。
+討論の内容を構造化されたドキュメントに変換し、GitHub Issue を作成するのが主な役割。
 
 ## 前提
 
 docs/ の規約は `docs-convention` スキルに従う。
 規約が不明な場合は `.claude/skills/docs-convention/SKILL.md` を参照すること。
+
+## 前処理で取得したコンテキスト
+
+### 現在のオープン Issue
+
+!`gh issue list --state open --limit 15 2>/dev/null || echo "取得失敗（gh 未認証の可能性）"`
+
+### 登録済みラベル
+
+!`gh label list --limit 30 2>/dev/null || echo "取得失敗"`
 
 ## 入力
 
@@ -92,8 +103,41 @@ docs/ の規約は `docs-convention` スキルに従う。
 作成したファイルの一覧と plan.md の内容をユーザーに提示し、
 修正が必要かどうかを確認する。
 
+### Step 6: GitHub Issue を作成する
+
+ユーザーの確認後、GitHub Issue を作成するか尋ねる。
+作成する場合:
+
+1. plan.md の内容から Issue を構成する:
+   - **タイトル**: `[RX/V{n+1}] 設計方針のサマリ`
+   - **ラベル**: `RX` + `plan`
+   - **本文**:
+     - plan.md へのリンク
+     - 前版の問題（issues.md から引用）
+     - 設計方針の要約
+     - 実装チェックリスト
+
+2. 前処理で取得した「現在のオープン Issue」と重複しないか確認する
+
+3. `gh issue create` で作成:
+
+```bash
+gh issue create \
+  --title "[RX/V{n+1}] タイトル" \
+  --body "本文" \
+  --label "RX,plan"
+```
+
+4. 作成された Issue 番号を使ってブランチ名を提案する:
+
+```
+feature/RX-V{n+1}-概要-kebab-case
+```
+
 ## 注意事項
 
 - plan.md は「実装の指示書」として機能する。曖昧な表現を避け、具体的に書く
 - 討論で決まっていない部分は「未決定」と明記し、推測で埋めない
 - 前バージョンのファイルは一切変更しない
+- GitHub Issue の作成は任意。ユーザーが不要と言えばスキップする
+- 重複 Issue を作らない。前処理のコンテキストを必ず確認する
