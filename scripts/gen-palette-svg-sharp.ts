@@ -26,15 +26,12 @@ type SwatchTarget = "V" | "M";
 /** colorthief の swatch target 定義（OkLch ベース） */
 type TargetDef = {
   targetL: number;
-  minL: number;
-  maxL: number;
   targetC: number;
-  minC: number;
 };
 
 const SWATCH_TARGETS: Record<SwatchTarget, TargetDef> = {
-  V: { targetL: 0.65, minL: 0.4, maxL: 0.85, targetC: 0.2, minC: 0.08 },
-  M: { targetL: 0.65, minL: 0.4, maxL: 0.85, targetC: 0.04, minC: 0.0 },
+  V: { targetL: 0.65, targetC: 0.2 },
+  M: { targetL: 0.65, targetC: 0.04 },
 };
 
 /** colorthief 準拠のスコアリング重み */
@@ -54,9 +51,6 @@ const swatchScore = (
   maxPopulation: number,
 ): number => {
   const { l, c } = color.oklch();
-
-  if (l < target.minL || l > target.maxL) return -Infinity;
-  if (c < target.minC) return -Infinity;
 
   const lDist = 1 - Math.abs(l - target.targetL);
   const cDist = 1 - Math.min(Math.abs(c - target.targetC) / 0.2, 1);
