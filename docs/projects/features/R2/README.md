@@ -11,7 +11,8 @@
 | V3  | bg neutral 生成 + コンセプトシステム   | k-means 12色では Hue 多様性不足 / C ランク限界   |
 | V4  | node-vibrant MMCQ 64色 + mini.hues     | 生成色が浮く / HSL-OkLch 混在の複雑さ / R1 の3軸を活かせていない |
 | V5  | 3 seed × tonal palette (HCT) + neutral | 各軸1色では特徴色を逃す / seed スコアリングが OkLch 依存 |
-| V6  | 3 target seed (V/DV/LV) × 閾値段階緩和 | デバッグ SVG のみ実装。tonal palette 以降は未実装 |
+| V6  | 3 target seed (V/DV/LV) × 閾値段階緩和 | seed 数が軸・キャラで 1〜3 にばらつく / tonal palette 以降は未実装 |
+| V7  | V + DV/LV 競合選定で seed 数固定化 | 開発中 |
 
 ## 設計変遷
 
@@ -39,12 +40,17 @@ V5: "R1 の3軸から seed → HCT tonal palette で展開"
 V6: "3 target seed（V/DV/LV）× 閾値段階緩和で軸あたり最大3色"
      + node-vibrant の Vibrant/DarkVibrant/LightVibrant target
      + 色合成フォールバック廃止 → 閾値緩和で軸内の色を使い切る
-     → デバッグ SVG のみ。tonal palette 以降は未実装
+     → seed 数が 1〜3 でばらつく
+
+V7: "V + DV/LV 競合選定で seed 数を固定 6"
+     + 2色目は DV/LV の距離比較で近い方を採用
+     + キャラによって DV/LV が自動選択される
+     → 開発中
 ```
 
-## 現行: V6
+## 現行: V7
 
-[`V6/spec.md`](V6/spec.md)
+[`V7/plan.md`](V7/plan.md)
 
 ## VX/ 配下のファイル命名規則
 

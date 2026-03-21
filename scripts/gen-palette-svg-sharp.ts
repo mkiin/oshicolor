@@ -19,7 +19,7 @@ const OPTIONS = { ...OPTIONS_BASE, colorCount: 16 };
 
 const DOMINANT_COUNT = 5;
 
-// --- seed スコアリング（node-vibrant target 方式） ---
+// --- seed スコアリング（V + DV/LV 競合選定） ---
 
 type VibrantRole = "V" | "DV" | "LV";
 
@@ -32,9 +32,6 @@ const VIBRANT_TARGETS: Record<
   DV: { saturation: 0.74, luma: 0.26 },
   LV: { saturation: 0.74, luma: 0.74 },
 };
-
-/** target 選定の優先順（Vibrant → DarkVibrant → LightVibrant） */
-const TARGET_ORDER: VibrantRole[] = ["V", "DV", "LV"];
 
 /** node-vibrant 準拠の重み付き距離 */
 const W_SATURATION = 3;
@@ -50,67 +47,84 @@ const targetDistance = (
   return Math.sqrt(W_SATURATION * ds * ds + W_LUMA * dl * dl);
 };
 
-/** 初期閾値と緩和ステップ */
-const INITIAL_THRESHOLD = 0.4;
-const THRESHOLD_STEP = 0.2;
-
 type SeedEntry = {
   color: Color;
   distance: number;
   vibrantRole: VibrantRole;
 };
 
-/**
- * 軸内から V/DV/LV の3 seed を選定（閾値段階緩和・重複排除）
- *
- * 各 target について:
- * 1. 未使用色の中から最小距離の色を探す
- * 2. 距離 <= 閾値 → 採用、次の target へ
- * 3. 距離 > 閾値 → 閾値を THRESHOLD_STEP 分緩和して再判定
- * 4. 未使用色がなくなったらその target はスキップ
- */
-const selectSeeds = (colors: Color[]): SeedEntry[] => {
-  const seeds: SeedEntry[] = [];
-  const usedIndices = new Set<number>();
-
-  for (const role of TARGET_ORDER) {
-    const target = VIBRANT_TARGETS[role];
-    let threshold = INITIAL_THRESHOLD;
-
-    // biome-ignore lint/correctness/noConstantCondition: 閾値緩和ループ
-    while (true) {
-      let bestIdx = -1;
-      let bestDist = Infinity;
-
-      for (let i = 0; i < colors.length; i++) {
-        if (usedIndices.has(i)) continue;
-        const hsl = colors[i].hsl();
-        const dist = targetDistance(hsl.s / 100, hsl.l / 100, target);
-        if (dist < bestDist) {
-          bestDist = dist;
-          bestIdx = i;
-        }
-      }
-
-      // 未使用色がない → この target はスキップ
-      if (bestIdx === -1) break;
-
-      if (bestDist <= threshold) {
-        seeds.push({
-          color: colors[bestIdx],
-          distance: bestDist,
-          vibrantRole: role,
-        });
-        usedIndices.add(bestIdx);
-        break;
-      }
-
-      // 閾値を緩和して再判定
-      threshold += THRESHOLD_STEP;
+/** 色の index と target への距離 */
+const findClosest = (
+  colors: Color[],
+  target: { saturation: number; luma: number },
+  excludeIndices: Set<number>,
+): { idx: number; distance: number } | null => {
+  let bestIdx = -1;
+  let bestDist = Infinity;
+  for (let i = 0; i < colors.length; i++) {
+    if (excludeIndices.has(i)) continue;
+    const hsl = colors[i].hsl();
+    const dist = targetDistance(hsl.s / 100, hsl.l / 100, target);
+    if (dist < bestDist) {
+      bestDist = dist;
+      bestIdx = i;
     }
   }
+  return bestIdx === -1 ? null : { idx: bestIdx, distance: bestDist };
+};
 
-  return seeds;
+/**
+ * 軸内から固定 2 seed を選定（V + DV/LV 競合）
+ *
+ * 1色目: V target で最も近い色
+ * 2色目: V を除外し、DV/LV の距離を比較 → 近い方を採用
+ */
+const selectSeeds = (colors: Color[]): [SeedEntry, SeedEntry] | [SeedEntry] => {
+  // 1色目: Vibrant
+  const vResult = findClosest(colors, VIBRANT_TARGETS.V, new Set());
+  if (!vResult) return [] as unknown as [SeedEntry];
+  const vSeed: SeedEntry = {
+    color: colors[vResult.idx],
+    distance: vResult.distance,
+    vibrantRole: "V",
+  };
+
+  // 2色目: DV vs LV 競合
+  const excluded = new Set([vResult.idx]);
+  const dvResult = findClosest(colors, VIBRANT_TARGETS.DV, excluded);
+  const lvResult = findClosest(colors, VIBRANT_TARGETS.LV, excluded);
+
+  // 未使用色がない（軸内に1色しかない）
+  if (!dvResult && !lvResult) return [vSeed];
+
+  let secondSeed: SeedEntry;
+  if (!dvResult) {
+    secondSeed = {
+      color: colors[lvResult!.idx],
+      distance: lvResult!.distance,
+      vibrantRole: "LV",
+    };
+  } else if (!lvResult) {
+    secondSeed = {
+      color: colors[dvResult.idx],
+      distance: dvResult.distance,
+      vibrantRole: "DV",
+    };
+  } else if (dvResult.distance <= lvResult.distance) {
+    secondSeed = {
+      color: colors[dvResult.idx],
+      distance: dvResult.distance,
+      vibrantRole: "DV",
+    };
+  } else {
+    secondSeed = {
+      color: colors[lvResult.idx],
+      distance: lvResult.distance,
+      vibrantRole: "LV",
+    };
+  }
+
+  return [vSeed, secondSeed];
 };
 
 // --- SVG レイアウト定数 ---
@@ -298,10 +312,10 @@ const generateBlock = (
     }
   }
 
-  // Seed Colors（各軸 V/DV/LV の最大9 seeds）
+  // Seed Colors（各軸 V + DV/LV 競合 = 固定6 seeds）
   if (result.axes.length > 0) {
     lines.push(
-      `    <text x="${PAD}" y="${Y_SEED + 4}" fill="#888888" font-size="9">seed colors (V / DV / LV)</text>`,
+      `    <text x="${PAD}" y="${Y_SEED + 4}" fill="#888888" font-size="9">seed colors (V + DV/LV)</text>`,
     );
 
     // seed を flat なリストに展開
@@ -395,7 +409,7 @@ for (const game of ["genshin", "starrail"] as const) {
       }),
     ) as Record<SwatchRole, ColorInfo | null>;
 
-    // Color Axes + Seed 選定（V/DV/LV × 閾値段階緩和）
+    // Color Axes + Seed 選定（V + DV/LV 競合）
     const paletteColors = palette ?? [];
     const colorAxes = deriveColorAxes(paletteColors);
     const axes: AxisInfo[] = colorAxes.map((axis) => {
