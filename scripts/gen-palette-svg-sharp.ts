@@ -19,18 +19,17 @@ const OPTIONS = { ...OPTIONS_BASE, colorCount: 16 };
 
 const DOMINANT_COUNT = 5;
 
-// --- seed スコアリング（V + DV/LV 競合選定） ---
+// --- seed スコアリング（Vibrant + Muted 選定） ---
 
-type VibrantRole = "V" | "DV" | "LV";
+type SwatchTarget = "V" | "M";
 
-/** node-vibrant の 3 target（saturation, luma は 0-1） */
-const VIBRANT_TARGETS: Record<
-  VibrantRole,
+/** node-vibrant 準拠の target（saturation, luma は 0-1） */
+const SWATCH_TARGETS: Record<
+  SwatchTarget,
   { saturation: number; luma: number }
 > = {
   V: { saturation: 0.74, luma: 0.45 },
-  DV: { saturation: 0.74, luma: 0.26 },
-  LV: { saturation: 0.74, luma: 0.74 },
+  M: { saturation: 0.3, luma: 0.5 },
 };
 
 /** node-vibrant 準拠の重み付き距離 */
@@ -50,10 +49,10 @@ const targetDistance = (
 type SeedEntry = {
   color: Color;
   distance: number;
-  vibrantRole: VibrantRole;
+  swatchTarget: SwatchTarget;
 };
 
-/** 色の index と target への距離 */
+/** 色群から target に最も近い色を返す（除外 index 指定可） */
 const findClosest = (
   colors: Color[],
   target: { saturation: number; luma: number },
@@ -74,57 +73,30 @@ const findClosest = (
 };
 
 /**
- * 軸内から固定 2 seed を選定（V + DV/LV 競合）
+ * 軸内から固定 2 seed を選定（Vibrant + Muted）
  *
- * 1色目: V target で最も近い色
- * 2色目: V を除外し、DV/LV の距離を比較 → 近い方を採用
+ * 1色目: Vibrant target で最も近い色（鮮やか → syntax fg 向き）
+ * 2色目: Muted target で最も近い色（控えめ → UI 向き）
  */
 const selectSeeds = (colors: Color[]): [SeedEntry, SeedEntry] | [SeedEntry] => {
-  // 1色目: Vibrant
-  const vResult = findClosest(colors, VIBRANT_TARGETS.V, new Set());
+  const vResult = findClosest(colors, SWATCH_TARGETS.V, new Set());
   if (!vResult) return [] as unknown as [SeedEntry];
   const vSeed: SeedEntry = {
     color: colors[vResult.idx],
     distance: vResult.distance,
-    vibrantRole: "V",
+    swatchTarget: "V",
   };
 
-  // 2色目: DV vs LV 競合
-  const excluded = new Set([vResult.idx]);
-  const dvResult = findClosest(colors, VIBRANT_TARGETS.DV, excluded);
-  const lvResult = findClosest(colors, VIBRANT_TARGETS.LV, excluded);
+  const mResult = findClosest(colors, SWATCH_TARGETS.M, new Set([vResult.idx]));
+  if (!mResult) return [vSeed];
 
-  // 未使用色がない（軸内に1色しかない）
-  if (!dvResult && !lvResult) return [vSeed];
+  const mSeed: SeedEntry = {
+    color: colors[mResult.idx],
+    distance: mResult.distance,
+    swatchTarget: "M",
+  };
 
-  let secondSeed: SeedEntry;
-  if (!dvResult) {
-    secondSeed = {
-      color: colors[lvResult!.idx],
-      distance: lvResult!.distance,
-      vibrantRole: "LV",
-    };
-  } else if (!lvResult) {
-    secondSeed = {
-      color: colors[dvResult.idx],
-      distance: dvResult.distance,
-      vibrantRole: "DV",
-    };
-  } else if (dvResult.distance <= lvResult.distance) {
-    secondSeed = {
-      color: colors[dvResult.idx],
-      distance: dvResult.distance,
-      vibrantRole: "DV",
-    };
-  } else {
-    secondSeed = {
-      color: colors[lvResult.idx],
-      distance: lvResult.distance,
-      vibrantRole: "LV",
-    };
-  }
-
-  return [vSeed, secondSeed];
+  return [vSeed, mSeed];
 };
 
 // --- SVG レイアウト定数 ---
@@ -183,7 +155,7 @@ const AXIS_LABEL_COUNT_OFFSET_X = 38;
 
 type SwatchRole = (typeof SWATCH_ROLES)[number];
 type ColorInfo = { hex: string; isDark: boolean };
-type SeedInfo = ColorInfo & { distance: number; vibrantRole: VibrantRole };
+type SeedInfo = ColorInfo & { distance: number; swatchTarget: SwatchTarget };
 type AxisInfo = {
   role: string;
   colors: ColorInfo[];
@@ -312,10 +284,10 @@ const generateBlock = (
     }
   }
 
-  // Seed Colors（各軸 V + DV/LV 競合 = 固定6 seeds）
+  // Seed Colors（各軸 Vibrant + Muted = 固定6 seeds）
   if (result.axes.length > 0) {
     lines.push(
-      `    <text x="${PAD}" y="${Y_SEED + 4}" fill="#888888" font-size="9">seed colors (V + DV/LV)</text>`,
+      `    <text x="${PAD}" y="${Y_SEED + 4}" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>`,
     );
 
     // seed を flat なリストに展開
@@ -324,7 +296,7 @@ const generateBlock = (
     for (const axis of result.axes) {
       for (const seed of axis.seeds) {
         slots.push({
-          label: `${axis.role}-${seed.vibrantRole}`,
+          label: `${axis.role}-${seed.swatchTarget}`,
           axisRole: axis.role,
           seed,
         });
@@ -409,7 +381,7 @@ for (const game of ["genshin", "starrail"] as const) {
       }),
     ) as Record<SwatchRole, ColorInfo | null>;
 
-    // Color Axes + Seed 選定（V + DV/LV 競合）
+    // Color Axes + Seed 選定（Vibrant + Muted）
     const paletteColors = palette ?? [];
     const colorAxes = deriveColorAxes(paletteColors);
     const axes: AxisInfo[] = colorAxes.map((axis) => {
@@ -420,7 +392,7 @@ for (const game of ["genshin", "starrail"] as const) {
         seeds: seeds.map((s) => ({
           ...toColorInfo(s.color),
           distance: s.distance,
-          vibrantRole: s.vibrantRole,
+          swatchTarget: s.swatchTarget,
         })),
       };
     });
