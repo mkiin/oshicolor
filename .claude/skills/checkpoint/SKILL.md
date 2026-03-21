@@ -13,7 +13,7 @@ allowed-tools: Read, Glob, Write
 
 ## 保存先
 
-`~/.claude/sessions/` に以下の命名規則で保存:
+`{WorkspaceRoot}/.claude/sessions/` に以下の命名規則で保存:
 
 ```
 YYYY-MM-DD-<topic>.tmp

@@ -19,50 +19,98 @@ const OPTIONS = { ...OPTIONS_BASE, colorCount: 16 };
 
 const DOMINANT_COUNT = 5;
 
-// --- seed スコアリング ---
+// --- seed スコアリング（node-vibrant target 方式） ---
 
-/** sRGB(0-255) → OkLch 簡易変換 */
-const rgbToOklch = (r: number, g: number, b: number) => {
-  const srgbToLinear = (c: number) =>
-    c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
-  const lr = srgbToLinear(r / 255);
-  const lg = srgbToLinear(g / 255);
-  const lb = srgbToLinear(b / 255);
-  const l_ = 0.4122214708 * lr + 0.5363325363 * lg + 0.0514459929 * lb;
-  const m_ = 0.2119034982 * lr + 0.6806995451 * lg + 0.1073969566 * lb;
-  const s_ = 0.0883024619 * lr + 0.2817188376 * lg + 0.6299787005 * lb;
-  const l1 = Math.cbrt(l_);
-  const m1 = Math.cbrt(m_);
-  const s1 = Math.cbrt(s_);
-  const L = 0.2104542553 * l1 + 0.793617785 * m1 - 0.0040720468 * s1;
-  const a = 1.9779984951 * l1 - 2.428592205 * m1 + 0.4505937099 * s1;
-  const bk = 0.0259040371 * l1 + 0.7827717662 * m1 - 0.808675766 * s1;
-  const C = Math.sqrt(a * a + bk * bk);
-  let H = (Math.atan2(bk, a) * 180) / Math.PI;
-  if (H < 0) H += 360;
-  return { l: L, c: C, h: H };
+type VibrantRole = "V" | "DV" | "LV";
+
+/** node-vibrant の 3 target（saturation, luma は 0-1） */
+const VIBRANT_TARGETS: Record<
+  VibrantRole,
+  { saturation: number; luma: number }
+> = {
+  V: { saturation: 0.74, luma: 0.45 },
+  DV: { saturation: 0.74, luma: 0.26 },
+  LV: { saturation: 0.74, luma: 0.74 },
 };
 
-/** syntax 色として使いやすさをスコアリング */
-const scoreSeed = (l: number, c: number): number => {
-  const TARGET_CHROMA = 0.15;
-  const chromaScore =
-    c >= 0.05 ? 1 - Math.min(Math.abs(c - TARGET_CHROMA) / 0.2, 1) : 0;
-  const TARGET_L = 0.62;
-  const lightnessScore = 1 - Math.min(Math.abs(l - TARGET_L) / 0.3, 1);
-  return chromaScore * lightnessScore;
+/** target 選定の優先順（Vibrant → DarkVibrant → LightVibrant） */
+const TARGET_ORDER: VibrantRole[] = ["V", "DV", "LV"];
+
+/** node-vibrant 準拠の重み付き距離 */
+const W_SATURATION = 3;
+const W_LUMA = 6.5;
+
+const targetDistance = (
+  saturation: number,
+  luma: number,
+  target: { saturation: number; luma: number },
+): number => {
+  const ds = saturation - target.saturation;
+  const dl = luma - target.luma;
+  return Math.sqrt(W_SATURATION * ds * ds + W_LUMA * dl * dl);
 };
 
-/** 軸内から seed 色を選定 */
-const selectSeed = (colors: Color[]): { color: Color; score: number } => {
-  let best = { color: colors[0], score: 0 };
-  for (const color of colors) {
-    const rgb = color.rgb();
-    const o = rgbToOklch(rgb.r, rgb.g, rgb.b);
-    const s = scoreSeed(o.l, o.c);
-    if (s > best.score) best = { color, score: s };
+/** 初期閾値と緩和ステップ */
+const INITIAL_THRESHOLD = 0.4;
+const THRESHOLD_STEP = 0.2;
+
+type SeedEntry = {
+  color: Color;
+  distance: number;
+  vibrantRole: VibrantRole;
+};
+
+/**
+ * 軸内から V/DV/LV の3 seed を選定（閾値段階緩和・重複排除）
+ *
+ * 各 target について:
+ * 1. 未使用色の中から最小距離の色を探す
+ * 2. 距離 <= 閾値 → 採用、次の target へ
+ * 3. 距離 > 閾値 → 閾値を THRESHOLD_STEP 分緩和して再判定
+ * 4. 未使用色がなくなったらその target はスキップ
+ */
+const selectSeeds = (colors: Color[]): SeedEntry[] => {
+  const seeds: SeedEntry[] = [];
+  const usedIndices = new Set<number>();
+
+  for (const role of TARGET_ORDER) {
+    const target = VIBRANT_TARGETS[role];
+    let threshold = INITIAL_THRESHOLD;
+
+    // biome-ignore lint/correctness/noConstantCondition: 閾値緩和ループ
+    while (true) {
+      let bestIdx = -1;
+      let bestDist = Infinity;
+
+      for (let i = 0; i < colors.length; i++) {
+        if (usedIndices.has(i)) continue;
+        const hsl = colors[i].hsl();
+        const dist = targetDistance(hsl.s / 100, hsl.l / 100, target);
+        if (dist < bestDist) {
+          bestDist = dist;
+          bestIdx = i;
+        }
+      }
+
+      // 未使用色がない → この target はスキップ
+      if (bestIdx === -1) break;
+
+      if (bestDist <= threshold) {
+        seeds.push({
+          color: colors[bestIdx],
+          distance: bestDist,
+          vibrantRole: role,
+        });
+        usedIndices.add(bestIdx);
+        break;
+      }
+
+      // 閾値を緩和して再判定
+      threshold += THRESHOLD_STEP;
+    }
   }
-  return best;
+
+  return seeds;
 };
 
 // --- SVG レイアウト定数 ---
@@ -82,7 +130,7 @@ const Y_AXES = Y_SWA + H_SWA + 10;
 const H_AXIS_ROW = 36;
 const AXIS_COUNT = 3;
 const Y_SEED = Y_AXES + H_AXIS_ROW * AXIS_COUNT + 8;
-const H_SEED = 36;
+const H_SEED = 42;
 const BLOCK_H = Y_SEED + H_SEED + 13;
 
 const SWATCH_ROLES = [
@@ -109,14 +157,23 @@ const ROLE_COLORS: Record<string, string> = {
   accent: "#cc66ff",
 };
 
+const FALLBACK_ROLE_COLOR = "#888888";
+
+/** axis 行内の色セルを最大で何列表示するか */
+const MAX_AXIS_CELLS = 8;
+
+/** axis ロール名の右に置くカウントラベルの x オフセット（PAD 基準） */
+const AXIS_LABEL_COUNT_OFFSET_X = 38;
+
 // --- 型 ---
 
 type SwatchRole = (typeof SWATCH_ROLES)[number];
 type ColorInfo = { hex: string; isDark: boolean };
+type SeedInfo = ColorInfo & { distance: number; vibrantRole: VibrantRole };
 type AxisInfo = {
   role: string;
   colors: ColorInfo[];
-  seed: ColorInfo & { score: number };
+  seeds: SeedInfo[];
 };
 type ExtractionResult = {
   dominantColors: ColorInfo[];
@@ -213,19 +270,19 @@ const generateBlock = (
   for (let ai = 0; ai < result.axes.length; ai++) {
     const axis = result.axes[ai];
     const rowY = Y_AXES + ai * H_AXIS_ROW;
-    const roleColor = ROLE_COLORS[axis.role] ?? "#888888";
+    const roleColor = ROLE_COLORS[axis.role] ?? FALLBACK_ROLE_COLOR;
 
     lines.push(
       `    <text x="${PAD}" y="${rowY + 22}" fill="${roleColor}" font-size="11" font-weight="bold">${axis.role}</text>`,
     );
     lines.push(
-      `    <text x="${PAD + 38}" y="${rowY + 22}" fill="#666666" font-size="9">(${axis.colors.length})</text>`,
+      `    <text x="${PAD + AXIS_LABEL_COUNT_OFFSET_X}" y="${rowY + 22}" fill="#666666" font-size="9">(${axis.colors.length})</text>`,
     );
 
     if (axis.colors.length > 0) {
       const cellW = Math.min(
         axisColorAreaW / axis.colors.length,
-        axisColorAreaW / 8,
+        axisColorAreaW / MAX_AXIS_CELLS,
       );
       for (let ci = 0; ci < axis.colors.length; ci++) {
         const { hex, isDark } = axis.colors[ci];
@@ -241,32 +298,45 @@ const generateBlock = (
     }
   }
 
-  // Seed Colors
+  // Seed Colors（各軸 V/DV/LV の最大9 seeds）
   if (result.axes.length > 0) {
     lines.push(
-      `    <text x="${PAD}" y="${Y_SEED + 4}" fill="#888888" font-size="9">seed colors</text>`,
+      `    <text x="${PAD}" y="${Y_SEED + 4}" fill="#888888" font-size="9">seed colors (V / DV / LV)</text>`,
     );
 
-    const seedAreaW = USABLE_W / result.axes.length;
-    for (let ai = 0; ai < result.axes.length; ai++) {
-      const axis = result.axes[ai];
-      const { hex, isDark, score } = axis.seed;
+    // seed を flat なリストに展開
+    type SeedSlot = { label: string; axisRole: string; seed: SeedInfo };
+    const slots: SeedSlot[] = [];
+    for (const axis of result.axes) {
+      for (const seed of axis.seeds) {
+        slots.push({
+          label: `${axis.role}-${seed.vibrantRole}`,
+          axisRole: axis.role,
+          seed,
+        });
+      }
+    }
+
+    const seedCellW = USABLE_W / Math.max(slots.length, 1);
+    for (let si = 0; si < slots.length; si++) {
+      const { label, axisRole, seed } = slots[si];
+      const { hex, isDark, distance } = seed;
       const textColor = isDark ? "#ffffff" : "#000000";
-      const roleColor = ROLE_COLORS[axis.role] ?? "#888888";
-      const x = PAD + ai * seedAreaW;
-      const cx = x + seedAreaW / 2;
+      const roleColor = ROLE_COLORS[axisRole] ?? FALLBACK_ROLE_COLOR;
+      const x = PAD + si * seedCellW;
+      const cx = x + seedCellW / 2;
 
       lines.push(
-        `    <rect x="${x}" y="${Y_SEED + 8}" width="${seedAreaW}" height="${H_SEED - 12}" fill="${hex}" rx="3"/>`,
+        `    <rect x="${x}" y="${Y_SEED + 8}" width="${seedCellW}" height="${H_SEED - 12}" fill="${hex}" rx="3"/>`,
       );
       lines.push(
-        `    <text x="${x + 5}" y="${Y_SEED + 21}" fill="${roleColor}" font-size="9" font-weight="bold" opacity="0.9">${axis.role}</text>`,
+        `    <text x="${x + 4}" y="${Y_SEED + 20}" fill="${roleColor}" font-size="8" font-weight="bold" opacity="0.9">${label}</text>`,
       );
       lines.push(
-        `    <text x="${cx}" y="${Y_SEED + H_SEED - 8}" fill="${textColor}" font-size="9" text-anchor="middle">${hex}</text>`,
+        `    <text x="${cx}" y="${Y_SEED + H_SEED - 8}" fill="${textColor}" font-size="8" text-anchor="middle">${hex}</text>`,
       );
       lines.push(
-        `    <text x="${x + seedAreaW - 5}" y="${Y_SEED + 21}" fill="${textColor}" font-size="8" text-anchor="end" opacity="0.6">${score.toFixed(2)}</text>`,
+        `    <text x="${x + seedCellW - 4}" y="${Y_SEED + 20}" fill="${textColor}" font-size="7" text-anchor="end" opacity="0.6">d=${distance.toFixed(2)}</text>`,
       );
     }
   }
@@ -325,15 +395,19 @@ for (const game of ["genshin", "starrail"] as const) {
       }),
     ) as Record<SwatchRole, ColorInfo | null>;
 
-    // Color Axes + Seed 選定
+    // Color Axes + Seed 選定（V/DV/LV × 閾値段階緩和）
     const paletteColors = palette ?? [];
     const colorAxes = deriveColorAxes(paletteColors);
     const axes: AxisInfo[] = colorAxes.map((axis) => {
-      const { color: seedColor, score } = selectSeed(axis.colors);
+      const seeds = selectSeeds(axis.colors);
       return {
         role: axis.role,
         colors: axis.colors.map(toColorInfo),
-        seed: { ...toColorInfo(seedColor), score },
+        seeds: seeds.map((s) => ({
+          ...toColorInfo(s.color),
+          distance: s.distance,
+          vibrantRole: s.vibrantRole,
+        })),
       };
     });
 
