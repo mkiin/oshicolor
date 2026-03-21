@@ -14,6 +14,7 @@
 | V6  | 3 target seed (V/DV/LV) × 閾値段階緩和 | seed 数が軸・キャラで 1〜3 にばらつく / tonal palette 以降は未実装 |
 | V7  | V + DV/LV 競合選定で seed 数固定化 | node-vibrant HSL ベースで colorthief の Vibrant と不一致 |
 | V8  | colorthief 準拠 OkLch Vibrant + Muted | — |
+| V9  | ハイライトグループ割り当て（66グループ） | 開発中 |
 
 ## 設計変遷
 
@@ -52,11 +53,17 @@ V8: "colorthief 準拠 OkLch Vibrant + Muted"
      + colorthief の swatches.ts と同じスコアリング
      + population を正規化加算
      + 範囲フィルタ廃止（軸内少数色に対応）
+
+V9: "ハイライトグループ割り当て（66グループ）"
+     + neutral palette（main-V.hue + 極小 chroma + L 9段階）
+     + seed → fg 色変換（L 調整でコントラスト保証）
+     + diagnostic 色（固定 hue + tone 合わせ）
+     → 開発中
 ```
 
-## 現行: V8
+## 現行: V9
 
-[`V8/spec.md`](V8/spec.md)
+[`V9/plan.md`](V9/plan.md)
 
 ## VX/ 配下のファイル命名規則
 
