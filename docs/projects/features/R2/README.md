@@ -12,7 +12,8 @@
 | V4  | node-vibrant MMCQ 64色 + mini.hues     | 生成色が浮く / HSL-OkLch 混在の複雑さ / R1 の3軸を活かせていない |
 | V5  | 3 seed × tonal palette (HCT) + neutral | 各軸1色では特徴色を逃す / seed スコアリングが OkLch 依存 |
 | V6  | 3 target seed (V/DV/LV) × 閾値段階緩和 | seed 数が軸・キャラで 1〜3 にばらつく / tonal palette 以降は未実装 |
-| V7  | V + DV/LV 競合選定で seed 数固定化 | 開発中 |
+| V7  | V + DV/LV 競合選定で seed 数固定化 | node-vibrant HSL ベースで colorthief の Vibrant と不一致 |
+| V8  | colorthief 準拠 OkLch Vibrant + Muted | — |
 
 ## 設計変遷
 
@@ -45,12 +46,17 @@ V6: "3 target seed（V/DV/LV）× 閾値段階緩和で軸あたり最大3色"
 V7: "V + DV/LV 競合選定で seed 数を固定 6"
      + 2色目は DV/LV の距離比較で近い方を採用
      + キャラによって DV/LV が自動選択される
-     → 開発中
+     → node-vibrant HSL ベースで colorthief の Vibrant と不一致
+
+V8: "colorthief 準拠 OkLch Vibrant + Muted"
+     + colorthief の swatches.ts と同じスコアリング
+     + population を正規化加算
+     + 範囲フィルタ廃止（軸内少数色に対応）
 ```
 
-## 現行: V7
+## 現行: V8
 
-[`V7/plan.md`](V7/plan.md)
+[`V8/spec.md`](V8/spec.md)
 
 ## VX/ 配下のファイル命名規則
 
