@@ -88,30 +88,22 @@
     <rect x="220" y="257" width="70" height="28" fill="#696569" rx="2"/>
     <text x="255" y="277" fill="#ffffff" font-size="7" text-anchor="middle">#696569</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#3135ac" rx="3"/>
+    <rect x="20" y="305" width="155" height="30" fill="#7d79bb" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="71.66666666666666" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#3135ac</text>
-    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.32</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#585285" rx="3"/>
-    <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#585285</text>
-    <text x="222.66666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.23</text>
-    <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#d82a38" rx="3"/>
-    <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="278.3333333333333" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#d82a38</text>
-    <text x="326" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.18</text>
-    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#c9675a" rx="3"/>
-    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="381.6666666666667" y="331" fill="#000000" font-size="8" text-anchor="middle">#c9675a</text>
-    <text x="429.3333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.41</text>
-    <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#402537" rx="3"/>
-    <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="485" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#402537</text>
-    <text x="532.6666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=1.03</text>
-    <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#696569" rx="3"/>
-    <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
-    <text x="588.3333333333333" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#696569</text>
-    <text x="636" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.55</text>
+    <text x="97.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#7d79bb</text>
+    <text x="171" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.23</text>
+    <rect x="175" y="305" width="155" height="30" fill="#a4a0d2" rx="3"/>
+    <text x="179" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
+    <text x="252.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#a4a0d2</text>
+    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.36</text>
+    <rect x="330" y="305" width="155" height="30" fill="#d82a38" rx="3"/>
+    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
+    <text x="407.5" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#d82a38</text>
+    <text x="481" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=9.44</text>
+    <rect x="485" y="305" width="155" height="30" fill="#cc7679" rx="3"/>
+    <text x="489" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
+    <text x="562.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#cc7679</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.93</text>
   </g>
   <g transform="translate(0,372)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Aglaea</text>
@@ -205,23 +197,23 @@
     <rect x="20" y="305" width="124" height="30" fill="#a77d36" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
     <text x="82" y="331" fill="#000000" font-size="8" text-anchor="middle">#a77d36</text>
-    <text x="140" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.40</text>
-    <rect x="144" y="305" width="124" height="30" fill="#8e785a" rx="3"/>
+    <text x="140" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.58</text>
+    <rect x="144" y="305" width="124" height="30" fill="#938d6f" rx="3"/>
     <text x="148" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="206" y="331" fill="#000000" font-size="8" text-anchor="middle">#8e785a</text>
-    <text x="264" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.19</text>
-    <rect x="268" y="305" width="124" height="30" fill="#3094b4" rx="3"/>
+    <text x="206" y="331" fill="#000000" font-size="8" text-anchor="middle">#938d6f</text>
+    <text x="264" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.91</text>
+    <rect x="268" y="305" width="124" height="30" fill="#3dc9d2" rx="3"/>
     <text x="272" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="330" y="331" fill="#000000" font-size="8" text-anchor="middle">#3094b4</text>
-    <text x="388" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.28</text>
-    <rect x="392" y="305" width="124" height="30" fill="#3dc9d2" rx="3"/>
+    <text x="330" y="331" fill="#000000" font-size="8" text-anchor="middle">#3dc9d2</text>
+    <text x="388" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.04</text>
+    <rect x="392" y="305" width="124" height="30" fill="#3094b4" rx="3"/>
     <text x="396" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="454" y="331" fill="#000000" font-size="8" text-anchor="middle">#3dc9d2</text>
-    <text x="512" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.56</text>
+    <text x="454" y="331" fill="#000000" font-size="8" text-anchor="middle">#3094b4</text>
+    <text x="512" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.99</text>
     <rect x="516" y="305" width="124" height="30" fill="#cf80f2" rx="3"/>
     <text x="520" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
     <text x="578" y="331" fill="#000000" font-size="8" text-anchor="middle">#cf80f2</text>
-    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.72</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=9.20</text>
   </g>
   <g transform="translate(0,724)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Anaxa</text>
@@ -311,30 +303,26 @@
     <rect x="150" y="257" width="70" height="28" fill="#5ca46c" rx="2"/>
     <text x="185" y="277" fill="#000000" font-size="7" text-anchor="middle">#5ca46c</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#1f476b" rx="3"/>
+    <rect x="20" y="305" width="124" height="30" fill="#4b8eb1" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="71.66666666666666" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#1f476b</text>
-    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.56</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#507993" rx="3"/>
-    <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#507993</text>
-    <text x="222.66666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.13</text>
-    <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#b22835" rx="3"/>
-    <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="278.3333333333333" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#b22835</text>
-    <text x="326" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.20</text>
-    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#b08956" rx="3"/>
-    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="381.6666666666667" y="331" fill="#000000" font-size="8" text-anchor="middle">#b08956</text>
-    <text x="429.3333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.11</text>
-    <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#5ca46c" rx="3"/>
-    <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="485" y="331" fill="#000000" font-size="8" text-anchor="middle">#5ca46c</text>
-    <text x="532.6666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.81</text>
-    <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#cbdcd4" rx="3"/>
-    <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
-    <text x="588.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#cbdcd4</text>
-    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.86</text>
+    <text x="82" y="331" fill="#000000" font-size="8" text-anchor="middle">#4b8eb1</text>
+    <text x="140" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.18</text>
+    <rect x="144" y="305" width="124" height="30" fill="#507993" rx="3"/>
+    <text x="148" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
+    <text x="206" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#507993</text>
+    <text x="264" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=8.56</text>
+    <rect x="268" y="305" width="124" height="30" fill="#b22835" rx="3"/>
+    <text x="272" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
+    <text x="330" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#b22835</text>
+    <text x="388" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=7.83</text>
+    <rect x="392" y="305" width="124" height="30" fill="#ae967d" rx="3"/>
+    <text x="396" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
+    <text x="454" y="331" fill="#000000" font-size="8" text-anchor="middle">#ae967d</text>
+    <text x="512" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.79</text>
+    <rect x="516" y="305" width="124" height="30" fill="#5ca46c" rx="3"/>
+    <text x="520" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
+    <text x="578" y="331" fill="#000000" font-size="8" text-anchor="middle">#5ca46c</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.62</text>
   </g>
   <g transform="translate(0,1076)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Archer</text>
@@ -425,30 +413,18 @@
     <rect x="220" y="257" width="70" height="28" fill="#3a2c34" rx="2"/>
     <text x="255" y="277" fill="#ffffff" font-size="7" text-anchor="middle">#3a2c34</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#b47c44" rx="3"/>
+    <rect x="20" y="305" width="206.66666666666666" height="30" fill="#b47c44" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="71.66666666666666" y="331" fill="#000000" font-size="8" text-anchor="middle">#b47c44</text>
-    <text x="119.33333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.51</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#ae7447" rx="3"/>
-    <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#000000" font-size="8" text-anchor="middle">#ae7447</text>
-    <text x="222.66666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.21</text>
-    <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#8a0c1c" rx="3"/>
-    <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="278.3333333333333" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#8a0c1c</text>
-    <text x="326" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.44</text>
-    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#69141e" rx="3"/>
-    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="381.6666666666667" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#69141e</text>
-    <text x="429.3333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.92</text>
-    <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#584c54" rx="3"/>
-    <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="485" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#584c54</text>
-    <text x="532.6666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=1.21</text>
-    <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#8c848c" rx="3"/>
-    <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
-    <text x="588.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#8c848c</text>
-    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.47</text>
+    <text x="123.33333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#b47c44</text>
+    <text x="222.66666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.41</text>
+    <rect x="226.66666666666666" y="305" width="206.66666666666666" height="30" fill="#c7a890" rx="3"/>
+    <text x="230.66666666666666" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
+    <text x="330" y="331" fill="#000000" font-size="8" text-anchor="middle">#c7a890</text>
+    <text x="429.3333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=9.06</text>
+    <rect x="433.3333333333333" y="305" width="206.66666666666666" height="30" fill="#8a0c1c" rx="3"/>
+    <text x="437.3333333333333" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
+    <text x="536.6666666666666" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#8a0c1c</text>
+    <text x="636" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=7.16</text>
   </g>
   <g transform="translate(0,1428)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Argenti</text>
@@ -539,30 +515,14 @@
     <rect x="220" y="257" width="70" height="28" fill="#322932" rx="2"/>
     <text x="255" y="277" fill="#ffffff" font-size="7" text-anchor="middle">#322932</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#c52a2f" rx="3"/>
+    <rect x="20" y="305" width="310" height="30" fill="#dd6365" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="71.66666666666666" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#c52a2f</text>
-    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.16</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#7d6c64" rx="3"/>
-    <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#7d6c64</text>
-    <text x="222.66666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.36</text>
-    <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#d1b99c" rx="3"/>
-    <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="278.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#d1b99c</text>
-    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.94</text>
-    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#a19990" rx="3"/>
-    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="381.6666666666667" y="331" fill="#000000" font-size="8" text-anchor="middle">#a19990</text>
-    <text x="429.3333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.46</text>
-    <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#504955" rx="3"/>
-    <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="485" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#504955</text>
-    <text x="532.6666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=1.20</text>
-    <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#8a8591" rx="3"/>
-    <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
-    <text x="588.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#8a8591</text>
-    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.45</text>
+    <text x="175" y="331" fill="#000000" font-size="8" text-anchor="middle">#dd6365</text>
+    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.32</text>
+    <rect x="330" y="305" width="310" height="30" fill="#7d6c64" rx="3"/>
+    <text x="334" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
+    <text x="485" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#7d6c64</text>
+    <text x="636" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=8.69</text>
   </g>
   <g transform="translate(0,1780)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Aventurine</text>
@@ -652,30 +612,14 @@
     <rect x="150" y="257" width="70" height="28" fill="#5c6c6c" rx="2"/>
     <text x="185" y="277" fill="#ffffff" font-size="7" text-anchor="middle">#5c6c6c</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#ac8250" rx="3"/>
+    <rect x="20" y="305" width="310" height="30" fill="#b4646c" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="71.66666666666666" y="331" fill="#000000" font-size="8" text-anchor="middle">#ac8250</text>
-    <text x="119.33333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.65</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#b4646c" rx="3"/>
-    <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
     <text x="175" y="331" fill="#000000" font-size="8" text-anchor="middle">#b4646c</text>
-    <text x="222.66666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.15</text>
-    <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#1d405b" rx="3"/>
-    <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="278.3333333333333" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#1d405b</text>
-    <text x="326" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.66</text>
-    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#4d6b7c" rx="3"/>
-    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="381.6666666666667" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#4d6b7c</text>
-    <text x="429.3333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.31</text>
-    <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#304446" rx="3"/>
-    <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="485" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#304446</text>
-    <text x="532.6666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=1.11</text>
-    <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#5c6c6c" rx="3"/>
-    <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
-    <text x="588.3333333333333" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#5c6c6c</text>
-    <text x="636" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.47</text>
+    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.23</text>
+    <rect x="330" y="305" width="310" height="30" fill="#867e7f" rx="3"/>
+    <text x="334" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
+    <text x="485" y="331" fill="#000000" font-size="8" text-anchor="middle">#867e7f</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=9.25</text>
   </g>
   <g transform="translate(0,2132)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">BlackSwan</text>
@@ -767,26 +711,26 @@
     <rect x="80" y="257" width="70" height="28" fill="#bf935d" rx="2"/>
     <text x="115" y="277" fill="#000000" font-size="7" text-anchor="middle">#bf935d</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="124" height="30" fill="#2e4ad7" rx="3"/>
+    <rect x="20" y="305" width="124" height="30" fill="#7f6ed6" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="82" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#2e4ad7</text>
-    <text x="140" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.18</text>
-    <rect x="144" y="305" width="124" height="30" fill="#5143a3" rx="3"/>
+    <text x="82" y="331" fill="#000000" font-size="8" text-anchor="middle">#7f6ed6</text>
+    <text x="140" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.79</text>
+    <rect x="144" y="305" width="124" height="30" fill="#686e8f" rx="3"/>
     <text x="148" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="206" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#5143a3</text>
-    <text x="264" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.24</text>
+    <text x="206" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#686e8f</text>
+    <text x="264" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=8.21</text>
     <rect x="268" y="305" width="124" height="30" fill="#bc648f" rx="3"/>
     <text x="272" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
     <text x="330" y="331" fill="#000000" font-size="8" text-anchor="middle">#bc648f</text>
-    <text x="388" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.65</text>
+    <text x="388" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.66</text>
     <rect x="392" y="305" width="124" height="30" fill="#826890" rx="3"/>
     <text x="396" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
     <text x="454" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#826890</text>
-    <text x="512" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.24</text>
+    <text x="512" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=8.14</text>
     <rect x="516" y="305" width="124" height="30" fill="#bf935d" rx="3"/>
     <text x="520" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
     <text x="578" y="331" fill="#000000" font-size="8" text-anchor="middle">#bf935d</text>
-    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.61</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.07</text>
   </g>
   <g transform="translate(0,2484)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Blade</text>
@@ -877,26 +821,14 @@
     <rect x="80" y="257" width="70" height="28" fill="#78b6a9" rx="2"/>
     <text x="115" y="277" fill="#000000" font-size="7" text-anchor="middle">#78b6a9</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="124" height="30" fill="#b4371b" rx="3"/>
+    <rect x="20" y="305" width="310" height="30" fill="#b4371b" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="82" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#b4371b</text>
-    <text x="140" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.10</text>
-    <rect x="144" y="305" width="124" height="30" fill="#b29178" rx="3"/>
-    <text x="148" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="206" y="331" fill="#000000" font-size="8" text-anchor="middle">#b29178</text>
-    <text x="264" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.21</text>
-    <rect x="268" y="305" width="124" height="30" fill="#314657" rx="3"/>
-    <text x="272" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="330" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#314657</text>
-    <text x="388" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.92</text>
-    <rect x="392" y="305" width="124" height="30" fill="#5a6973" rx="3"/>
-    <text x="396" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="454" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#5a6973</text>
-    <text x="512" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.40</text>
-    <rect x="516" y="305" width="124" height="30" fill="#78b6a9" rx="3"/>
-    <text x="520" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="578" y="331" fill="#000000" font-size="8" text-anchor="middle">#78b6a9</text>
-    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.84</text>
+    <text x="175" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#b4371b</text>
+    <text x="326" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=7.87</text>
+    <rect x="330" y="305" width="310" height="30" fill="#b29178" rx="3"/>
+    <text x="334" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
+    <text x="485" y="331" fill="#000000" font-size="8" text-anchor="middle">#b29178</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.84</text>
   </g>
   <g transform="translate(0,2836)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Boothill</text>
@@ -987,30 +919,22 @@
     <rect x="150" y="257" width="70" height="28" fill="#666f70" rx="2"/>
     <text x="185" y="277" fill="#ffffff" font-size="7" text-anchor="middle">#666f70</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#c23035" rx="3"/>
+    <rect x="20" y="305" width="155" height="30" fill="#c23035" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="71.66666666666666" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#c23035</text>
-    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.25</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#815b54" rx="3"/>
-    <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#815b54</text>
-    <text x="222.66666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.26</text>
-    <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#8786a4" rx="3"/>
-    <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="278.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#8786a4</text>
-    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=1.09</text>
-    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#615c6e" rx="3"/>
-    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="381.6666666666667" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#615c6e</text>
-    <text x="429.3333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.44</text>
-    <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#86b47a" rx="3"/>
-    <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="485" y="331" fill="#000000" font-size="8" text-anchor="middle">#86b47a</text>
-    <text x="532.6666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.87</text>
-    <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#666f70" rx="3"/>
-    <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
-    <text x="588.3333333333333" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#666f70</text>
-    <text x="636" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.48</text>
+    <text x="97.5" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#c23035</text>
+    <text x="171" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=8.15</text>
+    <rect x="175" y="305" width="155" height="30" fill="#bd7786" rx="3"/>
+    <text x="179" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
+    <text x="252.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#bd7786</text>
+    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.25</text>
+    <rect x="330" y="305" width="155" height="30" fill="#86b47a" rx="3"/>
+    <text x="334" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
+    <text x="407.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#86b47a</text>
+    <text x="481" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.53</text>
+    <rect x="485" y="305" width="155" height="30" fill="#666f70" rx="3"/>
+    <text x="489" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
+    <text x="562.5" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#666f70</text>
+    <text x="636" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=8.87</text>
   </g>
   <g transform="translate(0,3188)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Bronya</text>
@@ -1105,27 +1029,27 @@
     <rect x="20" y="305" width="103.33333333333333" height="30" fill="#406fc5" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
     <text x="71.66666666666666" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#406fc5</text>
-    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.39</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#2f3c8c" rx="3"/>
+    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=7.91</text>
+    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#cdccce" rx="3"/>
     <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#2f3c8c</text>
-    <text x="222.66666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.48</text>
+    <text x="175" y="331" fill="#000000" font-size="8" text-anchor="middle">#cdccce</text>
+    <text x="222.66666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.91</text>
     <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#b0272f" rx="3"/>
     <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
     <text x="278.3333333333333" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#b0272f</text>
-    <text x="326" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.19</text>
-    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#a7815c" rx="3"/>
+    <text x="326" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=7.71</text>
+    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#765850" rx="3"/>
     <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="381.6666666666667" y="331" fill="#000000" font-size="8" text-anchor="middle">#a7815c</text>
-    <text x="429.3333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.03</text>
+    <text x="381.6666666666667" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#765850</text>
+    <text x="429.3333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=9.01</text>
     <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#71bfe6" rx="3"/>
     <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
     <text x="485" y="331" fill="#000000" font-size="8" text-anchor="middle">#71bfe6</text>
-    <text x="532.6666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.57</text>
+    <text x="532.6666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.71</text>
     <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#5c6565" rx="3"/>
     <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
     <text x="588.3333333333333" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#5c6565</text>
-    <text x="636" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.53</text>
+    <text x="636" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=7.70</text>
   </g>
   <g transform="translate(0,3540)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Castorice</text>
@@ -1217,30 +1141,30 @@
     <rect x="220" y="257" width="70" height="28" fill="#8cbcfc" rx="2"/>
     <text x="255" y="277" fill="#000000" font-size="7" text-anchor="middle">#8cbcfc</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#4f256d" rx="3"/>
+    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#9a6db4" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="71.66666666666666" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#4f256d</text>
-    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.59</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#6a5491" rx="3"/>
+    <text x="71.66666666666666" y="331" fill="#000000" font-size="8" text-anchor="middle">#9a6db4</text>
+    <text x="119.33333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.76</text>
+    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#9c91af" rx="3"/>
     <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#6a5491</text>
-    <text x="222.66666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.14</text>
+    <text x="175" y="331" fill="#000000" font-size="8" text-anchor="middle">#9c91af</text>
+    <text x="222.66666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.93</text>
     <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#bcbc6c" rx="3"/>
     <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
     <text x="278.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#bcbc6c</text>
-    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.72</text>
+    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=6.78</text>
     <rect x="330" y="305" width="103.33333333333333" height="30" fill="#584739" rx="3"/>
     <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
     <text x="381.6666666666667" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#584739</text>
-    <text x="429.3333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.58</text>
+    <text x="429.3333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=8.45</text>
     <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#3193d3" rx="3"/>
     <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
     <text x="485" y="331" fill="#000000" font-size="8" text-anchor="middle">#3193d3</text>
-    <text x="532.6666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.22</text>
+    <text x="532.6666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.88</text>
     <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#2d56ac" rx="3"/>
     <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
     <text x="588.3333333333333" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#2d56ac</text>
-    <text x="636" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.53</text>
+    <text x="636" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=7.35</text>
   </g>
   <g transform="translate(0,3892)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Cipher</text>
@@ -1332,30 +1256,30 @@
     <rect x="220" y="257" width="70" height="28" fill="#c45c59" rx="2"/>
     <text x="255" y="277" fill="#000000" font-size="7" text-anchor="middle">#c45c59</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#286ac8" rx="3"/>
+    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#7988c1" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="71.66666666666666" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#286ac8</text>
-    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.13</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#414b8d" rx="3"/>
+    <text x="71.66666666666666" y="331" fill="#000000" font-size="8" text-anchor="middle">#7988c1</text>
+    <text x="119.33333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.24</text>
+    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#a0b3cd" rx="3"/>
     <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#414b8d</text>
-    <text x="222.66666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.28</text>
+    <text x="175" y="331" fill="#000000" font-size="8" text-anchor="middle">#a0b3cd</text>
+    <text x="222.66666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.67</text>
     <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#cd8b40" rx="3"/>
     <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
     <text x="278.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#cd8b40</text>
-    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.33</text>
+    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.58</text>
     <rect x="330" y="305" width="103.33333333333333" height="30" fill="#9f816f" rx="3"/>
     <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
     <text x="381.6666666666667" y="331" fill="#000000" font-size="8" text-anchor="middle">#9f816f</text>
-    <text x="429.3333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.19</text>
+    <text x="429.3333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=9.50</text>
     <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#c45c59" rx="3"/>
     <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
     <text x="485" y="331" fill="#000000" font-size="8" text-anchor="middle">#c45c59</text>
-    <text x="532.6666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.53</text>
+    <text x="532.6666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.72</text>
     <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#cc8781" rx="3"/>
     <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
     <text x="588.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#cc8781</text>
-    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.44</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.08</text>
   </g>
   <g transform="translate(0,4244)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Cyrene</text>
@@ -1445,26 +1369,22 @@
     <rect x="80" y="257" width="70" height="28" fill="#5cecfc" rx="2"/>
     <text x="115" y="277" fill="#000000" font-size="7" text-anchor="middle">#5cecfc</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="124" height="30" fill="#9d3fe5" rx="3"/>
+    <rect x="20" y="305" width="155" height="30" fill="#9d3fe5" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="82" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#9d3fe5</text>
-    <text x="140" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.31</text>
-    <rect x="144" y="305" width="124" height="30" fill="#7e70b4" rx="3"/>
-    <text x="148" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="206" y="331" fill="#000000" font-size="8" text-anchor="middle">#7e70b4</text>
-    <text x="264" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.18</text>
-    <rect x="268" y="305" width="124" height="30" fill="#d4549c" rx="3"/>
-    <text x="272" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="330" y="331" fill="#000000" font-size="8" text-anchor="middle">#d4549c</text>
-    <text x="388" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.41</text>
-    <rect x="392" y="305" width="124" height="30" fill="#966384" rx="3"/>
-    <text x="396" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="454" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#966384</text>
-    <text x="512" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.18</text>
-    <rect x="516" y="305" width="124" height="30" fill="#5cecfc" rx="3"/>
-    <text x="520" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="578" y="331" fill="#000000" font-size="8" text-anchor="middle">#5cecfc</text>
-    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.68</text>
+    <text x="97.5" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#9d3fe5</text>
+    <text x="171" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=8.08</text>
+    <rect x="175" y="305" width="155" height="30" fill="#a791c8" rx="3"/>
+    <text x="179" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
+    <text x="252.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#a791c8</text>
+    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.90</text>
+    <rect x="330" y="305" width="155" height="30" fill="#c16ab8" rx="3"/>
+    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
+    <text x="407.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#c16ab8</text>
+    <text x="481" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.66</text>
+    <rect x="485" y="305" width="155" height="30" fill="#b3869f" rx="3"/>
+    <text x="489" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
+    <text x="562.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#b3869f</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.60</text>
   </g>
   <g transform="translate(0,4596)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">DrRatio</text>
@@ -1555,30 +1475,22 @@
     <rect x="360" y="257" width="70" height="28" fill="#d42f1c" rx="2"/>
     <text x="395" y="277" fill="#ffffff" font-size="7" text-anchor="middle">#d42f1c</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#5773d2" rx="3"/>
+    <rect x="20" y="305" width="155" height="30" fill="#5773d2" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="71.66666666666666" y="331" fill="#000000" font-size="8" text-anchor="middle">#5773d2</text>
-    <text x="119.33333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.43</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#44479d" rx="3"/>
-    <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#44479d</text>
-    <text x="222.66666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.23</text>
-    <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#8c8183" rx="3"/>
-    <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="278.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#8c8183</text>
-    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=1.21</text>
-    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#261c1e" rx="3"/>
-    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="381.6666666666667" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#261c1e</text>
-    <text x="429.3333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.98</text>
-    <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#d42f1c" rx="3"/>
-    <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="485" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#d42f1c</text>
-    <text x="532.6666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.07</text>
-    <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#b37f6e" rx="3"/>
-    <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
-    <text x="588.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#b37f6e</text>
-    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.18</text>
+    <text x="97.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#5773d2</text>
+    <text x="171" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.87</text>
+    <rect x="175" y="305" width="155" height="30" fill="#707792" rx="3"/>
+    <text x="179" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
+    <text x="252.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#707792</text>
+    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.60</text>
+    <rect x="330" y="305" width="155" height="30" fill="#d42f1c" rx="3"/>
+    <text x="334" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
+    <text x="407.5" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#d42f1c</text>
+    <text x="481" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=8.47</text>
+    <rect x="485" y="305" width="155" height="30" fill="#d9c8c1" rx="3"/>
+    <text x="489" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
+    <text x="562.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#d9c8c1</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.55</text>
   </g>
   <g transform="translate(0,4948)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Feixiao</text>
@@ -1668,30 +1580,14 @@
     <rect x="360" y="257" width="70" height="28" fill="#213040" rx="2"/>
     <text x="395" y="277" fill="#ffffff" font-size="7" text-anchor="middle">#213040</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#c01a18" rx="3"/>
+    <rect x="20" y="305" width="310" height="30" fill="#c01a18" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="71.66666666666666" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#c01a18</text>
-    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.10</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#ac875c" rx="3"/>
-    <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#000000" font-size="8" text-anchor="middle">#ac875c</text>
-    <text x="222.66666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.07</text>
-    <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#7fbec7" rx="3"/>
-    <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="278.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#7fbec7</text>
-    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.78</text>
-    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#4c7d84" rx="3"/>
-    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="381.6666666666667" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#4c7d84</text>
-    <text x="429.3333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.24</text>
-    <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#34627c" rx="3"/>
-    <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="485" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#34627c</text>
-    <text x="532.6666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.63</text>
-    <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#5287ab" rx="3"/>
-    <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
-    <text x="588.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#5287ab</text>
-    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.09</text>
+    <text x="175" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#c01a18</text>
+    <text x="326" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=8.21</text>
+    <rect x="330" y="305" width="310" height="30" fill="#7e7068" rx="3"/>
+    <text x="334" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
+    <text x="485" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#7e7068</text>
+    <text x="636" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=8.80</text>
   </g>
   <g transform="translate(0,5300)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Firefly</text>
@@ -1782,30 +1678,14 @@
     <rect x="290" y="257" width="70" height="28" fill="#d1ab78" rx="2"/>
     <text x="325" y="277" fill="#000000" font-size="7" text-anchor="middle">#d1ab78</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#4f7287" rx="3"/>
-    <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="71.66666666666666" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#4f7287</text>
-    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.83</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#87afb8" rx="3"/>
-    <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#000000" font-size="8" text-anchor="middle">#87afb8</text>
-    <text x="222.66666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.34</text>
-    <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#7c7cac" rx="3"/>
-    <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="278.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#7c7cac</text>
-    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.96</text>
-    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#857c82" rx="3"/>
-    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="381.6666666666667" y="331" fill="#000000" font-size="8" text-anchor="middle">#857c82</text>
-    <text x="429.3333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.45</text>
-    <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#d4954f" rx="3"/>
-    <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="485" y="331" fill="#000000" font-size="8" text-anchor="middle">#d4954f</text>
-    <text x="532.6666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.38</text>
-    <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#b99486" rx="3"/>
-    <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
-    <text x="588.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#b99486</text>
-    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.34</text>
+    <rect x="20" y="305" width="310" height="30" fill="#d4954f" rx="3"/>
+    <text x="24" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
+    <text x="175" y="331" fill="#000000" font-size="8" text-anchor="middle">#d4954f</text>
+    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.37</text>
+    <rect x="330" y="305" width="310" height="30" fill="#b99486" rx="3"/>
+    <text x="334" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
+    <text x="485" y="331" fill="#000000" font-size="8" text-anchor="middle">#b99486</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.58</text>
   </g>
   <g transform="translate(0,5652)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">FuXuan</text>
@@ -1897,26 +1777,14 @@
     <rect x="80" y="257" width="70" height="28" fill="#f0d094" rx="2"/>
     <text x="115" y="277" fill="#000000" font-size="7" text-anchor="middle">#f0d094</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="124" height="30" fill="#4c1d84" rx="3"/>
+    <rect x="20" y="305" width="310" height="30" fill="#8f5897" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="82" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#4c1d84</text>
-    <text x="140" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.37</text>
-    <rect x="144" y="305" width="124" height="30" fill="#8f5897" rx="3"/>
-    <text x="148" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="206" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#8f5897</text>
-    <text x="264" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.10</text>
-    <rect x="268" y="305" width="124" height="30" fill="#885963" rx="3"/>
-    <text x="272" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="330" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#885963</text>
-    <text x="388" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.92</text>
-    <rect x="392" y="305" width="124" height="30" fill="#603941" rx="3"/>
-    <text x="396" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="454" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#603941</text>
-    <text x="512" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.52</text>
-    <rect x="516" y="305" width="124" height="30" fill="#f0d094" rx="3"/>
-    <text x="520" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="578" y="331" fill="#000000" font-size="8" text-anchor="middle">#f0d094</text>
-    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.79</text>
+    <text x="175" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#8f5897</text>
+    <text x="326" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=8.08</text>
+    <rect x="330" y="305" width="310" height="30" fill="#9e83a8" rx="3"/>
+    <text x="334" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
+    <text x="485" y="331" fill="#000000" font-size="8" text-anchor="middle">#9e83a8</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.87</text>
   </g>
   <g transform="translate(0,6004)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Gallagher</text>
@@ -2007,30 +1875,14 @@
     <rect x="220" y="257" width="70" height="28" fill="#9e7e5c" rx="2"/>
     <text x="255" y="277" fill="#000000" font-size="7" text-anchor="middle">#9e7e5c</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#b6136d" rx="3"/>
+    <rect x="20" y="305" width="310" height="30" fill="#b6136d" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="71.66666666666666" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#b6136d</text>
-    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.20</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#b5658c" rx="3"/>
-    <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#000000" font-size="8" text-anchor="middle">#b5658c</text>
-    <text x="222.66666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.15</text>
-    <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#474c69" rx="3"/>
-    <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="278.3333333333333" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#474c69</text>
-    <text x="326" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.99</text>
-    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#7f7c95" rx="3"/>
-    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="381.6666666666667" y="331" fill="#000000" font-size="8" text-anchor="middle">#7f7c95</text>
-    <text x="429.3333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.34</text>
-    <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#9e7e5c" rx="3"/>
-    <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="485" y="331" fill="#000000" font-size="8" text-anchor="middle">#9e7e5c</text>
-    <text x="532.6666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.84</text>
-    <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#a68c70" rx="3"/>
-    <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
-    <text x="588.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#a68c70</text>
-    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.18</text>
+    <text x="175" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#b6136d</text>
+    <text x="326" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=8.20</text>
+    <rect x="330" y="305" width="310" height="30" fill="#b5658c" rx="3"/>
+    <text x="334" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
+    <text x="485" y="331" fill="#000000" font-size="8" text-anchor="middle">#b5658c</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.67</text>
   </g>
   <g transform="translate(0,6356)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Gepard</text>
@@ -2122,30 +1974,14 @@
     <rect x="220" y="257" width="70" height="28" fill="#3e3b4b" rx="2"/>
     <text x="255" y="277" fill="#ffffff" font-size="7" text-anchor="middle">#3e3b4b</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#1834a1" rx="3"/>
+    <rect x="20" y="305" width="310" height="30" fill="#3285ef" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="71.66666666666666" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#1834a1</text>
-    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.23</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#424c5f" rx="3"/>
-    <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#424c5f</text>
-    <text x="222.66666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.50</text>
-    <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#a37753" rx="3"/>
-    <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="278.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#a37753</text>
-    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.71</text>
-    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#945c4c" rx="3"/>
-    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="381.6666666666667" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#945c4c</text>
-    <text x="429.3333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.16</text>
-    <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#3e3b4b" rx="3"/>
-    <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="485" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#3e3b4b</text>
-    <text x="532.6666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=1.18</text>
-    <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#bebac2" rx="3"/>
-    <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
-    <text x="588.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#bebac2</text>
-    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.76</text>
+    <text x="175" y="331" fill="#000000" font-size="8" text-anchor="middle">#3285ef</text>
+    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.67</text>
+    <rect x="330" y="305" width="310" height="30" fill="#424c5f" rx="3"/>
+    <text x="334" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
+    <text x="485" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#424c5f</text>
+    <text x="636" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=7.55</text>
   </g>
   <g transform="translate(0,6708)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Guinaifen</text>
@@ -2237,30 +2073,22 @@
     <rect x="150" y="257" width="70" height="28" fill="#68b4c2" rx="2"/>
     <text x="185" y="277" fill="#000000" font-size="7" text-anchor="middle">#68b4c2</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#88373a" rx="3"/>
+    <rect x="20" y="305" width="155" height="30" fill="#aa4f4e" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="71.66666666666666" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#88373a</text>
-    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.59</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#aa4f4e" rx="3"/>
-    <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#aa4f4e</text>
-    <text x="222.66666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.12</text>
-    <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#d46b5f" rx="3"/>
-    <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="278.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#d46b5f</text>
-    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.47</text>
-    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#7e6255" rx="3"/>
-    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="381.6666666666667" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#7e6255</text>
-    <text x="429.3333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.30</text>
-    <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#387c8e" rx="3"/>
-    <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="485" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#387c8e</text>
-    <text x="532.6666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.56</text>
-    <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#68b4c2" rx="3"/>
-    <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
-    <text x="588.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#68b4c2</text>
-    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.29</text>
+    <text x="97.5" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#aa4f4e</text>
+    <text x="171" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=7.54</text>
+    <rect x="175" y="305" width="155" height="30" fill="#a494a9" rx="3"/>
+    <text x="179" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
+    <text x="252.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#a494a9</text>
+    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.83</text>
+    <rect x="330" y="305" width="155" height="30" fill="#d46b5f" rx="3"/>
+    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
+    <text x="407.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#d46b5f</text>
+    <text x="481" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=9.01</text>
+    <rect x="485" y="305" width="155" height="30" fill="#a08780" rx="3"/>
+    <text x="489" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
+    <text x="562.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#a08780</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=9.26</text>
   </g>
   <g transform="translate(0,7060)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Hanya</text>
@@ -2350,30 +2178,22 @@
     <rect x="290" y="257" width="70" height="28" fill="#534c45" rx="2"/>
     <text x="325" y="277" fill="#ffffff" font-size="7" text-anchor="middle">#534c45</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#395a7f" rx="3"/>
-    <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="71.66666666666666" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#395a7f</text>
-    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.66</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#758fac" rx="3"/>
-    <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#000000" font-size="8" text-anchor="middle">#758fac</text>
-    <text x="222.66666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.20</text>
-    <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#c52a34" rx="3"/>
-    <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="278.3333333333333" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#c52a34</text>
-    <text x="326" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.16</text>
-    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#926d67" rx="3"/>
-    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="381.6666666666667" y="331" fill="#000000" font-size="8" text-anchor="middle">#926d67</text>
-    <text x="429.3333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.23</text>
-    <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#c29461" rx="3"/>
-    <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="485" y="331" fill="#000000" font-size="8" text-anchor="middle">#c29461</text>
-    <text x="532.6666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.60</text>
-    <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#ccae8c" rx="3"/>
-    <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
-    <text x="588.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#ccae8c</text>
-    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.46</text>
+    <rect x="20" y="305" width="155" height="30" fill="#c52a34" rx="3"/>
+    <text x="24" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
+    <text x="97.5" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#c52a34</text>
+    <text x="171" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=8.19</text>
+    <rect x="175" y="305" width="155" height="30" fill="#926d67" rx="3"/>
+    <text x="179" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
+    <text x="252.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#926d67</text>
+    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=9.09</text>
+    <rect x="330" y="305" width="155" height="30" fill="#c29461" rx="3"/>
+    <text x="334" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
+    <text x="407.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#c29461</text>
+    <text x="481" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.02</text>
+    <rect x="485" y="305" width="155" height="30" fill="#ccae8c" rx="3"/>
+    <text x="489" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
+    <text x="562.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#ccae8c</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.06</text>
   </g>
   <g transform="translate(0,7412)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Himekc</text>
@@ -2465,30 +2285,14 @@
     <rect x="220" y="257" width="70" height="28" fill="#445464" rx="2"/>
     <text x="255" y="277" fill="#ffffff" font-size="7" text-anchor="middle">#445464</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#9f171e" rx="3"/>
+    <rect x="20" y="305" width="310" height="30" fill="#e27167" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="71.66666666666666" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#9f171e</text>
-    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.23</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#914e41" rx="3"/>
-    <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#914e41</text>
-    <text x="222.66666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.27</text>
-    <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#583e43" rx="3"/>
-    <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="278.3333333333333" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#583e43</text>
-    <text x="326" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=1.07</text>
-    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#826f7b" rx="3"/>
-    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="381.6666666666667" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#826f7b</text>
-    <text x="429.3333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.39</text>
-    <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#8cb8cc" rx="3"/>
-    <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="485" y="331" fill="#000000" font-size="8" text-anchor="middle">#8cb8cc</text>
-    <text x="532.6666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.83</text>
-    <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#446474" rx="3"/>
-    <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
-    <text x="588.3333333333333" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#446474</text>
-    <text x="636" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.36</text>
+    <text x="175" y="331" fill="#000000" font-size="8" text-anchor="middle">#e27167</text>
+    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.31</text>
+    <rect x="330" y="305" width="310" height="30" fill="#b39189" rx="3"/>
+    <text x="334" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
+    <text x="485" y="331" fill="#000000" font-size="8" text-anchor="middle">#b39189</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.99</text>
   </g>
   <g transform="translate(0,7764)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Huohuo</text>
@@ -2580,30 +2384,14 @@
     <rect x="220" y="257" width="70" height="28" fill="#37666a" rx="2"/>
     <text x="255" y="277" fill="#ffffff" font-size="7" text-anchor="middle">#37666a</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#981d1c" rx="3"/>
+    <rect x="20" y="305" width="310" height="30" fill="#c73d34" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="71.66666666666666" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#981d1c</text>
-    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.27</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#98828b" rx="3"/>
-    <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#000000" font-size="8" text-anchor="middle">#98828b</text>
-    <text x="222.66666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.37</text>
-    <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#354d6a" rx="3"/>
-    <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="278.3333333333333" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#354d6a</text>
-    <text x="326" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.79</text>
-    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#636e8f" rx="3"/>
-    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="381.6666666666667" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#636e8f</text>
-    <text x="429.3333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.22</text>
-    <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#37666a" rx="3"/>
-    <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="485" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#37666a</text>
-    <text x="532.6666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.80</text>
-    <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#5b8f8c" rx="3"/>
-    <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
-    <text x="588.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#5b8f8c</text>
-    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.17</text>
+    <text x="175" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#c73d34</text>
+    <text x="326" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=8.12</text>
+    <rect x="330" y="305" width="310" height="30" fill="#98828b" rx="3"/>
+    <text x="334" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
+    <text x="485" y="331" fill="#000000" font-size="8" text-anchor="middle">#98828b</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=9.72</text>
   </g>
   <g transform="translate(0,8116)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Hyacine</text>
@@ -2697,27 +2485,27 @@
     <rect x="20" y="305" width="103.33333333333333" height="30" fill="#bf2e53" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
     <text x="71.66666666666666" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#bf2e53</text>
-    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.23</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#926478" rx="3"/>
+    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=8.08</text>
+    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#b48a77" rx="3"/>
     <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#926478</text>
-    <text x="222.66666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.20</text>
+    <text x="175" y="331" fill="#000000" font-size="8" text-anchor="middle">#b48a77</text>
+    <text x="222.66666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.76</text>
     <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#b427d5" rx="3"/>
     <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
     <text x="278.3333333333333" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#b427d5</text>
-    <text x="326" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.13</text>
-    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#9b93ac" rx="3"/>
+    <text x="326" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=7.76</text>
+    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#c3afc1" rx="3"/>
     <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="381.6666666666667" y="331" fill="#000000" font-size="8" text-anchor="middle">#9b93ac</text>
-    <text x="429.3333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.44</text>
+    <text x="381.6666666666667" y="331" fill="#000000" font-size="8" text-anchor="middle">#c3afc1</text>
+    <text x="429.3333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=9.15</text>
     <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#48a4c1" rx="3"/>
     <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
     <text x="485" y="331" fill="#000000" font-size="8" text-anchor="middle">#48a4c1</text>
-    <text x="532.6666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.47</text>
+    <text x="532.6666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.34</text>
     <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#7193ae" rx="3"/>
     <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
     <text x="588.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#7193ae</text>
-    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.16</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=9.75</text>
   </g>
   <g transform="translate(0,8468)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Jade</text>
@@ -2811,27 +2599,27 @@
     <rect x="20" y="305" width="103.33333333333333" height="30" fill="#665dcf" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
     <text x="71.66666666666666" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#665dcf</text>
-    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.50</text>
+    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=8.11</text>
     <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#745f93" rx="3"/>
     <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
     <text x="175" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#745f93</text>
-    <text x="222.66666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.17</text>
+    <text x="222.66666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=8.13</text>
     <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#b572b0" rx="3"/>
     <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
     <text x="278.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#b572b0</text>
-    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.82</text>
-    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#875f6c" rx="3"/>
+    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.79</text>
+    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#d7bfc6" rx="3"/>
     <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="381.6666666666667" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#875f6c</text>
-    <text x="429.3333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.26</text>
+    <text x="381.6666666666667" y="331" fill="#000000" font-size="8" text-anchor="middle">#d7bfc6</text>
+    <text x="429.3333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.77</text>
     <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#c44242" rx="3"/>
     <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
     <text x="485" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#c44242</text>
-    <text x="532.6666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.41</text>
+    <text x="532.6666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=8.23</text>
     <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#ba8e80" rx="3"/>
     <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
     <text x="588.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#ba8e80</text>
-    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.31</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=9.53</text>
   </g>
   <g transform="translate(0,8820)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Jiaoqiu</text>
@@ -2921,26 +2709,14 @@
     <rect x="80" y="257" width="70" height="28" fill="#686560" rx="2"/>
     <text x="115" y="277" fill="#ffffff" font-size="7" text-anchor="middle">#686560</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="124" height="30" fill="#b1363a" rx="3"/>
+    <rect x="20" y="305" width="310" height="30" fill="#b1363a" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="82" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#b1363a</text>
-    <text x="140" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.36</text>
-    <rect x="144" y="305" width="124" height="30" fill="#ae565c" rx="3"/>
-    <text x="148" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="206" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#ae565c</text>
-    <text x="264" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.09</text>
-    <rect x="268" y="305" width="124" height="30" fill="#45647c" rx="3"/>
-    <text x="272" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="330" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#45647c</text>
-    <text x="388" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.82</text>
-    <rect x="392" y="305" width="124" height="30" fill="#688da7" rx="3"/>
-    <text x="396" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="454" y="331" fill="#000000" font-size="8" text-anchor="middle">#688da7</text>
-    <text x="512" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.10</text>
-    <rect x="516" y="305" width="124" height="30" fill="#686560" rx="3"/>
-    <text x="520" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="578" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#686560</text>
-    <text x="636" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=1.22</text>
+    <text x="175" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#b1363a</text>
+    <text x="326" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=7.63</text>
+    <rect x="330" y="305" width="310" height="30" fill="#b18b7f" rx="3"/>
+    <text x="334" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
+    <text x="485" y="331" fill="#000000" font-size="8" text-anchor="middle">#b18b7f</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.82</text>
   </g>
   <g transform="translate(0,9172)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">JingYuan</text>
@@ -3031,30 +2807,18 @@
     <rect x="220" y="257" width="70" height="28" fill="#6ca0cc" rx="2"/>
     <text x="255" y="277" fill="#000000" font-size="7" text-anchor="middle">#6ca0cc</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#ddba98" rx="3"/>
-    <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="71.66666666666666" y="331" fill="#000000" font-size="8" text-anchor="middle">#ddba98</text>
-    <text x="119.33333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.83</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#b2967f" rx="3"/>
-    <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#000000" font-size="8" text-anchor="middle">#b2967f</text>
-    <text x="222.66666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.27</text>
-    <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#7c3c54" rx="3"/>
-    <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="278.3333333333333" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#7c3c54</text>
-    <text x="326" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.71</text>
-    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#562a2b" rx="3"/>
-    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="381.6666666666667" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#562a2b</text>
-    <text x="429.3333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.64</text>
-    <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#6ca0cc" rx="3"/>
-    <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="485" y="331" fill="#000000" font-size="8" text-anchor="middle">#6ca0cc</text>
-    <text x="532.6666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.61</text>
-    <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#386c7e" rx="3"/>
-    <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
-    <text x="588.3333333333333" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#386c7e</text>
-    <text x="636" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.38</text>
+    <rect x="20" y="305" width="206.66666666666666" height="30" fill="#7c3c54" rx="3"/>
+    <text x="24" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
+    <text x="123.33333333333333" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#7c3c54</text>
+    <text x="222.66666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=6.17</text>
+    <rect x="226.66666666666666" y="305" width="206.66666666666666" height="30" fill="#6ca0cc" rx="3"/>
+    <text x="230.66666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
+    <text x="330" y="331" fill="#000000" font-size="8" text-anchor="middle">#6ca0cc</text>
+    <text x="429.3333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.47</text>
+    <rect x="433.3333333333333" y="305" width="206.66666666666666" height="30" fill="#376074" rx="3"/>
+    <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
+    <text x="536.6666666666666" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#376074</text>
+    <text x="636" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=8.66</text>
   </g>
   <g transform="translate(0,9524)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Jingliu</text>
@@ -3145,30 +2909,22 @@
     <rect x="290" y="257" width="70" height="28" fill="#b08265" rx="2"/>
     <text x="325" y="277" fill="#000000" font-size="7" text-anchor="middle">#b08265</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#5f7ec0" rx="3"/>
+    <rect x="20" y="305" width="155" height="30" fill="#5f7ec0" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="71.66666666666666" y="331" fill="#000000" font-size="8" text-anchor="middle">#5f7ec0</text>
-    <text x="119.33333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.61</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#60729a" rx="3"/>
-    <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#60729a</text>
-    <text x="222.66666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.12</text>
-    <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#857387" rx="3"/>
-    <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="278.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#857387</text>
-    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=1.15</text>
-    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#5e505d" rx="3"/>
-    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="381.6666666666667" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#5e505d</text>
-    <text x="429.3333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.56</text>
-    <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#b11012" rx="3"/>
-    <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="485" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#b11012</text>
-    <text x="532.6666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.24</text>
-    <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#b08265" rx="3"/>
-    <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
-    <text x="588.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#b08265</text>
-    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.11</text>
+    <text x="97.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#5f7ec0</text>
+    <text x="171" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.68</text>
+    <rect x="175" y="305" width="155" height="30" fill="#8dadd1" rx="3"/>
+    <text x="179" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
+    <text x="252.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#8dadd1</text>
+    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.20</text>
+    <rect x="330" y="305" width="155" height="30" fill="#b11012" rx="3"/>
+    <text x="334" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
+    <text x="407.5" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#b11012</text>
+    <text x="481" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=7.93</text>
+    <rect x="485" y="305" width="155" height="30" fill="#b49b97" rx="3"/>
+    <text x="489" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
+    <text x="562.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#b49b97</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=9.49</text>
   </g>
   <g transform="translate(0,9876)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Lingsha</text>
@@ -3260,30 +3016,30 @@
     <rect x="220" y="257" width="70" height="28" fill="#3c846c" rx="2"/>
     <text x="255" y="277" fill="#000000" font-size="7" text-anchor="middle">#3c846c</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#ae3724" rx="3"/>
+    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#cb4f3a" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="71.66666666666666" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#ae3724</text>
-    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.17</text>
+    <text x="71.66666666666666" y="331" fill="#000000" font-size="8" text-anchor="middle">#cb4f3a</text>
+    <text x="119.33333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.47</text>
     <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#ac82b2" rx="3"/>
     <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
     <text x="175" y="331" fill="#000000" font-size="8" text-anchor="middle">#ac82b2</text>
-    <text x="222.66666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.28</text>
+    <text x="222.66666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.29</text>
     <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#d8c155" rx="3"/>
     <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
     <text x="278.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#d8c155</text>
-    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.40</text>
+    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.00</text>
     <rect x="330" y="305" width="103.33333333333333" height="30" fill="#84826f" rx="3"/>
     <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
     <text x="381.6666666666667" y="331" fill="#000000" font-size="8" text-anchor="middle">#84826f</text>
-    <text x="429.3333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.37</text>
+    <text x="429.3333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=9.54</text>
     <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#3c8c6c" rx="3"/>
     <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
     <text x="485" y="331" fill="#000000" font-size="8" text-anchor="middle">#3c8c6c</text>
-    <text x="532.6666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.61</text>
+    <text x="532.6666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=6.99</text>
     <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#7eb3a0" rx="3"/>
     <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
     <text x="588.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#7eb3a0</text>
-    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.26</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=9.22</text>
   </g>
   <g transform="translate(0,10228)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Luocha</text>
@@ -3373,26 +3129,14 @@
     <rect x="80" y="257" width="70" height="28" fill="#0b090c" rx="2"/>
     <text x="115" y="277" fill="#ffffff" font-size="7" text-anchor="middle">#0b090c</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="124" height="30" fill="#42676f" rx="3"/>
-    <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="82" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#42676f</text>
-    <text x="140" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.89</text>
-    <rect x="144" y="305" width="124" height="30" fill="#667d74" rx="3"/>
-    <text x="148" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="206" y="331" fill="#000000" font-size="8" text-anchor="middle">#667d74</text>
-    <text x="264" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.37</text>
-    <rect x="268" y="305" width="124" height="30" fill="#c48c4c" rx="3"/>
-    <text x="272" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="330" y="331" fill="#000000" font-size="8" text-anchor="middle">#c48c4c</text>
-    <text x="388" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.46</text>
-    <rect x="392" y="305" width="124" height="30" fill="#b47c64" rx="3"/>
-    <text x="396" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="454" y="331" fill="#000000" font-size="8" text-anchor="middle">#b47c64</text>
-    <text x="512" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.15</text>
-    <rect x="516" y="305" width="124" height="30" fill="#0b090c" rx="3"/>
-    <text x="520" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="578" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#0b090c</text>
-    <text x="636" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=1.47</text>
+    <rect x="20" y="305" width="310" height="30" fill="#c48c4c" rx="3"/>
+    <text x="24" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
+    <text x="175" y="331" fill="#000000" font-size="8" text-anchor="middle">#c48c4c</text>
+    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.39</text>
+    <rect x="330" y="305" width="310" height="30" fill="#90846e" rx="3"/>
+    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
+    <text x="485" y="331" fill="#000000" font-size="8" text-anchor="middle">#90846e</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=9.73</text>
   </g>
   <g transform="translate(0,10580)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">March7th</text>
@@ -3484,30 +3228,22 @@
     <rect x="360" y="257" width="70" height="28" fill="#f7e3c9" rx="2"/>
     <text x="395" y="277" fill="#000000" font-size="7" text-anchor="middle">#f7e3c9</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#45bdd3" rx="3"/>
+    <rect x="20" y="305" width="155" height="30" fill="#7590c8" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="71.66666666666666" y="331" fill="#000000" font-size="8" text-anchor="middle">#45bdd3</text>
-    <text x="119.33333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.33</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#7754af" rx="3"/>
-    <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#7754af</text>
-    <text x="222.66666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.11</text>
-    <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#6d414c" rx="3"/>
-    <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="278.3333333333333" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#6d414c</text>
-    <text x="326" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.89</text>
-    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#b788a1" rx="3"/>
-    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="381.6666666666667" y="331" fill="#000000" font-size="8" text-anchor="middle">#b788a1</text>
-    <text x="429.3333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.34</text>
-    <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#c67154" rx="3"/>
-    <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="485" y="331" fill="#000000" font-size="8" text-anchor="middle">#c67154</text>
-    <text x="532.6666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.49</text>
-    <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#e1b191" rx="3"/>
-    <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
-    <text x="588.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#e1b191</text>
-    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.75</text>
+    <text x="97.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#7590c8</text>
+    <text x="171" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.99</text>
+    <rect x="175" y="305" width="155" height="30" fill="#b5b6d2" rx="3"/>
+    <text x="179" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
+    <text x="252.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#b5b6d2</text>
+    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.45</text>
+    <rect x="330" y="305" width="155" height="30" fill="#c67154" rx="3"/>
+    <text x="334" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
+    <text x="407.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#c67154</text>
+    <text x="481" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.69</text>
+    <rect x="485" y="305" width="155" height="30" fill="#e1b191" rx="3"/>
+    <text x="489" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
+    <text x="562.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#e1b191</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.68</text>
   </g>
   <g transform="translate(0,10932)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Moze</text>
@@ -3598,30 +3334,22 @@
     <rect x="220" y="257" width="70" height="28" fill="#a47664" rx="2"/>
     <text x="255" y="277" fill="#000000" font-size="7" text-anchor="middle">#a47664</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#4f5199" rx="3"/>
+    <rect x="20" y="305" width="155" height="30" fill="#7577bf" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="71.66666666666666" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#4f5199</text>
-    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.73</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#676e95" rx="3"/>
-    <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#676e95</text>
-    <text x="222.66666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.21</text>
-    <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#320b2e" rx="3"/>
-    <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="278.3333333333333" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#320b2e</text>
-    <text x="326" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.86</text>
-    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#845776" rx="3"/>
-    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="381.6666666666667" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#845776</text>
-    <text x="429.3333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.24</text>
-    <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#b52d4f" rx="3"/>
-    <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="485" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#b52d4f</text>
-    <text x="532.6666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.24</text>
-    <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#a47664" rx="3"/>
-    <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
-    <text x="588.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#a47664</text>
-    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.09</text>
+    <text x="97.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#7577bf</text>
+    <text x="171" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.44</text>
+    <rect x="175" y="305" width="155" height="30" fill="#979fc6" rx="3"/>
+    <text x="179" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
+    <text x="252.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#979fc6</text>
+    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.39</text>
+    <rect x="330" y="305" width="155" height="30" fill="#b52d4f" rx="3"/>
+    <text x="334" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
+    <text x="407.5" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#b52d4f</text>
+    <text x="481" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=8.63</text>
+    <rect x="485" y="305" width="155" height="30" fill="#bb6990" rx="3"/>
+    <text x="489" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
+    <text x="562.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#bb6990</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.73</text>
   </g>
   <g transform="translate(0,11284)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Mydei</text>
@@ -3713,30 +3441,22 @@
     <rect x="150" y="257" width="70" height="28" fill="#3154b6" rx="2"/>
     <text x="185" y="277" fill="#ffffff" font-size="7" text-anchor="middle">#3154b6</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#ca2b26" rx="3"/>
+    <rect x="20" y="305" width="155" height="30" fill="#dd7566" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="71.66666666666666" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#ca2b26</text>
-    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.12</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#a17d6a" rx="3"/>
-    <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#000000" font-size="8" text-anchor="middle">#a17d6a</text>
-    <text x="222.66666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.13</text>
-    <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#621f25" rx="3"/>
-    <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="278.3333333333333" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#621f25</text>
-    <text x="326" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.64</text>
-    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#7b5d70" rx="3"/>
-    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="381.6666666666667" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#7b5d70</text>
-    <text x="429.3333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.34</text>
-    <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#3154b6" rx="3"/>
-    <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="485" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#3154b6</text>
-    <text x="532.6666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.28</text>
-    <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#9d8fb0" rx="3"/>
-    <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
-    <text x="588.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#9d8fb0</text>
-    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.40</text>
+    <text x="97.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#dd7566</text>
+    <text x="171" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.62</text>
+    <rect x="175" y="305" width="155" height="30" fill="#a17d6a" rx="3"/>
+    <text x="179" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
+    <text x="252.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#a17d6a</text>
+    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=9.24</text>
+    <rect x="330" y="305" width="155" height="30" fill="#3154b6" rx="3"/>
+    <text x="334" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
+    <text x="407.5" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#3154b6</text>
+    <text x="481" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=7.45</text>
+    <rect x="485" y="305" width="155" height="30" fill="#9d8fb0" rx="3"/>
+    <text x="489" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
+    <text x="562.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#9d8fb0</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=9.70</text>
   </g>
   <g transform="translate(0,11636)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Phainon</text>
@@ -3826,30 +3546,22 @@
     <rect x="220" y="257" width="70" height="28" fill="#8c441c" rx="2"/>
     <text x="255" y="277" fill="#ffffff" font-size="7" text-anchor="middle">#8c441c</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#506392" rx="3"/>
-    <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="71.66666666666666" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#506392</text>
-    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.78</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#7f86a0" rx="3"/>
-    <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#000000" font-size="8" text-anchor="middle">#7f86a0</text>
-    <text x="222.66666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.30</text>
-    <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#bf8a4a" rx="3"/>
-    <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="278.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#bf8a4a</text>
-    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.48</text>
-    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#9b8069" rx="3"/>
-    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="381.6666666666667" y="331" fill="#000000" font-size="8" text-anchor="middle">#9b8069</text>
-    <text x="429.3333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.18</text>
-    <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#8c441c" rx="3"/>
-    <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="485" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#8c441c</text>
-    <text x="532.6666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.33</text>
-    <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#bc7c6c" rx="3"/>
-    <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
-    <text x="588.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#bc7c6c</text>
-    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.24</text>
+    <rect x="20" y="305" width="155" height="30" fill="#bf8a4a" rx="3"/>
+    <text x="24" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
+    <text x="97.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#bf8a4a</text>
+    <text x="171" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.43</text>
+    <rect x="175" y="305" width="155" height="30" fill="#9b8069" rx="3"/>
+    <text x="179" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
+    <text x="252.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#9b8069</text>
+    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=9.71</text>
+    <rect x="330" y="305" width="155" height="30" fill="#bc7c6c" rx="3"/>
+    <text x="334" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
+    <text x="407.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#bc7c6c</text>
+    <text x="481" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.25</text>
+    <rect x="485" y="305" width="155" height="30" fill="#8c441c" rx="3"/>
+    <text x="489" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
+    <text x="562.5" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#8c441c</text>
+    <text x="636" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=6.87</text>
   </g>
   <g transform="translate(0,11988)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Rappa</text>
@@ -3944,27 +3656,27 @@
     <rect x="20" y="305" width="103.33333333333333" height="30" fill="#d7303d" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
     <text x="71.66666666666666" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#d7303d</text>
-    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.21</text>
+    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=9.49</text>
     <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#b87376" rx="3"/>
     <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
     <text x="175" y="331" fill="#000000" font-size="8" text-anchor="middle">#b87376</text>
-    <text x="222.66666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.24</text>
+    <text x="222.66666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.73</text>
     <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#cc8233" rx="3"/>
     <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
     <text x="278.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#cc8233</text>
-    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.27</text>
-    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#dada80" rx="3"/>
+    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.86</text>
+    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#72df81" rx="3"/>
     <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="381.6666666666667" y="331" fill="#000000" font-size="8" text-anchor="middle">#dada80</text>
-    <text x="429.3333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.63</text>
-    <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#4edbd3" rx="3"/>
+    <text x="381.6666666666667" y="331" fill="#000000" font-size="8" text-anchor="middle">#72df81</text>
+    <text x="429.3333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=6.32</text>
+    <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#7e88de" rx="3"/>
     <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="485" y="331" fill="#000000" font-size="8" text-anchor="middle">#4edbd3</text>
-    <text x="532.6666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.36</text>
-    <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#487bbc" rx="3"/>
+    <text x="485" y="331" fill="#000000" font-size="8" text-anchor="middle">#7e88de</text>
+    <text x="532.6666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.08</text>
+    <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#4edbd3" rx="3"/>
     <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
-    <text x="588.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#487bbc</text>
-    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.28</text>
+    <text x="588.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#4edbd3</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.81</text>
   </g>
   <g transform="translate(0,12340)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Robin</text>
@@ -4055,30 +3767,22 @@
     <rect x="290" y="257" width="70" height="28" fill="#e5ccb3" rx="2"/>
     <text x="325" y="277" fill="#000000" font-size="7" text-anchor="middle">#e5ccb3</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#4540c2" rx="3"/>
+    <rect x="20" y="305" width="155" height="30" fill="#7372bb" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="71.66666666666666" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#4540c2</text>
-    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.41</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#644c9f" rx="3"/>
-    <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#644c9f</text>
-    <text x="222.66666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.13</text>
-    <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#9e88bd" rx="3"/>
-    <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="278.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#9e88bd</text>
-    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.92</text>
-    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#bdadd5" rx="3"/>
-    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="381.6666666666667" y="331" fill="#000000" font-size="8" text-anchor="middle">#bdadd5</text>
-    <text x="429.3333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.66</text>
-    <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#6a4836" rx="3"/>
-    <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="485" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#6a4836</text>
-    <text x="532.6666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.79</text>
-    <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#8b6f59" rx="3"/>
-    <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
-    <text x="588.3333333333333" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#8b6f59</text>
-    <text x="636" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.19</text>
+    <text x="97.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#7372bb</text>
+    <text x="171" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.86</text>
+    <rect x="175" y="305" width="155" height="30" fill="#a2a6d2" rx="3"/>
+    <text x="179" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
+    <text x="252.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#a2a6d2</text>
+    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.37</text>
+    <rect x="330" y="305" width="155" height="30" fill="#9e88bd" rx="3"/>
+    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
+    <text x="407.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#9e88bd</text>
+    <text x="481" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.33</text>
+    <rect x="485" y="305" width="155" height="30" fill="#bdadd5" rx="3"/>
+    <text x="489" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
+    <text x="562.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#bdadd5</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.08</text>
   </g>
   <g transform="translate(0,12692)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">RuanMei</text>
@@ -4170,26 +3874,14 @@
     <rect x="80" y="257" width="70" height="28" fill="#2d2e3a" rx="2"/>
     <text x="115" y="277" fill="#ffffff" font-size="7" text-anchor="middle">#2d2e3a</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="124" height="30" fill="#d5993c" rx="3"/>
+    <rect x="20" y="305" width="310" height="30" fill="#ca5262" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="82" y="331" fill="#000000" font-size="8" text-anchor="middle">#d5993c</text>
-    <text x="140" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.28</text>
-    <rect x="144" y="305" width="124" height="30" fill="#99857e" rx="3"/>
-    <text x="148" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="206" y="331" fill="#000000" font-size="8" text-anchor="middle">#99857e</text>
-    <text x="264" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.34</text>
-    <rect x="268" y="305" width="124" height="30" fill="#2c4e6c" rx="3"/>
-    <text x="272" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="330" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#2c4e6c</text>
-    <text x="388" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.67</text>
-    <rect x="392" y="305" width="124" height="30" fill="#538ea0" rx="3"/>
-    <text x="396" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="454" y="331" fill="#000000" font-size="8" text-anchor="middle">#538ea0</text>
-    <text x="512" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.06</text>
-    <rect x="516" y="305" width="124" height="30" fill="#2d2e3a" rx="3"/>
-    <text x="520" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="578" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#2d2e3a</text>
-    <text x="636" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=1.23</text>
+    <text x="175" y="331" fill="#000000" font-size="8" text-anchor="middle">#ca5262</text>
+    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.99</text>
+    <rect x="330" y="305" width="310" height="30" fill="#99857e" rx="3"/>
+    <text x="334" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
+    <text x="485" y="331" fill="#000000" font-size="8" text-anchor="middle">#99857e</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=9.12</text>
   </g>
   <g transform="translate(0,13044)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Saber</text>
@@ -4281,30 +3973,22 @@
     <rect x="150" y="257" width="70" height="28" fill="#4b4c46" rx="2"/>
     <text x="185" y="277" fill="#ffffff" font-size="7" text-anchor="middle">#4b4c46</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#3962cd" rx="3"/>
+    <rect x="20" y="305" width="155" height="30" fill="#3962cd" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="71.66666666666666" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#3962cd</text>
-    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.29</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#958fba" rx="3"/>
-    <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#000000" font-size="8" text-anchor="middle">#958fba</text>
-    <text x="222.66666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.40</text>
-    <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#b5592b" rx="3"/>
-    <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="278.3333333333333" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#b5592b</text>
-    <text x="326" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.21</text>
-    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#897067" rx="3"/>
-    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="381.6666666666667" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#897067</text>
-    <text x="429.3333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.29</text>
-    <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#686c6a" rx="3"/>
-    <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="485" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#686c6a</text>
-    <text x="532.6666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=1.25</text>
-    <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#4b4c46" rx="3"/>
-    <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
-    <text x="588.3333333333333" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#4b4c46</text>
-    <text x="636" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.70</text>
+    <text x="97.5" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#3962cd</text>
+    <text x="171" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=8.30</text>
+    <rect x="175" y="305" width="155" height="30" fill="#958fba" rx="3"/>
+    <text x="179" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
+    <text x="252.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#958fba</text>
+    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.74</text>
+    <rect x="330" y="305" width="155" height="30" fill="#c18247" rx="3"/>
+    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
+    <text x="407.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#c18247</text>
+    <text x="481" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.62</text>
+    <rect x="485" y="305" width="155" height="30" fill="#897067" rx="3"/>
+    <text x="489" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
+    <text x="562.5" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#897067</text>
+    <text x="636" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=9.02</text>
   </g>
   <g transform="translate(0,13396)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Sparkle</text>
@@ -4399,27 +4083,27 @@
     <rect x="20" y="305" width="103.33333333333333" height="30" fill="#cf263e" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
     <text x="71.66666666666666" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#cf263e</text>
-    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.12</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#a64e5c" rx="3"/>
+    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=8.49</text>
+    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#80726e" rx="3"/>
     <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#a64e5c</text>
-    <text x="222.66666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.12</text>
+    <text x="175" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#80726e</text>
+    <text x="222.66666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=8.20</text>
     <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#2972cf" rx="3"/>
     <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
     <text x="278.3333333333333" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#2972cf</text>
-    <text x="326" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.16</text>
+    <text x="326" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=7.86</text>
     <rect x="330" y="305" width="103.33333333333333" height="30" fill="#6d6499" rx="3"/>
     <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
     <text x="381.6666666666667" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#6d6499</text>
-    <text x="429.3333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.16</text>
+    <text x="429.3333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=8.67</text>
     <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#d8a146" rx="3"/>
     <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
     <text x="485" y="331" fill="#000000" font-size="8" text-anchor="middle">#d8a146</text>
-    <text x="532.6666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.32</text>
+    <text x="532.6666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.63</text>
     <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#dbb48a" rx="3"/>
     <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
     <text x="588.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#dbb48a</text>
-    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.65</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.65</text>
   </g>
   <g transform="translate(0,13748)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Sunday</text>
@@ -4509,26 +4193,6 @@
     <rect x="80" y="257" width="70" height="28" fill="#bcbca4" rx="2"/>
     <text x="115" y="277" fill="#000000" font-size="7" text-anchor="middle">#bcbca4</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="124" height="30" fill="#1e2765" rx="3"/>
-    <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="82" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#1e2765</text>
-    <text x="140" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.60</text>
-    <rect x="144" y="305" width="124" height="30" fill="#626691" rx="3"/>
-    <text x="148" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="206" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#626691</text>
-    <text x="264" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.20</text>
-    <rect x="268" y="305" width="124" height="30" fill="#6d4c32" rx="3"/>
-    <text x="272" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="330" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#6d4c32</text>
-    <text x="388" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.73</text>
-    <rect x="392" y="305" width="124" height="30" fill="#918483" rx="3"/>
-    <text x="396" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="454" y="331" fill="#000000" font-size="8" text-anchor="middle">#918483</text>
-    <text x="512" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.43</text>
-    <rect x="516" y="305" width="124" height="30" fill="#bcbca4" rx="3"/>
-    <text x="520" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="578" y="331" fill="#000000" font-size="8" text-anchor="middle">#bcbca4</text>
-    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=1.19</text>
   </g>
   <g transform="translate(0,14100)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">TheHerta</text>
@@ -4619,30 +4283,30 @@
     <rect x="150" y="257" width="70" height="28" fill="#bc4c5c" rx="2"/>
     <text x="185" y="277" fill="#ffffff" font-size="7" text-anchor="middle">#bc4c5c</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#3418b8" rx="3"/>
+    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#8a7cc8" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="71.66666666666666" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#3418b8</text>
-    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.11</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#605395" rx="3"/>
+    <text x="71.66666666666666" y="331" fill="#000000" font-size="8" text-anchor="middle">#8a7cc8</text>
+    <text x="119.33333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.93</text>
+    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#a7a7d3" rx="3"/>
     <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#605395</text>
-    <text x="222.66666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.13</text>
+    <text x="175" y="331" fill="#000000" font-size="8" text-anchor="middle">#a7a7d3</text>
+    <text x="222.66666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.14</text>
     <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#bd7dbf" rx="3"/>
     <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
     <text x="278.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#bd7dbf</text>
-    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.82</text>
+    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.62</text>
     <rect x="330" y="305" width="103.33333333333333" height="30" fill="#8c7790" rx="3"/>
     <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
     <text x="381.6666666666667" y="331" fill="#000000" font-size="8" text-anchor="middle">#8c7790</text>
-    <text x="429.3333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.35</text>
+    <text x="429.3333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=9.34</text>
     <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#bc4c5c" rx="3"/>
     <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
     <text x="485" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#bc4c5c</text>
-    <text x="532.6666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.52</text>
+    <text x="532.6666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=8.18</text>
     <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#b48864" rx="3"/>
     <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
     <text x="588.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#b48864</text>
-    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.15</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=9.43</text>
   </g>
   <g transform="translate(0,14452)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">TopazandNumby</text>
@@ -4734,30 +4398,22 @@
     <rect x="290" y="257" width="70" height="28" fill="#bba553" rx="2"/>
     <text x="325" y="277" fill="#000000" font-size="7" text-anchor="middle">#bba553</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#7a6788" rx="3"/>
-    <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="71.66666666666666" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#7a6788</text>
-    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=1.04</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#9795b6" rx="3"/>
-    <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#000000" font-size="8" text-anchor="middle">#9795b6</text>
-    <text x="222.66666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.44</text>
-    <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#de4152" rx="3"/>
-    <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="278.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#de4152</text>
-    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.29</text>
-    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#9d6578" rx="3"/>
-    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="381.6666666666667" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#9d6578</text>
-    <text x="429.3333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.14</text>
-    <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#edca48" rx="3"/>
-    <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="485" y="331" fill="#000000" font-size="8" text-anchor="middle">#edca48</text>
-    <text x="532.6666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.43</text>
-    <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#bba553" rx="3"/>
-    <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
-    <text x="588.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#bba553</text>
-    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.24</text>
+    <rect x="20" y="305" width="155" height="30" fill="#de4152" rx="3"/>
+    <text x="24" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
+    <text x="97.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#de4152</text>
+    <text x="171" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.72</text>
+    <rect x="175" y="305" width="155" height="30" fill="#9d6578" rx="3"/>
+    <text x="179" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
+    <text x="252.5" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#9d6578</text>
+    <text x="326" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=8.52</text>
+    <rect x="330" y="305" width="155" height="30" fill="#edca48" rx="3"/>
+    <text x="334" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
+    <text x="407.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#edca48</text>
+    <text x="481" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.30</text>
+    <rect x="485" y="305" width="155" height="30" fill="#807165" rx="3"/>
+    <text x="489" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
+    <text x="562.5" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#807165</text>
+    <text x="636" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=8.74</text>
   </g>
   <g transform="translate(0,14804)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Tribbie</text>
@@ -4852,27 +4508,27 @@
     <rect x="20" y="305" width="103.33333333333333" height="30" fill="#d32e24" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
     <text x="71.66666666666666" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#d32e24</text>
-    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.09</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#986866" rx="3"/>
+    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=8.68</text>
+    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#e1bab7" rx="3"/>
     <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#986866</text>
-    <text x="222.66666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.17</text>
-    <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#f49c49" rx="3"/>
+    <text x="175" y="331" fill="#000000" font-size="8" text-anchor="middle">#e1bab7</text>
+    <text x="222.66666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.89</text>
+    <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#9a5b41" rx="3"/>
     <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="278.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#f49c49</text>
-    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.51</text>
+    <text x="278.3333333333333" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#9a5b41</text>
+    <text x="326" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=7.52</text>
     <rect x="330" y="305" width="103.33333333333333" height="30" fill="#b58a6b" rx="3"/>
     <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
     <text x="381.6666666666667" y="331" fill="#000000" font-size="8" text-anchor="middle">#b58a6b</text>
-    <text x="429.3333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.16</text>
-    <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#5d389d" rx="3"/>
+    <text x="429.3333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=9.17</text>
+    <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#4c6cb6" rx="3"/>
     <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="485" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#5d389d</text>
-    <text x="532.6666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.47</text>
-    <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#4c6cb6" rx="3"/>
+    <text x="485" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#4c6cb6</text>
+    <text x="532.6666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=7.19</text>
+    <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#9089a4" rx="3"/>
     <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
-    <text x="588.3333333333333" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#4c6cb6</text>
-    <text x="636" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.21</text>
+    <text x="588.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#9089a4</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=9.90</text>
   </g>
   <g transform="translate(0,15156)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Yunli</text>
@@ -4964,30 +4620,14 @@
     <rect x="220" y="257" width="70" height="28" fill="#342c54" rx="2"/>
     <text x="255" y="277" fill="#ffffff" font-size="7" text-anchor="middle">#342c54</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#db573c" rx="3"/>
+    <rect x="20" y="305" width="310" height="30" fill="#db573c" rx="3"/>
     <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="71.66666666666666" y="331" fill="#000000" font-size="8" text-anchor="middle">#db573c</text>
-    <text x="119.33333333333333" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.27</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#90605b" rx="3"/>
-    <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#90605b</text>
-    <text x="222.66666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.16</text>
-    <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#2b757a" rx="3"/>
-    <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="278.3333333333333" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#2b757a</text>
-    <text x="326" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.56</text>
-    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#425e68" rx="3"/>
-    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="381.6666666666667" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#425e68</text>
-    <text x="429.3333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.46</text>
-    <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#342c54" rx="3"/>
-    <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="485" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#342c54</text>
-    <text x="532.6666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.90</text>
-    <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#666c7b" rx="3"/>
-    <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
-    <text x="588.3333333333333" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#666c7b</text>
-    <text x="636" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.39</text>
+    <text x="175" y="331" fill="#000000" font-size="8" text-anchor="middle">#db573c</text>
+    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.47</text>
+    <rect x="330" y="305" width="310" height="30" fill="#a5837e" rx="3"/>
+    <text x="334" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
+    <text x="485" y="331" fill="#000000" font-size="8" text-anchor="middle">#a5837e</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=9.90</text>
   </g>
   <g transform="translate(0,15508)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">kafka</text>
@@ -5077,29 +4717,21 @@
     <rect x="220" y="257" width="70" height="28" fill="#c47c7c" rx="2"/>
     <text x="255" y="277" fill="#000000" font-size="7" text-anchor="middle">#c47c7c</text>
     <text x="20" y="301" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>
-    <rect x="20" y="305" width="103.33333333333333" height="30" fill="#6c4762" rx="3"/>
-    <text x="24" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-V</text>
-    <text x="71.66666666666666" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#6c4762</text>
-    <text x="119.33333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.95</text>
-    <rect x="123.33333333333333" y="305" width="103.33333333333333" height="30" fill="#81657f" rx="3"/>
-    <text x="127.33333333333333" y="317" fill="#ff9966" font-size="8" font-weight="bold" opacity="0.9">main-M</text>
-    <text x="175" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#81657f</text>
-    <text x="222.66666666666666" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.34</text>
-    <rect x="226.66666666666666" y="305" width="103.33333333333333" height="30" fill="#be6b94" rx="3"/>
-    <text x="230.66666666666666" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
-    <text x="278.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#be6b94</text>
-    <text x="326" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.69</text>
-    <rect x="330" y="305" width="103.33333333333333" height="30" fill="#9b627a" rx="3"/>
-    <text x="334" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
-    <text x="381.6666666666667" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#9b627a</text>
-    <text x="429.3333333333333" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">d=0.12</text>
-    <rect x="433.3333333333333" y="305" width="103.33333333333333" height="30" fill="#c47c7c" rx="3"/>
-    <text x="437.3333333333333" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
-    <text x="485" y="331" fill="#000000" font-size="8" text-anchor="middle">#c47c7c</text>
-    <text x="532.6666666666666" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.77</text>
-    <rect x="536.6666666666666" y="305" width="103.33333333333333" height="30" fill="#c29196" rx="3"/>
-    <text x="540.6666666666666" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
-    <text x="588.3333333333333" y="331" fill="#000000" font-size="8" text-anchor="middle">#c29196</text>
-    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">d=0.41</text>
+    <rect x="20" y="305" width="155" height="30" fill="#9b627a" rx="3"/>
+    <text x="24" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-V</text>
+    <text x="97.5" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#9b627a</text>
+    <text x="171" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=7.70</text>
+    <rect x="175" y="305" width="155" height="30" fill="#7a6d70" rx="3"/>
+    <text x="179" y="317" fill="#66ccff" font-size="8" font-weight="bold" opacity="0.9">sub-M</text>
+    <text x="252.5" y="331" fill="#ffffff" font-size="8" text-anchor="middle">#7a6d70</text>
+    <text x="326" y="317" fill="#ffffff" font-size="7" text-anchor="end" opacity="0.6">s=8.05</text>
+    <rect x="330" y="305" width="155" height="30" fill="#c47c7c" rx="3"/>
+    <text x="334" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-V</text>
+    <text x="407.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#c47c7c</text>
+    <text x="481" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=7.28</text>
+    <rect x="485" y="305" width="155" height="30" fill="#c29196" rx="3"/>
+    <text x="489" y="317" fill="#cc66ff" font-size="8" font-weight="bold" opacity="0.9">accent-M</text>
+    <text x="562.5" y="331" fill="#000000" font-size="8" text-anchor="middle">#c29196</text>
+    <text x="636" y="317" fill="#000000" font-size="7" text-anchor="end" opacity="0.6">s=8.50</text>
   </g>
 </svg>

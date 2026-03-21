@@ -19,80 +19,108 @@ const OPTIONS = { ...OPTIONS_BASE, colorCount: 16 };
 
 const DOMINANT_COUNT = 5;
 
-// --- seed スコアリング（Vibrant + Muted 選定） ---
+// --- seed スコアリング（colorthief 準拠 OkLch Vibrant + Muted） ---
 
 type SwatchTarget = "V" | "M";
 
-/** node-vibrant 準拠の target（saturation, luma は 0-1） */
-const SWATCH_TARGETS: Record<
-  SwatchTarget,
-  { saturation: number; luma: number }
-> = {
-  V: { saturation: 0.74, luma: 0.45 },
-  M: { saturation: 0.3, luma: 0.5 },
+/** colorthief の swatch target 定義（OkLch ベース） */
+type TargetDef = {
+  targetL: number;
+  minL: number;
+  maxL: number;
+  targetC: number;
+  minC: number;
 };
 
-/** node-vibrant 準拠の重み付き距離 */
-const W_SATURATION = 3;
-const W_LUMA = 6.5;
+const SWATCH_TARGETS: Record<SwatchTarget, TargetDef> = {
+  V: { targetL: 0.65, minL: 0.4, maxL: 0.85, targetC: 0.2, minC: 0.08 },
+  M: { targetL: 0.65, minL: 0.4, maxL: 0.85, targetC: 0.04, minC: 0.0 },
+};
 
-const targetDistance = (
-  saturation: number,
-  luma: number,
-  target: { saturation: number; luma: number },
+/** colorthief 準拠のスコアリング重み */
+const W_L = 6;
+const W_C = 3;
+const W_POP = 1;
+
+/**
+ * colorthief 準拠のスコアリング（高いほど良い）
+ *
+ * 範囲外は -Infinity で失格。
+ * スコア = lDist * W_L + cDist * W_C + popNorm * W_POP
+ */
+const swatchScore = (
+  color: Color,
+  target: TargetDef,
+  maxPopulation: number,
 ): number => {
-  const ds = saturation - target.saturation;
-  const dl = luma - target.luma;
-  return Math.sqrt(W_SATURATION * ds * ds + W_LUMA * dl * dl);
+  const { l, c } = color.oklch();
+
+  if (l < target.minL || l > target.maxL) return -Infinity;
+  if (c < target.minC) return -Infinity;
+
+  const lDist = 1 - Math.abs(l - target.targetL);
+  const cDist = 1 - Math.min(Math.abs(c - target.targetC) / 0.2, 1);
+  const pop = maxPopulation > 0 ? color.population / maxPopulation : 0;
+
+  return lDist * W_L + cDist * W_C + pop * W_POP;
 };
 
 type SeedEntry = {
   color: Color;
-  distance: number;
+  score: number;
   swatchTarget: SwatchTarget;
 };
 
-/** 色群から target に最も近い色を返す（除外 index 指定可） */
-const findClosest = (
+/** 色群から target に最もスコアが高い色を返す（除外 index 指定可） */
+const findBest = (
   colors: Color[],
-  target: { saturation: number; luma: number },
+  target: TargetDef,
   excludeIndices: Set<number>,
-): { idx: number; distance: number } | null => {
+  maxPopulation: number,
+): { idx: number; score: number } | null => {
   let bestIdx = -1;
-  let bestDist = Infinity;
+  let bestScore = -Infinity;
   for (let i = 0; i < colors.length; i++) {
     if (excludeIndices.has(i)) continue;
-    const hsl = colors[i].hsl();
-    const dist = targetDistance(hsl.s / 100, hsl.l / 100, target);
-    if (dist < bestDist) {
-      bestDist = dist;
+    const s = swatchScore(colors[i], target, maxPopulation);
+    if (s > bestScore) {
+      bestScore = s;
       bestIdx = i;
     }
   }
-  return bestIdx === -1 ? null : { idx: bestIdx, distance: bestDist };
+  return bestIdx === -1 || bestScore === -Infinity
+    ? null
+    : { idx: bestIdx, score: bestScore };
 };
 
 /**
- * 軸内から固定 2 seed を選定（Vibrant + Muted）
+ * 軸内から固定 2 seed を選定（colorthief 準拠 Vibrant + Muted）
  *
- * 1色目: Vibrant target で最も近い色（鮮やか → syntax fg 向き）
- * 2色目: Muted target で最も近い色（控えめ → UI 向き）
+ * 1色目: Vibrant target で最高スコアの色（鮮やか → syntax fg 向き）
+ * 2色目: Muted target で最高スコアの色（控えめ → UI 向き）
  */
 const selectSeeds = (colors: Color[]): [SeedEntry, SeedEntry] | [SeedEntry] => {
-  const vResult = findClosest(colors, SWATCH_TARGETS.V, new Set());
+  const maxPop = Math.max(...colors.map((c) => c.population), 1);
+
+  const vResult = findBest(colors, SWATCH_TARGETS.V, new Set(), maxPop);
   if (!vResult) return [] as unknown as [SeedEntry];
   const vSeed: SeedEntry = {
     color: colors[vResult.idx],
-    distance: vResult.distance,
+    score: vResult.score,
     swatchTarget: "V",
   };
 
-  const mResult = findClosest(colors, SWATCH_TARGETS.M, new Set([vResult.idx]));
+  const mResult = findBest(
+    colors,
+    SWATCH_TARGETS.M,
+    new Set([vResult.idx]),
+    maxPop,
+  );
   if (!mResult) return [vSeed];
 
   const mSeed: SeedEntry = {
     color: colors[mResult.idx],
-    distance: mResult.distance,
+    score: mResult.score,
     swatchTarget: "M",
   };
 
@@ -155,7 +183,7 @@ const AXIS_LABEL_COUNT_OFFSET_X = 38;
 
 type SwatchRole = (typeof SWATCH_ROLES)[number];
 type ColorInfo = { hex: string; isDark: boolean };
-type SeedInfo = ColorInfo & { distance: number; swatchTarget: SwatchTarget };
+type SeedInfo = ColorInfo & { score: number; swatchTarget: SwatchTarget };
 type AxisInfo = {
   role: string;
   colors: ColorInfo[];
@@ -306,7 +334,7 @@ const generateBlock = (
     const seedCellW = USABLE_W / Math.max(slots.length, 1);
     for (let si = 0; si < slots.length; si++) {
       const { label, axisRole, seed } = slots[si];
-      const { hex, isDark, distance } = seed;
+      const { hex, isDark, score } = seed;
       const textColor = isDark ? "#ffffff" : "#000000";
       const roleColor = ROLE_COLORS[axisRole] ?? FALLBACK_ROLE_COLOR;
       const x = PAD + si * seedCellW;
@@ -322,7 +350,7 @@ const generateBlock = (
         `    <text x="${cx}" y="${Y_SEED + H_SEED - 8}" fill="${textColor}" font-size="8" text-anchor="middle">${hex}</text>`,
       );
       lines.push(
-        `    <text x="${x + seedCellW - 4}" y="${Y_SEED + 20}" fill="${textColor}" font-size="7" text-anchor="end" opacity="0.6">d=${distance.toFixed(2)}</text>`,
+        `    <text x="${x + seedCellW - 4}" y="${Y_SEED + 20}" fill="${textColor}" font-size="7" text-anchor="end" opacity="0.6">s=${score.toFixed(2)}</text>`,
       );
     }
   }
@@ -391,7 +419,7 @@ for (const game of ["genshin", "starrail"] as const) {
         colors: axis.colors.map(toColorInfo),
         seeds: seeds.map((s) => ({
           ...toColorInfo(s.color),
-          distance: s.distance,
+          score: s.score,
           swatchTarget: s.swatchTarget,
         })),
       };
