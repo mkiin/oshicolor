@@ -12,6 +12,8 @@ import {
   fileAtom,
   previewUrlAtom,
 } from "@/features/color-extractor/color-extractor.atoms";
+import { NeovimPreview } from "@/features/neovim-preview/components";
+import { SAMPLE_TYPESCRIPT } from "@/features/neovim-preview/sample-code";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
@@ -43,6 +45,36 @@ function RouteComponent() {
   return (
     <div className="p-8 max-w-5xl mx-auto space-y-6">
       <h1 className="text-xl font-bold">画像アップロード</h1>
+
+      <NeovimPreview
+        colors={{
+          bg: "#1e1e2e",
+          bgPopup: "#181825",
+          bgSurface: "#313244",
+          bgCursorLine: "#45475a",
+          bgVisual: "#585b70",
+          fg: "#cdd6f4",
+          comment: "#6c7086",
+          lineNr: "#45475a",
+          cursorLineNr: "#cba6f7",
+          border: "#585b70",
+          delimiter: "#6c7086",
+          keyword: "#cba6f7",
+          fn: "#89b4fa",
+          operator: "#89dceb",
+          string: "#a6e3a1",
+          type: "#f9e2af",
+          constant: "#fab387",
+          number: "#fab387",
+          accent: "#cba6f7",
+          searchBg: "#45475a",
+          pmenuSelBg: "#45475a",
+        }}
+        code={SAMPLE_TYPESCRIPT}
+        language="typescript"
+        fileName="theme-editor.tsx"
+        className="max-w-3xl"
+      />
       <Dropzone
         accept={{ "image/*": [] }}
         onFilesAccepted={(files) => setFile(files[0] ?? null)}
