@@ -21,9 +21,20 @@ const DOMINANT_COUNT = 5;
 
 // --- seed スコアリング（node-vibrant target 方式） ---
 
-/** node-vibrant の Vibrant/DarkVibrant target（saturation, luma は 0-1） */
-const VIBRANT_TARGET = { saturation: 0.74, luma: 0.45 };
-const DARK_VIBRANT_TARGET = { saturation: 0.74, luma: 0.26 };
+type VibrantRole = "V" | "DV" | "LV";
+
+/** node-vibrant の 3 target（saturation, luma は 0-1） */
+const VIBRANT_TARGETS: Record<
+  VibrantRole,
+  { saturation: number; luma: number }
+> = {
+  V: { saturation: 0.74, luma: 0.45 },
+  DV: { saturation: 0.74, luma: 0.26 },
+  LV: { saturation: 0.74, luma: 0.74 },
+};
+
+/** target 選定の優先順（Vibrant → DarkVibrant → LightVibrant） */
+const TARGET_ORDER: VibrantRole[] = ["V", "DV", "LV"];
 
 /** node-vibrant 準拠の重み付き距離 */
 const W_SATURATION = 3;
@@ -39,62 +50,67 @@ const targetDistance = (
   return Math.sqrt(W_SATURATION * ds * ds + W_LUMA * dl * dl);
 };
 
-/** DarkVibrant の距離閾値（これを超えるとフォールバック） */
-const DARK_DISTANCE_THRESHOLD = 0.5;
+/** 初期閾値と緩和ステップ */
+const INITIAL_THRESHOLD = 0.4;
+const THRESHOLD_STEP = 0.2;
 
-type SeedResult = { color: Color; distance: number };
-type SeedPair = {
-  bright: SeedResult;
-  dark: SeedResult | null;
+type SeedEntry = {
+  color: Color;
+  distance: number;
+  vibrantRole: VibrantRole;
 };
 
-/** HSL → hex 変換（フォールバック合成用） */
-const hslToHex = (h: number, s: number, l: number): string => {
-  const sn = s / 100;
-  const ln = l / 100;
-  const a = sn * Math.min(ln, 1 - ln);
-  const f = (n: number) => {
-    const k = (n + h / 30) % 12;
-    const color = ln - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
-    return Math.round(255 * Math.max(0, Math.min(1, color)))
-      .toString(16)
-      .padStart(2, "0");
-  };
-  return `#${f(0)}${f(8)}${f(4)}`;
-};
+/**
+ * 軸内から V/DV/LV の3 seed を選定（閾値段階緩和・重複排除）
+ *
+ * 各 target について:
+ * 1. 未使用色の中から最小距離の色を探す
+ * 2. 距離 <= 閾値 → 採用、次の target へ
+ * 3. 距離 > 閾値 → 閾値を THRESHOLD_STEP 分緩和して再判定
+ * 4. 未使用色がなくなったらその target はスキップ
+ */
+const selectSeeds = (colors: Color[]): SeedEntry[] => {
+  const seeds: SeedEntry[] = [];
+  const usedIndices = new Set<number>();
 
-/** 軸内から Vibrant/DarkVibrant の2 seed を選定 */
-const selectSeeds = (colors: Color[]): SeedPair => {
-  let bestBright: SeedResult = { color: colors[0], distance: Infinity };
-  let bestDark: SeedResult = { color: colors[0], distance: Infinity };
+  for (const role of TARGET_ORDER) {
+    const target = VIBRANT_TARGETS[role];
+    let threshold = INITIAL_THRESHOLD;
 
-  for (const color of colors) {
-    const hsl = color.hsl();
-    const s = hsl.s / 100;
-    const l = hsl.l / 100;
+    // biome-ignore lint/correctness/noConstantCondition: 閾値緩和ループ
+    while (true) {
+      let bestIdx = -1;
+      let bestDist = Infinity;
 
-    const vibrantDist = targetDistance(s, l, VIBRANT_TARGET);
-    if (vibrantDist < bestBright.distance) {
-      bestBright = { color, distance: vibrantDist };
+      for (let i = 0; i < colors.length; i++) {
+        if (usedIndices.has(i)) continue;
+        const hsl = colors[i].hsl();
+        const dist = targetDistance(hsl.s / 100, hsl.l / 100, target);
+        if (dist < bestDist) {
+          bestDist = dist;
+          bestIdx = i;
+        }
+      }
+
+      // 未使用色がない → この target はスキップ
+      if (bestIdx === -1) break;
+
+      if (bestDist <= threshold) {
+        seeds.push({
+          color: colors[bestIdx],
+          distance: bestDist,
+          vibrantRole: role,
+        });
+        usedIndices.add(bestIdx);
+        break;
+      }
+
+      // 閾値を緩和して再判定
+      threshold += THRESHOLD_STEP;
     }
-
-    const darkDist = targetDistance(s, l, DARK_VIBRANT_TARGET);
-    if (darkDist < bestDark.distance) {
-      bestDark = { color, distance: darkDist };
-    }
   }
 
-  // 同一色が両方で選ばれた場合 → Vibrant に割り当て、DarkVibrant は null
-  if (bestBright.color === bestDark.color) {
-    return { bright: bestBright, dark: null };
-  }
-
-  // DarkVibrant が閾値を超える場合 → フォールバック
-  if (bestDark.distance > DARK_DISTANCE_THRESHOLD) {
-    return { bright: bestBright, dark: null };
-  }
-
-  return { bright: bestBright, dark: bestDark };
+  return seeds;
 };
 
 // --- SVG レイアウト定数 ---
@@ -141,16 +157,23 @@ const ROLE_COLORS: Record<string, string> = {
   accent: "#cc66ff",
 };
 
+const FALLBACK_ROLE_COLOR = "#888888";
+
+/** axis 行内の色セルを最大で何列表示するか */
+const MAX_AXIS_CELLS = 8;
+
+/** axis ロール名の右に置くカウントラベルの x オフセット（PAD 基準） */
+const AXIS_LABEL_COUNT_OFFSET_X = 38;
+
 // --- 型 ---
 
 type SwatchRole = (typeof SWATCH_ROLES)[number];
 type ColorInfo = { hex: string; isDark: boolean };
-type SeedInfo = ColorInfo & { distance: number; isFallback: boolean };
+type SeedInfo = ColorInfo & { distance: number; vibrantRole: VibrantRole };
 type AxisInfo = {
   role: string;
   colors: ColorInfo[];
-  brightSeed: SeedInfo;
-  darkSeed: SeedInfo | null;
+  seeds: SeedInfo[];
 };
 type ExtractionResult = {
   dominantColors: ColorInfo[];
@@ -247,19 +270,19 @@ const generateBlock = (
   for (let ai = 0; ai < result.axes.length; ai++) {
     const axis = result.axes[ai];
     const rowY = Y_AXES + ai * H_AXIS_ROW;
-    const roleColor = ROLE_COLORS[axis.role] ?? "#888888";
+    const roleColor = ROLE_COLORS[axis.role] ?? FALLBACK_ROLE_COLOR;
 
     lines.push(
       `    <text x="${PAD}" y="${rowY + 22}" fill="${roleColor}" font-size="11" font-weight="bold">${axis.role}</text>`,
     );
     lines.push(
-      `    <text x="${PAD + 38}" y="${rowY + 22}" fill="#666666" font-size="9">(${axis.colors.length})</text>`,
+      `    <text x="${PAD + AXIS_LABEL_COUNT_OFFSET_X}" y="${rowY + 22}" fill="#666666" font-size="9">(${axis.colors.length})</text>`,
     );
 
     if (axis.colors.length > 0) {
       const cellW = Math.min(
         axisColorAreaW / axis.colors.length,
-        axisColorAreaW / 8,
+        axisColorAreaW / MAX_AXIS_CELLS,
       );
       for (let ci = 0; ci < axis.colors.length; ci++) {
         const { hex, isDark } = axis.colors[ci];
@@ -275,62 +298,37 @@ const generateBlock = (
     }
   }
 
-  // Seed Colors（5 seeds: main-bright, main-dark, sub-bright, sub-dark, accent）
+  // Seed Colors（各軸 V/DV/LV の最大9 seeds）
   if (result.axes.length > 0) {
     lines.push(
-      `    <text x="${PAD}" y="${Y_SEED + 4}" fill="#888888" font-size="9">seed colors (vibrant / dark-vibrant)</text>`,
+      `    <text x="${PAD}" y="${Y_SEED + 4}" fill="#888888" font-size="9">seed colors (V / DV / LV)</text>`,
     );
 
     // seed を flat なリストに展開
-    type SeedSlot = {
-      label: string;
-      role: string;
-      seed: SeedInfo;
-    };
+    type SeedSlot = { label: string; axisRole: string; seed: SeedInfo };
     const slots: SeedSlot[] = [];
     for (const axis of result.axes) {
-      const roleColor = axis.role;
-      slots.push({
-        label: `${roleColor}-B`,
-        role: roleColor,
-        seed: axis.brightSeed,
-      });
-      if (axis.darkSeed) {
+      for (const seed of axis.seeds) {
         slots.push({
-          label: `${roleColor}-D`,
-          role: roleColor,
-          seed: axis.darkSeed,
-        });
-      } else if (roleColor !== "accent") {
-        // フォールバック: bright seed を暗くして合成
-        const brightHsl = axis.brightSeed;
-        slots.push({
-          label: `${roleColor}-D`,
-          role: roleColor,
-          seed: { ...brightHsl, isFallback: true },
+          label: `${axis.role}-${seed.vibrantRole}`,
+          axisRole: axis.role,
+          seed,
         });
       }
     }
 
     const seedCellW = USABLE_W / Math.max(slots.length, 1);
     for (let si = 0; si < slots.length; si++) {
-      const { label, role, seed } = slots[si];
-      const { hex, isDark, distance, isFallback } = seed;
+      const { label, axisRole, seed } = slots[si];
+      const { hex, isDark, distance } = seed;
       const textColor = isDark ? "#ffffff" : "#000000";
-      const roleColor = ROLE_COLORS[role] ?? "#888888";
+      const roleColor = ROLE_COLORS[axisRole] ?? FALLBACK_ROLE_COLOR;
       const x = PAD + si * seedCellW;
       const cx = x + seedCellW / 2;
 
-      // フォールバック seed は破線ボーダー
-      if (isFallback) {
-        lines.push(
-          `    <rect x="${x}" y="${Y_SEED + 8}" width="${seedCellW}" height="${H_SEED - 12}" fill="${hex}" rx="3" stroke="#ff6666" stroke-width="1" stroke-dasharray="4,2"/>`,
-        );
-      } else {
-        lines.push(
-          `    <rect x="${x}" y="${Y_SEED + 8}" width="${seedCellW}" height="${H_SEED - 12}" fill="${hex}" rx="3"/>`,
-        );
-      }
+      lines.push(
+        `    <rect x="${x}" y="${Y_SEED + 8}" width="${seedCellW}" height="${H_SEED - 12}" fill="${hex}" rx="3"/>`,
+      );
       lines.push(
         `    <text x="${x + 4}" y="${Y_SEED + 20}" fill="${roleColor}" font-size="8" font-weight="bold" opacity="0.9">${label}</text>`,
       );
@@ -397,44 +395,19 @@ for (const game of ["genshin", "starrail"] as const) {
       }),
     ) as Record<SwatchRole, ColorInfo | null>;
 
-    // Color Axes + Seed 選定（Vibrant / DarkVibrant target 方式）
+    // Color Axes + Seed 選定（V/DV/LV × 閾値段階緩和）
     const paletteColors = palette ?? [];
     const colorAxes = deriveColorAxes(paletteColors);
     const axes: AxisInfo[] = colorAxes.map((axis) => {
-      const { bright, dark } = selectSeeds(axis.colors);
-
-      // dark seed のフォールバック合成（bright の HSL lightness を下げる）
-      let darkSeedInfo: SeedInfo | null = null;
-      if (dark) {
-        darkSeedInfo = {
-          ...toColorInfo(dark.color),
-          distance: dark.distance,
-          isFallback: false,
-        };
-      } else if (axis.role !== "accent") {
-        const brightHsl = bright.color.hsl();
-        const fallbackHex = hslToHex(
-          brightHsl.h,
-          brightHsl.s,
-          Math.max(brightHsl.l - 20, 5),
-        );
-        darkSeedInfo = {
-          hex: fallbackHex,
-          isDark: true,
-          distance: -1,
-          isFallback: true,
-        };
-      }
-
+      const seeds = selectSeeds(axis.colors);
       return {
         role: axis.role,
         colors: axis.colors.map(toColorInfo),
-        brightSeed: {
-          ...toColorInfo(bright.color),
-          distance: bright.distance,
-          isFallback: false,
-        },
-        darkSeed: darkSeedInfo,
+        seeds: seeds.map((s) => ({
+          ...toColorInfo(s.color),
+          distance: s.distance,
+          vibrantRole: s.vibrantRole,
+        })),
       };
     });
 

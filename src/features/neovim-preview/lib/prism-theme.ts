@@ -6,7 +6,7 @@
 import type { PrismTheme } from "prism-react-renderer";
 import type { NeovimColorTokens } from "@/features/neovim-preview/types";
 
-const buildPrismTheme = (colorTokens: NeovimColorTokens): PrismTheme => {
+export const buildPrismTheme = (colorTokens: NeovimColorTokens): PrismTheme => {
   return {
     plain: {
       color: colorTokens.fg,
@@ -79,5 +79,3 @@ const buildPrismTheme = (colorTokens: NeovimColorTokens): PrismTheme => {
     ],
   };
 };
-
-export { buildPrismTheme };
