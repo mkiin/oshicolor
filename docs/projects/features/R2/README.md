@@ -1,7 +1,6 @@
 # R2 カラースキーム生成（カラーマッピング）
 
 抽出パレットから Neovim カラースキームの HighlightMap を自動生成する機能。
-抽出パレットから Neovim カラースキームの HighlightMap を自動生成する機能。
 
 ## バージョン履歴
 
@@ -12,7 +11,7 @@
 | V3  | bg neutral 生成 + コンセプトシステム   | k-means 12色では Hue 多様性不足 / C ランク限界   |
 | V4  | node-vibrant MMCQ 64色 + mini.hues     | 生成色が浮く / HSL-OkLch 混在の複雑さ / R1 の3軸を活かせていない |
 | V5  | 3 seed × tonal palette (HCT) + neutral | 各軸1色では特徴色を逃す / seed スコアリングが OkLch 依存 |
-| V6  | 明度2分割 seed (Vibrant/DarkVibrant) × tonal palette | デバッグ SVG のみ実装。tonal palette 生成・ロール割り当て・HighlightMap は未実装 |
+| V6  | 3 target seed (V/DV/LV) × 閾値段階緩和 | デバッグ SVG のみ実装。tonal palette 以降は未実装 |
 
 ## 設計変遷
 
@@ -37,9 +36,9 @@ V5: "R1 の3軸から seed → HCT tonal palette で展開"
      + Tone 差で WCAG AA コントラストを保証
      → 各軸1色では特徴色を逃す
 
-V6: "明度2分割 seed（Vibrant/DarkVibrant）で軸あたり2色"
-     + node-vibrant target 方式でスコアリング
-     + bright → syntax、dark → UI アクセントの用途分担
+V6: "3 target seed（V/DV/LV）× 閾値段階緩和で軸あたり最大3色"
+     + node-vibrant の Vibrant/DarkVibrant/LightVibrant target
+     + 色合成フォールバック廃止 → 閾値緩和で軸内の色を使い切る
      → デバッグ SVG のみ。tonal palette 以降は未実装
 ```
 

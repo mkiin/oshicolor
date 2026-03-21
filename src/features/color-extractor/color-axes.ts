@@ -4,8 +4,8 @@ import { kmeans } from "ml-kmeans";
 import type { ColorAxis } from "./color-extractor.types";
 
 const CLUSTER_COUNT = 3;
-const MIN_CHROMA = 0.03; // 彩度の下限値
-const MIN_LIGHTNESS = 0.2; // 明度の下限値
+const MIN_CHROMA = 0.0; // 彩度の下限値
+const MIN_LIGHTNESS = 0.0; // 明度の下限値
 
 // culoriの変換関数
 const toOklch = useMode(modeOklch);
