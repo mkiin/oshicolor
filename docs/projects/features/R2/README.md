@@ -14,7 +14,8 @@
 | V6  | 3 target seed (V/DV/LV) × 閾値段階緩和 | seed 数が軸・キャラで 1〜3 にばらつく / tonal palette 以降は未実装 |
 | V7  | V + DV/LV 競合選定で seed 数固定化 | node-vibrant HSL ベースで colorthief の Vibrant と不一致 |
 | V8  | colorthief 準拠 OkLch Vibrant + Muted | 軸ベースが不必要に複雑 / 上位5色にない特徴色の欠落 / 単調な seed 構成 |
-| V9  | ドミナント5色 seed + ハイライトグループ割り当て | 開発中 |
+| V9  | ドミナント5色 seed + ハイライトグループ割り当て | neutral 源が無精査 / seed ロール概念なし / アクセント色なし / 全体的に渋い |
+| V10 | neutral 源精査 + seed ロールスコアリング + Vibrant 系アクセント | 開発中 |
 
 ## 設計変遷
 
@@ -58,13 +59,19 @@ V9: "ドミナント5色 seed + ハイライトグループ割り当て"
      + 軸ベース廃止 → getPalette(colorCount: 5) のドミナント5色をそのまま seed
      + neutral palette（d1.hue + 極小 chroma + L 9段階）
      + 5 seed → 66 ハイライトグループ割り当て
-     + くすみ問題（Vibrant 系補完）は V10 で対処
+     → neutral 源が無精査 / seed ロール概念なし / アクセント色なし
+
+V10: "neutral 源精査 + seed ロールスコアリング + Vibrant 系アクセント"
+     + 5色から C 最低の色を neutral 源に自動選定
+     + swatch Vibrant 系（V/DkV/LtV）を keyword 等の要所に導入
+     + seed ロールスコアリング（statement / storage 等に適性判定）
+     + fg-adjuster に MIN_CHROMA 追加で彩度底上げ
      → 開発中
 ```
 
-## 現行: V9
+## 現行: V10
 
-[`V9/plan.md`](V9/plan.md)
+[`V10/plan.md`](V10/plan.md)
 
 ## VX/ 配下のファイル命名規則
 

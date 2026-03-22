@@ -1,22 +1,25 @@
-import type { Color } from "colorthief";
+import type { Color, SwatchMap } from "colorthief";
 import type { HighlightBundle } from "../highlight-mapper.types";
+import { selectNeutralHue } from "./neutral-source";
 import { generateNeutralPalette } from "./neutral-palette";
 import { adjustFgLightness } from "./fg-adjuster";
 import { generateDiagnosticColors } from "./diagnostic-colors";
 import { mapHighlightGroups } from "./highlight-groups";
 
 /**
- * ドミナント 5色から HighlightBundle を生成する
+ * ドミナント 5色 + swatch から HighlightBundle を生成する
  *
- * 純粋関数。副作用なし。
- * seeds[0] (primary) → neutral palette + diagnostic の tone 基準
- * seeds[0..4] → fg 色調整 → 66 ハイライトグループへマッピング
+ * neutral 源: DkMuted → Muted → dominant C 最低 の優先順で hue を選定
+ * diagnostic: neutral 源と同じ色の tone を基準にする
  */
-export const buildHighlightMap = (seeds: Color[]): HighlightBundle => {
-  const primaryOklch = seeds[0].oklch();
+export const buildHighlightMap = (
+  seeds: Color[],
+  swatches: SwatchMap,
+): HighlightBundle => {
+  const neutralOklch = selectNeutralHue(seeds, swatches);
 
-  const neutral = generateNeutralPalette(primaryOklch);
-  const diagnostic = generateDiagnosticColors(primaryOklch);
+  const neutral = generateNeutralPalette(neutralOklch);
+  const diagnostic = generateDiagnosticColors(neutralOklch);
 
   const seedFgs = seeds.map((seed) => adjustFgLightness(seed.oklch())) as [
     string,
