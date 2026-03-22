@@ -1,82 +1,108 @@
-# R5/V1 Neovim 再現プレビューコンポーネント
+# R5/V1 Neovim プレビュー改善（HighlightMap 対応）
 
 ## なぜ V1 が必要か
 
-R2 でカラーパレットからハイライトグループへの色割り当てを実装中だが、結果の評価には実際のエディタ表示に近いプレビューが必要。既存の `r5-preview-editor.md` に設計がまとめられているので、これに基づいて初期実装を行う。
+既存の `src/features/neovim-preview/` に Neovim 風プレビューコンポーネントが実装済みだが、以下の課題がある:
+
+1. **`NeovimColorTokens` が R2 の HighlightMap と乖離** — 独自の省略名（`fn`, `kw`, `op`）で、R2/V9 の 66 グループに対応していない
+2. **bg が全て同じ色** — `Normal.bg`, `CursorLine.bg`, `StatusLine.bg` の区別がない
+3. **CursorLine のハイライトがない** — カーソル行の背景色が未実装
+4. **行番号の色が `comment` を流用** — `LineNr` / `CursorLineNr` の区別なし
+5. **サンプルコードが外部から渡す必要がある** — 組み込みのデフォルトサンプルがない
+
+## 既存実装の評価
+
+### そのまま使える
+
+- コンポーネント分割（Preview → EditorArea → Gutter + CodeBlock、StatusLine、Tabline）
+- `prism-react-renderer` の `Highlight` コンポーネントの使い方
+- `buildPrismTheme` による `PrismTheme` 生成
+- Jotai + `useHydrateAtoms` の hydration パターン
+- `Provider key={JSON.stringify(colors)}` による atom store リセット
+
+### 変更が必要
+
+- `NeovimColorTokens` 型 → R2/V9 の `HighlightMap` 互換型に拡張
+- `atoms.ts` のデフォルト値 → neutral palette 段階値に対応
+- 各コンポーネントが参照するカラートークン → 拡張型に合わせて更新
+- `prism-theme.ts` のマッピング → 拡張型に合わせて更新
 
 ## 設計方針
 
-既存設計ドキュメント（`docs/projects/features/R5/r5-preview-editor.md`）に従う。
+### NeovimColorTokens の拡張
 
-### 核心: CSS 変数ベースのリアルタイムプレビュー
+現行の省略名を HighlightMap の命名に合わせて拡張する:
 
+```typescript
+// 現行
+type NeovimColorTokens = {
+  bg: string;      // Normal.bg のみ
+  fg: string;
+  comment: string;
+  fn: string;
+  kw: string;
+  // ...
+};
+
+// V1 拡張
+type NeovimColorTokens = {
+  // bg 階層（neutral palette 対応）
+  bg: string;           // Normal.bg
+  bgPopup: string;      // Pmenu.bg
+  bgSurface: string;    // StatusLine.bg
+  bgCursorLine: string; // CursorLine.bg
+  bgVisual: string;     // Visual.bg
+
+  // fg 階層
+  fg: string;           // Normal.fg
+  comment: string;      // Comment.fg
+  lineNr: string;       // LineNr.fg
+  cursorLineNr: string; // CursorLineNr.fg
+  border: string;       // WinSeparator.fg / NonText.fg
+  delimiter: string;    // Delimiter.fg
+
+  // syntax（Vibrant seed 由来）
+  keyword: string;      // Keyword / Statement / Conditional / Repeat
+  fn: string;           // Function
+  operator: string;     // Operator
+  string: string;       // String / Character
+  type: string;         // Type
+  constant: string;     // Constant / Special
+  number: string;       // Number / Boolean / Float
+
+  // UI（Muted seed 由来）
+  accent: string;       // ステータスラインのモード表示等
+  searchBg: string;     // Search.bg
+  pmenuSelBg: string;   // PmenuSel.bg
+};
 ```
-HighlightMap → CSS 変数インジェクト → prism-react-renderer の DOM に即反映
+
+### CursorLine の実装
+
+CodeBlock コンポーネントでカーソル行（固定位置、例: 3行目）に `bgCursorLine` を適用:
+
+```tsx
+<div style={{
+  backgroundColor: isCursorLine ? bgCursorLine : 'transparent'
+}}>
 ```
 
-- prism-react-renderer で一度トークナイズ → CSS 変数の差し替えだけで色が即座に更新
-- Jotai で状態管理、override で個別色の上書きが可能
+### サンプルコード組み込み
 
-### コンポーネント構成
-
-```
-src/features/neovim-preview/
-├── components/
-│   ├── nvim-preview.tsx          # Neovim 風 UI（行番号 + コード + ステータス行）
-│   ├── code-preview.tsx          # prism-react-renderer でトークンレンダリング
-│   └── color-swatch.tsx          # カラースウォッチ表示
-├── hooks/
-│   └── use-editor-colors.ts      # HighlightMap → CSS 変数インジェクト
-├── constants/
-│   └── sample-code.ts            # TypeScript / Python / Lua サンプルコード
-├── lib/
-│   ├── token-class-map.ts        # Prism トークン → HighlightMap キー
-│   └── prism-theme.ts            # CSS 変数ベースの Prism テーマ定義
-└── neovim-preview.types.ts       # 型定義
-```
-
-### Neovim UI 再現
-
-```
-┌─────────────────────────────────────────────────┐ ← Normal.bg
-│  1  │ import { useState } from 'react';           │
-│  2  │                                             │
-│  3  │ function App() {                            │ ← CursorLine.bg
-│  4  │   const [count, setCount] = useState(0);   │
-│  5  │   return <div>{count}</div>;                │
-│  6  │ }                                           │
-├─────────────────────────────────────────────────┤
-│ NORMAL  src/App.tsx           5:1     utf-8      │ ← StatusLine.bg
-└─────────────────────────────────────────────────┘
-```
+`constants/sample-code.ts` に TypeScript / Python / Lua のサンプルを定数として定義。各サンプルは以下のトークンを含む: comment, string, function, keyword, type, number, boolean, operator
 
 ## 実装タスク
 
-1. **prism-react-renderer のセットアップ**
-   - パッケージインストール
-   - トークン → HighlightMap キーのマッピング定義
-   - CSS 変数ベースの Prism テーマ作成
-
-2. **nvim-preview コンポーネント**
-   - 行番号列（LineNr / CursorLineNr）
-   - コード領域（Normal.bg + syntax ハイライト）
-   - ステータスライン（StatusLine.bg/fg）
-
-3. **CSS 変数インジェクト hook**
-   - HighlightMap → CSS 変数への変換
-   - `<style>` タグへの動的インジェクト
-
-4. **サンプルコード定数**
-   - TypeScript / Python / Lua の 3 言語
-   - 各トークン種別（comment, string, function, keyword, type, number）を含む
+1. **`NeovimColorTokens` 型の拡張** — bg 階層 + fg 階層 + syntax 名の正規化
+2. **`atoms.ts` の更新** — 拡張型に合わせたデフォルト値
+3. **`prism-theme.ts` の更新** — 拡張型のフィールド名に合わせる
+4. **`NeovimGutter` の改善** — `lineNr` / `cursorLineNr` の色分け
+5. **`NeovimCodeBlock` の改善** — CursorLine 背景の実装
+6. **`NeovimEditorArea` の改善** — bg 階層の適用
+7. **`NeovimStatusLine` の改善** — `bgSurface` を StatusLine 背景に使用
+8. **`NeovimTabline` の改善** — `bgSurface` を Tabline 背景に使用
+9. **サンプルコード定数** — 3 言語分の組み込みサンプル
 
 ## 依存パッケージ
 
-| パッケージ | 用途 |
-| --- | --- |
-| `prism-react-renderer` | コードのトークナイズ + レンダリング |
-
-## 備考
-
-- カラーピッカー（react-colorful）は V1 スコープ外。まず表示のみ
-- R2/V9 の HighlightMap 生成と並行して進められる
+変更なし。`prism-react-renderer` は既にインストール済み。

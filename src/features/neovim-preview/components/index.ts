@@ -1,3 +1,2 @@
-import type { NeovimPreview, NeovimPreviewProps } from "./neovim-preview";
-
-export type { NeovimPreview, NeovimPreviewProps };
+export { NeovimPreview } from "./neovim-preview";
+export type { NeovimPreviewProps } from "./neovim-preview";

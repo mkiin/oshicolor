@@ -1,16 +1,18 @@
-// プレビューコンポーネントの行番号・サインカラムUI
 import { useAtomValue } from "jotai";
 import type React from "react";
 import {
   colorTokensAtom,
+  cursorLineAtom,
   lineCountAtom,
   showLineNumberAtom,
-} from "@/features/neovim-preview/stores/atoms";
+} from "@/features/neovim-preview/neovim-preview.atoms";
 
 export const NeovimGutter: React.FC = () => {
-  const { bg, comment } = useAtomValue(colorTokensAtom);
+  const { bg, lineNr, cursorLineNr, bgCursorLine } =
+    useAtomValue(colorTokensAtom);
   const lineCount = useAtomValue(lineCountAtom);
   const showLineNumber = useAtomValue(showLineNumberAtom);
+  const cursorLine = useAtomValue(cursorLineAtom);
 
   if (!showLineNumber) return null;
 
@@ -18,21 +20,34 @@ export const NeovimGutter: React.FC = () => {
     <div
       style={{
         backgroundColor: bg,
-        color: comment,
-        padding: "0.5rem 0.75rem 0.5rem 0.5rem",
+        padding: "0.5rem 0",
         textAlign: "right",
         fontFamily: "monospace",
         fontSize: "13px",
         lineHeight: "1.5",
         userSelect: "none",
-        // 行数の桁数に応じて最小幅を確保する
         minWidth: `${String(lineCount).length + 2}ch`,
       }}
     >
-      {Array.from({ length: lineCount }, (_, i) => (
-        // biome-ignore lint/suspicious/noArrayIndexKey: 行番号には安定したIDがないためインデックスを使用する
-        <div key={i + 1}>{i + 1}</div>
-      ))}
+      {Array.from({ length: lineCount }, (_, i) => {
+        const lineNum = i + 1;
+        const isCursor = lineNum === cursorLine;
+        return (
+          <div
+            // biome-ignore lint/suspicious/noArrayIndexKey: 行番号には安定した ID がないためインデックスを使用
+            key={lineNum}
+            style={{
+              color: isCursor ? cursorLineNr : lineNr,
+              backgroundColor: isCursor ? bgCursorLine : "transparent",
+              fontWeight: isCursor ? "bold" : "normal",
+              paddingRight: "0.75rem",
+              paddingLeft: "0.5rem",
+            }}
+          >
+            {lineNum}
+          </div>
+        );
+      })}
     </div>
   );
 };
