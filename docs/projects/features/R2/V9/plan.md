@@ -1,190 +1,164 @@
-# R2/V9 ハイライトグループ割り当て
+# R2/V9 ドミナント5色 seed + ハイライトグループ割り当て
 
 ## なぜ V9 が必要か
 
-V5〜V8 で seed 選定ロジックを確立した（colorthief 準拠 OkLch Vibrant + Muted）。V9 では seed から実際の Neovim ハイライトグループへの色割り当てを実装する。
+V5〜V8 で K-means 3軸 → 各軸 Vibrant+Muted のパイプラインを構築してきたが、以下の問題が判明した（[V8/issues.md](../V8/issues.md)）:
 
-## 入力
+1. **軸ベース seed 選定が不必要に複雑** — ドミナント5色がそもそもキャラ特徴を捉えている
+2. **上位5色にない特徴色が seed に入らない** — population に潰される問題（V10 以降で対処）
+3. **単調な seed 構成** — 同系色が多いキャラで seeds が似通う（V10 以降で対処）
 
-```
-6 seeds:
-  main-V     鮮やかなメインカラー
-  main-M     控えめなメインカラー
-  sub-V      鮮やかなサブカラー
-  sub-M      控えめなサブカラー
-  accent-V   鮮やかなアクセント
-  accent-M   控えめなアクセント
-```
+V9 では軸ベースを廃止し、最速でリリース可能な構成を目指す:
+- colorthief `getPalette(colorCount: 5)` のドミナント5色をそのまま seed にする
+- 5 seed → Neovim ハイライトグループへの割り当てを定義・実装する
+
+くすみ問題（Vibrant 系による彩度補完）は実際の配色結果を見た上で V10 で設計する。
+
+## 前版との変更対照表
+
+| 項目 | V8 | V9 |
+| ---- | ---- | ------ |
+| seed 選定 | 3軸 × Vibrant+Muted スコアリング（6 seeds） | ドミナント5色そのまま（5 seeds） |
+| 依存 | K-means (ml-kmeans) + OkLch スコアリング | colorthief `getPalette` のみ |
+| color-axes.ts | 使用 | 不要（削除候補） |
+| ハイライト割り当て | 未実装 | 本バージョンで実装 |
 
 ## 設計方針
 
-### 色源の分担
+### seed 構成
 
-| 色源 | 用途 | 生成方法 |
+```
+画像 → getPalette(colorCount: 5) → [d1, d2, d3, d4, d5]
+                                     population 順（d1 が最多）
+```
+
+5色に以下のロールを割り当てる:
+
+| ロール | seed | 用途 |
 | --- | --- | --- |
-| neutral | bg / surface / テキスト | main-V.hue + 極小 chroma + L 段階 |
-| main-V | 主要 syntax fg | seed の hue/chroma 保持、L を調整 |
-| sub-V | 副 syntax fg | 同上 |
-| accent-V | アクセント syntax fg | 同上 |
-| main-M | UI アクセント | seed の hue/chroma 保持、L を調整 |
-| sub-M | UI 控えめ要素 | 同上 |
-| accent-M | UI 補助 | 同上 |
-| diagnostic | Error/Warn/Info/Hint | 固定 hue、全体の tone に合わせて L/C 調整 |
+| primary | d1 | neutral palette の hue 源 + 主要 UI |
+| secondary | d2 | 副 syntax fg |
+| tertiary | d3 | syntax fg |
+| quaternary | d4 | syntax fg |
+| quinary | d5 | syntax fg / アクセント |
 
-### fg の lightness 決定
-
-seed の hue/chroma を保ちながら、bg（neutral の最暗色）とのコントラストが取れる lightness に設定する。
+**ロール割り当てロジック**: population 順をそのまま使う。d1 が最も面積が大きい = キャラの「地の色」であり、neutral の hue として最適。d2〜d5 は syntax fg に使う。
 
 ### neutral palette
 
-main-V の hue を借り、chroma を極小（0.02〜0.04）にして lightness の段階で bg/surface/テキストを生成:
+d1 の hue を借り、chroma を極小にして lightness の段階で bg/surface/テキストを生成:
 
 ```
-OkLch(L=段階値, C=0.02〜0.04, H=main-V.hue)
+neutral[段階] = OkLch(L=段階値, C=0.02〜0.04, H=d1.hue)
 ```
 
-## ハイライトグループ（初期スコープ: 70 グループ）
+| 変数名 | OkLch L | 用途 |
+| --- | --- | --- |
+| `neutral.popup` | 0.20 | Pmenu.bg |
+| `neutral.bg` | 0.22 | Normal.bg |
+| `neutral.surface` | 0.24 | StatusLine.bg |
+| `neutral.cursorline` | 0.28 | CursorLine.bg |
+| `neutral.visual` | 0.34 | Visual.bg |
+| `neutral.dim` | 0.42 | LineNr.fg |
+| `neutral.border` | 0.50 | WinSeparator |
+| `neutral.comment` | 0.58 | Comment.fg |
+| `neutral.fg` | 0.88 | Normal.fg |
 
-xeno.nvim / mini.hues / catppuccin / tokyonight の共通グループから厳選。
+### syntax fg の lightness 決定
+
+seed の hue/chroma を保ちながら、bg（neutral.bg = L:0.22）とのコントラストが取れる L に調整する。
+
+### diagnostic 色
+
+固定 hue、全体の tone に合わせて L/C 調整:
+
+```
+diag.error = OkLch(L=d1.l, C=d1.c * 0.8, H=25)   赤
+diag.warn  = OkLch(L=d1.l, C=d1.c * 0.8, H=85)   黄橙
+diag.info  = OkLch(L=d1.l, C=d1.c * 0.8, H=250)  青
+diag.hint  = OkLch(L=d1.l, C=d1.c * 0.8, H=165)  シアン
+```
+
+## ハイライトグループ（66 グループ）
 
 ### Editor UI（26 グループ）
 
-| グループ | fg | bg | 装飾 | 説明 |
+| グループ | fg | bg | 装飾 | 色源 |
 | --- | --- | --- | --- | --- |
-| Normal | neutral.fg | neutral.bg | — | 通常テキスト + 背景 |
-| NormalFloat | neutral.fg | neutral.surface | — | フローティングウィンドウ |
-| FloatBorder | sub-M | — | — | フローティングボーダー |
-| CursorLine | — | neutral.cursorline | — | カーソル行背景 |
-| CursorLineNr | main-V | — | bold | カーソル行番号 |
-| LineNr | neutral.dim | — | — | 行番号 |
-| Visual | — | neutral.visual | — | 選択範囲 |
-| Search | main-V.fg | main-M | — | 検索ハイライト |
-| IncSearch | neutral.bg | main-V | — | インクリメンタル検索 |
-| CurSearch | neutral.bg | main-V | bold | 現在の検索マッチ |
-| MatchParen | — | neutral.visual | bold | 括弧マッチ |
-| Pmenu | neutral.fg | neutral.surface | — | ポップアップメニュー |
-| PmenuSel | — | main-M | — | ポップアップ選択行 |
-| PmenuSbar | — | neutral.surface | — | ポップアップスクロールバー |
-| PmenuThumb | — | neutral.dim | — | ポップアップスクロール位置 |
-| StatusLine | neutral.fg | neutral.surface | — | ステータスライン |
-| StatusLineNC | neutral.dim | neutral.bg | — | 非アクティブステータスライン |
-| TabLine | neutral.dim | neutral.surface | — | タブライン |
-| TabLineSel | main-V | neutral.surface | bold | 選択タブ |
-| TabLineFill | — | neutral.bg | — | タブライン余白 |
-| WinSeparator | neutral.border | — | — | ウィンドウ分割線 |
-| Folded | neutral.dim | neutral.surface | — | 折り畳み行 |
-| FoldColumn | neutral.dim | — | — | 折り畳みカラム |
-| SignColumn | — | neutral.bg | — | サインカラム |
-| NonText | neutral.border | — | — | 非テキスト文字 |
-| Title | main-V | — | bold | タイトル |
+| Normal | neutral.fg | neutral.bg | — | neutral |
+| NormalFloat | neutral.fg | neutral.surface | — | neutral |
+| FloatBorder | d2 | — | — | secondary |
+| CursorLine | — | neutral.cursorline | — | neutral |
+| CursorLineNr | d1 | — | bold | primary |
+| LineNr | neutral.dim | — | — | neutral |
+| Visual | — | neutral.visual | — | neutral |
+| Search | d1(fg) | d2(bg, 低opacity) | — | primary+secondary |
+| IncSearch | neutral.bg | d1 | — | primary |
+| CurSearch | neutral.bg | d1 | bold | primary |
+| MatchParen | — | neutral.visual | bold | neutral |
+| Pmenu | neutral.fg | neutral.surface | — | neutral |
+| PmenuSel | — | d2(bg, 低opacity) | — | secondary |
+| PmenuSbar | — | neutral.surface | — | neutral |
+| PmenuThumb | — | neutral.dim | — | neutral |
+| StatusLine | neutral.fg | neutral.surface | — | neutral |
+| StatusLineNC | neutral.dim | neutral.bg | — | neutral |
+| TabLine | neutral.dim | neutral.surface | — | neutral |
+| TabLineSel | d1 | neutral.surface | bold | primary |
+| TabLineFill | — | neutral.bg | — | neutral |
+| WinSeparator | neutral.border | — | — | neutral |
+| Folded | neutral.dim | neutral.surface | — | neutral |
+| FoldColumn | neutral.dim | — | — | neutral |
+| SignColumn | — | neutral.bg | — | neutral |
+| NonText | neutral.border | — | — | neutral |
+| Title | d1 | — | bold | primary |
 
 ### Syntax 基本（20 グループ）
 
 | グループ | fg | 装飾 | 色源 |
 | --- | --- | --- | --- |
 | Comment | neutral.comment | italic | neutral |
-| Keyword | main-V | — | main |
-| Statement | main-V | — | main |
-| Conditional | main-V | — | main |
-| Repeat | main-V | — | main |
-| Function | main-V | — | main |
-| Operator | main-M | — | main |
-| String | sub-V | — | sub |
-| Character | sub-V | — | sub |
-| Type | sub-V | — | sub |
-| Number | accent-V | — | accent |
-| Boolean | accent-V | — | accent |
-| Float | accent-V | — | accent |
-| Constant | accent-V | — | accent |
-| Special | accent-V | — | accent |
+| Keyword | d2 | — | secondary |
+| Statement | d2 | — | secondary |
+| Conditional | d2 | — | secondary |
+| Repeat | d2 | — | secondary |
+| Function | d3 | — | tertiary |
+| Operator | d4 | — | quaternary |
+| String | d3 | — | tertiary |
+| Character | d3 | — | tertiary |
+| Type | d4 | — | quaternary |
+| Number | d5 | — | quinary |
+| Boolean | d5 | — | quinary |
+| Float | d5 | — | quinary |
+| Constant | d5 | — | quinary |
+| Special | d5 | — | quinary |
 | Delimiter | neutral.dim | — | neutral |
 | Identifier | neutral.fg | — | neutral |
-| PreProc | main-V | — | main |
-| Include | main-V | — | main |
-| Todo | accent-V | bold | accent |
+| PreProc | d2 | — | secondary |
+| Include | d2 | — | secondary |
+| Todo | d5 | bold | quinary |
 
 ### Diagnostic（16 グループ）
 
-| グループ | fg | bg | 装飾 | 説明 |
-| --- | --- | --- | --- | --- |
-| DiagnosticError | diag.error | — | — | エラー |
-| DiagnosticWarn | diag.warn | — | — | 警告 |
-| DiagnosticInfo | diag.info | — | — | 情報 |
-| DiagnosticHint | diag.hint | — | — | ヒント |
-| DiagnosticVirtualTextError | diag.error | — | — | 仮想テキスト |
-| DiagnosticVirtualTextWarn | diag.warn | — | — | 仮想テキスト |
-| DiagnosticVirtualTextInfo | diag.info | — | — | 仮想テキスト |
-| DiagnosticVirtualTextHint | diag.hint | — | — | 仮想テキスト |
-| DiagnosticUnderlineError | — | — | undercurl | 下線 |
-| DiagnosticUnderlineWarn | — | — | undercurl | 下線 |
-| DiagnosticUnderlineInfo | — | — | undercurl | 下線 |
-| DiagnosticUnderlineHint | — | — | undercurl | 下線 |
-| DiagnosticSignError | diag.error | — | — | サイン |
-| DiagnosticSignWarn | diag.warn | — | — | サイン |
-| DiagnosticSignInfo | diag.info | — | — | サイン |
-| DiagnosticSignHint | diag.hint | — | — | サイン |
+旧 V9 と同じ。固定 hue + d1 の tone に合わせて L/C 調整。
 
 ### Diff（4 グループ）
 
-| グループ | bg | 説明 |
-| --- | --- | --- |
-| DiffAdd | diag.hint (低 chroma) | 追加行 |
-| DiffChange | diag.info (低 chroma) | 変更行 |
-| DiffDelete | diag.error (低 chroma) | 削除行 |
-| DiffText | diag.info | 変更テキスト |
-
-### Diagnostic 色の生成
-
-固定 hue だが、全体の tone（main-V の lightness/chroma）に合わせて調整:
-
-```
-diag.error = OkLch(L=main-V.l, C=main-V.c * 0.8, H=25)   赤
-diag.warn  = OkLch(L=main-V.l, C=main-V.c * 0.8, H=85)   黄橙
-diag.info  = OkLch(L=main-V.l, C=main-V.c * 0.8, H=250)  青
-diag.hint  = OkLch(L=main-V.l, C=main-V.c * 0.8, H=165)  シアン
-```
-
-**合計: 66 グループ**
-
-## Neutral Palette 設計
-
-### L 段階値
-
-tokyonight / catppuccin / rose-pine の実測平均から導出:
-
-| 変数名 | OkLch L | 用途 | 参照テーマ平均 |
-| --- | --- | --- | --- |
-| `neutral.popup` | 0.20 | Pmenu.bg（最暗） | 0.23 |
-| `neutral.bg` | 0.22 | Normal.bg | 0.24 |
-| `neutral.surface` | 0.24 | StatusLine.bg | 0.24 |
-| `neutral.cursorline` | 0.28 | CursorLine.bg | 0.30 |
-| `neutral.visual` | 0.34 | Visual.bg | — |
-| `neutral.dim` | 0.42 | LineNr.fg | 0.44 |
-| `neutral.border` | 0.50 | WinSeparator / NonText | 0.52 |
-| `neutral.comment` | 0.58 | Comment.fg | 0.61 |
-| `neutral.fg` | 0.88 | Normal.fg | 0.88 |
-
-### 生成方法
-
-全て同一の hue / chroma で lightness のみ変える:
-
-```
-neutral[段階] = OkLch(L=段階値, C=0.02〜0.04, H=main-V.hue)
-```
-
-main-V の hue を借りることで、背景にキャラクターの色味がほんのり乗る。
+旧 V9 と同じ。diagnostic 色の低 chroma 版。
 
 ## 未決定事項
 
 - neutral の chroma 値（0.02 vs 0.04 — 実色を見て判断）
-- syntax fg の L 値（seed の L をそのまま使うか、bg とのコントラスト比で計算するか）
-- Treesitter (@*) グループの追加（第2段階）
+- syntax fg の L 値計算方法（seed の L をそのまま使うか、bg とのコントラスト比で計算するか）
+- d1 が極端にくすんでいる場合の diagnostic 色の品質（d1.c が低すぎると diagnostic 色もくすむ）
+- Treesitter (@*) グループの追加（Phase 2）
 - ライトテーマ対応
 
 ## 実装タスク
 
-1. neutral palette 生成関数（OkLch → hex 変換）
-2. seed → fg 色変換関数（L 調整）
-3. diagnostic 色生成関数（固定 hue + tone 合わせ）
-4. ハイライトグループマッピング定義（66 グループ）
-5. デバッグ SVG にハイライトプレビューを追加
+1. seed 選定の簡素化（`getPalette(colorCount: 5)` → 5 seeds）
+2. neutral palette 生成関数
+3. seed → fg 色変換関数（L 調整）
+4. diagnostic 色生成関数
+5. 66 グループのハイライトマッピング定義
+6. デバッグ SVG にハイライトプレビューを追加
+7. `src/features/` への移植
