@@ -17,7 +17,7 @@ const OPTIONS_BASE = {
 
 const OPTIONS = { ...OPTIONS_BASE, colorCount: 16 };
 
-const DOMINANT_COUNT = 5;
+const DOMINANT_COUNT = 6;
 
 // --- seed スコアリング（colorthief 準拠 OkLch Vibrant + Muted） ---
 
