@@ -45,7 +45,25 @@ function RouteComponent() {
   return (
     <div className="p-8 max-w-5xl mx-auto space-y-6">
       <h1 className="text-xl font-bold">画像アップロード</h1>
-
+      <Dropzone
+        accept={{ "image/*": [] }}
+        onFilesAccepted={(files) => setFile(files[0] ?? null)}
+      />
+      {file && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+          <div className="w-full aspect-3/4 bg-gray-100 rounded-lg overflow-hidden">
+            <ImagePreview
+              url={previewUrl}
+              className="w-full h-full object-contain"
+            />
+          </div>
+          <div className="aspect-3/4 overflow-y-auto">
+            <Suspense fallback={<Skeleton className="w-full aspect-3/4" />}>
+              <ColorResultsLoader />
+            </Suspense>
+          </div>
+        </div>
+      )}
       <NeovimPreview
         colors={{
           bg: "#1e1e2e",
@@ -75,25 +93,6 @@ function RouteComponent() {
         fileName="theme-editor.tsx"
         className="max-w-3xl"
       />
-      <Dropzone
-        accept={{ "image/*": [] }}
-        onFilesAccepted={(files) => setFile(files[0] ?? null)}
-      />
-      {file && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-          <div className="w-full aspect-3/4 bg-gray-100 rounded-lg overflow-hidden">
-            <ImagePreview
-              url={previewUrl}
-              className="w-full h-full object-contain"
-            />
-          </div>
-          <div className="aspect-3/4 overflow-y-auto">
-            <Suspense fallback={<Skeleton className="w-full aspect-3/4" />}>
-              <ColorResultsLoader />
-            </Suspense>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
