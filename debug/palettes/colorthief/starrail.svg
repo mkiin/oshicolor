@@ -1,24 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="660" height="15880" style="background:#111111; font-family:ui-monospace,monospace;">
   <g transform="translate(0,20)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Acheron</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#40263b" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#442d47" rx="3"/>
     <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#40263b</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#dc818d" />
-    <text x="128.33333333333331" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#000000" font-size="9" text-anchor="middle">#dc818d</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#7a76ba" />
-    <text x="231.66666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#7a76ba</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#a4a0d2" />
-    <text x="335" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#000000" font-size="9" text-anchor="middle">#a4a0d2</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#585285" />
-    <text x="438.3333333333333" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#585285</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#96323d" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#96323d</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#442d47</text>
+    <rect x="144" y="25" width="124" height="40" fill="#dc818d" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#dc818d</text>
+    <rect x="268" y="25" width="124" height="40" fill="#7a76ba" />
+    <text x="273" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#000000" font-size="9" text-anchor="middle">#7a76ba</text>
+    <rect x="392" y="25" width="124" height="40" fill="#a4a0d2" />
+    <text x="397" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#000000" font-size="9" text-anchor="middle">#a4a0d2</text>
+    <rect x="516" y="25" width="124" height="40" fill="#96323d" rx="3"/>
+    <text x="521" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#96323d</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#7d79bb"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#e0ccd7"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#a4a0d2"/>
@@ -118,24 +115,21 @@
   </g>
   <g transform="translate(0,372)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Aglaea</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#d3bb92" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#cdb48c" rx="3"/>
     <text x="25" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#000000" font-size="9" text-anchor="middle">#d3bb92</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#362921" />
-    <text x="128.33333333333331" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#362921</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#f8eee2" />
-    <text x="231.66666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#f8eee2</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#a77d36" />
-    <text x="335" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#000000" font-size="9" text-anchor="middle">#a77d36</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#7b4a27" />
-    <text x="438.3333333333333" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#7b4a27</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#8e785a" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#8e785a</text>
+    <text x="82" y="58" fill="#000000" font-size="9" text-anchor="middle">#cdb48c</text>
+    <rect x="144" y="25" width="124" height="40" fill="#362921" />
+    <text x="149" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#362921</text>
+    <rect x="268" y="25" width="124" height="40" fill="#f8eee2" />
+    <text x="273" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#000000" font-size="9" text-anchor="middle">#f8eee2</text>
+    <rect x="392" y="25" width="124" height="40" fill="#a77d36" />
+    <text x="397" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#000000" font-size="9" text-anchor="middle">#a77d36</text>
+    <rect x="516" y="25" width="124" height="40" fill="#7b4a27" rx="3"/>
+    <text x="521" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#7b4a27</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#a77d36"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#362820"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#f8eee2"/>
@@ -231,24 +225,21 @@
   </g>
   <g transform="translate(0,724)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Anaxa</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#2b3847" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#303a48" rx="3"/>
     <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#2b3847</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#c8d0c7" />
-    <text x="128.33333333333331" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#000000" font-size="9" text-anchor="middle">#c8d0c7</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#83c2cd" />
-    <text x="231.66666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#83c2cd</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#507993" />
-    <text x="335" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#507993</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#4b8eb1" />
-    <text x="438.3333333333333" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#000000" font-size="9" text-anchor="middle">#4b8eb1</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#825452" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#825452</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#303a48</text>
+    <rect x="144" y="25" width="124" height="40" fill="#c8d0c7" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#c8d0c7</text>
+    <rect x="268" y="25" width="124" height="40" fill="#83c2cd" />
+    <text x="273" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#000000" font-size="9" text-anchor="middle">#83c2cd</text>
+    <rect x="392" y="25" width="124" height="40" fill="#507993" />
+    <text x="397" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#507993</text>
+    <rect x="516" y="25" width="124" height="40" fill="#4b8eb1" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#4b8eb1</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#507993"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#83c2cd"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#cbdcd4"/>
@@ -347,24 +338,21 @@
   </g>
   <g transform="translate(0,1076)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Archer</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#46151c" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#47171e" rx="3"/>
     <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#46151c</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#c8a991" />
-    <text x="128.33333333333331" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#000000" font-size="9" text-anchor="middle">#c8a991</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#891e28" />
-    <text x="231.66666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#891e28</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#9e9288" />
-    <text x="335" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#000000" font-size="9" text-anchor="middle">#9e9288</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#695c54" />
-    <text x="438.3333333333333" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#695c54</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#8c848c" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#8c848c</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#47171e</text>
+    <rect x="144" y="25" width="124" height="40" fill="#c8a991" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#c8a991</text>
+    <rect x="268" y="25" width="124" height="40" fill="#891e28" />
+    <text x="273" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#891e28</text>
+    <rect x="392" y="25" width="124" height="40" fill="#9e9288" />
+    <text x="397" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#000000" font-size="9" text-anchor="middle">#9e9288</text>
+    <rect x="516" y="25" width="124" height="40" fill="#8c848c" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#8c848c</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#c7a890"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#8a0c1c"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#4b0f1a"/>
@@ -464,24 +452,21 @@
   </g>
   <g transform="translate(0,1428)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Argenti</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#5e1d1a" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#632b28" rx="3"/>
     <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#5e1d1a</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#d49a87" />
-    <text x="128.33333333333331" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#000000" font-size="9" text-anchor="middle">#d49a87</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#7d6c64" />
-    <text x="231.66666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#7d6c64</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#a19990" />
-    <text x="335" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#000000" font-size="9" text-anchor="middle">#a19990</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#150d0e" />
-    <text x="438.3333333333333" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#150d0e</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#8a8591" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#8a8591</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#632b28</text>
+    <rect x="144" y="25" width="124" height="40" fill="#d49a87" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#d49a87</text>
+    <rect x="268" y="25" width="124" height="40" fill="#a19990" />
+    <text x="273" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#000000" font-size="9" text-anchor="middle">#a19990</text>
+    <rect x="392" y="25" width="124" height="40" fill="#150d0e" />
+    <text x="397" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#150d0e</text>
+    <rect x="516" y="25" width="124" height="40" fill="#8a8591" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#8a8591</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#7d6c64"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#d1b99c"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#a19990"/>
@@ -581,24 +566,21 @@
   </g>
   <g transform="translate(0,1780)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Aventurine</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#282a33" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#2d343e" rx="3"/>
     <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#282a33</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#d8c4b2" />
-    <text x="128.33333333333331" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#000000" font-size="9" text-anchor="middle">#d8c4b2</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#867d7c" />
-    <text x="231.66666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#867d7c</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#4d6b7c" />
-    <text x="335" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#4d6b7c</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#94a8b2" />
-    <text x="438.3333333333333" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#000000" font-size="9" text-anchor="middle">#94a8b2</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#9698ae" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#9698ae</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#2d343e</text>
+    <rect x="144" y="25" width="124" height="40" fill="#d8c4b2" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#d8c4b2</text>
+    <rect x="268" y="25" width="124" height="40" fill="#867d7c" />
+    <text x="273" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#000000" font-size="9" text-anchor="middle">#867d7c</text>
+    <rect x="392" y="25" width="124" height="40" fill="#94a8b2" />
+    <text x="397" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#000000" font-size="9" text-anchor="middle">#94a8b2</text>
+    <rect x="516" y="25" width="124" height="40" fill="#9698ae" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#9698ae</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#867e7f"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#decbc1"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#4d6b7c"/>
@@ -697,24 +679,21 @@
   </g>
   <g transform="translate(0,2132)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">BlackSwan</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#d6c9f0" rx="3"/>
-    <text x="25" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#000000" font-size="9" text-anchor="middle">#d6c9f0</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#3d3370" />
-    <text x="128.33333333333331" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#3d3370</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#7e6dd6" />
-    <text x="231.66666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#7e6dd6</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#15131b" />
-    <text x="335" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#15131b</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#9ba1ee" />
-    <text x="438.3333333333333" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#000000" font-size="9" text-anchor="middle">#9ba1ee</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#826890" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#826890</text>
+    <rect x="20" y="25" width="124" height="40" fill="#403672" rx="3"/>
+    <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#403672</text>
+    <rect x="144" y="25" width="124" height="40" fill="#d6c9f0" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#d6c9f0</text>
+    <rect x="268" y="25" width="124" height="40" fill="#7e6dd6" />
+    <text x="273" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#000000" font-size="9" text-anchor="middle">#7e6dd6</text>
+    <rect x="392" y="25" width="124" height="40" fill="#15131b" />
+    <text x="397" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#15131b</text>
+    <rect x="516" y="25" width="124" height="40" fill="#9ba1ee" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#9ba1ee</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#d8ccf2"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#7f6ed6"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#15131b"/>
@@ -811,24 +790,21 @@
   </g>
   <g transform="translate(0,2484)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Blade</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#bf8269" rx="3"/>
-    <text x="25" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#000000" font-size="9" text-anchor="middle">#bf8269</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#2e2a31" />
-    <text x="128.33333333333331" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#2e2a31</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#80554a" />
-    <text x="231.66666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#80554a</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#5a6973" />
-    <text x="335" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#5a6973</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#78b6a9" />
-    <text x="438.3333333333333" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#000000" font-size="9" text-anchor="middle">#78b6a9</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#918f9c" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#918f9c</text>
+    <rect x="20" y="25" width="124" height="40" fill="#302c33" rx="3"/>
+    <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#302c33</text>
+    <rect x="144" y="25" width="124" height="40" fill="#bf8269" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#bf8269</text>
+    <rect x="268" y="25" width="124" height="40" fill="#80554a" />
+    <text x="273" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#80554a</text>
+    <rect x="392" y="25" width="124" height="40" fill="#78b6a9" />
+    <text x="397" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#000000" font-size="9" text-anchor="middle">#78b6a9</text>
+    <rect x="516" y="25" width="124" height="40" fill="#918f9c" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#918f9c</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#b29178"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#84736c"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#b4371b"/>
@@ -924,24 +900,21 @@
   </g>
   <g transform="translate(0,2836)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Boothill</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#3c3334" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#3d3435" rx="3"/>
     <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#3c3334</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#cf948a" />
-    <text x="128.33333333333331" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#000000" font-size="9" text-anchor="middle">#cf948a</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#815b54" />
-    <text x="231.66666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#815b54</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#86b47a" />
-    <text x="335" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#000000" font-size="9" text-anchor="middle">#86b47a</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#8786a4" />
-    <text x="438.3333333333333" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#000000" font-size="9" text-anchor="middle">#8786a4</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#666f70" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#666f70</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#3d3435</text>
+    <rect x="144" y="25" width="124" height="40" fill="#cf948a" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#cf948a</text>
+    <rect x="268" y="25" width="124" height="40" fill="#815b54" />
+    <text x="273" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#815b54</text>
+    <rect x="392" y="25" width="124" height="40" fill="#86b47a" />
+    <text x="397" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#000000" font-size="9" text-anchor="middle">#86b47a</text>
+    <rect x="516" y="25" width="124" height="40" fill="#8786a4" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#8786a4</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#815b54"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#322c2c"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#d9cec0"/>
@@ -1041,24 +1014,21 @@
   </g>
   <g transform="translate(0,3188)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Bronya</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#cac0bb" rx="3"/>
-    <text x="25" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#000000" font-size="9" text-anchor="middle">#cac0bb</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#2e2936" />
-    <text x="128.33333333333331" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#2e2936</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#71bfe6" />
-    <text x="231.66666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#71bfe6</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#2f3c8c" />
-    <text x="335" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#2f3c8c</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#406fc5" />
-    <text x="438.3333333333333" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#406fc5</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#765850" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#765850</text>
+    <rect x="20" y="25" width="124" height="40" fill="#382f3a" rx="3"/>
+    <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#382f3a</text>
+    <rect x="144" y="25" width="124" height="40" fill="#cac0bb" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#cac0bb</text>
+    <rect x="268" y="25" width="124" height="40" fill="#71bfe6" />
+    <text x="273" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#000000" font-size="9" text-anchor="middle">#71bfe6</text>
+    <rect x="392" y="25" width="124" height="40" fill="#2f3c8c" />
+    <text x="397" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#2f3c8c</text>
+    <rect x="516" y="25" width="124" height="40" fill="#406fc5" rx="3"/>
+    <text x="521" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#406fc5</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#71bfe6"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#2f3c8c"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#cdccce"/>
@@ -1159,24 +1129,21 @@
   </g>
   <g transform="translate(0,3540)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Castorice</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#856ba3" rx="3"/>
-    <text x="25" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#000000" font-size="9" text-anchor="middle">#856ba3</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#231b3e" />
-    <text x="128.33333333333331" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#231b3e</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#e7d3e0" />
-    <text x="231.66666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#e7d3e0</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#dca1cd" />
-    <text x="335" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#000000" font-size="9" text-anchor="middle">#dca1cd</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#584739" />
-    <text x="438.3333333333333" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#584739</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#4f256d" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#4f256d</text>
+    <rect x="20" y="25" width="124" height="40" fill="#8469a1" rx="3"/>
+    <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#8469a1</text>
+    <rect x="144" y="25" width="124" height="40" fill="#231b3e" />
+    <text x="149" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#231b3e</text>
+    <rect x="268" y="25" width="124" height="40" fill="#e7d3e0" />
+    <text x="273" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#000000" font-size="9" text-anchor="middle">#e7d3e0</text>
+    <rect x="392" y="25" width="124" height="40" fill="#dca1cd" />
+    <text x="397" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#000000" font-size="9" text-anchor="middle">#dca1cd</text>
+    <rect x="516" y="25" width="124" height="40" fill="#584739" rx="3"/>
+    <text x="521" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#584739</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#231a3d"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#e7d3e0"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#6a5491"/>
@@ -1277,24 +1244,21 @@
   </g>
   <g transform="translate(0,3892)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Cipher</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#443c46" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#473f49" rx="3"/>
     <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#443c46</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#e5c9b2" />
-    <text x="128.33333333333331" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#000000" font-size="9" text-anchor="middle">#e5c9b2</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#6a82c2" />
-    <text x="231.66666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#6a82c2</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#9f816f" />
-    <text x="335" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#000000" font-size="9" text-anchor="middle">#9f816f</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#a0b3cd" />
-    <text x="438.3333333333333" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#000000" font-size="9" text-anchor="middle">#a0b3cd</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#7c7885" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#7c7885</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#473f49</text>
+    <rect x="144" y="25" width="124" height="40" fill="#e5c9b2" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#e5c9b2</text>
+    <rect x="268" y="25" width="124" height="40" fill="#6a82c2" />
+    <text x="273" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#000000" font-size="9" text-anchor="middle">#6a82c2</text>
+    <rect x="392" y="25" width="124" height="40" fill="#9f816f" />
+    <text x="397" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#000000" font-size="9" text-anchor="middle">#9f816f</text>
+    <rect x="516" y="25" width="124" height="40" fill="#a0b3cd" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#a0b3cd</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#9f816f"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#332b2e"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#7988c1"/>
@@ -1395,24 +1359,21 @@
   </g>
   <g transform="translate(0,4244)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Cyrene</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#d7a4cf" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#d49ccb" rx="3"/>
     <text x="25" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#000000" font-size="9" text-anchor="middle">#d7a4cf</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#86419a" />
-    <text x="128.33333333333331" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#86419a</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#7e71b4" />
-    <text x="231.66666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#7e71b4</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#f4e0ef" />
-    <text x="335" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#000000" font-size="9" text-anchor="middle">#f4e0ef</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#c16ab8" />
-    <text x="438.3333333333333" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#000000" font-size="9" text-anchor="middle">#c16ab8</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#966384" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#966384</text>
+    <text x="82" y="58" fill="#000000" font-size="9" text-anchor="middle">#d49ccb</text>
+    <rect x="144" y="25" width="124" height="40" fill="#86419a" />
+    <text x="149" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#86419a</text>
+    <rect x="268" y="25" width="124" height="40" fill="#7e71b4" />
+    <text x="273" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#000000" font-size="9" text-anchor="middle">#7e71b4</text>
+    <rect x="392" y="25" width="124" height="40" fill="#f4e0ef" />
+    <text x="397" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#000000" font-size="9" text-anchor="middle">#f4e0ef</text>
+    <rect x="516" y="25" width="124" height="40" fill="#966384" rx="3"/>
+    <text x="521" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#966384</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#7f4190"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#7e70b4"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#c16ab8"/>
@@ -1507,24 +1468,21 @@
   </g>
   <g transform="translate(0,4596)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">DrRatio</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#3d3f6a" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#49496e" rx="3"/>
     <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#3d3f6a</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#d4c0b5" />
-    <text x="128.33333333333331" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#000000" font-size="9" text-anchor="middle">#d4c0b5</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#8c8183" />
-    <text x="231.66666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#8c8183</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#261c1e" />
-    <text x="335" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#261c1e</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#8da7c7" />
-    <text x="438.3333333333333" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#000000" font-size="9" text-anchor="middle">#8da7c7</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#5773d2" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#5773d2</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#49496e</text>
+    <rect x="144" y="25" width="124" height="40" fill="#d4c0b5" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#d4c0b5</text>
+    <rect x="268" y="25" width="124" height="40" fill="#261c1e" />
+    <text x="273" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#261c1e</text>
+    <rect x="392" y="25" width="124" height="40" fill="#8da7c7" />
+    <text x="397" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#000000" font-size="9" text-anchor="middle">#8da7c7</text>
+    <rect x="516" y="25" width="124" height="40" fill="#5773d2" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#5773d2</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#d9c8c1"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#8c8183"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#261c1e"/>
@@ -1624,24 +1582,21 @@
   </g>
   <g transform="translate(0,4948)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Feixiao</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#2d353a" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#303b41" rx="3"/>
     <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#2d353a</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#dfcec4" />
-    <text x="128.33333333333331" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#000000" font-size="9" text-anchor="middle">#dfcec4</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#7e7068" />
-    <text x="231.66666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#7e7068</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#7fbec7" />
-    <text x="335" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#000000" font-size="9" text-anchor="middle">#7fbec7</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#4c7d84" />
-    <text x="438.3333333333333" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#4c7d84</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#5287ab" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#5287ab</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#303b41</text>
+    <rect x="144" y="25" width="124" height="40" fill="#dfcec4" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#dfcec4</text>
+    <rect x="268" y="25" width="124" height="40" fill="#7e7068" />
+    <text x="273" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#7e7068</text>
+    <rect x="392" y="25" width="124" height="40" fill="#7fbec7" />
+    <text x="397" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#000000" font-size="9" text-anchor="middle">#7fbec7</text>
+    <rect x="516" y="25" width="124" height="40" fill="#5287ab" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#5287ab</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#7e7068"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#e8ded9"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#7fbec7"/>
@@ -1740,24 +1695,21 @@
   </g>
   <g transform="translate(0,5300)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Firefly</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#2d313e" rx="3"/>
-    <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#2d313e</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#d3cec6" />
-    <text x="128.33333333333331" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#000000" font-size="9" text-anchor="middle">#d3cec6</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#87afb8" />
-    <text x="231.66666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#87afb8</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#857c82" />
-    <text x="335" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#000000" font-size="9" text-anchor="middle">#857c82</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#969e9d" />
-    <text x="438.3333333333333" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#000000" font-size="9" text-anchor="middle">#969e9d</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#d4954f" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#d4954f</text>
+    <rect x="20" y="25" width="124" height="40" fill="#d3ccc1" rx="3"/>
+    <text x="25" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">1</text>
+    <text x="82" y="58" fill="#000000" font-size="9" text-anchor="middle">#d3ccc1</text>
+    <rect x="144" y="25" width="124" height="40" fill="#2d313e" />
+    <text x="149" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#2d313e</text>
+    <rect x="268" y="25" width="124" height="40" fill="#87afb8" />
+    <text x="273" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#000000" font-size="9" text-anchor="middle">#87afb8</text>
+    <rect x="392" y="25" width="124" height="40" fill="#857c82" />
+    <text x="397" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#000000" font-size="9" text-anchor="middle">#857c82</text>
+    <rect x="516" y="25" width="124" height="40" fill="#969e9d" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#969e9d</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#87afb8"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#857c82"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#d1ccc3"/>
@@ -1857,24 +1809,21 @@
   </g>
   <g transform="translate(0,5652)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">FuXuan</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#9a6d9e" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#a273a3" rx="3"/>
     <text x="25" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#000000" font-size="9" text-anchor="middle">#9a6d9e</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#ebd8e7" />
-    <text x="128.33333333333331" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#000000" font-size="9" text-anchor="middle">#ebd8e7</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#381d3d" />
-    <text x="231.66666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#381d3d</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#dda9cd" />
-    <text x="335" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#000000" font-size="9" text-anchor="middle">#dda9cd</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#603941" />
-    <text x="438.3333333333333" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#603941</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#682476" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#682476</text>
+    <text x="82" y="58" fill="#000000" font-size="9" text-anchor="middle">#a273a3</text>
+    <rect x="144" y="25" width="124" height="40" fill="#ebd8e7" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#ebd8e7</text>
+    <rect x="268" y="25" width="124" height="40" fill="#381d3d" />
+    <text x="273" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#381d3d</text>
+    <rect x="392" y="25" width="124" height="40" fill="#603941" />
+    <text x="397" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#603941</text>
+    <rect x="516" y="25" width="124" height="40" fill="#682476" rx="3"/>
+    <text x="521" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#682476</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#8f5897"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#dda9cd"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#603941"/>
@@ -1971,24 +1920,21 @@
   </g>
   <g transform="translate(0,6004)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Gallagher</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#31182c" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#321a2d" rx="3"/>
     <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#31182c</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#cc9ea8" />
-    <text x="128.33333333333331" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#000000" font-size="9" text-anchor="middle">#cc9ea8</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#7b4d6a" />
-    <text x="231.66666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#7b4d6a</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#8b949e" />
-    <text x="335" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#000000" font-size="9" text-anchor="middle">#8b949e</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#474c69" />
-    <text x="438.3333333333333" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#474c69</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#7f7c95" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#7f7c95</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#321a2d</text>
+    <rect x="144" y="25" width="124" height="40" fill="#cc9ea8" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#cc9ea8</text>
+    <rect x="268" y="25" width="124" height="40" fill="#7b4d6a" />
+    <text x="273" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#7b4d6a</text>
+    <rect x="392" y="25" width="124" height="40" fill="#8b949e" />
+    <text x="397" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#000000" font-size="9" text-anchor="middle">#8b949e</text>
+    <rect x="516" y="25" width="124" height="40" fill="#7f7c95" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#7f7c95</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#d6bcba"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#1f0e18"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#7b4d6a"/>
@@ -2088,24 +2034,21 @@
   </g>
   <g transform="translate(0,6356)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Gepard</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#2b2f4c" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#2f334d" rx="3"/>
     <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#2b2f4c</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#bbb6bc" />
-    <text x="128.33333333333331" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#000000" font-size="9" text-anchor="middle">#bbb6bc</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#1853e6" />
-    <text x="231.66666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#1853e6</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#33baf7" />
-    <text x="335" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#000000" font-size="9" text-anchor="middle">#33baf7</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#1834a1" />
-    <text x="438.3333333333333" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#1834a1</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#746d6b" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#746d6b</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#2f334d</text>
+    <rect x="144" y="25" width="124" height="40" fill="#bbb6bc" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#bbb6bc</text>
+    <rect x="268" y="25" width="124" height="40" fill="#1853e6" />
+    <text x="273" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#1853e6</text>
+    <rect x="392" y="25" width="124" height="40" fill="#33baf7" />
+    <text x="397" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#000000" font-size="9" text-anchor="middle">#33baf7</text>
+    <rect x="516" y="25" width="124" height="40" fill="#1834a1" rx="3"/>
+    <text x="521" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#1834a1</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#33baf7"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#1834a1"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#bebac2"/>
@@ -2206,24 +2149,21 @@
   </g>
   <g transform="translate(0,6708)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Guinaifen</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#773e3f" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#7a4344" rx="3"/>
     <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#773e3f</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#e1ccc8" />
-    <text x="128.33333333333331" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#000000" font-size="9" text-anchor="middle">#e1ccc8</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#292023" />
-    <text x="231.66666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#292023</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#d46b5f" />
-    <text x="335" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#000000" font-size="9" text-anchor="middle">#d46b5f</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#a494a9" />
-    <text x="438.3333333333333" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#000000" font-size="9" text-anchor="middle">#a494a9</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#a08780" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#a08780</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#7a4344</text>
+    <rect x="144" y="25" width="124" height="40" fill="#e1ccc8" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#e1ccc8</text>
+    <rect x="268" y="25" width="124" height="40" fill="#292023" />
+    <text x="273" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#292023</text>
+    <rect x="392" y="25" width="124" height="40" fill="#d46b5f" />
+    <text x="397" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#000000" font-size="9" text-anchor="middle">#d46b5f</text>
+    <rect x="516" y="25" width="124" height="40" fill="#a494a9" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#a494a9</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#292023"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#e0cece"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#d46b5f"/>
@@ -2324,24 +2264,21 @@
   </g>
   <g transform="translate(0,7060)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Hanya</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#e8d8d1" rx="3"/>
-    <text x="25" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#000000" font-size="9" text-anchor="middle">#e8d8d1</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#3c323a" />
-    <text x="128.33333333333331" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#3c323a</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#a3b4c0" />
-    <text x="231.66666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#a3b4c0</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#926d67" />
-    <text x="335" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#000000" font-size="9" text-anchor="middle">#926d67</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#758fac" />
-    <text x="438.3333333333333" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#000000" font-size="9" text-anchor="middle">#758fac</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#69737f" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#69737f</text>
+    <rect x="20" y="25" width="124" height="40" fill="#3f363e" rx="3"/>
+    <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#3f363e</text>
+    <rect x="144" y="25" width="124" height="40" fill="#e8d8d1" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#e8d8d1</text>
+    <rect x="268" y="25" width="124" height="40" fill="#a3b4c0" />
+    <text x="273" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#000000" font-size="9" text-anchor="middle">#a3b4c0</text>
+    <rect x="392" y="25" width="124" height="40" fill="#926d67" />
+    <text x="397" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#000000" font-size="9" text-anchor="middle">#926d67</text>
+    <rect x="516" y="25" width="124" height="40" fill="#758fac" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#758fac</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#a3b4c0"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#926d67"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#eee2db"/>
@@ -2440,24 +2377,21 @@
   </g>
   <g transform="translate(0,7412)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Himekc</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#8d423e" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#914a46" rx="3"/>
     <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#8d423e</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#2d242c" />
-    <text x="128.33333333333331" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#2d242c</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#e9cdca" />
-    <text x="231.66666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#e9cdca</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#c0a0b2" />
-    <text x="335" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#000000" font-size="9" text-anchor="middle">#c0a0b2</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#e27167" />
-    <text x="438.3333333333333" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#000000" font-size="9" text-anchor="middle">#e27167</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#b39189" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#b39189</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#914a46</text>
+    <rect x="144" y="25" width="124" height="40" fill="#2d242c" />
+    <text x="149" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#2d242c</text>
+    <rect x="268" y="25" width="124" height="40" fill="#e9cdca" />
+    <text x="273" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#000000" font-size="9" text-anchor="middle">#e9cdca</text>
+    <rect x="392" y="25" width="124" height="40" fill="#c0a0b2" />
+    <text x="397" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#000000" font-size="9" text-anchor="middle">#c0a0b2</text>
+    <rect x="516" y="25" width="124" height="40" fill="#e27167" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#e27167</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#c0a0b2"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#eacdcc"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#2d242c"/>
@@ -2558,24 +2492,21 @@
   </g>
   <g transform="translate(0,7764)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Huohuo</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#36414c" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#3a4852" rx="3"/>
     <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#36414c</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#e0d7ce" />
-    <text x="128.33333333333331" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#000000" font-size="9" text-anchor="middle">#e0d7ce</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#988089" />
-    <text x="231.66666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#988089</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#9bc3b3" />
-    <text x="335" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#000000" font-size="9" text-anchor="middle">#9bc3b3</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#99a1c0" />
-    <text x="438.3333333333333" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#000000" font-size="9" text-anchor="middle">#99a1c0</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#5b8f8c" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#5b8f8c</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#3a4852</text>
+    <rect x="144" y="25" width="124" height="40" fill="#e0d7ce" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#e0d7ce</text>
+    <rect x="268" y="25" width="124" height="40" fill="#988089" />
+    <text x="273" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#000000" font-size="9" text-anchor="middle">#988089</text>
+    <rect x="392" y="25" width="124" height="40" fill="#9bc3b3" />
+    <text x="397" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#000000" font-size="9" text-anchor="middle">#9bc3b3</text>
+    <rect x="516" y="25" width="124" height="40" fill="#99a1c0" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#99a1c0</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#9bc3b3"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#98828b"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#e0ded8"/>
@@ -2676,24 +2607,21 @@
   </g>
   <g transform="translate(0,8116)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Hyacine</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#d1b8c2" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#ceb7c1" rx="3"/>
     <text x="25" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#000000" font-size="9" text-anchor="middle">#d1b8c2</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#781d35" />
-    <text x="128.33333333333331" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#781d35</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#391d28" />
-    <text x="231.66666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#391d28</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#926478" />
-    <text x="335" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#926478</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#845d4b" />
-    <text x="438.3333333333333" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#845d4b</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#7193ae" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#7193ae</text>
+    <text x="82" y="58" fill="#000000" font-size="9" text-anchor="middle">#ceb7c1</text>
+    <rect x="144" y="25" width="124" height="40" fill="#781d35" />
+    <text x="149" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#781d35</text>
+    <rect x="268" y="25" width="124" height="40" fill="#391d28" />
+    <text x="273" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#391d28</text>
+    <rect x="392" y="25" width="124" height="40" fill="#926478" />
+    <text x="397" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#926478</text>
+    <rect x="516" y="25" width="124" height="40" fill="#845d4b" rx="3"/>
+    <text x="521" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#845d4b</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#751c34"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#926478"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#391a25"/>
@@ -2793,24 +2721,21 @@
   </g>
   <g transform="translate(0,8468)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Jade</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#d5bac4" rx="3"/>
-    <text x="25" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#000000" font-size="9" text-anchor="middle">#d5bac4</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#312941" />
-    <text x="128.33333333333331" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#312941</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#745f93" />
-    <text x="231.66666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#745f93</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#665dcf" />
-    <text x="335" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#665dcf</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#875f6c" />
-    <text x="438.3333333333333" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#875f6c</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#8dabdb" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#8dabdb</text>
+    <rect x="20" y="25" width="124" height="40" fill="#3a2f45" rx="3"/>
+    <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#3a2f45</text>
+    <rect x="144" y="25" width="124" height="40" fill="#d5bac4" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#d5bac4</text>
+    <rect x="268" y="25" width="124" height="40" fill="#745f93" />
+    <text x="273" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#745f93</text>
+    <rect x="392" y="25" width="124" height="40" fill="#665dcf" />
+    <text x="397" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#665dcf</text>
+    <rect x="516" y="25" width="124" height="40" fill="#8dabdb" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#8dabdb</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#d7bfc6"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#745f93"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#665dcf"/>
@@ -2910,24 +2835,21 @@
   </g>
   <g transform="translate(0,8820)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Jiaoqiu</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#332a33" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#36323d" rx="3"/>
     <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#332a33</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#cdafab" />
-    <text x="128.33333333333331" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#000000" font-size="9" text-anchor="middle">#cdafab</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#8c5453" />
-    <text x="231.66666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#8c5453</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#8aa7b4" />
-    <text x="335" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#000000" font-size="9" text-anchor="middle">#8aa7b4</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#45647c" />
-    <text x="438.3333333333333" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#45647c</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#688da7" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#688da7</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#36323d</text>
+    <rect x="144" y="25" width="124" height="40" fill="#cdafab" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#cdafab</text>
+    <rect x="268" y="25" width="124" height="40" fill="#8c5453" />
+    <text x="273" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#8c5453</text>
+    <rect x="392" y="25" width="124" height="40" fill="#8aa7b4" />
+    <text x="397" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#000000" font-size="9" text-anchor="middle">#8aa7b4</text>
+    <rect x="516" y="25" width="124" height="40" fill="#688da7" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#688da7</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#8c5453"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#d3bdb9"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#8aa7b4"/>
@@ -3022,24 +2944,21 @@
   </g>
   <g transform="translate(0,9172)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">JingYuan</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#897c74" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#897c74" rx="3"/>
     <text x="25" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#000000" font-size="9" text-anchor="middle">#897c74</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#262021" />
-    <text x="128.33333333333331" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#262021</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#562a2b" />
-    <text x="231.66666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#562a2b</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#e1d8d0" />
-    <text x="335" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#000000" font-size="9" text-anchor="middle">#e1d8d0</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#ddba98" />
-    <text x="438.3333333333333" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#000000" font-size="9" text-anchor="middle">#ddba98</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#c4c4a7" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#c4c4a7</text>
+    <text x="82" y="58" fill="#000000" font-size="9" text-anchor="middle">#897c74</text>
+    <rect x="144" y="25" width="124" height="40" fill="#262021" />
+    <text x="149" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#262021</text>
+    <rect x="268" y="25" width="124" height="40" fill="#562a2b" />
+    <text x="273" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#562a2b</text>
+    <rect x="392" y="25" width="124" height="40" fill="#e1d8d0" />
+    <text x="397" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#000000" font-size="9" text-anchor="middle">#e1d8d0</text>
+    <rect x="516" y="25" width="124" height="40" fill="#ddba98" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#ddba98</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#887b75"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#ddba98"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#261f21"/>
@@ -3139,24 +3058,21 @@
   </g>
   <g transform="translate(0,9524)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Jingliu</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#e3dde0" rx="3"/>
-    <text x="25" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#000000" font-size="9" text-anchor="middle">#e3dde0</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#3a375e" />
-    <text x="128.33333333333331" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#3a375e</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#5f7ec0" />
-    <text x="231.66666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#5f7ec0</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#857387" />
-    <text x="335" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#000000" font-size="9" text-anchor="middle">#857387</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#180d19" />
-    <text x="438.3333333333333" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#180d19</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#8dadd1" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#8dadd1</text>
+    <rect x="20" y="25" width="124" height="40" fill="#454064" rx="3"/>
+    <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#454064</text>
+    <rect x="144" y="25" width="124" height="40" fill="#e3dde0" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#e3dde0</text>
+    <rect x="268" y="25" width="124" height="40" fill="#5f7ec0" />
+    <text x="273" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#000000" font-size="9" text-anchor="middle">#5f7ec0</text>
+    <rect x="392" y="25" width="124" height="40" fill="#180d19" />
+    <text x="397" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#180d19</text>
+    <rect x="516" y="25" width="124" height="40" fill="#8dadd1" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#8dadd1</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#5f7ec0"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#e6e2e6"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#857387"/>
@@ -3256,24 +3172,21 @@
   </g>
   <g transform="translate(0,9876)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Lingsha</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#793932" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#7a3f37" rx="3"/>
     <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#793932</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#e5d3c8" />
-    <text x="128.33333333333331" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#000000" font-size="9" text-anchor="middle">#e5d3c8</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#342c2f" />
-    <text x="231.66666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#342c2f</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#cb4f3a" />
-    <text x="335" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#000000" font-size="9" text-anchor="middle">#cb4f3a</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#84826f" />
-    <text x="438.3333333333333" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#000000" font-size="9" text-anchor="middle">#84826f</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#ac82b2" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#ac82b2</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#7a3f37</text>
+    <rect x="144" y="25" width="124" height="40" fill="#e5d3c8" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#e5d3c8</text>
+    <rect x="268" y="25" width="124" height="40" fill="#342c2f" />
+    <text x="273" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#342c2f</text>
+    <rect x="392" y="25" width="124" height="40" fill="#cb4f3a" />
+    <text x="397" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#000000" font-size="9" text-anchor="middle">#cb4f3a</text>
+    <rect x="516" y="25" width="124" height="40" fill="#ac82b2" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#ac82b2</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#ebd5cb"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#cb4f3a"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#342c2f"/>
@@ -3374,24 +3287,21 @@
   </g>
   <g transform="translate(0,10228)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Luocha</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#373c37" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#3c423d" rx="3"/>
     <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#373c37</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#d7c7a9" />
-    <text x="128.33333333333331" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#000000" font-size="9" text-anchor="middle">#d7c7a9</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#90846e" />
-    <text x="231.66666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#90846e</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#667d74" />
-    <text x="335" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#000000" font-size="9" text-anchor="middle">#667d74</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#9db6b2" />
-    <text x="438.3333333333333" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#000000" font-size="9" text-anchor="middle">#9db6b2</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#92a3a4" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#92a3a4</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#3c423d</text>
+    <rect x="144" y="25" width="124" height="40" fill="#d7c7a9" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#d7c7a9</text>
+    <rect x="268" y="25" width="124" height="40" fill="#90846e" />
+    <text x="273" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#000000" font-size="9" text-anchor="middle">#90846e</text>
+    <rect x="392" y="25" width="124" height="40" fill="#9db6b2" />
+    <text x="397" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#000000" font-size="9" text-anchor="middle">#9db6b2</text>
+    <rect x="516" y="25" width="124" height="40" fill="#92a3a4" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#92a3a4</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#dccdb1"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#90846e"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#242c2b"/>
@@ -3486,24 +3396,21 @@
   </g>
   <g transform="translate(0,10580)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">March7th</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#e5d2d5" rx="3"/>
-    <text x="25" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#000000" font-size="9" text-anchor="middle">#e5d2d5</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#2d2d52" />
-    <text x="128.33333333333331" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#2d2d52</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#6d424e" />
-    <text x="231.66666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#6d424e</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#7590c8" />
-    <text x="335" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#000000" font-size="9" text-anchor="middle">#7590c8</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#c67154" />
-    <text x="438.3333333333333" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#000000" font-size="9" text-anchor="middle">#c67154</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#45bdd3" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#45bdd3</text>
+    <rect x="20" y="25" width="124" height="40" fill="#2d3056" rx="3"/>
+    <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#2d3056</text>
+    <rect x="144" y="25" width="124" height="40" fill="#e5d2d5" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#e5d2d5</text>
+    <rect x="268" y="25" width="124" height="40" fill="#6d424e" />
+    <text x="273" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#6d424e</text>
+    <rect x="392" y="25" width="124" height="40" fill="#7590c8" />
+    <text x="397" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#000000" font-size="9" text-anchor="middle">#7590c8</text>
+    <rect x="516" y="25" width="124" height="40" fill="#c67154" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#c67154</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#292037"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#7590c8"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#6d414c"/>
@@ -3604,24 +3511,21 @@
   </g>
   <g transform="translate(0,10932)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Moze</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#3d385d" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#443c5f" rx="3"/>
     <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#3d385d</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#c5abbf" />
-    <text x="128.33333333333331" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#000000" font-size="9" text-anchor="middle">#c5abbf</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#7577bf" />
-    <text x="231.66666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#7577bf</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#845776" />
-    <text x="335" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#845776</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#18111a" />
-    <text x="438.3333333333333" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#18111a</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#979fc6" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#979fc6</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#443c5f</text>
+    <rect x="144" y="25" width="124" height="40" fill="#c5abbf" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#c5abbf</text>
+    <rect x="268" y="25" width="124" height="40" fill="#7577bf" />
+    <text x="273" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#000000" font-size="9" text-anchor="middle">#7577bf</text>
+    <rect x="392" y="25" width="124" height="40" fill="#18111a" />
+    <text x="397" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#18111a</text>
+    <rect x="516" y="25" width="124" height="40" fill="#979fc6" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#979fc6</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#c8c1d1"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#322f4c"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#7577bf"/>
@@ -3721,24 +3625,21 @@
   </g>
   <g transform="translate(0,11284)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Mydei</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#763232" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#7b3b39" rx="3"/>
     <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#763232</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#edc9af" />
-    <text x="128.33333333333331" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#000000" font-size="9" text-anchor="middle">#edc9af</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#2e1d20" />
-    <text x="231.66666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#2e1d20</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#dd7466" />
-    <text x="335" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#000000" font-size="9" text-anchor="middle">#dd7466</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#a17d6a" />
-    <text x="438.3333333333333" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#000000" font-size="9" text-anchor="middle">#a17d6a</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#9d8fb0" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#9d8fb0</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#7b3b39</text>
+    <rect x="144" y="25" width="124" height="40" fill="#edc9af" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#edc9af</text>
+    <rect x="268" y="25" width="124" height="40" fill="#2e1d20" />
+    <text x="273" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#2e1d20</text>
+    <rect x="392" y="25" width="124" height="40" fill="#dd7466" />
+    <text x="397" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#000000" font-size="9" text-anchor="middle">#dd7466</text>
+    <rect x="516" y="25" width="124" height="40" fill="#9d8fb0" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#9d8fb0</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#edc9af"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#dd7566"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#a17d6a"/>
@@ -3839,24 +3740,21 @@
   </g>
   <g transform="translate(0,11636)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Phainon</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#4d4852" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#4e4a54" rx="3"/>
     <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#4d4852</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#dfcaaa" />
-    <text x="128.33333333333331" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#000000" font-size="9" text-anchor="middle">#dfcaaa</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#9b8069" />
-    <text x="231.66666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#9b8069</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#8999c0" />
-    <text x="335" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#000000" font-size="9" text-anchor="middle">#8999c0</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#97badb" />
-    <text x="438.3333333333333" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#000000" font-size="9" text-anchor="middle">#97badb</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#7f86a0" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#7f86a0</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#4e4a54</text>
+    <rect x="144" y="25" width="124" height="40" fill="#dfcaaa" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#dfcaaa</text>
+    <rect x="268" y="25" width="124" height="40" fill="#9b8069" />
+    <text x="273" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#000000" font-size="9" text-anchor="middle">#9b8069</text>
+    <rect x="392" y="25" width="124" height="40" fill="#8999c0" />
+    <text x="397" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#000000" font-size="9" text-anchor="middle">#8999c0</text>
+    <rect x="516" y="25" width="124" height="40" fill="#97badb" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#97badb</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#47424c"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#dfc190"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#9b8069"/>
@@ -3955,24 +3853,21 @@
   </g>
   <g transform="translate(0,11988)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Rappa</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#333a44" rx="3"/>
-    <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#333a44</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#c8d68b" />
-    <text x="128.33333333333331" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#000000" font-size="9" text-anchor="middle">#c8d68b</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#c22e3a" />
-    <text x="231.66666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#c22e3a</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#ebd3e6" />
-    <text x="335" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#000000" font-size="9" text-anchor="middle">#ebd3e6</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#b87376" />
-    <text x="438.3333333333333" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#000000" font-size="9" text-anchor="middle">#b87376</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#cc8233" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#cc8233</text>
+    <rect x="20" y="25" width="124" height="40" fill="#c5c187" rx="3"/>
+    <text x="25" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">1</text>
+    <text x="82" y="58" fill="#000000" font-size="9" text-anchor="middle">#c5c187</text>
+    <rect x="144" y="25" width="124" height="40" fill="#333a44" />
+    <text x="149" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#333a44</text>
+    <rect x="268" y="25" width="124" height="40" fill="#c22e3a" />
+    <text x="273" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#c22e3a</text>
+    <rect x="392" y="25" width="124" height="40" fill="#ebd3e6" />
+    <text x="397" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#000000" font-size="9" text-anchor="middle">#ebd3e6</text>
+    <rect x="516" y="25" width="124" height="40" fill="#cc8233" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#cc8233</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#302933"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#d7303d"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#dada80"/>
@@ -4073,24 +3968,21 @@
   </g>
   <g transform="translate(0,12340)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Robin</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#2a2167" rx="3"/>
-    <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#2a2167</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#dbd3de" />
-    <text x="128.33333333333331" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#000000" font-size="9" text-anchor="middle">#dbd3de</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#644b93" />
-    <text x="231.66666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#644b93</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#7372bb" />
-    <text x="335" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#000000" font-size="9" text-anchor="middle">#7372bb</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#9e88bd" />
-    <text x="438.3333333333333" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#000000" font-size="9" text-anchor="middle">#9e88bd</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#8b6f59" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#8b6f59</text>
+    <rect x="20" y="25" width="124" height="40" fill="#d4cada" rx="3"/>
+    <text x="25" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">1</text>
+    <text x="82" y="58" fill="#000000" font-size="9" text-anchor="middle">#d4cada</text>
+    <rect x="144" y="25" width="124" height="40" fill="#2a2167" />
+    <text x="149" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#2a2167</text>
+    <rect x="268" y="25" width="124" height="40" fill="#644b93" />
+    <text x="273" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#644b93</text>
+    <rect x="392" y="25" width="124" height="40" fill="#7372bb" />
+    <text x="397" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#000000" font-size="9" text-anchor="middle">#7372bb</text>
+    <rect x="516" y="25" width="124" height="40" fill="#8b6f59" rx="3"/>
+    <text x="521" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#8b6f59</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#2c2370"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#644c9f"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#7372bb"/>
@@ -4190,24 +4082,21 @@
   </g>
   <g transform="translate(0,12692)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">RuanMei</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#e5d1c9" rx="3"/>
-    <text x="25" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#000000" font-size="9" text-anchor="middle">#e5d1c9</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#3d4451" />
-    <text x="128.33333333333331" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#3d4451</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#99827c" />
-    <text x="231.66666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#99827c</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#799eb6" />
-    <text x="335" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#000000" font-size="9" text-anchor="middle">#799eb6</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#9fbcc7" />
-    <text x="438.3333333333333" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#000000" font-size="9" text-anchor="middle">#9fbcc7</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#538ea0" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#538ea0</text>
+    <rect x="20" y="25" width="124" height="40" fill="#3f4c59" rx="3"/>
+    <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#3f4c59</text>
+    <rect x="144" y="25" width="124" height="40" fill="#e5d1c9" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#e5d1c9</text>
+    <rect x="268" y="25" width="124" height="40" fill="#99827c" />
+    <text x="273" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#000000" font-size="9" text-anchor="middle">#99827c</text>
+    <rect x="392" y="25" width="124" height="40" fill="#799eb6" />
+    <text x="397" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#000000" font-size="9" text-anchor="middle">#799eb6</text>
+    <rect x="516" y="25" width="124" height="40" fill="#9fbcc7" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#9fbcc7</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#2d2e3a"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#e9d8d3"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#99857e"/>
@@ -4304,24 +4193,21 @@
   </g>
   <g transform="translate(0,13044)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Saber</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#e0cab4" rx="3"/>
-    <text x="25" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#000000" font-size="9" text-anchor="middle">#e0cab4</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#342d38" />
-    <text x="128.33333333333331" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#342d38</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#5770c7" />
-    <text x="231.66666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#5770c7</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#897067" />
-    <text x="335" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#897067</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#2e3f88" />
-    <text x="438.3333333333333" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#2e3f88</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#9ea7c9" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#9ea7c9</text>
+    <rect x="20" y="25" width="124" height="40" fill="#333046" rx="3"/>
+    <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#333046</text>
+    <rect x="144" y="25" width="124" height="40" fill="#e0cab4" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#e0cab4</text>
+    <rect x="268" y="25" width="124" height="40" fill="#5770c7" />
+    <text x="273" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#5770c7</text>
+    <rect x="392" y="25" width="124" height="40" fill="#897067" />
+    <text x="397" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#897067</text>
+    <rect x="516" y="25" width="124" height="40" fill="#9ea7c9" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#9ea7c9</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#e4d4c4"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#3962cd"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#897067"/>
@@ -4422,24 +4308,21 @@
   </g>
   <g transform="translate(0,13396)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Sparkle</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#472e42" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#513c59" rx="3"/>
     <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#472e42</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#e7c2c0" />
-    <text x="128.33333333333331" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#000000" font-size="9" text-anchor="middle">#e7c2c0</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#7380c2" />
-    <text x="231.66666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#7380c2</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#6d6499" />
-    <text x="335" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#6d6499</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#a64e5c" />
-    <text x="438.3333333333333" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#a64e5c</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#92c4e1" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#92c4e1</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#513c59</text>
+    <rect x="144" y="25" width="124" height="40" fill="#e7c2c0" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#e7c2c0</text>
+    <rect x="268" y="25" width="124" height="40" fill="#7380c2" />
+    <text x="273" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#000000" font-size="9" text-anchor="middle">#7380c2</text>
+    <rect x="392" y="25" width="124" height="40" fill="#a64e5c" />
+    <text x="397" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#a64e5c</text>
+    <rect x="516" y="25" width="124" height="40" fill="#92c4e1" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#92c4e1</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#2f212e"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#ebd3cf"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#a64e5c"/>
@@ -4540,24 +4423,21 @@
   </g>
   <g transform="translate(0,13748)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Sunday</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#747497" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#77779a" rx="3"/>
     <text x="25" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#000000" font-size="9" text-anchor="middle">#747497</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#d3d0e1" />
-    <text x="128.33333333333331" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#000000" font-size="9" text-anchor="middle">#d3d0e1</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#b8c0db" />
-    <text x="231.66666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#b8c0db</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#151423" />
-    <text x="335" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#151423</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#1e2765" />
-    <text x="438.3333333333333" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#1e2765</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#9facd9" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#9facd9</text>
+    <text x="82" y="58" fill="#000000" font-size="9" text-anchor="middle">#77779a</text>
+    <rect x="144" y="25" width="124" height="40" fill="#d3d0e1" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#d3d0e1</text>
+    <rect x="268" y="25" width="124" height="40" fill="#b8c0db" />
+    <text x="273" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#000000" font-size="9" text-anchor="middle">#b8c0db</text>
+    <rect x="392" y="25" width="124" height="40" fill="#151423" />
+    <text x="397" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#151423</text>
+    <rect x="516" y="25" width="124" height="40" fill="#1e2765" rx="3"/>
+    <text x="521" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#1e2765</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#8f90b4"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#1e2765"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#151423"/>
@@ -4652,24 +4532,21 @@
   </g>
   <g transform="translate(0,14100)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">TheHerta</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#362d4a" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#3d3457" rx="3"/>
     <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#362d4a</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#d3bdd3" />
-    <text x="128.33333333333331" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#000000" font-size="9" text-anchor="middle">#d3bdd3</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#8a7cc8" />
-    <text x="231.66666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#8a7cc8</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#8c7790" />
-    <text x="335" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#000000" font-size="9" text-anchor="middle">#8c7790</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#605395" />
-    <text x="438.3333333333333" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#605395</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#a7a7d3" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#a7a7d3</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#3d3457</text>
+    <rect x="144" y="25" width="124" height="40" fill="#d3bdd3" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#d3bdd3</text>
+    <rect x="268" y="25" width="124" height="40" fill="#8a7cc8" />
+    <text x="273" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#000000" font-size="9" text-anchor="middle">#8a7cc8</text>
+    <rect x="392" y="25" width="124" height="40" fill="#8c7790" />
+    <text x="397" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#000000" font-size="9" text-anchor="middle">#8c7790</text>
+    <rect x="516" y="25" width="124" height="40" fill="#a7a7d3" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#a7a7d3</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#d3bed3"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#8c7790"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#8a7cc8"/>
@@ -4769,24 +4646,21 @@
   </g>
   <g transform="translate(0,14452)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">TopazandNumby</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#4c3141" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#53384b" rx="3"/>
     <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#4c3141</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#ebd0c8" />
-    <text x="128.33333333333331" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#000000" font-size="9" text-anchor="middle">#ebd0c8</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#aeaec5" />
-    <text x="231.66666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#aeaec5</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#9d6578" />
-    <text x="335" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#9d6578</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#7a6788" />
-    <text x="438.3333333333333" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#7a6788</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#9795b6" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#9795b6</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#53384b</text>
+    <rect x="144" y="25" width="124" height="40" fill="#ebd0c8" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#ebd0c8</text>
+    <rect x="268" y="25" width="124" height="40" fill="#aeaec5" />
+    <text x="273" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#000000" font-size="9" text-anchor="middle">#aeaec5</text>
+    <rect x="392" y="25" width="124" height="40" fill="#9d6578" />
+    <text x="397" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#9d6578</text>
+    <rect x="516" y="25" width="124" height="40" fill="#9795b6" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#9795b6</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#eedfda"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#9d6578"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#aeaec6"/>
@@ -4887,24 +4761,21 @@
   </g>
   <g transform="translate(0,14804)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Tribbie</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#e1c2bc" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#dabab0" rx="3"/>
     <text x="25" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#000000" font-size="9" text-anchor="middle">#e1c2bc</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#9d1713" />
-    <text x="128.33333333333331" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#9d1713</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#311719" />
-    <text x="231.66666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#311719</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#9a5b41" />
-    <text x="335" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#9a5b41</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#986866" />
-    <text x="438.3333333333333" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#986866</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#b58a6b" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#b58a6b</text>
+    <text x="82" y="58" fill="#000000" font-size="9" text-anchor="middle">#dabab0</text>
+    <rect x="144" y="25" width="124" height="40" fill="#9d1713" />
+    <text x="149" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#9d1713</text>
+    <rect x="268" y="25" width="124" height="40" fill="#311719" />
+    <text x="273" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#311719</text>
+    <rect x="392" y="25" width="124" height="40" fill="#9a5b41" />
+    <text x="397" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#9a5b41</text>
+    <rect x="516" y="25" width="124" height="40" fill="#986866" rx="3"/>
+    <text x="521" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#986866</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#8f120f"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#311719"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#986866"/>
@@ -5005,24 +4876,21 @@
   </g>
   <g transform="translate(0,15156)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Yunli</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#816e6b" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#7a5755" rx="3"/>
     <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#816e6b</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#ebc4a8" />
-    <text x="128.33333333333331" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#000000" font-size="9" text-anchor="middle">#ebc4a8</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#1f3d4a" />
-    <text x="231.66666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#1f3d4a</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#6a1d1b" />
-    <text x="335" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#6a1d1b</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#acb6b0" />
-    <text x="438.3333333333333" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#000000" font-size="9" text-anchor="middle">#acb6b0</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#989ead" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#989ead</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#7a5755</text>
+    <rect x="144" y="25" width="124" height="40" fill="#ebc4a8" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#ebc4a8</text>
+    <rect x="268" y="25" width="124" height="40" fill="#1f3d4a" />
+    <text x="273" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#1f3d4a</text>
+    <rect x="392" y="25" width="124" height="40" fill="#acb6b0" />
+    <text x="397" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#000000" font-size="9" text-anchor="middle">#acb6b0</text>
+    <rect x="516" y="25" width="124" height="40" fill="#989ead" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#989ead</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#edd4bc"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#1e3b48"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#6a1d1b"/>
@@ -5123,24 +4991,21 @@
   </g>
   <g transform="translate(0,15508)">
     <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">kafka</text>
-    <rect x="20" y="25" width="103.33333333333333" height="40" fill="#503348" rx="3"/>
+    <rect x="20" y="25" width="124" height="40" fill="#503449" rx="3"/>
     <text x="25" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">1</text>
-    <text x="71.66666666666666" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#503348</text>
-    <rect x="123.33333333333333" y="25" width="103.33333333333333" height="40" fill="#ebd8d7" />
-    <text x="128.33333333333331" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
-    <text x="175" y="58" fill="#000000" font-size="9" text-anchor="middle">#ebd8d7</text>
-    <rect x="226.66666666666666" y="25" width="103.33333333333333" height="40" fill="#9b627a" />
-    <text x="231.66666666666666" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
-    <text x="278.3333333333333" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#9b627a</text>
-    <rect x="330" y="25" width="103.33333333333333" height="40" fill="#81657f" />
-    <text x="335" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">4</text>
-    <text x="381.6666666666667" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#81657f</text>
-    <rect x="433.3333333333333" y="25" width="103.33333333333333" height="40" fill="#b2a6b2" />
-    <text x="438.3333333333333" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
-    <text x="485" y="58" fill="#000000" font-size="9" text-anchor="middle">#b2a6b2</text>
-    <rect x="536.6666666666666" y="25" width="103.33333333333333" height="40" fill="#ac98ad" rx="3"/>
-    <text x="541.6666666666666" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">6</text>
-    <text x="588.3333333333333" y="58" fill="#000000" font-size="9" text-anchor="middle">#ac98ad</text>
+    <text x="82" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#503449</text>
+    <rect x="144" y="25" width="124" height="40" fill="#ebd8d7" />
+    <text x="149" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">2</text>
+    <text x="206" y="58" fill="#000000" font-size="9" text-anchor="middle">#ebd8d7</text>
+    <rect x="268" y="25" width="124" height="40" fill="#9b627a" />
+    <text x="273" y="39" fill="#ffffff" font-size="11" font-weight="bold" opacity="0.7">3</text>
+    <text x="330" y="58" fill="#ffffff" font-size="9" text-anchor="middle">#9b627a</text>
+    <rect x="392" y="25" width="124" height="40" fill="#b2a6b2" />
+    <text x="397" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">4</text>
+    <text x="454" y="58" fill="#000000" font-size="9" text-anchor="middle">#b2a6b2</text>
+    <rect x="516" y="25" width="124" height="40" fill="#ac98ad" rx="3"/>
+    <text x="521" y="39" fill="#000000" font-size="11" font-weight="bold" opacity="0.7">5</text>
+    <text x="578" y="58" fill="#000000" font-size="9" text-anchor="middle">#ac98ad</text>
     <rect x="20" y="72" width="38.75" height="30" fill="#9b627a"/>
     <rect x="58.75" y="72" width="38.75" height="30" fill="#6c4762"/>
     <rect x="97.5" y="72" width="38.75" height="30" fill="#f1e2e0"/>
