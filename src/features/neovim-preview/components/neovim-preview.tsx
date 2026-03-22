@@ -5,43 +5,32 @@ import type { ReactNode } from "react";
 import {
   codeAtom,
   colorTokensAtom,
+  cursorLineAtom,
   fileNameAtom,
   languageAtom,
   modeAtom,
   showLineNumberAtom,
-} from "@/features/neovim-preview/stores/atoms";
-import type { NeovimColorTokens } from "@/features/neovim-preview/types";
+} from "@/features/neovim-preview/neovim-preview.atoms";
+import type { NeovimColorTokens } from "@/features/neovim-preview/neovim-preview.types";
 import { cn } from "@/lib/utils";
 import { NeovimEditorArea } from "./neovim-editor-area";
 import { NeovimStatusLine } from "./neovim-statusline";
 import { NeovimTabline } from "./neovim-tabline";
 
 export type NeovimPreviewProps = {
-  // 表示に使う色トークン
   colors: NeovimColorTokens;
-  // コンテンツ
-  // ハイライトを表示するコード文字列
   code: string;
   language: string;
   fileName?: string;
-
-  // UI トグル
-  // 行番号を表示するか
   showLineNumber?: boolean;
-  // ステータスラインを表示するか
   showStatusLine?: boolean;
-  // タブラインを表示するか
   showTabLine?: boolean;
-
-  // 見た目調整
-  // ステータスラインに表示するモード
   mode?: "NORMAL" | "INSERT" | "VISUAL";
-  // 外側のコンテナへの追加クラス
+  cursorLine?: number;
   className?: string;
 };
 
-// atomの初期化に使用するコンポーネント
-type NeovimPreviewHydratorProps = Pick<
+type HydratorProps = Pick<
   NeovimPreviewProps,
   | "colors"
   | "code"
@@ -49,16 +38,18 @@ type NeovimPreviewHydratorProps = Pick<
   | "mode"
   | "fileName"
   | "showLineNumber"
+  | "cursorLine"
   | "className"
 > & { children: ReactNode };
 
-const NeovimPreviewHydrator: React.FC<NeovimPreviewHydratorProps> = ({
+const NeovimPreviewHydrator: React.FC<HydratorProps> = ({
   colors,
   code,
   language,
   mode,
   fileName,
   showLineNumber,
+  cursorLine,
   className,
   children,
 }) => {
@@ -69,9 +60,10 @@ const NeovimPreviewHydrator: React.FC<NeovimPreviewHydratorProps> = ({
     [modeAtom, mode ?? "NORMAL"],
     [fileNameAtom, fileName ?? "preview.ts"],
     [showLineNumberAtom, showLineNumber ?? true],
+    [cursorLineAtom, cursorLine ?? 3],
   ]);
 
-  const { bg, accent } = useAtomValue(colorTokensAtom);
+  const { bg, border } = useAtomValue(colorTokensAtom);
 
   return (
     <div
@@ -81,7 +73,7 @@ const NeovimPreviewHydrator: React.FC<NeovimPreviewHydratorProps> = ({
       )}
       style={{
         backgroundColor: bg,
-        border: `1px solid ${accent}33`,
+        border: `1px solid ${border}`,
       }}
     >
       {children}
@@ -98,6 +90,7 @@ export const NeovimPreview: React.FC<NeovimPreviewProps> = ({
   showLineNumber,
   showStatusLine,
   showTabLine,
+  cursorLine,
   className,
 }) => {
   return (
@@ -109,6 +102,7 @@ export const NeovimPreview: React.FC<NeovimPreviewProps> = ({
         mode={mode}
         fileName={fileName}
         showLineNumber={showLineNumber}
+        cursorLine={cursorLine}
         className={className}
       >
         {(showTabLine ?? true) && <NeovimTabline />}

@@ -4,15 +4,17 @@ import type React from "react";
 import {
   codeAtom,
   colorTokensAtom,
+  cursorLineAtom,
   languageAtom,
   prismThemeAtom,
-} from "@/features/neovim-preview/stores/atoms";
+} from "@/features/neovim-preview/neovim-preview.atoms";
 
 export const NeovimCodeBlock: React.FC = () => {
   const code = useAtomValue(codeAtom);
   const language = useAtomValue(languageAtom);
   const prismTheme = useAtomValue(prismThemeAtom);
-  const { bg } = useAtomValue(colorTokensAtom);
+  const { bg, bgCursorLine } = useAtomValue(colorTokensAtom);
+  const cursorLine = useAtomValue(cursorLineAtom);
 
   return (
     <Highlight theme={prismTheme} code={code} language={language}>
@@ -24,17 +26,30 @@ export const NeovimCodeBlock: React.FC = () => {
             padding: "0.5rem",
             overflow: "auto",
             fontFamily: "monospace",
+            flex: 1,
           }}
         >
-          {tokens.map((line, i) => (
-            // biome-ignore lint/suspicious/noArrayIndexKey: トークンには安定したIDがないためインデックスを使用する
-            <div key={i} {...getLineProps({ line })}>
-              {line.map((token, key) => (
-                // biome-ignore lint/suspicious/noArrayIndexKey: トークンには安定したIDがないためインデックスを使用する
-                <span key={key} {...getTokenProps({ token })} />
-              ))}
-            </div>
-          ))}
+          {tokens.map((line, i) => {
+            const lineNum = i + 1;
+            const isCursor = lineNum === cursorLine;
+            const lineProps = getLineProps({ line });
+            return (
+              <div
+                // biome-ignore lint/suspicious/noArrayIndexKey: トークンには安定した ID がないためインデックスを使用
+                key={i}
+                {...lineProps}
+                style={{
+                  ...lineProps.style,
+                  backgroundColor: isCursor ? bgCursorLine : "transparent",
+                }}
+              >
+                {line.map((token, key) => (
+                  // biome-ignore lint/suspicious/noArrayIndexKey: トークンには安定した ID がないためインデックスを使用
+                  <span key={key} {...getTokenProps({ token })} />
+                ))}
+              </div>
+            );
+          })}
         </pre>
       )}
     </Highlight>
