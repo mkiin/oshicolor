@@ -46,3 +46,18 @@ export const colorAxesAtom = atom(async (get) => {
   if (!colors) return null;
   return deriveColorAxes(colors);
 });
+
+const SEED_COUNT = 5;
+
+const SEED_OPTIONS = {
+  ...OPTIONS_BASE,
+  colorCount: SEED_COUNT,
+} satisfies Parameters<typeof getPalette>[1];
+
+/** ドミナント 5色を seed として抽出する */
+export const seedColorsAtom = atom(async (get) => {
+  const file = get(fileAtom);
+  if (!file) return null;
+  const bitmap = await createImageBitmap(file);
+  return getPalette(bitmap, SEED_OPTIONS);
+});
