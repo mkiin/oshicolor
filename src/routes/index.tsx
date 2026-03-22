@@ -5,13 +5,13 @@ import { Suspense } from "react";
 import { Dropzone, ImagePreview } from "@/components/ui/dropzone";
 import { ColorResults } from "@/features/color-extractor/components/color-results";
 import {
-  colorAtom,
-  colorAxesAtom,
   colorPaletteAtom,
   colorSwatchesAtom,
   fileAtom,
   previewUrlAtom,
+  seedColorsAtom,
 } from "@/features/color-extractor/color-extractor.atoms";
+import { neovimColorTokensAtom } from "@/features/highlight-mapper/highlight-mapper.atoms";
 import { NeovimPreview } from "@/features/neovim-preview/components";
 import { SAMPLE_TYPESCRIPT } from "@/features/neovim-preview/sample-code";
 
@@ -19,23 +19,32 @@ export const Route = createFileRoute("/")({
   component: RouteComponent,
 });
 
-// Suspense 境界の内側で atom を読んで ColorResults に渡すローダー
 const ColorResultsLoader: React.FC = () => {
-  const dominantColor = useAtomValue(colorAtom);
+  const dominantColors = useAtomValue(seedColorsAtom);
   const palette = useAtomValue(colorPaletteAtom);
   const swatches = useAtomValue(colorSwatchesAtom);
-  const colorAxes = useAtomValue(colorAxesAtom);
   return (
     <ColorResults
-      dominantColor={dominantColor}
+      dominantColors={dominantColors}
       palette={palette}
       swatches={swatches}
-      colorAxes={colorAxes}
     />
   );
 };
 
-// --- ルート ---
+const NeovimPreviewLoader: React.FC = () => {
+  const colorTokens = useAtomValue(neovimColorTokensAtom);
+  if (!colorTokens) return null;
+  return (
+    <NeovimPreview
+      colors={colorTokens}
+      code={SAMPLE_TYPESCRIPT}
+      language="typescript"
+      fileName="theme-editor.tsx"
+      className="max-w-3xl"
+    />
+  );
+};
 
 function RouteComponent() {
   const setFile = useSetAtom(fileAtom);
@@ -64,35 +73,11 @@ function RouteComponent() {
           </div>
         </div>
       )}
-      <NeovimPreview
-        colors={{
-          bg: "#1e1e2e",
-          bgPopup: "#181825",
-          bgSurface: "#313244",
-          bgCursorLine: "#45475a",
-          bgVisual: "#585b70",
-          fg: "#cdd6f4",
-          comment: "#6c7086",
-          lineNr: "#45475a",
-          cursorLineNr: "#cba6f7",
-          border: "#585b70",
-          delimiter: "#6c7086",
-          keyword: "#cba6f7",
-          fn: "#89b4fa",
-          operator: "#89dceb",
-          string: "#a6e3a1",
-          type: "#f9e2af",
-          constant: "#fab387",
-          number: "#fab387",
-          accent: "#cba6f7",
-          searchBg: "#45475a",
-          pmenuSelBg: "#45475a",
-        }}
-        code={SAMPLE_TYPESCRIPT}
-        language="typescript"
-        fileName="theme-editor.tsx"
-        className="max-w-3xl"
-      />
+      {file && (
+        <Suspense fallback={<Skeleton className="max-w-3xl h-96" />}>
+          <NeovimPreviewLoader />
+        </Suspense>
+      )}
     </div>
   );
 }
