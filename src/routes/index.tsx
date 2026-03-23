@@ -12,10 +12,7 @@ import {
   previewUrlAtom,
   seedColorsAtom,
 } from "@/features/color-extractor/color-extractor.atoms";
-import {
-  neovimColorTokensAtom,
-  neovimColorTokensMcuAtom,
-} from "@/features/highlight-mapper/highlight-mapper.atoms";
+import { neovimColorTokensAtom } from "@/features/highlight-mapper/highlight-mapper.atoms";
 import { NeovimPreview } from "@/features/neovim-preview/components";
 import { SAMPLE_TYPESCRIPT } from "@/features/neovim-preview/sample-code";
 
@@ -85,36 +82,15 @@ const SeedComparisonLoader: React.FC = () => {
 
 const NeovimPreviewLoader: React.FC = () => {
   const colorTokens = useAtomValue(neovimColorTokensAtom);
-  const mcuColorTokens = useAtomValue(neovimColorTokensMcuAtom);
-
+  if (!colorTokens) return null;
   return (
-    <div className="space-y-4">
-      <h2 className="text-lg font-semibold">Neovim Preview 比較</h2>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        {colorTokens && (
-          <div>
-            <h3 className="text-sm font-medium mb-2">ColorThief (5 seed)</h3>
-            <NeovimPreview
-              colors={colorTokens}
-              code={SAMPLE_TYPESCRIPT}
-              language="typescript"
-              fileName="theme-editor.tsx"
-            />
-          </div>
-        )}
-        {mcuColorTokens && (
-          <div>
-            <h3 className="text-sm font-medium mb-2">MCU Score (6 seed)</h3>
-            <NeovimPreview
-              colors={mcuColorTokens}
-              code={SAMPLE_TYPESCRIPT}
-              language="typescript"
-              fileName="theme-editor.tsx"
-            />
-          </div>
-        )}
-      </div>
-    </div>
+    <NeovimPreview
+      colors={colorTokens}
+      code={SAMPLE_TYPESCRIPT}
+      language="typescript"
+      fileName="theme-editor.tsx"
+      className="max-w-3xl"
+    />
   );
 };
 

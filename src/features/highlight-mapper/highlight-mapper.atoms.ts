@@ -3,12 +3,8 @@ import {
   seedColorsAtom,
   colorSwatchesAtom,
   vibrantPaletteAtom,
-  mcuSeedColorsAtom,
 } from "@/features/color-extractor/color-extractor.atoms";
-import {
-  buildHighlightMap,
-  buildHighlightMapFromHex,
-} from "./core/build-highlight-map";
+import { buildHighlightMap } from "./core/build-highlight-map";
 import { toColorTokens } from "./core/to-color-tokens";
 import type { HighlightBundle } from "./highlight-mapper.types";
 import type { NeovimColorTokens } from "@/features/neovim-preview/neovim-preview.types";
@@ -56,21 +52,3 @@ export const neovimColorTokensVibrantAtom = atom<
   if (!bundle) return null;
   return toColorTokens(bundle);
 });
-
-/** MCU seed 版の HighlightBundle */
-export const highlightBundleMcuAtom = atom<Promise<HighlightBundle | null>>(
-  async (get) => {
-    const mcuSeeds = await get(mcuSeedColorsAtom);
-    if (!mcuSeeds || mcuSeeds.length < 6) return null;
-    return buildHighlightMapFromHex(mcuSeeds);
-  },
-);
-
-/** MCU seed 版 → NeovimColorTokens */
-export const neovimColorTokensMcuAtom = atom<Promise<NeovimColorTokens | null>>(
-  async (get) => {
-    const bundle = await get(highlightBundleMcuAtom);
-    if (!bundle) return null;
-    return toColorTokens(bundle);
-  },
-);
