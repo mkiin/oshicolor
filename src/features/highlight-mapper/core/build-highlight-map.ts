@@ -10,16 +10,19 @@ import { mapHighlightGroups } from "./highlight-groups";
  * ドミナント 5色 + swatch から HighlightBundle を生成する
  *
  * neutral 源: DkMuted → Muted → dominant C 最低 の優先順で hue を選定
- * diagnostic: neutral 源と同じ色の tone を基準にする
+ * neutralHueOverride を渡すと selectNeutralHue をスキップしてその hue を使う
  */
 export const buildHighlightMap = (
   seeds: Color[],
   swatches: SwatchMap,
+  neutralHueOverride?: number,
 ): HighlightBundle => {
   const neutralOklch = selectNeutralHue(seeds, swatches);
+  const hue = neutralHueOverride ?? neutralOklch.h;
+  const overriddenOklch = { ...neutralOklch, h: hue };
 
-  const neutral = generateNeutralPalette(neutralOklch);
-  const diagnostic = generateDiagnosticColors(neutralOklch);
+  const neutral = generateNeutralPalette(overriddenOklch);
+  const diagnostic = generateDiagnosticColors(overriddenOklch);
 
   const seedFgs = seeds.map((seed) => adjustFgLightness(seed.oklch())) as [
     string,

@@ -1,4 +1,5 @@
 import { getColor, getPalette, getSwatches } from "colorthief";
+import { Vibrant } from "node-vibrant/browser";
 import { atom } from "jotai";
 import { deriveColorAxes } from "./color-axes";
 
@@ -60,4 +61,11 @@ export const seedColorsAtom = atom(async (get) => {
   if (!file) return null;
   const bitmap = await createImageBitmap(file);
   return getPalette(bitmap, SEED_OPTIONS);
+});
+
+/** node-vibrant の Palette を取得する */
+export const vibrantPaletteAtom = atom(async (get) => {
+  const url = get(previewUrlAtom);
+  if (!url) return null;
+  return Vibrant.from(url).getPalette();
 });

@@ -5,14 +5,14 @@ import { oklchToHex } from "./oklch-utils";
 const NEUTRAL_CHROMA = 0.02;
 
 const NEUTRAL_STEPS: { key: keyof NeutralPalette; l: number }[] = [
-  { key: "popup", l: 0.2 },
-  { key: "bg", l: 0.22 },
+  { key: "popup", l: 0.23 },
+  { key: "bg", l: 0.24 },
   { key: "surface", l: 0.24 },
-  { key: "cursorline", l: 0.28 },
+  { key: "cursorline", l: 0.3 },
   { key: "visual", l: 0.34 },
-  { key: "dim", l: 0.42 },
-  { key: "border", l: 0.5 },
-  { key: "comment", l: 0.58 },
+  { key: "dim", l: 0.44 },
+  { key: "border", l: 0.52 },
+  { key: "comment", l: 0.61 },
   { key: "fg", l: 0.88 },
 ];
 

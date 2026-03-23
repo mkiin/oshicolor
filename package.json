@@ -44,6 +44,7 @@
     "jotai-tanstack-query": "^0.11.0",
     "lucide-react": "^0.561.0",
     "ml-kmeans": "^7.0.0",
+    "node-vibrant": "^4.0.4",
     "prism-react-renderer": "^2.4.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
