@@ -11,7 +11,12 @@ import {
   previewUrlAtom,
   seedColorsAtom,
 } from "@/features/color-extractor/color-extractor.atoms";
-import { neovimColorTokensAtom } from "@/features/highlight-mapper/highlight-mapper.atoms";
+import {
+  activeNeutralRoleAtom,
+  neovimColorTokensAtom,
+  neutralSourceTabsAtom,
+} from "@/features/highlight-mapper/highlight-mapper.atoms";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { NeovimPreview } from "@/features/neovim-preview/components";
 import { SAMPLE_TYPESCRIPT } from "@/features/neovim-preview/sample-code";
 
@@ -32,17 +37,47 @@ const ColorResultsLoader: React.FC = () => {
   );
 };
 
-const NeovimPreviewLoader: React.FC = () => {
+const NeutralSourceSwitcher: React.FC = () => {
+  const tabs = useAtomValue(neutralSourceTabsAtom);
+  const setActiveRole = useSetAtom(activeNeutralRoleAtom);
   const colorTokens = useAtomValue(neovimColorTokensAtom);
-  if (!colorTokens) return null;
+
+  if (!tabs || !colorTokens) return null;
+
+  const defaultTab = tabs[0].role;
+
   return (
-    <NeovimPreview
-      colors={colorTokens}
-      code={SAMPLE_TYPESCRIPT}
-      language="typescript"
-      fileName="theme-editor.tsx"
-      className="max-w-3xl"
-    />
+    <div className="space-y-3">
+      <h2 className="text-lg font-semibold">Neovim Preview</h2>
+      <Tabs
+        defaultValue={defaultTab}
+        onValueChange={(value) => setActiveRole(value as typeof defaultTab)}
+        className="flex flex-col gap-2"
+      >
+        <TabsList variant="line">
+          {tabs.map((tab) => (
+            <TabsTrigger key={tab.role} value={tab.role}>
+              <div
+                className="w-3 h-3 rounded-sm border border-white/20"
+                style={{ backgroundColor: tab.hex }}
+              />
+              {tab.role}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+        {tabs.map((tab) => (
+          <TabsContent key={tab.role} value={tab.role}>
+            <NeovimPreview
+              colors={colorTokens}
+              code={SAMPLE_TYPESCRIPT}
+              language="typescript"
+              fileName="theme-editor.tsx"
+              className="max-w-3xl"
+            />
+          </TabsContent>
+        ))}
+      </Tabs>
+    </div>
   );
 };
 
@@ -75,7 +110,7 @@ function RouteComponent() {
       )}
       {file && (
         <Suspense fallback={<Skeleton className="max-w-3xl h-96" />}>
-          <NeovimPreviewLoader />
+          <NeutralSourceSwitcher />
         </Suspense>
       )}
     </div>

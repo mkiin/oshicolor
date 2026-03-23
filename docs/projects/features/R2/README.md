@@ -15,7 +15,7 @@
 | V7  | V + DV/LV 競合選定で seed 数固定化 | node-vibrant HSL ベースで colorthief の Vibrant と不一致 |
 | V8  | colorthief 準拠 OkLch Vibrant + Muted | 軸ベースが不必要に複雑 / 上位5色にない特徴色の欠落 / 単調な seed 構成 |
 | V9  | ドミナント5色 seed + ハイライトグループ割り当て | neutral 源が無精査 / seed ロール概念なし / アクセント色なし / 全体的に渋い |
-| V10 | neutral 源精査 + seed ロールスコアリング + Vibrant 系アクセント | 開発中 |
+| V10 | neutral 源ユーザー選択 + WCAG コントラスト保証 + ロールベース可変長割り当て | 開発中 |
 
 ## 設計変遷
 
@@ -61,11 +61,11 @@ V9: "ドミナント5色 seed + ハイライトグループ割り当て"
      + 5 seed → 66 ハイライトグループ割り当て
      → neutral 源が無精査 / seed ロール概念なし / アクセント色なし
 
-V10: "neutral 源精査 + seed ロールスコアリング + Vibrant 系アクセント"
-     + 5色から C 最低の色を neutral 源に自動選定
-     + swatch Vibrant 系（V/DkV/LtV）を keyword 等の要所に導入
-     + seed ロールスコアリング（statement / storage 等に適性判定）
-     + fg-adjuster に MIN_CHROMA 追加で彩度底上げ
+V10: "neutral 源ユーザー選択 + WCAG コントラスト保証 + ロールベース可変長割り当て"
+     + Muted 系 swatch からユーザーがタブで neutral 源を選択
+     + WCAG コントラスト比ベースの動的 L 調整（固定 L clamp 廃止）
+     + dominant 5 + Vibrant 系の候補プールからスコアリングで可変長ロール割り当て
+     + 各ロールから 3トーン展開（fg / dim / bold）
      → 開発中
 ```
 

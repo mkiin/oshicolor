@@ -1,16 +1,34 @@
-import type { OKLCH } from "colorthief";
-import { oklchToHex } from "./oklch-utils";
+import { hexToOklch, oklchToHex, contrastRatio } from "./oklch-utils";
 
-const MIN_FG_LIGHTNESS = 0.65;
-const MAX_FG_LIGHTNESS = 0.85;
+/** WCAG AA: 通常テキスト */
+export const CONTRAST_AA = 4.5;
+/** WCAG 緩め: comment, dim 等の補助テキスト */
+export const CONTRAST_SUBDUED = 3;
+
+const L_MAX = 0.95;
+const L_STEP = 0.01;
 
 /**
- * seed の hue/chroma を保ちつつ、bg とのコントラストが取れる L に調整して hex を返す
+ * fg の hue/chroma を保ったまま、bg とのコントラスト比が minRatio 以上になるよう L を調整する
  *
- * seed の L が MIN_FG_LIGHTNESS 未満なら引き上げ、
- * MAX_FG_LIGHTNESS を超えるなら抑える。
+ * dark theme 前提: 元の L から上方向に探索し、最小限の変更でコントラストを満たす。
+ * 既に満たしていればそのまま返す。
  */
-export const adjustFgLightness = (seedOklch: OKLCH): string => {
-  const l = Math.min(Math.max(seedOklch.l, MIN_FG_LIGHTNESS), MAX_FG_LIGHTNESS);
-  return oklchToHex(l, seedOklch.c, seedOklch.h);
+export const ensureContrast = (
+  fgHex: string,
+  bgHex: string,
+  minRatio: number,
+): string => {
+  if (contrastRatio(fgHex, bgHex) >= minRatio) return fgHex;
+
+  const { l, c, h } = hexToOklch(fgHex);
+
+  for (let candidate = l + L_STEP; candidate <= L_MAX; candidate += L_STEP) {
+    const hex = oklchToHex(candidate, c, h);
+    if (contrastRatio(hex, bgHex) >= minRatio) {
+      return hex;
+    }
+  }
+
+  return oklchToHex(L_MAX, c, h);
 };
