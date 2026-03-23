@@ -8,6 +8,7 @@ import {
   colorPaletteAtom,
   colorSwatchesAtom,
   fileAtom,
+  mcuSeedColorsAtom,
   previewUrlAtom,
   seedColorsAtom,
 } from "@/features/color-extractor/color-extractor.atoms";
@@ -29,6 +30,53 @@ const ColorResultsLoader: React.FC = () => {
       palette={palette}
       swatches={swatches}
     />
+  );
+};
+
+const SeedComparisonLoader: React.FC = () => {
+  const colorthiefSeeds = useAtomValue(seedColorsAtom);
+  const mcuSeeds = useAtomValue(mcuSeedColorsAtom);
+
+  return (
+    <div className="space-y-4">
+      <h2 className="text-lg font-semibold">Seed 比較: ColorThief vs MCU</h2>
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <h3 className="text-sm font-medium mb-2">
+            ColorThief (population順, {colorthiefSeeds?.length ?? 0}色)
+          </h3>
+          <div className="flex gap-1">
+            {colorthiefSeeds?.map((c) => (
+              <div key={c.hex()} className="text-center">
+                <div
+                  className="w-12 h-12 rounded"
+                  style={{ backgroundColor: c.hex() }}
+                />
+                <span className="text-xs text-gray-400 font-mono">
+                  {c.hex()}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div>
+          <h3 className="text-sm font-medium mb-2">
+            MCU Score (Hue分散+高C優先, {mcuSeeds?.length ?? 0}色)
+          </h3>
+          <div className="flex gap-1">
+            {mcuSeeds?.map((hex) => (
+              <div key={hex} className="text-center">
+                <div
+                  className="w-12 h-12 rounded"
+                  style={{ backgroundColor: hex }}
+                />
+                <span className="text-xs text-gray-400 font-mono">{hex}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
@@ -72,6 +120,11 @@ function RouteComponent() {
             </Suspense>
           </div>
         </div>
+      )}
+      {file && (
+        <Suspense fallback={<Skeleton className="w-full h-24" />}>
+          <SeedComparisonLoader />
+        </Suspense>
       )}
       {file && (
         <Suspense fallback={<Skeleton className="max-w-3xl h-96" />}>
