@@ -1,11 +1,11 @@
-import type { Color, SwatchMap } from "colorthief";
 import type { HighlightBundle } from "../highlight-mapper.types";
-import { selectNeutralHue } from "./neutral-source";
 import { generateNeutralPalette } from "./neutral-palette";
 import { ensureContrast, CONTRAST_AA, CONTRAST_SUBDUED } from "./fg-adjuster";
 import { generateDiagnosticColors } from "./diagnostic-colors";
 import { mapHighlightGroups } from "./highlight-groups";
 import { hexToOklch } from "./oklch-utils";
+import type { Candidate } from "./candidate-pool";
+import { assignRoles, type RoleMap, SYNTAX_ROLES } from "./role-assignment";
 
 /**
  * neutral palette 内の fg 系色に WCAG コントラスト保証を適用する
@@ -34,62 +34,37 @@ const adjustDiagnosticContrast = (
 });
 
 /**
- * ドミナント 5色 + swatch から HighlightBundle を生成する
- *
- * neutral 源: DkMuted → Muted → dominant C 最低 の優先順で hue を選定
- * neutralHueOverride を渡すと selectNeutralHue をスキップしてその hue を使う
+ * RoleMap の全色に WCAG コントラスト保証を適用する
+ */
+const adjustRoleContrast = (roles: RoleMap, bgHex: string): RoleMap => {
+  const adjusted = {} as RoleMap;
+  for (const role of SYNTAX_ROLES) {
+    adjusted[role] = ensureContrast(roles[role], bgHex, CONTRAST_AA);
+  }
+  return adjusted;
+};
+
+/**
+ * 候補プール + neutral hue から HighlightBundle を生成する
  */
 export const buildHighlightMap = (
-  seeds: Color[],
-  swatches: SwatchMap,
-  neutralHueOverride?: number,
+  candidates: Candidate[],
+  neutralHue: number,
 ): HighlightBundle => {
-  const neutralOklch = selectNeutralHue(seeds, swatches);
-  const hue = neutralHueOverride ?? neutralOklch.h;
-  const overriddenOklch = { ...neutralOklch, h: hue };
+  const neutralOklch = hexToOklch(candidates[0]?.hex ?? "#000000");
+  const overriddenOklch = { ...neutralOklch, h: neutralHue };
 
   const rawNeutral = generateNeutralPalette(overriddenOklch);
   const neutral = adjustNeutralContrast(rawNeutral);
   const rawDiagnostic = generateDiagnosticColors(overriddenOklch);
   const diagnostic = adjustDiagnosticContrast(rawDiagnostic, neutral.bg);
 
-  const seedFgs = seeds.map((seed) =>
-    ensureContrast(seed.hex(), neutral.bg, CONTRAST_AA),
-  ) as [string, string, string, string, string];
-
-  const highlights = mapHighlightGroups(seedFgs, neutral, diagnostic);
+  const rawRoles = assignRoles(candidates, neutralHue);
+  const roles = adjustRoleContrast(rawRoles, neutral.bg);
+  const highlights = mapHighlightGroups(roles, neutral, diagnostic);
 
   return {
-    seeds: seeds.map((s) => s.hex()),
-    neutral,
-    diagnostic,
-    highlights,
-  };
-};
-
-/**
- * hex 色配列から HighlightBundle を生成する
- *
- * neutralHex を neutral 源に、fgHexes (5色) を fg に割り当てる。
- */
-export const buildHighlightMapFromHex = (
-  neutralHex: string,
-  fgHexes: [string, string, string, string, string],
-): HighlightBundle => {
-  const neutralOklch = hexToOklch(neutralHex);
-  const rawNeutral = generateNeutralPalette(neutralOklch);
-  const neutral = adjustNeutralContrast(rawNeutral);
-  const rawDiagnostic = generateDiagnosticColors(neutralOklch);
-  const diagnostic = adjustDiagnosticContrast(rawDiagnostic, neutral.bg);
-
-  const seedFgs = fgHexes.map((hex) =>
-    ensureContrast(hex, neutral.bg, CONTRAST_AA),
-  ) as [string, string, string, string, string];
-
-  const highlights = mapHighlightGroups(seedFgs, neutral, diagnostic);
-
-  return {
-    seeds: [neutralHex, ...fgHexes],
+    seeds: candidates.map((c) => c.hex),
     neutral,
     diagnostic,
     highlights,

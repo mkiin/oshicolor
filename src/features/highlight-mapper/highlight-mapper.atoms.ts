@@ -5,6 +5,7 @@ import {
   colorSwatchesAtom,
 } from "@/features/color-extractor/color-extractor.atoms";
 import { buildHighlightMap } from "./core/build-highlight-map";
+import { buildCandidatePool } from "./core/candidate-pool";
 import { toColorTokens } from "./core/to-color-tokens";
 import type { HighlightBundle } from "./highlight-mapper.types";
 import type { NeovimColorTokens } from "@/features/neovim-preview/neovim-preview.types";
@@ -37,18 +38,26 @@ export const neutralSourceTabsAtom = atom<Promise<NeutralSourceTab[] | null>>(
 /** 現在選択中の neutral 源 swatch ロール */
 export const activeNeutralRoleAtom = atom<SwatchRole>("DarkMuted");
 
-/** 選択中の neutral 源の hue を使って HighlightBundle を生成する */
+/** dominant 5色 + Vibrant 系 swatch から候補プールを構築する（重複除外済み） */
+export const candidatePoolAtom = atom(async (get) => {
+  const seeds = await get(seedColorsAtom);
+  const swatches = await get(colorSwatchesAtom);
+  if (!seeds || !swatches) return null;
+  return buildCandidatePool(seeds, swatches);
+});
+
+/** 候補プール + 選択中 neutral hue から HighlightBundle を生成する */
 export const highlightBundleAtom = atom<Promise<HighlightBundle | null>>(
   async (get) => {
-    const seeds = await get(seedColorsAtom);
+    const pool = await get(candidatePoolAtom);
     const swatches = await get(colorSwatchesAtom);
-    if (!seeds || !swatches) return null;
+    if (!pool || !swatches) return null;
 
     const activeRole = get(activeNeutralRoleAtom);
     const swatch = swatches[activeRole];
-    const hueOverride = swatch ? swatch.color.oklch().h : undefined;
+    const neutralHue = swatch ? swatch.color.oklch().h : pool[0].oklch.h;
 
-    return buildHighlightMap(seeds, swatches, hueOverride);
+    return buildHighlightMap(pool, neutralHue);
   },
 );
 
