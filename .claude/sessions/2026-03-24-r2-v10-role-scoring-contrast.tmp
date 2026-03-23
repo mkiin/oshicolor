@@ -1,0 +1,55 @@
+# Checkpoint: R2/V10 ロールスコアリング + WCAG コントラスト
+
+Date: 2026-03-24 01:30
+
+## 完了した項目
+
+- Muted 系 swatch (DkMuted/Muted/LtMuted) のタブ切り替え UI（shadcn Tabs base-ui 版）
+- fg-adjuster → WCAG コントラスト比ベースの ensureContrast に置換
+- 全 fg 色（d1-d5, neutral.fg/comment/dim/border, diagnostic 4色）にコントラスト保証適用
+- oklch-utils に hexToOklch, relativeLuminance, contrastRatio 追加
+- candidate-pool.ts: dominant 5色 + Vibrant 系(V/DkV/LtV) を OkLch 色差で重複除外して統合
+- role-assignment.ts: 7ロール(accent〜number) をスコアリングで候補プールから割り当て
+- highlight-groups.ts: 5色タプル → RoleMap ベースに移行
+- build-highlight-map.ts: 候補プール + neutralHue を受け取る新シグネチャ
+- V10 plan.md 全面更新、issues.md に MCU 実験の知見を記録
+- MCU QuantizerCelebi 実験 → キャラらしさ失われ却下 → revert 済み
+
+## 現在の状態
+
+- ブランチ: feature/R2-V10-neutral-role-vibrant
+- 最新コミット: fa2c6f0 (候補プール構築 + ロールベース可変長割り当て)
+- 作業ツリー: クリーン
+
+## 判明した事実
+
+- ColorThief / node-vibrant / MCU のいずれもキャラの象徴色を保証できない → ユーザー選択フローが将来的に必須
+- dominant 5色は population 順でキャラ間で似た構成になりやすい → Vibrant 系を混ぜることで差異が出る
+- RaidenShogun: Vibrant (#bc2462) を accent に入れると「紫+赤」のキャラ性が明確に出た
+- Vibrant 系の原色は目立ちすぎる → C を dominant 平均に寄せるブレンドを試みたが、まだ検証途中
+- bg と同じ hue 帯 + 低 C の色がロールに選ばれると見づらい → bgDistinguishability ペナルティを試みたが効果不十分で revert
+- HCT は Tone→WCAG 直結が利点だが、青の紫シフト問題あり。OkLch + ensureContrast で同等の効果を得られる
+- fg-adjuster の固定 L clamp は WCAG コントラスト問題に統合すべき（完了）
+
+## 未解決の問題
+
+- bg と同じ hue 帯の候補色が fg ロールに選ばれて見づらい問題（スコアリングペナルティでは不十分）
+- Vibrant 系の彩度が高すぎて浮く問題（C ブレンドの方向性は合っているが最適値は未定）
+- 3トーン展開が未実装（function/string, operator/type が同色のまま）
+- SSR 環境(Workers)で Tabs コンポーネントがハングする報告あり（base-ui 版に変更後は未確認）
+
+## 次にやること
+
+1. bg 近接色の問題を解決する（候補プールから除外 or スコアリング改善 or 別アプローチ）
+2. Vibrant の C ブレンド方針を決める
+3. 3トーン展開を実装（各ロールから fg/dim/bold の L 派生）
+4. mapHighlightGroups のロールベース化を完成させる
+5. デバッグ SVG で新旧比較
+
+## キーとなる判断・理由
+
+- OkLch を維持し HCT に移行しない: 青の紫シフト問題。OkLch + WCAG 計算で HCT の利点を取り込める
+- MCU 却下: Hue 分散・高 C 優先だがキャラ色を拾えない。どの量子化も象徴色保証不可
+- fg-adjuster 廃止: WCAG コントラスト保証に統合。固定 L clamp は bg 色を考慮しない欠陥設計
+- 5色タプル廃止: 可変長ロールベースで色数に応じたフォールバック。function/string を別色にできる
+- neutral 源をユーザー選択に: 自動選定のフォールバックに頼らず、ユーザーが bg の雰囲気を選べる
