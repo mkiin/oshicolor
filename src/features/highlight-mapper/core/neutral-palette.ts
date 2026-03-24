@@ -22,7 +22,7 @@ const NEUTRAL_STEPS: { key: keyof NeutralPalette; l: number }[] = [
  * 全段階で同一 hue / chroma、lightness のみ変化。
  * 背景にキャラクターの色味がほんのり乗る。
  */
-export const generateNeutralPalette = (primaryOklch: OKLCH): NeutralPalette => {
+export const neutralPaletteFrom = (primaryOklch: OKLCH): NeutralPalette => {
   const hue = primaryOklch.h;
   const entries = NEUTRAL_STEPS.map(
     ({ key, l }) => [key, oklchToHex(l, NEUTRAL_CHROMA, hue)] as const,

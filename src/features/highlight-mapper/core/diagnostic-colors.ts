@@ -16,9 +16,7 @@ const CHROMA_SCALE = 0.8;
  *
  * hue は固定、L と C は primary seed から導出。
  */
-export const generateDiagnosticColors = (
-  primaryOklch: OKLCH,
-): DiagnosticColors => {
+export const diagnosticColorsFrom = (primaryOklch: OKLCH): DiagnosticColors => {
   const l = primaryOklch.l;
   const c = primaryOklch.c * CHROMA_SCALE;
 

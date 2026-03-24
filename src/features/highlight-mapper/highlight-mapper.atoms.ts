@@ -1,32 +1,34 @@
-import type { SwatchRole } from "colorthief";
 import { atom } from "jotai";
 import { colorSwatchesAtom } from "@/features/color-extractor/color-extractor.atoms";
-import { buildHighlightMap } from "./core/build-highlight-map";
-import { toColorTokens } from "./core/to-color-tokens";
+import { themeColorsFrom } from "./core/theme-pipeline";
+import { toColorTokens } from "./core/preview-tokens";
 import { generateLuaColorscheme } from "@/features/lua-generator/lua-generator";
+import { hexToOklch } from "@/lib/oklch";
 import type { HighlightBundle } from "./highlight-mapper.types";
 import type { NeovimColorTokens } from "@/features/neovim-preview/neovim-preview.types";
 
 /** neutral 源として使う swatch ロール */
-export const NEUTRAL_ROLES: SwatchRole[] = ["DarkMuted", "Muted", "LightMuted"];
+export const NEUTRAL_ROLES = ["DarkMuted", "Muted", "LightMuted"] as const;
+
+export type NeutralRole = (typeof NEUTRAL_ROLES)[number];
 
 /** 現在選択中の neutral 源 swatch ロール */
-export const activeNeutralRoleAtom = atom<SwatchRole>("DarkMuted");
+export const activeNeutralRoleAtom = atom<NeutralRole>("DarkMuted");
 
 /** 選択中 neutral swatch からテーマカラーを生成する */
 export const themeColorsAtom = atom<Promise<HighlightBundle | null>>(
   async (get) => {
-    const swatches = await get(colorSwatchesAtom);
-    if (!swatches) return null;
+    const palette = await get(colorSwatchesAtom);
+    if (!palette) return null;
 
     const activeRole = get(activeNeutralRoleAtom);
-    const swatch = swatches[activeRole];
+    const swatch = palette[activeRole];
     if (!swatch) return null;
 
-    const hex = swatch.color.hex();
-    const hue = swatch.color.oklch().h;
+    const hex = swatch.hex;
+    const hue = hexToOklch(hex).h;
 
-    return buildHighlightMap(hex, hue);
+    return themeColorsFrom(hex, hue);
   },
 );
 

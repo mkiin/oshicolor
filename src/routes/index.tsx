@@ -47,7 +47,7 @@ const ThemePreview: React.FC = () => {
   const tabs = NEUTRAL_ROLES.filter((role) => swatches[role] != null).map(
     (role) => ({
       role,
-      hex: swatches[role]!.color.hex(),
+      hex: swatches[role]!.hex,
     }),
   );
 
@@ -69,7 +69,7 @@ const ThemePreview: React.FC = () => {
         onValueChange={handleTabChange}
         className="flex flex-col gap-2"
       >
-        <TabsList variant="line">
+        <TabsList>
           {tabs.map((tab) => (
             <TabsTrigger key={tab.role} value={tab.role}>
               <div
@@ -106,10 +106,7 @@ function RouteComponent() {
   return (
     <div className="p-8 max-w-5xl mx-auto space-y-6">
       <h1 className="text-xl font-bold">画像アップロード</h1>
-      <Dropzone
-        accept={{ "image/*": [] }}
-        onFilesAccepted={(files) => setFile(files[0] ?? null)}
-      />
+      <Dropzone accept={{ "image/*": [] }} onFileAccepted={setFile} />
       {file && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
           <div className="w-full aspect-3/4 bg-gray-100 rounded-lg overflow-hidden">

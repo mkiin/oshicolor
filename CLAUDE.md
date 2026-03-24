@@ -84,3 +84,4 @@ GitHub × スクラムで運用する。タスク管理は GitHub Issues + Proje
 - コミットメッセージは Conventional Commits に従う
 - `feat:`, `fix:`, `refactor:`, `docs:`, `chore:`, `test:`
 - 1 コミット = 1 論理的変更
+- 対応する Issue がある場合、メッセージ末尾に `#<番号>` を付ける（例: `refactor: 命名整理 #17`）

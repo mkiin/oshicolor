@@ -2,29 +2,23 @@ import { useDropzone } from "react-dropzone";
 import { cn } from "@/lib/utils";
 
 type DropzoneProps = {
-  onFilesAccepted: (files: File[]) => void;
+  onFileAccepted: (file: File) => void;
   accept?: Record<string, string[]>;
-  multiple?: boolean;
   maxSize?: number;
   className?: string;
 };
 
 const Dropzone: React.FC<DropzoneProps> = ({
-  onFilesAccepted,
+  onFileAccepted,
   accept,
-  multiple = false,
   maxSize,
   className,
 }) => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept,
-    multiple,
+    multiple: false,
     maxSize,
-    // onDrop ではなく onDropAccepted を使う。
-    // onDrop は拒否ファイルも含めて全イベントで発火するが、
-    // onDropAccepted はバリデーション通過後のみ発火する。
-    // accept や maxSize の制約が確実に適用された後の値だけを受け取れる。
-    onDropAccepted: onFilesAccepted,
+    onDropAccepted: (files) => onFileAccepted(files[0]),
   });
 
   return (

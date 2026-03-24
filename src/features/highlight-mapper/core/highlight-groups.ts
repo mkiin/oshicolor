@@ -8,7 +8,7 @@ import type {
 /**
  * ロールベースの fg 色 + neutral + diagnostic から 66 ハイライトグループを構築する
  */
-export const mapHighlightGroups = (
+export const highlightGroupsFrom = (
   roles: RoleMap,
   neutral: NeutralPalette,
   diag: DiagnosticColors,

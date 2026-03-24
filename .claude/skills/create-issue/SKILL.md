@@ -70,8 +70,17 @@ gh issue create \
 feature/RX-VY-概要-kebab-case
 ```
 
+### Step 6: Projects ボードに追加する
+
+作成した Issue を GitHub Projects ボードに追加し、適切な列に配置する:
+
+```bash
+gh project item-add 2 --owner mkiin --url "<Issue URL>" --format json
+```
+
 ## 注意事項
 
 - 重複 Issue を作らない。Step 1 で既存 Issue を必ず確認する
 - ラベルが存在しない場合は作成しない（ユーザーに報告する）
 - 本文は簡潔に。長い説明は plan.md や issues.md へのリンクで代替する
+- **Issue 作成後は必ず Projects ボードに追加する**。追加忘れると可視化から漏れる

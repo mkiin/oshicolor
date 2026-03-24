@@ -1,4 +1,7 @@
-import type { Color, SwatchMap } from "colorthief";
+import type { Color } from "colorthief";
+import type { Vibrant } from "node-vibrant/browser";
+
+type Palette = Awaited<ReturnType<Vibrant["getPalette"]>>;
 import { DominantColorView } from "./dominant-color-view";
 import { PaletteView } from "./palette-view";
 import { SwatchesView } from "./swatches-view";
@@ -6,7 +9,7 @@ import { SwatchesView } from "./swatches-view";
 export type ColorResultsProps = {
   dominantColors: Color[] | null;
   palette: Color[] | null;
-  swatches: SwatchMap | null;
+  swatches: Palette | null;
 };
 
 export const ColorResults: React.FC<ColorResultsProps> = ({
