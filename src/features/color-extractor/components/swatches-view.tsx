@@ -1,7 +1,4 @@
-import type { Vibrant } from "node-vibrant/browser";
-
-type Palette = Awaited<ReturnType<Vibrant["getPalette"]>>;
-type Swatch = NonNullable<Palette[keyof Palette]>;
+import type { VibrantPalette, VibrantSwatch } from "@/types/color";
 
 const SWATCH_ROLES = [
   "Vibrant",
@@ -23,7 +20,7 @@ const SWATCH_ROLE_LABELS: Record<(typeof SWATCH_ROLES)[number], string> = {
 
 type SwatchCardProps = {
   role: (typeof SWATCH_ROLES)[number];
-  swatch: Swatch | null;
+  swatch: VibrantSwatch | null;
 };
 
 const SwatchCard: React.FC<SwatchCardProps> = ({ role, swatch }) => (
@@ -51,7 +48,7 @@ const SwatchCard: React.FC<SwatchCardProps> = ({ role, swatch }) => (
 );
 
 export type SwatchesViewProps = {
-  swatches: Palette;
+  swatches: VibrantPalette;
 };
 
 export const SwatchesView: React.FC<SwatchesViewProps> = ({ swatches }) => (
