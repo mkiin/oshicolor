@@ -1,4 +1,4 @@
-import type { VibrantPalette, VibrantSwatch } from "@/types/color";
+import type { ColorSwatch, ColorSwatchMap } from "@/types/color";
 
 const SWATCH_ROLES = [
   "Vibrant",
@@ -20,26 +20,26 @@ const SWATCH_ROLE_LABELS: Record<(typeof SWATCH_ROLES)[number], string> = {
 
 type SwatchCardProps = {
   role: (typeof SWATCH_ROLES)[number];
-  swatch: VibrantSwatch | null;
+  swatch: ColorSwatch | null;
 };
 
 const SwatchCard: React.FC<SwatchCardProps> = ({ role, swatch }) => (
   <div
     className="rounded-lg overflow-hidden ring-1 ring-black/10 min-h-72px flex flex-col justify-between p-3"
-    style={{ backgroundColor: swatch?.hex ?? "#f3f4f6" }}
+    style={{ backgroundColor: swatch?.color.hex() ?? "#f3f4f6" }}
   >
     <p
       className="text-[11px] font-semibold"
-      style={{ color: swatch?.titleTextColor ?? "#9ca3af" }}
+      style={{ color: swatch?.titleTextColor.hex() ?? "#9ca3af" }}
     >
       {SWATCH_ROLE_LABELS[role]}
     </p>
     {swatch ? (
       <p
         className="text-[10px] font-mono mt-1"
-        style={{ color: swatch.bodyTextColor }}
+        style={{ color: swatch.bodyTextColor.hex() }}
       >
-        {swatch.hex}
+        {swatch.color.hex()}
       </p>
     ) : (
       <p className="text-[10px] text-gray-300">—</p>
@@ -48,7 +48,7 @@ const SwatchCard: React.FC<SwatchCardProps> = ({ role, swatch }) => (
 );
 
 export type SwatchesViewProps = {
-  swatches: VibrantPalette;
+  swatches: ColorSwatchMap;
 };
 
 export const SwatchesView: React.FC<SwatchesViewProps> = ({ swatches }) => (

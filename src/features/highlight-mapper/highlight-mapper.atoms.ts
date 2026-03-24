@@ -3,7 +3,6 @@ import { colorSwatchesAtom } from "@/features/color-extractor/color-extractor.at
 import { themeColorsFrom } from "./core/theme-pipeline";
 import { toColorTokens } from "./core/preview-tokens";
 import { generateLuaColorscheme } from "@/features/lua-generator/lua-generator";
-import { hexToOklch } from "@/lib/oklch";
 import type { HighlightBundle } from "./highlight-mapper.types";
 import type { NeovimColorTokens } from "@/features/neovim-preview/neovim-preview.types";
 
@@ -25,8 +24,8 @@ export const themeColorsAtom = atom<Promise<HighlightBundle | null>>(
     const swatch = palette[activeRole];
     if (!swatch) return null;
 
-    const hex = swatch.hex;
-    const hue = hexToOklch(hex).h;
+    const hex = swatch.color.hex();
+    const hue = swatch.color.oklch().h;
 
     return themeColorsFrom(hex, hue);
   },

@@ -1,5 +1,5 @@
 import type { Color } from "colorthief";
-import type { VibrantPalette } from "@/types/color";
+import type { ColorSwatchMap } from "@/types/color";
 import { DominantColorView } from "./dominant-color-view";
 import { PaletteView } from "./palette-view";
 import { SwatchesView } from "./swatches-view";
@@ -7,7 +7,7 @@ import { SwatchesView } from "./swatches-view";
 export type ColorResultsProps = {
   dominantColors: Color[] | null;
   palette: Color[] | null;
-  swatches: VibrantPalette | null;
+  swatches: ColorSwatchMap | null;
 };
 
 export const ColorResults: React.FC<ColorResultsProps> = ({

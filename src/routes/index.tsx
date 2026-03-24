@@ -47,7 +47,7 @@ const ThemePreview: React.FC = () => {
   const tabs = NEUTRAL_ROLES.filter((role) => swatches[role] != null).map(
     (role) => ({
       role,
-      hex: swatches[role]!.hex,
+      hex: swatches[role]!.color.hex(),
     }),
   );
 

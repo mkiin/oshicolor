@@ -1,7 +1,6 @@
-import type { Vibrant } from "node-vibrant/browser";
-
-/** node-vibrant の getPalette() が返すパレット */
-export type VibrantPalette = Awaited<ReturnType<Vibrant["getPalette"]>>;
-
-/** node-vibrant の個別 Swatch（null でないもの） */
-export type VibrantSwatch = NonNullable<VibrantPalette[keyof VibrantPalette]>;
+export type {
+  Swatch as ColorSwatch,
+  SwatchMap as ColorSwatchMap,
+  SwatchRole as ColorSwatchRole,
+  Color as ExtractedColor,
+} from "colorthief";
