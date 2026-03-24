@@ -1,4 +1,4 @@
-import { hexToOklch, oklchToHex, contrastRatio } from "./oklch-utils";
+import { hexToOklch, oklchToHex, contrastRatio } from "./oklch";
 
 /** WCAG AA: 通常テキスト */
 export const CONTRAST_AA = 4.5;

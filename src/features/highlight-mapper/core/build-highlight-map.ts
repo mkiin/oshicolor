@@ -1,9 +1,9 @@
 import type { HighlightBundle, RoleMap } from "../highlight-mapper.types";
 import { generateNeutralPalette } from "./neutral-palette";
-import { ensureContrast, CONTRAST_AA, CONTRAST_SUBDUED } from "./fg-adjuster";
+import { ensureContrast, CONTRAST_AA, CONTRAST_SUBDUED } from "@/lib/contrast";
 import { generateDiagnosticColors } from "./diagnostic-colors";
 import { mapHighlightGroups } from "./highlight-groups";
-import { hexToOklch } from "./oklch-utils";
+import { hexToOklch } from "@/lib/oklch";
 
 /**
  * neutral palette 内の fg 系色に WCAG コントラスト保証を適用する
