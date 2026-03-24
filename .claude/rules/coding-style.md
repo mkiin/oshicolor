@@ -21,6 +21,18 @@ paths:
 - boolean: `is~`（状態）/ `has~`（存在）/ `should~`（条件）/ `can~`（権限）
 - イベントハンドラ: 定義側は `handle~`、Props側は `on~`（例: `handleClick` / `onClick`）
 
+### 名前設計の原則
+
+判断基準: **「この名前は、コードを読まずにビジネス上の目的が分かるか？」**
+
+- **ドメイン層は意図駆動で命名する**: 名前は「なぜ存在するか」「何をするか」を表現する。実装手段（`build~`, `create~`, `generate~`）や処理方法（`resolve~`, `derive~`）を動詞にしない
+  - NG: `buildHighlightMap`, `resolveHighlights`, `deriveThemeData`
+  - OK: `highlightsByRole`, `applyTheme`, `neutralPaletteFrom`
+- **特定ツール・ライブラリ名を接頭辞にしない**: 内部実装が変わっても名前が壊れないようにする
+  - NG: `vibrantPaletteAtom`, `colorthiefSwatchesAtom`
+  - OK: `swatchPaletteAtom`, `colorSwatchesAtom`
+- **インフラ層・ユーティリティ層は技術的な語を許容する**: 色空間変換（`oklchToHex`）や WCAG コントラスト計算など、ドメイン概念を持たない処理は技術的な命名でよい
+
 ## 型定義
 
 - **`type` を基本とする**。`interface` は外部ライブラリの型拡張（declaration merging）が必要な場合のみ使用する
