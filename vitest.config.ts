@@ -5,6 +5,7 @@ export default defineConfig({
     tsconfigPaths: true,
   },
   test: {
+    include: ["tests/**/*.test.ts"],
     environment: "jsdom",
   },
 });

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { HighlightBundle } from "@/features/highlight-mapper/highlight-mapper.types";
-import { generateLuaColorscheme } from "./lua-generator";
+import { generateLuaColorscheme } from "@/features/lua-generator/lua-generator";
 
 const MOCK_BUNDLE: HighlightBundle = {
   seeds: ["#ff6688", "#4488cc"],
