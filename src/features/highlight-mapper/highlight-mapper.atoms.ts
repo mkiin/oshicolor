@@ -7,6 +7,7 @@ import {
 import { buildHighlightMap } from "./core/build-highlight-map";
 import { buildCandidatePool } from "./core/candidate-pool";
 import { toColorTokens } from "./core/to-color-tokens";
+import { generateLuaColorscheme } from "@/features/lua-generator/lua-generator";
 import type { HighlightBundle } from "./highlight-mapper.types";
 import type { NeovimColorTokens } from "@/features/neovim-preview/neovim-preview.types";
 
@@ -69,3 +70,10 @@ export const neovimColorTokensAtom = atom<Promise<NeovimColorTokens | null>>(
     return toColorTokens(bundle);
   },
 );
+
+/** HighlightBundle → Lua カラースキーム文字列 */
+export const luaColorschemeAtom = atom<Promise<string | null>>(async (get) => {
+  const bundle = await get(highlightBundleAtom);
+  if (!bundle) return null;
+  return generateLuaColorscheme(bundle);
+});

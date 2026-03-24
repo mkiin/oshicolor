@@ -51,6 +51,7 @@ allowed-tools: Read, Grep, Glob, Bash(gh issue *), Bash(gh project *), Bash(gh a
 - MVP に近づく
 
 例:
+
 - 「画像から抽出した色で Lua ファイルを生成できる状態にする」
 - 「プレビュー画面でダークテーマを確認できる状態にする」
 
@@ -59,6 +60,7 @@ allowed-tools: Read, Grep, Glob, Bash(gh issue *), Bash(gh project *), Bash(gh a
 ゴール達成に必要な Issue を **3〜5 件** 選ぶ。
 
 各 Issue について:
+
 - MVP に必要か？ → Yes なら優先
 - 今週で完了できるサイズか？ → 大きすぎたら分割を提案
 - 他の Issue をブロックしていないか？
