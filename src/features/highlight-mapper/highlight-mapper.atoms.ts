@@ -7,36 +7,14 @@ import { generateLuaColorscheme } from "@/features/lua-generator/lua-generator";
 import type { HighlightBundle } from "./highlight-mapper.types";
 import type { NeovimColorTokens } from "@/features/neovim-preview/neovim-preview.types";
 
-/** neutral 源として使う swatch ロール（タブ切り替え用） */
-const NEUTRAL_SOURCE_ROLES: SwatchRole[] = ["DarkMuted", "Muted", "LightMuted"];
-
-export type NeutralSourceTab = {
-  role: SwatchRole;
-  hex: string;
-};
-
-/** swatch から neutral 源の候補タブ一覧を導出する（null の swatch は除外） */
-export const neutralSourceTabsAtom = atom<Promise<NeutralSourceTab[] | null>>(
-  async (get) => {
-    const swatches = await get(colorSwatchesAtom);
-    if (!swatches) return null;
-
-    const tabs: NeutralSourceTab[] = [];
-    for (const role of NEUTRAL_SOURCE_ROLES) {
-      const swatch = swatches[role];
-      if (swatch) {
-        tabs.push({ role, hex: swatch.color.hex() });
-      }
-    }
-    return tabs.length > 0 ? tabs : null;
-  },
-);
+/** neutral 源として使う swatch ロール */
+export const NEUTRAL_ROLES: SwatchRole[] = ["DarkMuted", "Muted", "LightMuted"];
 
 /** 現在選択中の neutral 源 swatch ロール */
 export const activeNeutralRoleAtom = atom<SwatchRole>("DarkMuted");
 
-/** 選択中 neutral swatch から HighlightBundle を生成する */
-export const highlightBundleAtom = atom<Promise<HighlightBundle | null>>(
+/** 選択中 neutral swatch からテーマカラーを生成する */
+export const themeColorsAtom = atom<Promise<HighlightBundle | null>>(
   async (get) => {
     const swatches = await get(colorSwatchesAtom);
     if (!swatches) return null;
@@ -52,18 +30,18 @@ export const highlightBundleAtom = atom<Promise<HighlightBundle | null>>(
   },
 );
 
-/** HighlightBundle → NeovimColorTokens */
-export const neovimColorTokensAtom = atom<Promise<NeovimColorTokens | null>>(
+/** テーマカラー → プレビュー用トークン */
+export const previewTokensAtom = atom<Promise<NeovimColorTokens | null>>(
   async (get) => {
-    const bundle = await get(highlightBundleAtom);
+    const bundle = await get(themeColorsAtom);
     if (!bundle) return null;
     return toColorTokens(bundle);
   },
 );
 
-/** HighlightBundle → Lua カラースキーム文字列 */
-export const luaColorschemeAtom = atom<Promise<string | null>>(async (get) => {
-  const bundle = await get(highlightBundleAtom);
+/** テーマカラー → Lua カラースキーム文字列 */
+export const luaOutputAtom = atom<Promise<string | null>>(async (get) => {
+  const bundle = await get(themeColorsAtom);
   if (!bundle) return null;
   return generateLuaColorscheme(bundle);
 });

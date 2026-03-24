@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useAtomValue, useSetAtom } from "jotai";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Suspense } from "react";
+import { Suspense, startTransition } from "react";
 import { Dropzone, ImagePreview } from "@/components/ui/dropzone";
 import { ColorResults } from "@/features/color-extractor/components/color-results";
 import {
@@ -12,10 +12,9 @@ import {
   seedColorsAtom,
 } from "@/features/color-extractor/color-extractor.atoms";
 import {
+  NEUTRAL_ROLES,
   activeNeutralRoleAtom,
-  luaColorschemeAtom,
-  neovimColorTokensAtom,
-  neutralSourceTabsAtom,
+  previewTokensAtom,
 } from "@/features/highlight-mapper/highlight-mapper.atoms";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { NeovimPreview } from "@/features/neovim-preview/components";
@@ -38,22 +37,36 @@ const ColorResultsLoader: React.FC = () => {
   );
 };
 
-const NeutralSourceSwitcher: React.FC = () => {
-  const tabs = useAtomValue(neutralSourceTabsAtom);
+const ThemePreview: React.FC = () => {
+  const swatches = useAtomValue(colorSwatchesAtom);
   const setActiveRole = useSetAtom(activeNeutralRoleAtom);
-  const colorTokens = useAtomValue(neovimColorTokensAtom);
-  const luaCode = useAtomValue(luaColorschemeAtom);
+  const colorTokens = useAtomValue(previewTokensAtom);
 
-  if (!tabs || !colorTokens) return null;
+  if (!swatches || !colorTokens) return null;
+
+  const tabs = NEUTRAL_ROLES.filter((role) => swatches[role] != null).map(
+    (role) => ({
+      role,
+      hex: swatches[role]!.color.hex(),
+    }),
+  );
+
+  if (tabs.length === 0) return null;
 
   const defaultTab = tabs[0].role;
+
+  const handleTabChange = (value: string) => {
+    startTransition(() => {
+      setActiveRole(value as typeof defaultTab);
+    });
+  };
 
   return (
     <div className="space-y-3">
       <h2 className="text-lg font-semibold">Neovim Preview</h2>
       <Tabs
         defaultValue={defaultTab}
-        onValueChange={(value) => setActiveRole(value as typeof defaultTab)}
+        onValueChange={handleTabChange}
         className="flex flex-col gap-2"
       >
         <TabsList variant="line">
@@ -77,15 +90,6 @@ const NeutralSourceSwitcher: React.FC = () => {
                 fileName="theme-editor.tsx"
                 className="max-w-3xl"
               />
-              {luaCode && (
-                <NeovimPreview
-                  colors={colorTokens}
-                  code={luaCode}
-                  language="lua"
-                  fileName="oshicolor.lua"
-                  className="max-w-3xl"
-                />
-              )}
             </div>
           </TabsContent>
         ))}
@@ -123,7 +127,7 @@ function RouteComponent() {
       )}
       {file && (
         <Suspense fallback={<Skeleton className="max-w-3xl h-96" />}>
-          <NeutralSourceSwitcher />
+          <ThemePreview />
         </Suspense>
       )}
     </div>
