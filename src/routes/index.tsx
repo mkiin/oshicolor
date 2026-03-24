@@ -13,6 +13,7 @@ import {
 } from "@/features/color-extractor/color-extractor.atoms";
 import {
   activeNeutralRoleAtom,
+  luaColorschemeAtom,
   neovimColorTokensAtom,
   neutralSourceTabsAtom,
 } from "@/features/highlight-mapper/highlight-mapper.atoms";
@@ -41,6 +42,7 @@ const NeutralSourceSwitcher: React.FC = () => {
   const tabs = useAtomValue(neutralSourceTabsAtom);
   const setActiveRole = useSetAtom(activeNeutralRoleAtom);
   const colorTokens = useAtomValue(neovimColorTokensAtom);
+  const luaCode = useAtomValue(luaColorschemeAtom);
 
   if (!tabs || !colorTokens) return null;
 
@@ -67,13 +69,24 @@ const NeutralSourceSwitcher: React.FC = () => {
         </TabsList>
         {tabs.map((tab) => (
           <TabsContent key={tab.role} value={tab.role}>
-            <NeovimPreview
-              colors={colorTokens}
-              code={SAMPLE_TYPESCRIPT}
-              language="typescript"
-              fileName="theme-editor.tsx"
-              className="max-w-3xl"
-            />
+            <div className="space-y-4">
+              <NeovimPreview
+                colors={colorTokens}
+                code={SAMPLE_TYPESCRIPT}
+                language="typescript"
+                fileName="theme-editor.tsx"
+                className="max-w-3xl"
+              />
+              {luaCode && (
+                <NeovimPreview
+                  colors={colorTokens}
+                  code={luaCode}
+                  language="lua"
+                  fileName="oshicolor.lua"
+                  className="max-w-3xl"
+                />
+              )}
+            </div>
           </TabsContent>
         ))}
       </Tabs>
