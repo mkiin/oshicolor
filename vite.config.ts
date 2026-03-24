@@ -1,4 +1,3 @@
-import { fileURLToPath, URL } from "node:url";
 import babel from "@rolldown/plugin-babel";
 import tailwindcss from "@tailwindcss/vite";
 import { devtools } from "@tanstack/devtools-vite";
@@ -33,9 +32,7 @@ const config = defineConfig({
     trailingComma: "all",
   },
   resolve: {
-    alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
-    },
+    tsconfigPaths: true,
   },
   plugins: [
     devtools(),
@@ -43,7 +40,6 @@ const config = defineConfig({
     tailwindcss(),
     tanstackStart(),
     viteReact(),
-    // @ts-expect-error - @rolldown/plugin-babel の型バグ: Pick<any,...> で全フィールドが必須になる
     babel({ presets: [reactCompilerPreset()] }),
   ],
 });
