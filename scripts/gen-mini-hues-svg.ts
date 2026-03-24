@@ -9,14 +9,13 @@ import { join } from "node:path";
 import { getSwatches } from "colorthief";
 import {
   useMode,
-  modeRgb,
   modeOklch,
   type Oklch,
   parse,
   formatHex,
+  clampChroma,
 } from "culori/fn";
 
-const toRgbMode = useMode(modeRgb);
 const toOklchMode = useMode(modeOklch);
 
 const ROOT_DIR = new URL("../", import.meta.url).pathname;
@@ -34,22 +33,55 @@ const OPTIONS_BASE = {
 };
 
 // ---------------------------------------------------------------------------
-// Oklch ユーティリティ
+// Oklch ユーティリティ（mini.hues 互換の lightness 補正付き）
 // ---------------------------------------------------------------------------
 type LCH = { l: number; c: number; h: number | undefined };
 
+/**
+ * mini.hues の知覚 lightness 補正（Björn Ottosson の toe 関数）
+ * 入力: culori の raw L (0-1) → 出力: 補正済み L (0-1)
+ * https://bottosson.github.io/posts/colorpicker/#intermission---a-new-lightness-estimate-for-oklab
+ */
+const correctLightness = (L: number): number => {
+  const k1 = 0.206;
+  const k2 = 0.03;
+  const k3 = (1 + k1) / (1 + k2);
+  return 0.5 * (k3 * L - k1 + Math.sqrt((k3 * L - k1) ** 2 + 4 * k2 * k3 * L));
+};
+
+/** correctLightness の逆関数。補正済み L → raw L */
+const correctLightnessInv = (Lc: number): number => {
+  const k1 = 0.206;
+  const k2 = 0.03;
+  const k3 = (1 + k1) / (1 + k2);
+  return ((Lc / k3) * (Lc + k1)) / (Lc + k2);
+};
+
+/**
+ * HEX → mini.hues 互換 Oklch
+ * culori の raw L に correctLightness を適用して返す
+ */
 const hexToOklch = (hex: string): LCH => {
   const parsed = parse(hex);
   if (!parsed) return { l: 0, c: 0, h: 0 };
   const oklch = toOklchMode(parsed);
-  return { l: oklch.l ?? 0, c: oklch.c ?? 0, h: oklch.h };
+  return {
+    l: correctLightness(oklch.l ?? 0),
+    c: oklch.c ?? 0,
+    h: oklch.h,
+  };
 };
 
+/**
+ * mini.hues 互換 Oklch → HEX
+ * 補正済み L を correctLightnessInv で raw L に戻してから変換。
+ * clampChroma で色相を保持したガマットクリッピングを行う。
+ */
 const oklchToHex = (lch: LCH): string => {
-  const oklch: Oklch = { mode: "oklch", l: lch.l, c: lch.c, h: lch.h ?? 0 };
-  const rgb = toRgbMode(oklch);
-  // culori は gamut 外の値をクランプしてくれる
-  return formatHex({ ...rgb, mode: "rgb" });
+  const rawL = correctLightnessInv(lch.l);
+  const oklch: Oklch = { mode: "oklch", l: rawL, c: lch.c, h: lch.h ?? 0 };
+  const clamped = clampChroma(oklch, "oklch");
+  return formatHex(clamped);
 };
 
 // ---------------------------------------------------------------------------
