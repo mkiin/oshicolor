@@ -62,19 +62,22 @@ allowed-tools: Read, Glob, Write, Bash(gh issue *), Bash(gh api *), Bash(git log
 
 ## 結果
 
-| Issue | タイトル | 状態 |
-|-------|----------|------|
+| Issue | タイトル | 状態                       |
+| ----- | -------- | -------------------------- |
 | #XX   | ...      | Done / 持ち越し / 取り下げ |
 
 ## ふりかえり
 
 ### Keep
+
 - ...
 
 ### Problem
+
 - ...
 
 ### Try
+
 - ...
 ```
 
