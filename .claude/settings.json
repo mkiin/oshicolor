@@ -43,5 +43,6 @@
       }
     ]
   },
-  "plansDirectory": ".claude/tasks"
+  "plansDirectory": ".claude/tasks",
+  "autoMemoryDirectory": ".claude/memorys"
 }
