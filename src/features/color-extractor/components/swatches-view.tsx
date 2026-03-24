@@ -2,19 +2,19 @@ import type { VibrantPalette, VibrantSwatch } from "@/types/color";
 
 const SWATCH_ROLES = [
   "Vibrant",
-  "Muted",
   "DarkVibrant",
-  "DarkMuted",
   "LightVibrant",
+  "Muted",
+  "DarkMuted",
   "LightMuted",
 ] as const;
 
 const SWATCH_ROLE_LABELS: Record<(typeof SWATCH_ROLES)[number], string> = {
   Vibrant: "Vibrant",
-  Muted: "Muted",
   DarkVibrant: "Dark Vibrant",
-  DarkMuted: "Dark Muted",
   LightVibrant: "Light Vibrant",
+  Muted: "Muted",
+  DarkMuted: "Dark Muted",
   LightMuted: "Light Muted",
 };
 
