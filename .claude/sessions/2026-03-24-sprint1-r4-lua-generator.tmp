@@ -1,0 +1,49 @@
+# Checkpoint: sprint1-r4-lua-generator
+
+Date: 2026-03-24 22:00
+
+## 完了した項目
+
+- GitHub インフラ構築（Labels, Milestone, Projects カンバンボード）
+- Sprint 1 計画（ゴール: 画像から Lua 生成できる状態にする）
+- Issue #14, #15, #16 作成、Sprint 1 に紐づけ
+- CLAUDE.md に開発ワークフロー（スクラム運用）追加
+- コーディング規約を CLAUDE.md から .claude/rules/ に分割（paths スコープ付き）
+- /commit スキル作成
+- R4 Lua 生成の設計ドキュメント作成（docs/projects/features/R4/V1/）
+- R4 Lua カラースキーム生成の最小実装（generateLuaColorscheme）
+- テスト7件通過、tests/ ディレクトリに分離
+- Neovim Preview で生成 Lua コードを表示
+- vitest.config.ts を Cloudflare プラグインと分離して作成
+- Issue #14 クローズ → Done
+
+## 現在の状態
+
+- ブランチ: dev
+- ワーキングツリー: クリーン
+- feature/R2-V10-neutral-role-vibrant ブランチは Backlog 用に残存
+
+## 判明した事実
+
+- vp test は Cloudflare Vite プラグインと競合する → vitest.config.ts で分離が正解
+- vite-plus-core に 0.1.11 と 0.1.12 の型バージョン不整合あり（vp install で解消見込み）
+- prism-react-renderer は lua のシンタックスハイライトに対応している
+- R2 の HighlightBundle（66グループ）がそのまま R4 の入力として使える
+
+## 未解決の問題
+
+- vite-plus-core 0.1.11/0.1.12 の型不整合（vite.config.ts に型エラー3件）
+- dev ブランチへのリモート push 未実施
+
+## 次にやること
+
+1. #15 R1→R2→R4 パイプラインを繋ぐ（In Progress に移動）
+2. #16 生成した Lua が Neovim で読み込めることを検証
+3. vite-plus-core の型不整合を解消（vp install）
+
+## キーとなる判断・理由
+
+- テストは tests/ に分離（vitest のソースコード構成に倣った）
+- vitest.config.ts を別ファイルにした（vite.config.ts を汚さないため）
+- Lua 生成はテンプレート文字列方式（AST は MVP にはオーバーエンジニアリング）
+- coding-standards スキルは削除し .claude/rules/ に統合（paths スコープで必要時のみ読み込み）
