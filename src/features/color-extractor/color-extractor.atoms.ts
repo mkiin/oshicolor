@@ -1,17 +1,19 @@
+import type { ColorSpace } from "colorthief";
 import { getColor, getPalette, getSwatches } from "colorthief";
 import { atom } from "jotai";
 import { deriveColorAxes } from "./color-axes";
 
+/** 抽出に使用する色空間 */
+export const colorSpaceAtom = atom<ColorSpace>("rgb");
+
 const OPTIONS_BASE = {
   quality: 10,
-  colorSpace: "rgb" as const,
   ignoreWhite: true,
   minSaturation: 0.05,
-} satisfies Parameters<typeof getPalette>[1];
+} as const;
 
-const OPTIONS = { ...OPTIONS_BASE, colorCount: 16 } satisfies Parameters<
-  typeof getPalette
->[1];
+const PALETTE_COUNT = 16;
+const SEED_COUNT = 5;
 
 export const fileAtom = atom<File | null>(null);
 
@@ -23,22 +25,33 @@ export const previewUrlAtom = atom((get) => {
 export const colorPaletteAtom = atom(async (get) => {
   const file = get(fileAtom);
   if (!file) return null;
+  const colorSpace = get(colorSpaceAtom);
   const bitmap = await createImageBitmap(file);
-  return getPalette(bitmap, OPTIONS);
+  return getPalette(bitmap, {
+    ...OPTIONS_BASE,
+    colorSpace,
+    colorCount: PALETTE_COUNT,
+  });
 });
 
 export const colorAtom = atom(async (get) => {
   const file = get(fileAtom);
   if (!file) return null;
+  const colorSpace = get(colorSpaceAtom);
   const bitmap = await createImageBitmap(file);
-  return getColor(bitmap, OPTIONS_BASE);
+  return getColor(bitmap, { ...OPTIONS_BASE, colorSpace });
 });
 
 export const colorSwatchesAtom = atom(async (get) => {
   const file = get(fileAtom);
   if (!file) return null;
+  const colorSpace = get(colorSpaceAtom);
   const bitmap = await createImageBitmap(file);
-  return getSwatches(bitmap, OPTIONS);
+  return getSwatches(bitmap, {
+    ...OPTIONS_BASE,
+    colorSpace,
+    colorCount: PALETTE_COUNT,
+  });
 });
 
 export const colorAxesAtom = atom(async (get) => {
@@ -47,17 +60,15 @@ export const colorAxesAtom = atom(async (get) => {
   return deriveColorAxes(colors);
 });
 
-const SEED_COUNT = 5;
-
-const SEED_OPTIONS = {
-  ...OPTIONS_BASE,
-  colorCount: SEED_COUNT,
-} satisfies Parameters<typeof getPalette>[1];
-
 /** ドミナント 5色を seed として抽出する */
 export const seedColorsAtom = atom(async (get) => {
   const file = get(fileAtom);
   if (!file) return null;
+  const colorSpace = get(colorSpaceAtom);
   const bitmap = await createImageBitmap(file);
-  return getPalette(bitmap, SEED_OPTIONS);
+  return getPalette(bitmap, {
+    ...OPTIONS_BASE,
+    colorSpace,
+    colorCount: SEED_COUNT,
+  });
 });

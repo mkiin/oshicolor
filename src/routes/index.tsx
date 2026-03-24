@@ -1,9 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useAtomValue, useSetAtom } from "jotai";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Suspense, startTransition } from "react";
+import { Suspense, startTransition, useRef } from "react";
 import { Dropzone, ImagePreview } from "@/components/ui/dropzone";
 import { ColorResults } from "@/features/color-extractor/components/color-results";
+import { ColorSpaceSwitch } from "@/features/color-extractor/components/color-space-switch";
 import {
   colorPaletteAtom,
   colorSwatchesAtom,
@@ -16,6 +17,7 @@ import {
   activeNeutralRoleAtom,
   previewTokensAtom,
 } from "@/features/highlight-mapper/highlight-mapper.atoms";
+import { HighlightPalette } from "@/features/highlight-mapper/components/highlight-palette";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { NeovimPreview } from "@/features/neovim-preview/components";
 import { SAMPLE_TYPESCRIPT } from "@/features/neovim-preview/sample-code";
@@ -29,11 +31,14 @@ const ColorResultsLoader: React.FC = () => {
   const palette = useAtomValue(colorPaletteAtom);
   const swatches = useAtomValue(colorSwatchesAtom);
   return (
-    <ColorResults
-      dominantColors={dominantColors}
-      palette={palette}
-      swatches={swatches}
-    />
+    <div className="space-y-3">
+      <ColorSpaceSwitch />
+      <ColorResults
+        dominantColors={dominantColors}
+        palette={palette}
+        swatches={swatches}
+      />
+    </div>
   );
 };
 
@@ -62,39 +67,36 @@ const ThemePreview: React.FC = () => {
   };
 
   return (
-    <div className="space-y-3">
-      <h2 className="text-lg font-semibold">Neovim Preview</h2>
-      <Tabs
-        defaultValue={defaultTab}
-        onValueChange={handleTabChange}
-        className="flex flex-col gap-2"
-      >
-        <TabsList>
-          {tabs.map((tab) => (
-            <TabsTrigger key={tab.role} value={tab.role}>
-              <div
-                className="w-3 h-3 rounded-sm border border-white/20"
-                style={{ backgroundColor: tab.hex }}
-              />
-              {tab.role}
-            </TabsTrigger>
-          ))}
-        </TabsList>
+    <Tabs
+      defaultValue={defaultTab}
+      onValueChange={handleTabChange}
+      className="flex flex-col gap-2"
+    >
+      <TabsList>
         {tabs.map((tab) => (
-          <TabsContent key={tab.role} value={tab.role}>
-            <div className="space-y-4">
-              <NeovimPreview
-                colors={colorTokens}
-                code={SAMPLE_TYPESCRIPT}
-                language="typescript"
-                fileName="theme-editor.tsx"
-                className="max-w-3xl"
-              />
-            </div>
-          </TabsContent>
+          <TabsTrigger key={tab.role} value={tab.role}>
+            <div
+              className="w-3 h-3 rounded-sm border border-white/20"
+              style={{ backgroundColor: tab.hex }}
+            />
+            {tab.role}
+          </TabsTrigger>
         ))}
-      </Tabs>
-    </div>
+      </TabsList>
+      {tabs.map((tab) => (
+        <TabsContent key={tab.role} value={tab.role}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <NeovimPreview
+              colors={colorTokens}
+              code={SAMPLE_TYPESCRIPT}
+              language="typescript"
+              fileName="theme-editor.tsx"
+            />
+            <HighlightPalette />
+          </div>
+        </TabsContent>
+      ))}
+    </Tabs>
   );
 };
 
@@ -102,30 +104,53 @@ function RouteComponent() {
   const setFile = useSetAtom(fileAtom);
   const previewUrl = useAtomValue(previewUrlAtom);
   const file = useAtomValue(fileAtom);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleImageClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selected = e.target.files?.[0];
+    if (selected) setFile(selected);
+  };
 
   return (
-    <div className="p-8 max-w-5xl mx-auto space-y-6">
-      <h1 className="text-xl font-bold">画像アップロード</h1>
-      <Dropzone accept={{ "image/*": [] }} onFileAccepted={setFile} />
-      {file && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-          <div className="w-full aspect-3/4 bg-gray-100 rounded-lg overflow-hidden">
-            <ImagePreview
-              url={previewUrl}
-              className="w-full h-full object-contain"
-            />
-          </div>
-          <div className="aspect-3/4 overflow-y-auto">
-            <Suspense fallback={<Skeleton className="w-full aspect-3/4" />}>
-              <ColorResultsLoader />
-            </Suspense>
-          </div>
-        </div>
+    <div className="p-8 max-w-6xl mx-auto space-y-6">
+      <h1 className="text-xl font-bold">oshicolor</h1>
+      {!file && (
+        <Dropzone accept={{ "image/*": [] }} onFileAccepted={setFile} />
       )}
       {file && (
-        <Suspense fallback={<Skeleton className="max-w-3xl h-96" />}>
-          <ThemePreview />
-        </Suspense>
+        <>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handleFileChange}
+          />
+          <Suspense fallback={<Skeleton className="w-full h-96" />}>
+            <ThemePreview />
+          </Suspense>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+            <button
+              type="button"
+              onClick={handleImageClick}
+              className="w-full aspect-3/4 bg-gray-100 rounded-lg overflow-hidden cursor-pointer hover:ring-2 hover:ring-white/20 transition-shadow"
+            >
+              <ImagePreview
+                url={previewUrl}
+                className="w-full h-full object-contain"
+              />
+            </button>
+            <div className="aspect-3/4 overflow-y-auto">
+              <Suspense fallback={<Skeleton className="w-full aspect-3/4" />}>
+                <ColorResultsLoader />
+              </Suspense>
+            </div>
+          </div>
+        </>
       )}
     </div>
   );
