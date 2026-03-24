@@ -2,8 +2,8 @@ import type {
   DiagnosticColors,
   HighlightMap,
   NeutralPalette,
+  RoleMap,
 } from "../highlight-mapper.types";
-import type { RoleMap } from "./role-assignment";
 
 /**
  * ロールベースの fg 色 + neutral + diagnostic から 66 ハイライトグループを構築する

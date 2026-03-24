@@ -1,11 +1,9 @@
-import type { HighlightBundle } from "../highlight-mapper.types";
+import type { HighlightBundle, RoleMap } from "../highlight-mapper.types";
 import { generateNeutralPalette } from "./neutral-palette";
 import { ensureContrast, CONTRAST_AA, CONTRAST_SUBDUED } from "./fg-adjuster";
 import { generateDiagnosticColors } from "./diagnostic-colors";
 import { mapHighlightGroups } from "./highlight-groups";
 import { hexToOklch } from "./oklch-utils";
-import type { Candidate } from "./candidate-pool";
-import { assignRoles, type RoleMap, SYNTAX_ROLES } from "./role-assignment";
 
 /**
  * neutral palette 内の fg 系色に WCAG コントラスト保証を適用する
@@ -34,24 +32,15 @@ const adjustDiagnosticContrast = (
 });
 
 /**
- * RoleMap の全色に WCAG コントラスト保証を適用する
- */
-const adjustRoleContrast = (roles: RoleMap, bgHex: string): RoleMap => {
-  const adjusted = {} as RoleMap;
-  for (const role of SYNTAX_ROLES) {
-    adjusted[role] = ensureContrast(roles[role], bgHex, CONTRAST_AA);
-  }
-  return adjusted;
-};
-
-/**
- * 候補プール + neutral hue から HighlightBundle を生成する
+ * neutral hue から HighlightBundle を生成する
+ *
+ * TODO: syntax 色は現在 neutral.fg のフォールバック。node-vibrant 統合時に再設計する
  */
 export const buildHighlightMap = (
-  candidates: Candidate[],
+  neutralHex: string,
   neutralHue: number,
 ): HighlightBundle => {
-  const neutralOklch = hexToOklch(candidates[0]?.hex ?? "#000000");
+  const neutralOklch = hexToOklch(neutralHex);
   const overriddenOklch = { ...neutralOklch, h: neutralHue };
 
   const rawNeutral = generateNeutralPalette(overriddenOklch);
@@ -59,12 +48,20 @@ export const buildHighlightMap = (
   const rawDiagnostic = generateDiagnosticColors(overriddenOklch);
   const diagnostic = adjustDiagnosticContrast(rawDiagnostic, neutral.bg);
 
-  const rawRoles = assignRoles(candidates, neutralHue);
-  const roles = adjustRoleContrast(rawRoles, neutral.bg);
-  const highlights = mapHighlightGroups(roles, neutral, diagnostic);
+  const placeholderRoles: RoleMap = {
+    accent: neutral.fg,
+    keyword: neutral.fg,
+    function: neutral.fg,
+    string: neutral.fg,
+    operator: neutral.fg,
+    type: neutral.fg,
+    number: neutral.fg,
+  };
+
+  const highlights = mapHighlightGroups(placeholderRoles, neutral, diagnostic);
 
   return {
-    seeds: candidates.map((c) => c.hex),
+    seeds: [neutralHex],
     neutral,
     diagnostic,
     highlights,

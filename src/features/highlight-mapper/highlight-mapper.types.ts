@@ -31,7 +31,23 @@ export type HighlightDef = {
 /** 66 ハイライトグループ名 → 定義 */
 export type HighlightMap = Record<string, HighlightDef>;
 
-/** buildHighlightMap の中間生成物をまとめた構造体 */
+/** syntax ロール名 */
+export const SYNTAX_ROLES = [
+  "accent",
+  "keyword",
+  "function",
+  "string",
+  "operator",
+  "type",
+  "number",
+] as const;
+
+export type SyntaxRole = (typeof SYNTAX_ROLES)[number];
+
+/** ロール → hex のマッピング */
+export type RoleMap = Record<SyntaxRole, string>;
+
+/** highlight-mapper の最終出力 */
 export type HighlightBundle = {
   seeds: string[];
   neutral: NeutralPalette;
