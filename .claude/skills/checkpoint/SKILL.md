@@ -16,7 +16,7 @@ allowed-tools: Read, Glob, Write
 `{WorkspaceRoot}/.claude/sessions/` に以下の命名規則で保存:
 
 ```
-YYYY-MM-DD-<topic>.tmp
+YYYY-MM-DD-<topic>.md
 ```
 
 `<topic>` は現在の作業内容を kebab-case で要約したもの。
@@ -52,6 +52,10 @@ Date: YYYY-MM-DD HH:MM
 - ...
 
 ## キーとなる判断・理由
+
+- ...
+
+## 次の作業開始時に読むべきドキュメント類(重点を絞って)
 
 - ...
 ```
