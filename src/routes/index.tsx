@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useAtomValue, useSetAtom } from "jotai";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@/shared/components/ui/skeleton";
 import { Suspense } from "react";
-import { Dropzone, ImagePreview } from "@/components/ui/dropzone";
+import { Dropzone, ImagePreview } from "@/shared/components/ui/dropzone";
 import { ColorResults } from "@/features/color-extractor/components/color-results";
 import {
   colorPaletteAtom,
@@ -17,7 +17,12 @@ import {
   neovimColorTokensAtom,
   neutralSourceTabsAtom,
 } from "@/features/highlight-mapper/highlight-mapper.atoms";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/shared/components/ui/tabs";
 import { NeovimPreview } from "@/features/neovim-preview/components";
 import { SAMPLE_TYPESCRIPT } from "@/features/neovim-preview/sample-code";
 

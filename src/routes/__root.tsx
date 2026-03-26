@@ -8,7 +8,7 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 
-import TanStackQueryDevtools from "@/lib/query-devtools";
+import TanStackQueryDevtools from "@/core/query/devtools";
 import appCss from "@/styles/index.css?url";
 
 type MyRouterContext = {

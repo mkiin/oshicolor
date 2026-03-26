@@ -1,5 +1,5 @@
 import { useDropzone } from "react-dropzone";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 
 type DropzoneProps = {
   onFilesAccepted: (files: File[]) => void;

@@ -23,7 +23,9 @@ paths:
 
 ## 型定義
 
-- **`type` を基本とする**。`interface` は外部ライブラリの型拡張（declaration merging）が必要な場合のみ使用する
+- **`type` を基本とする**。`interface` は以下の場合に使用する:
+  - 外部ライブラリの型拡張（declaration merging）が必要な場合
+  - Port（Gateway が `implements` する契約）を定義する場合
 - 型のプレフィックス `I~` や `T~` は付けない
 
 ## 関数スタイル
