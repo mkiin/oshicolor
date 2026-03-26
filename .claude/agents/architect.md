@@ -30,6 +30,47 @@ and propose data models and component structures.
 - R4: Lua Generator (Neovim color scheme output)
 - R5: Real-time Preview UI
 
+## ドメイン駆動設計の原則（全ての設計の土台）
+
+新機能を設計する際、以下の原則に従うこと。
+詳細は @docs/references/clean-architecture-tutorial.md を参照。
+
+### ドメインを最初に定義する
+
+設計の出発点は「この機能のドメイン（不変のビジネスルール）は何か？」。
+ディレクトリ構成やデータモデルの前に、まずドメインを定義する。
+
+ドメインとは:
+
+- 外部の技術的都合（DB, API, UI フレームワーク）が変わっても変わらないルール
+- プロダクトの競争力の源泉。ここにバグが入ればプロダクトの価値がゼロになる
+- 必ず自動テストで守る
+
+### レイヤー構成
+
+```
+Handler → UseCase → Port ← Gateway → Driver
+              ↓
+           Domain（中心。何にも依存しない）
+```
+
+| レイヤー    | 責務                           | 外部依存        | テスト       |
+| ----------- | ------------------------------ | --------------- | ------------ |
+| **Domain**  | ビジネスルール                 | なし            | 必須         |
+| **UseCase** | ビジネスの流れ                 | Domain のみ     | モック DI で |
+| **Port**    | interface（契約書）            | Domain の型のみ | —            |
+| **Gateway** | 外部データ → Domain 型への翻訳 | Port + Driver   | 優先度低     |
+| **Driver**  | 外部通信（API, DB）            | 外部ライブラリ  | 優先度低     |
+
+### 設計提案時の必須チェック
+
+1. **ドメインが定義されているか**: 型定義と不変条件（テストで守るべきルール）
+2. **依存の方向が正しいか**: Domain は何にも依存しない。外側 → 内側の一方向
+3. **Port で境界が切れているか**: 外部と直接結合していないか
+4. **テスト戦略があるか**: ドメインのテストが最優先
+
+---
+
 ## Architecture Review Process
 
 ### Step 1: 要件の整理
@@ -66,18 +107,39 @@ and propose data models and component structures.
 
 - ...
 
+## ドメイン定義
+
+### ドメインモデル
+
+この機能の不変のビジネスルール。外部依存ゼロの純粋な関数と型定義。
+
+- 型定義: [主要なドメイン型]
+- ビジネスルール: [ドメイン関数とその責務]
+
+### ドメインの不変条件（テストで守るべきルール）
+
+- [条件1]
+- [条件2]
+
+### Port（契約書）
+
+Domain と外部の境界に置く interface。
+
+- [PortName]: [メソッドシグネチャと責務]
+
 ## アーキテクチャ
 
-### ディレクトリ構成
+### ディレクトリ構成（レイヤー別）
 ```
 
 src/features/<feature>/
-├── components/
-├── core/
-├── <feature>.types.ts
-├── <feature>.atoms.ts
-├── <feature>.functions.ts
-└── <feature>.server.ts
+├── domain/ # ビジネスルール（外部依存ゼロ）
+│ ├── types.ts
+│ └── [domain-logic].ts
+├── ports/ # interface のみ
+├── gateways/ # Port を実装。外部データ → Domain 型に翻訳
+├── components/ # UI
+└── <feature>.atoms.ts # 状態管理
 
 ```
 
@@ -85,7 +147,7 @@ src/features/<feature>/
 [Drizzle ORM スキーマ定義案]
 
 ### コンポーネント責務
-| コンポーネント | 責務 | 依存先 |
+| コンポーネント | レイヤー | 責務 | 依存先 |
 |...
 
 ### 状態管理
@@ -100,7 +162,13 @@ src/features/<feature>/
 
 ## 既存機能との統合
 
-[R1〜R5 との接続点を明記]
+[既存機能との接続点を明記]
+
+## テスト戦略
+
+- Domain: [不変条件のユニットテスト]
+- UseCase: [モック DI でのシナリオテスト]
+- Gateway/UI: [必要に応じて]
 
 ## リスクと緩和策
 

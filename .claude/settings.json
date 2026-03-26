@@ -1,48 +1,5 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "jq -re '.tool_input.command // \"\" | select(test(\"git push\"))' > /dev/null 2>&1 && echo 'WARN: git push を実行しようとしています。ブランチとリモートを確認してください。' >&2 || true"
-          }
-        ]
-      },
-      {
-        "matcher": "Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "FILE=$(jq -r '.tool_input.file_path // \"\"') && echo \"$FILE\" | grep -qE '\\.md$' && ! echo \"$FILE\" | grep -qE '(CLAUDE|README|MEMORY|SKILL|plan|spec|issues|research)\\.md$' && echo 'BLOCK: 不要な .md ファイルの作成は禁止されています。' >&2 && exit 1 || true"
-          }
-        ]
-      }
-    ],
-    "PostToolUse": [
-      {
-        "matcher": "Edit|MultiEdit|Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "jq -r '.tool_input.file_path | select(endswith(\".js\") or endswith(\".jsx\") or endswith(\".ts\") or endswith(\".tsx\"))' | xargs -r vp check --fix"
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "cd /home/halmkin/personal/apps/oshicolor && FILES=$(git diff --name-only HEAD 2>/dev/null; git diff --name-only --cached 2>/dev/null; git ls-files --others --exclude-standard 2>/dev/null) && MATCHES=$(echo \"$FILES\" | sort -u | grep -E '\\.(js|jsx|ts|tsx)$' | xargs -r grep -ln 'console\\.log' 2>/dev/null) && [ -n \"$MATCHES\" ] && printf 'WARN: console.log が残っています:\\n%s\\n' \"$MATCHES\" >&2 || true"
-          }
-        ]
-      }
-    ]
-  },
   "plansDirectory": ".claude/tasks",
   "autoMemoryDirectory": ".claude/memorys"
 }
