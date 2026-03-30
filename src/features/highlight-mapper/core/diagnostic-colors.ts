@@ -1,5 +1,6 @@
-import type { OKLCH } from "colorthief";
 import type { DiagnosticColors } from "../highlight-mapper.types";
+import type { OKLCH } from "colorthief";
+
 import { oklchToHex } from "./oklch-utils";
 
 const DIAG_HUES = {

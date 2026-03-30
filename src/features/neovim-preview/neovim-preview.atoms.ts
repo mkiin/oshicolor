@@ -1,6 +1,7 @@
-import { atom } from "jotai";
-import { buildPrismTheme } from "@/features/neovim-preview/prism-theme";
 import type { NeovimColorTokens } from "@/features/neovim-preview/neovim-preview.types";
+
+import { buildPrismTheme } from "@/features/neovim-preview/prism-theme";
+import { atom } from "jotai";
 
 const DEFAULT_TOKENS: NeovimColorTokens = {
   bg: "#1e1e2e",

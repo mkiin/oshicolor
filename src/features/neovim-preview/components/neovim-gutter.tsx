@@ -1,11 +1,12 @@
-import { useAtomValue } from "jotai";
 import type React from "react";
+
 import {
   colorTokensAtom,
   cursorLineAtom,
   lineCountAtom,
   showLineNumberAtom,
 } from "@/features/neovim-preview/neovim-preview.atoms";
+import { useAtomValue } from "jotai";
 
 export const NeovimGutter: React.FC = () => {
   const { bg, lineNr, cursorLineNr, bgCursorLine } =

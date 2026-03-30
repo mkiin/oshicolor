@@ -1,11 +1,3 @@
-/**
- * mini.hues のパレット生成アルゴリズムを TypeScript で再実装し、
- * キャラクター画像から bg/fg を抽出して 26 色パレットを SVG 出力する。
- *
- * Usage: pnpm tsx scripts/gen-mini-hues-svg.ts
- */
-import { mkdir, writeFile } from "node:fs/promises";
-import { join } from "node:path";
 import { getSwatches } from "colorthief";
 import {
   useMode,
@@ -15,6 +7,14 @@ import {
   parse,
   formatHex,
 } from "culori/fn";
+/**
+ * mini.hues のパレット生成アルゴリズムを TypeScript で再実装し、
+ * キャラクター画像から bg/fg を抽出して 26 色パレットを SVG 出力する。
+ *
+ * Usage: pnpm tsx scripts/gen-mini-hues-svg.ts
+ */
+import { mkdir, writeFile } from "node:fs/promises";
+import { join } from "node:path";
 
 const toRgbMode = useMode(modeRgb);
 const toOklchMode = useMode(modeOklch);

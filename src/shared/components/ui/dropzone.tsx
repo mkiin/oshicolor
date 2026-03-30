@@ -1,5 +1,5 @@
-import { useDropzone } from "react-dropzone";
 import { cn } from "@/shared/lib/utils";
+import { useDropzone } from "react-dropzone";
 
 type DropzoneProps = {
   onFilesAccepted: (files: File[]) => void;
@@ -32,8 +32,8 @@ const Dropzone: React.FC<DropzoneProps> = ({
       {...getRootProps()}
       className={cn(
         // ベーススタイル: 破線ボーダー + 角丸 + 余白 + カーソル + トランジション
-        "border-2 border-dashed rounded-lg p-12",
-        "text-center cursor-pointer",
+        "rounded-lg border-2 border-dashed p-12",
+        "cursor-pointer text-center",
         "transition-colors duration-150",
         // ドラッグ中 / 通常時でボーダーと背景を切り替える
         isDragActive
@@ -75,7 +75,7 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({ url, className }) => {
         // rounded-lg: 汎用コンポーネントとして自然な見た目のデフォルト
         // block: img はインライン要素のため余分な下余白が生じることがある。
         //   block にすることで回避する。
-        "max-w-full h-auto object-contain rounded-lg block",
+        "block h-auto max-w-full rounded-lg object-contain",
         className,
       )}
     />

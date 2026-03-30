@@ -1,7 +1,9 @@
+import type { Color } from "colorthief";
+
+import { getPalette, getSwatches } from "colorthief";
 import { mkdir, readdir, writeFile } from "node:fs/promises";
 import { basename, join } from "node:path";
-import type { Color } from "colorthief";
-import { getPalette, getSwatches } from "colorthief";
+
 import { deriveColorAxes } from "../src/features/color-extractor/color-axes";
 
 const ROOT_DIR = new URL("../", import.meta.url).pathname;
@@ -375,7 +377,7 @@ for (const game of ["genshin", "starrail"] as const) {
   const imgDir = join(IMG_BASE, game);
   const files = (await readdir(imgDir))
     .filter((f) => f.endsWith(".png"))
-    .sort();
+    .toSorted();
 
   console.log(`\n[${game}] ${files.length} characters`);
 

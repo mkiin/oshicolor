@@ -1,15 +1,17 @@
+import type { HighlightBundle } from "./highlight-mapper.types";
+import type { NeovimColorTokens } from "@/features/neovim-preview/neovim-preview.types";
 import type { SwatchRole } from "colorthief";
-import { atom } from "jotai";
+
 import {
   seedColorsAtom,
   colorSwatchesAtom,
 } from "@/features/color-extractor/color-extractor.atoms";
+import { generateLuaColorscheme } from "@/features/lua-generator/lua-generator";
+import { atom } from "jotai";
+
 import { buildHighlightMap } from "./core/build-highlight-map";
 import { buildCandidatePool } from "./core/candidate-pool";
 import { toColorTokens } from "./core/to-color-tokens";
-import { generateLuaColorscheme } from "@/features/lua-generator/lua-generator";
-import type { HighlightBundle } from "./highlight-mapper.types";
-import type { NeovimColorTokens } from "@/features/neovim-preview/neovim-preview.types";
 
 /** neutral 源として使う swatch ロール（タブ切り替え用） */
 const NEUTRAL_SOURCE_ROLES: SwatchRole[] = ["DarkMuted", "Muted", "LightMuted"];

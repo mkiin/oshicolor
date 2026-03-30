@@ -1,9 +1,10 @@
-import { useAtomValue } from "jotai";
 import type React from "react";
+
 import {
   colorTokensAtom,
   fileNameAtom,
 } from "@/features/neovim-preview/neovim-preview.atoms";
+import { useAtomValue } from "jotai";
 
 export const NeovimTabline: React.FC = () => {
   const fileName = useAtomValue(fileNameAtom);

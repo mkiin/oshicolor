@@ -1,4 +1,5 @@
 import type { Color, SwatchMap } from "colorthief";
+
 import { DominantColorView } from "./dominant-color-view";
 import { PaletteView } from "./palette-view";
 import { SwatchesView } from "./swatches-view";

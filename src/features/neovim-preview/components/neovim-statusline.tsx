@@ -1,5 +1,5 @@
-import { useAtomValue } from "jotai";
 import type React from "react";
+
 import {
   colorTokensAtom,
   fileNameAtom,
@@ -7,6 +7,7 @@ import {
   lineCountAtom,
   modeAtom,
 } from "@/features/neovim-preview/neovim-preview.atoms";
+import { useAtomValue } from "jotai";
 
 export const NeovimStatusLine: React.FC = () => {
   const {

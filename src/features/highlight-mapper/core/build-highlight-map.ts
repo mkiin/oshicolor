@@ -1,10 +1,11 @@
 import type { HighlightBundle } from "../highlight-mapper.types";
-import { generateNeutralPalette } from "./neutral-palette";
-import { ensureContrast, CONTRAST_AA, CONTRAST_SUBDUED } from "./fg-adjuster";
-import { generateDiagnosticColors } from "./diagnostic-colors";
-import { mapHighlightGroups } from "./highlight-groups";
-import { hexToOklch } from "./oklch-utils";
 import type { Candidate } from "./candidate-pool";
+
+import { generateDiagnosticColors } from "./diagnostic-colors";
+import { ensureContrast, CONTRAST_AA, CONTRAST_SUBDUED } from "./fg-adjuster";
+import { mapHighlightGroups } from "./highlight-groups";
+import { generateNeutralPalette } from "./neutral-palette";
+import { hexToOklch } from "./oklch-utils";
 import { assignRoles, type RoleMap, SYNTAX_ROLES } from "./role-assignment";
 
 /**

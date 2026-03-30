@@ -1,5 +1,5 @@
-import type { NeovimColorTokens } from "@/features/neovim-preview/neovim-preview.types";
 import type { HighlightBundle } from "../highlight-mapper.types";
+import type { NeovimColorTokens } from "@/features/neovim-preview/neovim-preview.types";
 
 /** HighlightBundle → NeovimColorTokens への純粋変換 */
 export const toColorTokens = (bundle: HighlightBundle): NeovimColorTokens => {

@@ -1,6 +1,7 @@
 import { getColor, getPalette, getSwatches } from "colorthief";
-import { Vibrant } from "node-vibrant/browser";
 import { atom } from "jotai";
+import { Vibrant } from "node-vibrant/browser";
+
 import { deriveColorAxes } from "./color-axes";
 
 const OPTIONS_BASE = {

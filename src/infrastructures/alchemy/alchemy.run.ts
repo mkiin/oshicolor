@@ -10,9 +10,10 @@ const app = await alchemy("oshicolor", {
 });
 
 export const worker = await TanStackStart("website", {
-  build: { command: "vp build" },
+  build: { command: "vite build" },
 });
 
+// oxlint-disable-next-line no-console -- デプロイ URL の出力
 console.log({
   url: worker.url,
 });

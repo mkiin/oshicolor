@@ -1,6 +1,5 @@
-import { useAtomValue } from "jotai";
-import { Highlight } from "prism-react-renderer";
 import type React from "react";
+
 import {
   codeAtom,
   colorTokensAtom,
@@ -8,6 +7,8 @@ import {
   languageAtom,
   prismThemeAtom,
 } from "@/features/neovim-preview/neovim-preview.atoms";
+import { useAtomValue } from "jotai";
+import { Highlight } from "prism-react-renderer";
 
 export const NeovimCodeBlock: React.FC = () => {
   const code = useAtomValue(codeAtom);
@@ -35,7 +36,7 @@ export const NeovimCodeBlock: React.FC = () => {
             const lineProps = getLineProps({ line });
             return (
               <div
-                // biome-ignore lint/suspicious/noArrayIndexKey: トークンには安定した ID がないためインデックスを使用
+                // oxlint-disable-next-line react/no-array-index-key -- トークンには安定した ID がない
                 key={i}
                 {...lineProps}
                 style={{
@@ -44,7 +45,7 @@ export const NeovimCodeBlock: React.FC = () => {
                 }}
               >
                 {line.map((token, key) => (
-                  // biome-ignore lint/suspicious/noArrayIndexKey: トークンには安定した ID がないためインデックスを使用
+                  // oxlint-disable-next-line react/no-array-index-key -- トークンには安定した ID がない
                   <span key={key} {...getTokenProps({ token })} />
                 ))}
               </div>

@@ -1,5 +1,6 @@
-import type { OKLCH } from "colorthief";
 import type { NeutralPalette } from "../highlight-mapper.types";
+import type { OKLCH } from "colorthief";
+
 import { oklchToHex } from "./oklch-utils";
 
 const NEUTRAL_CHROMA = 0.02;

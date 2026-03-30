@@ -25,7 +25,7 @@ type SwatchCardProps = {
 
 const SwatchCard: React.FC<SwatchCardProps> = ({ role, swatch }) => (
   <div
-    className="rounded-lg overflow-hidden ring-1 ring-black/10 min-h-72px flex flex-col justify-between p-3"
+    className="min-h-72px flex flex-col justify-between overflow-hidden rounded-lg p-3 ring-1 ring-black/10"
     style={{ backgroundColor: swatch?.color.hex() ?? "#f3f4f6" }}
   >
     <p
@@ -36,7 +36,7 @@ const SwatchCard: React.FC<SwatchCardProps> = ({ role, swatch }) => (
     </p>
     {swatch ? (
       <p
-        className="text-[10px] font-mono mt-1"
+        className="mt-1 font-mono text-[10px]"
         style={{ color: swatch.bodyTextColor.hex() }}
       >
         {swatch.color.hex()}
@@ -53,7 +53,7 @@ export type SwatchesViewProps = {
 
 export const SwatchesView: React.FC<SwatchesViewProps> = ({ swatches }) => (
   <div className="space-y-2">
-    <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-widest">
+    <h2 className="text-xs font-semibold tracking-widest text-gray-400 uppercase">
       Swatches
     </h2>
     <div className="grid grid-cols-3 gap-2">

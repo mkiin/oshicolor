@@ -1,6 +1,8 @@
 import { useMode, modeRgb, modeOklch, type Oklch, parse } from "culori/fn";
 
+// oxlint-disable-next-line react-hooks/rules-of-hooks -- culori の useMode は React Hook ではない
 const toRgb = useMode(modeRgb);
+// oxlint-disable-next-line react-hooks/rules-of-hooks -- culori の useMode は React Hook ではない
 const toOklch = useMode(modeOklch);
 
 const clamp = (v: number, min: number, max: number): number =>
