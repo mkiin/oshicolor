@@ -5,7 +5,7 @@ description: >
   エラーがあれば修正して再実行する。
   「実装が終わった」「検証して」「ビルドが通るか確認」「動作確認」といった文脈で使用。
 invocation: auto
-allowed-tools: Bash(vp *)
+allowed-tools: Bash(pnpm *), Bash(oxlint *)
 ---
 
 # verification-loop
@@ -19,7 +19,7 @@ allowed-tools: Bash(vp *)
 ### 1. Lint チェック
 
 ```bash
-vp lint
+pnpm lint
 ```
 
 エラーがあれば:
@@ -30,7 +30,7 @@ vp lint
 ### 2. ビルドチェック
 
 ```bash
-vp build
+pnpm build
 ```
 
 エラーがあれば:
@@ -41,7 +41,7 @@ vp build
 ### 3. テスト（テストファイルが存在する場合のみ）
 
 ```bash
-vp test
+pnpm test
 ```
 
 失敗があれば:

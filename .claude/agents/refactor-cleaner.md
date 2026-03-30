@@ -22,7 +22,7 @@ Your role is to clean up code without changing functionality.
 
 ### Step 1: 調査
 
-1. `vp lint` の結果を確認し、警告・エラーを把握
+1. `pnpm lint` の結果を確認し、警告・エラーを把握
 2. Grep で `// TODO`, `// FIXME`, `// HACK` を検索
 3. 未使用 export を特定
 
@@ -34,8 +34,8 @@ Your role is to clean up code without changing functionality.
 
 ### Step 3: 検証
 
-1. `vp lint` でエラーがないことを確認
-2. `vp build` が通ることを確認
+1. `pnpm lint` でエラーがないことを確認
+2. `pnpm build` が通ることを確認
 
 ## Rules
 

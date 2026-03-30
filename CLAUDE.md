@@ -16,20 +16,11 @@
 - **クライアント状態管理**: Jotai
 - **スタイリング**: Tailwind CSS
 - **バリデーション**: Zod
-- **フォーマッタ / リンター**: Biome
-- **パッケージマネージャー**: vite-plus(vp)
-- **ツールチェーン**: vite-plus (`vp`)
-
-### vp (vite-plus) の使い方
-
-`vp` は Vite ビルド・テスト・リント・dev server を統合する CLI。バイナリは `~/.vite-plus/bin/vp` にある。
-
-| 用途             | コマンド   |
-| ---------------- | ---------- |
-| 開発サーバー起動 | `vp dev`   |
-| ビルド           | `vp build` |
-| テスト           | `vp test`  |
-| リント           | `vp lint`  |
+- **フォーマッター**: Oxfmt
+- **リンター**: Oxlint
+- **パッケージマネージャー**: pnpm
+- **ビルド / dev**: Vite
+- **テスト**: Vitest
 
 ## 開発ワークフロー
 
@@ -78,6 +69,12 @@ GitHub × スクラムで運用する。タスク管理は GitHub Issues + Proje
    - マージしたら Done に移動
    - 区切りで `/checkpoint` を残す（中断しても復帰できるように）
 3. **週の終わり**: `/sprint-review` で振り返り、次のバックログを整理する
+
+## TypeScript の実行・型チェック
+
+- `tsc` コマンドは使わない。型チェックは `oxlint` が担う
+- Node.js 24 は TypeScript を直接実行できる（`node foo.ts` で動く）。`tsx` や `ts-node` も不要
+- スクリプト実行: `node scripts/foo.ts`
 
 ## コミット
 

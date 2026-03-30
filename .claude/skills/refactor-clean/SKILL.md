@@ -7,7 +7,7 @@ disable-model-invocation: true
 argument-hint: "[対象ディレクトリ or ファイル]"
 context: fork
 agent: refactor-cleaner
-allowed-tools: Read, Grep, Glob, Edit, Write, Bash(vp *)
+allowed-tools: Read, Grep, Glob, Edit, Write, Bash(pnpm *), Bash(oxlint *)
 ---
 
 # refactor-clean
@@ -20,9 +20,9 @@ allowed-tools: Read, Grep, Glob, Edit, Write, Bash(vp *)
 
 ## タスク
 
-1. `vp lint` を実行して現在の警告・エラーを把握
+1. `pnpm lint` を実行して現在の警告・エラーを把握
 2. 未使用の import、変数、関数、型定義を特定・削除
 3. 重複コードがあれば共通ユーティリティに統合
 4. マジックナンバーがあれば定数に切り出す
-5. 変更後に `vp lint` と `vp build` が通ることを確認
+5. 変更後に `pnpm lint` と `pnpm build` が通ることを確認
 6. 変更したファイル一覧と変更内容のサマリーを報告
