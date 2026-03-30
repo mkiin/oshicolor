@@ -1,0 +1,28 @@
+{
+  "image": "debug/img/genshin/Alhaitham.png",
+  "timestamp": "2026-03-30T07:31:53.599Z",
+  "results": [
+    {
+      "model": "gemini-flash-latest",
+      "elapsed": 15803,
+      "tokens": {
+        "input": 1347,
+        "output": 498,
+        "total": 3264
+      },
+      "error": null,
+      "response": "```json\n{\n  \"character_name\": \"Alhaitham\",\n  \"colors\": [\n    { \"hex\": \"#1C635D\", \"part\": \"outfit\", \"description\": \"Deep forest teal of the cape and waist wraps\" },\n    { \"hex\": \"#222625\", \"part\": \"outfit\", \"description\": \"Dark charcoal/black of the form-fitting bodysuit and trousers\" },\n    { \"hex\": \"#B5BDB9\", \"part\": \"hair\", \"description\": \"Ash-grey hair with a slight metallic sheen\" },\n    { \"hex\": \"#B69151\", \"part\": \"accessory\", \"description\": \"Antique gold trim and metallic arm guards\" },\n    { \"hex\": \"#97F2C2\", \"part\": \"outfit\", \"description\": \"Luminous mint green fabric and hair streak representing Dendro energy\" },\n    { \"hex\": \"#44C6EF\", \"part\": \"accessory\", \"description\": \"Vibrant cyan crystals hanging from his waist and cape\" },\n    { \"hex\": \"#4AA992\", \"part\": \"eyes\", \"description\": \"Teal irises with a distinct orange/gold pupil center\" },\n    { \"hex\": \"#EFE8E1\", \"part\": \"skin\", \"description\": \"Fair, pale skin tone\" }\n  ],\n  \"impression\": {\n    \"primary\": {\n      \"hex\": \"#1C635D\",\n      \"part\": \"outfit\",\n      \"reason\": \"The deep teal green is Alhaitham's signature hue, immediately identifying him as a Dendro character from Sumeru.\"\n    },\n    \"secondary\": {\n      \"hex\": \"#222625\",\n      \"part\": \"outfit\",\n      \"reason\": \"The dark charcoal bodysuit provides a high-contrast base that emphasizes his sleek, intellectual aesthetic.\"\n    },\n    \"tertiary\": {\n      \"hex\": \"#B5BDB9\",\n      \"part\": \"hair\",\n      \"reason\": \"His neutral grey hair is a very distinct feature that balances the vibrant green and gold accents of his design.\"\n    }\n  }\n}\n```"
+    },
+    {
+      "model": "gemini-flash-lite-latest",
+      "elapsed": 4493,
+      "tokens": {
+        "input": 539,
+        "output": 561,
+        "total": 1100
+      },
+      "error": null,
+      "response": "```json\n{\n  \"character_name\": \"Alhaitham\",\n  \"colors\": [\n    { \"hex\": \"#253B43\", \"part\": \"outfit/pants\", \"description\": \"Deep, dark teal/black base color for his main outfit and pants\" },\n    { \"hex\": \"#3AB59C\", \"part\": \"cape/sash\", \"description\": \"Vibrant teal/jade color on the flowing fabrics\" },\n    { \"hex\": \"#B8B8B8\", \"part\": \"hair\", \"description\": \"Light, cool silver-grey for his hair\" },\n    { \"hex\": \"#C6A462\", \"part\": \"accents/armor trim\", \"description\": \"Antique or dull gold used for trims and armor details\" },\n    { \"hex\": \"#5C5C5C\", \"part\": \"hair/outfit shadows\", \"description\": \"Mid-tone grey for shading the hair and darkest parts of the outfit\" },\n    { \"hex\": \"#14807A\", \"part\": \"accents/trim\", \"description\": \"A richer, darker teal used as a liner or deeper tone in the flowing fabric\" },\n    { \"hex\": \"#A6CFE8\", \"part\": \"eyes/gems\", \"description\": \"Pale, icy blue used for his eyes and some gem accents\" },\n    { \"hex\": \"#6EE7B7\", \"part\": \"gems/accents\", \"description\": \"Bright, almost neon lime-green used for small glowing accents on boots/armor\" },\n    { \"hex\": \"#5F7AA8\", \"part\": \"sash details\", \"description\": \"A muted, dark blue/indigo shade mixed in the mid-section sash\" }\n  ],\n  \"impression\": {\n    \"primary\": { \"hex\": \"#3AB59C\", \"part\": \"sash/cape\", \"reason\": \"The saturated teal/jade color provides the highest contrast against his dark clothing and is prominently featured in the dynamic elements of his design.\" },\n    \"secondary\": { \"hex\": \"#253B43\", \"part\": \"outfit\", \"reason\": \"This near-black, dark teal shade forms the majority of his silhouette and under-suit.\" },\n    \"tertiary\": { \"hex\": \"#C6A462\", \"part\": \"accents\", \"reason\": \"The gold trim is crucial for defining the sophisticated, ornate nature of his outfit details.\" }\n  }\n}\n```"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "image": "debug/img/genshin/Albedo.png",
+  "timestamp": "2026-03-30T07:31:33.295Z",
+  "results": [
+    {
+      "model": "gemini-flash-latest",
+      "elapsed": 12149,
+      "tokens": {
+        "input": 1361,
+        "output": 464,
+        "total": 2588
+      },
+      "error": null,
+      "response": "```json\n{\n  \"character_name\": \"Albedo\",\n  \"colors\": [\n    { \"hex\": \"#f2f0e9\", \"part\": \"outfit\", \"description\": \"Off-white color of the alchemist's long coat\" },\n    { \"hex\": \"#e5d6c1\", \"part\": \"hair\", \"description\": \"Ash blonde or pale beige hair\" },\n    { \"hex\": \"#4055a0\", \"part\": \"outfit\", \"description\": \"Deep royal blue of the inner vest and leg accents\" },\n    { \"hex\": \"#24242a\", \"part\": \"outfit\", \"description\": \"Dark charcoal black of the shorts and boots\" },\n    { \"hex\": \"#b7936e\", \"part\": \"accessory\", \"description\": \"Antique gold/bronze trim and geometric patterns\" },\n    { \"hex\": \"#26d5de\", \"part\": \"eyes\", \"description\": \"Vibrant teal or aquamarine eyes\" },\n    { \"hex\": \"#cbd4de\", \"part\": \"weapon\", \"description\": \"Cool silver-blue steel of the sword\" },\n    { \"hex\": \"#7d6b5e\", \"part\": \"outfit\", \"description\": \"Muted brown of the gloves and shadows on the coat\" }\n  ],\n  \"impression\": {\n    \"primary\": { \"hex\": \"#f2f0e9\", \"part\": \"outfit\", \"reason\": \"The off-white coat defines his silhouette and reflects his clinical, refined persona as an alchemist.\" },\n    \"secondary\": { \"hex\": \"#4055a0\", \"part\": \"outfit\", \"reason\": \"The deep blue vest provides a sharp, sophisticated contrast that anchors the design's color palette.\" },\n    \"tertiary\": { \"hex\": \"#e5d6c1\", \"part\": \"hair\", \"reason\": \"His pale blonde hair is a distinct character feature that blends harmoniously with the light tones of his attire.\" }\n  }\n}\n```"
+    },
+    {
+      "model": "gemini-flash-lite-latest",
+      "elapsed": 6799,
+      "tokens": {
+        "input": 539,
+        "output": 497,
+        "total": 1036
+      },
+      "error": null,
+      "response": "```json\n{\n  \"character_name\": \"Albedo\",\n  \"colors\": [\n    { \"hex\": \"#f0f0e2\", \"part\": \"hair/coat\", \"description\": \"Very light, near-white blonde hair and main coat fabric.\" },\n    { \"hex\": \"#1b2b5c\", \"part\": \"outfit\", \"description\": \"Deep, saturated royal blue used on the inner tunic and accents.\" },\n    { \"hex\": \"#33333d\", \"part\": \"outfit\", \"description\": \"Very dark navy/near-black used for pants, gloves, and trim.\" },\n    { \"hex\": \"#c89b60\", \"part\": \"outfit/accessory\", \"description\": \"Warm, muted gold/tan used for armor plating and coat lining.\" },\n    { \"hex\": \"#c4e4f8\", \"part\": \"eyes/sword\", \"description\": \"Bright, icy cyan/blue used for eyes and blade highlights.\" },\n    { \"hex\": \"#a6a6a6\", \"part\": \"accessory\", \"description\": \"Light, cool gray used for the metal chains and some boot trim.\" },\n    { \"hex\": \"#e8e8e8\", \"part\": \"outfit\", \"description\": \"Bright, crisp white used for highlights and trim on the coat.\" },\n    { \"hex\": \"#913a1b\", \"part\": \"skin/hand\", \"description\": \"Slightly desaturated reddish-brown for the visible hand skin.\" }\n  ],\n  \"impression\": {\n    \"primary\": { \"hex\": \"#f0f0e2\", \"part\": \"hair/coat\", \"reason\": \"The overwhelming presence of white/pale blonde establishes his clean, alchemical aesthetic.\" },\n    \"secondary\": { \"hex\": \"#1b2b5c\", \"part\": \"outfit\", \"reason\": \"The vibrant, deep blue provides the primary color contrast against the white.\" },\n    \"tertiary\": { \"hex\": \"#c89b60\", \"part\": \"outfit/accessory\", \"reason\": \"The metallic gold accents are crucial for denoting his high-ranking, formal attire.\" }\n  }\n}\n```"
+    }
+  ]
+}

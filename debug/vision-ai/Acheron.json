@@ -1,0 +1,35 @@
+{
+  "image": "debug/img/starrail/Acheron.png",
+  "timestamp": "2026-03-30T07:26:12.074Z",
+  "results": [
+    {
+      "model": "@cf/meta/llama-4-scout-17b-16e-instruct",
+      "elapsed": 11421,
+      "tokens": null,
+      "error": null,
+      "response": "Here is the analysis of the character's colors in the requested JSON format:\n\n```\n{\n  \"character_name\": \"unknown\",\n  \"colors\": [\n    { \"hex\": \"#7A288A\", \"part\": \"hair\", \"description\": \"purple hair\" },\n    { \"hex\": \"#6495ED\", \"part\": \"eyes\", \"description\": \"blue eyes\" },\n    { \"hex\": \"#FF3737\", \"part\": \"umbrella\", \"description\": \"red umbrella\" },\n    { \"hex\": \"#8F0A1A\", \"part\": \"flame tattoo\", \"description\": \"red and purple flame tattoo on thigh\" },\n    { \"hex\": \"#3B3F54\", \"part\": \"outfit\", \"description\": \"dark grey and purple outfit\" },\n    { \"hex\": \"#6c5ce7\", \"part\": \"outfit accents\", \"description\": \"purple accents on outfit\" },\n    { \"hex\": \"#808080\", \"part\": \"sword\", \"description\": \"grey sword\" },\n    { \"hex\": \"#964B00\", \"part\": \"boot accents\", \"description\": \"brown boot accents\" },\n    { \"hex\": \"#1A1D23\", \"part\": \"gloves and belt\", \"description\": \"dark gloves and belt\" },\n    { \"hex\": \"#FFFFFF\", \"part\": \"background\", \"description\": \"white background\" }\n  ],\n  \"impression\": {\n    \"primary\": { \"hex\": \"#7A288A\", \"part\": \"hair\", \"reason\": \"The character's hair is a distinctive and iconic feature, and the purple color is a dominant part of their visual identity.\" },\n    \"secondary\": { \"hex\": \"#FF3737\", \"part\": \"umbrella\", \"reason\": \"The red umbrella is a striking and recognizable element of the character's design, and its bright color makes it stand out.\" },\n    \"tertiary\": { \"hex\": \"#3B3F54\", \"part\": \"outfit\", \"reason\": \"The dark grey and purple outfit provides a contrasting background for the character's other iconic features.\" }\n  }\n}\n```"
+    },
+    {
+      "model": "gemini-flash-latest",
+      "elapsed": 10635,
+      "tokens": {
+        "input": 1361,
+        "output": 502,
+        "total": 2778
+      },
+      "error": null,
+      "response": "```json\n{\n  \"character_name\": \"Acheron\",\n  \"colors\": [\n    { \"hex\": \"#4b3e8e\", \"part\": \"hair\", \"description\": \"Deep indigo-purple that defines her primary silhouette\" },\n    { \"hex\": \"#e5e5f5\", \"part\": \"outfit\", \"description\": \"Off-white cool-toned jacket base\" },\n    { \"hex\": \"#1a1a24\", \"part\": \"outfit\", \"description\": \"Dark charcoal black of her boots, shorts, and gloves\" },\n    { \"hex\": \"#b01a21\", \"part\": \"accessory\", \"description\": \"Vibrant crimson red of her iconic parasol\" },\n    { \"hex\": \"#a286cd\", \"part\": \"eyes\", \"description\": \"Mystical lavender purple of her pupils\" },\n    { \"hex\": \"#31234a\", \"part\": \"outfit\", \"description\": \"Deep royal violet accents on her sleeves and leggings\" },\n    { \"hex\": \"#686576\", \"part\": \"hair\", \"description\": \"Ashen grey-blue gradient at the tips of her long hair\" },\n    { \"hex\": \"#d82e41\", \"part\": \"accessory\", \"description\": \"Bright red highlights on her sword hilt and thigh tattoo\" },\n    { \"hex\": \"#f8e1d7\", \"part\": \"skin\", \"description\": \"Fair, pale peach skin tone\" }\n  ],\n  \"impression\": {\n    \"primary\": { \"hex\": \"#4b3e8e\", \"part\": \"hair\", \"reason\": \"The deep purple is synonymous with her identity as a Lightning-element character and her melancholic theme.\" },\n    \"secondary\": { \"hex\": \"#b01a21\", \"part\": \"accessory\", \"reason\": \"The red umbrella provides a striking visual contrast and hints at her alternate, high-power state.\" },\n    \"tertiary\": { \"hex\": \"#e5e5f5\", \"part\": \"outfit\", \"reason\": \"The white jacket balances the dark tones and provides a clean canvas for the purple and red accents.\" }\n  }\n}\n```"
+    },
+    {
+      "model": "gemini-flash-lite-latest",
+      "elapsed": 4628,
+      "tokens": {
+        "input": 539,
+        "output": 513,
+        "total": 1052
+      },
+      "error": null,
+      "response": "```json\n{\n  \"character_name\": \"unknown\",\n  \"colors\": [\n    { \"hex\": \"#b01f36\", \"part\": \"umbrella\", \"description\": \"Vibrant, glossy red of the paper umbrella\" },\n    { \"hex\": \"#4831a3\", \"part\": \"hair/clothing accents\", \"description\": \"Deep, rich indigo/purple used in hair highlights and clothing trim\" },\n    { \"hex\": \"#a2a3d8\", \"part\": \"clothing/hair highlights\", \"description\": \"Lighter, desaturated lavender/light purple on flowing fabric and hair highlights\" },\n    { \"hex\": \"#f7f7f7\", \"part\": \"clothing\", \"description\": \"Bright, clean white of the main outer garment\" },\n    { \"hex\": \"#21222c\", \"part\": \"shorts/boots/top\", \"description\": \"Very dark, near-black color of leather/fabric items\" },\n    { \"hex\": \"#70748c\", \"part\": \"hair/shadows\", \"description\": \"Grayish-blue/slate used for the trailing ends of the hair and deeper shadows\" },\n    { \"hex\": \"#cc758c\", \"part\": \"leg tattoo/trim\", \"description\": \"Muted crimson/rose color on the leg markings and fabric undersides\" },\n    { \"hex\": \"#000000\", \"part\": \"details\", \"description\": \"Pure black for outlines and small details (like the under-top)\" }\n  ],\n  \"impression\": {\n    \"primary\": { \"hex\": \"#b01f36\", \"part\": \"umbrella\", \"reason\": \"The large, saturated red umbrella is the single most visually dominant and contrasting element against the character's cool palette.\" },\n    \"secondary\": { \"hex\": \"#4831a3\", \"part\": \"clothing accents/hair\", \"reason\": \"The deep indigo/purple is the core color defining the character's aesthetic identity, contrasting the white.\" },\n    \"tertiary\": { \"hex\": \"#f7f7f7\", \"part\": \"clothing\", \"reason\": \"The stark white of the main tunic provides necessary lightness and contrast to the dark and purple elements.\" }\n  }\n}\n```"
+    }
+  ]
+}
