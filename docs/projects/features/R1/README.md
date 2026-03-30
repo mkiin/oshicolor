@@ -11,7 +11,7 @@
 
 ## 現行: V2
 
-[`V2/spec.md`](V2/spec.md)
+[`V02/spec.md`](V02/spec.md)
 
 ## VX/ 配下のファイル命名規則
 

@@ -2,7 +2,7 @@
 
 ## なぜ V9 が必要か
 
-V5〜V8 で K-means 3軸 → 各軸 Vibrant+Muted のパイプラインを構築してきたが、以下の問題が判明した（[V8/issues.md](../V8/issues.md)）:
+V5〜V8 で K-means 3軸 → 各軸 Vibrant+Muted のパイプラインを構築してきたが、以下の問題が判明した（[V8/issues.md](../V08/issues.md)）:
 
 1. **軸ベース seed 選定が不必要に複雑** — ドミナント5色がそもそもキャラ特徴を捉えている
 2. **上位5色にない特徴色が seed に入らない** — population に潰される問題（V10 以降で対処）

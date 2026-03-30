@@ -19,7 +19,7 @@ V1: "prism-react-renderer + CSS 変数で即時反映"
 
 ## 現行: V1
 
-[`V1/plan.md`](V1/plan.md)
+[`V01/plan.md`](V01/plan.md)
 
 ## 関連ドキュメント
 

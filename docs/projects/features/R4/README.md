@@ -6,4 +6,4 @@ R2 が出力した `HighlightBundle` を受け取り、Neovim で `:colorscheme`
 
 | Version | 概要 | Status |
 |---|---|---|
-| [V1](./V1/plan.md) | テンプレート文字列による最小 Lua 生成 | 現行 |
+| [V01](./V01/plan.md) | テンプレート文字列による最小 Lua 生成 | 現行 |
