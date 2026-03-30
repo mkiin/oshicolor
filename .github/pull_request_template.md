@@ -10,5 +10,5 @@
 
 ## Test plan
 
-- [ ] `vp build` 成功
-- [ ] `vp lint` 成功
+- [ ] `pnpm build` 成功
+- [ ] `pnpm lint` 成功

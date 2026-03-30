@@ -4,33 +4,9 @@ import { devtools } from "@tanstack/devtools-vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact, { reactCompilerPreset } from "@vitejs/plugin-react";
 import alchemy from "alchemy/cloudflare/tanstack-start";
-import { defineConfig } from "vite-plus";
+import { defineConfig } from "vite";
 
 const config = defineConfig({
-  run: {
-    tasks: {
-      check: {
-        command: "vp check --fix",
-        cache: true,
-      },
-    },
-  },
-  staged: {
-    "*": "vp run check",
-  },
-  lint: {
-    options: { typeAware: true, typeCheck: true },
-    plugins: ["react", "unicorn", "typescript", "import"],
-    ignorePatterns: ["src/routeTree.gen.ts", "src/styles.css", "docs/**"],
-  },
-  fmt: {
-    ignorePatterns: ["src/routeTree.gen.ts", "src/styles.css", "docs/**"],
-    printWidth: 80,
-    tabWidth: 2,
-    useTabs: false,
-    singleQuote: false,
-    trailingComma: "all",
-  },
   resolve: {
     tsconfigPaths: true,
   },

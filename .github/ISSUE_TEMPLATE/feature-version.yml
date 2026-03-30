@@ -46,8 +46,8 @@ body:
       label: "実装チェックリスト"
       options:
         - label: "plan.md に従って実装"
-        - label: "vp build 通過"
-        - label: "vp lint 通過"
+        - label: "pnpm build 通過"
+        - label: "pnpm lint 通過"
         - label: "動作検証完了"
         - label: "spec.md を実装後の状態に更新"
         - label: "README.md のバージョン履歴を更新"

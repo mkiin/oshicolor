@@ -16,15 +16,15 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Vite+
-        uses: voidzero-dev/setup-vp@v1
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: "24"
-          cache: true
+          cache: pnpm
       - name: Install dependencies
-        run: vp install
+        run: pnpm install
       - name: Deploy
-        run: vp exec alchemy deploy --stage ${{ env.STAGE }} --adopt
+        run: pnpm exec alchemy deploy --stage ${{ env.STAGE }} --adopt
         env:
           ALCHEMY_PASSWORD: ${{ secrets.ALCHEMY_PASSWORD }}
           ALCHEMY_STATE_TOKEN: ${{ secrets.ALCHEMY_STATE_TOKEN }}

@@ -1,0 +1,49 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["eslint", "typescript", "react", "import", "unicorn"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn",
+    "perf": "warn",
+    "style": "allow",
+    "restriction": "allow",
+    "pedantic": "allow",
+    "nursery": "allow"
+  },
+  "rules": {
+    "no-unused-vars": "warn",
+    "no-console": "error",
+    "eqeqeq": "error",
+    "no-var": "error",
+    "prefer-const": "warn",
+
+    "typescript/no-explicit-any": "warn",
+    "typescript/no-non-null-assertion": "warn",
+    "typescript/consistent-type-imports": "warn",
+
+    "react/react-in-jsx-scope": "allow",
+    "react/no-direct-mutation-state": "error",
+    "react/jsx-no-duplicate-props": "error",
+    "react/jsx-no-undef": "error",
+    "react/no-children-prop": "warn",
+    "react/rules-of-hooks": "error",
+    "react/exhaustive-deps": "warn",
+
+    "import/no-duplicates": "warn",
+    "import/no-self-import": "error",
+    "import/no-cycle": "error",
+
+    "unicorn/no-instanceof-array": "error",
+    "unicorn/prefer-array-flat-map": "warn",
+    "unicorn/prefer-number-properties": "warn"
+  },
+  "ignorePatterns": [
+    "src/routeTree.gen.ts",
+    "src/styles.css",
+    "scripts/**",
+    "docs/**",
+    "dist/**",
+    "node_modules/**",
+    ".alchemy/**"
+  ]
+}
