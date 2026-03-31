@@ -1,28 +1,17 @@
 {
   "image": "debug/img/genshin/Amber.png",
-  "timestamp": "2026-03-30T07:42:20.910Z",
+  "timestamp": "2026-03-30T11:25:28.873Z",
   "results": [
     {
       "model": "gemini-flash-latest",
-      "elapsed": 14406,
+      "elapsed": 11475,
       "tokens": {
-        "input": 1471,
-        "output": 488,
-        "total": 3051
+        "input": 1486,
+        "output": 183,
+        "total": 2993
       },
       "error": null,
-      "response": "```json\n{\n  \"character_name\": \"Amber\",\n  \"colors\": [\n    { \"hex\": \"#C4261D\", \"part\": \"coat\", \"description\": \"vibrant red hoodie and headband\" },\n    { \"hex\": \"#483832\", \"part\": \"hair\", \"description\": \"dark mahogany long hair\" },\n    { \"hex\": \"#FDE1CC\", \"part\": \"skin\", \"description\": \"fair skin tone\" },\n    { \"hex\": \"#C66827\", \"part\": \"eye\", \"description\": \"warm amber eyes\" },\n    { \"hex\": \"#F0F2F5\", \"part\": \"socks\", \"description\": \"bright white thigh-high stockings\" },\n    { \"hex\": \"#3D221D\", \"part\": \"clothes\", \"description\": \"dark brown corset with gold detailing\" },\n    { \"hex\": \"#4C312C\", \"part\": \"pants\", \"description\": \"short dark brown leather-like shorts\" },\n    { \"hex\": \"#B6925A\", \"part\": \"accessory\", \"description\": \"golden metallic frames on her goggles\" },\n    { \"hex\": \"#5E3D35\", \"part\": \"accessory\", \"description\": \"brown leather utility bags and pouches\" },\n    { \"hex\": \"#D41B16\", \"part\": \"socks\", \"description\": \"red accents at the top of her stockings\" }\n  ],\n  \"impression\": {\n    \"primary\": { \"hex\": \"#C4261D\", \"part\": \"coat\", \"reason\": \"Red is her signature color, representing her Pyro vision and her role as an energetic Outrider.\" },\n    \"secondary\": { \"hex\": \"#483832\", \"part\": \"hair\", \"reason\": \"Her long dark brown hair is a prominent feature that balances the brightness of the red.\" },\n    \"tertiary\": { \"hex\": \"#F0F2F5\", \"part\": \"socks\", \"reason\": \"The stark white of her stockings provides a clean contrast that makes the other colors pop.\" }\n  }\n}\n```"
-    },
-    {
-      "model": "gemini-flash-lite-latest",
-      "elapsed": 17108,
-      "tokens": {
-        "input": 637,
-        "output": 631,
-        "total": 1268
-      },
-      "error": null,
-      "response": "```json\n{\n  \"character_name\": \"Amber\",\n  \"colors\": [\n    {\n      \"hex\": \"#c51b1b\",\n      \"part\": \"clothes\",\n      \"description\": \"Bright primary red of the jacket and thigh-high accents\"\n    },\n    {\n      \"hex\": \"#3e2723\",\n      \"part\": \"clothes\",\n      \"description\": \"Dark brown leather/corset material\"\n    },\n    {\n      \"hex\": \"#50392f\",\n      \"part\": \"hair\",\n      \"description\": \"Deep brown base color of the hair\"\n    },\n    {\n      \"hex\": \"#f8f8f8\",\n      \"part\": \"clothes\",\n      \"description\": \"Off-white/light grey of the stockings and inner top\"\n    },\n    {\n      \"hex\": \"#b08d5a\",\n      \"part\": \"accessory\",\n      \"description\": \"Gold/bronze metallic accents on goggles and clothing emblems\"\n    },\n    {\n      \"hex\": \"#a04530\",\n      \"part\": \"accessory\",\n      \"description\": \"Goggle lens color\"\n    },\n    {\n      \"hex\": \"#f7c45d\",\n      \"part\": \"eye\",\n      \"description\": \"Bright amber/orange of the eyes\"\n    },\n    {\n      \"hex\": \"#f0e1c6\",\n      \"part\": \"skin\",\n      \"description\": \"Fair skin tone\"\n    },\n    {\n      \"hex\": \"#7e5b4a\",\n      \"part\": \"accessory\",\n      \"description\": \"Medium brown leather straps and pouches\"\n    },\n    {\n      \"hex\": \"#d6b981\",\n      \"part\": \"clothes\",\n      \"description\": \"Light gold/yellowish trim on the thigh-highs and straps\"\n    }\n  ],\n  \"impression\": {\n    \"primary\": {\n      \"hex\": \"#c51b1b\",\n      \"part\": \"clothes\",\n      \"reason\": \"The vibrant red of her jacket and bunny ears/thigh accents is the most striking and defining color associated with her design.\"\n    },\n    \"secondary\": {\n      \"hex\": \"#3e2723\",\n      \"part\": \"clothes\",\n      \"reason\": \"The dark brown leather/corset provides a strong, grounding contrast to the bright red.\"\n    },\n    \"tertiary\": {\n      \"hex\": \"#f8f8f8\",\n      \"part\": \"clothes\",\n      \"reason\": \"The white/off-white of her stockings is a significant portion of the lower body color palette.\"\n    }\n  }\n}\n```"
+      "response": "{\n  \"impression\": {\n    \"primary\": { \"hex\": \"#C23126\", \"reason\": \"The vibrant red of her Outrider uniform and iconic headbands is her most defining visual feature.\" },\n    \"secondary\": { \"hex\": \"#4B332C\", \"reason\": \"The deep mahogany of her long hair and leather corset provides a grounding contrast to the red.\" },\n    \"tertiary\": { \"hex\": \"#DDA35D\", \"reason\": \"The warm gold of her metallic ornaments and amber eyes provides essential highlight details.\" }\n  },\n  \"theme_tone\": \"dark\",\n  \"neutral\": {\n    \"bg_base_hex\": \"#231E1D\",\n    \"fg_base_hex\": \"#E8E0DE\"\n  }\n}"
     }
   ]
 }

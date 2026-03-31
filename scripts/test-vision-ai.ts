@@ -5,32 +5,31 @@ const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
 const IMAGE_PATHS = process.argv.slice(2);
 const OUTPUT_DIR = "debug/vision-ai";
 
-const PROMPT = `This is a character illustration from a game.
-Analyze the character's colors and respond in the following JSON format.
-Be precise with HEX color values - estimate them as accurately as possible from what you see.
+const PROMPT = `This is a character illustration. Analyze the character's colors for a Neovim color scheme.
+
+Respond with ONLY valid JSON (no markdown fences, no extra text):
 
 {
-  "character_name": "name if recognizable, else 'unknown'",
-  "colors": [
-    { "hex": "#xxxxxx", "part": "eye/hair/skin/clothes/shirt/pants/shoes/coat/dress/socks/hat/accessory/weapon", "description": "brief description" }
-  ],
   "impression": {
-    "primary": { "hex": "#xxxxxx", "part": "which part", "reason": "why this is the most iconic color" },
-    "secondary": { "hex": "#xxxxxx", "part": "which part", "reason": "why this is the second most iconic" },
-    "tertiary": { "hex": "#xxxxxx", "part": "which part", "reason": "or null if only 2 dominant colors" }
+    "primary": { "hex": "#xxxxxx", "reason": "why this is the most iconic/symbolic color" },
+    "secondary": { "hex": "#xxxxxx", "reason": "why this is the second most iconic" },
+    "tertiary": { "hex": "#xxxxxx", "reason": "third color, or null if only 2 dominant colors" }
+  },
+  "theme_tone": "dark or light",
+  "neutral": {
+    "bg_base_hex": "#xxxxxx",
+    "fg_base_hex": "#xxxxxx"
   }
 }
 
 Rules:
-- List ALL distinct colors you can identify (aim for 6-10)
-- "part" MUST be exactly ONE of: eye, hair, skin, clothes, shirt, pants, shoes, coat, dress, socks, hat, accessory, weapon
-- Do NOT combine multiple parts (e.g. "jacket/thigh-high accents" is WRONG, pick the single best match)
-- If one part has multiple distinct colors, add separate entries with the same part value
-- "impression" should reflect the CHARACTER's iconic colors, not background
-- primary = the single most iconic/symbolic color of this character
-- Order colors by visual importance, not area size`;
+- impression: the CHARACTER's iconic colors (not background). primary = single most symbolic color
+- theme_tone: "dark" if the character's overall palette feels dark/cool/deep, "light" if bright/warm/pastel
+- neutral.bg_base_hex: a very dark color (for dark theme) or very light color (for light theme), subtly tinted with the character's dominant hue. Approximate OKLCH: L=0.14, C=0.015 for dark; L=0.95, C=0.015 for light
+- neutral.fg_base_hex: the opposite — light text for dark theme, dark text for light theme. Approximate OKLCH: L=0.87, C=0.012 for dark; L=0.20, C=0.012 for light
+- Be precise with HEX values — estimate them as accurately as possible from what you see`;
 
-const GEMINI_MODELS = ["gemini-flash-latest", "gemini-flash-lite-latest"];
+const GEMINI_MODELS = ["gemini-flash-latest"];
 
 type Result = {
   model: string;
@@ -58,7 +57,7 @@ async function runGemini(model: string, imageBase64: string): Promise<Result> {
       },
     ],
     generationConfig: {
-      maxOutputTokens: 2048,
+      maxOutputTokens: 4096,
     },
   };
 
