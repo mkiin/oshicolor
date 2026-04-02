@@ -1,31 +1,31 @@
-import { useAtomValue } from "jotai";
 import type React from "react";
+
 import {
   colorTokensAtom,
   fileNameAtom,
-} from "@/features/neovim-preview/stores/atoms";
+} from "@/features/neovim-preview/neovim-preview.atoms";
+import { useAtomValue } from "jotai";
 
 export const NeovimTabline: React.FC = () => {
   const fileName = useAtomValue(fileNameAtom);
-  const { bg, fg, accent } = useAtomValue(colorTokensAtom);
+  const { bgSurface, fg, accent, border } = useAtomValue(colorTokensAtom);
 
   return (
     <div
       style={{
-        backgroundColor: bg,
+        backgroundColor: bgSurface,
         display: "flex",
         fontFamily: "monospace",
         fontSize: "13px",
-        borderBottom: `1px solid ${accent}33`,
+        borderBottom: `1px solid ${border}`,
       }}
     >
-      {/* アクティブタブ */}
       <span
         style={{
           color: fg,
-          backgroundColor: bg,
+          backgroundColor: bgSurface,
           padding: "0.2rem 1rem",
-          borderRight: `1px solid ${accent}33`,
+          borderRight: `1px solid ${border}`,
           borderBottom: `2px solid ${accent}`,
         }}
       >

@@ -3,7 +3,6 @@
     "src/**/*.tsx",
     "src/**/*.ts",
     "tests/**/*.ts",
-    "alchemy.run.ts",
     "packages/*/src/**/*.ts"
   ],
   "compilerOptions": {
@@ -11,7 +10,7 @@
     "jsx": "react-jsx",
     "module": "ESNext",
     "lib": ["ES2022", "ES2024.Collection", "DOM", "DOM.Iterable"],
-    "types": ["vite/client", "./src/types/env.d.ts"],
+    "types": ["vite/client", "./src/env.d.ts"],
 
     /* Bundler mode */
     "moduleResolution": "bundler",

@@ -1,7 +1,7 @@
-import { Provider, useAtomValue } from "jotai";
-import { useHydrateAtoms } from "jotai/utils";
+import type { NeovimColorTokens } from "@/features/neovim-preview/neovim-preview.types";
 import type React from "react";
 import type { ReactNode } from "react";
+
 import {
   codeAtom,
   colorTokensAtom,
@@ -9,9 +9,11 @@ import {
   languageAtom,
   modeAtom,
   showLineNumberAtom,
-} from "@/features/neovim-preview/stores/atoms";
-import type { NeovimColorTokens } from "@/features/neovim-preview/types";
-import { cn } from "@/lib/utils";
+} from "@/features/neovim-preview/neovim-preview.atoms";
+import { cn } from "@/shared/lib/utils";
+import { Provider, useAtomValue } from "jotai";
+import { useHydrateAtoms } from "jotai/utils";
+
 import { NeovimEditorArea } from "./neovim-editor-area";
 import { NeovimStatusLine } from "./neovim-statusline";
 import { NeovimTabline } from "./neovim-tabline";
@@ -76,7 +78,7 @@ const NeovimPreviewHydrator: React.FC<NeovimPreviewHydratorProps> = ({
   return (
     <div
       className={cn(
-        "flex flex-col font-mono text-[13px] rounded-lg overflow-hidden",
+        "flex flex-col overflow-hidden rounded-lg font-mono text-[13px]",
         className,
       )}
       style={{

@@ -1,27 +1,23 @@
 import type { Color, SwatchMap } from "colorthief";
+
 import { DominantColorView } from "./dominant-color-view";
 import { PaletteView } from "./palette-view";
 import { SwatchesView } from "./swatches-view";
-import type { ColorAxis } from "../color-extractor.types";
-import { ColorAxesView } from "./color-axes-view";
 
 export type ColorResultsProps = {
-  dominantColor: Color | null;
+  dominantColors: Color[] | null;
   palette: Color[] | null;
   swatches: SwatchMap | null;
-  colorAxes: ColorAxis[] | null;
 };
 
 export const ColorResults: React.FC<ColorResultsProps> = ({
-  dominantColor,
+  dominantColors,
   palette,
   swatches,
-  colorAxes,
 }) => (
   <div className="space-y-3">
-    {dominantColor && <DominantColorView color={dominantColor} />}
+    {dominantColors && <DominantColorView colors={dominantColors} />}
     {palette && <PaletteView colors={palette} />}
     {swatches && <SwatchesView swatches={swatches} />}
-    {colorAxes && <ColorAxesView colorAxes={colorAxes} />}
   </div>
 );

@@ -1,6 +1,8 @@
-import { useAtomValue } from "jotai";
 import type React from "react";
-import { colorTokensAtom } from "@/features/neovim-preview/stores/atoms";
+
+import { colorTokensAtom } from "@/features/neovim-preview/neovim-preview.atoms";
+import { useAtomValue } from "jotai";
+
 import { NeovimCodeBlock } from "./neovim-code-block";
 import { NeovimGutter } from "./neovim-gutter";
 

@@ -1,7 +1,27 @@
 {
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
   "printWidth": 80,
   "tabWidth": 2,
   "useTabs": false,
   "singleQuote": false,
-  "trailingComma": "all"
+  "trailingComma": "all",
+  "sortImports": {
+    "groups": [
+      "type-import",
+      ["value-builtin", "value-external"],
+      "value-internal",
+      ["value-parent", "value-sibling", "value-index"],
+      "unknown"
+    ],
+    "internalPattern": ["@/*"]
+  },
+  "sortTailwindcss": {
+    "functions": ["clsx", "cn"]
+  },
+  "ignorePatterns": [
+    "src/routeTree.gen.ts",
+    "docs/**",
+    "dist/**",
+    ".alchemy/**"
+  ]
 }

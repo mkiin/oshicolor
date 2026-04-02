@@ -3,10 +3,16 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vp dev",
-    "build": "vp build",
-    "preview": "vp preview",
-    "test": "vp test run",
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "check": "oxfmt --check && oxlint",
+    "check:fix": "oxfmt && oxlint --fix",
+    "test": "vitest run",
     "deploy": "alchemy deploy --stage dev",
     "destroy": "alchemy destroy --stage dev",
     "db:generate": "drizzle-kit generate",
@@ -14,15 +20,13 @@
     "db:push": "drizzle-kit push",
     "db:pull": "drizzle-kit pull",
     "db:studio": "drizzle-kit studio",
-    "debug:gen-svg": "tsx scripts/gen-palette-svg-sharp.ts",
-    "debug:gen-svg:playwright": "tsx scripts/gen-palette-svg-playwright.ts",
-    "prepare": "vp config"
+    "debug:gen-svg": "node scripts/gen-palette-svg-sharp.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.2.0",
     "@cloudflare/vite-plugin": "^1.28.0",
     "@t3-oss/env-core": "^0.13.8",
-    "@tailwindcss/vite": "^4.2.1",
+    "@tailwindcss/vite": "^4.2.2",
     "@tanstack/match-sorter-utils": "^8.19.4",
     "@tanstack/react-devtools": "^0.7.0",
     "@tanstack/react-form": "^1.0.0",
@@ -40,11 +44,11 @@
     "colorthief": "^3.3.1",
     "culori": "^4.0.2",
     "drizzle-orm": "1.0.0-beta.16-ea816b6",
-    "extract-colors": "^4.2.1",
     "jotai": "^2.17.1",
     "jotai-tanstack-query": "^0.11.0",
     "lucide-react": "^0.561.0",
     "ml-kmeans": "^7.0.0",
+    "node-vibrant": "^4.0.4",
     "prism-react-renderer": "^2.4.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
@@ -56,9 +60,10 @@
   },
   "devDependencies": {
     "@rolldown/plugin-babel": "^0.2.1",
-    "@tanstack/devtools-vite": "^0.3.11",
+    "@tanstack/devtools-vite": "^0.6.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.2.0",
+    "@types/babel__core": "^7.20.5",
     "@types/better-sqlite3": "^7.6.0",
     "@types/culori": "^4.0.1",
     "@types/node": "^22.10.2",
@@ -70,13 +75,13 @@
     "dotenv": "^16.0.0",
     "drizzle-kit": "1.0.0-beta.16-ea816b6",
     "jsdom": "^27.0.0",
+    "oxfmt": "latest",
+    "oxlint": "latest",
     "playwright": "^1.58.2",
     "sharp": "^0.33.0",
-    "tsx": "^4.0.0",
-    "typescript": "^5.7.2",
-    "vite": "npm:@voidzero-dev/vite-plus-core@latest",
-    "vite-plus": "latest",
-    "vitest": "npm:@voidzero-dev/vite-plus-test@latest",
+    "typescript": "^6.0.2",
+    "vite": "^8.0.0",
+    "vitest": "^4.1.0",
     "wrangler": "^4.73.0"
   },
   "packageManager": "pnpm@10.32.1",
@@ -85,10 +90,6 @@
       "better-sqlite3",
       "lightningcss",
       "sharp"
-    ],
-    "overrides": {
-      "vite": "npm:@voidzero-dev/vite-plus-core@latest",
-      "vitest": "npm:@voidzero-dev/vite-plus-test@latest"
-    }
+    ]
   }
 }

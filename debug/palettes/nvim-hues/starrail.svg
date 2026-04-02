@@ -1,0 +1,612 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="2050" style="background:#111111; font-family:ui-monospace,monospace;">
+  <g transform="translate(0,20)">
+    <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Acheron</text>
+    <rect x="20" y="30" width="380" height="36" fill="#1b0d0c" rx="3 0 0 3"/>
+    <text x="28" y="44" fill="#ffffff" font-size="9" font-weight="bold" opacity="0.7">bg</text>
+    <text x="210" y="58" fill="#ffffff" font-size="10" text-anchor="middle">#1b0d0c</text>
+    <rect x="400" y="30" width="380" height="36" fill="#c3c3ca" rx="0 3 3 0"/>
+    <text x="408" y="44" fill="#000000" font-size="9" font-weight="bold" opacity="0.7">fg</text>
+    <text x="590" y="58" fill="#000000" font-size="10" text-anchor="middle">#c3c3ca</text>
+    <rect x="20" y="76" width="152" height="32" fill="#030000"/>
+    <text x="24" y="88" fill="#ffffff" font-size="7" opacity="0.6">edge2</text>
+    <text x="96" y="102" fill="#ffffff" font-size="8" text-anchor="middle">#030000</text>
+    <rect x="172" y="76" width="152" height="32" fill="#0d0303"/>
+    <text x="176" y="88" fill="#ffffff" font-size="7" opacity="0.6">edge</text>
+    <text x="248" y="102" fill="#ffffff" font-size="8" text-anchor="middle">#0d0303</text>
+    <rect x="324" y="76" width="152" height="32" fill="#1b0d0c"/>
+    <text x="328" y="88" fill="#ffffff" font-size="7" opacity="0.6">bg</text>
+    <text x="400" y="102" fill="#ffffff" font-size="8" text-anchor="middle">#1b0d0c</text>
+    <rect x="476" y="76" width="152" height="32" fill="#352524"/>
+    <text x="480" y="88" fill="#ffffff" font-size="7" opacity="0.6">mid</text>
+    <text x="552" y="102" fill="#ffffff" font-size="8" text-anchor="middle">#352524</text>
+    <rect x="628" y="76" width="152" height="32" fill="#52413f"/>
+    <text x="632" y="88" fill="#ffffff" font-size="7" opacity="0.6">mid2</text>
+    <text x="704" y="102" fill="#ffffff" font-size="8" text-anchor="middle">#52413f</text>
+    <rect x="20" y="112" width="152" height="32" fill="#eaeaf2"/>
+    <text x="24" y="124" fill="#000000" font-size="7" opacity="0.6">edge2</text>
+    <text x="96" y="138" fill="#000000" font-size="8" text-anchor="middle">#eaeaf2</text>
+    <rect x="172" y="112" width="152" height="32" fill="#d6d6dd"/>
+    <text x="176" y="124" fill="#000000" font-size="7" opacity="0.6">edge</text>
+    <text x="248" y="138" fill="#000000" font-size="8" text-anchor="middle">#d6d6dd</text>
+    <rect x="324" y="112" width="152" height="32" fill="#c3c3ca"/>
+    <text x="328" y="124" fill="#000000" font-size="7" opacity="0.6">fg</text>
+    <text x="400" y="138" fill="#000000" font-size="8" text-anchor="middle">#c3c3ca</text>
+    <rect x="476" y="112" width="152" height="32" fill="#a2a2a9"/>
+    <text x="480" y="124" fill="#000000" font-size="7" opacity="0.6">mid</text>
+    <text x="552" y="138" fill="#000000" font-size="8" text-anchor="middle">#a2a2a9</text>
+    <rect x="628" y="112" width="152" height="32" fill="#818187"/>
+    <text x="632" y="124" fill="#000000" font-size="7" opacity="0.6">mid2</text>
+    <text x="704" y="138" fill="#000000" font-size="8" text-anchor="middle">#818187</text>
+    <rect x="20" y="154" width="380" height="28" fill="#f4b0ab"/>
+    <text x="24" y="166" fill="#000000" font-size="7" opacity="0.6">accent</text>
+    <text x="210" y="176" fill="#000000" font-size="8" text-anchor="middle">#f4b0ab</text>
+    <rect x="400" y="154" width="380" height="28" fill="#1b0d0c"/>
+    <text x="404" y="166" fill="#ffffff" font-size="7" opacity="0.6">accent_bg</text>
+    <text x="590" y="176" fill="#ffffff" font-size="8" text-anchor="middle">#1b0d0c</text>
+    <text x="20" y="190" fill="#888888" font-size="9">hue colors (fg lightness)</text>
+    <rect x="20" y="194" width="95" height="46" fill="#efafc4" rx="2"/>
+    <text x="67.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">red</text>
+    <text x="67.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#efafc4</text>
+    <rect x="115" y="194" width="95" height="46" fill="#f1b39b" rx="2"/>
+    <text x="162.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">orange</text>
+    <text x="162.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#f1b39b</text>
+    <rect x="210" y="194" width="95" height="46" fill="#dac188" rx="2"/>
+    <text x="257.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">yellow</text>
+    <text x="257.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#dac188</text>
+    <rect x="305" y="194" width="95" height="46" fill="#b0cf9a" rx="2"/>
+    <text x="352.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">green</text>
+    <text x="352.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#b0cf9a</text>
+    <rect x="400" y="194" width="95" height="46" fill="#89d5c3" rx="2"/>
+    <text x="447.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">cyan</text>
+    <text x="447.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#89d5c3</text>
+    <rect x="495" y="194" width="95" height="46" fill="#88d0ea" rx="2"/>
+    <text x="542.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">azure</text>
+    <text x="542.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#88d0ea</text>
+    <rect x="590" y="194" width="95" height="46" fill="#adc3f9" rx="2"/>
+    <text x="637.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">blue</text>
+    <text x="637.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#adc3f9</text>
+    <rect x="685" y="194" width="95" height="46" fill="#d6b5e9" rx="2"/>
+    <text x="732.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">purple</text>
+    <text x="732.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#d6b5e9</text>
+    <text x="20" y="244" fill="#888888" font-size="9">hue colors (bg lightness)</text>
+    <rect x="20" y="248" width="95" height="46" fill="#290011" rx="2"/>
+    <text x="67.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">red_bg</text>
+    <text x="67.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#290011</text>
+    <rect x="115" y="248" width="95" height="46" fill="#2b0000" rx="2"/>
+    <text x="162.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">orange_bg</text>
+    <text x="162.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#2b0000</text>
+    <rect x="210" y="248" width="95" height="46" fill="#200c00" rx="2"/>
+    <text x="257.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">yellow_bg</text>
+    <text x="257.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#200c00</text>
+    <rect x="305" y="248" width="95" height="46" fill="#031700" rx="2"/>
+    <text x="352.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">green_bg</text>
+    <text x="352.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#031700</text>
+    <rect x="400" y="248" width="95" height="46" fill="#001b11" rx="2"/>
+    <text x="447.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">cyan_bg</text>
+    <text x="447.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#001b11</text>
+    <rect x="495" y="248" width="95" height="46" fill="#00162a" rx="2"/>
+    <text x="542.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">azure_bg</text>
+    <text x="542.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#00162a</text>
+    <rect x="590" y="248" width="95" height="46" fill="#040b34" rx="2"/>
+    <text x="637.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">blue_bg</text>
+    <text x="637.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#040b34</text>
+    <rect x="685" y="248" width="95" height="46" fill="#1d022a" rx="2"/>
+    <text x="732.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">purple_bg</text>
+    <text x="732.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#1d022a</text>
+    <text x="20" y="304" fill="#888888" font-size="9">neovim preview</text>
+    <rect x="20" y="306" width="760" height="80" fill="#1b0d0c" rx="4"/>
+    <text x="28" y="320" fill="#52413f" font-size="10"> 1</text>
+    <text x="28" y="334" fill="#52413f" font-size="10"> 2</text>
+    <text x="28" y="348" fill="#52413f" font-size="10"> 3</text>
+    <text x="28" y="362" fill="#52413f" font-size="10"> 4</text>
+    <text x="28" y="376" fill="#52413f" font-size="10"> 5</text>
+    <text x="56" y="320" fill="#818187" font-size="10">-- comment</text>
+    <text x="56" y="334" fill="#c3c3ca" font-size="10">local </text>
+    <text x="93.2" y="334" fill="#88d0ea" font-size="10">fn</text>
+    <text x="105.60000000000001" y="334" fill="#c3c3ca" font-size="10"> = </text>
+    <text x="124.20000000000002" y="334" fill="#d6b5e9" font-size="10">function</text>
+    <text x="173.8" y="334" fill="#f1b39b" font-size="10">(</text>
+    <text x="180" y="334" fill="#adc3f9" font-size="10">x</text>
+    <text x="186.2" y="334" fill="#f1b39b" font-size="10">)</text>
+    <text x="56" y="348" fill="#c3c3ca" font-size="10">  </text>
+    <text x="68.4" y="348" fill="#c3c3ca" font-size="10">if </text>
+    <text x="87" y="348" fill="#adc3f9" font-size="10">x</text>
+    <text x="93.2" y="348" fill="#c3c3ca" font-size="10"> > </text>
+    <text x="111.80000000000001" y="348" fill="#d6b5e9" font-size="10">0</text>
+    <text x="118.00000000000001" y="348" fill="#c3c3ca" font-size="10"> then </text>
+    <text x="155.20000000000002" y="348" fill="#f1b39b" font-size="10">return </text>
+    <text x="198.60000000000002" y="348" fill="#b0cf9a" font-size="10">"ok"</text>
+    <text x="56" y="362" fill="#c3c3ca" font-size="10">  </text>
+    <text x="68.4" y="362" fill="#c3c3ca" font-size="10">end</text>
+    <text x="56" y="376" fill="#c3c3ca" font-size="10">end</text>
+    <rect x="22" y="323" width="756" height="14" fill="#352524" rx="2" opacity="0.5"/>
+  </g>
+  <g transform="translate(0,422)">
+    <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Argenti</text>
+    <rect x="20" y="30" width="380" height="36" fill="#1b0d0d" rx="3 0 0 3"/>
+    <text x="28" y="44" fill="#ffffff" font-size="9" font-weight="bold" opacity="0.7">bg</text>
+    <text x="210" y="58" fill="#ffffff" font-size="10" text-anchor="middle">#1b0d0d</text>
+    <rect x="400" y="30" width="380" height="36" fill="#cac2bf" rx="0 3 3 0"/>
+    <text x="408" y="44" fill="#000000" font-size="9" font-weight="bold" opacity="0.7">fg</text>
+    <text x="590" y="58" fill="#000000" font-size="10" text-anchor="middle">#cac2bf</text>
+    <rect x="20" y="76" width="152" height="32" fill="#030000"/>
+    <text x="24" y="88" fill="#ffffff" font-size="7" opacity="0.6">edge2</text>
+    <text x="96" y="102" fill="#ffffff" font-size="8" text-anchor="middle">#030000</text>
+    <rect x="172" y="76" width="152" height="32" fill="#0d0303"/>
+    <text x="176" y="88" fill="#ffffff" font-size="7" opacity="0.6">edge</text>
+    <text x="248" y="102" fill="#ffffff" font-size="8" text-anchor="middle">#0d0303</text>
+    <rect x="324" y="76" width="152" height="32" fill="#1b0d0d"/>
+    <text x="328" y="88" fill="#ffffff" font-size="7" opacity="0.6">bg</text>
+    <text x="400" y="102" fill="#ffffff" font-size="8" text-anchor="middle">#1b0d0d</text>
+    <rect x="476" y="76" width="152" height="32" fill="#352525"/>
+    <text x="480" y="88" fill="#ffffff" font-size="7" opacity="0.6">mid</text>
+    <text x="552" y="102" fill="#ffffff" font-size="8" text-anchor="middle">#352525</text>
+    <rect x="628" y="76" width="152" height="32" fill="#524141"/>
+    <text x="632" y="88" fill="#ffffff" font-size="7" opacity="0.6">mid2</text>
+    <text x="704" y="102" fill="#ffffff" font-size="8" text-anchor="middle">#524141</text>
+    <rect x="20" y="112" width="152" height="32" fill="#f2e9e6"/>
+    <text x="24" y="124" fill="#000000" font-size="7" opacity="0.6">edge2</text>
+    <text x="96" y="138" fill="#000000" font-size="8" text-anchor="middle">#f2e9e6</text>
+    <rect x="172" y="112" width="152" height="32" fill="#ddd5d2"/>
+    <text x="176" y="124" fill="#000000" font-size="7" opacity="0.6">edge</text>
+    <text x="248" y="138" fill="#000000" font-size="8" text-anchor="middle">#ddd5d2</text>
+    <rect x="324" y="112" width="152" height="32" fill="#cac2bf"/>
+    <text x="328" y="124" fill="#000000" font-size="7" opacity="0.6">fg</text>
+    <text x="400" y="138" fill="#000000" font-size="8" text-anchor="middle">#cac2bf</text>
+    <rect x="476" y="112" width="152" height="32" fill="#a9a19e"/>
+    <text x="480" y="124" fill="#000000" font-size="7" opacity="0.6">mid</text>
+    <text x="552" y="138" fill="#000000" font-size="8" text-anchor="middle">#a9a19e</text>
+    <rect x="628" y="112" width="152" height="32" fill="#87807d"/>
+    <text x="632" y="124" fill="#000000" font-size="7" opacity="0.6">mid2</text>
+    <text x="704" y="138" fill="#000000" font-size="8" text-anchor="middle">#87807d</text>
+    <rect x="20" y="154" width="380" height="28" fill="#f4b0af"/>
+    <text x="24" y="166" fill="#000000" font-size="7" opacity="0.6">accent</text>
+    <text x="210" y="176" fill="#000000" font-size="8" text-anchor="middle">#f4b0af</text>
+    <rect x="400" y="154" width="380" height="28" fill="#1b0d0d"/>
+    <text x="404" y="166" fill="#ffffff" font-size="7" opacity="0.6">accent_bg</text>
+    <text x="590" y="176" fill="#ffffff" font-size="8" text-anchor="middle">#1b0d0d</text>
+    <text x="20" y="190" fill="#888888" font-size="9">hue colors (fg lightness)</text>
+    <rect x="20" y="194" width="95" height="46" fill="#f2afba" rx="2"/>
+    <text x="67.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">red</text>
+    <text x="67.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#f2afba</text>
+    <rect x="115" y="194" width="95" height="46" fill="#eeb694" rx="2"/>
+    <text x="162.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">orange</text>
+    <text x="162.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#eeb694</text>
+    <rect x="210" y="194" width="95" height="46" fill="#d1c589" rx="2"/>
+    <text x="257.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">yellow</text>
+    <text x="257.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#d1c589</text>
+    <rect x="305" y="194" width="95" height="46" fill="#a6d2a3" rx="2"/>
+    <text x="352.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">green</text>
+    <text x="352.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#a6d2a3</text>
+    <rect x="400" y="194" width="95" height="46" fill="#85d5ce" rx="2"/>
+    <text x="447.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">cyan</text>
+    <text x="447.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#85d5ce</text>
+    <rect x="495" y="194" width="95" height="46" fill="#8fcdf0" rx="2"/>
+    <text x="542.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">azure</text>
+    <text x="542.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#8fcdf0</text>
+    <rect x="590" y="194" width="95" height="46" fill="#b8bff8" rx="2"/>
+    <text x="637.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">blue</text>
+    <text x="637.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#b8bff8</text>
+    <rect x="685" y="194" width="95" height="46" fill="#deb3e2" rx="2"/>
+    <text x="732.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">purple</text>
+    <text x="732.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#deb3e2</text>
+    <text x="20" y="244" fill="#888888" font-size="9">hue colors (bg lightness)</text>
+    <rect x="20" y="248" width="95" height="46" fill="#2b000a" rx="2"/>
+    <text x="67.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">red_bg</text>
+    <text x="67.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#2b000a</text>
+    <rect x="115" y="248" width="95" height="46" fill="#2a0200" rx="2"/>
+    <text x="162.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">orange_bg</text>
+    <text x="162.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#2a0200</text>
+    <rect x="210" y="248" width="95" height="46" fill="#1b1000" rx="2"/>
+    <text x="257.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">yellow_bg</text>
+    <text x="257.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#1b1000</text>
+    <rect x="305" y="248" width="95" height="46" fill="#001900" rx="2"/>
+    <text x="352.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">green_bg</text>
+    <text x="352.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#001900</text>
+    <rect x="400" y="248" width="95" height="46" fill="#001b18" rx="2"/>
+    <text x="447.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">cyan_bg</text>
+    <text x="447.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#001b18</text>
+    <rect x="495" y="248" width="95" height="46" fill="#00142e" rx="2"/>
+    <text x="542.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">azure_bg</text>
+    <text x="542.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#00142e</text>
+    <rect x="590" y="248" width="95" height="46" fill="#0c0933" rx="2"/>
+    <text x="637.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">blue_bg</text>
+    <text x="637.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#0c0933</text>
+    <rect x="685" y="248" width="95" height="46" fill="#210125" rx="2"/>
+    <text x="732.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">purple_bg</text>
+    <text x="732.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#210125</text>
+    <text x="20" y="304" fill="#888888" font-size="9">neovim preview</text>
+    <rect x="20" y="306" width="760" height="80" fill="#1b0d0d" rx="4"/>
+    <text x="28" y="320" fill="#524141" font-size="10"> 1</text>
+    <text x="28" y="334" fill="#524141" font-size="10"> 2</text>
+    <text x="28" y="348" fill="#524141" font-size="10"> 3</text>
+    <text x="28" y="362" fill="#524141" font-size="10"> 4</text>
+    <text x="28" y="376" fill="#524141" font-size="10"> 5</text>
+    <text x="56" y="320" fill="#87807d" font-size="10">-- comment</text>
+    <text x="56" y="334" fill="#cac2bf" font-size="10">local </text>
+    <text x="93.2" y="334" fill="#8fcdf0" font-size="10">fn</text>
+    <text x="105.60000000000001" y="334" fill="#cac2bf" font-size="10"> = </text>
+    <text x="124.20000000000002" y="334" fill="#deb3e2" font-size="10">function</text>
+    <text x="173.8" y="334" fill="#eeb694" font-size="10">(</text>
+    <text x="180" y="334" fill="#b8bff8" font-size="10">x</text>
+    <text x="186.2" y="334" fill="#eeb694" font-size="10">)</text>
+    <text x="56" y="348" fill="#cac2bf" font-size="10">  </text>
+    <text x="68.4" y="348" fill="#cac2bf" font-size="10">if </text>
+    <text x="87" y="348" fill="#b8bff8" font-size="10">x</text>
+    <text x="93.2" y="348" fill="#cac2bf" font-size="10"> > </text>
+    <text x="111.80000000000001" y="348" fill="#deb3e2" font-size="10">0</text>
+    <text x="118.00000000000001" y="348" fill="#cac2bf" font-size="10"> then </text>
+    <text x="155.20000000000002" y="348" fill="#eeb694" font-size="10">return </text>
+    <text x="198.60000000000002" y="348" fill="#a6d2a3" font-size="10">"ok"</text>
+    <text x="56" y="362" fill="#cac2bf" font-size="10">  </text>
+    <text x="68.4" y="362" fill="#cac2bf" font-size="10">end</text>
+    <text x="56" y="376" fill="#cac2bf" font-size="10">end</text>
+    <rect x="22" y="323" width="756" height="14" fill="#352525" rx="2" opacity="0.5"/>
+  </g>
+  <g transform="translate(0,824)">
+    <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">BlackSwan</text>
+    <rect x="20" y="30" width="380" height="36" fill="#11101c" rx="3 0 0 3"/>
+    <text x="28" y="44" fill="#ffffff" font-size="9" font-weight="bold" opacity="0.7">bg</text>
+    <text x="210" y="58" fill="#ffffff" font-size="10" text-anchor="middle">#11101c</text>
+    <rect x="400" y="30" width="380" height="36" fill="#c2c4cb" rx="0 3 3 0"/>
+    <text x="408" y="44" fill="#000000" font-size="9" font-weight="bold" opacity="0.7">fg</text>
+    <text x="590" y="58" fill="#000000" font-size="10" text-anchor="middle">#c2c4cb</text>
+    <rect x="20" y="76" width="152" height="32" fill="#010003"/>
+    <text x="24" y="88" fill="#ffffff" font-size="7" opacity="0.6">edge2</text>
+    <text x="96" y="102" fill="#ffffff" font-size="8" text-anchor="middle">#010003</text>
+    <rect x="172" y="76" width="152" height="32" fill="#06050e"/>
+    <text x="176" y="88" fill="#ffffff" font-size="7" opacity="0.6">edge</text>
+    <text x="248" y="102" fill="#ffffff" font-size="8" text-anchor="middle">#06050e</text>
+    <rect x="324" y="76" width="152" height="32" fill="#11101c"/>
+    <text x="328" y="88" fill="#ffffff" font-size="7" opacity="0.6">bg</text>
+    <text x="400" y="102" fill="#ffffff" font-size="8" text-anchor="middle">#11101c</text>
+    <rect x="476" y="76" width="152" height="32" fill="#292936"/>
+    <text x="480" y="88" fill="#ffffff" font-size="7" opacity="0.6">mid</text>
+    <text x="552" y="102" fill="#ffffff" font-size="8" text-anchor="middle">#292936</text>
+    <rect x="628" y="76" width="152" height="32" fill="#454553"/>
+    <text x="632" y="88" fill="#ffffff" font-size="7" opacity="0.6">mid2</text>
+    <text x="704" y="102" fill="#ffffff" font-size="8" text-anchor="middle">#454553</text>
+    <rect x="20" y="112" width="152" height="32" fill="#e9ebf2"/>
+    <text x="24" y="124" fill="#000000" font-size="7" opacity="0.6">edge2</text>
+    <text x="96" y="138" fill="#000000" font-size="8" text-anchor="middle">#e9ebf2</text>
+    <rect x="172" y="112" width="152" height="32" fill="#d5d7de"/>
+    <text x="176" y="124" fill="#000000" font-size="7" opacity="0.6">edge</text>
+    <text x="248" y="138" fill="#000000" font-size="8" text-anchor="middle">#d5d7de</text>
+    <rect x="324" y="112" width="152" height="32" fill="#c2c4cb"/>
+    <text x="328" y="124" fill="#000000" font-size="7" opacity="0.6">fg</text>
+    <text x="400" y="138" fill="#000000" font-size="8" text-anchor="middle">#c2c4cb</text>
+    <rect x="476" y="112" width="152" height="32" fill="#a1a3aa"/>
+    <text x="480" y="124" fill="#000000" font-size="7" opacity="0.6">mid</text>
+    <text x="552" y="138" fill="#000000" font-size="8" text-anchor="middle">#a1a3aa</text>
+    <rect x="628" y="112" width="152" height="32" fill="#808288"/>
+    <text x="632" y="124" fill="#000000" font-size="7" opacity="0.6">mid2</text>
+    <text x="704" y="138" fill="#000000" font-size="8" text-anchor="middle">#808288</text>
+    <rect x="20" y="154" width="380" height="28" fill="#c1bdf6"/>
+    <text x="24" y="166" fill="#000000" font-size="7" opacity="0.6">accent</text>
+    <text x="210" y="176" fill="#000000" font-size="8" text-anchor="middle">#c1bdf6</text>
+    <rect x="400" y="154" width="380" height="28" fill="#11101c"/>
+    <text x="404" y="166" fill="#ffffff" font-size="7" opacity="0.6">accent_bg</text>
+    <text x="590" y="176" fill="#ffffff" font-size="8" text-anchor="middle">#11101c</text>
+    <text x="20" y="190" fill="#888888" font-size="9">hue colors (fg lightness)</text>
+    <rect x="20" y="194" width="95" height="46" fill="#ecb0ce" rx="2"/>
+    <text x="67.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">red</text>
+    <text x="67.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#ecb0ce</text>
+    <rect x="115" y="194" width="95" height="46" fill="#f4b2a3" rx="2"/>
+    <text x="162.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">orange</text>
+    <text x="162.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#f4b2a3</text>
+    <rect x="210" y="194" width="95" height="46" fill="#e1be89" rx="2"/>
+    <text x="257.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">yellow</text>
+    <text x="257.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#e1be89</text>
+    <rect x="305" y="194" width="95" height="46" fill="#bacd94" rx="2"/>
+    <text x="352.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">green</text>
+    <text x="352.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#bacd94</text>
+    <rect x="400" y="194" width="95" height="46" fill="#90d6ba" rx="2"/>
+    <text x="447.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">cyan</text>
+    <text x="447.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#90d6ba</text>
+    <rect x="495" y="194" width="95" height="46" fill="#85d2e3" rx="2"/>
+    <text x="542.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">azure</text>
+    <text x="542.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#85d2e3</text>
+    <rect x="590" y="194" width="95" height="46" fill="#a4c6f9" rx="2"/>
+    <text x="637.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">blue</text>
+    <text x="637.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#a4c6f9</text>
+    <rect x="685" y="194" width="95" height="46" fill="#ceb8f0" rx="2"/>
+    <text x="732.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">purple</text>
+    <text x="732.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#ceb8f0</text>
+    <text x="20" y="244" fill="#888888" font-size="9">hue colors (bg lightness)</text>
+    <rect x="20" y="248" width="95" height="46" fill="#280018" rx="2"/>
+    <text x="67.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">red_bg</text>
+    <text x="67.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#280018</text>
+    <rect x="115" y="248" width="95" height="46" fill="#2c0000" rx="2"/>
+    <text x="162.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">orange_bg</text>
+    <text x="162.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#2c0000</text>
+    <rect x="210" y="248" width="95" height="46" fill="#240900" rx="2"/>
+    <text x="257.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">yellow_bg</text>
+    <text x="257.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#240900</text>
+    <rect x="305" y="248" width="95" height="46" fill="#0c1600" rx="2"/>
+    <text x="352.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">green_bg</text>
+    <text x="352.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#0c1600</text>
+    <rect x="400" y="248" width="95" height="46" fill="#001b0a" rx="2"/>
+    <text x="447.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">cyan_bg</text>
+    <text x="447.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#001b0a</text>
+    <rect x="495" y="248" width="95" height="46" fill="#001826" rx="2"/>
+    <text x="542.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">azure_bg</text>
+    <text x="542.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#001826</text>
+    <rect x="590" y="248" width="95" height="46" fill="#000e34" rx="2"/>
+    <text x="637.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">blue_bg</text>
+    <text x="637.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#000e34</text>
+    <rect x="685" y="248" width="95" height="46" fill="#19042e" rx="2"/>
+    <text x="732.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">purple_bg</text>
+    <text x="732.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#19042e</text>
+    <text x="20" y="304" fill="#888888" font-size="9">neovim preview</text>
+    <rect x="20" y="306" width="760" height="80" fill="#11101c" rx="4"/>
+    <text x="28" y="320" fill="#454553" font-size="10"> 1</text>
+    <text x="28" y="334" fill="#454553" font-size="10"> 2</text>
+    <text x="28" y="348" fill="#454553" font-size="10"> 3</text>
+    <text x="28" y="362" fill="#454553" font-size="10"> 4</text>
+    <text x="28" y="376" fill="#454553" font-size="10"> 5</text>
+    <text x="56" y="320" fill="#808288" font-size="10">-- comment</text>
+    <text x="56" y="334" fill="#c2c4cb" font-size="10">local </text>
+    <text x="93.2" y="334" fill="#85d2e3" font-size="10">fn</text>
+    <text x="105.60000000000001" y="334" fill="#c2c4cb" font-size="10"> = </text>
+    <text x="124.20000000000002" y="334" fill="#ceb8f0" font-size="10">function</text>
+    <text x="173.8" y="334" fill="#f4b2a3" font-size="10">(</text>
+    <text x="180" y="334" fill="#a4c6f9" font-size="10">x</text>
+    <text x="186.2" y="334" fill="#f4b2a3" font-size="10">)</text>
+    <text x="56" y="348" fill="#c2c4cb" font-size="10">  </text>
+    <text x="68.4" y="348" fill="#c2c4cb" font-size="10">if </text>
+    <text x="87" y="348" fill="#a4c6f9" font-size="10">x</text>
+    <text x="93.2" y="348" fill="#c2c4cb" font-size="10"> > </text>
+    <text x="111.80000000000001" y="348" fill="#ceb8f0" font-size="10">0</text>
+    <text x="118.00000000000001" y="348" fill="#c2c4cb" font-size="10"> then </text>
+    <text x="155.20000000000002" y="348" fill="#f4b2a3" font-size="10">return </text>
+    <text x="198.60000000000002" y="348" fill="#bacd94" font-size="10">"ok"</text>
+    <text x="56" y="362" fill="#c2c4cb" font-size="10">  </text>
+    <text x="68.4" y="362" fill="#c2c4cb" font-size="10">end</text>
+    <text x="56" y="376" fill="#c2c4cb" font-size="10">end</text>
+    <rect x="22" y="323" width="756" height="14" fill="#292936" rx="2" opacity="0.5"/>
+  </g>
+  <g transform="translate(0,1226)">
+    <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Blade</text>
+    <rect x="20" y="30" width="380" height="36" fill="#1b0d0a" rx="3 0 0 3"/>
+    <text x="28" y="44" fill="#ffffff" font-size="9" font-weight="bold" opacity="0.7">bg</text>
+    <text x="210" y="58" fill="#ffffff" font-size="10" text-anchor="middle">#1b0d0a</text>
+    <rect x="400" y="30" width="380" height="36" fill="#c9c3be" rx="0 3 3 0"/>
+    <text x="408" y="44" fill="#000000" font-size="9" font-weight="bold" opacity="0.7">fg</text>
+    <text x="590" y="58" fill="#000000" font-size="10" text-anchor="middle">#c9c3be</text>
+    <rect x="20" y="76" width="152" height="32" fill="#030000"/>
+    <text x="24" y="88" fill="#ffffff" font-size="7" opacity="0.6">edge2</text>
+    <text x="96" y="102" fill="#ffffff" font-size="8" text-anchor="middle">#030000</text>
+    <rect x="172" y="76" width="152" height="32" fill="#0d0302"/>
+    <text x="176" y="88" fill="#ffffff" font-size="7" opacity="0.6">edge</text>
+    <text x="248" y="102" fill="#ffffff" font-size="8" text-anchor="middle">#0d0302</text>
+    <rect x="324" y="76" width="152" height="32" fill="#1b0d0a"/>
+    <text x="328" y="88" fill="#ffffff" font-size="7" opacity="0.6">bg</text>
+    <text x="400" y="102" fill="#ffffff" font-size="8" text-anchor="middle">#1b0d0a</text>
+    <rect x="476" y="76" width="152" height="32" fill="#352522"/>
+    <text x="480" y="88" fill="#ffffff" font-size="7" opacity="0.6">mid</text>
+    <text x="552" y="102" fill="#ffffff" font-size="8" text-anchor="middle">#352522</text>
+    <rect x="628" y="76" width="152" height="32" fill="#53413d"/>
+    <text x="632" y="88" fill="#ffffff" font-size="7" opacity="0.6">mid2</text>
+    <text x="704" y="102" fill="#ffffff" font-size="8" text-anchor="middle">#53413d</text>
+    <rect x="20" y="112" width="152" height="32" fill="#f0eae5"/>
+    <text x="24" y="124" fill="#000000" font-size="7" opacity="0.6">edge2</text>
+    <text x="96" y="138" fill="#000000" font-size="8" text-anchor="middle">#f0eae5</text>
+    <rect x="172" y="112" width="152" height="32" fill="#dcd6d1"/>
+    <text x="176" y="124" fill="#000000" font-size="7" opacity="0.6">edge</text>
+    <text x="248" y="138" fill="#000000" font-size="8" text-anchor="middle">#dcd6d1</text>
+    <rect x="324" y="112" width="152" height="32" fill="#c9c3be"/>
+    <text x="328" y="124" fill="#000000" font-size="7" opacity="0.6">fg</text>
+    <text x="400" y="138" fill="#000000" font-size="8" text-anchor="middle">#c9c3be</text>
+    <rect x="476" y="112" width="152" height="32" fill="#a7a29d"/>
+    <text x="480" y="124" fill="#000000" font-size="7" opacity="0.6">mid</text>
+    <text x="552" y="138" fill="#000000" font-size="8" text-anchor="middle">#a7a29d</text>
+    <rect x="628" y="112" width="152" height="32" fill="#86817c"/>
+    <text x="632" y="124" fill="#000000" font-size="7" opacity="0.6">mid2</text>
+    <text x="704" y="138" fill="#000000" font-size="8" text-anchor="middle">#86817c</text>
+    <rect x="20" y="154" width="380" height="28" fill="#f4b2a3"/>
+    <text x="24" y="166" fill="#000000" font-size="7" opacity="0.6">accent</text>
+    <text x="210" y="176" fill="#000000" font-size="8" text-anchor="middle">#f4b2a3</text>
+    <rect x="400" y="154" width="380" height="28" fill="#1b0d0a"/>
+    <text x="404" y="166" fill="#ffffff" font-size="7" opacity="0.6">accent_bg</text>
+    <text x="590" y="176" fill="#ffffff" font-size="8" text-anchor="middle">#1b0d0a</text>
+    <text x="20" y="190" fill="#888888" font-size="9">hue colors (fg lightness)</text>
+    <rect x="20" y="194" width="95" height="46" fill="#f1afbf" rx="2"/>
+    <text x="67.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">red</text>
+    <text x="67.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#f1afbf</text>
+    <rect x="115" y="194" width="95" height="46" fill="#f0b598" rx="2"/>
+    <text x="162.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">orange</text>
+    <text x="162.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#f0b598</text>
+    <rect x="210" y="194" width="95" height="46" fill="#d6c488" rx="2"/>
+    <text x="257.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">yellow</text>
+    <text x="257.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#d6c488</text>
+    <rect x="305" y="194" width="95" height="46" fill="#acd19e" rx="2"/>
+    <text x="352.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">green</text>
+    <text x="352.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#acd19e</text>
+    <rect x="400" y="194" width="95" height="46" fill="#87d6c9" rx="2"/>
+    <text x="447.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">cyan</text>
+    <text x="447.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#87d6c9</text>
+    <rect x="495" y="194" width="95" height="46" fill="#8ccfed" rx="2"/>
+    <text x="542.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">azure</text>
+    <text x="542.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#8ccfed</text>
+    <rect x="590" y="194" width="95" height="46" fill="#b2c2f9" rx="2"/>
+    <text x="637.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">blue</text>
+    <text x="637.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#b2c2f9</text>
+    <rect x="685" y="194" width="95" height="46" fill="#dab5e7" rx="2"/>
+    <text x="732.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">purple</text>
+    <text x="732.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#dab5e7</text>
+    <text x="20" y="244" fill="#888888" font-size="9">hue colors (bg lightness)</text>
+    <rect x="20" y="248" width="95" height="46" fill="#2a000e" rx="2"/>
+    <text x="67.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">red_bg</text>
+    <text x="67.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#2a000e</text>
+    <rect x="115" y="248" width="95" height="46" fill="#2a0000" rx="2"/>
+    <text x="162.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">orange_bg</text>
+    <text x="162.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#2a0000</text>
+    <rect x="210" y="248" width="95" height="46" fill="#1d0e00" rx="2"/>
+    <text x="257.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">yellow_bg</text>
+    <text x="257.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#1d0e00</text>
+    <rect x="305" y="248" width="95" height="46" fill="#001800" rx="2"/>
+    <text x="352.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">green_bg</text>
+    <text x="352.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#001800</text>
+    <rect x="400" y="248" width="95" height="46" fill="#001b14" rx="2"/>
+    <text x="447.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">cyan_bg</text>
+    <text x="447.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#001b14</text>
+    <rect x="495" y="248" width="95" height="46" fill="#00152c" rx="2"/>
+    <text x="542.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">azure_bg</text>
+    <text x="542.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#00152c</text>
+    <rect x="590" y="248" width="95" height="46" fill="#080a33" rx="2"/>
+    <text x="637.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">blue_bg</text>
+    <text x="637.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#080a33</text>
+    <rect x="685" y="248" width="95" height="46" fill="#1f0227" rx="2"/>
+    <text x="732.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">purple_bg</text>
+    <text x="732.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#1f0227</text>
+    <text x="20" y="304" fill="#888888" font-size="9">neovim preview</text>
+    <rect x="20" y="306" width="760" height="80" fill="#1b0d0a" rx="4"/>
+    <text x="28" y="320" fill="#53413d" font-size="10"> 1</text>
+    <text x="28" y="334" fill="#53413d" font-size="10"> 2</text>
+    <text x="28" y="348" fill="#53413d" font-size="10"> 3</text>
+    <text x="28" y="362" fill="#53413d" font-size="10"> 4</text>
+    <text x="28" y="376" fill="#53413d" font-size="10"> 5</text>
+    <text x="56" y="320" fill="#86817c" font-size="10">-- comment</text>
+    <text x="56" y="334" fill="#c9c3be" font-size="10">local </text>
+    <text x="93.2" y="334" fill="#8ccfed" font-size="10">fn</text>
+    <text x="105.60000000000001" y="334" fill="#c9c3be" font-size="10"> = </text>
+    <text x="124.20000000000002" y="334" fill="#dab5e7" font-size="10">function</text>
+    <text x="173.8" y="334" fill="#f0b598" font-size="10">(</text>
+    <text x="180" y="334" fill="#b2c2f9" font-size="10">x</text>
+    <text x="186.2" y="334" fill="#f0b598" font-size="10">)</text>
+    <text x="56" y="348" fill="#c9c3be" font-size="10">  </text>
+    <text x="68.4" y="348" fill="#c9c3be" font-size="10">if </text>
+    <text x="87" y="348" fill="#b2c2f9" font-size="10">x</text>
+    <text x="93.2" y="348" fill="#c9c3be" font-size="10"> > </text>
+    <text x="111.80000000000001" y="348" fill="#dab5e7" font-size="10">0</text>
+    <text x="118.00000000000001" y="348" fill="#c9c3be" font-size="10"> then </text>
+    <text x="155.20000000000002" y="348" fill="#f0b598" font-size="10">return </text>
+    <text x="198.60000000000002" y="348" fill="#acd19e" font-size="10">"ok"</text>
+    <text x="56" y="362" fill="#c9c3be" font-size="10">  </text>
+    <text x="68.4" y="362" fill="#c9c3be" font-size="10">end</text>
+    <text x="56" y="376" fill="#c9c3be" font-size="10">end</text>
+    <rect x="22" y="323" width="756" height="14" fill="#352522" rx="2" opacity="0.5"/>
+  </g>
+  <g transform="translate(0,1628)">
+    <text x="20" y="18" fill="#aaaaaa" font-size="13" font-weight="bold">Aventurine</text>
+    <rect x="20" y="30" width="380" height="36" fill="#1b0d0e" rx="3 0 0 3"/>
+    <text x="28" y="44" fill="#ffffff" font-size="9" font-weight="bold" opacity="0.7">bg</text>
+    <text x="210" y="58" fill="#ffffff" font-size="10" text-anchor="middle">#1b0d0e</text>
+    <rect x="400" y="30" width="380" height="36" fill="#cac2c3" rx="0 3 3 0"/>
+    <text x="408" y="44" fill="#000000" font-size="9" font-weight="bold" opacity="0.7">fg</text>
+    <text x="590" y="58" fill="#000000" font-size="10" text-anchor="middle">#cac2c3</text>
+    <rect x="20" y="76" width="152" height="32" fill="#030000"/>
+    <text x="24" y="88" fill="#ffffff" font-size="7" opacity="0.6">edge2</text>
+    <text x="96" y="102" fill="#ffffff" font-size="8" text-anchor="middle">#030000</text>
+    <rect x="172" y="76" width="152" height="32" fill="#0d0304"/>
+    <text x="176" y="88" fill="#ffffff" font-size="7" opacity="0.6">edge</text>
+    <text x="248" y="102" fill="#ffffff" font-size="8" text-anchor="middle">#0d0304</text>
+    <rect x="324" y="76" width="152" height="32" fill="#1b0d0e"/>
+    <text x="328" y="88" fill="#ffffff" font-size="7" opacity="0.6">bg</text>
+    <text x="400" y="102" fill="#ffffff" font-size="8" text-anchor="middle">#1b0d0e</text>
+    <rect x="476" y="76" width="152" height="32" fill="#352526"/>
+    <text x="480" y="88" fill="#ffffff" font-size="7" opacity="0.6">mid</text>
+    <text x="552" y="102" fill="#ffffff" font-size="8" text-anchor="middle">#352526</text>
+    <rect x="628" y="76" width="152" height="32" fill="#534142"/>
+    <text x="632" y="88" fill="#ffffff" font-size="7" opacity="0.6">mid2</text>
+    <text x="704" y="102" fill="#ffffff" font-size="8" text-anchor="middle">#534142</text>
+    <rect x="20" y="112" width="152" height="32" fill="#f1e9ea"/>
+    <text x="24" y="124" fill="#000000" font-size="7" opacity="0.6">edge2</text>
+    <text x="96" y="138" fill="#000000" font-size="8" text-anchor="middle">#f1e9ea</text>
+    <rect x="172" y="112" width="152" height="32" fill="#ddd5d6"/>
+    <text x="176" y="124" fill="#000000" font-size="7" opacity="0.6">edge</text>
+    <text x="248" y="138" fill="#000000" font-size="8" text-anchor="middle">#ddd5d6</text>
+    <rect x="324" y="112" width="152" height="32" fill="#cac2c3"/>
+    <text x="328" y="124" fill="#000000" font-size="7" opacity="0.6">fg</text>
+    <text x="400" y="138" fill="#000000" font-size="8" text-anchor="middle">#cac2c3</text>
+    <rect x="476" y="112" width="152" height="32" fill="#a8a1a2"/>
+    <text x="480" y="124" fill="#000000" font-size="7" opacity="0.6">mid</text>
+    <text x="552" y="138" fill="#000000" font-size="8" text-anchor="middle">#a8a1a2</text>
+    <rect x="628" y="112" width="152" height="32" fill="#878081"/>
+    <text x="632" y="124" fill="#000000" font-size="7" opacity="0.6">mid2</text>
+    <text x="704" y="138" fill="#000000" font-size="8" text-anchor="middle">#878081</text>
+    <rect x="20" y="154" width="380" height="28" fill="#f4b0b4"/>
+    <text x="24" y="166" fill="#000000" font-size="7" opacity="0.6">accent</text>
+    <text x="210" y="176" fill="#000000" font-size="8" text-anchor="middle">#f4b0b4</text>
+    <rect x="400" y="154" width="380" height="28" fill="#1b0d0e"/>
+    <text x="404" y="166" fill="#ffffff" font-size="7" opacity="0.6">accent_bg</text>
+    <text x="590" y="176" fill="#ffffff" font-size="8" text-anchor="middle">#1b0d0e</text>
+    <text x="20" y="190" fill="#888888" font-size="9">hue colors (fg lightness)</text>
+    <rect x="20" y="194" width="95" height="46" fill="#edb0cc" rx="2"/>
+    <text x="67.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">red</text>
+    <text x="67.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#edb0cc</text>
+    <rect x="115" y="194" width="95" height="46" fill="#f3b2a2" rx="2"/>
+    <text x="162.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">orange</text>
+    <text x="162.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#f3b2a2</text>
+    <rect x="210" y="194" width="95" height="46" fill="#e0bf89" rx="2"/>
+    <text x="257.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">yellow</text>
+    <text x="257.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#e0bf89</text>
+    <rect x="305" y="194" width="95" height="46" fill="#b9ce95" rx="2"/>
+    <text x="352.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">green</text>
+    <text x="352.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#b9ce95</text>
+    <rect x="400" y="194" width="95" height="46" fill="#8fd6bc" rx="2"/>
+    <text x="447.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">cyan</text>
+    <text x="447.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#8fd6bc</text>
+    <rect x="495" y="194" width="95" height="46" fill="#85d2e4" rx="2"/>
+    <text x="542.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">azure</text>
+    <text x="542.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#85d2e4</text>
+    <rect x="590" y="194" width="95" height="46" fill="#a6c6f9" rx="2"/>
+    <text x="637.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">blue</text>
+    <text x="637.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#a6c6f9</text>
+    <rect x="685" y="194" width="95" height="46" fill="#d0b8ef" rx="2"/>
+    <text x="732.5" y="208" fill="#000000" font-size="9" text-anchor="middle" font-weight="bold">purple</text>
+    <text x="732.5" y="232" fill="#000000" font-size="8" text-anchor="middle">#d0b8ef</text>
+    <text x="20" y="244" fill="#888888" font-size="9">hue colors (bg lightness)</text>
+    <rect x="20" y="248" width="95" height="46" fill="#280017" rx="2"/>
+    <text x="67.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">red_bg</text>
+    <text x="67.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#280017</text>
+    <rect x="115" y="248" width="95" height="46" fill="#2c0000" rx="2"/>
+    <text x="162.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">orange_bg</text>
+    <text x="162.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#2c0000</text>
+    <rect x="210" y="248" width="95" height="46" fill="#230900" rx="2"/>
+    <text x="257.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">yellow_bg</text>
+    <text x="257.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#230900</text>
+    <rect x="305" y="248" width="95" height="46" fill="#0a1600" rx="2"/>
+    <text x="352.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">green_bg</text>
+    <text x="352.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#0a1600</text>
+    <rect x="400" y="248" width="95" height="46" fill="#001b0b" rx="2"/>
+    <text x="447.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">cyan_bg</text>
+    <text x="447.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#001b0b</text>
+    <rect x="495" y="248" width="95" height="46" fill="#001827" rx="2"/>
+    <text x="542.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">azure_bg</text>
+    <text x="542.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#001827</text>
+    <rect x="590" y="248" width="95" height="46" fill="#000e34" rx="2"/>
+    <text x="637.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">blue_bg</text>
+    <text x="637.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#000e34</text>
+    <rect x="685" y="248" width="95" height="46" fill="#1a042d" rx="2"/>
+    <text x="732.5" y="262" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">purple_bg</text>
+    <text x="732.5" y="286" fill="#ffffff" font-size="8" text-anchor="middle">#1a042d</text>
+    <text x="20" y="304" fill="#888888" font-size="9">neovim preview</text>
+    <rect x="20" y="306" width="760" height="80" fill="#1b0d0e" rx="4"/>
+    <text x="28" y="320" fill="#534142" font-size="10"> 1</text>
+    <text x="28" y="334" fill="#534142" font-size="10"> 2</text>
+    <text x="28" y="348" fill="#534142" font-size="10"> 3</text>
+    <text x="28" y="362" fill="#534142" font-size="10"> 4</text>
+    <text x="28" y="376" fill="#534142" font-size="10"> 5</text>
+    <text x="56" y="320" fill="#878081" font-size="10">-- comment</text>
+    <text x="56" y="334" fill="#cac2c3" font-size="10">local </text>
+    <text x="93.2" y="334" fill="#85d2e4" font-size="10">fn</text>
+    <text x="105.60000000000001" y="334" fill="#cac2c3" font-size="10"> = </text>
+    <text x="124.20000000000002" y="334" fill="#d0b8ef" font-size="10">function</text>
+    <text x="173.8" y="334" fill="#f3b2a2" font-size="10">(</text>
+    <text x="180" y="334" fill="#a6c6f9" font-size="10">x</text>
+    <text x="186.2" y="334" fill="#f3b2a2" font-size="10">)</text>
+    <text x="56" y="348" fill="#cac2c3" font-size="10">  </text>
+    <text x="68.4" y="348" fill="#cac2c3" font-size="10">if </text>
+    <text x="87" y="348" fill="#a6c6f9" font-size="10">x</text>
+    <text x="93.2" y="348" fill="#cac2c3" font-size="10"> > </text>
+    <text x="111.80000000000001" y="348" fill="#d0b8ef" font-size="10">0</text>
+    <text x="118.00000000000001" y="348" fill="#cac2c3" font-size="10"> then </text>
+    <text x="155.20000000000002" y="348" fill="#f3b2a2" font-size="10">return </text>
+    <text x="198.60000000000002" y="348" fill="#b9ce95" font-size="10">"ok"</text>
+    <text x="56" y="362" fill="#cac2c3" font-size="10">  </text>
+    <text x="68.4" y="362" fill="#cac2c3" font-size="10">end</text>
+    <text x="56" y="376" fill="#cac2c3" font-size="10">end</text>
+    <rect x="22" y="323" width="756" height="14" fill="#352526" rx="2" opacity="0.5"/>
+  </g>
+</svg>

@@ -1,0 +1,42 @@
+name: "Bug / Issue"
+description: "検証中に見つかった課題・バグ"
+labels: ["bug"]
+body:
+  - type: input
+    id: feature
+    attributes:
+      label: "Feature (RX)"
+      description: "対象フィーチャー"
+      placeholder: "R2"
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: "Version (VX)"
+      description: "対象バージョン"
+      placeholder: "V5"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: "問題の説明"
+      description: "何が起きているか"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: "再現手順 / 発生状況"
+      description: "どのような操作・入力で発生するか"
+  - type: textarea
+    id: expected
+    attributes:
+      label: "期待される動作"
+      description: "本来どうあるべきか"
+  - type: textarea
+    id: approach
+    attributes:
+      label: "対応方針（わかれば）"
+      description: "修正のアプローチ案"

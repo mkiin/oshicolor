@@ -1,0 +1,17 @@
+{
+  "image": "debug/img/genshin/Amber.png",
+  "timestamp": "2026-03-30T11:25:28.873Z",
+  "results": [
+    {
+      "model": "gemini-flash-latest",
+      "elapsed": 11475,
+      "tokens": {
+        "input": 1486,
+        "output": 183,
+        "total": 2993
+      },
+      "error": null,
+      "response": "{\n  \"impression\": {\n    \"primary\": { \"hex\": \"#C23126\", \"reason\": \"The vibrant red of her Outrider uniform and iconic headbands is her most defining visual feature.\" },\n    \"secondary\": { \"hex\": \"#4B332C\", \"reason\": \"The deep mahogany of her long hair and leather corset provides a grounding contrast to the red.\" },\n    \"tertiary\": { \"hex\": \"#DDA35D\", \"reason\": \"The warm gold of her metallic ornaments and amber eyes provides essential highlight details.\" }\n  },\n  \"theme_tone\": \"dark\",\n  \"neutral\": {\n    \"bg_base_hex\": \"#231E1D\",\n    \"fg_base_hex\": \"#E8E0DE\"\n  }\n}"
+    }
+  ]
+}

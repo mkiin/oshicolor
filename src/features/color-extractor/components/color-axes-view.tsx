@@ -12,20 +12,20 @@ const ColorAxisCard: React.FC<ColorAxisCardProps> = ({ colorAxis }) => {
   return (
     <div>
       {/* ロール名(軸名) */}
-      <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest">
+      <h3 className="text-xs font-semibold tracking-widest text-gray-400 uppercase">
         {colorAxis.role}
       </h3>
-      <div className="flex flex-wrap gap-2 mt-1">
+      <div className="mt-1 flex flex-wrap gap-2">
         {colorAxis.colors.map((color) => (
           <div key={color.hex()} className="group relative">
             <div
-              className="w-11 h-11 rounded-lg shadow-sm ring-1 ring-black/10 transition-transform group-hover:scale-110"
+              className="h-11 w-11 rounded-lg shadow-sm ring-1 ring-black/10 transition-transform group-hover:scale-110"
               style={{
                 backgroundColor: color.hex(),
               }}
             >
               <span
-                className="absolute inset-0 flex items-center justify-center text-[8px] font-mono opacity-0 group-hover:opacity-100 transition-opacity"
+                className="absolute inset-0 flex items-center justify-center font-mono text-[8px] opacity-0 transition-opacity group-hover:opacity-100"
                 style={{ color: color.textColor }}
               >
                 {color.hex()}
@@ -41,7 +41,7 @@ const ColorAxisCard: React.FC<ColorAxisCardProps> = ({ colorAxis }) => {
 export const ColorAxesView: React.FC<ColorAxesViewProps> = ({ colorAxes }) => {
   return (
     <div className="space-y-0">
-      <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-widest">
+      <h2 className="text-xs font-semibold tracking-widest text-gray-400 uppercase">
         Axes
       </h2>
       {colorAxes.map((axis) => (

@@ -1,13 +1,15 @@
+import type { ColorAxis } from "./color-extractor.types";
 import type { Color } from "colorthief";
+
 import { useMode, modeOklch, type Rgb } from "culori/fn";
 import { kmeans } from "ml-kmeans";
-import type { ColorAxis } from "./color-extractor.types";
 
 const CLUSTER_COUNT = 3;
-const MIN_CHROMA = 0.03; // 彩度の下限値
-const MIN_LIGHTNESS = 0.2; // 明度の下限値
+const MIN_CHROMA = 0.0; // 彩度の下限値
+const MIN_LIGHTNESS = 0.0; // 明度の下限値
 
 // culoriの変換関数
+// oxlint-disable-next-line react-hooks/rules-of-hooks -- culori の useMode は React Hook ではない
 const toOklch = useMode(modeOklch);
 
 /**
@@ -74,7 +76,7 @@ export const deriveColorAxes = (colors: Color[]): ColorAxis[] => {
     "accent",
   ] as const satisfies ColorAxis["role"][];
   return [...groups.values()]
-    .sort(
+    .toSorted(
       (a, b) =>
         b.reduce((sum, o) => sum + (colorCount - o.idx), 0) -
         a.reduce((sum, o) => sum + (colorCount - o.idx), 0),

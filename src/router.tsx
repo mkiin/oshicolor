@@ -1,23 +1,3 @@
-import { createRouter as createTanStackRouter } from "@tanstack/react-router";
-import { getContext } from "@/lib/query-client";
-import { routeTree } from "./routeTree.gen";
-
-export function getRouter() {
-  const router = createTanStackRouter({
-    routeTree,
-
-    context: getContext(),
-
-    scrollRestoration: true,
-    defaultPreload: "intent",
-    defaultPreloadStaleTime: 0,
-  });
-
-  return router;
-}
-
-declare module "@tanstack/react-router" {
-  interface Register {
-    router: ReturnType<typeof getRouter>;
-  }
-}
+// routeTree.gen.ts が ./router.tsx を相対パスで参照するため、
+// src 直下に re-export ラッパーを残す。実体は core/router.tsx。
+export { getRouter } from "@/core/router";

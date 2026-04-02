@@ -1,0 +1,64 @@
+# Checkpoint: colorthief-swatches-refactor
+
+Date: 2026-03-25 03:15
+
+## 完了した項目
+
+- #14 R4 Lua ファイル生成の最小実装 → Done
+- #17 highlight-mapper リファクタ（命名・構成整理）→ Done
+  - デッドコード削除（candidate-pool, role-assignment, neutral-source）
+  - oklch-utils → src/lib/oklch、fg-adjuster → src/lib/contrast に移動
+  - atom 命名整理（themeColorsAtom, previewTokensAtom, luaOutputAtom）
+  - core/ 関数名を意図駆動に整理（neutralPaletteFrom, diagnosticColorsFrom 等）
+  - ファイル名整理（theme-pipeline.ts, preview-tokens.ts）
+  - 名前設計の原則を .claude/rules/coding-style.md に追加
+- #18 swatches を colorthief 版で実装 → Done
+  - colorSwatchesAtom を colorthief getSwatches に差し替え
+  - colorSpaceAtom で RGB/OKLCh 切り替え
+  - HighlightPalette コンポーネント追加
+  - レイアウト変更（ThemePreview 上段、画像+カラーリザルト下段）
+  - Dropzone をファイル選択後ハイド、画像クリックで再選択
+  - Dropzone を onFileAccepted: (file: File) に変更（null 設計回避）
+- GitHub インフラ整備
+  - コミットメッセージに Issue 番号ルール追加（CLAUDE.md, commit スキル）
+  - create-issue スキルに Projects ボード追加手順を追記
+- /commit スキル作成
+- vitest.config.ts を Cloudflare プラグインと分離して作成
+- tests/ ディレクトリ分離（vitest 流儀）
+
+## 現在の状態
+
+- ブランチ: feature/colorthief-swatches（feature/R2-V10-neutral-role-vibrant から分岐）
+- ワーキングツリー: クリーン
+- dev ブランチには Sprint 1 前半の変更がマージ済み
+
+## 判明した事実
+
+- colorthief の Swatch は swatch.color.hex() でアクセス、node-vibrant は swatch.hex
+- node-vibrant の型は @vibrant/color から直接 import 不可。Vibrant クラスの ReturnType で導出
+- startTransition だけで Suspense フォールバックのちらつきは防止できる。isPending は不要なケースが多い
+- Clean Code + DDD のドメイン駆動命名が関数名設計の原典
+- vp test は Cloudflare Vite プラグインと競合する → vitest.config.ts で分離
+
+## 未解決の問題
+
+- #19 ThemePreview タブ切り替え時のちらつき（Backlog、vitest browser mode で調査予定）
+- #15 R1→R2→R4 パイプラインを繋ぐ（This Sprint）
+- #16 生成した Lua が Neovim で読み込めることを検証（This Sprint）
+- vite-plus-core 0.1.11/0.1.12 の型不整合（vite.config.ts に型エラー）
+- syntax 色は現在 neutral.fg のフォールバック（node-vibrant 統合時に再設計）
+
+## 次にやること
+
+1. #15 R1→R2→R4 パイプラインを繋ぐ
+2. #16 生成した Lua が Neovim で読み込めることを検証
+3. #19 ちらつき調査（vitest browser mode）
+4. feature/colorthief-swatches を dev にマージするか判断
+
+## キーとなる判断・理由
+
+- highlight-mapper ディレクトリ名はそのまま維持（イメージしやすいため）
+- ドメイン層は意図駆動命名、インフラ層は技術的命名を許容（ルール化済み）
+- colorthief 版 swatches を別ブランチで用意（node-vibrant 版との比較検証用）
+- Suspense 設計: isPending よりも startTransition のみが適切なケースが多い
+- null 設計は fileAtom のような「ある/ない」の本質的な状態では許容

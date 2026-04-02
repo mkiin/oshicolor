@@ -1,0 +1,17 @@
+{
+  "image": "debug/img/starrail/Acheron.png",
+  "timestamp": "2026-03-30T11:25:03.894Z",
+  "results": [
+    {
+      "model": "gemini-flash-latest",
+      "elapsed": 8182,
+      "tokens": {
+        "input": 1474,
+        "output": 196,
+        "total": 2240
+      },
+      "error": null,
+      "response": "{\n  \"impression\": {\n    \"primary\": { \"hex\": \"#5d54a4\", \"reason\": \"The deep violet is the most prominent color, seen in her hair and the primary accents of her Nihility-themed design.\" },\n    \"secondary\": { \"hex\": \"#a11b21\", \"reason\": \"The bold crimson red from her iconic umbrella and the flame-like markings on her attire.\" },\n    \"tertiary\": { \"hex\": \"#2d2d31\", \"reason\": \"The dark charcoal and near-black tones found in her tactical shorts, boots, and the shadows of her robe.\" }\n  },\n  \"theme_tone\": \"dark\",\n  \"neutral\": {\n    \"bg_base_hex\": \"#1a1920\",\n    \"fg_base_hex\": \"#e0dfe6\"\n  }\n}"
+    }
+  ]
+}

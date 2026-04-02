@@ -1,0 +1,64 @@
+# Checkpoint: R2/V10 neutral源比較 + Vibrant系調査
+
+Date: 2026-03-23
+
+## 完了した項目
+
+- R2/V9 の PR 発行 (#12, feature/R2-V9-dominant5-highlight-groups → dev)
+- R2/V9 issues.md 清書（構造的問題の分析、genshin.svg 目視確認結果）
+- R2/V10 ドキュメント作成（plan.md, spec.md, README更新）
+- R2/V10 Issue 作成 (#13)、ブランチ作成 (feature/R2-V10-neutral-role-vibrant)
+- neutral-source.ts 実装（DkMuted → Muted → dominant C最低の3段フォールバック）
+- node-vibrant インストール、vibrantPaletteAtom 追加
+- colorthief vs node-vibrant の DkMuted neutral パレット比較 UI（NeovimPreview 2つ横並び）
+- node-vibrant vs colorthief swatch 選定比較リサーチ（learn/ に保存）
+- nvim-highlite のパレット設計調査（Palette.derive のフォールバックチェーン + saturate）
+- neutral palette の L 値を参照テーマ平均値に書き換え
+- R5 PR 発行 (#11)、旧V9 Issue #8 クローズ
+
+## 現在の状態
+
+- ブランチ: feature/R2-V10-neutral-role-vibrant
+- 未コミット変更:
+  - package.json / pnpm-lock.yaml（node-vibrant 追加）
+  - color-extractor.atoms.ts（vibrantPaletteAtom 追加）
+  - build-highlight-map.ts（neutralHueOverride 引数追加）
+  - neutral-palette.ts（L値を参照テーマ平均に変更）
+  - highlight-mapper.atoms.ts（node-vibrant 比較用 atom 追加）
+  - routes/index.tsx（2つの NeovimPreview 横並び比較 UI）
+- コミット済み: neutral源 DkMuted/Muted 選定 + V10ドキュメント
+
+## 判明した事実
+
+- ドミナント5色は population 順 = 面積大 = 低彩度 → 全体的に渋い（genshin.svg の約半数に影響）
+- V9 の fg-adjuster は L のみ調整、C はそのまま → くすんだ seed はくすんだ fg になる
+- WCAG コントラスト比は保証されていない（OkLch の L 差 ≠ WCAG コントラスト比）
+- nvim-highlite は6色をセマンティック（bg/text/statement/storage/error/ok）に定義し、フォールバックチェーンで80+色を派生
+- node-vibrant はフォールバック合成で swatch null を回避（population=0の人工色）、colorthief は null をそのまま返す
+- colorthief の null でない Vibrant は minC ≥ 0.08 の実在色が保証される
+- DkMuted は neutral 源に最適（targetL=0.30 で暗い、targetC=0.04 で低彩度、minC=0.00）
+- muted/dkmuted の hue を使う意味: L/C は捨てるが、hue の選択には Muted 系を優先する意味がある（「控えめな色の hue」の方が bg として自然）
+
+## 未解決の問題
+
+- colorthief vs node-vibrant の DkMuted、どちらが neutral 源として優れるか → ユーザー目視確認待ち
+- fg-adjuster の MIN_CHROMA 値（0.06/0.08/0.10）が未決定
+- WCAG コントラスト比保証の実装方針（V10 issues.md 行き）
+- seed ロールスコアリングの具体的アルゴリズムが未設計
+- Vibrant 系の要所配置ロジックが未設計
+- node-vibrant を本番依存に残すか、比較用で一時的に使うだけか
+
+## 次にやること
+
+- ユーザーが colorthief vs node-vibrant の neutral パレットを目視比較し、方針を決定
+- 比較結果を踏まえて neutral 源の最終決定
+- V10 issues.md の作成（WCAG コントラスト比保証の課題を記録）
+- fg-adjuster に MIN_CHROMA を追加して渋さを改善
+- seed ロールスコアリングの設計・実装
+
+## キーとなる判断・理由
+
+- V9 で Vibrant 系補完を見送り、ドミナント5色のみで最速リリース → 渋さ問題が構造的に発覚し V10 で対処
+- neutral 源を DkMuted/Muted swatch から選ぶ方針 → dominant C 最低より、colorthief が「控えめ」と判定した色の方が信頼性が高い
+- node-vibrant を比較用に追加 → DkMuted の hue 選定が colorthief と異なる可能性があり、目視で判断する
+- nvim-highlite のフォールバックチェーン構造は参考になるが、「色の自動分類」は oshicolor 固有の課題で答えがない

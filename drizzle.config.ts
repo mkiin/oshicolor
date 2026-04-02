@@ -5,6 +5,6 @@ config({ path: [".env.local", ".env"] });
 
 export default defineConfig({
   out: "./drizzle",
-  schema: "./src/db/schema.ts",
+  schema: "./src/infrastructures/db/schema.ts",
   dialect: "sqlite",
 });

@@ -1,7 +1,10 @@
+import type { Color } from "colorthief";
+
+import { getPalette, getSwatches } from "colorthief";
 import { mkdir, readdir, writeFile } from "node:fs/promises";
 import { basename, join } from "node:path";
-import type { Color } from "colorthief";
-import { getPalette, getSwatches } from "colorthief";
+
+import { deriveColorAxes } from "../src/features/color-extractor/color-axes";
 
 const ROOT_DIR = new URL("../", import.meta.url).pathname;
 const IMG_BASE = join(ROOT_DIR, "debug/img");
@@ -18,6 +21,108 @@ const OPTIONS = { ...OPTIONS_BASE, colorCount: 16 };
 
 const DOMINANT_COUNT = 5;
 
+// --- seed スコアリング（colorthief 準拠 OkLch Vibrant + Muted） ---
+
+type SwatchTarget = "V" | "M";
+
+/** colorthief の swatch target 定義（OkLch ベース） */
+type TargetDef = {
+  targetL: number;
+  targetC: number;
+};
+
+const SWATCH_TARGETS: Record<SwatchTarget, TargetDef> = {
+  V: { targetL: 0.65, targetC: 0.2 },
+  M: { targetL: 0.65, targetC: 0.04 },
+};
+
+/** colorthief 準拠のスコアリング重み */
+const W_L = 6;
+const W_C = 3;
+const W_POP = 1;
+
+/**
+ * colorthief 準拠のスコアリング（高いほど良い）
+ *
+ * 範囲外は -Infinity で失格。
+ * スコア = lDist * W_L + cDist * W_C + popNorm * W_POP
+ */
+const swatchScore = (
+  color: Color,
+  target: TargetDef,
+  maxPopulation: number,
+): number => {
+  const { l, c } = color.oklch();
+
+  const lDist = 1 - Math.abs(l - target.targetL);
+  const cDist = 1 - Math.min(Math.abs(c - target.targetC) / 0.2, 1);
+  const pop = maxPopulation > 0 ? color.population / maxPopulation : 0;
+
+  return lDist * W_L + cDist * W_C + pop * W_POP;
+};
+
+type SeedEntry = {
+  color: Color;
+  score: number;
+  swatchTarget: SwatchTarget;
+};
+
+/** 色群から target に最もスコアが高い色を返す（除外 index 指定可） */
+const findBest = (
+  colors: Color[],
+  target: TargetDef,
+  excludeIndices: Set<number>,
+  maxPopulation: number,
+): { idx: number; score: number } | null => {
+  let bestIdx = -1;
+  let bestScore = -Infinity;
+  for (let i = 0; i < colors.length; i++) {
+    if (excludeIndices.has(i)) continue;
+    const s = swatchScore(colors[i], target, maxPopulation);
+    if (s > bestScore) {
+      bestScore = s;
+      bestIdx = i;
+    }
+  }
+  return bestIdx === -1 || bestScore === -Infinity
+    ? null
+    : { idx: bestIdx, score: bestScore };
+};
+
+/**
+ * 軸内から固定 2 seed を選定（colorthief 準拠 Vibrant + Muted）
+ *
+ * 1色目: Vibrant target で最高スコアの色（鮮やか → syntax fg 向き）
+ * 2色目: Muted target で最高スコアの色（控えめ → UI 向き）
+ */
+const selectSeeds = (colors: Color[]): [SeedEntry, SeedEntry] | [SeedEntry] => {
+  const maxPop = Math.max(...colors.map((c) => c.population), 1);
+
+  const vResult = findBest(colors, SWATCH_TARGETS.V, new Set(), maxPop);
+  if (!vResult) return [] as unknown as [SeedEntry];
+  const vSeed: SeedEntry = {
+    color: colors[vResult.idx],
+    score: vResult.score,
+    swatchTarget: "V",
+  };
+
+  const mResult = findBest(
+    colors,
+    SWATCH_TARGETS.M,
+    new Set([vResult.idx]),
+    maxPop,
+  );
+  if (!mResult) return [vSeed];
+
+  const mSeed: SeedEntry = {
+    color: colors[mResult.idx],
+    score: mResult.score,
+    swatchTarget: "M",
+  };
+
+  return [vSeed, mSeed];
+};
+
 // --- SVG レイアウト定数 ---
 
 const SVG_W = 660;
@@ -27,11 +132,16 @@ const USABLE_W = SVG_W - PAD * 2;
 const Y_NAME = 18;
 const Y_DOM = 25;
 const H_DOM = 40;
-const Y_PAL = Y_DOM + H_DOM + 7; // 72
+const Y_PAL = Y_DOM + H_DOM + 7;
 const H_PAL = 30;
-const Y_SWA = Y_PAL + H_PAL + 7; // 109
+const Y_SWA = Y_PAL + H_PAL + 7;
 const H_SWA = 62;
-const BLOCK_H = Y_SWA + H_SWA + 13; // 184
+const Y_AXES = Y_SWA + H_SWA + 10;
+const H_AXIS_ROW = 36;
+const AXIS_COUNT = 3;
+const Y_SEED = Y_AXES + H_AXIS_ROW * AXIS_COUNT + 8;
+const H_SEED = 42;
+const BLOCK_H = Y_SEED + H_SEED + 13;
 
 const SWATCH_ROLES = [
   "Vibrant",
@@ -51,14 +161,35 @@ const SWATCH_LABELS: Record<(typeof SWATCH_ROLES)[number], string> = {
   LightMuted: "LtMuted",
 };
 
+const ROLE_COLORS: Record<string, string> = {
+  main: "#ff9966",
+  sub: "#66ccff",
+  accent: "#cc66ff",
+};
+
+const FALLBACK_ROLE_COLOR = "#888888";
+
+/** axis 行内の色セルを最大で何列表示するか */
+const MAX_AXIS_CELLS = 8;
+
+/** axis ロール名の右に置くカウントラベルの x オフセット（PAD 基準） */
+const AXIS_LABEL_COUNT_OFFSET_X = 38;
+
 // --- 型 ---
 
 type SwatchRole = (typeof SWATCH_ROLES)[number];
 type ColorInfo = { hex: string; isDark: boolean };
+type SeedInfo = ColorInfo & { score: number; swatchTarget: SwatchTarget };
+type AxisInfo = {
+  role: string;
+  colors: ColorInfo[];
+  seeds: SeedInfo[];
+};
 type ExtractionResult = {
   dominantColors: ColorInfo[];
   palette: ColorInfo[];
   swatches: Record<SwatchRole, ColorInfo | null>;
+  axes: AxisInfo[];
 };
 
 const toColorInfo = (color: Color): ColorInfo => ({
@@ -80,7 +211,7 @@ const generateBlock = (
     `    <text x="${PAD}" y="${Y_NAME}" fill="#aaaaaa" font-size="13" font-weight="bold">${name}</text>`,
   );
 
-  // ドミナントカラー上位 5 色（順位付き）
+  // ドミナントカラー上位 5 色
   const domCellW = USABLE_W / DOMINANT_COUNT;
   for (let i = 0; i < result.dominantColors.length; i++) {
     const { hex, isDark } = result.dominantColors[i];
@@ -143,6 +274,83 @@ const generateBlock = (
     }
   }
 
+  // Color Axes（3軸）
+  const labelW = 60;
+  const axisColorAreaW = USABLE_W - labelW;
+  for (let ai = 0; ai < result.axes.length; ai++) {
+    const axis = result.axes[ai];
+    const rowY = Y_AXES + ai * H_AXIS_ROW;
+    const roleColor = ROLE_COLORS[axis.role] ?? FALLBACK_ROLE_COLOR;
+
+    lines.push(
+      `    <text x="${PAD}" y="${rowY + 22}" fill="${roleColor}" font-size="11" font-weight="bold">${axis.role}</text>`,
+    );
+    lines.push(
+      `    <text x="${PAD + AXIS_LABEL_COUNT_OFFSET_X}" y="${rowY + 22}" fill="#666666" font-size="9">(${axis.colors.length})</text>`,
+    );
+
+    if (axis.colors.length > 0) {
+      const cellW = Math.min(
+        axisColorAreaW / axis.colors.length,
+        axisColorAreaW / MAX_AXIS_CELLS,
+      );
+      for (let ci = 0; ci < axis.colors.length; ci++) {
+        const { hex, isDark } = axis.colors[ci];
+        const textColor = isDark ? "#ffffff" : "#000000";
+        const x = PAD + labelW + ci * cellW;
+        lines.push(
+          `    <rect x="${x}" y="${rowY + 4}" width="${cellW}" height="${H_AXIS_ROW - 8}" fill="${hex}" rx="2"/>`,
+        );
+        lines.push(
+          `    <text x="${x + cellW / 2}" y="${rowY + H_AXIS_ROW - 12}" fill="${textColor}" font-size="7" text-anchor="middle">${hex}</text>`,
+        );
+      }
+    }
+  }
+
+  // Seed Colors（各軸 Vibrant + Muted = 固定6 seeds）
+  if (result.axes.length > 0) {
+    lines.push(
+      `    <text x="${PAD}" y="${Y_SEED + 4}" fill="#888888" font-size="9">seed colors (Vibrant + Muted)</text>`,
+    );
+
+    // seed を flat なリストに展開
+    type SeedSlot = { label: string; axisRole: string; seed: SeedInfo };
+    const slots: SeedSlot[] = [];
+    for (const axis of result.axes) {
+      for (const seed of axis.seeds) {
+        slots.push({
+          label: `${axis.role}-${seed.swatchTarget}`,
+          axisRole: axis.role,
+          seed,
+        });
+      }
+    }
+
+    const seedCellW = USABLE_W / Math.max(slots.length, 1);
+    for (let si = 0; si < slots.length; si++) {
+      const { label, axisRole, seed } = slots[si];
+      const { hex, isDark, score } = seed;
+      const textColor = isDark ? "#ffffff" : "#000000";
+      const roleColor = ROLE_COLORS[axisRole] ?? FALLBACK_ROLE_COLOR;
+      const x = PAD + si * seedCellW;
+      const cx = x + seedCellW / 2;
+
+      lines.push(
+        `    <rect x="${x}" y="${Y_SEED + 8}" width="${seedCellW}" height="${H_SEED - 12}" fill="${hex}" rx="3"/>`,
+      );
+      lines.push(
+        `    <text x="${x + 4}" y="${Y_SEED + 20}" fill="${roleColor}" font-size="8" font-weight="bold" opacity="0.9">${label}</text>`,
+      );
+      lines.push(
+        `    <text x="${cx}" y="${Y_SEED + H_SEED - 8}" fill="${textColor}" font-size="8" text-anchor="middle">${hex}</text>`,
+      );
+      lines.push(
+        `    <text x="${x + seedCellW - 4}" y="${Y_SEED + 20}" fill="${textColor}" font-size="7" text-anchor="end" opacity="0.6">s=${score.toFixed(2)}</text>`,
+      );
+    }
+  }
+
   lines.push("  </g>");
   return lines.join("\n");
 };
@@ -169,7 +377,7 @@ for (const game of ["genshin", "starrail"] as const) {
   const imgDir = join(IMG_BASE, game);
   const files = (await readdir(imgDir))
     .filter((f) => f.endsWith(".png"))
-    .sort();
+    .toSorted();
 
   console.log(`\n[${game}] ${files.length} characters`);
 
@@ -197,12 +405,29 @@ for (const game of ["genshin", "starrail"] as const) {
       }),
     ) as Record<SwatchRole, ColorInfo | null>;
 
+    // Color Axes + Seed 選定（Vibrant + Muted）
+    const paletteColors = palette ?? [];
+    const colorAxes = deriveColorAxes(paletteColors);
+    const axes: AxisInfo[] = colorAxes.map((axis) => {
+      const seeds = selectSeeds(axis.colors);
+      return {
+        role: axis.role,
+        colors: axis.colors.map(toColorInfo),
+        seeds: seeds.map((s) => ({
+          ...toColorInfo(s.color),
+          score: s.score,
+          swatchTarget: s.swatchTarget,
+        })),
+      };
+    });
+
     blocks.push({
       name,
       result: {
         dominantColors: (dominant5 ?? []).map(toColorInfo),
-        palette: (palette ?? []).map(toColorInfo),
+        palette: paletteColors.map(toColorInfo),
         swatches,
+        axes,
       },
     });
 

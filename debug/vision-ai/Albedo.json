@@ -1,0 +1,17 @@
+{
+  "image": "debug/img/genshin/Albedo.png",
+  "timestamp": "2026-03-30T10:44:28.888Z",
+  "results": [
+    {
+      "model": "gemini-flash-latest",
+      "elapsed": 13111,
+      "tokens": {
+        "input": 1512,
+        "output": 195,
+        "total": 3090
+      },
+      "error": null,
+      "response": "{\n  \"impression\": {\n    \"primary\": { \"hex\": \"#d6ad60\", \"reason\": \"The signature gold of his Geo vision and the ornate metallic embroidery on his alchemist's uniform.\" },\n    \"secondary\": { \"hex\": \"#4553a0\", \"reason\": \"The deep, scholarly indigo of his inner vest and his sharp, intelligent eyes.\" },\n    \"tertiary\": { \"hex\": \"#ece8e1\", \"reason\": \"The 'chalk' white color of his laboratory coat, representing his title as the Kreideprinz.\" }\n  },\n  \"theme_tone\": \"dark\",\n  \"neutral\": {\n    \"hue\": 40,\n    \"bg_base_hex\": \"#252320\",\n    \"fg_base_hex\": \"#e5e2de\"\n  }\n}"
+    }
+  ]
+}
