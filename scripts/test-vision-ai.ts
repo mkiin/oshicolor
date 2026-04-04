@@ -1,5 +1,5 @@
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
-import { basename, join } from "node:path";
+import { basename, dirname, join } from "node:path";
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
 const IMAGE_PATHS = process.argv.slice(2);
@@ -98,6 +98,95 @@ async function runGemini(model: string, imageBase64: string): Promise<Result> {
   return { model, response: text, elapsed, tokens };
 }
 
+type VisionResult = {
+  impression: {
+    primary: { hex: string; reason: string };
+    secondary: { hex: string; reason: string };
+    tertiary: { hex: string; reason: string | null };
+  };
+  theme_tone: "dark" | "light";
+  neutral: {
+    bg_base_hex: string;
+    fg_base_hex: string;
+  };
+};
+
+/** hex の明るさから text 色を決定する */
+const textColor = (hex: string): string => {
+  const h = hex.replace("#", "");
+  const r = Number.parseInt(h.slice(0, 2), 16);
+  const g = Number.parseInt(h.slice(2, 4), 16);
+  const b = Number.parseInt(h.slice(4, 6), 16);
+  return r * 0.299 + g * 0.587 + b * 0.114 > 128 ? "#000000" : "#ffffff";
+};
+
+const SVG_WIDTH = 480;
+const SWATCH_H = 50;
+const NEUTRAL_H = 40;
+const PADDING = 16;
+const GAP = 4;
+
+function generateSvg(name: string, data: VisionResult): string {
+  const { impression, theme_tone, neutral } = data;
+
+  const colors = [
+    { label: "primary", ...impression.primary },
+    { label: "secondary", ...impression.secondary },
+    { label: "tertiary", hex: impression.tertiary?.hex ?? "#000000", reason: impression.tertiary?.reason ?? "—" },
+  ];
+
+  const innerW = SVG_WIDTH - PADDING * 2;
+  const swatchW = (innerW - GAP * 2) / 3;
+  const neutralW = (innerW - GAP) / 2;
+
+  let y = PADDING;
+  let body = "";
+
+  // キャラ名
+  body += `  <text x="${PADDING}" y="${y + 14}" fill="#aaaaaa" font-size="14" font-weight="bold">${name}</text>\n`;
+  y += 26;
+
+  // impression 3色
+  for (let i = 0; i < colors.length; i++) {
+    const c = colors[i];
+    const x = PADDING + i * (swatchW + GAP);
+    const tc = textColor(c.hex);
+    body += `  <rect x="${x}" y="${y}" width="${swatchW}" height="${SWATCH_H}" fill="${c.hex}" rx="3"/>\n`;
+    body += `  <text x="${x + 6}" y="${y + 15}" fill="${tc}" font-size="9" font-weight="bold" opacity="0.8">${c.label}</text>\n`;
+    body += `  <text x="${x + swatchW / 2}" y="${y + SWATCH_H - 8}" fill="${tc}" font-size="10" text-anchor="middle">${c.hex}</text>\n`;
+  }
+  y += SWATCH_H + GAP;
+
+  // neutral bg / fg
+  const neutralColors = [
+    { label: "bg", hex: neutral.bg_base_hex },
+    { label: "fg", hex: neutral.fg_base_hex },
+  ];
+  for (let i = 0; i < neutralColors.length; i++) {
+    const c = neutralColors[i];
+    const x = PADDING + i * (neutralW + GAP);
+    const tc = textColor(c.hex);
+    body += `  <rect x="${x}" y="${y}" width="${neutralW}" height="${NEUTRAL_H}" fill="${c.hex}" rx="3"/>\n`;
+    body += `  <text x="${x + 6}" y="${y + 14}" fill="${tc}" font-size="9" font-weight="bold" opacity="0.8">${c.label}</text>\n`;
+    body += `  <text x="${x + neutralW / 2}" y="${y + NEUTRAL_H - 8}" fill="${tc}" font-size="10" text-anchor="middle">${c.hex}</text>\n`;
+  }
+  y += NEUTRAL_H + GAP;
+
+  // theme_tone ラベル
+  body += `  <text x="${PADDING}" y="${y + 13}" fill="#666666" font-size="11">theme: <tspan font-weight="bold" fill="#aaaaaa">${theme_tone}</tspan></text>\n`;
+  y += 22;
+
+  const totalH = y + PADDING;
+  return [
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${SVG_WIDTH}" height="${totalH}" style="background:#111111; font-family:ui-monospace,monospace;">`,
+    body,
+    `</svg>`,
+  ].join("\n");
+}
+
+/** image パスからゲーム名を取得 (debug/img/{game}/{char}.png → game) */
+const gameFromImagePath = (imagePath: string): string => basename(dirname(imagePath));
+
 async function processImage(imagePath: string) {
   const imageBuffer = readFileSync(imagePath);
   const imageBase64 = imageBuffer.toString("base64");
@@ -137,6 +226,28 @@ async function processImage(imagePath: string) {
   const outPath = join(OUTPUT_DIR, `${imageName}.json`);
   writeFileSync(outPath, JSON.stringify(output, null, 2));
   console.log(`Saved: ${outPath}`);
+
+  // SVG 生成（最初の成功レスポンスから）
+  const successResult = results.find((r) => r.response);
+  if (successResult?.response) {
+    try {
+      const cleaned = successResult.response
+        .replace(/^```json\s*/, "")
+        .replace(/```\s*$/, "")
+        .trim();
+      const parsed = JSON.parse(cleaned) as VisionResult;
+      if (parsed.neutral?.bg_base_hex && parsed.theme_tone) {
+        const game = gameFromImagePath(imagePath);
+        const svgDir = join(OUTPUT_DIR, game);
+        mkdirSync(svgDir, { recursive: true });
+        const svgPath = join(svgDir, `${imageName}.svg`);
+        writeFileSync(svgPath, generateSvg(imageName, parsed));
+        console.log(`Saved: ${svgPath}`);
+      }
+    } catch (e) {
+      console.error(`SVG generation failed: ${e}`);
+    }
+  }
 }
 
 async function main() {
