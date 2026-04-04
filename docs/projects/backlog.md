@@ -28,6 +28,18 @@ GitHub Issues の俯瞰用。詳細は各 Issue を参照。
 
 - [ ] 配布方法の調査・決定
 
+## MVP-5: LP・UIデザインシステム
+
+- [ ] デザインテーマの決定（Sentry × Spotify 案を軸に検討）
+  - 候補A: Spotify × Linear（achromatic劇場+精密typography）
+  - 候補B: Sentry × Spotify（warm purpleダーク+frosted glass）推し
+  - 候補C: Sanity × Resend（純黒void+結晶ボーダー）
+- [ ] sample-repo/awesome-design-md から選定した DESIGN.md を AI に食わせて LP 生成
+- [ ] ヒーローセクション: 画像ドロップ → Vim プレビュー変化のインタラクション
+- [ ] ダーク基調 UI（Vim/Neovim ユーザー向け）
+- [ ] パレットが主役になる achromatic な器の設計
+- [ ] キャッチコピー: 推し色でエディタを染めろ！
+
 ## 改善（MVP 後）
 
 - [ ] パレット手動編集 UI
