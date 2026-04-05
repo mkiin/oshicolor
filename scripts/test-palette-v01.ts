@@ -552,35 +552,65 @@ const SEARCH_BG_L_LIGHT = 0.85;
 /**
  * UI ロール割り当て
  * コントラスト適格色の中から Oklab 距離で bg から最も遠い（目立つ）色を選択
- * (Gemini research: chroma だけでなく知覚的距離を考慮)
+ *
+ * 適格色が 1 色の場合: 残りの不適格色のうち bg から最も遠い色を
+ * ensureContrast で救済して attention に使う (色相を保持してキャラの個性を残す)
  */
 function assignUiRoles(
   colors: OklchValues[],
   bgHex: string,
   fgHex: string,
-): { navigation: number; attention: number } {
+  themeTone: "dark" | "light",
+): { navigation: number; attention: number; attentionOverride?: string } {
   const bgOklab = hexToOklab(bgHex);
-  const eligible = colors
-    .map((c, i) => ({
-      i,
-      bgCR: contrastRatio(oklchVToHex(c), bgHex),
-      fgCR: contrastRatio(oklchVToHex(c), fgHex),
-      bgDist: oklabDist(hexToOklab(oklchVToHex(c)), bgOklab),
-    }))
+  const all = colors.map((c, i) => ({
+    i,
+    bgCR: contrastRatio(oklchVToHex(c), bgHex),
+    fgCR: contrastRatio(oklchVToHex(c), fgHex),
+    bgDist: oklabDist(hexToOklab(oklchVToHex(c)), bgOklab),
+  }));
+
+  const eligible = all
     .filter((e) => e.bgCR >= UI_BG_CR_MIN && e.fgCR >= UI_FG_CR_MIN)
-    .sort((a, b) => b.bgDist - a.bgDist); // Oklab 距離降順
+    .sort((a, b) => b.bgDist - a.bgDist);
 
   if (eligible.length >= 2)
     return { navigation: eligible[0].i, attention: eligible[1].i };
-  if (eligible.length === 1)
-    return { navigation: eligible[0].i, attention: eligible[0].i };
-  // フォールバック
-  const fallback = colors
-    .map((c, i) => ({
-      i,
-      bgDist: oklabDist(hexToOklab(oklchVToHex(c)), bgOklab),
-    }))
-    .sort((a, b) => b.bgDist - a.bgDist);
+
+  if (eligible.length === 1) {
+    // 残りの不適格色から attention を救済
+    const navIdx = eligible[0].i;
+    const rest = all
+      .filter((e) => e.i !== navIdx)
+      .sort((a, b) => b.bgDist - a.bgDist);
+    if (rest.length > 0) {
+      const candidate = rest[0];
+      // ensureContrast で bg/fg 両方とのコントラストを確保
+      let rescued = oklchVToHex(colors[candidate.i]);
+      rescued = ensureContrast(rescued, bgHex, UI_BG_CR_MIN, themeTone);
+      // fg との距離も確保: fgCR < 2.0 なら L をさらに調整
+      if (contrastRatio(rescued, fgHex) < UI_FG_CR_MIN) {
+        // fg から離れる方向に L を動かす
+        const rescuedOklch = hexToOklch(rescued);
+        const fgOklch = hexToOklch(fgHex);
+        const direction = themeTone === "dark"
+          ? (rescuedOklch.l > fgOklch.l ? -1 : 1) // fg より明るければ暗く、逆なら明るく
+          : (rescuedOklch.l < fgOklch.l ? 1 : -1);
+        for (let ll = rescuedOklch.l + 0.01 * direction; ll > 0.05 && ll < 0.95; ll += 0.01 * direction) {
+          const hex = gamutClamp(ll, rescuedOklch.c, rescuedOklch.h);
+          if (contrastRatio(hex, bgHex) >= UI_BG_CR_MIN && contrastRatio(hex, fgHex) >= UI_FG_CR_MIN) {
+            rescued = hex;
+            break;
+          }
+        }
+      }
+      return { navigation: navIdx, attention: candidate.i, attentionOverride: rescued };
+    }
+    return { navigation: navIdx, attention: navIdx };
+  }
+
+  // フォールバック: 全色不適格
+  const fallback = all.sort((a, b) => b.bgDist - a.bgDist);
   return {
     navigation: fallback[0].i,
     attention: fallback[1]?.i ?? fallback[0].i,
@@ -589,15 +619,14 @@ function assignUiRoles(
 
 function deriveUiColors(
   colors: OklchValues[],
-  roles: { navigation: number; attention: number },
+  roles: { navigation: number; attention: number; attentionOverride?: string },
   bgVisualHex: string,
   themeTone: "dark" | "light",
 ): UiColors {
   const nav = colors[roles.navigation];
-  const att = colors[roles.attention];
   return {
     navigation: oklchVToHex(nav),
-    attention: oklchVToHex(att),
+    attention: roles.attentionOverride ?? oklchVToHex(colors[roles.attention]),
     frame: gamutClamp(
       themeTone === "dark" ? FRAME_L_DARK : FRAME_L_LIGHT,
       nav.c * FRAME_CHROMA_SCALE,
@@ -846,7 +875,7 @@ function generatePalette(input: CharacterInput): PaletteResult {
     const hex = [accentHexes.color1, accentHexes.color2, accentHexes.color3][i];
     return hexToOklch(hex);
   });
-  const roles = assignUiRoles(seedsForUi, bgHex, adjustedNeutral.fg);
+  const roles = assignUiRoles(seedsForUi, bgHex, adjustedNeutral.fg, themeTone);
 
   // bg_visual を navigation の hue で着色 (tokyonight 方式)
   const navColor = seedsForUi[roles.navigation];

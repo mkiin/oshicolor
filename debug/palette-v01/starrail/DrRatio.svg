@@ -85,9 +85,9 @@
   <rect x="16" y="401" width="119.2" height="35" fill="#717adc" rx="2"/>
   <text x="19" y="412" fill="#000000" font-size="7" opacity="0.8">navigation</text>
   <text x="75.6" y="432" fill="#000000" font-size="8" text-anchor="middle">#717adc</text>
-  <rect x="138.2" y="401" width="119.2" height="35" fill="#717adc" rx="2"/>
+  <rect x="138.2" y="401" width="119.2" height="35" fill="#f9faff" rx="2"/>
   <text x="141.2" y="412" fill="#000000" font-size="7" opacity="0.8">attention</text>
-  <text x="197.79999999999998" y="432" fill="#000000" font-size="8" text-anchor="middle">#717adc</text>
+  <text x="197.79999999999998" y="432" fill="#000000" font-size="8" text-anchor="middle">#f9faff</text>
   <rect x="260.4" y="401" width="119.2" height="35" fill="#313660" rx="2"/>
   <text x="263.4" y="412" fill="#ffffff" font-size="7" opacity="0.8">frame</text>
   <text x="320" y="432" fill="#ffffff" font-size="8" text-anchor="middle">#313660</text>
