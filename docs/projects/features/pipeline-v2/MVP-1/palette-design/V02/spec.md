@@ -40,6 +40,7 @@ type Oklch = {
 
 ```typescript
 type ThemeTone = "dark" | "light";
+type ThemeMood = "dark" | "light-pastel" | "light";
 
 type NeutralSlot =
   | "bg" | "surface" | "overlay" | "highlight"
@@ -54,6 +55,7 @@ type UiSlot = "primary" | "secondary";
 type DiagnosticSlot = "error" | "warn" | "info" | "hint";
 
 type Palette = {
+  mood: ThemeMood;
   tone: ThemeTone;
   seeds: { primary: string; secondary: string };
   neutral: Record<NeutralSlot, string>;
@@ -67,13 +69,39 @@ type Palette = {
 
 ## §2 Config
 
-```typescript
-const NEUTRAL_L = {
-  dark:  [0.18, 0.21, 0.23, 0.28, 0.40, 0.50, 0.85, 0.90],
-  light: [0.94, 0.91, 0.89, 0.84, 0.65, 0.55, 0.25, 0.18],
-} as const;
-//        N0    N1    N2    N3    N4    N5    N6    N7
+### Mood プリセット (MOOD_PRESET)
 
+各 mood で Neutral L テーブル、Lc 閾値、chroma boost、Diagnostic L を切り替える。
+
+```typescript
+const MOOD_PRESET = {
+  dark: {
+    tone: "dark",
+    neutralL: [0.18, 0.21, 0.23, 0.28, 0.40, 0.50, 0.85, 0.90],
+    lcSyntax: 60,  lcDim: 45,  lcUi: 45,
+    chromaBoost: 1.0,
+    diagnosticL: 0.72,
+  },
+  "light-pastel": {
+    tone: "light",
+    neutralL: [0.94, 0.91, 0.89, 0.84, 0.65, 0.55, 0.25, 0.18],
+    lcSyntax: 45,  lcDim: 30,  lcUi: 35,
+    chromaBoost: 1.0,    // パステル許容: chroma 補償なし
+    diagnosticL: 0.55,
+  },
+  light: {
+    tone: "light",
+    neutralL: [0.94, 0.91, 0.89, 0.84, 0.65, 0.55, 0.25, 0.18],
+    lcSyntax: 60,  lcDim: 45,  lcUi: 45,
+    chromaBoost: 1.5,    // くっきり: chroma を積極補償
+    diagnosticL: 0.45,
+  },
+} as const;
+```
+
+### その他の定数
+
+```typescript
 const NEUTRAL_C = {
   bg:     0.018,   // N0-N3
   mid:    0.012,   // N4-N5
@@ -84,13 +112,6 @@ const NEUTRAL_C = {
 const YELLOW_HUE_RANGE = { min: 60, max: 120 } as const;
 const YELLOW_C_OVERRIDE = 0.015;
 
-const SYNTAX_L = {
-  dark:  [0.72, 0.68, 0.76, 0.70, 0.74, 0.66, 0.78, 0.72],
-  light: [0.42, 0.46, 0.38, 0.44, 0.40, 0.48, 0.36, 0.42],
-} as const;
-//        S0    S1    S2    S3    S4    S5    S6    S7
-
-const SYNTAX_C_SCALE = 0.9;
 const SYNTAX_C_MIN = 0.08;
 
 const BLEND_RATIO = {
@@ -109,7 +130,6 @@ const DIAGNOSTIC_HUE = {
   hint:  165,
 } as const;
 
-const DIAGNOSTIC_L = { dark: 0.72, light: 0.45 } as const;
 const DIAGNOSTIC_C_MIN = 0.12;
 
 const MIN_HUE_GAP = 30;
@@ -121,13 +141,14 @@ const MIN_DELTA_E = 0.08;
 ## §3 パイプライン
 
 ```
-VisionResult
+VisionResult + ThemeMood (ユーザー選択)
   │
-  ├─ §4 selectSeeds()        → seed 2色
-  ├─ §5 generateNeutral()    → N0-N7
-  ├─ §6 generateSyntax()     → S0-S7
-  ├─ §7 generateUi()         → U0, U1
-  ├─ §8 generateDiagnostic() → D0-D3
+  ├─ preset = MOOD_PRESET[mood]
+  ├─ §4 selectSeeds()                     → seed 2色
+  ├─ §5 generateNeutral(hue, preset)      → N0-N7
+  ├─ §6 generateSyntax(seeds, preset, bg) → S0-S7
+  ├─ §7 generateUi(seeds, preset, bg)     → U0, U1
+  ├─ §8 generateDiagnostic(c, preset, bg) → D0-D3
   │
   └─ Palette
 ```
@@ -141,8 +162,14 @@ selectSeeds(input: VisionResult): { primary: Oklch; secondary: Oklch }
 
 1. impression.primary, secondary, tertiary を OKLCH に変換
 2. primary = impression.primary
-3. secondary = se, te のうち primary との hue 差 (circular distance) が大きい方
-   - circular distance = min(|h1 - h2|, 360 - |h1 - h2|)
+3. secondary = se, te のうちスコアが高い方
+   score = hueDist(primary, candidate) × lUsability(candidate.l)
+   lUsability:
+     L < 0.20  → 0.1  (bg に近い)
+     L 0.20-0.30 → 0.5
+     L 0.30-0.75 → 1.0  (最適ゾーン)
+     L 0.75-0.85 → 0.5
+     L > 0.85  → 0.1  (fg/bg に近い)
 4. 低彩度補正:
    - 選定された secondary の C < 0.015 の場合、hue が不安定
    - primary の hue + 180° を secondary の hue として上書き
@@ -154,14 +181,14 @@ selectSeeds(input: VisionResult): { primary: Oklch; secondary: Oklch }
 ## §5 Neutral 生成
 
 ```
-generateNeutral(primaryHue: number, tone: ThemeTone): Record<NeutralSlot, string>
+generateNeutral(primaryHue: number, preset: MoodPreset): Record<NeutralSlot, string>
 
 1. hue = primaryHue
 2. 黄色系判定:
    hue が YELLOW_HUE_RANGE 内 → bg chroma を YELLOW_C_OVERRIDE (0.015) に下げる
 3. slots = ["bg", "surface", "overlay", "highlight", "subtle", "dim", "text", "bright"]
 4. i = 0..7:
-   L = NEUTRAL_L[tone][i]
+   L = preset.neutralL[i]
    C = i <= 3 ? NEUTRAL_C.bg
      : i <= 5 ? NEUTRAL_C.mid
      : i === 6 ? NEUTRAL_C.text
@@ -176,7 +203,7 @@ generateNeutral(primaryHue: number, tone: ThemeTone): Record<NeutralSlot, string
 ```
 generateSyntax(
   seed1: Oklch, seed2: Oklch,
-  tone: ThemeTone, bgHex: string,
+  preset: MoodPreset, bgHex: string,
 ): Record<SyntaxSlot, string>
 
 Step 1: hue 配置
@@ -199,12 +226,19 @@ Step 2: gap-fill
      全 hue ペアの距離が MIN_HUE_GAP (30°) 以上になるよう
      バネモデルで微調整 (V01 ロジック踏襲)
 
-Step 3: L/C 割り当て
-  L: SYNTAX_L[tone][i] (i = 0..7)
-  C: max(avg(seed1.c, seed2.c) * SYNTAX_C_SCALE, SYNTAX_C_MIN)
+Step 3: L/C 割り当て (seed ベース)
+  S0: L = seed1.l, C = seed1.c  (seed そのまま)
+  S1: L = seed2.l, C = seed2.c  (seed そのまま)
+  S2-S7:
+    baseL = avg(seed1.l, seed2.l)
+    baseC = max(avg(seed1.c, seed2.c), SYNTAX_C_MIN)
+    L = clamp(baseL + L_JITTER[i], 0.25, 0.9)
+      L_JITTER = [0, 0, 0.04, -0.02, 0.06, -0.04, 0.08, 0.02]
+    C = max(baseC × C_JITTER[i], SYNTAX_C_MIN)
+      C_JITTER = [1, 1, 0.95, 1.05, 0.9, 1.1, 0.85, 1.0]
 
 Step 4: コントラスト保証
-  各色に ensureContrast(hex, bgHex, Lc >= 75)
+  各色に ensureContrast(hex, bgHex, preset.lcSyntax, preset.chromaBoost)
 
 Step 5: 弁別性チェック
   全ペアの deltaE_ok >= MIN_DELTA_E (0.08) を検証
@@ -217,11 +251,12 @@ Step 5: 弁別性チェック
 
 ```
 generateUi(
-  seed1: Oklch, seed2: Oklch, bgHex: string,
+  seed1: Oklch, seed2: Oklch,
+  preset: MoodPreset, bgHex: string,
 ): Record<UiSlot, string>
 
-1. U0 = oklchToHex(seed1) → ensureContrast(U0, bgHex, Lc >= 45)
-2. U1 = oklchToHex(seed2) → ensureContrast(U1, bgHex, Lc >= 45)
+1. U0 = oklchToHex(seed1) → ensureContrast(U0, bgHex, preset.lcUi, preset.chromaBoost)
+2. U1 = oklchToHex(seed2) → ensureContrast(U1, bgHex, preset.lcUi, preset.chromaBoost)
 ```
 
 ---
@@ -230,14 +265,14 @@ generateUi(
 
 ```
 generateDiagnostic(
-  seedC: number, tone: ThemeTone, bgHex: string,
+  seedC: number, preset: MoodPreset, bgHex: string,
 ): Record<DiagnosticSlot, string>
 
-1. L = DIAGNOSTIC_L[tone]
+1. L = preset.diagnosticL
 2. C = max(seedC * 0.8, DIAGNOSTIC_C_MIN)
 3. slots: error, warn, info, hint
 4. 各色: oklchToHex(L, C, DIAGNOSTIC_HUE[slot])
-         → ensureContrast(hex, bgHex, Lc >= 75)
+         → ensureContrast(hex, bgHex, preset.lcSyntax, preset.chromaBoost)
 ```
 
 ---
@@ -292,24 +327,30 @@ Step 6: 低コントラスト切り捨て
 ### ensureContrast
 
 ```
-ensureContrast(fgHex: string, bgHex: string, targetLc: number): string
+ensureContrast(
+  fgHex: string, bgHex: string,
+  targetLc: number, chromaBoost: number = 1.0,
+): string
 
 1. 現在の Lc を計算
 2. |Lc| >= targetLc なら fgHex をそのまま返す
 3. fg の OKLCH L を調整:
    dark bg → L を上げる / light bg → L を下げる
    0.005 刻みで探索、|Lc| >= targetLc を満たす最小変更量の L を返す
-4. hue, chroma は維持
+4. light テーマで L を下げるとき:
+   ΔL に比例して chroma を補償 (cScale = 1 + ΔL × (chromaBoost - 1 + 0.8))
+   chromaBoost=1.0 → 控えめ補償 (light-pastel)
+   chromaBoost=1.5 → 積極補償 (light)
 ```
 
-### Lc 閾値
+### Lc 閾値 (mood 別)
 
-| 用途 | |Lc| |
-|---|---|
-| Syntax fg, Diagnostic fg | >= 75 |
-| Neutral dim/comment | >= 60 |
-| UI chrome fg (U0, U1) | >= 45 |
-| border, separator | >= 30 |
+| 用途 | dark | light-pastel | light |
+|---|---|---|---|
+| Syntax fg, Diagnostic fg | 60 | 45 | 60 |
+| Neutral dim/comment | 45 | 30 | 45 |
+| UI chrome fg (U0, U1) | 45 | 35 | 45 |
+| border, separator | 30 | 30 | 30 |
 
 ---
 
@@ -412,18 +453,20 @@ ensureContrast(fgHex: string, bgHex: string, targetLc: number): string
 
 ```
 visionResultAtom          -- AI 出力 (VisionResult | null)
+moodAtom                  -- ユーザー選択 (ThemeMood | null)
   ↓
 seedsAtom                 -- 派生: selectSeeds(visionResult)
   ↓
-  ├── neutralAtom          -- 派生: generateNeutral(seeds.primary.h, tone)
-  ├── syntaxAtom           -- 派生: generateSyntax(seeds, tone, neutral.bg)
-  ├── uiAtom               -- 派生: generateUi(seeds, neutral.bg)
-  └── diagnosticAtom       -- 派生: generateDiagnostic(seeds, tone, neutral.bg)
+  ├── neutralAtom          -- 派生: generateNeutral(seeds.primary.h, MOOD_PRESET[mood])
+  ├── syntaxAtom           -- 派生: generateSyntax(seeds, MOOD_PRESET[mood], neutral.bg)
+  ├── uiAtom               -- 派生: generateUi(seeds, MOOD_PRESET[mood], neutral.bg)
+  └── diagnosticAtom       -- 派生: generateDiagnostic(seeds, MOOD_PRESET[mood], neutral.bg)
 
 paletteAtom               -- 派生: 全 atom を合成して Palette を構築
 ```
 
-各 atom は `visionResultAtom` が null のとき null を返す。
+各 atom は `visionResultAtom` または `moodAtom` が null のとき null を返す。
+AI 分析完了後、ユーザーが mood を選択するまでパレットは生成されない。
 
 ---
 
@@ -473,6 +516,7 @@ src/features/palette-generator/
 │   └── generate-palette.ts      パイプライン統合
 ├── stores/
 │   ├── vision-result.atom.ts    visionResultAtom
+│   ├── mood.atom.ts             moodAtom (ユーザー選択)
 │   ├── seeds.atom.ts            seedsAtom
 │   ├── neutral.atom.ts          neutralAtom
 │   ├── syntax.atom.ts           syntaxAtom
