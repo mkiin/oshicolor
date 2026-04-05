@@ -14,7 +14,7 @@ export const worker = await TanStackStart("website", {
   bindings: {
     GEMINI_API_KEY: process.env.ALCHEMY_PASSWORD
       ? alchemy.secret(process.env.GEMINI_API_KEY)
-      : process.env.GEMINI_API_KEY ?? "",
+      : (process.env.GEMINI_API_KEY ?? ""),
   },
 });
 
