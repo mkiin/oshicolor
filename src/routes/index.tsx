@@ -47,7 +47,6 @@ function RouteComponent() {
       return analyzeColor({ data: { imageBase64, mimeType } });
     },
     onSuccess: (data) => {
-      console.log("[oshicolor] VisionResult:", JSON.stringify(data, null, 2));
       setVisionResult(data);
     },
   });
