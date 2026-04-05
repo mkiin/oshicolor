@@ -1,0 +1,117 @@
+# カラーテーマのラベル付
+
+## ダークテーマ
+
+## ライトテーマ
+
+- 3024 Day
+- Aizen Light
+- Alabaster
+- Apple System Colors Light
+- Atom One Light
+- Ayu Light
+- Belafonte Day
+- Bluloco Light
+- Breadog
+- Builtin Light
+- Builtin Tango Light
+- Catppuccin Late
+- CLRS
+- Coffee Theme
+- Downfox
+- Dayfox
+- Everforest Light Med
+- Farmhouse Light
+- Flexoki Light
+- GitHub
+- GitHub Light Colorblind
+- GitHub Light Default
+- GitHub Light Hight Contrast
+- GitLab Light
+- Gruvbox Light
+- Gruvbox Light Hard
+- Gruvbox Material Light
+- Havn Daggry
+- HOrizon Bright
+- Iceberg Light
+- iTerm2 Light Background
+- iTerm2 Solarized Light
+- iTerm2 Tango Light
+- Kanagawa Lotus
+- Kanso Pearl
+- Light Owl 
+- Man Page
+- Material
+- Melange Light
+- Modus Operandi
+- Modus Operandi Tinted
+- Monokai Pro Light
+- Monokai Pro Light Sun
+- Neobones Light
+- Night Owlish Light
+- No Clown Fiesta Light
+- Nord Light
+- Novel
+- Nvim Light
+- One Double Light
+- One Half Light
+- Onenord Light
+- Pencil Light
+- Piatto Light
+- Poimandres White
+- Primary
+- Pro Light
+- Raycast Light
+- Rose Pine Dawn
+- Selenized Light
+- Seoulbones Light
+- Sprint
+- Tango Adapted
+- Tango Half Adapted
+- Terminal Basic
+- Tinacious Design Light
+- TokyoNight Day
+- Tomorrow
+- Vimbones
+- Violet Light
+- Xcode Light
+- Xcode Light hc
+- Zenbones
+- Zenbones Light
+- Zenwritten Light
+
+
+## 除外
+- Blue Dolphin
+- Borland
+- C64
+- Cobalt Neon
+- Crayon Pony Fish
+- Cyberdyne
+- Cyberpunk Scarlet Protocol
+- ENCOM
+- Flat
+- Grass
+- Hispster Green
+- Homebrew
+- Hot Dog Stand
+- Hot Dog Stand (Mustard)
+- Laser
+- Lavandula
+- Matrix
+- Neon
+- Ocean
+- Phala Green Dark
+- Red Aleart
+- Red Sands
+- Retro
+- Retro Legends
+- Sakura
+- Scarlet Protocol
+- Shaman
+- Spiderman
+- Suarplum
+- Unikitty
+- urban
+- Urple
+- 
