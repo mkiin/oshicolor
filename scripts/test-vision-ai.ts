@@ -90,7 +90,7 @@ if (!GEMINI_API_KEY) {
 
 const IMAGE_PATHS = process.argv.slice(2);
 const OUTPUT_DIR = "debug/palette-v01";
-const MODEL = "gemini-3.1-flash-lite-preview";
+const MODEL = "gemini-3-flash-preview";
 
 const PROMPT = `This is a character illustration. Analyze the character's colors for a Neovim color scheme.
 

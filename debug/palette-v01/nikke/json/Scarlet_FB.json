@@ -1,21 +1,21 @@
 {
   "impression": {
     "primary": {
-      "hex": "#8a5fb8",
-      "reason": "The vibrant purple serves as the main thematic accent color appearing throughout her outfit and accessories."
+      "hex": "#9d74c9",
+      "reason": "The vibrant purple accents found in her sash, ribbons, and weapon details are her most distinctive and symbolic color."
     },
     "secondary": {
       "hex": "#f5f5f5",
-      "reason": "The dominant clean white/off-white used for the main body of her attire and armor pieces."
+      "reason": "The dominant white of her bodysuit, hat, and traditional fabric wraps forms the core of her visual design."
     },
     "tertiary": {
-      "hex": "#d69a6c",
-      "reason": "The warm peach/tan tone reflecting her skin and subtle highlights within the umbrella and gear."
+      "hex": "#b4abb5",
+      "reason": "The muted, silvery-grey lavender of her hair provides a cooling transition between the white clothing and purple accents."
     }
   },
   "theme_tone": "dark",
   "neutral": {
-    "bg_base_hex": "#242028",
-    "fg_base_hex": "#e1dee7"
+    "bg_base_hex": "#1d1a21",
+    "fg_base_hex": "#e2dfe5"
   }
 }
