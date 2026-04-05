@@ -177,8 +177,8 @@ fg_base_hex → OKLCH に変換
 ```
 bg_base → bg
   bg_surface     = bg の L +0.02
-  bg_cursor_line = bg の L +0.03
-  bg_visual      = bg の L +0.06
+  bg_cursor_line = bg の L +0.05
+  bg_visual      = bg の L +0.08
   bg_popup       = bg の L +0.04
 
 fg_base → fg

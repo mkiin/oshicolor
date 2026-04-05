@@ -510,9 +510,9 @@ bg 系は bg の H/C を保持し、L をオフセット:
 |---|---|
 | bg | bg.l（そのまま） |
 | bg_surface | bg.l + 0.02 |
-| bg_cursor_line | bg.l + 0.03 |
+| bg_cursor_line | bg.l + 0.05 |
 | bg_popup | bg.l + 0.04 |
-| bg_visual | bg.l + 0.06 |
+| bg_visual | bg.l + 0.08 |
 
 fg 系は fg の H を保持し、C は bg.c（低彩度）、L は絶対値:
 
@@ -532,9 +532,9 @@ bg 系のオフセットは符号反転（L を下げる方向）:
 |---|---|
 | bg | bg.l |
 | bg_surface | bg.l - 0.02 |
-| bg_cursor_line | bg.l - 0.03 |
+| bg_cursor_line | bg.l - 0.05 |
 | bg_popup | bg.l - 0.04 |
-| bg_visual | bg.l - 0.06 |
+| bg_visual | bg.l - 0.08 |
 
 fg 系の L:
 

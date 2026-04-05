@@ -56,15 +56,15 @@
   <rect x="138.2" y="289" width="119.2" height="35" fill="#1a2120" rx="2"/>
   <text x="141.2" y="300" fill="#ffffff" font-size="7" opacity="0.8">surface</text>
   <text x="197.79999999999998" y="320" fill="#ffffff" font-size="8" text-anchor="middle">#1a2120</text>
-  <rect x="260.4" y="289" width="119.2" height="35" fill="#1c2322" rx="2"/>
+  <rect x="260.4" y="289" width="119.2" height="35" fill="#212827" rx="2"/>
   <text x="263.4" y="300" fill="#ffffff" font-size="7" opacity="0.8">cursor</text>
-  <text x="320" y="320" fill="#ffffff" font-size="8" text-anchor="middle">#1c2322</text>
+  <text x="320" y="320" fill="#ffffff" font-size="8" text-anchor="middle">#212827</text>
   <rect x="382.6" y="289" width="119.2" height="35" fill="#1f2625" rx="2"/>
   <text x="385.6" y="300" fill="#ffffff" font-size="7" opacity="0.8">popup</text>
   <text x="442.20000000000005" y="320" fill="#ffffff" font-size="8" text-anchor="middle">#1f2625</text>
-  <rect x="504.8" y="289" width="119.2" height="35" fill="#232b2a" rx="2"/>
+  <rect x="504.8" y="289" width="119.2" height="35" fill="#28302e" rx="2"/>
   <text x="507.8" y="300" fill="#ffffff" font-size="7" opacity="0.8">visual</text>
-  <text x="564.4" y="320" fill="#ffffff" font-size="8" text-anchor="middle">#232b2a</text>
+  <text x="564.4" y="320" fill="#ffffff" font-size="8" text-anchor="middle">#28302e</text>
   <text x="16" y="339" fill="#888" font-size="10">neutral fg</text>
   <rect x="16" y="345" width="119.2" height="35" fill="#dce4e2" rx="2"/>
   <text x="19" y="356" fill="#000000" font-size="7" opacity="0.8">fg</text>
@@ -94,9 +94,9 @@
   <rect x="382.6" y="401" width="119.2" height="35" fill="#003636" rx="2"/>
   <text x="385.6" y="412" fill="#ffffff" font-size="7" opacity="0.8">search_bg</text>
   <text x="442.20000000000005" y="432" fill="#ffffff" font-size="8" text-anchor="middle">#003636</text>
-  <rect x="504.8" y="401" width="119.2" height="35" fill="#232b2a" rx="2"/>
+  <rect x="504.8" y="401" width="119.2" height="35" fill="#28302e" rx="2"/>
   <text x="507.8" y="412" fill="#ffffff" font-size="7" opacity="0.8">pmenu_sel</text>
-  <text x="564.4" y="432" fill="#ffffff" font-size="8" text-anchor="middle">#232b2a</text>
+  <text x="564.4" y="432" fill="#ffffff" font-size="8" text-anchor="middle">#28302e</text>
   <text x="16" y="459" fill="#888" font-size="10">syntax preview</text>
   <rect x="16" y="465" width="608" height="120" fill="#151c1b" rx="4"/>
   <text x="28" y="481" fill="#97d2a8" font-size="11" font-family="monospace">import</text>
