@@ -5,6 +5,7 @@ export type {
   Oklch,
   Palette,
   SyntaxSlot,
+  ThemeMood,
   ThemeTone,
   UiSlot,
 } from "./types/palette";
@@ -12,6 +13,7 @@ export type {
 export { generatePalette } from "./usecases/generate-palette";
 
 export { visionResultAtom } from "./stores/vision-result.atom";
+export { moodAtom } from "./stores/mood.atom";
 export { paletteAtom } from "./stores/palette.atom";
 export { seedsAtom } from "./stores/seeds.atom";
 export { neutralAtom } from "./stores/neutral.atom";

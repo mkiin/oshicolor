@@ -5,7 +5,6 @@
  * 参照: V01 research/color-js-contrast.md
  */
 
-import { LC_SYNTAX } from "./config";
 import { clamp, hexToOklch, hexToSrgb, oklchToHex } from "./oklch-utils";
 
 // --- APCA 定数 ---
@@ -59,12 +58,15 @@ export const contrastAPCA = (bgHex: string, fgHex: string): number => {
 /**
  * fg の L を調整して APCA |Lc| >= targetLc を保証する
  *
- * light テーマで L を大きく下げる場合、chroma を補償して色味を維持する。
+ * chromaBoost: light テーマで L を下げるとき、chroma を補償する倍率。
+ *   1.0 = 補償なし (light-pastel)
+ *   1.5 = 積極的に補償 (light)
  */
 export const ensureContrast = (
   fgHex: string,
   bgHex: string,
-  targetLc: number = LC_SYNTAX,
+  targetLc: number,
+  chromaBoost: number = 1.0,
 ): string => {
   const lc = contrastAPCA(bgHex, fgHex);
   if (Math.abs(lc) >= targetLc) return fgHex;
@@ -79,8 +81,8 @@ export const ensureContrast = (
 
     // light テーマで L を下げるとき: ΔL に比例して chroma を boost
     const deltaL = Math.abs(newL - originalL);
-    const cBoost = dir === -1 ? 1 + deltaL * 0.8 : 1;
-    const newC = clamp(fg.c * cBoost, 0, 0.3);
+    const cScale = dir === -1 ? 1 + deltaL * (chromaBoost - 1 + 0.8) : 1;
+    const newC = clamp(fg.c * cScale, 0, 0.3);
 
     const candidate = oklchToHex(newL, newC, fg.h);
     if (Math.abs(contrastAPCA(bgHex, candidate)) >= targetLc) {

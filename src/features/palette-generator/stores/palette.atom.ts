@@ -2,25 +2,27 @@ import type { Palette } from "../types/palette";
 
 import { atom } from "jotai";
 
+import { MOOD_PRESET } from "../usecases/config";
 import { diagnosticAtom } from "./diagnostic.atom";
+import { moodAtom } from "./mood.atom";
 import { neutralAtom } from "./neutral.atom";
 import { seedsAtom } from "./seeds.atom";
 import { syntaxAtom } from "./syntax.atom";
 import { uiAtom } from "./ui.atom";
-import { visionResultAtom } from "./vision-result.atom";
 
 export const paletteAtom = atom<Palette | null>((get) => {
-  const vr = get(visionResultAtom);
+  const mood = get(moodAtom);
   const seeds = get(seedsAtom);
   const neutral = get(neutralAtom);
   const syntax = get(syntaxAtom);
   const ui = get(uiAtom);
   const diagnostic = get(diagnosticAtom);
 
-  if (!vr || !seeds || !neutral || !syntax || !ui || !diagnostic) return null;
+  if (!mood || !seeds || !neutral || !syntax || !ui || !diagnostic) return null;
 
   return {
-    tone: vr.theme_tone,
+    mood,
+    tone: MOOD_PRESET[mood].tone,
     seeds: {
       primary: seeds.primaryHex,
       secondary: seeds.secondaryHex,

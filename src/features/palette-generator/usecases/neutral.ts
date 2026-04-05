@@ -4,14 +4,10 @@
  * seed primary の hue を tint として N0-N7 を導出する。
  */
 
-import type { NeutralSlot, ThemeTone } from "../types/palette";
+import type { NeutralSlot } from "../types/palette";
 
-import {
-  NEUTRAL_C,
-  NEUTRAL_L,
-  YELLOW_C_OVERRIDE,
-  YELLOW_HUE_RANGE,
-} from "./config";
+import type { MoodPreset } from "./config";
+import { NEUTRAL_C, YELLOW_C_OVERRIDE, YELLOW_HUE_RANGE } from "./config";
 import { oklchToHex } from "./oklch-utils";
 
 const SLOTS: readonly NeutralSlot[] = [
@@ -34,14 +30,14 @@ const chromaForIndex = (i: number, bgC: number): number => {
 
 export const generateNeutral = (
   primaryHue: number,
-  tone: ThemeTone,
+  preset: MoodPreset,
 ): Record<NeutralSlot, string> => {
   const isYellow =
     primaryHue >= YELLOW_HUE_RANGE.min && primaryHue <= YELLOW_HUE_RANGE.max;
   const bgC = isYellow ? YELLOW_C_OVERRIDE : NEUTRAL_C.bg;
 
   const entries = SLOTS.map((slot, i) => {
-    const l = NEUTRAL_L[tone][i];
+    const l = preset.neutralL[i];
     const c = chromaForIndex(i, bgC);
     return [slot, oklchToHex(l, c, primaryHue)] as const;
   });

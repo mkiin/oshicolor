@@ -2,20 +2,21 @@ import type { SyntaxSlot } from "../types/palette";
 
 import { atom } from "jotai";
 
+import { MOOD_PRESET } from "../usecases/config";
 import { generateSyntax } from "../usecases/syntax";
+import { moodAtom } from "./mood.atom";
 import { neutralAtom } from "./neutral.atom";
 import { seedsAtom } from "./seeds.atom";
-import { visionResultAtom } from "./vision-result.atom";
 
 export const syntaxAtom = atom<Record<SyntaxSlot, string> | null>((get) => {
-  const vr = get(visionResultAtom);
+  const mood = get(moodAtom);
   const seeds = get(seedsAtom);
   const neutral = get(neutralAtom);
-  if (!vr || !seeds || !neutral) return null;
+  if (!mood || !seeds || !neutral) return null;
   return generateSyntax(
     seeds.primary,
     seeds.secondary,
-    vr.theme_tone,
+    MOOD_PRESET[mood],
     neutral.bg,
   );
 });

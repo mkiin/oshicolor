@@ -5,12 +5,12 @@
  * seed の L/C をベースに、ensureContrast で最小限だけ調整する。
  */
 
-import type { Oklch, SyntaxSlot, ThemeTone } from "../types/palette";
+import type { Oklch, SyntaxSlot } from "../types/palette";
 
+import type { MoodPreset } from "./config";
 import {
   DISCRIMINATION_L_SHIFT,
   DISCRIMINATION_MAX_ITER,
-  LC_SYNTAX,
   MIN_DELTA_E,
   MIN_HUE_GAP,
   SYNTAX_C_MIN,
@@ -93,7 +93,7 @@ const enforceMinHueGap = (hues: number[]): number[] => {
 export const generateSyntax = (
   seed1: Oklch,
   seed2: Oklch,
-  _tone: ThemeTone,
+  preset: MoodPreset,
   bgHex: string,
 ): Record<SyntaxSlot, string> => {
   const rawHues = distributeHues(seed1.h, seed2.h);
@@ -103,12 +103,21 @@ export const generateSyntax = (
   const baseC = Math.max((seed1.c + seed2.c) / 2, SYNTAX_C_MIN);
 
   const hexes = hues.map((h, i) => {
-    // S0 = seed1 そのもの、S1 = seed2 そのもの
-    const l = i === 0 ? seed1.l : i === 1 ? seed2.l : clamp(baseL + L_JITTER[i], 0.25, 0.9);
-    const c = i === 0 ? seed1.c : i === 1 ? seed2.c : Math.max(baseC * C_JITTER[i], SYNTAX_C_MIN);
+    const l =
+      i === 0
+        ? seed1.l
+        : i === 1
+          ? seed2.l
+          : clamp(baseL + L_JITTER[i], 0.25, 0.9);
+    const c =
+      i === 0
+        ? seed1.c
+        : i === 1
+          ? seed2.c
+          : Math.max(baseC * C_JITTER[i], SYNTAX_C_MIN);
 
     const hex = oklchToHex(l, c, h);
-    return ensureContrast(hex, bgHex, LC_SYNTAX);
+    return ensureContrast(hex, bgHex, preset.lcSyntax, preset.chromaBoost);
   });
 
   // 弁別性修正 (gap-fill 色 = index 2-7 のみ L を調整)
@@ -126,7 +135,8 @@ export const generateSyntax = (
         hexes[i] = ensureContrast(
           oklchToHex(newL, parsed.c, parsed.h),
           bgHex,
-          LC_SYNTAX,
+          preset.lcSyntax,
+          preset.chromaBoost,
         );
       }
     }

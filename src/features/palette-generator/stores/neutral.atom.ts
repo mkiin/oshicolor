@@ -2,13 +2,14 @@ import type { NeutralSlot } from "../types/palette";
 
 import { atom } from "jotai";
 
+import { MOOD_PRESET } from "../usecases/config";
 import { generateNeutral } from "../usecases/neutral";
+import { moodAtom } from "./mood.atom";
 import { seedsAtom } from "./seeds.atom";
-import { visionResultAtom } from "./vision-result.atom";
 
 export const neutralAtom = atom<Record<NeutralSlot, string> | null>((get) => {
-  const vr = get(visionResultAtom);
+  const mood = get(moodAtom);
   const seeds = get(seedsAtom);
-  if (!vr || !seeds) return null;
-  return generateNeutral(seeds.primary.h, vr.theme_tone);
+  if (!mood || !seeds) return null;
+  return generateNeutral(seeds.primary.h, MOOD_PRESET[mood]);
 });
