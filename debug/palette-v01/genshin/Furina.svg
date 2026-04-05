@@ -82,18 +82,18 @@
   <text x="507.8" y="356" fill="#000000" font-size="7" opacity="0.8">delimiter</text>
   <text x="564.4" y="376" fill="#000000" font-size="8" text-anchor="middle">#7b808a</text>
   <text x="16" y="395" fill="#888" font-size="10">ui</text>
-  <rect x="16" y="401" width="119.2" height="35" fill="#738dcd" rx="2"/>
-  <text x="19" y="412" fill="#000000" font-size="7" opacity="0.8">navigation</text>
-  <text x="75.6" y="432" fill="#000000" font-size="8" text-anchor="middle">#738dcd</text>
+  <rect x="16" y="401" width="119.2" height="35" fill="#5b7ed9" rx="2"/>
+  <text x="19" y="412" fill="#ffffff" font-size="7" opacity="0.8">navigation</text>
+  <text x="75.6" y="432" fill="#ffffff" font-size="8" text-anchor="middle">#5b7ed9</text>
   <rect x="138.2" y="401" width="119.2" height="35" fill="#cca86a" rx="2"/>
   <text x="141.2" y="412" fill="#000000" font-size="7" opacity="0.8">attention</text>
   <text x="197.79999999999998" y="432" fill="#000000" font-size="8" text-anchor="middle">#cca86a</text>
-  <rect x="260.4" y="401" width="119.2" height="35" fill="#2e3a55" rx="2"/>
+  <rect x="260.4" y="401" width="119.2" height="35" fill="#293960" rx="2"/>
   <text x="263.4" y="412" fill="#ffffff" font-size="7" opacity="0.8">frame</text>
-  <text x="320" y="432" fill="#ffffff" font-size="8" text-anchor="middle">#2e3a55</text>
-  <rect x="382.6" y="401" width="119.2" height="35" fill="#172860" rx="2"/>
+  <text x="320" y="432" fill="#ffffff" font-size="8" text-anchor="middle">#293960</text>
+  <rect x="382.6" y="401" width="119.2" height="35" fill="#0d2174" rx="2"/>
   <text x="385.6" y="412" fill="#ffffff" font-size="7" opacity="0.8">search_bg</text>
-  <text x="442.20000000000005" y="432" fill="#ffffff" font-size="8" text-anchor="middle">#172860</text>
+  <text x="442.20000000000005" y="432" fill="#ffffff" font-size="8" text-anchor="middle">#0d2174</text>
   <rect x="504.8" y="401" width="119.2" height="35" fill="#232c41" rx="2"/>
   <text x="507.8" y="412" fill="#ffffff" font-size="7" opacity="0.8">pmenu_sel</text>
   <text x="564.4" y="432" fill="#ffffff" font-size="8" text-anchor="middle">#232c41</text>

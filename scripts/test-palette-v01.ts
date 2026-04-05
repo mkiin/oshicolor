@@ -555,10 +555,6 @@ const SEARCH_BG_L_LIGHT = 0.85;
  * navigation: primary の色相を保持し、L/C を調整して navigation 向けにしたもの
  * attention: secondary/tertiary のうち primary との Oklab 距離 × 彩度 が最大のもの
  */
-const NAV_C_SCALE = 0.7;
-const NAV_L_DARK = 0.65;
-const NAV_L_LIGHT = 0.45;
-
 function assignUiRoles(
   colors: OklchValues[],
   bgHex: string,
@@ -568,10 +564,8 @@ function assignUiRoles(
   const primary = colors[0];
   const primaryOklab = hexToOklab(oklchVToHex(primary));
 
-  // navigation = primary を navigation 向けに調整 (彩度を落とし、L を固定)
-  const navL = themeTone === "dark" ? NAV_L_DARK : NAV_L_LIGHT;
-  const navC = primary.c * NAV_C_SCALE;
-  let navigationHex = gamutClamp(navL, navC, primary.h);
+  // navigation = primary そのまま。ensureContrast で bg とのコントラストのみ保証
+  let navigationHex = gamutClamp(primary.l, primary.c, primary.h);
   navigationHex = ensureContrast(navigationHex, bgHex, UI_BG_CR_MIN, themeTone);
 
   // attention = secondary/tertiary から、primary との距離 × 彩度 が最大のもの

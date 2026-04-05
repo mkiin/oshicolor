@@ -82,15 +82,15 @@
   <text x="507.8" y="356" fill="#000000" font-size="7" opacity="0.8">delimiter</text>
   <text x="564.4" y="376" fill="#000000" font-size="8" text-anchor="middle">#b8b3b2</text>
   <text x="16" y="395" fill="#666" font-size="10">ui</text>
-  <rect x="16" y="401" width="119.2" height="35" fill="#8f3228" rx="2"/>
+  <rect x="16" y="401" width="119.2" height="35" fill="#cb3c2f" rx="2"/>
   <text x="19" y="412" fill="#ffffff" font-size="7" opacity="0.8">navigation</text>
-  <text x="75.6" y="432" fill="#ffffff" font-size="8" text-anchor="middle">#8f3228</text>
+  <text x="75.6" y="432" fill="#ffffff" font-size="8" text-anchor="middle">#cb3c2f</text>
   <rect x="138.2" y="401" width="119.2" height="35" fill="#9a6527" rx="2"/>
   <text x="141.2" y="412" fill="#ffffff" font-size="7" opacity="0.8">attention</text>
   <text x="197.79999999999998" y="432" fill="#ffffff" font-size="8" text-anchor="middle">#9a6527</text>
-  <rect x="260.4" y="401" width="119.2" height="35" fill="#b38179" rx="2"/>
+  <rect x="260.4" y="401" width="119.2" height="35" fill="#c07a6f" rx="2"/>
   <text x="263.4" y="412" fill="#000000" font-size="7" opacity="0.8">frame</text>
-  <text x="320" y="432" fill="#000000" font-size="8" text-anchor="middle">#b38179</text>
+  <text x="320" y="432" fill="#000000" font-size="8" text-anchor="middle">#c07a6f</text>
   <rect x="382.6" y="401" width="119.2" height="35" fill="#ffbaaf" rx="2"/>
   <text x="385.6" y="412" fill="#000000" font-size="7" opacity="0.8">search_bg</text>
   <text x="442.20000000000005" y="432" fill="#000000" font-size="8" text-anchor="middle">#ffbaaf</text>
