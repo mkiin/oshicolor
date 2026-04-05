@@ -551,81 +551,105 @@ const SEARCH_BG_L_LIGHT = 0.85;
 
 /**
  * UI ロール割り当て
- * コントラスト適格色の中から Oklab 距離で bg から最も遠い（目立つ）色を選択
  *
- * 適格色が 1 色の場合: 残りの不適格色のうち bg から最も遠い色を
- * ensureContrast で救済して attention に使う (色相を保持してキャラの個性を残す)
+ * attention (CursorLineNr, Git dirty): 面積小 → 最も鮮やかな色 (chroma 最大)
+ * navigation (Tab, Folder, Frame): 面積大 → 支える色 (attention 以外で bg 視認性が高い)
+ *
+ * tokyonight の blue(nav) / orange(att) 関係を参考:
+ * navigation は画面を支える落ち着いた色、attention はピンポイントで目を引く鮮やかな色。
+ *
+ * 適格色が 1 色の場合: 不適格色を ensureContrast で救済して不足ロールに充てる。
  */
 function assignUiRoles(
   colors: OklchValues[],
   bgHex: string,
   fgHex: string,
   themeTone: "dark" | "light",
-): { navigation: number; attention: number; attentionOverride?: string } {
+): { navigation: number; attention: number; navigationOverride?: string; attentionOverride?: string } {
   const bgOklab = hexToOklab(bgHex);
   const all = colors.map((c, i) => ({
     i,
+    c: c.c, // chroma
     bgCR: contrastRatio(oklchVToHex(c), bgHex),
     fgCR: contrastRatio(oklchVToHex(c), fgHex),
     bgDist: oklabDist(hexToOklab(oklchVToHex(c)), bgOklab),
   }));
 
-  const eligible = all
-    .filter((e) => e.bgCR >= UI_BG_CR_MIN && e.fgCR >= UI_FG_CR_MIN)
-    .sort((a, b) => b.bgDist - a.bgDist);
+  const eligible = all.filter((e) => e.bgCR >= UI_BG_CR_MIN && e.fgCR >= UI_FG_CR_MIN);
 
-  if (eligible.length >= 2)
-    return { navigation: eligible[0].i, attention: eligible[1].i };
-
-  if (eligible.length === 1) {
-    // 残りの不適格色から attention を救済
-    const navIdx = eligible[0].i;
-    const rest = all
-      .filter((e) => e.i !== navIdx)
-      .sort((a, b) => b.bgDist - a.bgDist);
-    if (rest.length > 0) {
-      const candidate = rest[0];
-      // ensureContrast で bg/fg 両方とのコントラストを確保
-      let rescued = oklchVToHex(colors[candidate.i]);
-      rescued = ensureContrast(rescued, bgHex, UI_BG_CR_MIN, themeTone);
-      // fg との距離も確保: fgCR < 2.0 なら L をさらに調整
-      if (contrastRatio(rescued, fgHex) < UI_FG_CR_MIN) {
-        // fg から離れる方向に L を動かす
-        const rescuedOklch = hexToOklch(rescued);
-        const fgOklch = hexToOklch(fgHex);
-        const direction = themeTone === "dark"
-          ? (rescuedOklch.l > fgOklch.l ? -1 : 1) // fg より明るければ暗く、逆なら明るく
-          : (rescuedOklch.l < fgOklch.l ? 1 : -1);
-        for (let ll = rescuedOklch.l + 0.01 * direction; ll > 0.05 && ll < 0.95; ll += 0.01 * direction) {
-          const hex = gamutClamp(ll, rescuedOklch.c, rescuedOklch.h);
-          if (contrastRatio(hex, bgHex) >= UI_BG_CR_MIN && contrastRatio(hex, fgHex) >= UI_FG_CR_MIN) {
-            rescued = hex;
-            break;
-          }
-        }
-      }
-      return { navigation: navIdx, attention: candidate.i, attentionOverride: rescued };
-    }
-    return { navigation: navIdx, attention: navIdx };
+  if (eligible.length >= 2) {
+    // attention = chroma 最大、navigation = 残りから bg 距離最大
+    const byChroma = [...eligible].sort((a, b) => b.c - a.c);
+    const attIdx = byChroma[0].i;
+    const navCandidates = eligible.filter((e) => e.i !== attIdx).sort((a, b) => b.bgDist - a.bgDist);
+    return { navigation: navCandidates[0].i, attention: attIdx };
   }
 
-  // フォールバック: 全色不適格
-  const fallback = all.sort((a, b) => b.bgDist - a.bgDist);
+  if (eligible.length === 1) {
+    const eligibleOne = eligible[0];
+    // 不適格色から救済
+    const rest = all
+      .filter((e) => e.i !== eligibleOne.i)
+      .sort((a, b) => b.c - a.c); // chroma 順で候補選択
+
+    if (rest.length > 0) {
+      const candidate = rest[0];
+      let rescued = rescueColor(colors[candidate.i], bgHex, fgHex, themeTone);
+
+      // eligible の chroma と rescued の chroma を比較して役割を決定
+      if (eligibleOne.c >= colors[candidate.i].c) {
+        // eligible の方が鮮やか → eligible=attention, rescued=navigation
+        return { navigation: candidate.i, attention: eligibleOne.i, navigationOverride: rescued };
+      }
+      // rescued の方が鮮やか → eligible=navigation, rescued=attention
+      return { navigation: eligibleOne.i, attention: candidate.i, attentionOverride: rescued };
+    }
+    return { navigation: eligibleOne.i, attention: eligibleOne.i };
+  }
+
+  // フォールバック: 全色不適格 → chroma 最大を attention、残りを navigation
+  const byChroma = [...all].sort((a, b) => b.c - a.c);
   return {
-    navigation: fallback[0].i,
-    attention: fallback[1]?.i ?? fallback[0].i,
+    navigation: byChroma[1]?.i ?? byChroma[0].i,
+    attention: byChroma[0].i,
   };
+}
+
+/** 不適格色を ensureContrast で bg/fg 両方とのコントラストを確保する */
+function rescueColor(
+  color: OklchValues,
+  bgHex: string,
+  fgHex: string,
+  themeTone: "dark" | "light",
+): string {
+  let hex = oklchVToHex(color);
+  hex = ensureContrast(hex, bgHex, UI_BG_CR_MIN, themeTone);
+  if (contrastRatio(hex, fgHex) < UI_FG_CR_MIN) {
+    const oklch = hexToOklch(hex);
+    const fgOklch = hexToOklch(fgHex);
+    const direction = themeTone === "dark"
+      ? (oklch.l > fgOklch.l ? -1 : 1)
+      : (oklch.l < fgOklch.l ? 1 : -1);
+    for (let ll = oklch.l + 0.01 * direction; ll > 0.05 && ll < 0.95; ll += 0.01 * direction) {
+      const candidate = gamutClamp(ll, oklch.c, oklch.h);
+      if (contrastRatio(candidate, bgHex) >= UI_BG_CR_MIN && contrastRatio(candidate, fgHex) >= UI_FG_CR_MIN) {
+        return candidate;
+      }
+    }
+  }
+  return hex;
 }
 
 function deriveUiColors(
   colors: OklchValues[],
-  roles: { navigation: number; attention: number; attentionOverride?: string },
+  roles: { navigation: number; attention: number; navigationOverride?: string; attentionOverride?: string },
   bgVisualHex: string,
   themeTone: "dark" | "light",
 ): UiColors {
-  const nav = colors[roles.navigation];
+  const navHex = roles.navigationOverride ?? oklchVToHex(colors[roles.navigation]);
+  const nav = hexToOklch(navHex);
   return {
-    navigation: oklchVToHex(nav),
+    navigation: navHex,
     attention: roles.attentionOverride ?? oklchVToHex(colors[roles.attention]),
     frame: gamutClamp(
       themeTone === "dark" ? FRAME_L_DARK : FRAME_L_LIGHT,
