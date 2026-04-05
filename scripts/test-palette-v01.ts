@@ -387,9 +387,9 @@ function deriveNeutralPalette(
     bg: oklchVToHex(bg),
     fg: oklchVToHex(fg),
     bg_surface: oklchToHex(bg.l + 0.02 * sign, bg.c, bg.h),
-    bg_cursor_line: oklchToHex(bg.l + 0.05 * sign, bg.c, bg.h),
+    bg_cursor_line: oklchToHex(bg.l + 0.05 * sign, bg.c + 0.01, bg.h),
     bg_popup: oklchToHex(bg.l + 0.04 * sign, bg.c, bg.h),
-    bg_visual: oklchToHex(bg.l + 0.08 * sign, bg.c, bg.h),
+    bg_visual: oklchToHex(bg.l + 0.08 * sign, bg.c, bg.h), // 仮値、後で navigation hue で上書き
     comment: oklchToHex(fgL.comment, bg.c, fg.h),
     line_nr: oklchToHex(fgL.line_nr, bg.c, fg.h),
     border: oklchToHex(fgL.border, bg.c, fg.h),
@@ -847,6 +847,14 @@ function generatePalette(input: CharacterInput): PaletteResult {
     return hexToOklch(hex);
   });
   const roles = assignUiRoles(seedsForUi, bgHex, adjustedNeutral.fg);
+
+  // bg_visual を navigation の hue で着色 (tokyonight 方式)
+  const navColor = seedsForUi[roles.navigation];
+  const bgOklch = hexToOklch(bgHex);
+  const visualC = 0.04;
+  const visualL = bgOklch.l + 0.08 * (themeTone === "dark" ? 1 : -1);
+  adjustedNeutral.bg_visual = gamutClamp(visualL, visualC, navColor.h);
+
   const ui = deriveUiColors(
     seedsForUi,
     roles,
