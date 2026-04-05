@@ -1,0 +1,21 @@
+{
+  "impression": {
+    "primary": {
+      "hex": "#ffffff",
+      "reason": "The character's hair and clothing are predominantly stark white, forming her visual identity."
+    },
+    "secondary": {
+      "hex": "#b0c4de",
+      "reason": "The cool metallic blue-grey reflective surfaces of her gear define her tech aesthetic."
+    },
+    "tertiary": {
+      "hex": "#d62828",
+      "reason": "The intense crimson red of her eyes provides the only saturated accent color."
+    }
+  },
+  "theme_tone": "dark",
+  "neutral": {
+    "bg_base_hex": "#202225",
+    "fg_base_hex": "#dfe1e6"
+  }
+}

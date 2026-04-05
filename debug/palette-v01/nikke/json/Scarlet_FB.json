@@ -1,0 +1,21 @@
+{
+  "impression": {
+    "primary": {
+      "hex": "#8a5fb8",
+      "reason": "The vibrant purple serves as the main thematic accent color appearing throughout her outfit and accessories."
+    },
+    "secondary": {
+      "hex": "#f5f5f5",
+      "reason": "The dominant clean white/off-white used for the main body of her attire and armor pieces."
+    },
+    "tertiary": {
+      "hex": "#d69a6c",
+      "reason": "The warm peach/tan tone reflecting her skin and subtle highlights within the umbrella and gear."
+    }
+  },
+  "theme_tone": "dark",
+  "neutral": {
+    "bg_base_hex": "#242028",
+    "fg_base_hex": "#e1dee7"
+  }
+}

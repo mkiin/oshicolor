@@ -1,0 +1,21 @@
+{
+  "impression": {
+    "primary": {
+      "hex": "#ff3300",
+      "reason": "The vibrant red is the character's most striking accent, appearing on her tie, beret, gloves, and accessories, defining her tactical/militant aesthetic."
+    },
+    "secondary": {
+      "hex": "#3d3b3c",
+      "reason": "This deep charcoal-grey forms the core of her combat uniform and tactical gear, anchoring the design."
+    },
+    "tertiary": {
+      "hex": "#dcbfae",
+      "reason": "A pale, dusty blonde/light brown tone found in her hair, providing a soft contrast to the dark and intense colors."
+    }
+  },
+  "theme_tone": "dark",
+  "neutral": {
+    "bg_base_hex": "#252120",
+    "fg_base_hex": "#e0dad5"
+  }
+}
