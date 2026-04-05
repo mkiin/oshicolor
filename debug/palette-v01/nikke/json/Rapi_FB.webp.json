@@ -1,0 +1,17 @@
+{
+  "image": "debug/img/nikke/Rapi_FB.webp",
+  "timestamp": "2026-04-05T15:00:33.386Z",
+  "results": [
+    {
+      "model": "gemini-flash-latest",
+      "elapsed": 9381,
+      "tokens": {
+        "input": 1472,
+        "output": 191,
+        "total": 2591
+      },
+      "error": null,
+      "response": "{\n  \"impression\": {\n    \"primary\": { \"hex\": \"#FF3C2E\", \"reason\": \"The vibrant red of her tie, jacket lining, and trim serves as the most striking visual anchor against her dark attire.\" },\n    \"secondary\": { \"hex\": \"#D2A791\", \"reason\": \"Her long, rose-gold hair creates a massive contrast and softens the otherwise harsh military silhouette.\" },\n    \"tertiary\": { \"hex\": \"#35353B\", \"reason\": \"The cool charcoal grey of her uniform forms the structural foundation of her character design.\" }\n  },\n  \"theme_tone\": \"dark\",\n  \"neutral\": {\n    \"bg_base_hex\": \"#1E1A1A\",\n    \"fg_base_hex\": \"#E3D8D8\"\n  }\n}"
+    }
+  ]
+}
