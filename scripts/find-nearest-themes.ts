@@ -9,9 +9,9 @@
  * Usage: node scripts/find-nearest-themes.ts
  */
 
+import * as culori from "culori";
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import * as culori from "culori";
 
 const THEME_DIR = "sample-repo/ghostty-theme";
 
@@ -20,17 +20,32 @@ const W_FG = 5;
 
 /** ネタテーマ・極端な配色のテーマを除外 */
 const EXCLUDED_THEMES = new Set([
-  "HaX0R Blue", "HaX0R Gr33N", "HaX0R R3D",
-  "Hot Dog Stand", "Hot Dog Stand (Mustard)",
-  "Retro", "Retro Legends",
-  "Black Metal", "Black Metal (Bathory)", "Black Metal (Burzum)",
-  "Black Metal (Dark Funeral)", "Black Metal (Gorgoroth)",
-  "Black Metal (Immortal)", "Black Metal (Khold)",
-  "Black Metal (Marduk)", "Black Metal (Mayhem)",
-  "Black Metal (Nile)", "Black Metal (Venom)",
-  "Red Alert", "Red Planet", "Red Sands",
-  "Sakura", "Scarlet Protocol", "Cyberpunk Scarlet Protocol",
-  "Toy Chest", "Unikitty",
+  "HaX0R Blue",
+  "HaX0R Gr33N",
+  "HaX0R R3D",
+  "Hot Dog Stand",
+  "Hot Dog Stand (Mustard)",
+  "Retro",
+  "Retro Legends",
+  "Black Metal",
+  "Black Metal (Bathory)",
+  "Black Metal (Burzum)",
+  "Black Metal (Dark Funeral)",
+  "Black Metal (Gorgoroth)",
+  "Black Metal (Immortal)",
+  "Black Metal (Khold)",
+  "Black Metal (Marduk)",
+  "Black Metal (Mayhem)",
+  "Black Metal (Nile)",
+  "Black Metal (Venom)",
+  "Red Alert",
+  "Red Planet",
+  "Red Sands",
+  "Sakura",
+  "Scarlet Protocol",
+  "Cyberpunk Scarlet Protocol",
+  "Toy Chest",
+  "Unikitty",
 ]);
 
 // --- Oklab utils ---
@@ -84,7 +99,8 @@ function parseTheme(name: string, content: string): GhosttyTheme | null {
     if (fgMatch) foreground = fgMatch[1].trim();
   }
 
-  if (!background || !foreground || Object.keys(palette).length < 8) return null;
+  if (!background || !foreground || Object.keys(palette).length < 8)
+    return null;
   return { name, palette, background, foreground };
 }
 
@@ -136,8 +152,14 @@ type NearestResult = {
   borrowedSlots: number[];
 };
 
-function findNearest(char: CharacterInput, themes: GhosttyTheme[], topN: number): NearestResult[] {
-  const aiAccents = [char.primary, char.secondary, char.tertiary].map(hexToOklab);
+function findNearest(
+  char: CharacterInput,
+  themes: GhosttyTheme[],
+  topN: number,
+): NearestResult[] {
+  const aiAccents = [char.primary, char.secondary, char.tertiary].map(
+    hexToOklab,
+  );
   const aiBg = hexToOklab(char.bg);
   const aiFg = hexToOklab(char.fg);
   if (aiAccents.some((a) => !a) || !aiBg || !aiFg) return [];
@@ -155,7 +177,10 @@ function findNearest(char: CharacterInput, themes: GhosttyTheme[], topN: number)
   for (const theme of filtered) {
     const themeBg = hexToOklab(theme.background)!;
     const themeFg = hexToOklab(theme.foreground)!;
-    const themePalette = slots.map((i) => ({ slot: i, oklab: hexToOklab(theme.palette[i])! }));
+    const themePalette = slots.map((i) => ({
+      slot: i,
+      oklab: hexToOklab(theme.palette[i])!,
+    }));
     if (themePalette.some((p) => !p.oklab)) continue;
 
     const bgDist = oklabDist(aiBg!, themeBg);
@@ -208,24 +233,44 @@ function findNearest(char: CharacterInput, themes: GhosttyTheme[], topN: number)
 
 const CHARACTERS: CharacterInput[] = [
   {
-    name: "Albedo", game: "genshin",
-    primary: "#d6ad60", secondary: "#4553a0", tertiary: "#ece8e1",
-    bg: "#252320", fg: "#e5e2de", theme_tone: "dark",
+    name: "Albedo",
+    game: "genshin",
+    primary: "#d6ad60",
+    secondary: "#4553a0",
+    tertiary: "#ece8e1",
+    bg: "#252320",
+    fg: "#e5e2de",
+    theme_tone: "dark",
   },
   {
-    name: "Amber", game: "genshin",
-    primary: "#C23126", secondary: "#4B332C", tertiary: "#DDA35D",
-    bg: "#231E1D", fg: "#E8E0DE", theme_tone: "dark",
+    name: "Amber",
+    game: "genshin",
+    primary: "#C23126",
+    secondary: "#4B332C",
+    tertiary: "#DDA35D",
+    bg: "#231E1D",
+    fg: "#E8E0DE",
+    theme_tone: "dark",
   },
   {
-    name: "Acheron", game: "starrail",
-    primary: "#5d54a4", secondary: "#a11b21", tertiary: "#2d2d31",
-    bg: "#1a1920", fg: "#e0dfe6", theme_tone: "dark",
+    name: "Acheron",
+    game: "starrail",
+    primary: "#5d54a4",
+    secondary: "#a11b21",
+    tertiary: "#2d2d31",
+    bg: "#1a1920",
+    fg: "#e0dfe6",
+    theme_tone: "dark",
   },
   {
-    name: "Hyacine", game: "starrail",
-    primary: "#971d2b", secondary: "#f9b7bc", tertiary: "#7ce2e4",
-    bg: "#fcf4f5", fg: "#382d2e", theme_tone: "light",
+    name: "Hyacine",
+    game: "starrail",
+    primary: "#971d2b",
+    secondary: "#f9b7bc",
+    tertiary: "#7ce2e4",
+    bg: "#fcf4f5",
+    fg: "#382d2e",
+    theme_tone: "light",
   },
 ];
 
@@ -239,7 +284,9 @@ const TOP_N = 5;
 for (const char of CHARACTERS) {
   console.log("=".repeat(80));
   console.log(`${char.name} (${char.game}) — ${char.theme_tone}`);
-  console.log(`  AI accent: ${char.primary}  ${char.secondary}  ${char.tertiary}`);
+  console.log(
+    `  AI accent: ${char.primary}  ${char.secondary}  ${char.tertiary}`,
+  );
   console.log(`  AI bg=${char.bg}  fg=${char.fg}`);
   console.log();
 

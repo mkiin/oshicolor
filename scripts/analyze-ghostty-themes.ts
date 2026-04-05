@@ -8,9 +8,9 @@
  * - neutral (palette 0, 7, 8) の彩度
  */
 
+import { useMode, modeOklch, modeRgb, parse } from "culori/fn";
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { useMode, modeOklch, modeRgb, parse } from "culori/fn";
 
 // @ts-ignore
 const toOklch = useMode(modeOklch);
@@ -46,7 +46,8 @@ function parseTheme(name: string, content: string): Theme | null {
     if (fgMatch) foreground = fgMatch[1].trim();
   }
 
-  if (!background || !foreground || Object.keys(palette).length < 8) return null;
+  if (!background || !foreground || Object.keys(palette).length < 8)
+    return null;
   return { name, palette, background, foreground };
 }
 
@@ -145,12 +146,17 @@ for (const t of themes) {
   if (bgOklch.l < 0.5) darkThemes.push(t);
   else lightThemes.push(t);
 }
-console.log(`Dark themes: ${darkThemes.length}, Light themes: ${lightThemes.length}\n`);
+console.log(
+  `Dark themes: ${darkThemes.length}, Light themes: ${lightThemes.length}\n`,
+);
 
 // --- A. accent L/C (palette 1〜6) ---
 console.log("--- A. Accent Color L/C (palette 1-6) ---\n");
 
-for (const [label, subset] of [["DARK", darkThemes], ["LIGHT", lightThemes]] as const) {
+for (const [label, subset] of [
+  ["DARK", darkThemes],
+  ["LIGHT", lightThemes],
+] as const) {
   const ls: number[] = [];
   const cs: number[] = [];
   for (const t of subset) {
@@ -183,7 +189,9 @@ for (let i = 1; i <= 6; i++) {
     ls.push(oklch.l);
     cs.push(oklch.c);
   }
-  console.log(`palette ${i} (${slotNames[i]}):  L median=${stats(ls).median.toFixed(3)}  C median=${stats(cs).median.toFixed(3)}`);
+  console.log(
+    `palette ${i} (${slotNames[i]}):  L median=${stats(ls).median.toFixed(3)}  C median=${stats(cs).median.toFixed(3)}`,
+  );
 }
 console.log();
 
@@ -239,7 +247,8 @@ for (const slot of [0, 7, 8] as const) {
     if (!oklch) continue;
     cs.push(oklch.c);
   }
-  const slotLabel = slot === 0 ? "black" : slot === 7 ? "white" : "bright black";
+  const slotLabel =
+    slot === 0 ? "black" : slot === 7 ? "white" : "bright black";
   console.log(`palette ${slot} (${slotLabel}): ${fmtStats(stats(cs))}`);
 }
 console.log();
@@ -285,8 +294,13 @@ function hueBucket(h: number): number {
 // 無彩色の閾値
 const ACHROMATIC_C = 0.005;
 
-for (const [label, subset] of [["DARK", darkThemes], ["LIGHT", lightThemes]] as const) {
-  console.log(`[${label}] Background hue distribution (C > ${ACHROMATIC_C} のみ):`);
+for (const [label, subset] of [
+  ["DARK", darkThemes],
+  ["LIGHT", lightThemes],
+] as const) {
+  console.log(
+    `[${label}] Background hue distribution (C > ${ACHROMATIC_C} のみ):`,
+  );
   const buckets: Record<number, number> = {};
   let achromatic = 0;
   let total = 0;
@@ -303,27 +317,40 @@ for (const [label, subset] of [["DARK", darkThemes], ["LIGHT", lightThemes]] as 
     buckets[bucket] = (buckets[bucket] ?? 0) + 1;
     chromatics.push({ name: t.name, h: oklch.h, c: oklch.c, l: oklch.l });
   }
-  console.log(`  無彩色 (C <= ${ACHROMATIC_C}): ${achromatic}/${total} (${((achromatic / total) * 100).toFixed(0)}%)`);
-  console.log(`  有彩色: ${total - achromatic}/${total} (${(((total - achromatic) / total) * 100).toFixed(0)}%)`);
+  console.log(
+    `  無彩色 (C <= ${ACHROMATIC_C}): ${achromatic}/${total} (${((achromatic / total) * 100).toFixed(0)}%)`,
+  );
+  console.log(
+    `  有彩色: ${total - achromatic}/${total} (${(((total - achromatic) / total) * 100).toFixed(0)}%)`,
+  );
   for (let h = 0; h < 360; h += 30) {
     const count = buckets[h] ?? 0;
     if (count > 0) {
       const bar = "█".repeat(Math.ceil(count / 2));
-      console.log(`  ${HUE_NAMES[h].padEnd(18)} ${String(count).padStart(3)} ${bar}`);
+      console.log(
+        `  ${HUE_NAMES[h].padEnd(18)} ${String(count).padStart(3)} ${bar}`,
+      );
     }
   }
   // 上位テーマを具体名で表示
   chromatics.sort((a, b) => b.c - a.c);
   console.log(`  最も彩度が高い bg (top 10):`);
   for (const t of chromatics.slice(0, 10)) {
-    console.log(`    ${t.name.padEnd(30)} H=${t.h.toFixed(0).padStart(3)}° C=${t.c.toFixed(3)} L=${t.l.toFixed(3)}`);
+    console.log(
+      `    ${t.name.padEnd(30)} H=${t.h.toFixed(0).padStart(3)}° C=${t.c.toFixed(3)} L=${t.l.toFixed(3)}`,
+    );
   }
   console.log();
 }
 
 // fg の色相分布
-for (const [label, subset] of [["DARK", darkThemes], ["LIGHT", lightThemes]] as const) {
-  console.log(`[${label}] Foreground hue distribution (C > ${ACHROMATIC_C} のみ):`);
+for (const [label, subset] of [
+  ["DARK", darkThemes],
+  ["LIGHT", lightThemes],
+] as const) {
+  console.log(
+    `[${label}] Foreground hue distribution (C > ${ACHROMATIC_C} のみ):`,
+  );
   const buckets: Record<number, number> = {};
   let achromatic = 0;
   let total = 0;
@@ -338,20 +365,28 @@ for (const [label, subset] of [["DARK", darkThemes], ["LIGHT", lightThemes]] as 
     const bucket = hueBucket(oklch.h);
     buckets[bucket] = (buckets[bucket] ?? 0) + 1;
   }
-  console.log(`  無彩色 (C <= ${ACHROMATIC_C}): ${achromatic}/${total} (${((achromatic / total) * 100).toFixed(0)}%)`);
-  console.log(`  有彩色: ${total - achromatic}/${total} (${(((total - achromatic) / total) * 100).toFixed(0)}%)`);
+  console.log(
+    `  無彩色 (C <= ${ACHROMATIC_C}): ${achromatic}/${total} (${((achromatic / total) * 100).toFixed(0)}%)`,
+  );
+  console.log(
+    `  有彩色: ${total - achromatic}/${total} (${(((total - achromatic) / total) * 100).toFixed(0)}%)`,
+  );
   for (let h = 0; h < 360; h += 30) {
     const count = buckets[h] ?? 0;
     if (count > 0) {
       const bar = "█".repeat(Math.ceil(count / 2));
-      console.log(`  ${HUE_NAMES[h].padEnd(18)} ${String(count).padStart(3)} ${bar}`);
+      console.log(
+        `  ${HUE_NAMES[h].padEnd(18)} ${String(count).padStart(3)} ${bar}`,
+      );
     }
   }
   console.log();
 }
 
 // --- I. 色相別テーマ詳細比較 ---
-console.log("--- I. Hue-Bucket Theme Comparison (Dark themes, C > 0.005) ---\n");
+console.log(
+  "--- I. Hue-Bucket Theme Comparison (Dark themes, C > 0.005) ---\n",
+);
 
 type BucketData = {
   hue: number;
@@ -390,7 +425,8 @@ for (let h = 0; h < 360; h += 30) {
     const accentHs: number[] = [];
     for (const t of darkThemes) {
       const bgOklch = hexToOklch(t.background);
-      if (!bgOklch || bgOklch.c <= ACHROMATIC_C || hueBucket(bgOklch.h) !== h) continue;
+      if (!bgOklch || bgOklch.c <= ACHROMATIC_C || hueBucket(bgOklch.h) !== h)
+        continue;
       for (let i = 1; i <= 6; i++) {
         const hex = t.palette[i];
         if (!hex) continue;
@@ -410,14 +446,27 @@ for (let h = 0; h < 360; h += 30) {
     }
   }
 
-  bucketData.push({ hue: h, label, bgCount: bgThemes.length, fgCount: fgThemes.length, bgThemes, fgThemes, accentStats: accentStatsResult });
+  bucketData.push({
+    hue: h,
+    label,
+    bgCount: bgThemes.length,
+    fgCount: fgThemes.length,
+    bgThemes,
+    fgThemes,
+    accentStats: accentStatsResult,
+  });
 }
 
 // テーブル表示
 console.log("色相帯              bg数  fg数  bg:fg比   bg例");
 console.log("─".repeat(90));
 for (const b of bucketData) {
-  const ratio = b.fgCount > 0 ? (b.bgCount / b.fgCount).toFixed(1) : b.bgCount > 0 ? "∞" : "-";
+  const ratio =
+    b.fgCount > 0
+      ? (b.bgCount / b.fgCount).toFixed(1)
+      : b.bgCount > 0
+        ? "∞"
+        : "-";
   const examples = b.bgThemes
     .sort((a, c) => c.c - a.c)
     .slice(0, 3)
@@ -429,11 +478,15 @@ for (const b of bucketData) {
 }
 
 // 無彩色行
-console.log(`${"無彩色 (C≤0.005)".padEnd(20)} ${String(166).padStart(3)}   ${String(168).padStart(3)}   ${String((166 / 168).toFixed(1)).padStart(5)}   (大多数)`);
+console.log(
+  `${"無彩色 (C≤0.005)".padEnd(20)} ${String(166).padStart(3)}   ${String(168).padStart(3)}   ${String((166 / 168).toFixed(1)).padStart(5)}   (大多数)`,
+);
 console.log();
 
 // bg の色相別 neutral C 統計
-console.log("色相帯              bg C median  bg C p75   bg L median  テーマ数");
+console.log(
+  "色相帯              bg C median  bg C p75   bg L median  テーマ数",
+);
 console.log("─".repeat(70));
 for (const b of bucketData) {
   if (b.bgThemes.length < 3) continue;
@@ -492,18 +545,30 @@ const bgCStats = stats(bgCs);
 const bgAccentCRStats = stats(bgAccentCRs);
 
 console.log(`L_TARGET_DARK = ${specLDark}`);
-console.log(`  → 実績 median=${accentLStats.median.toFixed(3)}, p25-p75=[${accentLStats.p25.toFixed(3)}, ${accentLStats.p75.toFixed(3)}]`);
-console.log(`  → ${accentLStats.p25 <= specLDark && specLDark <= accentLStats.p75 ? "✓ IQR 内" : "✗ IQR 外"}`);
+console.log(
+  `  → 実績 median=${accentLStats.median.toFixed(3)}, p25-p75=[${accentLStats.p25.toFixed(3)}, ${accentLStats.p75.toFixed(3)}]`,
+);
+console.log(
+  `  → ${accentLStats.p25 <= specLDark && specLDark <= accentLStats.p75 ? "✓ IQR 内" : "✗ IQR 外"}`,
+);
 console.log();
 
 console.log(`ERROR_CHROMA_MIN = ${specChrMin}`);
-console.log(`  → palette 1 (red) の C 実績: median=${stats(darkThemes.map((t) => hexToOklch(t.palette[1])?.c ?? 0)).median.toFixed(3)}`);
+console.log(
+  `  → palette 1 (red) の C 実績: median=${stats(darkThemes.map((t) => hexToOklch(t.palette[1])?.c ?? 0)).median.toFixed(3)}`,
+);
 console.log();
 
 console.log(`NEUTRAL_CHROMA_MAX = ${specNeutralCMax}`);
-console.log(`  → bg C 実績: median=${bgCStats.median.toFixed(3)}, p75=${bgCStats.p75.toFixed(3)}`);
+console.log(
+  `  → bg C 実績: median=${bgCStats.median.toFixed(3)}, p75=${bgCStats.p75.toFixed(3)}`,
+);
 console.log();
 
 console.log(`CONTRAST_AA = 4.5`);
-console.log(`  → bg vs accent 実績: median=${bgAccentCRStats.median.toFixed(1)}, min=${bgAccentCRStats.min.toFixed(1)}, p25=${bgAccentCRStats.p25.toFixed(1)}`);
-console.log(`  → ${bgAccentCRStats.p25 >= 4.5 ? "✓ p25 が AA 以上" : "✗ p25 が AA 未満 — 実際のテーマでも AA を満たさない色は多い"}`);
+console.log(
+  `  → bg vs accent 実績: median=${bgAccentCRStats.median.toFixed(1)}, min=${bgAccentCRStats.min.toFixed(1)}, p25=${bgAccentCRStats.p25.toFixed(1)}`,
+);
+console.log(
+  `  → ${bgAccentCRStats.p25 >= 4.5 ? "✓ p25 が AA 以上" : "✗ p25 が AA 未満 — 実際のテーマでも AA を満たさない色は多い"}`,
+);

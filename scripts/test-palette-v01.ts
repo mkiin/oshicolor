@@ -16,7 +16,13 @@
  */
 
 import * as culori from "culori";
-import { writeFileSync, mkdirSync, readdirSync, readFileSync, existsSync } from "node:fs";
+import {
+  writeFileSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  existsSync,
+} from "node:fs";
 import { join, basename } from "node:path";
 
 // ────────────────────────────────────────────────────────────
@@ -47,31 +53,36 @@ const CONFIG = {
   variant3LOffset: 0.08,
   /** Luminance Jittering — O'Donovan 2011 */
   lJitter: {
-    dark: [0.68, 0.76, 0.72, 0.80],
-    light: [0.42, 0.50, 0.46, 0.38],
+    dark: [0.68, 0.76, 0.72, 0.8],
+    light: [0.42, 0.5, 0.46, 0.38],
   },
   /** neutral L 範囲 */
   neutral: {
     dark: {
-      bg: { lMin: 0.10, lMax: 0.22, cMax: 0.02, cFallback: 0.015 },
+      bg: { lMin: 0.1, lMax: 0.22, cMax: 0.02, cFallback: 0.015 },
       fg: { lMin: 0.82, lMax: 0.92 },
-      fgLevels: { comment: 0.45, lineNr: 0.40, border: 0.30, delimiter: 0.60 },
+      fgLevels: { comment: 0.45, lineNr: 0.4, border: 0.3, delimiter: 0.6 },
     },
     light: {
       bg: { lMin: 0.92, lMax: 0.95, cMax: 0.02, cFallback: 0.015 },
       fg: { lMin: 0.15, lMax: 0.25 },
-      fgLevels: { comment: 0.55, lineNr: 0.60, border: 0.70, delimiter: 0.45 },
+      fgLevels: { comment: 0.55, lineNr: 0.6, border: 0.7, delimiter: 0.45 },
     },
   },
   /** neutral 派生の L オフセット (dark 基準、light は符号反転) */
-  neutralOffsets: { surface: 0.02, cursorLine: 0.05, popup: 0.04, visual: 0.08 },
+  neutralOffsets: {
+    surface: 0.02,
+    cursorLine: 0.05,
+    popup: 0.04,
+    visual: 0.08,
+  },
   /** UI 色 */
   ui: {
     bgCrMin: 3.0,
     fgCrMin: 2.0,
     frameChromaScale: 0.5,
     frameL: { dark: 0.35, light: 0.65 },
-    searchBgL: { dark: 0.30, light: 0.85 },
+    searchBgL: { dark: 0.3, light: 0.85 },
   },
   /** 弁別性修正 */
   discrimination: {
@@ -163,7 +174,9 @@ const hexToOklab = (hex: string): Oklab => {
 
 /** Gamut mapping — culori clampChroma (Ottosson 2020) */
 const toHex = (l: number, c: number, h: number): string =>
-  culori.formatHex(culori.clampChroma({ mode: "oklch", l, c, h }, "oklch", "rgb"));
+  culori.formatHex(
+    culori.clampChroma({ mode: "oklch", l, c, h }, "oklch", "rgb"),
+  );
 
 const vToHex = (v: Oklch): string => toHex(v.l, v.c, v.h);
 
@@ -188,7 +201,11 @@ const relativeLuminance = (hex: string): number => {
   if (!rgb) return 0;
   const lin = (c: number) =>
     c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
-  return 0.2126 * lin(Math.max(0, rgb.r)) + 0.7152 * lin(Math.max(0, rgb.g)) + 0.0722 * lin(Math.max(0, rgb.b));
+  return (
+    0.2126 * lin(Math.max(0, rgb.r)) +
+    0.7152 * lin(Math.max(0, rgb.g)) +
+    0.0722 * lin(Math.max(0, rgb.b))
+  );
 };
 
 const contrastRatio = (hex1: string, hex2: string): number => {
@@ -203,7 +220,11 @@ const contrastRatio = (hex1: string, hex2: string): number => {
  *   dark bg (L < 0.5) → L を上げる
  *   light bg (L >= 0.5) → L を下げる
  */
-const ensureContrast = (fgHex: string, bgHex: string, minRatio: number): string => {
+const ensureContrast = (
+  fgHex: string,
+  bgHex: string,
+  minRatio: number,
+): string => {
   if (contrastRatio(fgHex, bgHex) >= minRatio) return fgHex;
   const fg = hexToOklch(fgHex);
   const bgL = hexToOklch(bgHex).l;
@@ -308,7 +329,10 @@ const fillGaps = (gaps: HueGap[], count: number): number[] => {
 
 // §4.3 enforceMinHueGap — 最小色相距離保証 (バネモデル)
 
-const enforceMinHueGap = (seedHues: number[], filledHues: number[]): number[] => {
+const enforceMinHueGap = (
+  seedHues: number[],
+  filledHues: number[],
+): number[] => {
   const result = [...filledHues];
   const fixed = [...seedHues];
   const { damping, maxIter, convergeThreshold } = CONFIG.hueGap;
@@ -330,7 +354,7 @@ const enforceMinHueGap = (seedHues: number[], filledHues: number[]): number[] =>
     }
     if (maxForce < convergeThreshold) break;
     for (let i = 0; i < result.length; i++) {
-      result[i] = ((result[i] + forces[i]) % 360 + 360) % 360;
+      result[i] = (((result[i] + forces[i]) % 360) + 360) % 360;
     }
   }
   return result;
@@ -347,7 +371,10 @@ const computeTargetC = (seeds: Oklch[]): number => {
  * 色相順ソート → zigzag で L を割り当て。
  * 色相が隣接する gap-filled 色に最も離れた L を配置し ΔL を最大化する。
  */
-const assignLByHueZigzag = (filledHues: number[], tone: ThemeTone): number[] => {
+const assignLByHueZigzag = (
+  filledHues: number[],
+  tone: ThemeTone,
+): number[] => {
   const lPool = [...CONFIG.lJitter[tone]].sort((a, b) => a - b);
   const zigzag = [0, 3, 1, 2]; // [最小, 最大, 2番目, 3番目]
   const indexed = filledHues
@@ -363,7 +390,8 @@ const assignLByHueZigzag = (filledHues: number[], tone: ThemeTone): number[] => 
 // §4.5 resolveErrorHue
 
 const resolveErrorHue = (primaryHue: number): number => {
-  if (hueDist(primaryHue, CONFIG.errorHue) >= CONFIG.minHueGap) return CONFIG.errorHue;
+  if (hueDist(primaryHue, CONFIG.errorHue) >= CONFIG.minHueGap)
+    return CONFIG.errorHue;
   const candidates = [CONFIG.errorHueMin, CONFIG.errorHueMax, CONFIG.errorHue];
   return candidates.reduce((best, c) =>
     hueDist(primaryHue, c) > hueDist(primaryHue, best) ? c : best,
@@ -372,7 +400,11 @@ const resolveErrorHue = (primaryHue: number): number => {
 
 // §4.6 clampNeutral
 
-const clampNeutral = (bgHex: string, fgHex: string, tone: ThemeTone): { bg: Oklch; fg: Oklch } => {
+const clampNeutral = (
+  bgHex: string,
+  fgHex: string,
+  tone: ThemeTone,
+): { bg: Oklch; fg: Oklch } => {
   const limits = CONFIG.neutral[tone];
   const bg = hexToOklch(bgHex);
   const fg = hexToOklch(fgHex);
@@ -392,7 +424,11 @@ const clampNeutral = (bgHex: string, fgHex: string, tone: ThemeTone): { bg: Oklc
 
 // §4.7 deriveNeutralPalette
 
-const deriveNeutralPalette = (bg: Oklch, fg: Oklch, tone: ThemeTone): NeutralPalette => {
+const deriveNeutralPalette = (
+  bg: Oklch,
+  fg: Oklch,
+  tone: ThemeTone,
+): NeutralPalette => {
   const sign = tone === "dark" ? 1 : -1;
   const off = CONFIG.neutralOffsets;
   const levels = CONFIG.neutral[tone].fgLevels;
@@ -416,20 +452,29 @@ const generateVariants = (c1: Oklch, c3: Oklch, tone: ThemeTone) => {
   const sign = tone === "dark" ? 1 : -1;
   return {
     color1_variant: { l: c1.l, c: c1.c * CONFIG.variant1ChromaScale, h: c1.h },
-    color3_variant: { l: c3.l + CONFIG.variant3LOffset * sign, c: c3.c, h: c3.h },
+    color3_variant: {
+      l: c3.l + CONFIG.variant3LOffset * sign,
+      c: c3.c,
+      h: c3.h,
+    },
   };
 };
 
 // §4.9 checkDiscrimination + fixDiscrimination
 
-const checkDiscrimination = (accentHexes: string[], labels: string[]): string[] => {
+const checkDiscrimination = (
+  accentHexes: string[],
+  labels: string[],
+): string[] => {
   const warnings: string[] = [];
   const oklabs = accentHexes.map(hexToOklab);
   for (let i = 0; i < oklabs.length; i++) {
     for (let j = i + 1; j < oklabs.length; j++) {
       const dist = oklabDist(oklabs[i], oklabs[j]);
       if (dist < CONFIG.minDeltaE) {
-        warnings.push(`  ⚠ ${labels[i]}↔${labels[j]} ΔE=${dist.toFixed(3)} < ${CONFIG.minDeltaE}`);
+        warnings.push(
+          `  ⚠ ${labels[i]}↔${labels[j]} ΔE=${dist.toFixed(3)} < ${CONFIG.minDeltaE}`,
+        );
       }
     }
   }
@@ -466,8 +511,10 @@ const fixDiscrimination = (accentHexes: string[], bgHex: string): string[] => {
     const jAdj = (adjustableIndices as readonly number[]).includes(worstJ);
     let target: number;
     if (iAdj && jAdj) {
-      target = oklabDist(oklabs[worstI], bgOklab) <= oklabDist(oklabs[worstJ], bgOklab)
-        ? worstI : worstJ;
+      target =
+        oklabDist(oklabs[worstI], bgOklab) <= oklabDist(oklabs[worstJ], bgOklab)
+          ? worstI
+          : worstJ;
     } else if (iAdj) {
       target = worstI;
     } else if (jAdj) {
@@ -481,8 +528,12 @@ const fixDiscrimination = (accentHexes: string[], bgHex: string): string[] => {
     let bestHex = result[target];
     let bestDist = worstDist;
     for (const dir of [1, -1]) {
-      const newL = clamp(tc.l + lShift * dir, 0.15, 0.90);
-      const candidate = ensureContrast(toHex(newL, tc.c, tc.h), bgHex, CONFIG.contrastAA);
+      const newL = clamp(tc.l + lShift * dir, 0.15, 0.9);
+      const candidate = ensureContrast(
+        toHex(newL, tc.c, tc.h),
+        bgHex,
+        CONFIG.contrastAA,
+      );
       const dist = oklabDist(hexToOklab(candidate), hexToOklab(result[other]));
       if (dist > bestDist) {
         bestDist = dist;
@@ -514,7 +565,11 @@ const assignUiRoles = (
   colors: Oklch[],
   bgHex: string,
   fgHex: string,
-): { navigationHex: string; attentionIdx: number; attentionOverride?: string } => {
+): {
+  navigationHex: string;
+  attentionIdx: number;
+  attentionOverride?: string;
+} => {
   const primary = colors[0];
   const primaryOklab = hexToOklab(vToHex(primary));
 
@@ -543,9 +598,16 @@ const assignUiRoles = (
     const rOklch = hexToOklch(rescued);
     const fgL = hexToOklch(fgHex).l;
     const dir = rOklch.l > fgL ? -1 : 1;
-    for (let ll = rOklch.l + 0.01 * dir; ll > 0.05 && ll < 0.95; ll += 0.01 * dir) {
+    for (
+      let ll = rOklch.l + 0.01 * dir;
+      ll > 0.05 && ll < 0.95;
+      ll += 0.01 * dir
+    ) {
       const hex = toHex(ll, rOklch.c, rOklch.h);
-      if (contrastRatio(hex, bgHex) >= CONFIG.ui.bgCrMin && contrastRatio(hex, fgHex) >= CONFIG.ui.fgCrMin) {
+      if (
+        contrastRatio(hex, bgHex) >= CONFIG.ui.bgCrMin &&
+        contrastRatio(hex, fgHex) >= CONFIG.ui.fgCrMin
+      ) {
         rescued = hex;
         break;
       }
@@ -564,7 +626,11 @@ const deriveUiColors = (
   return {
     navigation: roles.navigationHex,
     attention: roles.attentionOverride ?? vToHex(colors[roles.attentionIdx]),
-    frame: toHex(CONFIG.ui.frameL[tone], nav.c * CONFIG.ui.frameChromaScale, nav.h),
+    frame: toHex(
+      CONFIG.ui.frameL[tone],
+      nav.c * CONFIG.ui.frameChromaScale,
+      nav.h,
+    ),
     search_bg: toHex(CONFIG.ui.searchBgL[tone], nav.c, nav.h),
     pmenu_sel_bg: bgVisualHex,
   };
@@ -579,7 +645,9 @@ const generatePalette = (input: CharacterInput): PaletteResult => {
   const tone = detectThemeTone(input.bg);
 
   // 2. AI 3色 → OKLCH + 低彩度補正
-  const rawSeeds = [input.primary, input.secondary, input.tertiary].map(hexToOklch);
+  const rawSeeds = [input.primary, input.secondary, input.tertiary].map(
+    hexToOklch,
+  );
   const seeds = stabilizeHue(rawSeeds);
 
   // 3. 隙間充填 (重複 hue マージ → gap → fill → 最小距離保証)
@@ -592,11 +660,19 @@ const generatePalette = (input: CharacterInput): PaletteResult => {
   // 4. gap-filled 色に L/C を割り当て
   const cTarget = computeTargetC(seeds);
   const lAssignment = assignLByHueZigzag(filledHues, tone);
-  const filledColors: Oklch[] = filledHues.map((h, i) => ({ l: lAssignment[i], c: cTarget, h }));
+  const filledColors: Oklch[] = filledHues.map((h, i) => ({
+    l: lAssignment[i],
+    c: cTarget,
+    h,
+  }));
 
   // 5. error 色
   const errorHue = resolveErrorHue(seeds[0].h);
-  const color8: Oklch = { l: CONFIG.errorL[tone], c: Math.max(cTarget, CONFIG.errorChromaMin), h: errorHue };
+  const color8: Oklch = {
+    l: CONFIG.errorL[tone],
+    c: Math.max(cTarget, CONFIG.errorChromaMin),
+    h: errorHue,
+  };
 
   // 6. variants
   const variants = generateVariants(seeds[0], seeds[2], tone);
@@ -623,22 +699,35 @@ const generatePalette = (input: CharacterInput): PaletteResult => {
   };
 
   // 9. 弁別性自動修正
-  const accentKeys = ["color1", "color2", "color3", "color4", "color5", "color6", "color7", "color8"] as const;
+  const accentKeys = [
+    "color1",
+    "color2",
+    "color3",
+    "color4",
+    "color5",
+    "color6",
+    "color7",
+    "color8",
+  ] as const;
   const accentArray = accentKeys.map((k) => accentHexes[k]);
   const fixedAccent = fixDiscrimination(accentArray, bgHex);
-  accentKeys.forEach((k, i) => { (accentHexes as Record<string, string>)[k] = fixedAccent[i]; });
+  accentKeys.forEach((k, i) => {
+    (accentHexes as Record<string, string>)[k] = fixedAccent[i];
+  });
 
   // 10. neutral fg コントラスト保証 + spacing
   const adjustedFg = ensureContrast(neutral.fg, bgHex, CONFIG.contrastAA);
   const fgKeys = ["delimiter", "comment", "line_nr", "border"] as const;
   const rawFgHexes = fgKeys.map((k) =>
-    ensureContrast(neutral[k === "line_nr" ? "line_nr" : k], bgHex, CONFIG.contrastSubdued),
+    ensureContrast(
+      neutral[k === "line_nr" ? "line_nr" : k],
+      bgHex,
+      CONFIG.contrastSubdued,
+    ),
   );
   // dark: delimiter > comment > line_nr > border (明→暗)
   // light: border > line_nr > comment > delimiter (明→暗、bg から遠い順)
-  const spacedOrder = tone === "dark"
-    ? rawFgHexes
-    : [...rawFgHexes].reverse();
+  const spacedOrder = tone === "dark" ? rawFgHexes : [...rawFgHexes].reverse();
   const spaced = ensureNeutralSpacing(spacedOrder, tone === "dark" ? 1 : -1);
   const spacedFg = tone === "dark" ? spaced : [...spaced].reverse();
 
@@ -662,11 +751,20 @@ const generatePalette = (input: CharacterInput): PaletteResult => {
   const navOklch = hexToOklch(roles.navigationHex);
   const bgOklch = hexToOklch(bgHex);
   const sign = tone === "dark" ? 1 : -1;
-  adjustedNeutral.bg_visual = toHex(bgOklch.l + CONFIG.neutralOffsets.visual * sign, 0.04, navOklch.h);
+  adjustedNeutral.bg_visual = toHex(
+    bgOklch.l + CONFIG.neutralOffsets.visual * sign,
+    0.04,
+    navOklch.h,
+  );
 
   const ui = deriveUiColors(seedsForUi, roles, adjustedNeutral.bg_visual, tone);
 
-  return { theme_tone: tone, neutral: adjustedNeutral, accent: accentHexes, ui };
+  return {
+    theme_tone: tone,
+    neutral: adjustedNeutral,
+    accent: accentHexes,
+    ui,
+  };
 };
 
 // ────────────────────────────────────────────────────────────
@@ -676,10 +774,16 @@ const generatePalette = (input: CharacterInput): PaletteResult => {
 const textColor = (hex: string): string => {
   const rgb = culori.rgb(hex);
   if (!rgb) return "#ffffff";
-  return rgb.r * 0.299 + rgb.g * 0.587 + rgb.b * 0.114 > 0.5 ? "#000000" : "#ffffff";
+  return rgb.r * 0.299 + rgb.g * 0.587 + rgb.b * 0.114 > 0.5
+    ? "#000000"
+    : "#ffffff";
 };
 
-const generateSvg = (name: string, input: CharacterInput, result: PaletteResult): string => {
+const generateSvg = (
+  name: string,
+  input: CharacterInput,
+  result: PaletteResult,
+): string => {
   const isDark = result.theme_tone === "dark";
   const W = 640;
   const P = 16;
@@ -692,7 +796,11 @@ const generateSvg = (name: string, input: CharacterInput, result: PaletteResult)
   const metaColor = isDark ? "#666" : "#888";
   const labelColor = isDark ? "#888" : "#666";
 
-  const row = (label: string, colors: { label: string; hex: string }[], h: number) => {
+  const row = (
+    label: string,
+    colors: { label: string; hex: string }[],
+    h: number,
+  ) => {
     body += `  <text x="${P}" y="${y + 12}" fill="${labelColor}" font-size="10">${label}</text>\n`;
     y += 18;
     const sw = (innerW - GAP * (colors.length - 1)) / colors.length;
@@ -711,59 +819,87 @@ const generateSvg = (name: string, input: CharacterInput, result: PaletteResult)
   body += `  <text x="${P + 200}" y="${y + 16}" fill="${metaColor}" font-size="12">${input.game} / ${result.theme_tone}</text>\n`;
   y += 28;
 
-  row("AI impression", [
-    { label: "primary", hex: input.primary },
-    { label: "secondary", hex: input.secondary },
-    { label: "tertiary", hex: input.tertiary },
-  ], 35);
+  row(
+    "AI impression",
+    [
+      { label: "primary", hex: input.primary },
+      { label: "secondary", hex: input.secondary },
+      { label: "tertiary", hex: input.tertiary },
+    ],
+    35,
+  );
 
-  row("AI neutral", [
-    { label: "bg", hex: input.bg },
-    { label: "fg", hex: input.fg },
-  ], 28);
+  row(
+    "AI neutral",
+    [
+      { label: "bg", hex: input.bg },
+      { label: "fg", hex: input.fg },
+    ],
+    28,
+  );
 
   const a = result.accent;
-  row("accent (generated)", [
-    { label: "c1 keyword", hex: a.color1 },
-    { label: "c1v tag", hex: a.color1_variant },
-    { label: "c2 func", hex: a.color2 },
-    { label: "c3 const", hex: a.color3 },
-    { label: "c3v num", hex: a.color3_variant },
-  ], 40);
+  row(
+    "accent (generated)",
+    [
+      { label: "c1 keyword", hex: a.color1 },
+      { label: "c1v tag", hex: a.color1_variant },
+      { label: "c2 func", hex: a.color2 },
+      { label: "c3 const", hex: a.color3 },
+      { label: "c3v num", hex: a.color3_variant },
+    ],
+    40,
+  );
 
-  row("accent (gap-filled)", [
-    { label: "c4 string", hex: a.color4 },
-    { label: "c5 type", hex: a.color5 },
-    { label: "c6 special", hex: a.color6 },
-    { label: "c7 preproc", hex: a.color7 },
-    { label: "c8 error", hex: a.color8 },
-  ], 40);
+  row(
+    "accent (gap-filled)",
+    [
+      { label: "c4 string", hex: a.color4 },
+      { label: "c5 type", hex: a.color5 },
+      { label: "c6 special", hex: a.color6 },
+      { label: "c7 preproc", hex: a.color7 },
+      { label: "c8 error", hex: a.color8 },
+    ],
+    40,
+  );
 
   const n = result.neutral;
-  row("neutral bg", [
-    { label: "bg", hex: n.bg },
-    { label: "surface", hex: n.bg_surface },
-    { label: "cursor", hex: n.bg_cursor_line },
-    { label: "popup", hex: n.bg_popup },
-    { label: "visual", hex: n.bg_visual },
-  ], 35);
+  row(
+    "neutral bg",
+    [
+      { label: "bg", hex: n.bg },
+      { label: "surface", hex: n.bg_surface },
+      { label: "cursor", hex: n.bg_cursor_line },
+      { label: "popup", hex: n.bg_popup },
+      { label: "visual", hex: n.bg_visual },
+    ],
+    35,
+  );
 
-  row("neutral fg", [
-    { label: "fg", hex: n.fg },
-    { label: "comment", hex: n.comment },
-    { label: "line_nr", hex: n.line_nr },
-    { label: "border", hex: n.border },
-    { label: "delimiter", hex: n.delimiter },
-  ], 35);
+  row(
+    "neutral fg",
+    [
+      { label: "fg", hex: n.fg },
+      { label: "comment", hex: n.comment },
+      { label: "line_nr", hex: n.line_nr },
+      { label: "border", hex: n.border },
+      { label: "delimiter", hex: n.delimiter },
+    ],
+    35,
+  );
 
   const u = result.ui;
-  row("ui", [
-    { label: "navigation", hex: u.navigation },
-    { label: "attention", hex: u.attention },
-    { label: "frame", hex: u.frame },
-    { label: "search_bg", hex: u.search_bg },
-    { label: "pmenu_sel", hex: u.pmenu_sel_bg },
-  ], 35);
+  row(
+    "ui",
+    [
+      { label: "navigation", hex: u.navigation },
+      { label: "attention", hex: u.attention },
+      { label: "frame", hex: u.frame },
+      { label: "search_bg", hex: u.search_bg },
+      { label: "pmenu_sel", hex: u.pmenu_sel_bg },
+    ],
+    35,
+  );
 
   // syntax preview
   y += 8;
@@ -893,7 +1029,9 @@ const loadCharactersFromJson = (): CharacterInput[] => {
 // ────────────────────────────────────────────────────────────
 
 const characters = loadCharactersFromJson();
-console.log(`Loaded ${characters.length} characters from ${GAME_NAMES.join(", ")}`);
+console.log(
+  `Loaded ${characters.length} characters from ${GAME_NAMES.join(", ")}`,
+);
 
 for (const char of characters) {
   console.log(`\n${"=".repeat(60)}`);
@@ -908,15 +1046,36 @@ for (const char of characters) {
   console.log(`  ${result.theme_tone} | SVG: ${svgPath}`);
 
   const a = result.accent;
-  const allAccent = [a.color1, a.color2, a.color3, a.color4, a.color5, a.color6, a.color7];
+  const allAccent = [
+    a.color1,
+    a.color2,
+    a.color3,
+    a.color4,
+    a.color5,
+    a.color6,
+    a.color7,
+  ];
   const hues = allAccent.map((h) => hexToOklch(h).h.toFixed(0)).join("° ");
   console.log(`  Hues: ${hues}°`);
-  console.log(`  accent: c1=${a.color1} c2=${a.color2} c3=${a.color3} c4=${a.color4} c5=${a.color5} c6=${a.color6} c7=${a.color7} c8=${a.color8}`);
+  console.log(
+    `  accent: c1=${a.color1} c2=${a.color2} c3=${a.color3} c4=${a.color4} c5=${a.color5} c6=${a.color6} c7=${a.color7} c8=${a.color8}`,
+  );
   console.log(`  neutral: bg=${result.neutral.bg} fg=${result.neutral.fg}`);
-  console.log(`  ui: nav=${result.ui.navigation} att=${result.ui.attention} frame=${result.ui.frame}`);
+  console.log(
+    `  ui: nav=${result.ui.navigation} att=${result.ui.attention} frame=${result.ui.frame}`,
+  );
 
   const labels = ["c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8"];
-  const accentArr = [a.color1, a.color2, a.color3, a.color4, a.color5, a.color6, a.color7, a.color8];
+  const accentArr = [
+    a.color1,
+    a.color2,
+    a.color3,
+    a.color4,
+    a.color5,
+    a.color6,
+    a.color7,
+    a.color8,
+  ];
   const warnings = checkDiscrimination(accentArr, labels);
   if (warnings.length > 0) {
     console.log(`  Discrimination warnings:`);
@@ -926,4 +1085,6 @@ for (const char of characters) {
   }
 }
 
-console.log(`\nDone. ${characters.length} characters processed. Output: ${OUTPUT_DIR}/`);
+console.log(
+  `\nDone. ${characters.length} characters processed. Output: ${OUTPUT_DIR}/`,
+);
