@@ -1,0 +1,21 @@
+{
+  "impression": {
+    "primary": {
+      "hex": "#f472d0",
+      "reason": "The vibrant, signature pink of the character's hair, which is her most defining and iconic visual feature."
+    },
+    "secondary": {
+      "hex": "#b794f4",
+      "reason": "The soft lilac and lavender tones found in her dress, eyes, and the shadows of her outfit."
+    },
+    "tertiary": {
+      "hex": "#7ab3ef",
+      "reason": "The bright blue accents seen in the crystalline jewelry, the blue rose, and the magical ornaments."
+    }
+  },
+  "theme_tone": "light",
+  "neutral": {
+    "bg_base_hex": "#fdf5f8",
+    "fg_base_hex": "#332d36"
+  }
+}
