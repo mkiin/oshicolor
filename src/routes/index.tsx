@@ -1,7 +1,10 @@
 import { analyzeColor } from "@/features/color-analyzer/repositories/analyze-color.functions";
 import {
-  PaletteView,
-  paletteResultAtom,
+  DiagnosticPaletteView,
+  EditorPaletteView,
+  SeedView,
+  SyntaxPaletteView,
+  paletteAtom,
   visionResultAtom,
 } from "@/features/palette-generator";
 import { Dropzone, ImagePreview } from "@/shared/components/ui/dropzone";
@@ -20,8 +23,10 @@ const fileToBase64 = (file: File): Promise<string> =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.addEventListener("load", () => {
-      const result = reader.result as string;
-      resolve(result.split(",")[1]);
+      const result = reader.result;
+      if (typeof result === "string") {
+        resolve(result.split(",")[1]);
+      }
     });
     reader.addEventListener("error", () => reject(reader.error));
     reader.readAsDataURL(file);
@@ -32,7 +37,7 @@ const fileMimeType = (file: File): string => file.type || "image/png";
 
 function RouteComponent() {
   const setVisionResult = useSetAtom(visionResultAtom);
-  const palette = useAtomValue(paletteResultAtom);
+  const palette = useAtomValue(paletteAtom);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   const mutation = useMutation({
@@ -42,6 +47,7 @@ function RouteComponent() {
       return analyzeColor({ data: { imageBase64, mimeType } });
     },
     onSuccess: (data) => {
+      console.log("[oshicolor] VisionResult:", JSON.stringify(data, null, 2));
       setVisionResult(data);
     },
   });
@@ -85,7 +91,16 @@ function RouteComponent() {
               className="h-full w-full object-contain"
             />
           </div>
-          {palette && <PaletteView palette={palette} />}
+          <div className="space-y-6">
+            <SeedView />
+            {palette && (
+              <>
+                <EditorPaletteView />
+                <SyntaxPaletteView />
+                <DiagnosticPaletteView />
+              </>
+            )}
+          </div>
         </div>
       )}
     </div>

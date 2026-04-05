@@ -85,11 +85,7 @@ const TreeNodeRow: React.FC<TreeNodeRowProps> = ({
   ];
 
   // アイコン
-  const icon = isDir
-    ? node.expanded
-      ? DIR_OPEN
-      : DIR_CLOSED
-    : FILE_ICON;
+  const icon = isDir ? (node.expanded ? DIR_OPEN : DIR_CLOSED) : FILE_ICON;
 
   return (
     <>
