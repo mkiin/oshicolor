@@ -25,13 +25,6 @@ export const NEUTRAL_C = {
 export const YELLOW_HUE_RANGE = { min: 60, max: 120 } as const;
 export const YELLOW_C_OVERRIDE = 0.015;
 
-export const SYNTAX_L = {
-  dark: [0.72, 0.68, 0.76, 0.7, 0.74, 0.66, 0.78, 0.72],
-  light: [0.42, 0.46, 0.38, 0.44, 0.4, 0.48, 0.36, 0.42],
-} as const;
-//       S0    S1    S2    S3   S4   S5    S6    S7
-
-export const SYNTAX_C_SCALE = 0.9;
 export const SYNTAX_C_MIN = 0.08;
 
 export const BLEND_RATIO = {
@@ -57,8 +50,8 @@ export const MIN_HUE_GAP = 30;
 export const MIN_DELTA_E = 0.08;
 
 /** APCA Lc 閾値 */
-export const LC_SYNTAX = 75;
-export const LC_DIM = 60;
+export const LC_SYNTAX = 60;
+export const LC_DIM = 45;
 export const LC_UI = 45;
 export const LC_BORDER = 30;
 

@@ -2,6 +2,7 @@
  * Syntax パレット生成
  *
  * seed 2色の hue を固定点とし、色相環を gap-fill して S0-S7 を生成する。
+ * seed の L/C をベースに、ensureContrast で最小限だけ調整する。
  */
 
 import type { Oklch, SyntaxSlot, ThemeTone } from "../types/palette";
@@ -13,17 +14,9 @@ import {
   MIN_DELTA_E,
   MIN_HUE_GAP,
   SYNTAX_C_MIN,
-  SYNTAX_C_SCALE,
-  SYNTAX_L,
 } from "./config";
 import { ensureContrast } from "./contrast";
-import {
-  clamp,
-  deltaEOk,
-  hexToOklch,
-  hueDist,
-  oklchToHex,
-} from "./oklch-utils";
+import { clamp, deltaEOk, hexToOklch, hueDist, oklchToHex } from "./oklch-utils";
 
 const SLOTS: readonly SyntaxSlot[] = [
   "accent",
@@ -36,11 +29,17 @@ const SLOTS: readonly SyntaxSlot[] = [
   "preproc",
 ];
 
+/** L の jitter オフセット (seed 平均 L からの相対値) */
+const L_JITTER = [0, 0, 0.04, -0.02, 0.06, -0.04, 0.08, 0.02] as const;
+
+/** C の jitter スケール (seed 平均 C に対する乗数) */
+const C_JITTER = [1, 1, 0.95, 1.05, 0.9, 1.1, 0.85, 1.0] as const;
+
 /** 2つの seed hue から 8色分の hue を配置する */
 const distributeHues = (h1: number, h2: number): number[] => {
   const hues: number[] = [h1, h2];
 
-  const cwArc = (h2 - h1 + 360) % 360 || 360;
+  const cwArc = ((h2 - h1 + 360) % 360) || 360;
   const ccwArc = 360 - cwArc;
 
   const total = 6;
@@ -94,20 +93,21 @@ const enforceMinHueGap = (hues: number[]): number[] => {
 export const generateSyntax = (
   seed1: Oklch,
   seed2: Oklch,
-  tone: ThemeTone,
+  _tone: ThemeTone,
   bgHex: string,
 ): Record<SyntaxSlot, string> => {
   const rawHues = distributeHues(seed1.h, seed2.h);
   const hues = enforceMinHueGap(rawHues);
 
-  const cTarget = Math.max(
-    ((seed1.c + seed2.c) / 2) * SYNTAX_C_SCALE,
-    SYNTAX_C_MIN,
-  );
+  const baseL = (seed1.l + seed2.l) / 2;
+  const baseC = Math.max((seed1.c + seed2.c) / 2, SYNTAX_C_MIN);
 
   const hexes = hues.map((h, i) => {
-    const l = SYNTAX_L[tone][i];
-    const hex = oklchToHex(l, cTarget, h);
+    // S0 = seed1 そのもの、S1 = seed2 そのもの
+    const l = i === 0 ? seed1.l : i === 1 ? seed2.l : clamp(baseL + L_JITTER[i], 0.25, 0.9);
+    const c = i === 0 ? seed1.c : i === 1 ? seed2.c : Math.max(baseC * C_JITTER[i], SYNTAX_C_MIN);
+
+    const hex = oklchToHex(l, c, h);
     return ensureContrast(hex, bgHex, LC_SYNTAX);
   });
 

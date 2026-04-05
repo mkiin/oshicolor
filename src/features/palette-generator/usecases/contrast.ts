@@ -59,7 +59,7 @@ export const contrastAPCA = (bgHex: string, fgHex: string): number => {
 /**
  * fg の L を調整して APCA |Lc| >= targetLc を保証する
  *
- * hue, chroma は維持。L のみ変更。
+ * light テーマで L を大きく下げる場合、chroma を補償して色味を維持する。
  */
 export const ensureContrast = (
   fgHex: string,
@@ -72,10 +72,17 @@ export const ensureContrast = (
   const fg = hexToOklch(fgHex);
   const bgL = hexToOklch(bgHex).l;
   const dir = bgL < 0.5 ? 1 : -1;
+  const originalL = fg.l;
 
   for (let delta = 0.005; delta <= 0.8; delta += 0.005) {
     const newL = clamp(fg.l + delta * dir, 0.05, 0.98);
-    const candidate = oklchToHex(newL, fg.c, fg.h);
+
+    // light テーマで L を下げるとき: ΔL に比例して chroma を boost
+    const deltaL = Math.abs(newL - originalL);
+    const cBoost = dir === -1 ? 1 + deltaL * 0.8 : 1;
+    const newC = clamp(fg.c * cBoost, 0, 0.3);
+
+    const candidate = oklchToHex(newL, newC, fg.h);
     if (Math.abs(contrastAPCA(bgHex, candidate)) >= targetLc) {
       return candidate;
     }
