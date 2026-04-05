@@ -1,19 +1,18 @@
 import type { VisionResult } from "@/features/palette-generator";
-import type { StandardSchemaV1 } from "@t3-oss/env-core";
 
 /** adapter に注入する設定 */
-type AnalyzerConfig = {
+type AnalyzerConfig<TSchema = unknown> = {
   model: string;
   prompt: string;
-  schema: StandardSchemaV1;
+  schema: TSchema;
 };
 
 /** color-analyzer の Gateway インターフェース (Port) */
-interface ColorAnalyzerGateway {
+interface ColorAnalyzerGateway<TSchema = unknown> {
   analyze(
     imageBase64: string,
     mimeType: string,
-    config: AnalyzerConfig,
+    config: AnalyzerConfig<TSchema>,
   ): Promise<VisionResult>;
 }
 

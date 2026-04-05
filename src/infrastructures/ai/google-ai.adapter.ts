@@ -12,9 +12,11 @@ import { GoogleGenAI } from "@google/genai";
 import { toJsonSchema } from "@valibot/to-json-schema";
 import * as v from "valibot";
 
+type VisionResultSchema = v.GenericSchema<unknown, VisionResult>;
+
 export const createGoogleAiAdapter = (
   apiKey: string,
-): ColorAnalyzerGateway => ({
+): ColorAnalyzerGateway<VisionResultSchema> => ({
   analyze: async (imageBase64, mimeType, config) => {
     const ai = new GoogleGenAI({ apiKey });
 
@@ -31,16 +33,11 @@ export const createGoogleAiAdapter = (
       ],
       config: {
         responseMimeType: "application/json",
-        responseJsonSchema: toJsonSchema(
-          config.schema as v.BaseSchema<unknown, unknown, v.BaseIssue<unknown>>,
-        ),
+        responseJsonSchema: toJsonSchema(config.schema),
       },
     });
 
     const text = response.text ?? "";
-    return v.parse(
-      config.schema as v.BaseSchema<unknown, unknown, v.BaseIssue<unknown>>,
-      JSON.parse(text),
-    ) as VisionResult;
+    return v.parse(config.schema, JSON.parse(text));
   },
 });
