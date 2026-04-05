@@ -38,15 +38,16 @@ VisionResult (AI出力)
 
 ```
 src/features/palette-generator/
-├── core/
-│   ├── hue-gap.ts           # computeGaps, fillGaps, HueGap
-│   ├── accent-palette.ts    # generateAccentPalette (Step 1〜5 統合)
-│   ├── neutral-palette.ts   # clampNeutral, deriveNeutralPalette
-│   ├── ui-colors.ts         # deriveUiColors
-│   ├── contrast.ts          # ensureContrast (既存 shared/lib/contrast.ts を利用)
-│   └── oklch-utils.ts       # hexToOklch, oklchToHex (既存流用 or re-export)
+├── usecases/
+│   ├── hue-gap.ts             # computeGaps, fillGaps, HueGap
+│   ├── accent-palette.ts      # generateAccentPalette (Step 1〜5 統合)
+│   ├── neutral-palette.ts     # clampNeutral, deriveNeutralPalette
+│   ├── ui-colors.ts           # assignUiRoles, deriveUiColors
+│   ├── contrast.ts            # ensureContrast
+│   └── oklch-utils.ts         # hexToOklch, oklchToHex, gamutClamp
+├── types/
+│   └── palette.ts             # VisionResult, PaletteResult, HueGap 等
 ├── palette-generator.schema.ts  # Valibot スキーマ
-├── palette-generator.types.ts   # 型定義
 └── index.ts
 ```
 
@@ -858,7 +859,7 @@ debug/vision-ai/{game}/{char}.svg
 ### テストファイル配置
 
 ```
-src/features/palette-generator/core/__tests__/
+src/features/palette-generator/usecases/__tests__/
 ├── hue-gap.test.ts
 ├── accent-palette.test.ts
 ├── neutral-palette.test.ts
