@@ -60,7 +60,6 @@ type UiColors = {
 };
 
 type PaletteResult = {
-  theme_tone: "dark" | "light";
   neutral: NeutralPalette;
   accent: AccentPalette;
   ui: UiColors;
@@ -74,7 +73,6 @@ type CharacterInput = {
   tertiary: string;
   bg: string;
   fg: string;
-  theme_tone: "dark" | "light";
 };
 
 // ============================================================
@@ -136,23 +134,16 @@ function ensureContrast(
   fgHex: string,
   bgHex: string,
   minRatio: number,
-  themeTone: "dark" | "light",
 ): string {
   if (contrastRatio(fgHex, bgHex) >= minRatio) return fgHex;
   const { l, c, h } = hexToOklch(fgHex);
   const step = 0.01;
-  if (themeTone === "dark") {
-    for (let ll = l + step; ll <= 0.95; ll += step) {
-      const hex = gamutClamp(ll, c, h);
-      if (contrastRatio(hex, bgHex) >= minRatio) return hex;
-    }
-    return gamutClamp(0.95, c, h);
-  }
-  for (let ll = l - step; ll >= 0.05; ll -= step) {
+  // dark theme: L を上げる方向に探索
+  for (let ll = l + step; ll <= 0.95; ll += step) {
     const hex = gamutClamp(ll, c, h);
     if (contrastRatio(hex, bgHex) >= minRatio) return hex;
   }
-  return gamutClamp(0.05, c, h);
+  return gamutClamp(0.95, c, h);
 }
 
 // ============================================================
@@ -260,19 +251,14 @@ function resolveErrorHue(primaryHue: number): number {
  * Gemini research: accent 間 ΔL > 0.05 で視覚的に区別可能
  * ここでは隣接 ΔL=0.04 だが、非隣接は ΔL≥0.08 を確保
  */
-const L_JITTER_DARK = [0.68, 0.76, 0.72, 0.8];
-const L_JITTER_LIGHT = [0.42, 0.5, 0.46, 0.38];
+const L_JITTER = [0.68, 0.76, 0.72, 0.8];
 
 function computeTargetLC(
   seeds: OklchValues[],
-  themeTone: "dark" | "light",
 ): { lValues: number[]; c: number } {
   const chromas = seeds.map((s) => s.c).sort((a, b) => a - b);
   const cTarget = chromas[Math.floor(chromas.length / 2)] * CHROMA_SCALE;
-  return {
-    lValues: themeTone === "dark" ? L_JITTER_DARK : L_JITTER_LIGHT,
-    c: cTarget,
-  };
+  return { lValues: L_JITTER, c: cTarget };
 }
 
 // ============================================================
@@ -336,14 +322,8 @@ function enforceMinHueGap(seedHues: number[], filledHues: number[]): number[] {
 // ============================================================
 
 const NEUTRAL_LIMITS = {
-  dark: {
-    bg: { lMin: 0.1, lMax: 0.22, cMax: 0.02, cFallback: 0.015 },
-    fg: { lMin: 0.82, lMax: 0.92 },
-  },
-  light: {
-    bg: { lMin: 0.92, lMax: 0.95, cMax: 0.02, cFallback: 0.015 },
-    fg: { lMin: 0.15, lMax: 0.25 },
-  },
+  bg: { lMin: 0.1, lMax: 0.22, cMax: 0.02, cFallback: 0.015 },
+  fg: { lMin: 0.82, lMax: 0.92 },
 };
 
 function clamp(v: number, min: number, max: number): number {
@@ -353,18 +333,16 @@ function clamp(v: number, min: number, max: number): number {
 function clampNeutral(
   bgHex: string,
   fgHex: string,
-  themeTone: "dark" | "light",
 ): { bg: OklchValues; fg: OklchValues } {
-  const limits = NEUTRAL_LIMITS[themeTone];
   const bgO = hexToOklch(bgHex);
   const fgO = hexToOklch(fgHex);
   return {
     bg: {
-      l: clamp(bgO.l, limits.bg.lMin, limits.bg.lMax),
-      c: bgO.c > limits.bg.cMax ? limits.bg.cFallback : bgO.c,
+      l: clamp(bgO.l, NEUTRAL_LIMITS.bg.lMin, NEUTRAL_LIMITS.bg.lMax),
+      c: bgO.c > NEUTRAL_LIMITS.bg.cMax ? NEUTRAL_LIMITS.bg.cFallback : bgO.c,
       h: bgO.h,
     },
-    fg: { l: clamp(fgO.l, limits.fg.lMin, limits.fg.lMax), c: fgO.c, h: fgO.h },
+    fg: { l: clamp(fgO.l, NEUTRAL_LIMITS.fg.lMin, NEUTRAL_LIMITS.fg.lMax), c: fgO.c, h: fgO.h },
   };
 }
 
@@ -375,25 +353,18 @@ function clampNeutral(
 function deriveNeutralPalette(
   bg: OklchValues,
   fg: OklchValues,
-  themeTone: "dark" | "light",
 ): NeutralPalette {
-  const sign = themeTone === "dark" ? 1 : -1;
-  const fgL =
-    themeTone === "dark"
-      ? { comment: 0.45, line_nr: 0.4, border: 0.3, delimiter: 0.6 }
-      : { comment: 0.55, line_nr: 0.6, border: 0.7, delimiter: 0.55 };
-
   return {
     bg: oklchVToHex(bg),
     fg: oklchVToHex(fg),
-    bg_surface: oklchToHex(bg.l + 0.02 * sign, bg.c, bg.h),
-    bg_cursor_line: oklchToHex(bg.l + 0.05 * sign, bg.c + 0.01, bg.h),
-    bg_popup: oklchToHex(bg.l + 0.04 * sign, bg.c, bg.h),
-    bg_visual: oklchToHex(bg.l + 0.08 * sign, bg.c, bg.h), // 仮値、後で navigation hue で上書き
-    comment: oklchToHex(fgL.comment, bg.c, fg.h),
-    line_nr: oklchToHex(fgL.line_nr, bg.c, fg.h),
-    border: oklchToHex(fgL.border, bg.c, fg.h),
-    delimiter: oklchToHex(fgL.delimiter, bg.c, fg.h),
+    bg_surface: oklchToHex(bg.l + 0.02, bg.c, bg.h),
+    bg_cursor_line: oklchToHex(bg.l + 0.05, bg.c + 0.01, bg.h),
+    bg_popup: oklchToHex(bg.l + 0.04, bg.c, bg.h),
+    bg_visual: oklchToHex(bg.l + 0.08, bg.c, bg.h), // 仮値、後で navigation hue で上書き
+    comment: oklchToHex(0.45, bg.c, fg.h),
+    line_nr: oklchToHex(0.4, bg.c, fg.h),
+    border: oklchToHex(0.3, bg.c, fg.h),
+    delimiter: oklchToHex(0.6, bg.c, fg.h),
   };
 }
 
@@ -404,15 +375,10 @@ function deriveNeutralPalette(
 const VARIANT1_CHROMA_SCALE = 0.6;
 const VARIANT3_L_OFFSET = 0.08;
 
-function generateVariants(
-  c1: OklchValues,
-  c3: OklchValues,
-  themeTone: "dark" | "light",
-) {
-  const sign = themeTone === "dark" ? 1 : -1;
+function generateVariants(c1: OklchValues, c3: OklchValues) {
   return {
     color1_variant: { l: c1.l, c: c1.c * VARIANT1_CHROMA_SCALE, h: c1.h },
-    color3_variant: { l: c3.l + VARIANT3_L_OFFSET * sign, c: c3.c, h: c3.h },
+    color3_variant: { l: c3.l + VARIANT3_L_OFFSET, c: c3.c, h: c3.h },
   };
 }
 
@@ -471,7 +437,6 @@ const DISCRIMINATION_MAX_ITER = 5;
 function fixDiscrimination(
   accentHexes: string[],
   bgHex: string,
-  themeTone: "dark" | "light",
 ): string[] {
   const result = [...accentHexes];
   const bgOklab = hexToOklab(bgHex);
@@ -524,7 +489,6 @@ function fixDiscrimination(
         gamutClamp(newL, oklchTarget.c, oklchTarget.h),
         bgHex,
         CONTRAST_AA,
-        themeTone,
       );
       const dist = oklabDist(hexToOklab(candidate), hexToOklab(result[other]));
       if (dist > bestDist) {
@@ -544,10 +508,8 @@ function fixDiscrimination(
 const UI_BG_CR_MIN = 3.0;
 const UI_FG_CR_MIN = 2.0;
 const FRAME_CHROMA_SCALE = 0.5;
-const FRAME_L_DARK = 0.35;
-const FRAME_L_LIGHT = 0.65;
-const SEARCH_BG_L_DARK = 0.3;
-const SEARCH_BG_L_LIGHT = 0.85;
+const FRAME_L = 0.35;
+const SEARCH_BG_L = 0.3;
 
 /**
  * UI ロール割り当て
@@ -559,14 +521,13 @@ function assignUiRoles(
   colors: OklchValues[],
   bgHex: string,
   fgHex: string,
-  themeTone: "dark" | "light",
 ): { navigationHex: string; attentionIdx: number; attentionOverride?: string } {
   const primary = colors[0];
   const primaryOklab = hexToOklab(oklchVToHex(primary));
 
   // navigation = primary そのまま。ensureContrast で bg とのコントラストのみ保証
   let navigationHex = gamutClamp(primary.l, primary.c, primary.h);
-  navigationHex = ensureContrast(navigationHex, bgHex, UI_BG_CR_MIN, themeTone);
+  navigationHex = ensureContrast(navigationHex, bgHex, UI_BG_CR_MIN);
 
   // attention = secondary/tertiary から、primary との距離 × 彩度 が最大のもの
   const candidates = [1, 2].map((i) => {
@@ -586,13 +547,12 @@ function assignUiRoles(
   }
 
   // 救済: L を調整してコントラストを確保
-  let rescued = ensureContrast(attHex, bgHex, UI_BG_CR_MIN, themeTone);
+  let rescued = ensureContrast(attHex, bgHex, UI_BG_CR_MIN);
   if (contrastRatio(rescued, fgHex) < UI_FG_CR_MIN) {
     const oklch = hexToOklch(rescued);
     const fgOklch = hexToOklch(fgHex);
-    const direction = themeTone === "dark"
-      ? (oklch.l > fgOklch.l ? -1 : 1)
-      : (oklch.l < fgOklch.l ? 1 : -1);
+    // dark theme: fg より明るければ暗く、逆なら明るく
+    const direction = oklch.l > fgOklch.l ? -1 : 1;
     for (let ll = oklch.l + 0.01 * direction; ll > 0.05 && ll < 0.95; ll += 0.01 * direction) {
       const hex = gamutClamp(ll, oklch.c, oklch.h);
       if (contrastRatio(hex, bgHex) >= UI_BG_CR_MIN && contrastRatio(hex, fgHex) >= UI_FG_CR_MIN) {
@@ -608,22 +568,13 @@ function deriveUiColors(
   colors: OklchValues[],
   roles: { navigationHex: string; attentionIdx: number; attentionOverride?: string },
   bgVisualHex: string,
-  themeTone: "dark" | "light",
 ): UiColors {
   const nav = hexToOklch(roles.navigationHex);
   return {
     navigation: roles.navigationHex,
     attention: roles.attentionOverride ?? oklchVToHex(colors[roles.attentionIdx]),
-    frame: gamutClamp(
-      themeTone === "dark" ? FRAME_L_DARK : FRAME_L_LIGHT,
-      nav.c * FRAME_CHROMA_SCALE,
-      nav.h,
-    ),
-    search_bg: gamutClamp(
-      themeTone === "dark" ? SEARCH_BG_L_DARK : SEARCH_BG_L_LIGHT,
-      nav.c,
-      nav.h,
-    ),
+    frame: gamutClamp(FRAME_L, nav.c * FRAME_CHROMA_SCALE, nav.h),
+    search_bg: gamutClamp(SEARCH_BG_L, nav.c, nav.h),
     pmenu_sel_bg: bgVisualHex,
   };
 }
@@ -633,8 +584,6 @@ function deriveUiColors(
 // ============================================================
 
 function generatePalette(input: CharacterInput): PaletteResult {
-  const themeTone = input.theme_tone;
-
   // AI 3色 → OKLCH
   const rawSeeds = [
     hexToOklch(input.primary),
@@ -654,7 +603,7 @@ function generatePalette(input: CharacterInput): PaletteResult {
   const filledHues = enforceMinHueGap(seedHues, rawFilledHues);
 
   // Step 3: L 分散 (O'Donovan 2011 — Luminance Jittering)
-  const target = computeTargetLC(seeds, themeTone);
+  const target = computeTargetLC(seeds);
 
   // color4〜7 — L を色相順 zigzag で割り当て（隣接 hue の ΔL を最大化）
   const lPool = [...target.lValues].sort((a, b) => a - b);
@@ -673,7 +622,7 @@ function generatePalette(input: CharacterInput): PaletteResult {
     h,
   }));
   // color8 (error) — BUG-1: primary と近い場合にずらす
-  const errorL = themeTone === "dark" ? 0.72 : 0.45;
+  const errorL = 0.72;
   const errorHue = resolveErrorHue(seeds[0].h);
   const color8: OklchValues = {
     l: errorL,
@@ -682,11 +631,11 @@ function generatePalette(input: CharacterInput): PaletteResult {
   };
 
   // variants
-  const variants = generateVariants(seeds[0], seeds[2], themeTone);
+  const variants = generateVariants(seeds[0], seeds[2]);
 
   // neutral
-  const clamped = clampNeutral(input.bg, input.fg, themeTone);
-  const neutral = deriveNeutralPalette(clamped.bg, clamped.fg, themeTone);
+  const clamped = clampNeutral(input.bg, input.fg);
+  const neutral = deriveNeutralPalette(clamped.bg, clamped.fg);
 
   // コントラスト保証 (accent)
   const bgHex = neutral.bg;
@@ -695,7 +644,6 @@ function generatePalette(input: CharacterInput): PaletteResult {
       gamutClamp(seeds[0].l, seeds[0].c, seeds[0].h),
       bgHex,
       CONTRAST_AA,
-      themeTone,
     ),
     color1_variant: ensureContrast(
       gamutClamp(
@@ -705,19 +653,16 @@ function generatePalette(input: CharacterInput): PaletteResult {
       ),
       bgHex,
       CONTRAST_AA,
-      themeTone,
     ),
     color2: ensureContrast(
       gamutClamp(seeds[1].l, seeds[1].c, seeds[1].h),
       bgHex,
       CONTRAST_AA,
-      themeTone,
     ),
     color3: ensureContrast(
       gamutClamp(seeds[2].l, seeds[2].c, seeds[2].h),
       bgHex,
       CONTRAST_AA,
-      themeTone,
     ),
     color3_variant: ensureContrast(
       gamutClamp(
@@ -727,37 +672,31 @@ function generatePalette(input: CharacterInput): PaletteResult {
       ),
       bgHex,
       CONTRAST_AA,
-      themeTone,
     ),
     color4: ensureContrast(
       gamutClamp(filledColors[0].l, filledColors[0].c, filledColors[0].h),
       bgHex,
       CONTRAST_AA,
-      themeTone,
     ),
     color5: ensureContrast(
       gamutClamp(filledColors[1].l, filledColors[1].c, filledColors[1].h),
       bgHex,
       CONTRAST_AA,
-      themeTone,
     ),
     color6: ensureContrast(
       gamutClamp(filledColors[2].l, filledColors[2].c, filledColors[2].h),
       bgHex,
       CONTRAST_AA,
-      themeTone,
     ),
     color7: ensureContrast(
       gamutClamp(filledColors[3].l, filledColors[3].c, filledColors[3].h),
       bgHex,
       CONTRAST_AA,
-      themeTone,
     ),
     color8: ensureContrast(
       gamutClamp(color8.l, color8.c, color8.h),
       bgHex,
       CONTRAST_AA,
-      themeTone,
     ),
   };
 
@@ -772,7 +711,7 @@ function generatePalette(input: CharacterInput): PaletteResult {
     accentHexes.color7,
     accentHexes.color8,
   ];
-  const fixedAccent = fixDiscrimination(accentArray, bgHex, themeTone);
+  const fixedAccent = fixDiscrimination(accentArray, bgHex);
   accentHexes.color1 = fixedAccent[0];
   accentHexes.color2 = fixedAccent[1];
   accentHexes.color3 = fixedAccent[2];
@@ -783,31 +722,11 @@ function generatePalette(input: CharacterInput): PaletteResult {
   accentHexes.color8 = fixedAccent[7];
 
   // コントラスト保証 (neutral fg 系)
-  const adjustedFg = ensureContrast(neutral.fg, bgHex, CONTRAST_AA, themeTone);
-  const adjustedComment = ensureContrast(
-    neutral.comment,
-    bgHex,
-    CONTRAST_SUBDUED,
-    themeTone,
-  );
-  const adjustedLineNr = ensureContrast(
-    neutral.line_nr,
-    bgHex,
-    CONTRAST_SUBDUED,
-    themeTone,
-  );
-  const adjustedBorder = ensureContrast(
-    neutral.border,
-    bgHex,
-    CONTRAST_SUBDUED,
-    themeTone,
-  );
-  const adjustedDelimiter = ensureContrast(
-    neutral.delimiter,
-    bgHex,
-    CONTRAST_SUBDUED,
-    themeTone,
-  );
+  const adjustedFg = ensureContrast(neutral.fg, bgHex, CONTRAST_AA);
+  const adjustedComment = ensureContrast(neutral.comment, bgHex, CONTRAST_SUBDUED);
+  const adjustedLineNr = ensureContrast(neutral.line_nr, bgHex, CONTRAST_SUBDUED);
+  const adjustedBorder = ensureContrast(neutral.border, bgHex, CONTRAST_SUBDUED);
+  const adjustedDelimiter = ensureContrast(neutral.delimiter, bgHex, CONTRAST_SUBDUED);
 
   // neutral fg 系の最小 ΔL 保証 (同色収束防止)
   // 期待順序 dark: delimiter > comment > line_nr > border (明→暗)
@@ -827,63 +746,38 @@ function generatePalette(input: CharacterInput): PaletteResult {
     return oklchs.map(oklchVToHex);
   };
 
-  const spacedNeutralFg =
-    themeTone === "dark"
-      ? ensureSpacing(
-          [adjustedDelimiter, adjustedComment, adjustedLineNr, adjustedBorder],
-          1,
-        )
-      : ensureSpacing(
-          [adjustedBorder, adjustedLineNr, adjustedComment, adjustedDelimiter],
-          -1,
-        );
+  // dark: delimiter > comment > line_nr > border (明→暗)
+  const spacedNeutralFg = ensureSpacing(
+    [adjustedDelimiter, adjustedComment, adjustedLineNr, adjustedBorder],
+    1,
+  );
 
-  const adjustedNeutral: NeutralPalette =
-    themeTone === "dark"
-      ? {
-          ...neutral,
-          fg: adjustedFg,
-          delimiter: spacedNeutralFg[0],
-          comment: spacedNeutralFg[1],
-          line_nr: spacedNeutralFg[2],
-          border: spacedNeutralFg[3],
-        }
-      : {
-          ...neutral,
-          fg: adjustedFg,
-          border: spacedNeutralFg[0],
-          line_nr: spacedNeutralFg[1],
-          comment: spacedNeutralFg[2],
-          delimiter: spacedNeutralFg[3],
-        };
+  const adjustedNeutral: NeutralPalette = {
+    ...neutral,
+    fg: adjustedFg,
+    delimiter: spacedNeutralFg[0],
+    comment: spacedNeutralFg[1],
+    line_nr: spacedNeutralFg[2],
+    border: spacedNeutralFg[3],
+  };
 
   // UI ロール
   const seedsForUi = seeds.map((s, i) => {
     const hex = [accentHexes.color1, accentHexes.color2, accentHexes.color3][i];
     return hexToOklch(hex);
   });
-  const roles = assignUiRoles(seedsForUi, bgHex, adjustedNeutral.fg, themeTone);
+  const roles = assignUiRoles(seedsForUi, bgHex, adjustedNeutral.fg);
 
   // bg_visual を navigation の hue で着色 (tokyonight 方式)
   const navOklch = hexToOklch(roles.navigationHex);
   const bgOklch = hexToOklch(bgHex);
   const visualC = 0.04;
-  const visualL = bgOklch.l + 0.08 * (themeTone === "dark" ? 1 : -1);
+  const visualL = bgOklch.l + 0.08;
   adjustedNeutral.bg_visual = gamutClamp(visualL, visualC, navOklch.h);
 
-  const ui = deriveUiColors(
-    seedsForUi,
-    roles,
-    adjustedNeutral.bg_visual,
-    themeTone,
-  );
+  const ui = deriveUiColors(seedsForUi, roles, adjustedNeutral.bg_visual);
 
-  return {
-    theme_tone: themeTone,
-    neutral: adjustedNeutral,
-    accent: accentHexes,
-    ui,
-  };
+  return { neutral: adjustedNeutral, accent: accentHexes, ui };
 }
 
 // ============================================================
@@ -930,11 +824,9 @@ function generateSvg(
   };
 
   // タイトル
-  const titleColor = input.theme_tone === "dark" ? "#ccc" : "#333";
-  const metaColor = input.theme_tone === "dark" ? "#666" : "#888";
-  const labelColor = input.theme_tone === "dark" ? "#888" : "#666";
-  body += `  <text x="${P}" y="${y + 16}" fill="${titleColor}" font-size="16" font-weight="bold">${name}</text>`;
-  body += `  <text x="${P + 200}" y="${y + 16}" fill="${metaColor}" font-size="12">${input.game} / ${input.theme_tone}</text>\n`;
+  const labelColor = "#888";
+  body += `  <text x="${P}" y="${y + 16}" fill="#ccc" font-size="16" font-weight="bold">${name}</text>`;
+  body += `  <text x="${P + 200}" y="${y + 16}" fill="#666" font-size="12">${input.game}</text>\n`;
   y += 28;
 
   // AI 入力
@@ -1082,8 +974,7 @@ function generateSvg(
   y += 128;
 
   const totalH = y + P;
-  const svgBg = input.theme_tone === "dark" ? "#0a0a0a" : "#f5f5f5";
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${totalH}" style="background:${svgBg}; font-family:ui-monospace,monospace;">\n${body}</svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${totalH}" style="background:#0a0a0a; font-family:ui-monospace,monospace;">\n${body}</svg>`;
 }
 
 // ============================================================
@@ -1099,7 +990,6 @@ const CHARACTERS: CharacterInput[] = [
     tertiary: "#ece8e1",
     bg: "#252320",
     fg: "#e5e2de",
-    theme_tone: "dark",
   },
   {
     name: "Amber",
@@ -1109,7 +999,6 @@ const CHARACTERS: CharacterInput[] = [
     tertiary: "#DDA35D",
     bg: "#231E1D",
     fg: "#E8E0DE",
-    theme_tone: "dark",
   },
   {
     name: "Acheron",
@@ -1119,7 +1008,6 @@ const CHARACTERS: CharacterInput[] = [
     tertiary: "#2d2d31",
     bg: "#1a1920",
     fg: "#e0dfe6",
-    theme_tone: "dark",
   },
   {
     name: "Hyacine",
@@ -1129,120 +1017,97 @@ const CHARACTERS: CharacterInput[] = [
     tertiary: "#7ce2e4",
     bg: "#fcf4f5",
     fg: "#382d2e",
-    theme_tone: "light",
   },
   // === 原神 24キャラ検証セット ===
   {
     name: "Klee", game: "genshin",
     primary: "#B32D1E", secondary: "#F2E6CE", tertiary: "#C1924B",
-    bg: "#FDF6F2", fg: "#3B3330", theme_tone: "light",
-  },
+    bg: "#FDF6F2", fg: "#3B3330",  },
   {
     name: "Yanfei", game: "genshin",
     primary: "#b43e48", secondary: "#f6a89e", tertiary: "#36b39e",
-    bg: "#1c1616", fg: "#e8e0e0", theme_tone: "dark",
-  },
+    bg: "#1c1616", fg: "#e8e0e0",  },
   {
     name: "Yoimiya", game: "genshin",
     primary: "#d24335", secondary: "#ebb175", tertiary: "#333246",
-    bg: "#fcf7f4", fg: "#3a3331", theme_tone: "light",
-  },
+    bg: "#fcf7f4", fg: "#3a3331",  },
   {
     name: "Navia", game: "genshin",
     primary: "#e8b159", secondary: "#2c3340", tertiary: "#4ba6f5",
-    bg: "#1f1d1a", fg: "#e2ded3", theme_tone: "dark",
-  },
+    bg: "#1f1d1a", fg: "#e2ded3",  },
   {
     name: "Baizhu", game: "genshin",
     primary: "#4caf80", secondary: "#1a5166", tertiary: "#8c78a5",
-    bg: "#191f1c", fg: "#dfe5e1", theme_tone: "dark",
-  },
+    bg: "#191f1c", fg: "#dfe5e1",  },
   {
     name: "Nahida", game: "genshin",
     primary: "#8fc84c", secondary: "#f9fcf7", tertiary: "#c5a963",
-    bg: "#f5f9f4", fg: "#2e352d", theme_tone: "light",
-  },
+    bg: "#f5f9f4", fg: "#2e352d",  },
   {
     name: "Faruzan", game: "genshin",
     primary: "#a5d7e1", secondary: "#415e79", tertiary: "#c0a172",
-    bg: "#f3fafa", fg: "#2e3435", theme_tone: "light",
-  },
+    bg: "#f3fafa", fg: "#2e3435",  },
   {
     name: "Furina", game: "genshin",
     primary: "#213c91", secondary: "#4cc9f0", tertiary: "#cca86a",
-    bg: "#171921", fg: "#d9e0ee", theme_tone: "dark",
-  },
+    bg: "#171921", fg: "#d9e0ee",  },
   {
     name: "Clorinde", game: "genshin",
     primary: "#4b4da3", secondary: "#1c1c2a", tertiary: "#c5a165",
-    bg: "#1a1a24", fg: "#e0e0f0", theme_tone: "dark",
-  },
+    bg: "#1a1a24", fg: "#e0e0f0",  },
   {
     name: "RaidenShogun", game: "genshin",
     primary: "#51388d", secondary: "#b19bd9", tertiary: "#74293a",
-    bg: "#1b1623", fg: "#e2deeb", theme_tone: "dark",
-  },
+    bg: "#1b1623", fg: "#e2deeb",  },
   {
     name: "Chevreuse", game: "genshin",
     primary: "#7543a3", secondary: "#a02b37", tertiary: "#2e2321",
-    bg: "#1b181c", fg: "#dbd7df", theme_tone: "dark",
-  },
+    bg: "#1b181c", fg: "#dbd7df",  },
   // === スターレイル 24キャラ検証セット ===
   {
     name: "Argenti", game: "starrail",
     primary: "#C11B17", secondary: "#D6D6D6", tertiary: "#B89753",
-    bg: "#201A1A", fg: "#EDE6E6", theme_tone: "dark",
-  },
+    bg: "#201A1A", fg: "#EDE6E6",  },
   {
     name: "Lingsha", game: "starrail",
     primary: "#c03127", secondary: "#352a26", tertiary: "#569c87",
-    bg: "#27201f", fg: "#e5dbd9", theme_tone: "dark",
-  },
+    bg: "#27201f", fg: "#e5dbd9",  },
   {
     name: "Guinaifen", game: "starrail",
     primary: "#b03030", secondary: "#f2907d", tertiary: "#d4a04d",
-    bg: "#1d1918", fg: "#efe8e6", theme_tone: "dark",
-  },
+    bg: "#1d1918", fg: "#efe8e6",  },
   {
     name: "Aglaea", game: "starrail",
     primary: "#e8c45e", secondary: "#f5f0e6", tertiary: "#382f2d",
-    bg: "#fcf9f0", fg: "#33312c", theme_tone: "light",
-  },
+    bg: "#fcf9f0", fg: "#33312c",  },
   {
     name: "Luocha", game: "starrail",
     primary: "#e2c275", secondary: "#24524c", tertiary: "#f1d575",
-    bg: "#1c1c1a", fg: "#e5e3df", theme_tone: "dark",
-  },
+    bg: "#1c1c1a", fg: "#e5e3df",  },
   {
     name: "Huohuo", game: "starrail",
     primary: "#97d2a8", secondary: "#5ef1f1", tertiary: "#ffa34d",
-    bg: "#1a2120", fg: "#dce4e2", theme_tone: "dark",
-  },
+    bg: "#1a2120", fg: "#dce4e2",  },
   {
     name: "Anaxa", game: "starrail",
     primary: "#30acc7", secondary: "#879b94", tertiary: "#bd1f24",
-    bg: "#161c1e", fg: "#d9e1e3", theme_tone: "dark",
-  },
+    bg: "#161c1e", fg: "#d9e1e3",  },
   {
     name: "Gepard", game: "starrail",
     primary: "#0059ff", secondary: "#e1e5f0", tertiary: "#d4af37",
-    bg: "#151a24", fg: "#d8dee9", theme_tone: "dark",
-  },
+    bg: "#151a24", fg: "#d8dee9",  },
   {
     name: "DrRatio", game: "starrail",
     primary: "#3c3e9a", secondary: "#cca852", tertiary: "#fdfaf5",
-    bg: "#171720", fg: "#d2d2e1", theme_tone: "dark",
-  },
+    bg: "#171720", fg: "#d2d2e1",  },
   {
     name: "BlackSwan", game: "starrail",
     primary: "#8b5cf6", secondary: "#352150", tertiary: "#eec152",
-    bg: "#1c1825", fg: "#e3dee7", theme_tone: "dark",
-  },
+    bg: "#1c1825", fg: "#e3dee7",  },
   {
     name: "Kafka", game: "starrail",
     primary: "#8b2c4c", secondary: "#312a36", tertiary: "#e9e5e9",
-    bg: "#1c191d", fg: "#dbd7dc", theme_tone: "dark",
-  },
+    bg: "#1c191d", fg: "#dbd7dc",  },
 ];
 
 // ============================================================
@@ -1253,7 +1118,7 @@ const OUTPUT_DIR = "debug/palette-v01";
 
 for (const char of CHARACTERS) {
   console.log(`\n${"=".repeat(60)}`);
-  console.log(`${char.name} (${char.game}) — ${char.theme_tone}`);
+  console.log(`${char.name} (${char.game})`);
 
   const result = generatePalette(char);
 
