@@ -1,0 +1,34 @@
+{
+  "theme_tone": "dark",
+  "neutral": {
+    "bg": "#1c1a17",
+    "fg": "#e5e2de",
+    "bg_surface": "#211f1c",
+    "bg_cursor_line": "#23211e",
+    "bg_popup": "#262421",
+    "bg_visual": "#2b2925",
+    "comment": "#686662",
+    "line_nr": "#696562",
+    "border": "#696562",
+    "delimiter": "#82807c"
+  },
+  "accent": {
+    "color1": "#d6ad60",
+    "color1_variant": "#c9b085",
+    "color2": "#6b7dce",
+    "color3": "#ece8e1",
+    "color3_variant": "#ffffff",
+    "color4": "#59b8a4",
+    "color5": "#d68ba5",
+    "color6": "#91b16f",
+    "color7": "#5ab1d2",
+    "color8": "#f47b74"
+  },
+  "ui": {
+    "navigation": "#6b7dce",
+    "attention": "#6b7dce",
+    "frame": "#30385b",
+    "search_bg": "#1c226b",
+    "pmenu_sel_bg": "#2b2925"
+  }
+}
