@@ -47,23 +47,6 @@ export const VisionResultSchema = v.object({
       "Choose the background tone that makes the character's colors look natural and comfortable for long reading sessions. Most characters suit dark. Choose light only when the character's palette is overwhelmingly pale or pastel.",
     ),
   ),
-  neutral: v.pipe(
-    v.object({
-      bg_base_hex: v.pipe(
-        HexColor,
-        v.description(
-          "Very dark bg for dark theme (OKLCH L≈0.14, C≈0.015) or very light for light theme (L≈0.95), tinted with the character's dominant hue",
-        ),
-      ),
-      fg_base_hex: v.pipe(
-        HexColor,
-        v.description(
-          "Light text for dark theme (OKLCH L≈0.87, C≈0.012) or dark text for light theme (L≈0.20)",
-        ),
-      ),
-    }),
-    v.description("Neutral background and foreground colors for the editor"),
-  ),
 });
 
 export const COLOR_ANALYZER_CONFIG = {
@@ -73,7 +56,6 @@ export const COLOR_ANALYZER_CONFIG = {
 Rules:
 - impression: the CHARACTER's iconic colors (not background). primary = single most symbolic color
 - theme_tone: choose the background tone that makes the character's colors look natural
-- neutral: subtly tinted with the character's dominant hue
 - Be precise with HEX values — estimate them as accurately as possible from what you see`,
   schema: VisionResultSchema,
 } as const;
