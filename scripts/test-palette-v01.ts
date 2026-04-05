@@ -341,7 +341,7 @@ const NEUTRAL_LIMITS = {
     fg: { lMin: 0.82, lMax: 0.92 },
   },
   light: {
-    bg: { lMin: 0.92, lMax: 0.98, cMax: 0.02, cFallback: 0.015 },
+    bg: { lMin: 0.92, lMax: 0.95, cMax: 0.02, cFallback: 0.015 },
     fg: { lMin: 0.15, lMax: 0.25 },
   },
 };

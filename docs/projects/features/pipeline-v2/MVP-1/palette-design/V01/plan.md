@@ -163,7 +163,7 @@ color3_variant = color3 の L を +0.08 (dark) / -0.08 (light)（明度違いで
 ```
 bg_base_hex → OKLCH に変換
   dark:  L が 0.10〜0.18 外なら補正、C > 0.02 なら 0.015 に補正
-  light: L が 0.92〜0.98 外なら補正、C > 0.02 なら 0.015 に補正
+  light: L が 0.92〜0.95 外なら補正、C > 0.02 なら 0.015 に補正
   H はそのまま（AI が選んだ色相を尊重）
 
 fg_base_hex → OKLCH に変換

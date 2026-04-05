@@ -24,15 +24,15 @@
   <rect x="138.2" y="167" width="119.2" height="40" fill="#7f3c3d" rx="2"/>
   <text x="141.2" y="178" fill="#ffffff" font-size="7" opacity="0.8">c1v tag</text>
   <text x="197.79999999999998" y="203" fill="#ffffff" font-size="8" text-anchor="middle">#7f3c3d</text>
-  <rect x="260.4" y="167" width="119.2" height="40" fill="#9a5f64" rx="2"/>
+  <rect x="260.4" y="167" width="119.2" height="40" fill="#965c62" rx="2"/>
   <text x="263.4" y="178" fill="#ffffff" font-size="7" opacity="0.8">c2 func</text>
-  <text x="320" y="203" fill="#ffffff" font-size="8" text-anchor="middle">#9a5f64</text>
-  <rect x="382.6" y="167" width="119.2" height="40" fill="#007c7e" rx="2"/>
+  <text x="320" y="203" fill="#ffffff" font-size="8" text-anchor="middle">#965c62</text>
+  <rect x="382.6" y="167" width="119.2" height="40" fill="#007678" rx="2"/>
   <text x="385.6" y="178" fill="#ffffff" font-size="7" opacity="0.8">c3 const</text>
-  <text x="442.20000000000005" y="203" fill="#ffffff" font-size="8" text-anchor="middle">#007c7e</text>
-  <rect x="504.8" y="167" width="119.2" height="40" fill="#007c7f" rx="2"/>
+  <text x="442.20000000000005" y="203" fill="#ffffff" font-size="8" text-anchor="middle">#007678</text>
+  <rect x="504.8" y="167" width="119.2" height="40" fill="#007678" rx="2"/>
   <text x="507.8" y="178" fill="#ffffff" font-size="7" opacity="0.8">c3v num</text>
-  <text x="564.4" y="203" fill="#ffffff" font-size="8" text-anchor="middle">#007c7f</text>
+  <text x="564.4" y="203" fill="#ffffff" font-size="8" text-anchor="middle">#007678</text>
   <text x="16" y="222" fill="#666" font-size="10">accent (gap-filled)</text>
   <rect x="16" y="228" width="119.2" height="40" fill="#49457a" rx="2"/>
   <text x="19" y="239" fill="#ffffff" font-size="7" opacity="0.8">c4 string</text>
@@ -40,9 +40,9 @@
   <rect x="138.2" y="228" width="119.2" height="40" fill="#464500" rx="2"/>
   <text x="141.2" y="239" fill="#ffffff" font-size="7" opacity="0.8">c5 type</text>
   <text x="197.79999999999998" y="264" fill="#ffffff" font-size="8" text-anchor="middle">#464500</text>
-  <rect x="260.4" y="228" width="119.2" height="40" fill="#276087" rx="2"/>
+  <rect x="260.4" y="228" width="119.2" height="40" fill="#1d577e" rx="2"/>
   <text x="263.4" y="239" fill="#ffffff" font-size="7" opacity="0.8">c6 special</text>
-  <text x="320" y="264" fill="#ffffff" font-size="8" text-anchor="middle">#276087</text>
+  <text x="320" y="264" fill="#ffffff" font-size="8" text-anchor="middle">#1d577e</text>
   <rect x="382.6" y="228" width="119.2" height="40" fill="#7c4d78" rx="2"/>
   <text x="385.6" y="239" fill="#ffffff" font-size="7" opacity="0.8">c7 preproc</text>
   <text x="442.20000000000005" y="264" fill="#ffffff" font-size="8" text-anchor="middle">#7c4d78</text>
@@ -50,55 +50,55 @@
   <text x="507.8" y="239" fill="#ffffff" font-size="7" opacity="0.8">c8 error</text>
   <text x="564.4" y="264" fill="#ffffff" font-size="8" text-anchor="middle">#834100</text>
   <text x="16" y="283" fill="#666" font-size="10">neutral bg</text>
-  <rect x="16" y="289" width="119.2" height="35" fill="#fcf4f5" rx="2"/>
+  <rect x="16" y="289" width="119.2" height="35" fill="#f4eced" rx="2"/>
   <text x="19" y="300" fill="#000000" font-size="7" opacity="0.8">bg</text>
-  <text x="75.6" y="320" fill="#000000" font-size="8" text-anchor="middle">#fcf4f5</text>
-  <rect x="138.2" y="289" width="119.2" height="35" fill="#f5edee" rx="2"/>
+  <text x="75.6" y="320" fill="#000000" font-size="8" text-anchor="middle">#f4eced</text>
+  <rect x="138.2" y="289" width="119.2" height="35" fill="#ede6e7" rx="2"/>
   <text x="141.2" y="300" fill="#000000" font-size="7" opacity="0.8">surface</text>
-  <text x="197.79999999999998" y="320" fill="#000000" font-size="8" text-anchor="middle">#f5edee</text>
-  <rect x="260.4" y="289" width="119.2" height="35" fill="#f2e1e3" rx="2"/>
+  <text x="197.79999999999998" y="320" fill="#000000" font-size="8" text-anchor="middle">#ede6e7</text>
+  <rect x="260.4" y="289" width="119.2" height="35" fill="#ead9db" rx="2"/>
   <text x="263.4" y="300" fill="#000000" font-size="7" opacity="0.8">cursor</text>
-  <text x="320" y="320" fill="#000000" font-size="8" text-anchor="middle">#f2e1e3</text>
-  <rect x="382.6" y="289" width="119.2" height="35" fill="#efe7e8" rx="2"/>
+  <text x="320" y="320" fill="#000000" font-size="8" text-anchor="middle">#ead9db</text>
+  <rect x="382.6" y="289" width="119.2" height="35" fill="#e7dfe0" rx="2"/>
   <text x="385.6" y="300" fill="#000000" font-size="7" opacity="0.8">popup</text>
-  <text x="442.20000000000005" y="320" fill="#000000" font-size="8" text-anchor="middle">#efe7e8</text>
-  <rect x="504.8" y="289" width="119.2" height="35" fill="#f6d2d1" rx="2"/>
+  <text x="442.20000000000005" y="320" fill="#000000" font-size="8" text-anchor="middle">#e7dfe0</text>
+  <rect x="504.8" y="289" width="119.2" height="35" fill="#eecac9" rx="2"/>
   <text x="507.8" y="300" fill="#000000" font-size="7" opacity="0.8">visual</text>
-  <text x="564.4" y="320" fill="#000000" font-size="8" text-anchor="middle">#f6d2d1</text>
+  <text x="564.4" y="320" fill="#000000" font-size="8" text-anchor="middle">#eecac9</text>
   <text x="16" y="339" fill="#666" font-size="10">neutral fg</text>
   <rect x="16" y="345" width="119.2" height="35" fill="#291f20" rx="2"/>
   <text x="19" y="356" fill="#ffffff" font-size="7" opacity="0.8">fg</text>
   <text x="75.6" y="376" fill="#ffffff" font-size="8" text-anchor="middle">#291f20</text>
-  <rect x="138.2" y="345" width="119.2" height="35" fill="#a9a3a3" rx="2"/>
+  <rect x="138.2" y="345" width="119.2" height="35" fill="#a6a0a0" rx="2"/>
   <text x="141.2" y="356" fill="#000000" font-size="7" opacity="0.8">comment</text>
-  <text x="197.79999999999998" y="376" fill="#000000" font-size="8" text-anchor="middle">#a9a3a3</text>
-  <rect x="260.4" y="345" width="119.2" height="35" fill="#9e9697" rx="2"/>
+  <text x="197.79999999999998" y="376" fill="#000000" font-size="8" text-anchor="middle">#a6a0a0</text>
+  <rect x="260.4" y="345" width="119.2" height="35" fill="#9b9394" rx="2"/>
   <text x="263.4" y="356" fill="#000000" font-size="7" opacity="0.8">line_nr</text>
-  <text x="320" y="376" fill="#000000" font-size="8" text-anchor="middle">#9e9697</text>
-  <rect x="382.6" y="345" width="119.2" height="35" fill="#928a8b" rx="2"/>
+  <text x="320" y="376" fill="#000000" font-size="8" text-anchor="middle">#9b9394</text>
+  <rect x="382.6" y="345" width="119.2" height="35" fill="#8f8788" rx="2"/>
   <text x="385.6" y="356" fill="#000000" font-size="7" opacity="0.8">border</text>
-  <text x="442.20000000000005" y="376" fill="#000000" font-size="8" text-anchor="middle">#928a8b</text>
-  <rect x="504.8" y="345" width="119.2" height="35" fill="#b6afaf" rx="2"/>
+  <text x="442.20000000000005" y="376" fill="#000000" font-size="8" text-anchor="middle">#8f8788</text>
+  <rect x="504.8" y="345" width="119.2" height="35" fill="#b3acac" rx="2"/>
   <text x="507.8" y="356" fill="#000000" font-size="7" opacity="0.8">delimiter</text>
-  <text x="564.4" y="376" fill="#000000" font-size="8" text-anchor="middle">#b6afaf</text>
+  <text x="564.4" y="376" fill="#000000" font-size="8" text-anchor="middle">#b3acac</text>
   <text x="16" y="395" fill="#666" font-size="10">ui</text>
   <rect x="16" y="401" width="119.2" height="35" fill="#971d2b" rx="2"/>
   <text x="19" y="412" fill="#ffffff" font-size="7" opacity="0.8">navigation</text>
   <text x="75.6" y="432" fill="#ffffff" font-size="8" text-anchor="middle">#971d2b</text>
-  <rect x="138.2" y="401" width="119.2" height="35" fill="#007c7e" rx="2"/>
+  <rect x="138.2" y="401" width="119.2" height="35" fill="#007678" rx="2"/>
   <text x="141.2" y="412" fill="#ffffff" font-size="7" opacity="0.8">attention</text>
-  <text x="197.79999999999998" y="432" fill="#ffffff" font-size="8" text-anchor="middle">#007c7e</text>
+  <text x="197.79999999999998" y="432" fill="#ffffff" font-size="8" text-anchor="middle">#007678</text>
   <rect x="260.4" y="401" width="119.2" height="35" fill="#ba7c7b" rx="2"/>
   <text x="263.4" y="412" fill="#000000" font-size="7" opacity="0.8">frame</text>
   <text x="320" y="432" fill="#000000" font-size="8" text-anchor="middle">#ba7c7b</text>
   <rect x="382.6" y="401" width="119.2" height="35" fill="#ffb9b7" rx="2"/>
   <text x="385.6" y="412" fill="#000000" font-size="7" opacity="0.8">search_bg</text>
   <text x="442.20000000000005" y="432" fill="#000000" font-size="8" text-anchor="middle">#ffb9b7</text>
-  <rect x="504.8" y="401" width="119.2" height="35" fill="#f6d2d1" rx="2"/>
+  <rect x="504.8" y="401" width="119.2" height="35" fill="#eecac9" rx="2"/>
   <text x="507.8" y="412" fill="#000000" font-size="7" opacity="0.8">pmenu_sel</text>
-  <text x="564.4" y="432" fill="#000000" font-size="8" text-anchor="middle">#f6d2d1</text>
+  <text x="564.4" y="432" fill="#000000" font-size="8" text-anchor="middle">#eecac9</text>
   <text x="16" y="459" fill="#666" font-size="10">syntax preview</text>
-  <rect x="16" y="465" width="608" height="120" fill="#fcf4f5" rx="4"/>
+  <rect x="16" y="465" width="608" height="120" fill="#f4eced" rx="4"/>
   <text x="28" y="481" fill="#971d2b" font-size="11" font-family="monospace">import</text>
   <text x="67.6" y="481" fill="#291f20" font-size="11" font-family="monospace"> { useState } </text>
   <text x="160" y="481" fill="#971d2b" font-size="11" font-family="monospace">from</text>
@@ -106,23 +106,23 @@
   <text x="28" y="497" fill="#971d2b" font-size="11" font-family="monospace">const</text>
   <text x="61" y="497" fill="#291f20" font-size="11" font-family="monospace"> count</text>
   <text x="100.6" y="497" fill="#291f20" font-size="11" font-family="monospace"> = </text>
-  <text x="120.39999999999999" y="497" fill="#007c7f" font-size="11" font-family="monospace">42</text>
+  <text x="120.39999999999999" y="497" fill="#007678" font-size="11" font-family="monospace">42</text>
   <text x="28" y="513" fill="#971d2b" font-size="11" font-family="monospace">function</text>
-  <text x="80.8" y="513" fill="#9a5f64" font-size="11" font-family="monospace"> greet</text>
-  <text x="120.39999999999999" y="513" fill="#b6afaf" font-size="11" font-family="monospace">(</text>
+  <text x="80.8" y="513" fill="#965c62" font-size="11" font-family="monospace"> greet</text>
+  <text x="120.39999999999999" y="513" fill="#b3acac" font-size="11" font-family="monospace">(</text>
   <text x="126.99999999999999" y="513" fill="#7c4d78" font-size="11" font-family="monospace">name</text>
-  <text x="153.39999999999998" y="513" fill="#b6afaf" font-size="11" font-family="monospace">: </text>
+  <text x="153.39999999999998" y="513" fill="#b3acac" font-size="11" font-family="monospace">: </text>
   <text x="166.59999999999997" y="513" fill="#464500" font-size="11" font-family="monospace">string</text>
-  <text x="206.19999999999996" y="513" fill="#b6afaf" font-size="11" font-family="monospace">)</text>
-  <text x="28" y="529" fill="#a9a3a3" font-size="11" font-family="monospace">  // call the greeting</text>
-  <text x="28" y="545" fill="#276087" font-size="11" font-family="monospace">  console</text>
-  <text x="87.4" y="545" fill="#b6afaf" font-size="11" font-family="monospace">.log(</text>
+  <text x="206.19999999999996" y="513" fill="#b3acac" font-size="11" font-family="monospace">)</text>
+  <text x="28" y="529" fill="#a6a0a0" font-size="11" font-family="monospace">  // call the greeting</text>
+  <text x="28" y="545" fill="#1d577e" font-size="11" font-family="monospace">  console</text>
+  <text x="87.4" y="545" fill="#b3acac" font-size="11" font-family="monospace">.log(</text>
   <text x="120.4" y="545" fill="#49457a" font-size="11" font-family="monospace">`Hello ${</text>
   <text x="179.8" y="545" fill="#291f20" font-size="11" font-family="monospace">name</text>
   <text x="206.20000000000002" y="545" fill="#49457a" font-size="11" font-family="monospace">}`</text>
-  <text x="219.4" y="545" fill="#b6afaf" font-size="11" font-family="monospace">)</text>
+  <text x="219.4" y="545" fill="#b3acac" font-size="11" font-family="monospace">)</text>
   <text x="28" y="561" fill="#971d2b" font-size="11" font-family="monospace">  return</text>
-  <text x="80.8" y="561" fill="#007c7e" font-size="11" font-family="monospace"> true</text>
+  <text x="80.8" y="561" fill="#007678" font-size="11" font-family="monospace"> true</text>
   <text x="28" y="577" fill="#971d2b" font-size="11" font-family="monospace">class</text>
   <text x="61" y="577" fill="#464500" font-size="11" font-family="monospace"> MyError</text>
   <text x="113.8" y="577" fill="#971d2b" font-size="11" font-family="monospace"> extends </text>
