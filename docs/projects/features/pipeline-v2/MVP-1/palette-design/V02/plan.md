@@ -1,196 +1,277 @@
-# MVP-1/palette-design/V02 最近傍テーマベース + AI 色上書き
+# MVP-1/palette-design/V02 Base16 インスパイアのパレット再設計
 
 ## なぜ V02 が必要か
 
-V01（隙間充填）は色相環上で均等に色を散らすが、「この色の隣にはこういう色が合う」という配色の知識がない。
-ghostty 同梱の 437 テーマ（ネタテーマ除外済）は人間のデザイナーが「合う」と判断した配色の集合であり、この知恵を借りることで色の調和が自然になる可能性がある。
+V01 は 26 キャラ検証を通じて基本パイプラインを確立したが、以下の構造的課題が判明した（V01 issue.md 参照）:
 
-### 理論的根拠: 調和の保存 (Harmony Preservation)
+- **ISSUE-1**: bg/fg を AI 生成に依存しており、どのキャラも似た色になる
+- **ISSUE-2**: UI クローム色（StatusLine, TabLine 等）がキャラの個性を表現できていない
+- **ISSUE-3**: WCAG 2.x のコントラスト保証がダークテーマで知覚と乖離する
+- **ISSUE-7**: config.ts が複雑で難解。palette-generator と highlight-mapper の 2 システムが並走
 
-> 437 テーマは **既に調和している** と仮定する。
-> 置き換える色が元の色に **知覚的に近い** なら、調和は数学的に保存される。
-
-つまり「近いテーマを見つけて AI 色で上書きする」= 「調和を最小限壊す」。
-
-参考:
-- Cohen-Or et al.「Color Harmonization」(SIGGRAPH 2006) — 色相環テンプレートによる調和判定
-- O'Donovan et al.「Color Compatibility From Large Datasets」(SIGGRAPH 2011) — ML による調和予測
+V02 では palette-generator を一から再設計し、Base16 の「少数色で全部塗る」思想と Catppuccin の blend パターンを取り入れる。
 
 ## 前版との変更対照表
 
 | 項目 | V01 | V02 |
 |---|---|---|
-| color4〜7 の導出 | 色相環の隙間充填 | 最近傍テーマの palette から取得 |
-| color8 | hue 25° 固定 | 最近傍テーマの palette 1 (red) |
-| 距離計算の色空間 | OKLCH (極座標) | **Oklab (直交座標)** |
-| マッチング対象 | accent 3 色のみ | **accent 3 色 + bg + fg = 5 色** |
-| スロット割り当て | 固定 | **自由 (120 通り総当たり)** |
-| 依存データ | なし | ghostty 437 テーマ (プリコンパイル) |
-| 結果の予測可能性 | 高い（アルゴリズム的） | 低い（テーマ依存） |
+| AI 依存 | 3色 + bg/fg = 5値 | 2色のみ (primary + 選定された se/te) |
+| パレット構造 | AccentPalette(10) + NeutralPalette(10) + UiColors(5) | Neutral(8) + Syntax(8) + UI(2) + Diagnostic(4) = 22色 |
+| bg/fg 生成 | AI 出力をクランプ | seed hue から自力導出 |
+| UI chrome | UiColors 5色、bg は neutral と同じ | U0/U1 + blend で動的派生 |
+| Syntax 色 | AI 3色を直接使用 + gap-fill | seed 2色を色相環の起点、残り 6色を gap-fill |
+| Diff bg | Diagnostic 色をそのまま bg に使用 | blend(diagnostic, bg, ratio) |
+| コントラスト保証 | WCAG 2.x 相対輝度比 | APCA ベース |
+| システム構成 | palette-generator + highlight-mapper 並走 | 1 パレット → 1 マッピングテーブル |
 
 ## 設計方針
 
-- 距離計算には **Oklab (L, a, b)** を使う。OKLCH の色相 wrap-around 問題を回避
-- マッチングは **bg/fg + accent 3 色 = 5 色** を入力とする。bg/fg の重みを高くする
-- AI 3 色のスロット割り当ては **固定しない**。6 スロットから 3 つ選ぶ全 120 通りを試す
-- 選択後、borrowed 色の L/C を AI 3 色の統計に合わせて微調整する
-- neutral 派生、UI ロール割り当て、コントラスト保証は V01 と共通
+### 1. AI 依存を最小化する
 
-## AI 出力スキーマ（入力）
+AI impression 3色から 2色だけを seed として使う。secondary と tertiary のうち primary との hue 差が大きい方を採用。AI が bg/fg 寄りの低彩度を出した場合や 3色が同系色の場合でも、2色なら安定する。
 
-V01 と同一。
+### 2. Syntax と UI の責務分離
 
-## パレット生成アルゴリズム
+- **Syntax**: 色相環ベースで安定的に 8色を生成。AI の出力品質に左右されない
+- **UI chrome**: seed 2色 + blend で StatusLine/TabLine/WinBar にキャラの個性を出す
 
-### Step 1: 事前準備（ビルド時に 1 回）
+### 3. blend で派生
 
-437 テーマの palette 1〜6 + bg + fg を全て **Oklab** に変換してプリコンパイルする。
+パレットに色を増やさず、Catppuccin パターンの `blend(accent, base, ratio)` で動的生成する。base を N0 (bg) にすれば dark/light で ratio を変えなくても自然に適応する。
 
-### Step 2: AI 出力を Oklab に変換
+### 4. APCA ベースのコントラスト保証
 
-```
-primary.hex   → Oklab (L₁, a₁, b₁)
-secondary.hex → Oklab (L₂, a₂, b₂)
-tertiary.hex  → Oklab (L₃, a₃, b₃)
-bg_base_hex   → Oklab (Lbg, abg, bbg)
-fg_base_hex   → Oklab (Lfg, afg, bfg)
-```
+Color.js の APCA 実装を参考に、約 40行の TypeScript で自己完結的に移植する（V01 research/color-js-contrast.md 参照）。
 
-### Step 3: 最近傍テーマを検索
-
-437 テーマそれぞれについてスコアを計算し、最小のテーマを選ぶ。
+## パレット定義: 22色
 
 ```
-score(theme) =
-    oklabDist(AI_bg, theme.bg) × W_bg +
-    oklabDist(AI_fg, theme.fg) × W_fg +
-    minPermutationDist(AI_accents, theme.palette[1..6])
+── Neutral (8色) ──────────────────────────────────────
+N0  bg         エディタ背景
+N1  surface    Float, Pmenu bg
+N2  overlay    CursorLine, Folded bg
+N3  highlight  Visual, PmenuSel bg
+N4  subtle     LineNr, border, NonText, Delimiter
+N5  dim        comment
+N6  text       fg
+N7  bright     強調テキスト
+
+── Syntax (8色) ───────────────────────────────────────
+S0  accent     Special / Todo / Title         seed1 hue (色相環の起点)
+S1  keyword    Keyword / Statement            seed2 hue (色相環の固定点)
+S2  func       Function                       色相環 gap-fill
+S3  string     String / Character             色相環 gap-fill
+S4  type       Type                           色相環 gap-fill
+S5  number     Number / Boolean / Constant    色相環 gap-fill
+S6  operator   Operator                       色相環 gap-fill
+S7  preproc    PreProc / Include              色相環 gap-fill
+
+── UI (2色) ───────────────────────────────────────────
+U0  primary    seed1 (キャラのメインカラー)
+U1  secondary  seed2 (キャラのサブカラー)
+
+── Diagnostic (4色) ───────────────────────────────────
+D0  error      hue ≈ 25  (赤)
+D1  warn       hue ≈ 85  (黄)
+D2  info       hue ≈ 250 (青)
+D3  hint       hue ≈ 165 (緑)
 ```
 
-**bg/fg の重み:**
+## Seed 選定
 
 ```
-W_bg = 5
-W_fg = 5
+AI impression 3色 (primary / secondary / tertiary)
+  ↓
+primary + (secondary or tertiary のうち hue が離れている方) = seed 2色
+  ↓
+seed は Syntax と UI の両方の起点として共有する
 ```
 
-bg/fg は画面の最大面積を占める。ここが合わなければ全体が破綻する。
+## Neutral (N0-N7) 生成
 
-**アクセントの自由スロットマッチング:**
+根拠: MD3 Tonal Palette、Tailwind CSS v4.2 OKLCH、APCA
 
-```
-AI_accents = [color1, color2, color3]
-theme_slots = [palette[1], palette[2], palette[3], palette[4], palette[5], palette[6]]
-
-6色から3色を選ぶ順列 = 6×5×4 = 120 通り
-
-minPermutationDist = min over all 120 permutations of:
-    oklabDist(color1, slot_i) + oklabDist(color2, slot_j) + oklabDist(color3, slot_k)
-
-同時に最小を達成した (i, j, k) = 最適なスロット割り当て
-```
-
-**Oklab ユークリッド距離:**
+- hue: seed primary の hue をそのまま継承（黄色系 h≈60-120 は chroma を補正）
+- bg chroma: 0.015〜0.02（MD3 Chroma=6 相当）
+- fg chroma: 0.01〜0.015（bg より低彩度、フリンジ防止）
+- ΔL (bg-fg): 0.60〜0.70（快適ゾーン）
 
 ```
-oklabDist(a, b) = sqrt((L₂-L₁)² + (a₂-a₁)² + (b₂-b₁)²)
+Dark テーマ:
+  N0  bg        oklch(0.18,  0.018, hue)     base
+  N1  surface   oklch(0.21,  0.018, hue)     +0.03
+  N2  overlay   oklch(0.23,  0.018, hue)     +0.05
+  N3  highlight oklch(0.28,  0.018, hue)     +0.10
+  N4  subtle    oklch(0.40,  0.012, hue)     中間帯
+  N5  dim       oklch(0.50,  0.012, hue)     comment
+  N6  text      oklch(0.85,  0.012, hue)     fg
+  N7  bright    oklch(0.90,  0.010, hue)     強調
+
+Light テーマ:
+  N0  bg        oklch(0.94,  0.018, hue)     base
+  N1  surface   oklch(0.91,  0.018, hue)     -0.03
+  N2  overlay   oklch(0.89,  0.018, hue)     -0.05
+  N3  highlight oklch(0.84,  0.018, hue)     -0.10
+  N4  subtle    oklch(0.65,  0.012, hue)     中間帯
+  N5  dim       oklch(0.55,  0.012, hue)     comment
+  N6  text      oklch(0.25,  0.012, hue)     fg
+  N7  bright    oklch(0.18,  0.010, hue)     強調
 ```
 
-OKLCH の色相角 wrap-around 問題がない。culori が Oklab に対応済み。
-
-**計算量:**
+## Syntax (S0-S7) 生成
 
 ```
-437 テーマ × 120 通り = 52,440 回の距離計算
-→ 実測 < 1ms（十分にリアルタイム）
+S0 = seed1 hue (固定点)
+S1 = seed2 hue (固定点)
+S2-S7 = seed1, seed2 が作る色相環の gap を均等に埋める 6色
+
+各色の L/C: theme_tone に応じた L_JITTER + chromaScale
+全色に ensureContrast(Sx, N0, threshold) を適用
 ```
 
-### Step 4: テーマの palette を割り当て + AI 色で上書き
-
-Step 3 で最適スロット割り当て (i, j, k) が決まる。
+## UI (U0-U1) + blend 派生
 
 ```
-color1 = AI primary       (palette[i] を上書き)
-color2 = AI secondary     (palette[j] を上書き)
-color3 = AI tertiary      (palette[k] を上書き)
-残り 3 色 = テーマの palette から借りる (string, special, error 等)
+U0 = seed1 (ensureContrast 済み)
+U1 = seed2 (ensureContrast 済み)
+
+blend(accent, base, ratio) = ratio × accent + (1 - ratio) × base
+
+U0_bg   = blend(U0, N0, 0.08)   StatusLine bg, WinBar bg
+U0_dim  = blend(U0, N0, 0.04)   StatusLineNC bg, WinBarNC bg
+U1_bg   = blend(U1, N0, 0.10)   TabLineSel bg
+U0_sep  = blend(U0, N0, 0.15)   WinSeparator fg
 ```
 
-**残り 3 色の syntax role 割り当て:**
+U0 (primary) = 常に見える UI。U1 (secondary) = 選択・フォーカス時に現れる UI。
 
-借りた 3 色を bat の ansi.tmTheme に基づいてロールに割り当てる:
+## Diagnostic (D0-D3)
 
-| palette | bat スコープ | oshicolor slot |
-|---|---|---|
-| 1 (red) | tag, deleted, error | color8 |
-| 2 (green) | string, comment | color4 |
-| 3 (yellow) | constant, numeric, class | (AI で上書きされなかった場合) |
-| 4 (blue) | entity.name.function | (AI で上書きされなかった場合) |
-| 5 (magenta) | keyword, storage | (AI で上書きされなかった場合) |
-| 6 (cyan) | parameter, support.function | color6 |
+固定 hue + seed の L/C から導出。
 
-AI 3 色が どの 3 スロットに入るかは動的に決まるので、残りの割り当ても動的になる。
-
-### Step 5: 派生色 (color5, color7)
-
-ghostty は 6 色だが oshicolor は 8 色必要。
-palette 3 (constant/type) と palette 6 (parameter/special) が 2 つの role を兼ねている。
-同一色相で L/C を微調整して区別する:
-
+Diff bg は blend で生成:
 ```
-color5 (type):
-  借りた constant 系の色から L を ±0.08 で派生
-
-color7 (parameter):
-  借りた special 系の色から C を ×0.8 で派生
+DiffAdd    bg = blend(D3, N0, 0.18)
+DiffChange bg = blend(D2, N0, 0.18)
+DiffDelete bg = blend(D0, N0, 0.18)
+DiffText   bg = blend(D2, N0, 0.30)
 ```
 
-### Step 6: borrowed 色の L/C 調整
+Blend ratio の根拠: Catppuccin の実測値。
 
-テーマの borrowed 色は元のテーマの bg/fg とのバランスで設計されている。
-AI の bg/fg に変わるため、L/C を微調整して馴染ませる:
+## マッピングテーブル
 
 ```
-AI 3 色の L 中央値 = L_med
-AI 3 色の C 中央値 = C_med
+── Editor UI ──────────────────────────────────────────
+Normal            fg=N6    bg=N0
+NormalFloat       fg=N6    bg=N1
+FloatBorder       fg=U0
+FloatTitle        fg=U0    bold
+CursorLine                 bg=N2
+CursorLineNr      fg=U0    bold
+LineNr            fg=N4
+Visual                     bg=N3
+Search            fg=N0    bg=U0
+IncSearch         fg=N0    bg=U1    bold
+CurSearch         fg=N0    bg=U0    bold
+MatchParen                 bg=N3    bold
+Pmenu             fg=N6    bg=N1
+PmenuSel                   bg=N3
+PmenuSbar                  bg=N1
+PmenuThumb                 bg=N4
+StatusLine        fg=N6    bg=U0_bg
+StatusLineNC      fg=N4    bg=U0_dim
+WinBar            fg=N6    bg=U0_bg
+WinBarNC          fg=N4    bg=U0_dim
+TabLine           fg=N4    bg=N1
+TabLineSel        fg=U1    bg=U1_bg  bold
+TabLineFill                bg=N0
+WinSeparator      fg=U0_sep
+Folded            fg=N5    bg=N2
+FoldColumn        fg=N4
+SignColumn                 bg=N0
+NonText           fg=N4
+Title             fg=U0    bold
 
-各 borrowed 色について:
-  L の差分 = (borrowed.l - theme_accent_L_median) を保持したまま
-  新しい L = L_med + 差分
-  C は C_med × (borrowed.c / theme_accent_C_median) でスケーリング
+── Syntax ─────────────────────────────────────────────
+Comment           fg=N5    italic
+Keyword           fg=S1
+Statement         fg=S1
+Conditional       fg=S1
+Repeat            fg=S1
+Function          fg=S2
+Operator          fg=S6
+String            fg=S3
+Character         fg=S3
+Type              fg=S4
+Number            fg=S5
+Boolean           fg=S5
+Float             fg=S5
+Constant          fg=S5
+Special           fg=S0
+Delimiter         fg=N4
+Identifier        fg=N6
+PreProc           fg=S7
+Include           fg=S7
+Todo              fg=S0    bold
+
+── Diagnostic ─────────────────────────────────────────
+DiagnosticError         fg=D0
+DiagnosticWarn          fg=D1
+DiagnosticInfo          fg=D2
+DiagnosticHint          fg=D3
+DiagnosticVirtualText*  fg=D0-D3
+DiagnosticUnderline*    undercurl
+DiagnosticSign*         fg=D0-D3
+
+── Diff ───────────────────────────────────────────────
+DiffAdd                 bg=blend(D3, N0, 0.18)
+DiffChange              bg=blend(D2, N0, 0.18)
+DiffDelete              bg=blend(D0, N0, 0.18)
+DiffText                bg=blend(D2, N0, 0.30)
 ```
 
-### Step 7: variant, neutral, ui
+## 変更内容
 
-V01 と同一のロジックを適用:
-- variant 生成（color1_variant, color3_variant）
-- neutral 検証・補正 + 派生
-- UI ロール割り当て（assignUiRoles）
-- コントラスト保証（ensureContrast）
+### 削除するコード
 
-## メリット・リスク
+- `src/features/palette-generator/` — 全て削除して再実装
 
-**メリット:**
-- 人間のデザイナーが「合う」と判断した配色の知恵を借りられる（調和の保存）
-- AI 3 色のスロットを固定しないので、最適な位置に自動配置される
-- bg/fg の重み付けで「額縁」の調和を優先できる
+### 新規実装
 
-**リスク:**
-- 最近傍テーマの残り色が AI 3 色と調和しない場合がある
-- テーマ依存のため結果の予測可能性が低い
-- 437 テーマデータをプリコンパイルして組み込む必要がある
+```
+src/features/palette-generator/
+├── types/
+│   ├── vision-result.ts     VisionResult (neutral フィールド削除)
+│   └── palette.ts           Palette 型 (Neutral + Syntax + UI + Diagnostic)
+├── usecases/
+│   ├── config.ts            N0-N7 L テーブル + blend ratio
+│   ├── seed-selection.ts    AI 3色 → seed 2色の選定
+│   ├── neutral.ts           seed hue → N0-N7
+│   ├── syntax.ts            seed 2色 → S0-S7 (色相環 gap-fill)
+│   ├── ui.ts                seed 2色 → U0-U1 + blend 派生
+│   ├── diagnostic.ts        D0-D3 生成
+│   ├── contrast.ts          APCA 実装 (≈40行) + ensureContrast
+│   ├── blend.ts             blend(accent, base, ratio)
+│   └── generate-palette.ts  パイプライン統合
+├── stores/
+│   ├── vision-result.atom.ts
+│   └── palette.atom.ts
+├── components/
+│   └── palette-view.tsx
+└── index.ts
+```
 
-## V01 との比較検証
+### 影響を受ける外部コード
 
-24 キャラの SVG 検証で V01（隙間充填）と V02（最近傍テーマ）を並べて出力し、比較する。
-最終的にどちらか一方を採用、またはユーザーが選べるようにする可能性もある。
+- `src/features/color-analyzer/usecases/config.ts` — VisionResultSchema から neutral 削除
+- `src/features/color-analyzer/types/color-analyzer.ts` — VisionResult import は維持
+- `src/features/highlight-mapper/` — palette-generator に統合。マッピングテーブルは palette-generator 内に移動
+- `src/routes/index.tsx` — VisionResult の型変更に追従
 
-## やること
+### リサーチ成果の参照
 
-- [ ] 437 テーマの Oklab プリコンパイルデータ生成
-- [ ] Oklab 距離計算ユーティリティ
-- [ ] 自由スロットマッチング（120 通り総当たり）
-- [ ] テーマ palette → 8 色割り当て（動的スロット対応）
-- [ ] borrowed 色の L/C 調整ロジック
-- [ ] color5, color7 の派生ロジック
-- [ ] V01 との比較 SVG 出力
+- Neutral パラメータ: bg/fg リサーチ (Gemini)
+- APCA 実装: V01 research/color-js-contrast.md
+- Blend ratio: V01 research/catppuccin.md
+- マッピング設計: V01 research/mini-base16.md
