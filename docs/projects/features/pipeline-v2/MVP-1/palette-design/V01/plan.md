@@ -179,6 +179,166 @@ fg_base → fg
 }
 ```
 
+## ハイライトグループ マッピング定義
+
+最終的に accent 10 色 + neutral 系 + ui 系を以下のグループにマッピングする。
+
+### パレット → Vim デフォルトグループ（20）
+
+| グループ | パレット色 | 備考 |
+|---|---|---|
+| Normal | fg / bg | メインテキスト |
+| Comment | neutral.comment | italic |
+| Constant | color3 | AI tertiary |
+| String | color4 | 隙間充填 1 |
+| Character | → String | link |
+| Number | color3_variant | color3 の明度違い |
+| Boolean | color3, bold | AI tertiary + 太字で区別 |
+| Float | → Number | link |
+| Identifier | fg | 通常テキスト色 |
+| Function | color2 | AI secondary |
+| Statement | color1, bold | AI primary |
+| Keyword | → Statement | link |
+| Conditional | → Statement | link |
+| Repeat | → Statement | link |
+| Label | → Statement | link |
+| Exception | → Statement | link |
+| Operator | fg | 前景色 |
+| PreProc | color7 | 隙間充填 4 |
+| Include | → PreProc | link |
+| Define | → PreProc | link |
+| Macro | → PreProc | link |
+| Type | color5 | 隙間充填 2 |
+| StorageClass | → Type | link |
+| Structure | → Type | link |
+| Typedef | → Type | link |
+| Special | color6 | 隙間充填 3 |
+| SpecialChar | → Special | link |
+| Tag | color1_variant | keyword の低彩度派生 |
+| Delimiter | neutral.delimiter | 低彩度 |
+| Error | color8_bg | 背景版 |
+| Todo | ui.navigation, bold | |
+
+### パレット → Treesitter グループ（30+）
+
+| グループ | リンク先 / 色 | 備考 |
+|---|---|---|
+| @variable | fg | 通常テキスト |
+| @variable.builtin | → Special | self/this |
+| @variable.parameter | color7 | parameter |
+| @variable.member | → Identifier | フィールド |
+| @constant | → Constant | |
+| @constant.builtin | → Special | true/nil |
+| @constant.macro | → Macro | |
+| @string | → String | |
+| @string.escape | → SpecialChar | |
+| @string.regexp | color6 | special 系 |
+| @string.special.url | → Underlined | |
+| @number | → Number | |
+| @number.float | → Float | |
+| @boolean | → Boolean | |
+| @function | → Function | |
+| @function.builtin | → Special | |
+| @function.call | → Function | |
+| @function.method | → Function | |
+| @function.method.call | → Function | |
+| @function.macro | → Macro | |
+| @constructor | → Special | |
+| @keyword | → Keyword | |
+| @keyword.function | → Keyword | function/def |
+| @keyword.return | color1, bold | 強調 |
+| @keyword.conditional | → Conditional | |
+| @keyword.repeat | → Repeat | |
+| @keyword.import | → Include | |
+| @keyword.operator | → Operator | and/or/not |
+| @keyword.exception | → Exception | |
+| @operator | → Operator | |
+| @type | → Type | |
+| @type.builtin | → Special | |
+| @property | → Identifier | className |
+| @module | → Identifier | namespace |
+| @label | → Label | |
+| @attribute | → Special | decorator |
+| @punctuation.delimiter | → Delimiter | , ; |
+| @punctuation.bracket | → Delimiter | () [] {} |
+| @punctuation.special | → Special | テンプレート ${} |
+| @tag | → Tag | HTML/JSX（color1_variant） |
+| @tag.attribute | → Identifier | HTML 属性 |
+| @tag.delimiter | → Delimiter | < > / |
+| @comment | → Comment | |
+| @comment.documentation | → Comment | |
+| @diff.plus | color4 | string と同色 |
+| @diff.minus | color8 | error と同色 |
+| @diff.delta | color5 | type と同色 |
+| @markup.heading | color1, bold | 見出し |
+| @markup.strong | bold | |
+| @markup.italic | italic | |
+| @markup.link.url | → Underlined | |
+| @markup.raw | → String | |
+
+### パレット → Diagnostic + Diff（16）
+
+| グループ | 色 | 備考 |
+|---|---|---|
+| DiagnosticError | color8 | hue 25° 固定 |
+| DiagnosticWarn | color4 方向で暖色 | yellow 系 |
+| DiagnosticInfo | color5 方向 | blue 系 |
+| DiagnosticHint | color6 方向 | cyan 系 |
+| DiagnosticOk | color4 | green 系 |
+| DiagnosticUnderlineError | sp=color8, underline | |
+| DiagnosticUnderlineWarn | sp=warn色, underline | |
+| DiagnosticUnderlineInfo | sp=info色, underline | |
+| DiagnosticUnderlineHint | sp=hint色, underline | |
+| DiagnosticVirtualText* | → 各 Diagnostic | link |
+| DiagnosticFloating* | → 各 Diagnostic | link |
+| DiagnosticSign* | → 各 Diagnostic | link |
+| DiffAdd | color4_bg | green 系背景 |
+| DiffChange | color5_bg | blue 系背景 |
+| DiffDelete | color8_bg | red 系背景 |
+| DiffText | color4_bg 明るめ | 変更箇所のテキスト |
+
+### パレット → UI
+
+| グループ | 色 | 備考 |
+|---|---|---|
+| CursorLine | neutral.bg_cursor_line | |
+| CursorLineNr | **ui.attention**, bold | キャラの色でカーソル位置を示す |
+| LineNr | neutral.line_nr | |
+| SignColumn | neutral.bg | editor bg と同一 |
+| Visual | neutral.bg_visual | |
+| Search | ui.search_bg | navigation 色の背景版 |
+| IncSearch | ui.search_bg 反転 | |
+| Pmenu | neutral.bg_popup / fg | |
+| PmenuSel | ui.pmenu_sel_bg | |
+| NormalFloat | neutral.bg_popup | |
+| FloatBorder | **ui.frame** | navigation の低彩度派生 |
+| StatusLine | neutral.bg_surface / fg | |
+| StatusLineNC | neutral.bg_surface / neutral.line_nr | |
+| TabLine | neutral.line_nr / neutral.bg | 非アクティブタブ |
+| TabLineSel | **ui.navigation** / neutral.bg_surface | キャラの色でアクティブタブを示す |
+| TabLineFill | neutral.bg | |
+| WinSeparator | **ui.frame** | navigation の低彩度派生 |
+| NonText | neutral.border | |
+| Whitespace | neutral.border | |
+
+### パレット → File Tree（NvimTree / neo-tree）
+
+| グループ | 色 | 備考 |
+|---|---|---|
+| NvimTreeNormal / NeoTreeNormal | fg / neutral.bg_surface | sidebar は surface bg |
+| NvimTreeFolderName | **ui.navigation** | キャラの色でフォルダを彩る |
+| NvimTreeFolderIcon | **ui.navigation** | |
+| NvimTreeRootFolder / NeoTreeRootName | **ui.navigation**, bold | |
+| NvimTreeOpenedFolderName | **ui.navigation**, bold | |
+| NvimTreeFileName | fg | 通常テキスト色 |
+| NvimTreeIndentMarker | neutral.border | |
+| NvimTreeGitDirty / NeoTreeGitModified | **ui.attention** | 変更ファイル |
+| NvimTreeGitNew / NeoTreeGitAdded | color4 方向 | green 系 |
+| NvimTreeGitDeleted / NeoTreeGitDeleted | color8 | red 系 |
+| NvimTreeSpecialFile | color6 | special 系 |
+
+---
+
 ## ui 色の導出
 
 AI 3 色の「象徴色の順位」は「UI 映えする順位」とは限らない。
