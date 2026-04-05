@@ -3,7 +3,7 @@ import { basename, dirname, join } from "node:path";
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
 const IMAGE_PATHS = process.argv.slice(2);
-const OUTPUT_DIR = "debug/vision-ai";
+const OUTPUT_DIR = "debug/palette-v01";
 
 const PROMPT = `This is a character illustration. Analyze the character's colors for a Neovim color scheme.
 
@@ -211,7 +211,10 @@ async function processImage(imagePath: string) {
     console.log(`(${result.elapsed}ms)\n`);
   }
 
-  mkdirSync(OUTPUT_DIR, { recursive: true });
+  const game = gameFromImagePath(imagePath);
+  const gameDir = join(OUTPUT_DIR, game);
+  mkdirSync(gameDir, { recursive: true });
+
   const output = {
     image: imagePath,
     timestamp: new Date().toISOString(),
@@ -223,7 +226,7 @@ async function processImage(imagePath: string) {
       response: r.response ?? null,
     })),
   };
-  const outPath = join(OUTPUT_DIR, `${imageName}.json`);
+  const outPath = join(gameDir, `${imageName}.json`);
   writeFileSync(outPath, JSON.stringify(output, null, 2));
   console.log(`Saved: ${outPath}`);
 
@@ -237,10 +240,7 @@ async function processImage(imagePath: string) {
         .trim();
       const parsed = JSON.parse(cleaned) as VisionResult;
       if (parsed.neutral?.bg_base_hex && parsed.theme_tone) {
-        const game = gameFromImagePath(imagePath);
-        const svgDir = join(OUTPUT_DIR, game);
-        mkdirSync(svgDir, { recursive: true });
-        const svgPath = join(svgDir, `${imageName}.svg`);
+        const svgPath = join(gameDir, `${imageName}.vision.svg`);
         writeFileSync(svgPath, generateSvg(imageName, parsed));
         console.log(`Saved: ${svgPath}`);
       }
