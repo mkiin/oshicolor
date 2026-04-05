@@ -1,21 +1,21 @@
 {
   "impression": {
     "primary": {
-      "hex": "#ffffff",
-      "reason": "The character's hair and clothing are predominantly stark white, forming her visual identity."
+      "hex": "#fcfcfc",
+      "reason": "The brilliant white and polished silver that defines her long hair, sleek bodysuit, and the majority of her massive mechanical rigging."
     },
     "secondary": {
-      "hex": "#b0c4de",
-      "reason": "The cool metallic blue-grey reflective surfaces of her gear define her tech aesthetic."
+      "hex": "#383b40",
+      "reason": "The dark charcoal-colored mechanical joints, hardware internals, and hair accessories that ground the light-colored design."
     },
     "tertiary": {
-      "hex": "#d62828",
-      "reason": "The intense crimson red of her eyes provides the only saturated accent color."
+      "hex": "#ff2a2a",
+      "reason": "The intense red of her eye, which serves as the most iconic and distinct accent color against her monochromatic profile."
     }
   },
-  "theme_tone": "dark",
+  "theme_tone": "light",
   "neutral": {
-    "bg_base_hex": "#202225",
-    "fg_base_hex": "#dfe1e6"
+    "bg_base_hex": "#f1f5fa",
+    "fg_base_hex": "#2c3136"
   }
 }

@@ -54,7 +54,7 @@ const VisionResultSchema = v.object({
   theme_tone: v.pipe(
     v.picklist(["dark", "light"]),
     v.description(
-      "dark if the character's palette feels dark/cool/deep, light if bright/warm/pastel",
+      "Choose the background tone that makes the character's colors look natural and comfortable for long reading sessions. Most characters suit dark. Choose light only when the character's palette is overwhelmingly pale or pastel.",
     ),
   ),
   neutral: v.pipe(
@@ -228,20 +228,14 @@ async function processImage(ai: GoogleGenAI, imagePath: string) {
   // Parse & validate
   const parsed = v.parse(VisionResultSchema, JSON.parse(text));
 
-  // Save
+  // Save JSON
   const game = gameFromImagePath(imagePath);
   const jsonDir = join(OUTPUT_DIR, game, "json");
-  const svgDir = join(OUTPUT_DIR, game, "svg");
   mkdirSync(jsonDir, { recursive: true });
-  mkdirSync(svgDir, { recursive: true });
 
   const jsonPath = join(jsonDir, `${imageName}.json`);
   writeFileSync(jsonPath, JSON.stringify(parsed, null, 2));
   console.log(`Saved: ${jsonPath}`);
-
-  const svgPath = join(svgDir, `${imageName}.vision.svg`);
-  writeFileSync(svgPath, generateSvg(imageName, parsed));
-  console.log(`Saved: ${svgPath}`);
 }
 
 async function main() {
