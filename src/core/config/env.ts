@@ -1,9 +1,10 @@
 import { createEnv } from "@t3-oss/env-core";
-import { z } from "zod";
+import * as v from "valibot";
 
 export const env = createEnv({
   server: {
-    SERVER_URL: z.string().url().optional(),
+    SERVER_URL: v.optional(v.pipe(v.string(), v.url())),
+    GEMINI_API_KEY: v.pipe(v.string(), v.minLength(1)),
   },
 
   /**
@@ -13,14 +14,17 @@ export const env = createEnv({
   clientPrefix: "VITE_",
 
   client: {
-    VITE_APP_TITLE: z.string().min(1).optional(),
+    VITE_APP_TITLE: v.optional(v.pipe(v.string(), v.minLength(1))),
   },
 
   /**
    * What object holds the environment variables at runtime. This is usually
    * `process.env` or `import.meta.env`.
    */
-  runtimeEnv: import.meta.env,
+  runtimeEnv: {
+    ...import.meta.env,
+    ...process.env,
+  },
 
   /**
    * By default, this library will feed the environment variables directly to
