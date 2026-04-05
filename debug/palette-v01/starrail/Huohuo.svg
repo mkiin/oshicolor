@@ -62,9 +62,9 @@
   <rect x="382.6" y="289" width="119.2" height="35" fill="#1f2625" rx="2"/>
   <text x="385.6" y="300" fill="#ffffff" font-size="7" opacity="0.8">popup</text>
   <text x="442.20000000000005" y="320" fill="#ffffff" font-size="8" text-anchor="middle">#1f2625</text>
-  <rect x="504.8" y="289" width="119.2" height="35" fill="#113434" rx="2"/>
+  <rect x="504.8" y="289" width="119.2" height="35" fill="#1d3324" rx="2"/>
   <text x="507.8" y="300" fill="#ffffff" font-size="7" opacity="0.8">visual</text>
-  <text x="564.4" y="320" fill="#ffffff" font-size="8" text-anchor="middle">#113434</text>
+  <text x="564.4" y="320" fill="#ffffff" font-size="8" text-anchor="middle">#1d3324</text>
   <text x="16" y="339" fill="#888" font-size="10">neutral fg</text>
   <rect x="16" y="345" width="119.2" height="35" fill="#dce4e2" rx="2"/>
   <text x="19" y="356" fill="#000000" font-size="7" opacity="0.8">fg</text>
@@ -82,21 +82,21 @@
   <text x="507.8" y="356" fill="#ffffff" font-size="7" opacity="0.8">delimiter</text>
   <text x="564.4" y="376" fill="#ffffff" font-size="8" text-anchor="middle">#7a8280</text>
   <text x="16" y="395" fill="#888" font-size="10">ui</text>
-  <rect x="16" y="401" width="119.2" height="35" fill="#5ef1f1" rx="2"/>
+  <rect x="16" y="401" width="119.2" height="35" fill="#739a7e" rx="2"/>
   <text x="19" y="412" fill="#000000" font-size="7" opacity="0.8">navigation</text>
-  <text x="75.6" y="432" fill="#000000" font-size="8" text-anchor="middle">#5ef1f1</text>
+  <text x="75.6" y="432" fill="#000000" font-size="8" text-anchor="middle">#739a7e</text>
   <rect x="138.2" y="401" width="119.2" height="35" fill="#ffa34d" rx="2"/>
   <text x="141.2" y="412" fill="#000000" font-size="7" opacity="0.8">attention</text>
   <text x="197.79999999999998" y="432" fill="#000000" font-size="8" text-anchor="middle">#ffa34d</text>
-  <rect x="260.4" y="401" width="119.2" height="35" fill="#004444" rx="2"/>
+  <rect x="260.4" y="401" width="119.2" height="35" fill="#2f3f33" rx="2"/>
   <text x="263.4" y="412" fill="#ffffff" font-size="7" opacity="0.8">frame</text>
-  <text x="320" y="432" fill="#ffffff" font-size="8" text-anchor="middle">#004444</text>
-  <rect x="382.6" y="401" width="119.2" height="35" fill="#003636" rx="2"/>
+  <text x="320" y="432" fill="#ffffff" font-size="8" text-anchor="middle">#2f3f33</text>
+  <rect x="382.6" y="401" width="119.2" height="35" fill="#11361f" rx="2"/>
   <text x="385.6" y="412" fill="#ffffff" font-size="7" opacity="0.8">search_bg</text>
-  <text x="442.20000000000005" y="432" fill="#ffffff" font-size="8" text-anchor="middle">#003636</text>
-  <rect x="504.8" y="401" width="119.2" height="35" fill="#113434" rx="2"/>
+  <text x="442.20000000000005" y="432" fill="#ffffff" font-size="8" text-anchor="middle">#11361f</text>
+  <rect x="504.8" y="401" width="119.2" height="35" fill="#1d3324" rx="2"/>
   <text x="507.8" y="412" fill="#ffffff" font-size="7" opacity="0.8">pmenu_sel</text>
-  <text x="564.4" y="432" fill="#ffffff" font-size="8" text-anchor="middle">#113434</text>
+  <text x="564.4" y="432" fill="#ffffff" font-size="8" text-anchor="middle">#1d3324</text>
   <text x="16" y="459" fill="#888" font-size="10">syntax preview</text>
   <rect x="16" y="465" width="608" height="120" fill="#151c1b" rx="4"/>
   <text x="28" y="481" fill="#97d2a8" font-size="11" font-family="monospace">import</text>
