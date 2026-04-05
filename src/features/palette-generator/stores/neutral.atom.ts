@@ -10,12 +10,5 @@ export const neutralAtom = atom<Record<NeutralSlot, string> | null>((get) => {
   const vr = get(visionResultAtom);
   const seeds = get(seedsAtom);
   if (!vr || !seeds) return null;
-  try {
-    const result = generateNeutral(seeds.primary.h, vr.theme_tone);
-    console.log("[oshicolor] neutral:", result);
-    return result;
-  } catch (e) {
-    console.error("[oshicolor] neutralAtom error:", e);
-    return null;
-  }
+  return generateNeutral(seeds.primary.h, vr.theme_tone);
 });
