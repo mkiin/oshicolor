@@ -253,6 +253,246 @@ Aglaea (light): L_JITTER = [0.38, 0.42, 0.46, 0.50] → ΔL_max = 0.12
 
 ---
 
+## 設計案: Base16 インスパイアのパレット再設計
+
+ISSUE-1〜8 を横断的に解決するためのパレット再設計案。
+Base16 の「少数色で全部塗る」思想 + Catppuccin の blend パターンをベースにする。
+
+### 設計原則
+
+1. **AI 依存を最小化する**: AI impression 3色から 2色だけを seed として使う
+2. **Syntax と UI の責務分離**: Syntax は色相環ベースで安定、UI は seed で個性を出す
+3. **blend で派生**: パレットに色を増やさず、blend で動的生成する
+
+### Seed 選定
+
+```
+AI impression 3色 (primary / secondary / tertiary)
+  ↓
+primary + (secondary or tertiary のうち hue が離れている方) = seed 2色
+  ↓
+seed は Syntax と UI の両方の起点として共有する
+```
+
+secondary と tertiary の選定基準: primary との hue 差が大きい方を採用。
+AI が bg/fg 寄りの低彩度を出した場合や 3色が同系色の場合でも、2色なら安定する。
+
+### パレット定義: 22色
+
+```
+── Neutral (8色) ──────────────────────────────────────
+N0  bg         エディタ背景
+N1  surface    Float, Pmenu bg
+N2  overlay    CursorLine, Folded bg
+N3  highlight  Visual, PmenuSel bg
+N4  subtle     LineNr, border, NonText, Delimiter
+N5  dim        comment
+N6  text       fg
+N7  bright     強調テキスト
+
+── Syntax (8色) ───────────────────────────────────────
+S0  accent     Special / Todo / Title         seed1 hue (色相環の起点)
+S1  keyword    Keyword / Statement            seed2 hue (色相環の固定点)
+S2  func       Function                       色相環 gap-fill
+S3  string     String / Character             色相環 gap-fill
+S4  type       Type                           色相環 gap-fill
+S5  number     Number / Boolean / Constant    色相環 gap-fill
+S6  operator   Operator                       色相環 gap-fill
+S7  preproc    PreProc / Include              色相環 gap-fill
+
+── UI (2色) ───────────────────────────────────────────
+U0  primary    seed1 (キャラのメインカラー)
+U1  secondary  seed2 (キャラのサブカラー)
+
+── Diagnostic (4色) ───────────────────────────────────
+D0  error      hue ≈ 25  (赤)
+D1  warn       hue ≈ 85  (黄)
+D2  info       hue ≈ 250 (青)
+D3  hint       hue ≈ 165 (緑)
+```
+
+### Neutral (N0-N7) 生成アルゴリズム
+
+根拠: MD3 Tonal Palette、Tailwind CSS v4.2 OKLCH、APCA
+
+```
+入力: seed_primary_hue, theme_tone
+
+hue    = seed_primary_hue
+bg_c   = 0.018  (黄色系 h≈60-120 は 0.015 に補正)
+fg_c   = 0.012  (fg は bg より低彩度。フリンジ防止)
+
+Dark テーマ:
+  N0  bg        oklch(0.18,  bg_c, hue)    base
+  N1  surface   oklch(0.21,  bg_c, hue)    +0.03
+  N2  overlay   oklch(0.23,  bg_c, hue)    +0.05
+  N3  highlight oklch(0.28,  bg_c, hue)    +0.10
+  N4  subtle    oklch(0.40,  fg_c, hue)    中間帯
+  N5  dim       oklch(0.50,  fg_c, hue)    comment
+  N6  text      oklch(0.85,  fg_c, hue)    fg
+  N7  bright    oklch(0.90,  0.010, hue)   強調
+
+Light テーマ:
+  N0  bg        oklch(0.94,  bg_c, hue)    base
+  N1  surface   oklch(0.91,  bg_c, hue)    -0.03
+  N2  overlay   oklch(0.89,  bg_c, hue)    -0.05
+  N3  highlight oklch(0.84,  bg_c, hue)    -0.10
+  N4  subtle    oklch(0.65,  fg_c, hue)    中間帯
+  N5  dim       oklch(0.55,  fg_c, hue)    comment
+  N6  text      oklch(0.25,  fg_c, hue)    fg
+  N7  bright    oklch(0.18,  0.010, hue)   強調
+
+ΔL (bg-fg) = 0.67 (dark) / 0.69 (light) → 快適ゾーン 0.60〜0.70 内
+```
+
+### Syntax (S0-S7) 生成アルゴリズム
+
+```
+入力: seed1_hue, seed2_hue, theme_tone
+
+S0 = seed1_hue (固定点)
+S1 = seed2_hue (固定点)
+S2-S7 = seed1, seed2 が作る色相環の gap を均等に埋める 6色
+
+各色の L/C:
+  L = theme_tone に応じた L_JITTER (既存ロジック)
+  C = chromaScale × seed の平均 C (既存ロジック)
+
+全色に ensureContrast(Sx, N0, threshold) を適用
+```
+
+seed に直接依存するのは hue の起点のみ。L/C は色相環ベースで安定的に生成する。
+
+### UI (U0-U1) + blend 派生
+
+```
+U0 = seed1 (ensureContrast 済み)
+U1 = seed2 (ensureContrast 済み)
+
+blend(accent, base, ratio) = ratio × accent + (1 - ratio) × base
+
+── blend で動的生成する色 ─────────────────────────────
+U0_bg   = blend(U0, N0, 0.08)   StatusLine bg, WinBar bg
+U0_dim  = blend(U0, N0, 0.04)   StatusLineNC bg, WinBarNC bg
+U1_bg   = blend(U1, N0, 0.10)   TabLineSel bg
+U0_sep  = blend(U0, N0, 0.15)   WinSeparator fg
+```
+
+U0 (primary) = 常に見える UI。U1 (secondary) = 選択・フォーカス時に現れる UI。
+
+### Diagnostic (D0-D3)
+
+```
+固定 hue + seed の L/C から導出 (既存ロジック維持)
+
+Diff bg は blend で生成:
+  DiffAdd    bg = blend(D3, N0, 0.18)
+  DiffChange bg = blend(D2, N0, 0.18)
+  DiffDelete bg = blend(D0, N0, 0.18)
+  DiffText   bg = blend(D2, N0, 0.30)
+```
+
+### マッピングテーブル
+
+```
+── Editor UI ──────────────────────────────────────────
+Normal            fg=N6    bg=N0
+NormalFloat       fg=N6    bg=N1
+FloatBorder       fg=U0
+FloatTitle        fg=U0    bold
+CursorLine                 bg=N2
+CursorLineNr      fg=U0    bold
+LineNr            fg=N4
+Visual                     bg=N3
+Search            fg=N0    bg=U0
+IncSearch         fg=N0    bg=U1    bold
+CurSearch         fg=N0    bg=U0    bold
+MatchParen                 bg=N3    bold
+Pmenu             fg=N6    bg=N1
+PmenuSel                   bg=N3
+PmenuSbar                  bg=N1
+PmenuThumb                 bg=N4
+StatusLine        fg=N6    bg=U0_bg
+StatusLineNC      fg=N4    bg=U0_dim
+WinBar            fg=N6    bg=U0_bg
+WinBarNC          fg=N4    bg=U0_dim
+TabLine           fg=N4    bg=N1
+TabLineSel        fg=U1    bg=U1_bg  bold
+TabLineFill                bg=N0
+WinSeparator      fg=U0_sep
+Folded            fg=N5    bg=N2
+FoldColumn        fg=N4
+SignColumn                 bg=N0
+NonText           fg=N4
+Title             fg=U0    bold
+
+── Syntax ─────────────────────────────────────────────
+Comment           fg=N5    italic
+Keyword           fg=S1
+Statement         fg=S1
+Conditional       fg=S1
+Repeat            fg=S1
+Function          fg=S2
+Operator          fg=S6
+String            fg=S3
+Character         fg=S3
+Type              fg=S4
+Number            fg=S5
+Boolean           fg=S5
+Float             fg=S5
+Constant          fg=S5
+Special           fg=S0
+Delimiter         fg=N4
+Identifier        fg=N6
+PreProc           fg=S7
+Include           fg=S7
+Todo              fg=S0    bold
+
+── Diagnostic ─────────────────────────────────────────
+DiagnosticError         fg=D0
+DiagnosticWarn          fg=D1
+DiagnosticInfo          fg=D2
+DiagnosticHint          fg=D3
+DiagnosticVirtualText*  fg=D0-D3
+DiagnosticUnderline*    undercurl
+DiagnosticSign*         fg=D0-D3
+
+── Diff ───────────────────────────────────────────────
+DiffAdd                 bg=blend(D3, N0, 0.18)
+DiffChange              bg=blend(D2, N0, 0.18)
+DiffDelete              bg=blend(D0, N0, 0.18)
+DiffText                bg=blend(D2, N0, 0.30)
+```
+
+### 現状からの変更サマリ
+
+| 変更 | Before | After |
+|---|---|---|
+| パレットシステム | palette-generator + highlight-mapper 並走 | 22色パレット + マッピングテーブルに統一 |
+| AI 依存 | 3色 + bg/fg = 5値 | 2色のみ (primary + 選定された se/te) |
+| Neutral | 2つの定義が微妙に違う | N0-N7 の 8段階、テーマ別 L テーブル |
+| Syntax | accent 10色 / roles 7色が混在 | S0-S7 の 8色。seed 2色 + gap-fill 6色 |
+| UI chrome | UiColors 5色が別枠、bg は neutral と同じ | U0/U1 + blend で StatusLine/TabLine/WinBar に個性 |
+| Diagnostic | highlight-mapper のみ | D0-D3 をパレットの一級市民に |
+| Diff bg | diagnostic をそのまま bg に | blend(diagnostic, N0, ratio) |
+| コントラスト保証 | WCAG 2.x | APCA へ移行 (40行で移植可能) |
+| config.ts | 62行フラットなオブジェクト | Neutral L テーブル + blend ratio のみ |
+
+### この設計が解決する Issue
+
+| Issue | 解決方法 |
+|---|---|
+| ISSUE-1 (bg/fg 自力導出) | Neutral を seed hue + L テーブルから生成。AI の neutral 出力に依存しない |
+| ISSUE-2 (UI クローム) | U0/U1 + blend で StatusLine/TabLine/WinBar にキャラの個性 |
+| ISSUE-3 (APCA) | ensureContrast を APCA ベースに置き換え |
+| ISSUE-4 (light テーマ) | Neutral L テーブルを dark/light 別に定義。ΔL を快適ゾーンに保証 |
+| ISSUE-5 (seed-error) | seed が 2色に減ったため衝突確率が下がる + error hue の回避ロジック維持 |
+| ISSUE-6 (seed 集中) | seed 2色 + gap-fill 6色。2色の hue 差が最大になるよう選定するため集中しにくい |
+| ISSUE-7 (config 複雑) | Neutral L テーブル + blend ratio テーブルに簡素化 |
+| ISSUE-8 (UI 表示) | impression 3色 + 選定された seed 2色の表示を追加 |
+
+---
+
 ## 未実装機能
 
 ### TODO-3: ユニットテスト
@@ -321,6 +561,33 @@ V01+V02 統合パイプライン (将来)
 - 437 テーマの Oklab プリコンパイルデータが生成済みであること (V02 spec §2)
 
 詳細は [V02 plan.md](../V02/plan.md) と [V02 spec.md](../V02/spec.md) を参照。
+
+---
+
+## 参考 OSS
+
+少数のベースカラーからプログラム的に Neovim カラースキームを生成する OSS の調査結果。
+各 Issue の設計・実装時に参照する。
+
+### 最重要（直接取り入れる）
+
+| OSS | 関連 Issue | 取り入れるもの |
+|---|---|---|
+| **mini.base16** (echasnovski/mini.nvim) | ISSUE-2 (UI クローム) | Base00〜07 (bg→fg モノトーン 8段階) + Base08〜0F (accent 8色) の 16色で全ハイライトグループをカバーするマッピングテーブル。「何色あれば全部塗れるか」の設計基盤 |
+| **Catppuccin** (catppuccin/nvim) | ISSUE-1 (bg/fg), ISSUE-2 | `blend(accent, bg, ratio)` アルゴリズム。数色のパレットから Diagnostics bg・UI chrome を動的派生。数百プラグイン対応の実績 |
+| **Lush.nvim** (rktjmp/lush.nvim) | ISSUE-1, ISSUE-7 (config) | `lighten()`, `desaturate()`, `rotate()`, `mix()` の関数ベース色派生 DSL。意図が読める宣言的な色定義 |
+
+### 参考（部分的に参照）
+
+| OSS | 参考になる点 |
+|---|---|
+| **mini.colors** (echasnovski/mini.nvim) | OKLCH ネイティブの L/C 一括変換・補間アルゴリズム (Lua 実装) |
+| **Pywal** (dylanaraps/pywal) | 画像 → ANSI 16色アサインの先駆者。割り当てアルゴリズム |
+| **colorbuddy.nvim** (tjdevries/colorbuddy.nvim) | ベース色からトーン派生 → Syntax ツリーへの論理的マッピング設計 |
+| **nvim-highlite** (Iron-E/nvim-highlite) | 少数パレットから欠けている色を自動推論・補間する Gap-filling ロジック |
+| **vim-dogrun** (wadackel/vim-dogrun) | Rust 製ジェネレータ。CIELAB + Delta E 2000 による 256色ダウングレードマッピング |
+| **Themer** (ThemerCorp/themer.lua) | 単一パレット → 複数アプリ (Neovim, Kitty, Alacritty) のテーマ一括生成テンプレート |
+| **oklch-color-picker.nvim** (eero-lehtinen/oklch-color-picker.nvim) | Lua+Rust ハイブリッドの OKLCH パース・リアルタイムプレビュー |
 
 ---
 
