@@ -12,9 +12,9 @@ const app = await alchemy("oshicolor", {
 export const worker = await TanStackStart("website", {
   build: { command: "vite build" },
   bindings: {
-    GEMINI_API_KEY: process.env.ALCHEMY_PASSWORD
+    GEMINI_API_KEY: process.env.GEMINI_API_KEY
       ? alchemy.secret(process.env.GEMINI_API_KEY)
-      : (process.env.GEMINI_API_KEY ?? ""),
+      : "",
   },
 });
 
