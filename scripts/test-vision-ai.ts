@@ -212,8 +212,10 @@ async function processImage(imagePath: string) {
   }
 
   const game = gameFromImagePath(imagePath);
-  const gameDir = join(OUTPUT_DIR, game);
-  mkdirSync(gameDir, { recursive: true });
+  const jsonDir = join(OUTPUT_DIR, game, "json");
+  const svgDir = join(OUTPUT_DIR, game, "svg");
+  mkdirSync(jsonDir, { recursive: true });
+  mkdirSync(svgDir, { recursive: true });
 
   const output = {
     image: imagePath,
@@ -226,7 +228,7 @@ async function processImage(imagePath: string) {
       response: r.response ?? null,
     })),
   };
-  const outPath = join(gameDir, `${imageName}.json`);
+  const outPath = join(jsonDir, `${imageName}.json`);
   writeFileSync(outPath, JSON.stringify(output, null, 2));
   console.log(`Saved: ${outPath}`);
 
@@ -240,7 +242,7 @@ async function processImage(imagePath: string) {
         .trim();
       const parsed = JSON.parse(cleaned) as VisionResult;
       if (parsed.neutral?.bg_base_hex && parsed.theme_tone) {
-        const svgPath = join(gameDir, `${imageName}.vision.svg`);
+        const svgPath = join(svgDir, `${imageName}.vision.svg`);
         writeFileSync(svgPath, generateSvg(imageName, parsed));
         console.log(`Saved: ${svgPath}`);
       }

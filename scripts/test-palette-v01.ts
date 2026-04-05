@@ -1,28 +1,99 @@
 /**
  * V01 隙間充填パレット生成テストスクリプト
  *
- * AI 出力 → 低彩度補正 → 隙間充填 → L分散 → 最小色相距離保証
- * → neutral 派生 → variant → UI ロール → 弁別性検証 → コントラスト保証 → SVG 出力
+ * パイプライン:
+ *   AI 3色 → theme_tone 推定 → 低彩度補正 → 隙間充填 → 最小色相距離保証
+ *   → L 分散 → error hue 解決 → neutral 派生 → variant → コントラスト保証
+ *   → 弁別性自動修正 → neutral spacing → UI ロール → SVG 出力
  *
- * 改善の根拠:
+ * 理論的根拠:
  * - Ottosson (2020): Oklab/OKLCH — 知覚均等色空間、gamut mapping に clampChroma 使用
  * - Cohen-Or et al. (SIGGRAPH 2006): 色相テンプレート → 最小色相距離 ≥ 30° で簡易適用
  * - O'Donovan et al. (SIGGRAPH 2011): 調和パレットは lightness variance が高い → L 分散
  * - Gramazio et al. (2017): Colorgorical — accent 間 ΔE_ok ≥ 0.08 で弁別性保証
- * - Solarized (Schoonover): 数学的 L ステップ均等設計の実例
  *
  * Usage: node scripts/test-palette-v01.ts
  */
 
 import * as culori from "culori";
-import { writeFileSync, mkdirSync } from "node:fs";
-import { join } from "node:path";
+import { writeFileSync, mkdirSync, readdirSync, readFileSync, existsSync } from "node:fs";
+import { join, basename } from "node:path";
 
-// ============================================================
-// types
-// ============================================================
+// ────────────────────────────────────────────────────────────
+// §1 Config
+// ────────────────────────────────────────────────────────────
 
-type OklchValues = { l: number; c: number; h: number };
+const CONFIG = {
+  /** 低彩度判定の基準値 (JND ベース) */
+  achromaticCBase: 0.015,
+  /** Tinted Gray 化時の chroma */
+  tintedGrayC: 0.025,
+  /** gap-filled 色の chroma スケール (AI 中央値 × この値) */
+  chromaScale: 0.9,
+  /** error hue のデフォルト・範囲 */
+  errorHue: 25,
+  errorHueMin: 0,
+  errorHueMax: 55,
+  errorChromaMin: 0.15,
+  /** 最小色相距離 (°) — Cohen-Or 2006 */
+  minHueGap: 30,
+  /** 弁別性閾値 — Gramazio 2017 */
+  minDeltaE: 0.08,
+  /** WCAG コントラスト比 */
+  contrastAA: 4.5,
+  contrastSubdued: 3.0,
+  /** variant 生成 */
+  variant1ChromaScale: 0.6,
+  variant3LOffset: 0.08,
+  /** Luminance Jittering — O'Donovan 2011 */
+  lJitter: {
+    dark: [0.68, 0.76, 0.72, 0.80],
+    light: [0.42, 0.50, 0.46, 0.38],
+  },
+  /** neutral L 範囲 */
+  neutral: {
+    dark: {
+      bg: { lMin: 0.10, lMax: 0.22, cMax: 0.02, cFallback: 0.015 },
+      fg: { lMin: 0.82, lMax: 0.92 },
+      fgLevels: { comment: 0.45, lineNr: 0.40, border: 0.30, delimiter: 0.60 },
+    },
+    light: {
+      bg: { lMin: 0.92, lMax: 0.95, cMax: 0.02, cFallback: 0.015 },
+      fg: { lMin: 0.15, lMax: 0.25 },
+      fgLevels: { comment: 0.55, lineNr: 0.60, border: 0.70, delimiter: 0.45 },
+    },
+  },
+  /** neutral 派生の L オフセット (dark 基準、light は符号反転) */
+  neutralOffsets: { surface: 0.02, cursorLine: 0.05, popup: 0.04, visual: 0.08 },
+  /** UI 色 */
+  ui: {
+    bgCrMin: 3.0,
+    fgCrMin: 2.0,
+    frameChromaScale: 0.5,
+    frameL: { dark: 0.35, light: 0.65 },
+    searchBgL: { dark: 0.30, light: 0.85 },
+  },
+  /** 弁別性修正 */
+  discrimination: {
+    adjustableIndices: [3, 4, 5, 6],
+    lShift: 0.03,
+    maxIter: 5,
+  },
+  /** neutral fg spacing */
+  neutralMinDeltaL: 0.04,
+  /** enforceMinHueGap */
+  hueGap: { damping: 0.3, maxIter: 20, convergeThreshold: 0.5 },
+  /** error L */
+  errorL: { dark: 0.72, light: 0.45 },
+} as const;
+
+// ────────────────────────────────────────────────────────────
+// §2 Types
+// ────────────────────────────────────────────────────────────
+
+type ThemeTone = "dark" | "light";
+type Oklch = { l: number; c: number; h: number };
+type Oklab = { l: number; a: number; b: number };
 type HueGap = { start: number; end: number; size: number };
 
 type NeutralPalette = {
@@ -60,6 +131,7 @@ type UiColors = {
 };
 
 type PaletteResult = {
+  theme_tone: ThemeTone;
   neutral: NeutralPalette;
   accent: AccentPalette;
   ui: UiColors;
@@ -75,116 +147,138 @@ type CharacterInput = {
   fg: string;
 };
 
-// ============================================================
-// oklch utils
-// ============================================================
+// ────────────────────────────────────────────────────────────
+// §3 Color utilities
+// ────────────────────────────────────────────────────────────
 
-function hexToOklch(hex: string): OklchValues {
-  const result = culori.oklch(hex);
-  return { l: result?.l ?? 0, c: result?.c ?? 0, h: result?.h ?? 0 };
-}
+const hexToOklch = (hex: string): Oklch => {
+  const r = culori.oklch(hex);
+  return { l: r?.l ?? 0, c: r?.c ?? 0, h: r?.h ?? 0 };
+};
 
-// ============================================================
-// gamut clamp (culori clampChroma — binary search, Ottosson 2020)
-// ============================================================
+const hexToOklab = (hex: string): Oklab => {
+  const r = culori.oklab(hex);
+  return { l: r?.l ?? 0, a: r?.a ?? 0, b: r?.b ?? 0 };
+};
 
-function gamutClamp(l: number, c: number, h: number): string {
-  const clamped = culori.clampChroma(
-    { mode: "oklch", l, c, h },
-    "oklch",
-    "rgb",
-  );
-  return culori.formatHex(clamped);
-}
+/** Gamut mapping — culori clampChroma (Ottosson 2020) */
+const toHex = (l: number, c: number, h: number): string =>
+  culori.formatHex(culori.clampChroma({ mode: "oklch", l, c, h }, "oklch", "rgb"));
 
-function oklchToHex(l: number, c: number, h: number): string {
-  return gamutClamp(l, c, h);
-}
+const vToHex = (v: Oklch): string => toHex(v.l, v.c, v.h);
 
-function oklchVToHex(v: OklchValues): string {
-  return gamutClamp(v.l, v.c, v.h);
-}
+const oklabDist = (a: Oklab, b: Oklab): number =>
+  Math.sqrt((a.l - b.l) ** 2 + (a.a - b.a) ** 2 + (a.b - b.b) ** 2);
 
-// ============================================================
-// contrast
-// ============================================================
+const clamp = (v: number, min: number, max: number): number =>
+  Math.min(Math.max(v, min), max);
 
-function relativeLuminance(hex: string): number {
+/** 色相環上の最短距離 */
+const hueDist = (h1: number, h2: number): number => {
+  const d = Math.abs(h1 - h2) % 360;
+  return d > 180 ? 360 - d : d;
+};
+
+// ────────────────────────────────────────────────────────────
+// §3.1 Contrast (WCAG 2.x)
+// ────────────────────────────────────────────────────────────
+
+const relativeLuminance = (hex: string): number => {
   const rgb = culori.rgb(hex);
   if (!rgb) return 0;
-  const toLinear = (c: number) =>
+  const lin = (c: number) =>
     c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
-  return (
-    0.2126 * toLinear(Math.max(0, rgb.r)) +
-    0.7152 * toLinear(Math.max(0, rgb.g)) +
-    0.0722 * toLinear(Math.max(0, rgb.b))
-  );
-}
+  return 0.2126 * lin(Math.max(0, rgb.r)) + 0.7152 * lin(Math.max(0, rgb.g)) + 0.0722 * lin(Math.max(0, rgb.b));
+};
 
-function contrastRatio(hex1: string, hex2: string): number {
+const contrastRatio = (hex1: string, hex2: string): number => {
   const l1 = relativeLuminance(hex1);
   const l2 = relativeLuminance(hex2);
   return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
-}
-
-const CONTRAST_AA = 4.5;
-const CONTRAST_SUBDUED = 3.0;
-
-function ensureContrast(
-  fgHex: string,
-  bgHex: string,
-  minRatio: number,
-): string {
-  if (contrastRatio(fgHex, bgHex) >= minRatio) return fgHex;
-  const { l, c, h } = hexToOklch(fgHex);
-  const step = 0.01;
-  // dark theme: L を上げる方向に探索
-  for (let ll = l + step; ll <= 0.95; ll += step) {
-    const hex = gamutClamp(ll, c, h);
-    if (contrastRatio(hex, bgHex) >= minRatio) return hex;
-  }
-  return gamutClamp(0.95, c, h);
-}
-
-// ============================================================
-// 0. stabilizeHue — 低彩度入力の補正
-// JND (ΔE_ok ≈ 0.02) に基づき C < 0.015 で hue 不定と判定
-// Tinted Gray: primary の hue を借用し C=0.025 に引き上げ
-// (同時対比による錯覚を防ぐ — Gemini research)
-// ============================================================
-
-const ACHROMATIC_C_BASE = 0.015;
-const TINTED_GRAY_C = 0.025;
+};
 
 /**
- * L に応じた低彩度判定閾値 (BUG-2 修正)
- *
- * 暗い色 (L < 0.3): C=0.02〜0.03 でも事実上無彩色に見える → 閾値を上げる
- * 明るい色 (L > 0.85): 高 L では彩度の知覚感度が下がる → 閾値を上げる
- * 中間: JND ベースの 0.015 をそのまま使用
+ * fg の L を調整して bg とのコントラスト比 >= minRatio を保証する。
+ * bg の L から探索方向を自動判定:
+ *   dark bg (L < 0.5) → L を上げる
+ *   light bg (L >= 0.5) → L を下げる
  */
-function achromaticThreshold(l: number): number {
+const ensureContrast = (fgHex: string, bgHex: string, minRatio: number): string => {
+  if (contrastRatio(fgHex, bgHex) >= minRatio) return fgHex;
+  const fg = hexToOklch(fgHex);
+  const bgL = hexToOklch(bgHex).l;
+  const step = 0.01;
+
+  if (bgL < 0.5) {
+    // dark bg → L を上げて明るくする
+    for (let ll = fg.l + step; ll <= 0.95; ll += step) {
+      const hex = toHex(ll, fg.c, fg.h);
+      if (contrastRatio(hex, bgHex) >= minRatio) return hex;
+    }
+    return toHex(0.95, fg.c, fg.h);
+  }
+  // light bg → L を下げて暗くする
+  for (let ll = fg.l - step; ll >= 0.05; ll -= step) {
+    const hex = toHex(ll, fg.c, fg.h);
+    if (contrastRatio(hex, bgHex) >= minRatio) return hex;
+  }
+  return toHex(0.05, fg.c, fg.h);
+};
+
+// ────────────────────────────────────────────────────────────
+// §4 Pipeline steps
+// ────────────────────────────────────────────────────────────
+
+// §4.0 theme_tone 推定
+const detectThemeTone = (bgHex: string): ThemeTone =>
+  hexToOklch(bgHex).l < 0.5 ? "dark" : "light";
+
+// §4.1 stabilizeHue — 低彩度入力の補正
+
+/**
+ * L に応じた低彩度判定閾値
+ * 暗い色 (L < 0.3): C=0.02〜0.03 でも事実上無彩色 → 閾値を上げる
+ * 明るい色 (L > 0.85): 高 L で彩度知覚が低下 → 閾値を上げる
+ */
+const achromaticThreshold = (l: number): number => {
   if (l < 0.3) return 0.035;
   if (l > 0.85) return 0.025;
-  return ACHROMATIC_C_BASE;
-}
+  return CONFIG.achromaticCBase;
+};
 
-function stabilizeHue(seeds: OklchValues[]): OklchValues[] {
+const stabilizeHue = (seeds: Oklch[]): Oklch[] => {
   const primaryHue = seeds[0].h;
   return seeds.map((s, i) => {
     if (i === 0) return s;
     if (s.c <= achromaticThreshold(s.l)) {
-      return { l: s.l, c: TINTED_GRAY_C, h: primaryHue };
+      return { l: s.l, c: CONFIG.tintedGrayC, h: primaryHue };
     }
     return s;
   });
-}
+};
 
-// ============================================================
-// 1. computeGaps
-// ============================================================
+// §4.2 computeGaps + fillGaps — 色相環の隙間充填
 
-function computeGaps(hues: number[]): HueGap[] {
+/**
+ * 近接 hue をマージしてからギャップを計算する。
+ * mergeThreshold° 以内の hue は 1 つにまとめる。
+ * これにより Aglaea (90°x3) や Kafka (1°-3°) のような
+ * 重複 hue で 360° ギャップが複製される問題を防ぐ。
+ */
+const MERGE_THRESHOLD = 5;
+
+const mergeCloseHues = (hues: number[]): number[] => {
+  const sorted = [...hues].sort((a, b) => a - b);
+  const merged: number[] = [sorted[0]];
+  for (let i = 1; i < sorted.length; i++) {
+    if (hueDist(sorted[i], merged[merged.length - 1]) > MERGE_THRESHOLD) {
+      merged.push(sorted[i]);
+    }
+  }
+  return merged;
+};
+
+const computeGaps = (hues: number[]): HueGap[] => {
   const sorted = [...hues].sort((a, b) => a - b);
   const gaps: HueGap[] = [];
   for (let i = 0; i < sorted.length; i++) {
@@ -195,13 +289,9 @@ function computeGaps(hues: number[]): HueGap[] {
     gaps.push({ start, end, size });
   }
   return gaps;
-}
+};
 
-// ============================================================
-// 2. fillGaps
-// ============================================================
-
-function fillGaps(gaps: HueGap[], count: number): number[] {
+const fillGaps = (gaps: HueGap[], count: number): number[] => {
   const workGaps = gaps.map((g) => ({ ...g }));
   const filled: number[] = [];
   for (let i = 0; i < count; i++) {
@@ -214,282 +304,185 @@ function fillGaps(gaps: HueGap[], count: number): number[] {
     workGaps.push({ start: mid, end: gap.end, size: gap.size / 2 });
   }
   return filled;
-}
+};
 
-// ============================================================
-// 3. computeTargetLC
-// ============================================================
+// §4.3 enforceMinHueGap — 最小色相距離保証 (バネモデル)
 
-const CHROMA_SCALE = 0.9;
-const ERROR_HUE = 25;
-const ERROR_HUE_MIN = 0;
-const ERROR_HUE_MAX = 55;
-const ERROR_CHROMA_MIN = 0.15;
-
-/**
- * error hue が primary hue と近い場合にずらす (BUG-1 修正)
- *
- * 赤系 (0°〜55°) の範囲を保ちつつ、primary から MIN_HUE_GAP 以上離す。
- * 両端の候補 + デフォルト (25°) から primary と最も離れた hue を選ぶ。
- * OKLCH hue 55° はまだ赤-橙系として知覚される範囲。
- */
-function resolveErrorHue(primaryHue: number): number {
-  if (hueDist(primaryHue, ERROR_HUE) >= MIN_HUE_GAP) return ERROR_HUE;
-  const candidates = [ERROR_HUE_MIN, ERROR_HUE_MAX, ERROR_HUE];
-  return candidates.reduce((best, c) =>
-    hueDist(primaryHue, c) > hueDist(primaryHue, best) ? c : best,
-  );
-}
-
-/**
- * Luminance Jittering (O'Donovan 2011 + Solarized の知見)
- *
- * gap-filled 色に固定 L ではなく分散した L を割り当てる。
- * dark: [0.68, 0.76, 0.72, 0.80] — 中心 0.74、ΔL=0.04 ステップ
- * light: [0.42, 0.50, 0.46, 0.38] — 中心 0.44、ΔL=0.04 ステップ
- *
- * Gemini research: accent 間 ΔL > 0.05 で視覚的に区別可能
- * ここでは隣接 ΔL=0.04 だが、非隣接は ΔL≥0.08 を確保
- */
-const L_JITTER = [0.68, 0.76, 0.72, 0.8];
-
-function computeTargetLC(
-  seeds: OklchValues[],
-): { lValues: number[]; c: number } {
-  const chromas = seeds.map((s) => s.c).sort((a, b) => a - b);
-  const cTarget = chromas[Math.floor(chromas.length / 2)] * CHROMA_SCALE;
-  return { lValues: L_JITTER, c: cTarget };
-}
-
-// ============================================================
-// 3.5 enforceMinHueGap — 最小色相距離保証 (Cohen-Or 2006 簡易版)
-// ============================================================
-
-const MIN_HUE_GAP = 30;
-
-/** 色相環上の最短距離 */
-function hueDist(h1: number, h2: number): number {
-  const d = Math.abs(h1 - h2) % 360;
-  return d > 180 ? 360 - d : d;
-}
-
-/**
- * 全色相ペアが MIN_HUE_GAP 以上離れるよう押し広げる (バネモデル)
- *
- * seeds (AI入力) は固定、filledHues のみ調整対象。
- * 力を蓄積してから一括更新することで振動を防止する。
- * damping factor 0.3 で過剰補正を抑制。
- */
-function enforceMinHueGap(seedHues: number[], filledHues: number[]): number[] {
+const enforceMinHueGap = (seedHues: number[], filledHues: number[]): number[] => {
   const result = [...filledHues];
   const fixed = [...seedHues];
-  const DAMPING = 0.3;
-  const MAX_ITER = 20;
-  const CONVERGE_THRESHOLD = 0.5;
+  const { damping, maxIter, convergeThreshold } = CONFIG.hueGap;
 
-  for (let iter = 0; iter < MAX_ITER; iter++) {
+  for (let iter = 0; iter < maxIter; iter++) {
     const forces = result.map(() => 0);
     let maxForce = 0;
-
     for (let i = 0; i < result.length; i++) {
-      const others = [
-        ...fixed,
-        ...result.filter((_, j) => j !== i),
-      ];
+      const others = [...fixed, ...result.filter((_, j) => j !== i)];
       for (const other of others) {
         const dist = hueDist(result[i], other);
-        if (dist < MIN_HUE_GAP && dist > 0) {
+        if (dist < CONFIG.minHueGap && dist > 0) {
           const diff = ((result[i] - other + 540) % 360) - 180;
-          const direction = diff >= 0 ? 1 : -1;
-          const force = (MIN_HUE_GAP - dist) * DAMPING;
-          forces[i] += direction * force;
+          const force = (CONFIG.minHueGap - dist) * damping;
+          forces[i] += (diff >= 0 ? 1 : -1) * force;
           maxForce = Math.max(maxForce, Math.abs(force));
         }
       }
     }
-
-    if (maxForce < CONVERGE_THRESHOLD) break;
-
+    if (maxForce < convergeThreshold) break;
     for (let i = 0; i < result.length; i++) {
       result[i] = ((result[i] + forces[i]) % 360 + 360) % 360;
     }
   }
   return result;
-}
-
-// ============================================================
-// 4. clampNeutral
-// ============================================================
-
-const NEUTRAL_LIMITS = {
-  bg: { lMin: 0.1, lMax: 0.22, cMax: 0.02, cFallback: 0.015 },
-  fg: { lMin: 0.82, lMax: 0.92 },
 };
 
-function clamp(v: number, min: number, max: number): number {
-  return Math.min(Math.max(v, min), max);
-}
+// §4.4 computeTargetLC + zigzag L 割り当て
 
-function clampNeutral(
-  bgHex: string,
-  fgHex: string,
-): { bg: OklchValues; fg: OklchValues } {
-  const bgO = hexToOklch(bgHex);
-  const fgO = hexToOklch(fgHex);
+const computeTargetC = (seeds: Oklch[]): number => {
+  const chromas = seeds.map((s) => s.c).sort((a, b) => a - b);
+  return chromas[Math.floor(chromas.length / 2)] * CONFIG.chromaScale;
+};
+
+/**
+ * 色相順ソート → zigzag で L を割り当て。
+ * 色相が隣接する gap-filled 色に最も離れた L を配置し ΔL を最大化する。
+ */
+const assignLByHueZigzag = (filledHues: number[], tone: ThemeTone): number[] => {
+  const lPool = [...CONFIG.lJitter[tone]].sort((a, b) => a - b);
+  const zigzag = [0, 3, 1, 2]; // [最小, 最大, 2番目, 3番目]
+  const indexed = filledHues
+    .map((h, i) => ({ h, i }))
+    .sort((a, b) => a.h - b.h);
+  const assignment = new Array<number>(filledHues.length);
+  indexed.forEach((entry, sortedIdx) => {
+    assignment[entry.i] = lPool[zigzag[sortedIdx]];
+  });
+  return assignment;
+};
+
+// §4.5 resolveErrorHue
+
+const resolveErrorHue = (primaryHue: number): number => {
+  if (hueDist(primaryHue, CONFIG.errorHue) >= CONFIG.minHueGap) return CONFIG.errorHue;
+  const candidates = [CONFIG.errorHueMin, CONFIG.errorHueMax, CONFIG.errorHue];
+  return candidates.reduce((best, c) =>
+    hueDist(primaryHue, c) > hueDist(primaryHue, best) ? c : best,
+  );
+};
+
+// §4.6 clampNeutral
+
+const clampNeutral = (bgHex: string, fgHex: string, tone: ThemeTone): { bg: Oklch; fg: Oklch } => {
+  const limits = CONFIG.neutral[tone];
+  const bg = hexToOklch(bgHex);
+  const fg = hexToOklch(fgHex);
   return {
     bg: {
-      l: clamp(bgO.l, NEUTRAL_LIMITS.bg.lMin, NEUTRAL_LIMITS.bg.lMax),
-      c: bgO.c > NEUTRAL_LIMITS.bg.cMax ? NEUTRAL_LIMITS.bg.cFallback : bgO.c,
-      h: bgO.h,
+      l: clamp(bg.l, limits.bg.lMin, limits.bg.lMax),
+      c: bg.c > limits.bg.cMax ? limits.bg.cFallback : bg.c,
+      h: bg.h,
     },
-    fg: { l: clamp(fgO.l, NEUTRAL_LIMITS.fg.lMin, NEUTRAL_LIMITS.fg.lMax), c: fgO.c, h: fgO.h },
+    fg: {
+      l: clamp(fg.l, limits.fg.lMin, limits.fg.lMax),
+      c: fg.c,
+      h: fg.h,
+    },
   };
-}
+};
 
-// ============================================================
-// 5. deriveNeutralPalette
-// ============================================================
+// §4.7 deriveNeutralPalette
 
-function deriveNeutralPalette(
-  bg: OklchValues,
-  fg: OklchValues,
-): NeutralPalette {
+const deriveNeutralPalette = (bg: Oklch, fg: Oklch, tone: ThemeTone): NeutralPalette => {
+  const sign = tone === "dark" ? 1 : -1;
+  const off = CONFIG.neutralOffsets;
+  const levels = CONFIG.neutral[tone].fgLevels;
   return {
-    bg: oklchVToHex(bg),
-    fg: oklchVToHex(fg),
-    bg_surface: oklchToHex(bg.l + 0.02, bg.c, bg.h),
-    bg_cursor_line: oklchToHex(bg.l + 0.05, bg.c + 0.01, bg.h),
-    bg_popup: oklchToHex(bg.l + 0.04, bg.c, bg.h),
-    bg_visual: oklchToHex(bg.l + 0.08, bg.c, bg.h), // 仮値、後で navigation hue で上書き
-    comment: oklchToHex(0.45, bg.c, fg.h),
-    line_nr: oklchToHex(0.4, bg.c, fg.h),
-    border: oklchToHex(0.3, bg.c, fg.h),
-    delimiter: oklchToHex(0.6, bg.c, fg.h),
+    bg: vToHex(bg),
+    fg: vToHex(fg),
+    bg_surface: toHex(bg.l + off.surface * sign, bg.c, bg.h),
+    bg_cursor_line: toHex(bg.l + off.cursorLine * sign, bg.c + 0.01, bg.h),
+    bg_popup: toHex(bg.l + off.popup * sign, bg.c, bg.h),
+    bg_visual: toHex(bg.l + off.visual * sign, bg.c, bg.h),
+    comment: toHex(levels.comment, bg.c, fg.h),
+    line_nr: toHex(levels.lineNr, bg.c, fg.h),
+    border: toHex(levels.border, bg.c, fg.h),
+    delimiter: toHex(levels.delimiter, bg.c, fg.h),
   };
-}
+};
 
-// ============================================================
-// 6. variants
-// ============================================================
+// §4.8 generateVariants
 
-const VARIANT1_CHROMA_SCALE = 0.6;
-const VARIANT3_L_OFFSET = 0.08;
-
-function generateVariants(c1: OklchValues, c3: OklchValues) {
+const generateVariants = (c1: Oklch, c3: Oklch, tone: ThemeTone) => {
+  const sign = tone === "dark" ? 1 : -1;
   return {
-    color1_variant: { l: c1.l, c: c1.c * VARIANT1_CHROMA_SCALE, h: c1.h },
-    color3_variant: { l: c3.l + VARIANT3_L_OFFSET, c: c3.c, h: c3.h },
+    color1_variant: { l: c1.l, c: c1.c * CONFIG.variant1ChromaScale, h: c1.h },
+    color3_variant: { l: c3.l + CONFIG.variant3LOffset * sign, c: c3.c, h: c3.h },
   };
-}
+};
 
-// ============================================================
-// 7. UI roles
-// ============================================================
+// §4.9 checkDiscrimination + fixDiscrimination
 
-// ============================================================
-// 6.5 ensureDiscrimination — accent 間弁別性検証 (Gramazio 2017)
-// ============================================================
-
-const MIN_DELTA_E = 0.08;
-
-type OklabValues = { l: number; a: number; b: number };
-
-function hexToOklab(hex: string): OklabValues {
-  const result = culori.oklab(hex);
-  return { l: result?.l ?? 0, a: result?.a ?? 0, b: result?.b ?? 0 };
-}
-
-function oklabDist(a: OklabValues, b: OklabValues): number {
-  return Math.sqrt((a.l - b.l) ** 2 + (a.a - b.a) ** 2 + (a.b - b.b) ** 2);
-}
-
-/** accent 色間の ΔE_ok を検証し、警告を出す */
-function checkDiscrimination(
-  accentHexes: string[],
-  labels: string[],
-): string[] {
+const checkDiscrimination = (accentHexes: string[], labels: string[]): string[] => {
   const warnings: string[] = [];
   const oklabs = accentHexes.map(hexToOklab);
   for (let i = 0; i < oklabs.length; i++) {
     for (let j = i + 1; j < oklabs.length; j++) {
       const dist = oklabDist(oklabs[i], oklabs[j]);
-      if (dist < MIN_DELTA_E) {
-        warnings.push(
-          `  ⚠ ${labels[i]}↔${labels[j]} ΔE=${dist.toFixed(3)} < ${MIN_DELTA_E}`,
-        );
+      if (dist < CONFIG.minDeltaE) {
+        warnings.push(`  ⚠ ${labels[i]}↔${labels[j]} ΔE=${dist.toFixed(3)} < ${CONFIG.minDeltaE}`);
       }
     }
   }
   return warnings;
-}
+};
 
 /**
- * 弁別性不足ペアの自動修正 (TODO-1)
- *
- * gap-filled 色 (index 5〜8 = c4〜c7 in accentHexes 配列) の L を ±0.03 調整し、
- * ΔE_ok ≥ MIN_DELTA_E を目指す。seed 色 (c1〜c3) と error (c8) は固定。
- * bgHex とのコントラストが改善する方向にシフトする。
+ * ΔE_ok < minDeltaE のペアを検出し、gap-filled 色 (c4〜c7) の L を ±0.03 調整。
+ * 両方向を試し ΔE が最も改善する方を採用する。
  */
-const ADJUSTABLE_INDICES = [3, 4, 5, 6]; // c4〜c7 の AccentPalette 配列内 index
-const L_SHIFT = 0.03;
-const DISCRIMINATION_MAX_ITER = 5;
-
-function fixDiscrimination(
-  accentHexes: string[],
-  bgHex: string,
-): string[] {
+const fixDiscrimination = (accentHexes: string[], bgHex: string): string[] => {
+  const { adjustableIndices, lShift, maxIter } = CONFIG.discrimination;
   const result = [...accentHexes];
   const bgOklab = hexToOklab(bgHex);
 
-  for (let iter = 0; iter < DISCRIMINATION_MAX_ITER; iter++) {
+  for (let iter = 0; iter < maxIter; iter++) {
     let worstDist = Infinity;
     let worstI = -1;
     let worstJ = -1;
     const oklabs = result.map(hexToOklab);
-
     for (let i = 0; i < oklabs.length; i++) {
       for (let j = i + 1; j < oklabs.length; j++) {
         const dist = oklabDist(oklabs[i], oklabs[j]);
-        if (dist < MIN_DELTA_E && dist < worstDist) {
+        if (dist < CONFIG.minDeltaE && dist < worstDist) {
           worstDist = dist;
           worstI = i;
           worstJ = j;
         }
       }
     }
+    if (worstI === -1) break;
 
-    if (worstI === -1) break; // 全ペア OK
-
-    // 調整対象を決定: adjustable な方を動かす。両方 adjustable なら bg から近い方を動かす
+    const iAdj = adjustableIndices.includes(worstI);
+    const jAdj = adjustableIndices.includes(worstJ);
     let target: number;
-    const iAdj = ADJUSTABLE_INDICES.includes(worstI);
-    const jAdj = ADJUSTABLE_INDICES.includes(worstJ);
     if (iAdj && jAdj) {
-      target =
-        oklabDist(oklabs[worstI], bgOklab) <=
-        oklabDist(oklabs[worstJ], bgOklab)
-          ? worstI
-          : worstJ;
+      target = oklabDist(oklabs[worstI], bgOklab) <= oklabDist(oklabs[worstJ], bgOklab)
+        ? worstI : worstJ;
     } else if (iAdj) {
       target = worstI;
     } else if (jAdj) {
       target = worstJ;
     } else {
-      break; // どちらも固定色 → 調整不可
+      break;
     }
 
-    // L をシフト: 両方向を試し、ΔE が最も改善する方を採用
-    const oklchTarget = hexToOklch(result[target]);
+    const tc = hexToOklch(result[target]);
     const other = target === worstI ? worstJ : worstI;
     let bestHex = result[target];
     let bestDist = worstDist;
     for (const dir of [1, -1]) {
-      const newL = clamp(oklchTarget.l + L_SHIFT * dir, 0.15, 0.90);
-      const candidate = ensureContrast(
-        gamutClamp(newL, oklchTarget.c, oklchTarget.h),
-        bgHex,
-        CONTRAST_AA,
-      );
+      const newL = clamp(tc.l + lShift * dir, 0.15, 0.90);
+      const candidate = ensureContrast(toHex(newL, tc.c, tc.h), bgHex, CONFIG.contrastAA);
       const dist = oklabDist(hexToOklab(candidate), hexToOklab(result[other]));
       if (dist > bestDist) {
         bestDist = dist;
@@ -499,304 +492,195 @@ function fixDiscrimination(
     result[target] = bestHex;
   }
   return result;
-}
+};
 
-// ============================================================
-// 7. UI roles
-// ============================================================
+// §4.10 ensureNeutralSpacing — neutral fg 系の同色収束防止
 
-const UI_BG_CR_MIN = 3.0;
-const UI_FG_CR_MIN = 2.0;
-const FRAME_CHROMA_SCALE = 0.5;
-const FRAME_L = 0.35;
-const SEARCH_BG_L = 0.3;
+const ensureNeutralSpacing = (hexes: string[], sign: number): string[] => {
+  const oklchs = hexes.map(hexToOklch);
+  for (let i = 1; i < oklchs.length; i++) {
+    const gap = (oklchs[i - 1].l - oklchs[i].l) * sign;
+    if (gap < CONFIG.neutralMinDeltaL) {
+      const shift = (CONFIG.neutralMinDeltaL - gap) * sign;
+      oklchs[i] = { ...oklchs[i], l: clamp(oklchs[i].l - shift, 0.05, 0.95) };
+    }
+  }
+  return oklchs.map(vToHex);
+};
 
-/**
- * UI ロール割り当て
- *
- * navigation: primary の色相を保持し、L/C を調整して navigation 向けにしたもの
- * attention: secondary/tertiary のうち primary との Oklab 距離 × 彩度 が最大のもの
- */
-function assignUiRoles(
-  colors: OklchValues[],
+// §4.11 assignUiRoles + deriveUiColors
+
+const assignUiRoles = (
+  colors: Oklch[],
   bgHex: string,
   fgHex: string,
-): { navigationHex: string; attentionIdx: number; attentionOverride?: string } {
+): { navigationHex: string; attentionIdx: number; attentionOverride?: string } => {
   const primary = colors[0];
-  const primaryOklab = hexToOklab(oklchVToHex(primary));
+  const primaryOklab = hexToOklab(vToHex(primary));
 
-  // navigation = primary そのまま。ensureContrast で bg とのコントラストのみ保証
-  let navigationHex = gamutClamp(primary.l, primary.c, primary.h);
-  navigationHex = ensureContrast(navigationHex, bgHex, UI_BG_CR_MIN);
+  let navigationHex = toHex(primary.l, primary.c, primary.h);
+  navigationHex = ensureContrast(navigationHex, bgHex, CONFIG.ui.bgCrMin);
 
-  // attention = secondary/tertiary から、primary との距離 × 彩度 が最大のもの
-  const candidates = [1, 2].map((i) => {
-    const c = colors[i];
-    const dist = oklabDist(hexToOklab(oklchVToHex(c)), primaryOklab);
-    return { i, score: dist * c.c, c: c.c };
-  }).sort((a, b) => b.score - a.score);
-
+  const candidates = [1, 2]
+    .map((i) => {
+      const c = colors[i];
+      const dist = oklabDist(hexToOklab(vToHex(c)), primaryOklab);
+      return { i, score: dist * c.c };
+    })
+    .sort((a, b) => b.score - a.score);
   const attIdx = candidates[0].i;
 
-  // attention が bg/fg コントラストを満たすか確認、不足なら救済
-  const attHex = oklchVToHex(colors[attIdx]);
+  const attHex = vToHex(colors[attIdx]);
   const attBgCR = contrastRatio(attHex, bgHex);
   const attFgCR = contrastRatio(attHex, fgHex);
-  if (attBgCR >= UI_BG_CR_MIN && attFgCR >= UI_FG_CR_MIN) {
+  if (attBgCR >= CONFIG.ui.bgCrMin && attFgCR >= CONFIG.ui.fgCrMin) {
     return { navigationHex, attentionIdx: attIdx };
   }
 
-  // 救済: L を調整してコントラストを確保
-  let rescued = ensureContrast(attHex, bgHex, UI_BG_CR_MIN);
-  if (contrastRatio(rescued, fgHex) < UI_FG_CR_MIN) {
-    const oklch = hexToOklch(rescued);
-    const fgOklch = hexToOklch(fgHex);
-    // dark theme: fg より明るければ暗く、逆なら明るく
-    const direction = oklch.l > fgOklch.l ? -1 : 1;
-    for (let ll = oklch.l + 0.01 * direction; ll > 0.05 && ll < 0.95; ll += 0.01 * direction) {
-      const hex = gamutClamp(ll, oklch.c, oklch.h);
-      if (contrastRatio(hex, bgHex) >= UI_BG_CR_MIN && contrastRatio(hex, fgHex) >= UI_FG_CR_MIN) {
+  // 救済: L 調整でコントラスト確保
+  let rescued = ensureContrast(attHex, bgHex, CONFIG.ui.bgCrMin);
+  if (contrastRatio(rescued, fgHex) < CONFIG.ui.fgCrMin) {
+    const rOklch = hexToOklch(rescued);
+    const fgL = hexToOklch(fgHex).l;
+    const dir = rOklch.l > fgL ? -1 : 1;
+    for (let ll = rOklch.l + 0.01 * dir; ll > 0.05 && ll < 0.95; ll += 0.01 * dir) {
+      const hex = toHex(ll, rOklch.c, rOklch.h);
+      if (contrastRatio(hex, bgHex) >= CONFIG.ui.bgCrMin && contrastRatio(hex, fgHex) >= CONFIG.ui.fgCrMin) {
         rescued = hex;
         break;
       }
     }
   }
   return { navigationHex, attentionIdx: attIdx, attentionOverride: rescued };
-}
+};
 
-function deriveUiColors(
-  colors: OklchValues[],
-  roles: { navigationHex: string; attentionIdx: number; attentionOverride?: string },
+const deriveUiColors = (
+  colors: Oklch[],
+  roles: ReturnType<typeof assignUiRoles>,
   bgVisualHex: string,
-): UiColors {
+  tone: ThemeTone,
+): UiColors => {
   const nav = hexToOklch(roles.navigationHex);
   return {
     navigation: roles.navigationHex,
-    attention: roles.attentionOverride ?? oklchVToHex(colors[roles.attentionIdx]),
-    frame: gamutClamp(FRAME_L, nav.c * FRAME_CHROMA_SCALE, nav.h),
-    search_bg: gamutClamp(SEARCH_BG_L, nav.c, nav.h),
+    attention: roles.attentionOverride ?? vToHex(colors[roles.attentionIdx]),
+    frame: toHex(CONFIG.ui.frameL[tone], nav.c * CONFIG.ui.frameChromaScale, nav.h),
+    search_bg: toHex(CONFIG.ui.searchBgL[tone], nav.c, nav.h),
     pmenu_sel_bg: bgVisualHex,
   };
-}
+};
 
-// ============================================================
-// パイプライン統合
-// ============================================================
+// ────────────────────────────────────────────────────────────
+// §5 Pipeline orchestrator
+// ────────────────────────────────────────────────────────────
 
-function generatePalette(input: CharacterInput): PaletteResult {
-  // AI 3色 → OKLCH
-  const rawSeeds = [
-    hexToOklch(input.primary),
-    hexToOklch(input.secondary),
-    hexToOklch(input.tertiary),
-  ];
+const generatePalette = (input: CharacterInput): PaletteResult => {
+  // 1. theme_tone 推定
+  const tone = detectThemeTone(input.bg);
 
-  // Step 0: 低彩度補正 (C < 0.015 → primary hue 借用, Tinted Gray)
+  // 2. AI 3色 → OKLCH + 低彩度補正
+  const rawSeeds = [input.primary, input.secondary, input.tertiary].map(hexToOklch);
   const seeds = stabilizeHue(rawSeeds);
 
-  // 隙間充填
+  // 3. 隙間充填 (重複 hue マージ → gap → fill → 最小距離保証)
   const seedHues = seeds.map((s) => s.h);
-  const gaps = computeGaps(seedHues);
+  const mergedHues = mergeCloseHues(seedHues);
+  const gaps = computeGaps(mergedHues);
   const rawFilledHues = fillGaps(gaps, 4);
-
-  // Step 3.5: 最小色相距離保証 (ΔH ≥ 30°, Cohen-Or 2006)
   const filledHues = enforceMinHueGap(seedHues, rawFilledHues);
 
-  // Step 3: L 分散 (O'Donovan 2011 — Luminance Jittering)
-  const target = computeTargetLC(seeds);
+  // 4. gap-filled 色に L/C を割り当て
+  const cTarget = computeTargetC(seeds);
+  const lAssignment = assignLByHueZigzag(filledHues, tone);
+  const filledColors: Oklch[] = filledHues.map((h, i) => ({ l: lAssignment[i], c: cTarget, h }));
 
-  // color4〜7 — L を色相順 zigzag で割り当て（隣接 hue の ΔL を最大化）
-  const lPool = [...target.lValues].sort((a, b) => a - b);
-  // zigzag: 色相が隣り合う色に最も離れた L を交互配置
-  const zigzagOrder = [0, 3, 1, 2]; // [最小, 最大, 2番目, 3番目]
-  const hueIndexed = filledHues
-    .map((h, i) => ({ h, originalIdx: i }))
-    .sort((a, b) => a.h - b.h);
-  const lAssignment = new Array<number>(filledHues.length);
-  hueIndexed.forEach((entry, sortedIdx) => {
-    lAssignment[entry.originalIdx] = lPool[zigzagOrder[sortedIdx]];
-  });
-  const filledColors: OklchValues[] = filledHues.map((h, i) => ({
-    l: lAssignment[i],
-    c: target.c,
-    h,
-  }));
-  // color8 (error) — BUG-1: primary と近い場合にずらす
-  const errorL = 0.72;
+  // 5. error 色
   const errorHue = resolveErrorHue(seeds[0].h);
-  const color8: OklchValues = {
-    l: errorL,
-    c: Math.max(target.c, ERROR_CHROMA_MIN),
-    h: errorHue,
-  };
+  const color8: Oklch = { l: CONFIG.errorL[tone], c: Math.max(cTarget, CONFIG.errorChromaMin), h: errorHue };
 
-  // variants
-  const variants = generateVariants(seeds[0], seeds[2]);
+  // 6. variants
+  const variants = generateVariants(seeds[0], seeds[2], tone);
 
-  // neutral
-  const clamped = clampNeutral(input.bg, input.fg);
-  const neutral = deriveNeutralPalette(clamped.bg, clamped.fg);
-
-  // コントラスト保証 (accent)
+  // 7. neutral
+  const clamped = clampNeutral(input.bg, input.fg, tone);
+  const neutral = deriveNeutralPalette(clamped.bg, clamped.fg, tone);
   const bgHex = neutral.bg;
+
+  // 8. コントラスト保証 (accent)
+  const ec = (v: Oklch, ratio = CONFIG.contrastAA) =>
+    ensureContrast(toHex(v.l, v.c, v.h), bgHex, ratio);
   const accentHexes = {
-    color1: ensureContrast(
-      gamutClamp(seeds[0].l, seeds[0].c, seeds[0].h),
-      bgHex,
-      CONTRAST_AA,
-    ),
-    color1_variant: ensureContrast(
-      gamutClamp(
-        variants.color1_variant.l,
-        variants.color1_variant.c,
-        variants.color1_variant.h,
-      ),
-      bgHex,
-      CONTRAST_AA,
-    ),
-    color2: ensureContrast(
-      gamutClamp(seeds[1].l, seeds[1].c, seeds[1].h),
-      bgHex,
-      CONTRAST_AA,
-    ),
-    color3: ensureContrast(
-      gamutClamp(seeds[2].l, seeds[2].c, seeds[2].h),
-      bgHex,
-      CONTRAST_AA,
-    ),
-    color3_variant: ensureContrast(
-      gamutClamp(
-        variants.color3_variant.l,
-        variants.color3_variant.c,
-        variants.color3_variant.h,
-      ),
-      bgHex,
-      CONTRAST_AA,
-    ),
-    color4: ensureContrast(
-      gamutClamp(filledColors[0].l, filledColors[0].c, filledColors[0].h),
-      bgHex,
-      CONTRAST_AA,
-    ),
-    color5: ensureContrast(
-      gamutClamp(filledColors[1].l, filledColors[1].c, filledColors[1].h),
-      bgHex,
-      CONTRAST_AA,
-    ),
-    color6: ensureContrast(
-      gamutClamp(filledColors[2].l, filledColors[2].c, filledColors[2].h),
-      bgHex,
-      CONTRAST_AA,
-    ),
-    color7: ensureContrast(
-      gamutClamp(filledColors[3].l, filledColors[3].c, filledColors[3].h),
-      bgHex,
-      CONTRAST_AA,
-    ),
-    color8: ensureContrast(
-      gamutClamp(color8.l, color8.c, color8.h),
-      bgHex,
-      CONTRAST_AA,
-    ),
+    color1: ec(seeds[0]),
+    color1_variant: ec(variants.color1_variant),
+    color2: ec(seeds[1]),
+    color3: ec(seeds[2]),
+    color3_variant: ec(variants.color3_variant),
+    color4: ec(filledColors[0]),
+    color5: ec(filledColors[1]),
+    color6: ec(filledColors[2]),
+    color7: ec(filledColors[3]),
+    color8: ec(color8),
   };
 
-  // 弁別性自動修正 (TODO-1: ΔE_ok < 0.08 のペアを L 調整で解消)
-  const accentArray = [
-    accentHexes.color1,
-    accentHexes.color2,
-    accentHexes.color3,
-    accentHexes.color4,
-    accentHexes.color5,
-    accentHexes.color6,
-    accentHexes.color7,
-    accentHexes.color8,
-  ];
+  // 9. 弁別性自動修正
+  const accentKeys = ["color1", "color2", "color3", "color4", "color5", "color6", "color7", "color8"] as const;
+  const accentArray = accentKeys.map((k) => accentHexes[k]);
   const fixedAccent = fixDiscrimination(accentArray, bgHex);
-  accentHexes.color1 = fixedAccent[0];
-  accentHexes.color2 = fixedAccent[1];
-  accentHexes.color3 = fixedAccent[2];
-  accentHexes.color4 = fixedAccent[3];
-  accentHexes.color5 = fixedAccent[4];
-  accentHexes.color6 = fixedAccent[5];
-  accentHexes.color7 = fixedAccent[6];
-  accentHexes.color8 = fixedAccent[7];
+  accentKeys.forEach((k, i) => { (accentHexes as Record<string, string>)[k] = fixedAccent[i]; });
 
-  // コントラスト保証 (neutral fg 系)
-  const adjustedFg = ensureContrast(neutral.fg, bgHex, CONTRAST_AA);
-  const adjustedComment = ensureContrast(neutral.comment, bgHex, CONTRAST_SUBDUED);
-  const adjustedLineNr = ensureContrast(neutral.line_nr, bgHex, CONTRAST_SUBDUED);
-  const adjustedBorder = ensureContrast(neutral.border, bgHex, CONTRAST_SUBDUED);
-  const adjustedDelimiter = ensureContrast(neutral.delimiter, bgHex, CONTRAST_SUBDUED);
-
-  // neutral fg 系の最小 ΔL 保証 (同色収束防止)
-  // 期待順序 dark: delimiter > comment > line_nr > border (明→暗)
-  // 期待順序 light: border > line_nr > comment > delimiter (明→暗、bg から遠い順)
-  const NEUTRAL_MIN_DELTA_L = 0.04;
-  const ensureSpacing = (hexes: string[], sign: number): string[] => {
-    const oklchs = hexes.map(hexToOklch);
-    for (let i = 1; i < oklchs.length; i++) {
-      const prev = oklchs[i - 1];
-      const curr = oklchs[i];
-      const gap = (prev.l - curr.l) * sign;
-      if (gap < NEUTRAL_MIN_DELTA_L) {
-        const shift = (NEUTRAL_MIN_DELTA_L - gap) * sign;
-        oklchs[i] = { ...curr, l: clamp(curr.l - shift, 0.05, 0.95) };
-      }
-    }
-    return oklchs.map(oklchVToHex);
-  };
-
-  // dark: delimiter > comment > line_nr > border (明→暗)
-  const spacedNeutralFg = ensureSpacing(
-    [adjustedDelimiter, adjustedComment, adjustedLineNr, adjustedBorder],
-    1,
+  // 10. neutral fg コントラスト保証 + spacing
+  const adjustedFg = ensureContrast(neutral.fg, bgHex, CONFIG.contrastAA);
+  const fgKeys = ["delimiter", "comment", "line_nr", "border"] as const;
+  const rawFgHexes = fgKeys.map((k) =>
+    ensureContrast(neutral[k === "line_nr" ? "line_nr" : k], bgHex, CONFIG.contrastSubdued),
   );
+  // dark: delimiter > comment > line_nr > border (明→暗)
+  // light: border > line_nr > comment > delimiter (明→暗、bg から遠い順)
+  const spacedOrder = tone === "dark"
+    ? rawFgHexes
+    : [...rawFgHexes].reverse();
+  const spaced = ensureNeutralSpacing(spacedOrder, tone === "dark" ? 1 : -1);
+  const spacedFg = tone === "dark" ? spaced : [...spaced].reverse();
 
   const adjustedNeutral: NeutralPalette = {
     ...neutral,
     fg: adjustedFg,
-    delimiter: spacedNeutralFg[0],
-    comment: spacedNeutralFg[1],
-    line_nr: spacedNeutralFg[2],
-    border: spacedNeutralFg[3],
+    delimiter: spacedFg[0],
+    comment: spacedFg[1],
+    line_nr: spacedFg[2],
+    border: spacedFg[3],
   };
 
-  // UI ロール
-  const seedsForUi = seeds.map((s, i) => {
+  // 11. UI ロール
+  const seedsForUi = seeds.map((_, i) => {
     const hex = [accentHexes.color1, accentHexes.color2, accentHexes.color3][i];
     return hexToOklch(hex);
   });
   const roles = assignUiRoles(seedsForUi, bgHex, adjustedNeutral.fg);
 
-  // bg_visual を navigation の hue で着色 (tokyonight 方式)
+  // bg_visual を navigation hue で着色
   const navOklch = hexToOklch(roles.navigationHex);
   const bgOklch = hexToOklch(bgHex);
-  const visualC = 0.04;
-  const visualL = bgOklch.l + 0.08;
-  adjustedNeutral.bg_visual = gamutClamp(visualL, visualC, navOklch.h);
+  const sign = tone === "dark" ? 1 : -1;
+  adjustedNeutral.bg_visual = toHex(bgOklch.l + CONFIG.neutralOffsets.visual * sign, 0.04, navOklch.h);
 
-  const ui = deriveUiColors(seedsForUi, roles, adjustedNeutral.bg_visual);
+  const ui = deriveUiColors(seedsForUi, roles, adjustedNeutral.bg_visual, tone);
 
-  return { neutral: adjustedNeutral, accent: accentHexes, ui };
-}
+  return { theme_tone: tone, neutral: adjustedNeutral, accent: accentHexes, ui };
+};
 
-// ============================================================
-// SVG 出力
-// ============================================================
+// ────────────────────────────────────────────────────────────
+// §6 SVG output
+// ────────────────────────────────────────────────────────────
 
-function textColor(hex: string): string {
+const textColor = (hex: string): string => {
   const rgb = culori.rgb(hex);
   if (!rgb) return "#ffffff";
-  return rgb.r * 0.299 + rgb.g * 0.587 + rgb.b * 0.114 > 0.5
-    ? "#000000"
-    : "#ffffff";
-}
+  return rgb.r * 0.299 + rgb.g * 0.587 + rgb.b * 0.114 > 0.5 ? "#000000" : "#ffffff";
+};
 
-function generateSvg(
-  name: string,
-  input: CharacterInput,
-  result: PaletteResult,
-): string {
+const generateSvg = (name: string, input: CharacterInput, result: PaletteResult): string => {
+  const isDark = result.theme_tone === "dark";
   const W = 640;
   const P = 16;
   const GAP = 3;
@@ -804,11 +688,11 @@ function generateSvg(
   let y = P;
   let body = "";
 
-  const row = (
-    label: string,
-    colors: { label: string; hex: string }[],
-    h: number,
-  ) => {
+  const titleColor = isDark ? "#ccc" : "#333";
+  const metaColor = isDark ? "#666" : "#888";
+  const labelColor = isDark ? "#888" : "#666";
+
+  const row = (label: string, colors: { label: string; hex: string }[], h: number) => {
     body += `  <text x="${P}" y="${y + 12}" fill="${labelColor}" font-size="10">${label}</text>\n`;
     y += 18;
     const sw = (innerW - GAP * (colors.length - 1)) / colors.length;
@@ -823,104 +707,69 @@ function generateSvg(
     y += h + GAP;
   };
 
-  // タイトル
-  const labelColor = "#888";
-  body += `  <text x="${P}" y="${y + 16}" fill="#ccc" font-size="16" font-weight="bold">${name}</text>`;
-  body += `  <text x="${P + 200}" y="${y + 16}" fill="#666" font-size="12">${input.game}</text>\n`;
+  body += `  <text x="${P}" y="${y + 16}" fill="${titleColor}" font-size="16" font-weight="bold">${name}</text>`;
+  body += `  <text x="${P + 200}" y="${y + 16}" fill="${metaColor}" font-size="12">${input.game} / ${result.theme_tone}</text>\n`;
   y += 28;
 
-  // AI 入力
-  row(
-    "AI impression",
-    [
-      { label: "primary", hex: input.primary },
-      { label: "secondary", hex: input.secondary },
-      { label: "tertiary", hex: input.tertiary },
-    ],
-    35,
-  );
+  row("AI impression", [
+    { label: "primary", hex: input.primary },
+    { label: "secondary", hex: input.secondary },
+    { label: "tertiary", hex: input.tertiary },
+  ], 35);
 
-  row(
-    "AI neutral",
-    [
-      { label: "bg", hex: input.bg },
-      { label: "fg", hex: input.fg },
-    ],
-    28,
-  );
+  row("AI neutral", [
+    { label: "bg", hex: input.bg },
+    { label: "fg", hex: input.fg },
+  ], 28);
 
-  // accent 10色
   const a = result.accent;
-  row(
-    "accent (generated)",
-    [
-      { label: "c1 keyword", hex: a.color1 },
-      { label: "c1v tag", hex: a.color1_variant },
-      { label: "c2 func", hex: a.color2 },
-      { label: "c3 const", hex: a.color3 },
-      { label: "c3v num", hex: a.color3_variant },
-    ],
-    40,
-  );
+  row("accent (generated)", [
+    { label: "c1 keyword", hex: a.color1 },
+    { label: "c1v tag", hex: a.color1_variant },
+    { label: "c2 func", hex: a.color2 },
+    { label: "c3 const", hex: a.color3 },
+    { label: "c3v num", hex: a.color3_variant },
+  ], 40);
 
-  row(
-    "accent (gap-filled)",
-    [
-      { label: "c4 string", hex: a.color4 },
-      { label: "c5 type", hex: a.color5 },
-      { label: "c6 special", hex: a.color6 },
-      { label: "c7 preproc", hex: a.color7 },
-      { label: "c8 error", hex: a.color8 },
-    ],
-    40,
-  );
+  row("accent (gap-filled)", [
+    { label: "c4 string", hex: a.color4 },
+    { label: "c5 type", hex: a.color5 },
+    { label: "c6 special", hex: a.color6 },
+    { label: "c7 preproc", hex: a.color7 },
+    { label: "c8 error", hex: a.color8 },
+  ], 40);
 
-  // neutral 10色
   const n = result.neutral;
-  row(
-    "neutral bg",
-    [
-      { label: "bg", hex: n.bg },
-      { label: "surface", hex: n.bg_surface },
-      { label: "cursor", hex: n.bg_cursor_line },
-      { label: "popup", hex: n.bg_popup },
-      { label: "visual", hex: n.bg_visual },
-    ],
-    35,
-  );
+  row("neutral bg", [
+    { label: "bg", hex: n.bg },
+    { label: "surface", hex: n.bg_surface },
+    { label: "cursor", hex: n.bg_cursor_line },
+    { label: "popup", hex: n.bg_popup },
+    { label: "visual", hex: n.bg_visual },
+  ], 35);
 
-  row(
-    "neutral fg",
-    [
-      { label: "fg", hex: n.fg },
-      { label: "comment", hex: n.comment },
-      { label: "line_nr", hex: n.line_nr },
-      { label: "border", hex: n.border },
-      { label: "delimiter", hex: n.delimiter },
-    ],
-    35,
-  );
+  row("neutral fg", [
+    { label: "fg", hex: n.fg },
+    { label: "comment", hex: n.comment },
+    { label: "line_nr", hex: n.line_nr },
+    { label: "border", hex: n.border },
+    { label: "delimiter", hex: n.delimiter },
+  ], 35);
 
-  // UI 5色
   const u = result.ui;
-  row(
-    "ui",
-    [
-      { label: "navigation", hex: u.navigation },
-      { label: "attention", hex: u.attention },
-      { label: "frame", hex: u.frame },
-      { label: "search_bg", hex: u.search_bg },
-      { label: "pmenu_sel", hex: u.pmenu_sel_bg },
-    ],
-    35,
-  );
+  row("ui", [
+    { label: "navigation", hex: u.navigation },
+    { label: "attention", hex: u.attention },
+    { label: "frame", hex: u.frame },
+    { label: "search_bg", hex: u.search_bg },
+    { label: "pmenu_sel", hex: u.pmenu_sel_bg },
+  ], 35);
 
-  // シンタックスプレビュー（簡易）
+  // syntax preview
   y += 8;
   body += `  <text x="${P}" y="${y + 12}" fill="${labelColor}" font-size="10">syntax preview</text>\n`;
   y += 18;
-  const previewBg = n.bg;
-  body += `  <rect x="${P}" y="${y}" width="${innerW}" height="120" fill="${previewBg}" rx="4"/>\n`;
+  body += `  <rect x="${P}" y="${y}" width="${innerW}" height="120" fill="${n.bg}" rx="4"/>\n`;
   const px = P + 12;
   let py = y + 16;
   const line = (parts: { text: string; color: string }[]) => {
@@ -974,205 +823,107 @@ function generateSvg(
   y += 128;
 
   const totalH = y + P;
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${totalH}" style="background:#0a0a0a; font-family:ui-monospace,monospace;">\n${body}</svg>`;
-}
+  const svgBg = isDark ? "#0a0a0a" : "#f5f5f5";
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${totalH}" style="background:${svgBg}; font-family:ui-monospace,monospace;">\n${body}</svg>`;
+};
 
-// ============================================================
-// テストデータ
-// ============================================================
-
-const CHARACTERS: CharacterInput[] = [
-  {
-    name: "Albedo",
-    game: "genshin",
-    primary: "#d6ad60",
-    secondary: "#4553a0",
-    tertiary: "#ece8e1",
-    bg: "#252320",
-    fg: "#e5e2de",
-  },
-  {
-    name: "Amber",
-    game: "genshin",
-    primary: "#C23126",
-    secondary: "#4B332C",
-    tertiary: "#DDA35D",
-    bg: "#231E1D",
-    fg: "#E8E0DE",
-  },
-  {
-    name: "Acheron",
-    game: "starrail",
-    primary: "#5d54a4",
-    secondary: "#a11b21",
-    tertiary: "#2d2d31",
-    bg: "#1a1920",
-    fg: "#e0dfe6",
-  },
-  {
-    name: "Hyacine",
-    game: "starrail",
-    primary: "#971d2b",
-    secondary: "#f9b7bc",
-    tertiary: "#7ce2e4",
-    bg: "#fcf4f5",
-    fg: "#382d2e",
-  },
-  // === 原神 24キャラ検証セット ===
-  {
-    name: "Klee", game: "genshin",
-    primary: "#B32D1E", secondary: "#F2E6CE", tertiary: "#C1924B",
-    bg: "#FDF6F2", fg: "#3B3330",  },
-  {
-    name: "Yanfei", game: "genshin",
-    primary: "#b43e48", secondary: "#f6a89e", tertiary: "#36b39e",
-    bg: "#1c1616", fg: "#e8e0e0",  },
-  {
-    name: "Yoimiya", game: "genshin",
-    primary: "#d24335", secondary: "#ebb175", tertiary: "#333246",
-    bg: "#fcf7f4", fg: "#3a3331",  },
-  {
-    name: "Navia", game: "genshin",
-    primary: "#e8b159", secondary: "#2c3340", tertiary: "#4ba6f5",
-    bg: "#1f1d1a", fg: "#e2ded3",  },
-  {
-    name: "Baizhu", game: "genshin",
-    primary: "#4caf80", secondary: "#1a5166", tertiary: "#8c78a5",
-    bg: "#191f1c", fg: "#dfe5e1",  },
-  {
-    name: "Nahida", game: "genshin",
-    primary: "#8fc84c", secondary: "#f9fcf7", tertiary: "#c5a963",
-    bg: "#f5f9f4", fg: "#2e352d",  },
-  {
-    name: "Faruzan", game: "genshin",
-    primary: "#a5d7e1", secondary: "#415e79", tertiary: "#c0a172",
-    bg: "#f3fafa", fg: "#2e3435",  },
-  {
-    name: "Furina", game: "genshin",
-    primary: "#213c91", secondary: "#4cc9f0", tertiary: "#cca86a",
-    bg: "#171921", fg: "#d9e0ee",  },
-  {
-    name: "Clorinde", game: "genshin",
-    primary: "#4b4da3", secondary: "#1c1c2a", tertiary: "#c5a165",
-    bg: "#1a1a24", fg: "#e0e0f0",  },
-  {
-    name: "RaidenShogun", game: "genshin",
-    primary: "#51388d", secondary: "#b19bd9", tertiary: "#74293a",
-    bg: "#1b1623", fg: "#e2deeb",  },
-  {
-    name: "Chevreuse", game: "genshin",
-    primary: "#7543a3", secondary: "#a02b37", tertiary: "#2e2321",
-    bg: "#1b181c", fg: "#dbd7df",  },
-  // === スターレイル 24キャラ検証セット ===
-  {
-    name: "Argenti", game: "starrail",
-    primary: "#C11B17", secondary: "#D6D6D6", tertiary: "#B89753",
-    bg: "#201A1A", fg: "#EDE6E6",  },
-  {
-    name: "Lingsha", game: "starrail",
-    primary: "#c03127", secondary: "#352a26", tertiary: "#569c87",
-    bg: "#27201f", fg: "#e5dbd9",  },
-  {
-    name: "Guinaifen", game: "starrail",
-    primary: "#b03030", secondary: "#f2907d", tertiary: "#d4a04d",
-    bg: "#1d1918", fg: "#efe8e6",  },
-  {
-    name: "Aglaea", game: "starrail",
-    primary: "#e8c45e", secondary: "#f5f0e6", tertiary: "#382f2d",
-    bg: "#fcf9f0", fg: "#33312c",  },
-  {
-    name: "Luocha", game: "starrail",
-    primary: "#e2c275", secondary: "#24524c", tertiary: "#f1d575",
-    bg: "#1c1c1a", fg: "#e5e3df",  },
-  {
-    name: "Huohuo", game: "starrail",
-    primary: "#97d2a8", secondary: "#5ef1f1", tertiary: "#ffa34d",
-    bg: "#1a2120", fg: "#dce4e2",  },
-  {
-    name: "Anaxa", game: "starrail",
-    primary: "#30acc7", secondary: "#879b94", tertiary: "#bd1f24",
-    bg: "#161c1e", fg: "#d9e1e3",  },
-  {
-    name: "Gepard", game: "starrail",
-    primary: "#0059ff", secondary: "#e1e5f0", tertiary: "#d4af37",
-    bg: "#151a24", fg: "#d8dee9",  },
-  {
-    name: "DrRatio", game: "starrail",
-    primary: "#3c3e9a", secondary: "#cca852", tertiary: "#fdfaf5",
-    bg: "#171720", fg: "#d2d2e1",  },
-  {
-    name: "BlackSwan", game: "starrail",
-    primary: "#8b5cf6", secondary: "#352150", tertiary: "#eec152",
-    bg: "#1c1825", fg: "#e3dee7",  },
-  {
-    name: "Kafka", game: "starrail",
-    primary: "#8b2c4c", secondary: "#312a36", tertiary: "#e9e5e9",
-    bg: "#1c191d", fg: "#dbd7dc",  },
-];
-
-// ============================================================
-// main
-// ============================================================
+// ────────────────────────────────────────────────────────────
+// §7 JSON loader
+// ────────────────────────────────────────────────────────────
 
 const OUTPUT_DIR = "debug/palette-v01";
+const GAME_NAMES = ["genshin", "starrail", "nikke"];
 
-for (const char of CHARACTERS) {
+/**
+ * AI 出力 JSON スキーマ (plan.md §AI出力スキーマ)
+ *
+ * {
+ *   impression: { primary: { hex, reason }, secondary: { hex, reason }, tertiary: { hex, reason } },
+ *   theme_tone?: "dark" | "light",
+ *   neutral: { bg_base_hex, fg_base_hex }
+ * }
+ */
+type VisionResult = {
+  impression: {
+    primary: { hex: string; reason: string };
+    secondary: { hex: string; reason: string };
+    tertiary: { hex: string; reason: string };
+  };
+  theme_tone?: "dark" | "light";
+  neutral: {
+    bg_base_hex: string;
+    fg_base_hex: string;
+  };
+};
+
+const loadCharactersFromJson = (): CharacterInput[] => {
+  const characters: CharacterInput[] = [];
+
+  for (const game of GAME_NAMES) {
+    const jsonDir = join(OUTPUT_DIR, game, "json");
+    if (!existsSync(jsonDir)) continue;
+
+    const files = readdirSync(jsonDir)
+      .filter((f) => f.endsWith(".json"))
+      .sort();
+
+    for (const file of files) {
+      const filePath = join(jsonDir, file);
+      const raw = readFileSync(filePath, "utf-8");
+      const data: VisionResult = JSON.parse(raw);
+      const name = basename(file, ".json");
+
+      characters.push({
+        name,
+        game,
+        primary: data.impression.primary.hex,
+        secondary: data.impression.secondary.hex,
+        tertiary: data.impression.tertiary.hex,
+        bg: data.neutral.bg_base_hex,
+        fg: data.neutral.fg_base_hex,
+      });
+    }
+  }
+
+  return characters;
+};
+
+// ────────────────────────────────────────────────────────────
+// §8 Main
+// ────────────────────────────────────────────────────────────
+
+const characters = loadCharactersFromJson();
+console.log(`Loaded ${characters.length} characters from ${GAME_NAMES.join(", ")}`);
+
+for (const char of characters) {
   console.log(`\n${"=".repeat(60)}`);
   console.log(`${char.name} (${char.game})`);
 
   const result = generatePalette(char);
 
-  // SVG 出力 (game ごとにサブディレクトリ)
-  const gameDir = join(OUTPUT_DIR, char.game);
-  mkdirSync(gameDir, { recursive: true });
-  const svgPath = join(gameDir, `${char.name}.svg`);
+  const svgDir = join(OUTPUT_DIR, char.game, "svg");
+  mkdirSync(svgDir, { recursive: true });
+  const svgPath = join(svgDir, `${char.name}.svg`);
   writeFileSync(svgPath, generateSvg(char.name, char, result));
-  console.log(`  SVG:  ${svgPath}`);
+  console.log(`  ${result.theme_tone} | SVG: ${svgPath}`);
 
-  // サマリ出力
   const a = result.accent;
-  const accentColors = [
-    hexToOklch(a.color1),
-    hexToOklch(a.color2),
-    hexToOklch(a.color3),
-  ];
-  const filled = [
-    hexToOklch(a.color4),
-    hexToOklch(a.color5),
-    hexToOklch(a.color6),
-    hexToOklch(a.color7),
-  ];
-  const allHues = [...accentColors, ...filled]
-    .map((c) => c.h.toFixed(0))
-    .join("° ");
-  console.log(`  Hues: ${allHues}°`);
-  console.log(
-    `  accent: c1=${a.color1} c2=${a.color2} c3=${a.color3} c4=${a.color4} c5=${a.color5} c6=${a.color6} c7=${a.color7} c8=${a.color8}`,
-  );
+  const allAccent = [a.color1, a.color2, a.color3, a.color4, a.color5, a.color6, a.color7];
+  const hues = allAccent.map((h) => hexToOklch(h).h.toFixed(0)).join("° ");
+  console.log(`  Hues: ${hues}°`);
+  console.log(`  accent: c1=${a.color1} c2=${a.color2} c3=${a.color3} c4=${a.color4} c5=${a.color5} c6=${a.color6} c7=${a.color7} c8=${a.color8}`);
   console.log(`  neutral: bg=${result.neutral.bg} fg=${result.neutral.fg}`);
-  console.log(
-    `  ui: nav=${result.ui.navigation} att=${result.ui.attention} frame=${result.ui.frame}`,
-  );
+  console.log(`  ui: nav=${result.ui.navigation} att=${result.ui.attention} frame=${result.ui.frame}`);
 
-  // 弁別性チェック (Gramazio 2017 — ΔE_ok ≥ 0.08)
-  const accentHexes = [
-    a.color1,
-    a.color2,
-    a.color3,
-    a.color4,
-    a.color5,
-    a.color6,
-    a.color7,
-    a.color8,
-  ];
-  const accentLabels = ["c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8"];
-  const warnings = checkDiscrimination(accentHexes, accentLabels);
+  const labels = ["c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8"];
+  const accentArr = [a.color1, a.color2, a.color3, a.color4, a.color5, a.color6, a.color7, a.color8];
+  const warnings = checkDiscrimination(accentArr, labels);
   if (warnings.length > 0) {
     console.log(`  Discrimination warnings:`);
     for (const w of warnings) console.log(w);
   } else {
-    console.log(`  Discrimination: ✓ all pairs ΔE ≥ ${MIN_DELTA_E}`);
+    console.log(`  Discrimination: ✓ all pairs ΔE ≥ ${CONFIG.minDeltaE}`);
   }
 }
 
-console.log(`\nDone. Output: ${OUTPUT_DIR}/`);
+console.log(`\nDone. ${characters.length} characters processed. Output: ${OUTPUT_DIR}/`);

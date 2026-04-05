@@ -1,0 +1,20 @@
+{
+  "impression": {
+    "primary": {
+      "hex": "#4b4da3",
+      "reason": ""
+    },
+    "secondary": {
+      "hex": "#1c1c2a",
+      "reason": ""
+    },
+    "tertiary": {
+      "hex": "#c5a165",
+      "reason": ""
+    }
+  },
+  "neutral": {
+    "bg_base_hex": "#1a1a24",
+    "fg_base_hex": "#e0e0f0"
+  }
+}

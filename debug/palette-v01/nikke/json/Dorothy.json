@@ -1,0 +1,17 @@
+{
+  "image": "debug/img/nikke/Dorothy.png",
+  "timestamp": "2026-04-05T14:53:44.015Z",
+  "results": [
+    {
+      "model": "gemini-flash-latest",
+      "elapsed": 11065,
+      "tokens": {
+        "input": 1494,
+        "output": 188,
+        "total": 3085
+      },
+      "error": null,
+      "response": "{\n  \"impression\": {\n    \"primary\": { \"hex\": \"#f178ae\", \"reason\": \"The character's vibrant, voluminous pink hair is her most defining and symbolic visual feature.\" },\n    \"secondary\": { \"hex\": \"#d0c7ef\", \"reason\": \"The soft lavender and lilac tones found in the dress shadows and ribbons provide a graceful secondary accent.\" },\n    \"tertiary\": { \"hex\": \"#5a4891\", \"reason\": \"Her deep purple eyes and the darker accents of her accessories provide a necessary sharp contrast to the pastel palette.\" }\n  },\n  \"theme_tone\": \"light\",\n  \"neutral\": {\n    \"bg_base_hex\": \"#fef6f9\",\n    \"fg_base_hex\": \"#332e31\"\n  }\n}"
+    }
+  ]
+}
