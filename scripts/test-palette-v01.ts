@@ -462,8 +462,8 @@ const fixDiscrimination = (accentHexes: string[], bgHex: string): string[] => {
     }
     if (worstI === -1) break;
 
-    const iAdj = adjustableIndices.includes(worstI);
-    const jAdj = adjustableIndices.includes(worstJ);
+    const iAdj = (adjustableIndices as readonly number[]).includes(worstI);
+    const jAdj = (adjustableIndices as readonly number[]).includes(worstJ);
     let target: number;
     if (iAdj && jAdj) {
       target = oklabDist(oklabs[worstI], bgOklab) <= oklabDist(oklabs[worstJ], bgOklab)

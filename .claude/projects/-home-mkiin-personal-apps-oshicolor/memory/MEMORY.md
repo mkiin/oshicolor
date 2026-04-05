@@ -1,0 +1,1 @@
+- [Valibot migration](project_valibot_migration.md) — Zod→Valibot 移行中。新規コードは Valibot で書く
