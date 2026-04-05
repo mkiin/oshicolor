@@ -9,11 +9,46 @@
  * - Catppuccin: blend ratio
  */
 
-export const NEUTRAL_L = {
-  dark: [0.18, 0.21, 0.23, 0.28, 0.4, 0.5, 0.85, 0.9],
-  light: [0.94, 0.91, 0.89, 0.84, 0.65, 0.55, 0.25, 0.18],
+import type { ThemeMood } from "../types/palette";
+
+/**
+ * Mood 別プリセット
+ *
+ * dark:         深く鮮やか。seed の L/C を活かす
+ * light-pastel: パステル許容。コントラスト要求を緩めて明るさを維持
+ * light:        くっきり。chroma boost + しっかり暗くしてコントラスト確保
+ */
+export const MOOD_PRESET = {
+  dark: {
+    tone: "dark" as const,
+    neutralL: [0.18, 0.21, 0.23, 0.28, 0.4, 0.5, 0.85, 0.9],
+    lcSyntax: 60,
+    lcDim: 45,
+    lcUi: 45,
+    chromaBoost: 1.0,
+    diagnosticL: 0.72,
+  },
+  "light-pastel": {
+    tone: "light" as const,
+    neutralL: [0.94, 0.91, 0.89, 0.84, 0.65, 0.55, 0.25, 0.18],
+    lcSyntax: 45,
+    lcDim: 30,
+    lcUi: 35,
+    chromaBoost: 1.0,
+    diagnosticL: 0.55,
+  },
+  light: {
+    tone: "light" as const,
+    neutralL: [0.94, 0.91, 0.89, 0.84, 0.65, 0.55, 0.25, 0.18],
+    lcSyntax: 60,
+    lcDim: 45,
+    lcUi: 45,
+    chromaBoost: 1.5,
+    diagnosticL: 0.45,
+  },
 } as const;
-//       N0    N1    N2    N3    N4   N5   N6    N7
+
+export type MoodPreset = (typeof MOOD_PRESET)[ThemeMood];
 
 export const NEUTRAL_C = {
   bg: 0.018,
@@ -43,16 +78,11 @@ export const DIAGNOSTIC_HUE = {
   hint: 165,
 } as const;
 
-export const DIAGNOSTIC_L = { dark: 0.72, light: 0.45 } as const;
 export const DIAGNOSTIC_C_MIN = 0.12;
 
 export const MIN_HUE_GAP = 30;
 export const MIN_DELTA_E = 0.08;
 
-/** APCA Lc 閾値 */
-export const LC_SYNTAX = 60;
-export const LC_DIM = 45;
-export const LC_UI = 45;
 export const LC_BORDER = 30;
 
 /** 弁別性自動修正 */

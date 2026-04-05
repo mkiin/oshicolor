@@ -1,5 +1,7 @@
 type ThemeTone = "dark" | "light";
 
+type ThemeMood = "dark" | "light-pastel" | "light";
+
 type Oklch = {
   l: number;
   c: number;
@@ -31,6 +33,7 @@ type UiSlot = "primary" | "secondary";
 type DiagnosticSlot = "error" | "warn" | "info" | "hint";
 
 type Palette = {
+  mood: ThemeMood;
   tone: ThemeTone;
   seeds: { primary: string; secondary: string };
   neutral: Record<NeutralSlot, string>;
@@ -45,6 +48,7 @@ export type {
   Oklch,
   Palette,
   SyntaxSlot,
+  ThemeMood,
   ThemeTone,
   UiSlot,
 };
