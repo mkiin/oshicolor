@@ -1,25 +1,25 @@
-// Components
-export { PaletteView } from "./components/palette-view";
-
-// Types
-export type {
-  AccentPalette,
-  HueGap,
-  Oklab,
-  Oklch,
-  ThemeTone,
-} from "./types/accent-palette";
-export type { NeutralPalette } from "./types/neutral-palette";
-export type { PaletteResult } from "./types/palette-result";
-export type { UiColors, UiRoleAssignment } from "./types/ui-colors";
 export type { VisionResult } from "./types/vision-result";
+export type {
+  DiagnosticSlot,
+  NeutralSlot,
+  Oklch,
+  Palette,
+  SyntaxSlot,
+  ThemeTone,
+  UiSlot,
+} from "./types/palette";
 
-// Usecases
 export { generatePalette } from "./usecases/generate-palette";
 
-// Stores
 export { visionResultAtom } from "./stores/vision-result.atom";
-export { paletteResultAtom } from "./stores/palette-result.atom";
-export { accentPaletteAtom } from "./stores/accent-palette.atom";
-export { neutralPaletteAtom } from "./stores/neutral-palette.atom";
-export { uiColorsAtom } from "./stores/ui-colors.atom";
+export { paletteAtom } from "./stores/palette.atom";
+export { seedsAtom } from "./stores/seeds.atom";
+export { neutralAtom } from "./stores/neutral.atom";
+export { syntaxAtom } from "./stores/syntax.atom";
+export { uiAtom } from "./stores/ui.atom";
+export { diagnosticAtom } from "./stores/diagnostic.atom";
+
+export { SeedView } from "./components/seed-view";
+export { EditorPaletteView } from "./components/editor-palette-view";
+export { SyntaxPaletteView } from "./components/syntax-palette-view";
+export { DiagnosticPaletteView } from "./components/diagnostic-palette-view";

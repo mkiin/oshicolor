@@ -1,34 +1,60 @@
 /**
- * OKLCH / gamut mapping ユーティリティ
+ * OKLCH / Oklab ユーティリティ
  *
- * Ottosson (2020) "A perceptual color space for image processing"
+ * culori を利用した色空間変換と距離計算。
  */
 
-import type { Oklch } from "../types/accent-palette";
+import type { Oklch } from "../types/palette";
 
-import * as culori from "culori";
+import { clampChroma, formatHex, parse, converter } from "culori";
 
-/** hex → OKLCH 変換 */
+const toOklch = converter("oklch");
+const toRgb = converter("rgb");
+
+/** hex → Oklch */
 export const hexToOklch = (hex: string): Oklch => {
-  const r = culori.oklch(hex);
-  return { l: r?.l ?? 0, c: r?.c ?? 0, h: r?.h ?? 0 };
+  const parsed = toOklch(parse(hex));
+  if (!parsed) return { l: 0, c: 0, h: 0 };
+  return { l: parsed.l, c: parsed.c ?? 0, h: parsed.h ?? 0 };
 };
 
-/** OKLCH → hex (gamut mapping: culori clampChroma) */
-export const toHex = (l: number, c: number, h: number): string =>
-  culori.formatHex(
-    culori.clampChroma({ mode: "oklch", l, c, h }, "oklch", "rgb"),
-  );
+/** Oklch → hex (gamut clamp 付き) */
+export const oklchToHex = (l: number, c: number, h: number): string => {
+  const color = clampChroma({ mode: "oklch", l, c, h }, "oklch");
+  return formatHex(color);
+};
 
-/** Oklch → hex */
-export const vToHex = (v: Oklch): string => toHex(v.l, v.c, v.h);
+/** hex → sRGB [0-1] */
+export const hexToSrgb = (hex: string): { r: number; g: number; b: number } => {
+  const parsed = toRgb(parse(hex));
+  if (!parsed) return { r: 0, g: 0, b: 0 };
+  return { r: parsed.r, g: parsed.g, b: parsed.b };
+};
 
-/** 値を min〜max に制限する */
-export const clamp = (v: number, min: number, max: number): number =>
-  Math.min(Math.max(v, min), max);
+/** Oklab ユークリッド距離 (deltaE OK) */
+export const deltaEOk = (hex1: string, hex2: string): number => {
+  const a = toOklch(parse(hex1));
+  const b = toOklch(parse(hex2));
+  if (!a || !b) return 0;
 
-/** 色相環上の最短距離 (0〜180°) */
+  const dL = a.l - b.l;
+  const aC = a.c ?? 0;
+  const bC = b.c ?? 0;
+  const aH = ((a.h ?? 0) * Math.PI) / 180;
+  const bH = ((b.h ?? 0) * Math.PI) / 180;
+
+  const da = aC * Math.cos(aH) - bC * Math.cos(bH);
+  const db = aC * Math.sin(aH) - bC * Math.sin(bH);
+
+  return Math.sqrt(dL * dL + da * da + db * db);
+};
+
+/** 数値を範囲内にクランプ */
+export const clamp = (value: number, min: number, max: number): number =>
+  Math.min(Math.max(value, min), max);
+
+/** 色相の circular distance (0-180) */
 export const hueDist = (h1: number, h2: number): number => {
-  const d = Math.abs(h1 - h2) % 360;
-  return d > 180 ? 360 - d : d;
+  const raw = Math.abs(h1 - h2) % 360;
+  return raw > 180 ? 360 - raw : raw;
 };
