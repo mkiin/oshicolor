@@ -13,7 +13,7 @@
     "check": "oxfmt --check && oxlint",
     "check:fix": "oxfmt && oxlint --fix",
     "test": "vitest run",
-    "deploy": "alchemy deploy --stage dev",
+    "deploy": "alchemy deploy ./infrastructures/alchemy/alchemy.run.ts --stage dev",
     "destroy": "alchemy destroy --stage dev",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
