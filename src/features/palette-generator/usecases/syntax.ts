@@ -117,7 +117,7 @@ export const generateSyntax = (
           : Math.max(baseC * C_JITTER[i], SYNTAX_C_MIN);
 
     const hex = oklchToHex(l, c, h);
-    return ensureContrast(hex, bgHex, preset.lcSyntax, preset.chromaBoost);
+    return ensureContrast(hex, bgHex, preset.lcSyntax, preset.chromaBoost, preset.chromaDampen);
   });
 
   // 弁別性修正 (gap-fill 色 = index 2-7 のみ L を調整)
@@ -137,6 +137,7 @@ export const generateSyntax = (
           bgHex,
           preset.lcSyntax,
           preset.chromaBoost,
+          preset.chromaDampen,
         );
       }
     }

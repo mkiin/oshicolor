@@ -61,12 +61,16 @@ export const contrastAPCA = (bgHex: string, fgHex: string): number => {
  * chromaBoost: light テーマで L を下げるとき、chroma を補償する倍率。
  *   1.0 = 補償なし (light-pastel)
  *   1.5 = 積極的に補償 (light)
+ * chromaDampen: dark テーマで L を上げるとき、chroma を抑制する係数。
+ *   0   = 抑制なし (light 系)
+ *   0.8 = ΔL に比例して chroma を下げる (dark)
  */
 export const ensureContrast = (
   fgHex: string,
   bgHex: string,
   targetLc: number,
   chromaBoost: number = 1.0,
+  chromaDampen: number = 0,
 ): string => {
   const lc = contrastAPCA(bgHex, fgHex);
   if (Math.abs(lc) >= targetLc) return fgHex;
@@ -79,9 +83,13 @@ export const ensureContrast = (
   for (let delta = 0.005; delta <= 0.8; delta += 0.005) {
     const newL = clamp(fg.l + delta * dir, 0.05, 0.98);
 
-    // light テーマで L を下げるとき: ΔL に比例して chroma を boost
     const deltaL = Math.abs(newL - originalL);
-    const cScale = dir === -1 ? 1 + deltaL * (chromaBoost - 1 + 0.8) : 1;
+    // light テーマで L を下げるとき: ΔL に比例して chroma を boost
+    // dark テーマで L を上げるとき: ΔL に比例して chroma を dampen
+    const cScale =
+      dir === -1
+        ? 1 + deltaL * (chromaBoost - 1 + 0.8)
+        : 1 - deltaL * chromaDampen;
     const newC = clamp(fg.c * cScale, 0, 0.3);
 
     const candidate = oklchToHex(newL, newC, fg.h);

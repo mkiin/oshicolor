@@ -21,11 +21,13 @@ export const generateUi = (
     bgHex,
     preset.lcUi,
     preset.chromaBoost,
+    preset.chromaDampen,
   ),
   secondary: ensureContrast(
     oklchToHex(seed2.l, seed2.c, seed2.h),
     bgHex,
     preset.lcUi,
     preset.chromaBoost,
+    preset.chromaDampen,
   ),
 });

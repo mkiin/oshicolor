@@ -26,6 +26,7 @@ export const MOOD_PRESET = {
     lcDim: 45,
     lcUi: 45,
     chromaBoost: 1.0,
+    chromaDampen: 0.8,
     diagnosticL: 0.72,
   },
   "light-pastel": {
@@ -35,6 +36,7 @@ export const MOOD_PRESET = {
     lcDim: 30,
     lcUi: 35,
     chromaBoost: 1.0,
+    chromaDampen: 0,
     diagnosticL: 0.55,
   },
   light: {
@@ -44,6 +46,7 @@ export const MOOD_PRESET = {
     lcDim: 45,
     lcUi: 45,
     chromaBoost: 1.5,
+    chromaDampen: 0,
     diagnosticL: 0.45,
   },
 } as const;

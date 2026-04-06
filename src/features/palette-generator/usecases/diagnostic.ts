@@ -25,7 +25,7 @@ export const generateDiagnostic = (
     const hex = oklchToHex(l, c, DIAGNOSTIC_HUE[slot]);
     return [
       slot,
-      ensureContrast(hex, bgHex, preset.lcSyntax, preset.chromaBoost),
+      ensureContrast(hex, bgHex, preset.lcSyntax, preset.chromaBoost, preset.chromaDampen),
     ] as const;
   });
 
