@@ -9,6 +9,7 @@ import {
   paletteAtom,
   AsyncVisionResultAtom,
 } from "@/features/palette-generator";
+import { VimPreview } from "@/features/vim-preview";
 import { Dropzone, ImagePreview } from "@/shared/components/ui/dropzone";
 import { ErrorBoundary } from "@/shared/components/ui/error-boundary";
 import { Spinner } from "@/shared/components/ui/spinner";
@@ -121,6 +122,7 @@ function AnalysisResults() {
 
       {palette && (
         <>
+          <VimPreview palette={palette} variant="compact" />
           <EditorPaletteView />
           <SyntaxPaletteView />
           <DiagnosticPaletteView />

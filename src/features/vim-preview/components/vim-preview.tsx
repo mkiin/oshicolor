@@ -1,3 +1,4 @@
+import type { Palette } from "@/features/palette-generator";
 import type { VimPreviewProps } from "@/features/vim-preview/types/vim-preview.types";
 import type { BundledLanguage } from "shiki";
 
@@ -11,6 +12,8 @@ import {
   ZIG_EDITOR_STATE,
 } from "@/features/vim-preview/sample-code";
 import { SAMPLE_TREE } from "@/features/vim-preview/sample-tree";
+import { paletteToShikiTheme } from "@/features/vim-preview/usecases/palette-to-shiki-theme";
+import { paletteToVimColors } from "@/features/vim-preview/usecases/palette-to-vim-colors";
 
 import { VimBufferline } from "./vim-bufferline";
 import { VimEditorArea } from "./vim-editor-area";
@@ -18,10 +21,10 @@ import { VimNeoTree } from "./vim-neo-tree";
 import { VimStatusline } from "./vim-statusline";
 
 /**
- * tokyo-night テーマ基準のカラーパレット。
- * 将来カスタムカラースキームに差し替える想定。
+ * tokyo-night テーマ基準のフォールバックカラー。
+ * palette が渡されない場合に使用。
  */
-const PALETTE = {
+const FALLBACK_COLORS = {
   bg: "#1a1b26",
   fg: "#a9b1d6",
   gutterBg: "#1a1b26",
@@ -56,7 +59,21 @@ const SAMPLES: Record<string, SampleConfig> = {
   tsx: { code: TSX_CODE, lang: "tsx" },
 };
 
+const useVimPreviewConfig = (palette?: Palette) => {
+  if (!palette) {
+    return {
+      colors: FALLBACK_COLORS,
+      theme: "tokyo-night" as const,
+    };
+  }
+  return {
+    colors: { ...FALLBACK_COLORS, ...paletteToVimColors(palette) },
+    theme: paletteToShikiTheme(palette),
+  };
+};
+
 export const VimPreview: React.FC<VimPreviewProps> = ({
+  palette,
   theme = "tokyo-night",
   variant = "compact",
 }) => {
@@ -66,19 +83,22 @@ export const VimPreview: React.FC<VimPreviewProps> = ({
   const tabs = isCompact ? BUFFER_TABS : TSX_BUFFER_TABS;
   const activeTab = tabs.find((t) => t.active);
 
+  const config = useVimPreviewConfig(palette);
+
   const { tokens, bg, fg } = useShikiTokens({
     code: sample.code,
     lang: sample.lang,
-    theme,
+    theme: palette ? config.theme : theme,
   });
 
+  const colors = config.colors;
   const isVisual = editorState.mode === "VISUAL";
 
   if (!tokens) {
     return (
       <div
         className="flex h-80 items-center justify-center rounded-lg font-mono text-sm"
-        style={{ backgroundColor: PALETTE.bg, color: PALETTE.fg }}
+        style={{ backgroundColor: colors.bg, color: colors.fg }}
       >
         Loading...
       </div>
@@ -87,52 +107,47 @@ export const VimPreview: React.FC<VimPreviewProps> = ({
 
   return (
     <div className="overflow-hidden rounded-lg shadow-lg">
-      {/* Bufferline */}
       <VimBufferline
         tabs={tabs}
-        bg={PALETTE.tabBg}
-        fg={PALETTE.tabFg}
+        bg={colors.tabBg}
+        fg={colors.tabFg}
         activeBg={bg}
-        activeFg={PALETTE.tabActiveFg}
+        activeFg={colors.tabActiveFg}
       />
 
-      {/* Editor body */}
       <div className="flex">
-        {/* Neo-tree（full のみ） */}
         {!isCompact && (
           <VimNeoTree
             tree={SAMPLE_TREE}
-            bg={PALETTE.treeBg}
-            fg={PALETTE.treeFg}
-            directoryFg={PALETTE.treeDirectoryFg}
-            activeBg={PALETTE.treeActiveBg}
-            gitModifiedFg={PALETTE.treeGitModifiedFg}
-            indentMarkerFg={PALETTE.treeIndentMarkerFg}
+            bg={colors.treeBg}
+            fg={colors.treeFg}
+            directoryFg={colors.treeDirectoryFg}
+            activeBg={colors.treeActiveBg}
+            gitModifiedFg={colors.treeGitModifiedFg}
+            indentMarkerFg={colors.treeIndentMarkerFg}
           />
         )}
 
-        {/* Editor area */}
         <VimEditorArea
           tokens={tokens}
           editorState={editorState}
           bg={bg}
           fg={fg}
-          gutterFg={PALETTE.gutterFg}
-          gutterBg={PALETTE.gutterBg}
-          cursorLineBg={PALETTE.cursorLineBg}
-          cursorLineNrFg={PALETTE.cursorLineNrFg}
-          selectionBg={PALETTE.selectionBg}
+          gutterFg={colors.gutterFg}
+          gutterBg={colors.gutterBg}
+          cursorLineBg={colors.cursorLineBg}
+          cursorLineNrFg={colors.cursorLineNrFg}
+          selectionBg={colors.selectionBg}
         />
       </div>
 
-      {/* Statusline */}
       <VimStatusline
         fileName={activeTab?.name ?? ""}
         editorState={editorState}
-        bg={PALETTE.statusBg}
-        fg={PALETTE.statusFg}
-        modeBg={isVisual ? PALETTE.modeVisualBg : PALETTE.modeBg}
-        modeFg={PALETTE.modeFg}
+        bg={colors.statusBg}
+        fg={colors.statusFg}
+        modeBg={isVisual ? colors.modeVisualBg : colors.modeBg}
+        modeFg={colors.modeFg}
       />
     </div>
   );

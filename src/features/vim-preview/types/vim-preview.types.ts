@@ -1,3 +1,4 @@
+import type { Palette } from "@/features/palette-generator";
 import type { BundledTheme, ThemedToken } from "shiki";
 
 /** shiki トークナイズ結果 */
@@ -41,6 +42,7 @@ export type EditorState = {
 
 /** VimPreview の Props */
 export type VimPreviewProps = {
+  palette?: Palette;
   theme?: BundledTheme;
   variant?: "compact" | "full";
 };
