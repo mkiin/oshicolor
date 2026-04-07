@@ -10,13 +10,13 @@ import { seedsAtom } from "./seeds.atom";
 import { syntaxAtom } from "./syntax.atom";
 import { uiAtom } from "./ui.atom";
 
-export const paletteAtom = atom<Palette | null>((get) => {
+export const paletteAtom = atom(async (get) => {
   const mood = get(moodAtom);
-  const seeds = get(seedsAtom);
-  const neutral = get(neutralAtom);
-  const syntax = get(syntaxAtom);
-  const ui = get(uiAtom);
-  const diagnostic = get(diagnosticAtom);
+  const seeds = await get(seedsAtom);
+  const neutral = await get(neutralAtom);
+  const syntax = await get(syntaxAtom);
+  const ui = await get(uiAtom);
+  const diagnostic = await get(diagnosticAtom);
 
   if (!mood || !seeds || !neutral || !syntax || !ui || !diagnostic) return null;
 
@@ -31,5 +31,5 @@ export const paletteAtom = atom<Palette | null>((get) => {
     syntax,
     ui,
     diagnostic,
-  };
+  } satisfies Palette;
 });

@@ -7,18 +7,18 @@ import {
   SyntaxPaletteView,
   moodAtom,
   paletteAtom,
-  visionResultAtom,
+  AsyncVisionResultAtom,
 } from "@/features/palette-generator";
 import { Dropzone, ImagePreview } from "@/shared/components/ui/dropzone";
 import { ErrorBoundary } from "@/shared/components/ui/error-boundary";
 import { Spinner } from "@/shared/components/ui/spinner";
 import { createFileRoute } from "@tanstack/react-router";
-import { useAtomValue, useSetAtom } from "jotai";
-// @ts-expect-error React 19 experimental API
-import { Suspense, ViewTransition, startTransition, useState } from "react";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { Suspense, startTransition, useState } from "react";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
+  ssr: false,
 });
 
 const MOOD_OPTIONS: { value: ThemeMood; label: string; desc: string }[] = [
@@ -29,7 +29,7 @@ const MOOD_OPTIONS: { value: ThemeMood; label: string; desc: string }[] = [
 
 function RouteComponent() {
   const { mutateAsync } = useAtomValue(analyzeColorMutationAtom);
-  const setVisionResult = useSetAtom(visionResultAtom);
+  const setVisionResult = useSetAtom(AsyncVisionResultAtom);
   const setMood = useSetAtom(moodAtom);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
@@ -53,44 +53,26 @@ function RouteComponent() {
 
       {previewUrl && (
         <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-2">
-          <div className="overflow-hidden rounded-lg bg-neutral-900">
-            <ViewTransition
-              key={previewUrl}
-              default="none"
-              enter="auto"
-              exit="auto"
-            >
-              <ImagePreview
-                url={previewUrl}
-                className="h-full w-full object-contain"
-              />
-            </ViewTransition>
+          <div className="overflow-hidden rounded-lg bg-neutral-100">
+            <ImagePreview
+              url={previewUrl}
+              className="h-full w-full object-contain"
+            />
           </div>
           <ErrorBoundary
             fallback={(error) => (
-              <p className="text-sm text-red-400">
-                エラー: {error.message}
-              </p>
+              <p className="text-sm text-red-400">エラー: {error.message}</p>
             )}
           >
             <Suspense
               fallback={
-                <ViewTransition>
-                  <div className="flex items-center gap-2 text-sm text-neutral-400">
-                    <Spinner className="h-4 w-4" />
-                    AI がキャラクターの色を分析中…
-                  </div>
-                </ViewTransition>
+                <div className="flex items-center gap-2 text-sm text-neutral-400">
+                  <Spinner className="h-4 w-4" />
+                  AI がキャラクターの色を分析中…
+                </div>
               }
             >
-              <ViewTransition
-                key="results"
-                default="none"
-                enter="auto"
-                exit="auto"
-              >
-                <AnalysisResults />
-              </ViewTransition>
+              <AnalysisResults />
             </Suspense>
           </ErrorBoundary>
         </div>
@@ -100,10 +82,9 @@ function RouteComponent() {
 }
 
 function AnalysisResults() {
-  const visionResult = useAtomValue(visionResultAtom);
+  const visionResult = useAtomValue(AsyncVisionResultAtom);
   const palette = useAtomValue(paletteAtom);
-  const currentMood = useAtomValue(moodAtom);
-  const setMood = useSetAtom(moodAtom);
+  const [currentMood, setMood] = useAtom(moodAtom);
 
   if (!visionResult) return null;
 
@@ -139,16 +120,11 @@ function AnalysisResults() {
       </div>
 
       {palette && (
-        <ViewTransition
-          key={currentMood}
-          default="none"
-          enter="auto"
-          exit="auto"
-        >
+        <>
           <EditorPaletteView />
           <SyntaxPaletteView />
           <DiagnosticPaletteView />
-        </ViewTransition>
+        </>
       )}
     </div>
   );
