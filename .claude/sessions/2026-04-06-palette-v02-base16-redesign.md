@@ -7,7 +7,7 @@ Date: 2026-04-06 (session end)
 - V01 issue.md を全面改訂 (ISSUE-1〜9 に再構成)
 - V02 plan.md / spec.md を新規作成
 - palette-generator を全削除して V02 として再実装
-  - 型定義 (VisionResult, Palette, ThemeMood, *Slot)
+  - 型定義 (VisionResult, Palette, ThemeMood, \*Slot)
   - Config (MOOD_PRESET: dark / light-pastel / light)
   - oklch-utils (culori ベース、`{ mode: "oklch" }` で色生成)
   - APCA コントラスト計算 + ensureContrast (light テーマ chroma 補償付き)

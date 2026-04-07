@@ -5,8 +5,8 @@
  */
 
 import type { Oklch, UiSlot } from "../types/palette";
-
 import type { MoodPreset } from "./config";
+
 import { ensureContrast } from "./contrast";
 import { oklchToHex } from "./oklch-utils";
 
