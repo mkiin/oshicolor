@@ -1,77 +1,80 @@
 ---
 name: create-issue
 description: >
-  GitHub Issue を作成する。issues.md や会話コンテキストから Issue を生成し、
-  ラベル・ブランチ名も提案する。
-  「Issue を作って」「GitHub に登録」「タスクを切る」といった文脈で使用。
+  ローカルで Issue を作成する。会話コンテキストから docs/issue/{open,idea}/00X-xxx.md を生成する。
+  「Issue を作って」「タスクを切る」「これ Issue 化して」「アイデアを記録」といった文脈で使用。
 disable-model-invocation: true
-argument-hint: <MVP-X> [概要]
-allowed-tools: Bash(gh issue *), Bash(gh label *), Read, Grep, Glob
+argument-hint: [概要]
+allowed-tools: Read, Write, Glob, Edit
 ---
 
 # create-issue
 
-GitHub Issue を作成する。
-
-## 前処理で取得したコンテキスト
-
-### 現在のオープン Issue
-
-!`gh issue list --state open --limit 20 2>/dev/null || echo "取得失敗（gh 未認証の可能性）"`
-
-### 登録済みラベル
-
-!`gh label list --limit 50 2>/dev/null || echo "取得失敗"`
+会話コンテキストから Issue を生成し `docs/issue/{open,idea}/` に保存する。
+ユーザーは Markdown を直接書かない前提。AI が会話から構造化する。
 
 ## 入力
 
-`$ARGUMENTS` の形式:
-
-- `MVP-1` — MVP 番号のみ。会話コンテキストから Issue 内容を構成
-- `MVP-1 "AI Vision のプロンプト精度改善"` — 概要付き
+`$ARGUMENTS`: Issue 概要（任意）。指定されない場合は会話コンテキストから判断する。
 
 ## 実行手順
 
-### Step 1: 情報を収集する
+### Step 1: テンプレを読む
 
-1. `$ARGUMENTS[0]` (MVP-X) に対応するドキュメントを確認する
-   - パス: `docs/projects/features/pipeline-v2/$0/` 以下
-2. 会話コンテキストから Issue に含めるべき情報を抽出する
-3. 上記「現在のオープン Issue」と重複しないか確認する
+`.claude/templates/issue.md` を Read で読み込む。
 
-### Step 2: Issue 内容を構成する
+### Step 2: 既存 Issue の最大番号を取得する
 
-以下の情報を整理する:
+`docs/issue/{open,done,idea}/*.md` を Glob で一覧取得し、ファイル名先頭の 3 桁番号から最大値を求める。
+新しい Issue 番号 = 最大 + 1（3 桁ゼロ埋め）。1 件もない場合は `001`。
 
-- **タイトル**: `[MVP-X] 概要` 形式
-- **ラベル**: 種別ラベル (`feature`, `bug`, `task`, `refactor`, `research`)
-- **本文**: 問題の説明、対応方針（あれば）、関連ドキュメントへのリンク
+### Step 3: 配置先を判断する
 
-### Step 3: ユーザーに確認する
+会話コンテキストから種別を判断する:
 
-作成する Issue のプレビューを提示し、修正が必要か確認する。
+- アイデア段階（実装するか不確か）→ `docs/issue/idea/`
+- 実装意思あり → `docs/issue/open/`
 
-### Step 4: Issue を作成する
+判断つかない場合はユーザーに確認する。
 
-確認後、`gh issue create` で Issue を作成する:
+### Step 4: 内容を生成する
 
-```bash
-gh issue create \
-  --title "[MVP-X] タイトル" \
-  --body "本文" \
-  --label "種別"
+会話コンテキストから以下を埋める:
+
+- `title`
+- `labels`: `feature` / `bug` / `task` / `refactor` / `research` / `idea` から複数選択。idea/ 配下のものは `idea` を含める
+- `mvp`: 1〜5（該当しなければ frontmatter から削除）
+- `feature`: color-extract / palette-design / lua-gen / download-ui / preview / distribution（該当しなければ削除）
+- `sprint`: 着手予定がない場合は空
+- `created`: 今日の日付
+- `branch`: 着手前なら空
+- `何をやるか` / `なぜやるか` / `完了条件` / `関連`
+
+不明な情報はユーザーに簡潔に確認する。憶測で埋めない。
+
+### Step 5: ファイル名を決定する
+
+`<3桁番号>-<title を kebab-case>.md`
+
+例: `005-kmeans-color-extract.md`
+
+### Step 6: ユーザーに確認する
+
+draft の全文と保存先パスを提示する。修正なければ Write する。
+
+### Step 7: ブランチ名を提案する（任意）
+
+`open/` 配下の Issue で着手する場合のブランチ名:
+
+```
+<labels[0]>/<番号>-<title-kebab>
 ```
 
-### Step 5: ブランチ名を提案する
-
-作成した Issue 番号を使って、ブランチ名を提案する:
-
-```
-feature/mvp-X-概要-kebab-case
-```
+例: `feature/005-kmeans-color-extract`
 
 ## 注意事項
 
-- 重複 Issue を作らない。Step 1 で既存 Issue を必ず確認する
-- ラベルが存在しない場合は作成しない（ユーザーに報告する）
-- 本文は簡潔に。長い説明は plan.md や issues.md へのリンクで代替する
+- frontmatter は YAML として有効に保つ。空フィールドは省略してよい
+- 既存 Issue との重複は title で簡易チェックする
+- 1 度に複数 Issue を作る場合は連番で採番する（並列に作っても番号が重複しないように）
+- 「やらないこと」「Approach」セクションは追加しない。必要なら body に自由に書き足してもらう
