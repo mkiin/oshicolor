@@ -4,8 +4,8 @@ import { oklchToHex } from "../usecases/oklch-utils";
 import { selectSeeds } from "../usecases/seed-selection";
 import { visionResultAtom } from "./vision-result.atom";
 
-export const seedsAtom = atom((get) => {
-  const vr = get(visionResultAtom);
+export const seedsAtom = atom(async (get) => {
+  const vr = await get(visionResultAtom);
   if (!vr) return null;
 
   const seeds = selectSeeds(vr);

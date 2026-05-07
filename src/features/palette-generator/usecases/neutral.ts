@@ -5,8 +5,8 @@
  */
 
 import type { NeutralSlot } from "../types/palette";
-
 import type { MoodPreset } from "./config";
+
 import { NEUTRAL_C, YELLOW_C_OVERRIDE, YELLOW_HUE_RANGE } from "./config";
 import { oklchToHex } from "./oklch-utils";
 

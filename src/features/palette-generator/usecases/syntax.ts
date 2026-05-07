@@ -6,8 +6,8 @@
  */
 
 import type { Oklch, SyntaxSlot } from "../types/palette";
-
 import type { MoodPreset } from "./config";
+
 import {
   DISCRIMINATION_L_SHIFT,
   DISCRIMINATION_MAX_ITER,
@@ -16,7 +16,13 @@ import {
   SYNTAX_C_MIN,
 } from "./config";
 import { ensureContrast } from "./contrast";
-import { clamp, deltaEOk, hexToOklch, hueDist, oklchToHex } from "./oklch-utils";
+import {
+  clamp,
+  deltaEOk,
+  hexToOklch,
+  hueDist,
+  oklchToHex,
+} from "./oklch-utils";
 
 const SLOTS: readonly SyntaxSlot[] = [
   "accent",
@@ -39,7 +45,7 @@ const C_JITTER = [1, 1, 0.95, 1.05, 0.9, 1.1, 0.85, 1.0] as const;
 const distributeHues = (h1: number, h2: number): number[] => {
   const hues: number[] = [h1, h2];
 
-  const cwArc = ((h2 - h1 + 360) % 360) || 360;
+  const cwArc = (h2 - h1 + 360) % 360 || 360;
   const ccwArc = 360 - cwArc;
 
   const total = 6;
@@ -117,7 +123,13 @@ export const generateSyntax = (
           : Math.max(baseC * C_JITTER[i], SYNTAX_C_MIN);
 
     const hex = oklchToHex(l, c, h);
-    return ensureContrast(hex, bgHex, preset.lcSyntax, preset.chromaBoost, preset.chromaDampen);
+    return ensureContrast(
+      hex,
+      bgHex,
+      preset.lcSyntax,
+      preset.chromaBoost,
+      preset.chromaDampen,
+    );
   });
 
   // 弁別性修正 (gap-fill 色 = index 2-7 のみ L を調整)

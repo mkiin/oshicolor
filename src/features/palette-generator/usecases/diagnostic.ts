@@ -5,8 +5,8 @@
  */
 
 import type { DiagnosticSlot } from "../types/palette";
-
 import type { MoodPreset } from "./config";
+
 import { DIAGNOSTIC_C_MIN, DIAGNOSTIC_HUE } from "./config";
 import { ensureContrast } from "./contrast";
 import { oklchToHex } from "./oklch-utils";
@@ -25,7 +25,13 @@ export const generateDiagnostic = (
     const hex = oklchToHex(l, c, DIAGNOSTIC_HUE[slot]);
     return [
       slot,
-      ensureContrast(hex, bgHex, preset.lcSyntax, preset.chromaBoost, preset.chromaDampen),
+      ensureContrast(
+        hex,
+        bgHex,
+        preset.lcSyntax,
+        preset.chromaBoost,
+        preset.chromaDampen,
+      ),
     ] as const;
   });
 

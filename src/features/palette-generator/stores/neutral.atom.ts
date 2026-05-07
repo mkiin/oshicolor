@@ -7,9 +7,9 @@ import { generateNeutral } from "../usecases/neutral";
 import { moodAtom } from "./mood.atom";
 import { seedsAtom } from "./seeds.atom";
 
-export const neutralAtom = atom<Record<NeutralSlot, string> | null>((get) => {
+export const neutralAtom = atom(async (get) => {
   const mood = get(moodAtom);
-  const seeds = get(seedsAtom);
+  const seeds = await get(seedsAtom);
   if (!mood || !seeds) return null;
   return generateNeutral(seeds.primary.h, MOOD_PRESET[mood]);
 });

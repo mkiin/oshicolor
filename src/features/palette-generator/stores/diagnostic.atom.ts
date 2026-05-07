@@ -8,12 +8,10 @@ import { moodAtom } from "./mood.atom";
 import { neutralAtom } from "./neutral.atom";
 import { seedsAtom } from "./seeds.atom";
 
-export const diagnosticAtom = atom<Record<DiagnosticSlot, string> | null>(
-  (get) => {
-    const mood = get(moodAtom);
-    const seeds = get(seedsAtom);
-    const neutral = get(neutralAtom);
-    if (!mood || !seeds || !neutral) return null;
-    return generateDiagnostic(seeds.primary.c, MOOD_PRESET[mood], neutral.bg);
-  },
-);
+export const diagnosticAtom = atom(async (get) => {
+  const mood = get(moodAtom);
+  const seeds = await get(seedsAtom);
+  const neutral = await get(neutralAtom);
+  if (!mood || !seeds || !neutral) return null;
+  return generateDiagnostic(seeds.primary.c, MOOD_PRESET[mood], neutral.bg);
+});

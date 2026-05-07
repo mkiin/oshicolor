@@ -8,10 +8,10 @@ import { moodAtom } from "./mood.atom";
 import { neutralAtom } from "./neutral.atom";
 import { seedsAtom } from "./seeds.atom";
 
-export const syntaxAtom = atom<Record<SyntaxSlot, string> | null>((get) => {
+export const syntaxAtom = atom(async (get) => {
   const mood = get(moodAtom);
-  const seeds = get(seedsAtom);
-  const neutral = get(neutralAtom);
+  const seeds = await get(seedsAtom);
+  const neutral = await get(neutralAtom);
   if (!mood || !seeds || !neutral) return null;
   return generateSyntax(
     seeds.primary,

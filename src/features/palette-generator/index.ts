@@ -12,6 +12,7 @@ export type {
 
 export { generatePalette } from "./usecases/generate-palette";
 
+export { AsyncVisionResultAtom } from "./stores/vision-result.atom";
 export { visionResultAtom } from "./stores/vision-result.atom";
 export { moodAtom } from "./stores/mood.atom";
 export { paletteAtom } from "./stores/palette.atom";

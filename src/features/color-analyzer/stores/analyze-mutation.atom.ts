@@ -1,6 +1,5 @@
-import { atomWithMutation } from "jotai-tanstack-query";
-
 import { fileToBase64, fileMimeType } from "@/shared/lib/utils";
+import { atomWithMutation } from "jotai-tanstack-query";
 
 import { analyzeColor } from "../repositories/analyze-color.functions";
 

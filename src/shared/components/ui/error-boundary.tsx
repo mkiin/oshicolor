@@ -1,5 +1,6 @@
+import type { ReactNode } from "react";
+
 import { Component } from "react";
-import type { ErrorInfo, ReactNode } from "react";
 
 type ErrorBoundaryProps = {
   fallback: ReactNode | ((error: Error) => ReactNode);
@@ -17,11 +18,8 @@ export class ErrorBoundary extends Component<
   state: ErrorBoundaryState = { error: null };
 
   static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    console.error("[ErrorBoundary]", error);
     return { error };
-  }
-
-  componentDidCatch(error: Error, info: ErrorInfo) {
-    console.error("ErrorBoundary caught:", error, info);
   }
 
   render() {
