@@ -23,13 +23,13 @@ const loadHighlighter = async (
       import("shiki/core"),
       import("shiki/engine/javascript"),
       lang === "zig"
-        ? import("@shikijs/langs/zig")
-        : import("@shikijs/langs/tsx"),
+        ? import("shiki/langs/zig.mjs")
+        : import("shiki/langs/tsx.mjs"),
     ]);
 
   const themeArg =
     typeof theme === "string"
-      ? (await import("@shikijs/themes/tokyo-night")).default
+      ? (await import("shiki/themes/tokyo-night.mjs")).default
       : theme;
 
   return createHighlighterCore({
