@@ -2,7 +2,7 @@
 title: shiki の bundle 肥大を削減
 labels: [refactor]
 created: 2026-05-12
-branch:
+branch: features/refactor/033-bundle-size-reduction
 ---
 
 # shiki の bundle 肥大を削減
@@ -30,19 +30,26 @@ branch:
 
 ## 実装方針
 
-<!-- 着手時に feature-design skill が埋める (HOW を書く)。trivial な bug fix では着手者が直接埋めてよい -->
-<!-- WHAT (feature 仕様・API・型・アルゴリズム) は docs/features/<feature>/spec.md に書く。ここには書かない -->
-<!-- 各小節は該当しなければ「該当なし」と書く。小粒な issue では各 1〜2 行で十分 -->
-
 ### 設計アプローチ
+
+shiki のトップレベル import (`import("shiki")`) は内部で `bundledLanguages` と `bundledThemes` 全てを参照しており、これが言語パック全載せの原因。`shiki/core` に切り替えて `createHighlighterCore` を直接呼び出し、`langs` と `themes` には個別 import の Promise を直接渡す形に変える。`shiki/engine/oniguruma` の `createOnigurumaEngine` で正規表現エンジンを初期化する。preview feature が必要とする zig / tsx の grammar、tokyo-night theme は静的 import で先読みし、palette 由来のカスタムテーマは引き続き runtime で構築する。
 
 ### 触るファイル
 
+- `src/features/preview/hooks/use-shiki-tokens.ts` shiki/core ベースに書き換え
+- `src/features/preview/components/vim-preview.tsx` theme 渡しの型変更を反映
+
 ### 構造・命名・責務分離
+
+`use-shiki-tokens.ts` は shiki の bundled API から切り離し、`shiki/core` の `createHighlighterCore` を使う。langs と themes は `() => import("@shikijs/langs/zig")` のような callable lazy loader を渡す形にして、rolldown が個別 chunk として code-split する状態を狙う。`vim-preview.tsx` で theme 名を string で渡している箇所も、tokyo-night は固定 import に変える。fallback color の定数 (FALLBACK_COLORS) は変更しない。
 
 ### 使用ライブラリ
 
+shiki は既存依存をそのまま使う。`shiki` パッケージ内の `shiki/core`、`shiki/engine/oniguruma`、`@shikijs/langs/*`、`@shikijs/themes/*` サブパス export を活用する (新規 package 追加不要)。
+
 ### テスト戦略
+
+自動テストなし。`pnpm build` で 500 kB 超 chunk がアプリ本体 (`main`、`routes`、`preview`) 以外に存在しないことを確認する。手動確認として `pnpm dev` で preview ページの zig と tsx の syntax highlight が以前と同じ見た目で表示されることを確認する。
 
 ## 関連
 
