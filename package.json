@@ -13,6 +13,8 @@
     "check": "oxfmt --check && oxlint",
     "check:fix": "oxfmt && oxlint --fix",
     "test": "vitest run",
+    "deploy": "wrangler deploy",
+    "deploy:preview": "wrangler versions upload",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
