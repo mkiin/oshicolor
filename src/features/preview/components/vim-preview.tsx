@@ -1,6 +1,5 @@
 import type { Palette } from "@/features/palette-design";
 import type { VimPreviewProps } from "@/features/preview/types/vim-preview.types";
-import type { BundledLanguage } from "shiki";
 
 import { useShikiTokens } from "@/features/preview/hooks/use-shiki-tokens";
 import {
@@ -49,9 +48,11 @@ const FALLBACK_COLORS = {
   treeIndentMarkerFg: "#3b4261",
 } as const;
 
+type SampleLang = "zig" | "tsx";
+
 type SampleConfig = {
   code: string;
-  lang: BundledLanguage;
+  lang: SampleLang;
 };
 
 const SAMPLES: Record<string, SampleConfig> = {

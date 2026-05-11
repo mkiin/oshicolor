@@ -1,5 +1,5 @@
 import type { Palette } from "@/features/palette-design";
-import type { BundledTheme, ThemedToken } from "shiki";
+import type { ThemedToken } from "shiki/core";
 
 /** shiki トークナイズ結果 */
 export type ShikiTokensResult = {
@@ -43,6 +43,6 @@ export type EditorState = {
 /** VimPreview の Props */
 export type VimPreviewProps = {
   palette?: Palette;
-  theme?: BundledTheme;
+  theme?: "tokyo-night";
   variant?: "compact" | "full";
 };
