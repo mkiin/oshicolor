@@ -30,11 +30,12 @@ GitHub Issues は使わず、すべてローカルの `docs/issue/` 配下の Ma
 
 ### Issue の置き場所
 
-- `docs/issue/open/` は実装意思のあるものを置く。今やる issue は frontmatter `sprint:` で表現する
 - `docs/issue/idea/` はアイデア段階で実装するか不確かなものを置く
+- `docs/issue/open/` は実装意思あり、次以降の sprint で取り組む候補を置く
+- `docs/issue/current/` は今取り組んでいる issue を置く。1〜3 件までを目安にする
 - `docs/issue/done/` は完了アーカイブとする
 
-ファイル名は `<3桁番号>-<kebab-case-title>.md` の形式に統一する。番号は idea / open / done を横断して通し番号で振る。新規作成は `/create-issue` スキルを使う。
+ファイル名は `<3桁番号>-<kebab-case-title>.md` の形式に統一する。番号は idea / open / current / done を横断して通し番号で振る。新規作成は `/create-issue` スキルを使う。
 
 ### feature のドキュメント
 
@@ -42,7 +43,14 @@ GitHub Issues は使わず、すべてローカルの `docs/issue/` 配下の Ma
 
 ### 状態遷移
 
-issue に着手するときは frontmatter `branch:` を埋め、`open/` 内に置いたまま作業する。完了したら `done/` に mv する。アイデアから着手するときは `idea/` から `open/` に mv する。物理的な mv を状態遷移のトリガーにすることで、現在の状態が一目で分かる構造にしている。
+物理的な mv を状態遷移のトリガーにすることで、現在の状態が一目で分かる構造にしている。
+
+- アイデアを採用するときは `idea/<NNN>-*.md` を `open/<NNN>-*.md` に mv する
+- 今 sprint に入れるときは `open/<NNN>-*.md` を `current/<NNN>-*.md` に mv する。`current/` は 1〜3 件までを目安にする
+- 着手するときは frontmatter `branch:` を埋める
+- 完了したら `current/<NNN>-*.md` を `done/<NNN>-*.md` に mv する
+
+新規 Claude セッションで実装を始めるときは、まず `ls docs/issue/current/` を確認して着手対象を特定する。
 
 ## TypeScript の実行・型チェック
 

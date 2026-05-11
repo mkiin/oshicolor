@@ -3,7 +3,6 @@ title: <概要>
 labels: [feature]  # feature | bug | task | refactor | research | idea
 mvp: 1
 feature: color-extract
-sprint:
 created: YYYY-MM-DD
 branch:
 ---

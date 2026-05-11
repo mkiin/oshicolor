@@ -25,7 +25,7 @@ allowed-tools: Read, Write, Glob, Edit
 
 ### Step 2: 既存 Issue の最大番号を取得する
 
-`docs/issue/{open,done,idea}/*.md` を Glob で一覧取得し、ファイル名先頭の 3 桁番号から最大値を求める。
+`docs/issue/{open,current,done,idea}/*.md` を Glob で一覧取得し、ファイル名先頭の 3 桁番号から最大値を求める。
 新しい Issue 番号 = 最大 + 1（3 桁ゼロ埋め）。1 件もない場合は `001`。
 
 ### Step 3: 配置先を判断する
@@ -45,7 +45,6 @@ allowed-tools: Read, Write, Glob, Edit
 - `labels`: `feature` / `bug` / `task` / `refactor` / `research` / `idea` から複数選択。idea/ 配下のものは `idea` を含める
 - `mvp`: 1〜5（該当しなければ frontmatter から削除）
 - `feature`: color-extract / palette-design / lua-gen / download-ui / preview / distribution（該当しなければ削除）
-- `sprint`: 着手予定がない場合は空
 - `created`: 今日の日付
 - `branch`: 着手前なら空
 - `何をやるか` / `なぜやるか` / `完了条件` / `関連`
