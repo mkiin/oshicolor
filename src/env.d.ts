@@ -1,6 +1,6 @@
-import type { worker } from "./infrastructures/alchemy/alchemy.run";
-
-export type CloudflareEnv = typeof worker.Env;
+type CloudflareEnv = {
+  GEMINI_API_KEY: string;
+};
 
 declare global {
   type Env = CloudflareEnv;

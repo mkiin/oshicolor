@@ -39,7 +39,7 @@ GitHub Issues は使わず、すべてローカルの `docs/issue/` 配下の Ma
 
 ### feature のドキュメント
 
-`docs/features/<feature>/spec.md` は今こうなっているという現状の仕様を表す。`docs/features/<feature>/review.md` はアーキテクチャ・アルゴリズム・設計に対する外部レビューのログを表す。spec の生成と更新は `/spec-write`、review の追記は `/review-record` を使う。
+`docs/features/<feature>/spec.md` は今こうなっているという現状の仕様を表す。`docs/features/<feature>/review.md` はアーキテクチャ・アルゴリズム・設計に対する外部レビューのログを表す。新規 feature や既存 feature の大きな変更に着手する前は `feature-design` skill を経由して spec.md の初版を書く。実装後の現状追従は `/spec-write`、review の追記は `/review-record` を使う。
 
 ### 状態遷移
 
@@ -51,6 +51,16 @@ GitHub Issues は使わず、すべてローカルの `docs/issue/` 配下の Ma
 - 完了したら `current/<NNN>-*.md` を `done/<NNN>-*.md` に mv する
 
 新規 Claude セッションで実装を始めるときは、まず `ls docs/issue/current/` を確認して着手対象を特定する。
+
+### ブランチ戦略
+
+main を本番リリースブランチ、dev を統合ブランチとする 2 環境構成にする。PR は作らず手元で merge して push する。
+
+- `main`: push で Cloudflare Workers の production にデプロイされる
+- `dev`: `features/*` のマージ先。push で preview (staging) 環境にデプロイされる
+- `features/<labels[0]>/<NNN>-<title-kebab>`: 作業ブランチ。issue ごとに切る。ローカル開発とテストはここで完結させる
+
+実装フローは `features/* → dev`（統合確認）→ `dev → main`（リリース）の順で進める。
 
 ## TypeScript の実行・型チェック
 
