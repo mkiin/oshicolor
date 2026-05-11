@@ -1,6 +1,6 @@
 ---
 title: Neovim 風プレビュー
-labels: [feature]
+labels: [refactor]
 mvp: 3
 feature: preview
 sprint:
@@ -12,18 +12,19 @@ branch:
 
 ## 何をやるか
 
-ブラウザ上に Neovim 風のコードビューアを表示し、生成したテーマがどう見えるかをプレビューする。複数言語サンプル (TS, Python, Lua) 対応。
+rename 後の `src/features/preview/` をベースに、新パレット形式を受け取って描画できる状態にリファクタする。Shiki との統合は既に動いているので、入力データ形式の差分対応が中心になる。
 
 ## なぜやるか
 
-ダウンロード前に「実際にどう見えるか」を確認できないと、何度もダウンロードを試すハメになる。MVP-3 のコア体験。
+既存実装はかなり完成度が高い。一方で AI Vision 出力前提のデータ形式に対応しているため、MVP-1 で生成する新パレット形式とのインタフェースを揃える必要がある。
 
 ## 完了条件
 
-- [ ] コードハイライタ (Prism or Shiki) との統合
-- [ ] ハイライトグループ → CSS 変数のマッピング
-- [ ] 言語切り替え UI (TS/Python/Lua)
+- [ ] 新パレット形式を受け取れる
+- [ ] ハイライトグループから CSS 変数へのマッピングが新形式に対応している
+- [ ] 言語切り替え UI が動く
 
 ## 関連
 
 - spec: docs/features/preview/spec.md
+- 前提: 029 src/features を docs 命名に rename
