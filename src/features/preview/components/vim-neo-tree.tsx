@@ -1,4 +1,4 @@
-import type { TreeNode } from "@/features/vim-preview/types/vim-preview.types";
+import type { TreeNode } from "@/features/preview/types/vim-preview.types";
 
 export type VimNeoTreeProps = {
   tree: TreeNode[];

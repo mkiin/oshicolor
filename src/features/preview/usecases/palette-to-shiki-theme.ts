@@ -5,7 +5,7 @@
  * shiki の ThemeRegistrationRaw として返す。
  */
 
-import type { Palette } from "@/features/palette-generator";
+import type { Palette } from "@/features/palette-design";
 import type { ThemeRegistrationRaw } from "shiki";
 
 export const paletteToShikiTheme = (

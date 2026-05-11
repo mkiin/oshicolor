@@ -1,4 +1,4 @@
-import type { BufferTab } from "@/features/vim-preview/types/vim-preview.types";
+import type { BufferTab } from "@/features/preview/types/vim-preview.types";
 
 export type VimBufferlineProps = {
   tabs: BufferTab[];
