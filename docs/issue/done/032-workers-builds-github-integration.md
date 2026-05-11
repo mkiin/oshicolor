@@ -17,7 +17,6 @@ branch: refactor/032-workers-builds-github-integration
 - production trigger (main への push、deploy command = `npx wrangler deploy`) を作成する
 - preview trigger (main 以外への push、deploy command = `npx wrangler versions upload`) を作成する
 - main push で `oshicolor.<subdomain>.workers.dev` が更新されること、dev push で `dev-oshicolor.<subdomain>.workers.dev` の固定 preview URL が発行されることを実機で確認する
-- 設定再現性のため `scripts/setup-workers-builds.sh` を curl ベースで script 化することを検討する。GitHub App インストールと user-scoped token 発行だけは dashboard 必須なので、README に手順を残す
 
 現状の oshicolor は永続化リソース (D1 / R2 / KV) を持たないため、preview と production で Worker を分ける必要は無い。同じ `oshicolor` Worker の version を切り替える形 (`wrangler versions upload`) で preview URL を持たせる。将来 D1 等を導入するときに、その issue で Wrangler Environments による分離の要否を改めて判断する。
 
@@ -27,14 +26,13 @@ branch: refactor/032-workers-builds-github-integration
 
 ## 完了条件
 
-- [ ] Cloudflare dashboard で Cloudflare GitHub App が oshicolor repo にインストール済み
-- [ ] user-scoped API token が発行されている (権限は `Workers Builds Configuration: Edit` と `Workers Scripts: Read`)
-- [ ] `oshicolor` Worker が oshicolor repo に connect されている
-- [ ] production trigger (`branch_includes: ["main"]`、`deploy_command: "npx wrangler deploy"`、`build_command: "pnpm build"`) が登録されている
-- [ ] preview trigger (`branch_includes: ["*"]`、`branch_excludes: ["main"]`、`deploy_command: "npx wrangler versions upload"`、`build_command: "pnpm build"`) が登録されている
-- [ ] main への push で `oshicolor.<subdomain>.workers.dev` が新しいバージョンに更新されることを実機確認した
-- [ ] dev への push で `dev-oshicolor.<subdomain>.workers.dev` が発行され HTTP 200 が返ることを実機確認した
-- [ ] 設定手順が README または `docs/infra/` 配下に残されている (curl コマンド or `scripts/setup-workers-builds.sh`)
+- [x] Cloudflare dashboard で Cloudflare GitHub App が oshicolor repo にインストール済み
+- [x] user-scoped API token が発行されている (権限は `Workers Builds Configuration: Edit` と `Workers Scripts: Read`)
+- [x] `oshicolor` Worker が oshicolor repo に connect されている
+- [x] production trigger (`branch_includes: ["main"]`、`deploy_command: "npx wrangler deploy"`、`build_command: "pnpm build"`) が登録されている
+- [x] preview trigger (`branch_includes: ["*"]`、`branch_excludes: ["main"]`、`deploy_command: "npx wrangler versions upload"`、`build_command: "pnpm build"`) が登録されている
+- [x] main への push で `oshicolor.<subdomain>.workers.dev` が新しいバージョンに更新されることを実機確認した
+- [x] dev への push で `dev-oshicolor.<subdomain>.workers.dev` が発行され HTTP 200 が返ることを実機確認した
 
 ## 実装方針
 
