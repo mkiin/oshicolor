@@ -14,8 +14,8 @@ count.txt
 __unconfig*
 todos.json
 
-# sample rep
-sample-repo/
+# library rep
+library/
 
 # debug iamges
 debug/img/
