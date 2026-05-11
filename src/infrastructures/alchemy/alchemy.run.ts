@@ -11,6 +11,11 @@ const app = await alchemy("oshicolor", {
 
 export const worker = await TanStackStart("website", {
   build: { command: "vite build" },
+  bindings: {
+    GEMINI_API_KEY: process.env.GEMINI_API_KEY
+      ? alchemy.secret(process.env.GEMINI_API_KEY)
+      : "",
+  },
 });
 
 // oxlint-disable-next-line no-console -- デプロイ URL の出力
