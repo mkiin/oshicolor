@@ -1,6 +1,4 @@
-type CloudflareEnv = {
-  GEMINI_API_KEY: string;
-};
+type CloudflareEnv = {};
 
 declare global {
   type Env = CloudflareEnv;

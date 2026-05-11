@@ -4,7 +4,6 @@ import * as v from "valibot";
 export const env = createEnv({
   server: {
     SERVER_URL: v.optional(v.pipe(v.string(), v.url())),
-    GEMINI_API_KEY: v.pipe(v.string(), v.minLength(1)),
   },
 
   /**
