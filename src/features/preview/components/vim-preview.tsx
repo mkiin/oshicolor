@@ -1,8 +1,8 @@
-import type { Palette } from "@/features/palette-generator";
-import type { VimPreviewProps } from "@/features/vim-preview/types/vim-preview.types";
+import type { Palette } from "@/features/palette-design";
+import type { VimPreviewProps } from "@/features/preview/types/vim-preview.types";
 import type { BundledLanguage } from "shiki";
 
-import { useShikiTokens } from "@/features/vim-preview/hooks/use-shiki-tokens";
+import { useShikiTokens } from "@/features/preview/hooks/use-shiki-tokens";
 import {
   BUFFER_TABS,
   TSX_BUFFER_TABS,
@@ -10,10 +10,10 @@ import {
   TSX_EDITOR_STATE,
   ZIG_CODE,
   ZIG_EDITOR_STATE,
-} from "@/features/vim-preview/sample-code";
-import { SAMPLE_TREE } from "@/features/vim-preview/sample-tree";
-import { paletteToShikiTheme } from "@/features/vim-preview/usecases/palette-to-shiki-theme";
-import { paletteToVimColors } from "@/features/vim-preview/usecases/palette-to-vim-colors";
+} from "@/features/preview/sample-code";
+import { SAMPLE_TREE } from "@/features/preview/sample-tree";
+import { paletteToShikiTheme } from "@/features/preview/usecases/palette-to-shiki-theme";
+import { paletteToVimColors } from "@/features/preview/usecases/palette-to-vim-colors";
 
 import { VimBufferline } from "./vim-bufferline";
 import { VimEditorArea } from "./vim-editor-area";

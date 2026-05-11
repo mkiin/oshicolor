@@ -1,4 +1,4 @@
-import { VimPreview } from "@/features/vim-preview";
+import { VimPreview } from "@/features/preview";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/preview")({

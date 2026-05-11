@@ -1,7 +1,7 @@
 import type {
   EditorState,
   VisualSelection,
-} from "@/features/vim-preview/types/vim-preview.types";
+} from "@/features/preview/types/vim-preview.types";
 import type { ThemedToken } from "shiki";
 
 export type VimEditorAreaProps = {

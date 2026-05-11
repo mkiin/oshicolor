@@ -1,4 +1,4 @@
-import type { Palette } from "@/features/palette-generator";
+import type { Palette } from "@/features/palette-design";
 import type { BundledTheme, ThemedToken } from "shiki";
 
 /** shiki トークナイズ結果 */

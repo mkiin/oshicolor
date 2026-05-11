@@ -1,4 +1,4 @@
-import type { ShikiTokensResult } from "@/features/vim-preview/types/vim-preview.types";
+import type { ShikiTokensResult } from "@/features/preview/types/vim-preview.types";
 import type {
   BundledLanguage,
   BundledTheme,

@@ -1,4 +1,4 @@
-import type { EditorState } from "@/features/vim-preview/types/vim-preview.types";
+import type { EditorState } from "@/features/preview/types/vim-preview.types";
 
 export type VimStatuslineProps = {
   fileName: string;

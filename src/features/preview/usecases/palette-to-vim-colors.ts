@@ -4,7 +4,7 @@
  * Palette の neutral / ui スロットを VimPreview の各パーツにマッピングする。
  */
 
-import type { Palette } from "@/features/palette-generator";
+import type { Palette } from "@/features/palette-design";
 
 export type VimColors = {
   bg: string;
