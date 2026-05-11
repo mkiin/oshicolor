@@ -2,7 +2,7 @@
 title: alchemy 撤去と Workers Builds 利用環境の整備
 labels: [refactor]
 created: 2026-05-12
-branch: refactor/031-remove-alchemy-prepare-workers-builds
+branch: features/refactor/031-remove-alchemy-prepare-workers-builds
 ---
 
 # alchemy 撤去と Workers Builds 利用環境の整備
