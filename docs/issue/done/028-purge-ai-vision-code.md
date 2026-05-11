@@ -24,10 +24,10 @@ wallust ベースのパレット生成路線に方針転換したため、AI Vis
 
 ## 完了条件
 
-- [ ] `src/features/color-analyzer/` が存在しない
-- [ ] `src/infrastructures/ai/` から AI Vision 系が削除されている
-- [ ] `src/routes/index.tsx` が AI Vision に依存しない状態になっている
-- [ ] build が通る。画像処理パイプラインは一時的に placeholder で良い
+- [x] `src/features/color-analyzer/` が存在しない
+- [x] `src/infrastructures/ai/` から AI Vision 系が削除されている
+- [x] `src/routes/index.tsx` が AI Vision に依存しない状態になっている
+- [x] build が通る。画像処理パイプラインは一時的に placeholder で良い
 
 ## 実装方針
 
