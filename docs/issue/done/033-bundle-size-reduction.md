@@ -23,10 +23,10 @@ branch: features/refactor/033-bundle-size-reduction
 
 ## 完了条件
 
-- [ ] preview feature の shiki 利用箇所が `zig` と `tsx` のみを bundle する形になっている
-- [ ] preview feature が初期 bundle するテーマは `tokyo-night` フォールバックのみで、他は lazy load か削除されている
-- [ ] `pnpm build` 出力で 500 kB を超える chunk が言語パック単体ではない (アプリ本体 chunk のみ) 状態になっている
-- [ ] preview ページが従来どおり描画される (zig コードと tsx コードのシンタックスハイライトが正しく表示される)
+- [x] preview feature の shiki 利用箇所が `zig` と `tsx` のみを bundle する形になっている
+- [x] preview feature が初期 bundle するテーマは `tokyo-night` フォールバックのみで、他は lazy load か削除されている
+- [x] `pnpm build` 出力で 500 kB を超える chunk が言語パック単体ではない (アプリ本体 chunk のみ) 状態になっている
+- [x] preview ページが従来どおり描画される (zig コードと tsx コードのシンタックスハイライトが正しく表示される)
 
 ## 実装方針
 
