@@ -49,7 +49,9 @@ allowed-tools: Read, Write, Glob, Edit
 - `branch`: 着手前なら空
 - `何をやるか` / `なぜやるか` / `完了条件` / `関連`
 
-`実装方針` セクションは create-issue では空のままにする。これは着手時に新規 Claude セッションで埋めるパートであり、issue を切る段階では未確定なため。コメントの観点ガイドだけ残しておく。
+`実装方針` セクションは create-issue では空のままにする。着手時に `feature-design` skill が HOW（このタスクの作業手順）を埋める。trivial な bug fix では着手者が直接埋めてよい。コメントの観点ガイドだけ残しておく。
+
+WHAT（feature 仕様、API、型、アルゴリズム）は `docs/features/<feature>/spec.md` に書くため、`実装方針` には書かない。
 
 不明な情報はユーザーに簡潔に確認する。憶測で埋めない。
 
