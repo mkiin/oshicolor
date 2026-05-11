@@ -1,43 +1,61 @@
 import type { ShikiTokensResult } from "@/features/preview/types/vim-preview.types";
-import type {
-  BundledLanguage,
-  BundledTheme,
-  HighlighterGeneric,
-  ThemeRegistrationRaw,
-} from "shiki";
+import type { ThemeRegistrationRaw } from "shiki/core";
 
 import { useEffect, useMemo, useState } from "react";
 
+type SupportedLang = "zig" | "tsx";
+type PresetTheme = "tokyo-night";
+
 type UseShikiTokensParams = {
   code: string;
-  lang: BundledLanguage;
-  theme: BundledTheme | ThemeRegistrationRaw;
+  lang: SupportedLang;
+  theme: PresetTheme | ThemeRegistrationRaw;
 };
 
-/**
- * shiki でコードをトークナイズし、テーマカラー付きトークン列を返す。
- * BundledTheme（文字列）とカスタムテーマ（オブジェクト）の両方に対応。
- */
+type HighlighterInstance = Awaited<ReturnType<typeof loadHighlighter>>;
+
+const loadHighlighter = async (
+  lang: SupportedLang,
+  theme: PresetTheme | ThemeRegistrationRaw,
+) => {
+  const [{ createHighlighterCore }, { createJavaScriptRegexEngine }, langMod] =
+    await Promise.all([
+      import("shiki/core"),
+      import("shiki/engine/javascript"),
+      lang === "zig"
+        ? import("shiki/langs/zig.mjs")
+        : import("shiki/langs/tsx.mjs"),
+    ]);
+
+  const themeArg =
+    typeof theme === "string"
+      ? (await import("shiki/themes/tokyo-night.mjs")).default
+      : theme;
+
+  return createHighlighterCore({
+    langs: [langMod.default],
+    themes: [themeArg],
+    engine: createJavaScriptRegexEngine(),
+  });
+};
+
 export const useShikiTokens = ({
   code,
   lang,
   theme,
 }: UseShikiTokensParams): ShikiTokensResult => {
-  const [highlighter, setHighlighter] = useState<HighlighterGeneric<
-    BundledLanguage,
-    BundledTheme
-  > | null>(null);
+  const [highlighter, setHighlighter] = useState<HighlighterInstance | null>(
+    null,
+  );
 
   const themeName = typeof theme === "string" ? theme : theme.name;
 
   useEffect(() => {
     let cancelled = false;
 
-    import("shiki").then(({ createHighlighter }) =>
-      createHighlighter({ themes: [theme], langs: [lang] }).then((hl) => {
-        if (!cancelled) setHighlighter(hl);
-      }),
-    );
+    loadHighlighter(lang, theme).then((hl) => {
+      if (!cancelled) setHighlighter(hl);
+    });
 
     return () => {
       cancelled = true;
@@ -49,7 +67,10 @@ export const useShikiTokens = ({
       return { tokens: null, bg: "#1a1b26", fg: "#a9b1d6" };
     }
 
-    const result = highlighter.codeToTokens(code, { lang, theme: themeName });
+    const result = highlighter.codeToTokens(code, {
+      lang,
+      theme: themeName ?? "tokyo-night",
+    });
     return {
       tokens: result.tokens,
       bg: result.bg || "#1a1b26",
