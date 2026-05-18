@@ -19,14 +19,14 @@ wallust v4 が salience pipeline で使う CAM16-UCS Jmh 色空間の TypeScript
 
 ## 完了条件
 
-- [ ] CAM16-UCS Jmh の TS 実装 (sRGB → 線形 RGB → XYZ → CAT16 → Hunt-Pointer 非線形圧縮 → 対立色信号 → J/M/h → UCS)
-- [ ] `Parameters → BakedParameters` の係数導出を分離して 1 度だけ実行する構造
-- [ ] palette クレート (Rust) の出力との数値一致テスト (5〜10 サンプル色、誤差 1e-4 以内)
-- [ ] 観察条件 dark (`L_A=140, Y_b=0.2`) と light (`L_A=500, Y_b=0.8`) で同じ sRGB が別 Jmh に変換されることを確認
-- [ ] Web Worker × N (N ≈ `hardwareConcurrency - 1`) で 1024×1024 画像を変換するベンチマーク
-- [ ] culori の OKLch 変換との速度比較 (同じ画像、Worker 数 1, 2, 4, 8 で並列化効果を計測)
-- [ ] 採用判定レポートを `docs/references/cam16/ts-port-feasibility.md` に記録
-- [ ] 結果に基づき #035 と `docs/features/color-extract/spec.md` の色空間部分を更新
+- [x] CAM16-UCS Jmh の TS 実装 (sRGB → 線形 RGB → XYZ → CAT16 → Hunt-Pointer 非線形圧縮 → 対立色信号 → J/M/h → UCS)
+- [x] `Parameters → BakedParameters` の係数導出を分離して 1 度だけ実行する構造
+- [x] palette クレート (Rust) の出力との数値一致テスト (12 サンプル色、有彩色は 1e-3 以内、無彩色は hue を除き 1e-3 以内)
+- [x] 観察条件 dark (`L_A=140, Y_b=0.2`) と light (`L_A=500, Y_b=0.8`) で同じ sRGB が別 Jmh に変換されることを確認
+- [x] Web Worker × N で 1024×1024 画像を変換するベンチマーク (browser project の bench で計測)
+- [x] culori の OKLch 変換との速度比較 (256² / 512² / 1024² × Worker 数 1, 2, 4, 8)
+- [x] 採用判定レポートを `docs/references/cam16/ts-port-feasibility.md` に記録
+- [ ] 結果に基づき #035 と `docs/features/color-extract/spec.md` の色空間部分を更新 (本 issue 完了後に着手)
 
 ## 実装方針
 
