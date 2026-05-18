@@ -1,15 +1,14 @@
 ---
-name: commit
+name: cm
 description: >
   git の変更を分析してコミットメッセージを生成し、コミットする。
   差分の全文ではなくファイル別の統計だけを取得してトークン消費を抑える。
   「コミット」「コミットして」「変更を保存」といった文脈で使用する。
 disable-model-invocation: true
 allowed-tools: Bash(git *)
-model: haiku
 ---
 
-# commit
+# cm
 
 git の変更を Conventional Commits 形式でコミットする。差分の全文を読まず、ファイル別の統計だけで種別を判定する方針を取る。これは過去の実装で `git diff --cached` と `git diff` をそれぞれ 200 行ずつ取得していたためにトークン消費が膨れた経緯への対応として置いている。
 
