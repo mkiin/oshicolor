@@ -28,6 +28,8 @@
       "Bash(whoami)",
       "Bash(date)",
       "Bash(uname *)",
+      "Bash(find *)",
+      "Bash(fd *)",
       "Read",
       "Glob",
       "Grep"
