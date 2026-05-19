@@ -1,8 +1,12 @@
-import { describe, expect, it } from "vitest";
+import path from "node:path";
+
+import sharp from "sharp";
+import { afterAll, describe, expect, it } from "vitest";
 
 import type { HueName } from "../../../src/features/color-extract/types/ansi.ts";
 import { extractAnsi } from "../../../src/features/color-extract/usecases/ansi.ts";
 import { rgbToHsv } from "../../../src/features/color-extract/usecases/hsv.ts";
+import wallustRef from "./fixtures/wallust-reference.json" with { type: "json" };
 
 const makeRgba = (pixels: [number, number, number][]): Uint8ClampedArray => {
     const buf = new Uint8ClampedArray(pixels.length * 4);
@@ -113,4 +117,103 @@ describe("extractAnsi", () => {
         const blueHsv = rgbToHsv(out.hueBuckets.blue);
         expect(blueHsv.h).toBeCloseTo((210 + 280) / 2, 1);
     });
+
+    // wallust の color1..color6 → 対応する hue 名
+    const COLOR_TO_HUE: [number, HueName][] = [
+        [1, "red"],
+        [2, "green"],
+        [3, "yellow"],
+        [4, "blue"],
+        [5, "magenta"],
+        [6, "cyan"],
+    ];
+
+    const rgbToHex = (rgb: { r: number; g: number; b: number }): string => {
+        const toHex = (v: number) => Math.round(v * 255).toString(16).padStart(2, "0").toUpperCase();
+        return `#${toHex(rgb.r)}${toHex(rgb.g)}${toHex(rgb.b)}`;
+    };
+
+    const NIKKE_DIR = path.join(process.env.HOME ?? "", "Pictures", "nikke");
+    const STYLES = ["dark", "light"] as const;
+
+    type ChannelDiff = {
+        image: string;
+        style: string;
+        color: number;
+        hue: HueName;
+        channel: "r" | "g" | "b";
+        expected: number;
+        actual: number;
+        diff: number;
+    };
+    const channelDiffs: ChannelDiff[] = [];
+
+    const hexToBytes = (hex: string): [number, number, number] => [
+        Number.parseInt(hex.slice(1, 3), 16),
+        Number.parseInt(hex.slice(3, 5), 16),
+        Number.parseInt(hex.slice(5, 7), 16),
+    ];
+
+    afterAll(() => {
+        if (channelDiffs.length === 0) return;
+        const nonZero = channelDiffs.filter((d) => d.diff !== 0);
+        const absDiffs = channelDiffs.map((d) => Math.abs(d.diff));
+        const maxAbs = Math.max(...absDiffs);
+        const meanAbs = absDiffs.reduce((s, x) => s + x, 0) / absDiffs.length;
+        const worst = [...channelDiffs]
+            .sort((a, b) => Math.abs(b.diff) - Math.abs(a.diff))
+            .slice(0, 15);
+        // eslint-disable-next-line no-console
+        console.log("\n=== ansi vs wallust channel-level diff summary ===");
+        // eslint-disable-next-line no-console
+        console.log(`total channel comparisons: ${channelDiffs.length}`);
+        // eslint-disable-next-line no-console
+        console.log(`channels with non-zero diff: ${nonZero.length}`);
+        // eslint-disable-next-line no-console
+        console.log(`max |diff| (LSB / 255): ${maxAbs}`);
+        // eslint-disable-next-line no-console
+        console.log(`mean |diff| (LSB / 255): ${meanAbs.toFixed(3)}`);
+        // eslint-disable-next-line no-console
+        console.log("worst 15 channels:");
+        // eslint-disable-next-line no-console
+        console.table(worst);
+    });
+
+    for (const [name, palettes] of Object.entries(wallustRef)) {
+        for (const style of STYLES) {
+            it(`${name} (${style}) で color1..color6 が wallust と一致する`, async () => {
+                const { data } = await sharp(path.join(NIKKE_DIR, `${name}.png`))
+                    .raw()
+                    .ensureAlpha()
+                    .toBuffer({ resolveWithObject: true });
+                const rgba = new Uint8ClampedArray(data.buffer, data.byteOffset, data.byteLength);
+                const result = extractAnsi(rgba, style);
+                const expected = palettes.ansi[style];
+                for (const [colorIdx, hueName] of COLOR_TO_HUE) {
+                    const bucket = result.hueBuckets[hueName];
+                    const actualBytes: [number, number, number] = [
+                        Math.round(bucket.r * 255),
+                        Math.round(bucket.g * 255),
+                        Math.round(bucket.b * 255),
+                    ];
+                    const expectedBytes = hexToBytes(expected[colorIdx]);
+                    (["r", "g", "b"] as const).forEach((channel, idx) => {
+                        channelDiffs.push({
+                            image: name,
+                            style,
+                            color: colorIdx,
+                            hue: hueName,
+                            channel,
+                            expected: expectedBytes[idx],
+                            actual: actualBytes[idx],
+                            diff: actualBytes[idx] - expectedBytes[idx],
+                        });
+                    });
+                    const actualHex = rgbToHex(result.hueBuckets[hueName]);
+                    expect(actualHex, `${name} ${style} color${colorIdx} (${hueName})`)
+                        .toBe(expected[colorIdx]);
+                }
+            });
+        }
+    }
 });
