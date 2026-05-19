@@ -1,11 +1,3 @@
-// wallust v4 の ansi pipeline (library/wallust/src/histogram/ansi.rs) を TS に移植する。
-//
-// 設計:
-//   - HSV ベース (CAM16 は使わない、hue 6 分類しか必要としないため)
-//   - 6 つの hue バケットに pixel を drain しながら平均を取り、defaults と信頼率 T=0.5 で内分
-//   - black と gray は最暗・最明画素から合成、見つからなければ平均から疑似生成する
-//   - style="light" のときは val_def を個別に下げた別の Range セットを使う
-
 import type { AnsiOutput, AnsiStyle, HueName, HueRange } from "../types/ansi.ts";
 import type { Rgb } from "../types/rgb.ts";
 import { hsvToRgb, rgbaToHsvTuples } from "./hsv.ts";
@@ -27,20 +19,18 @@ const LIGHT_RANGES: HueRange[] = [
     { ...MAGENTA, valDef: 0.5 },
 ];
 
-// ansi defaults と画像由来色の信頼率 (0.0 = 画像 100%, 1.0 = defaults 100%)
 const TRUST = 0.5;
 const DARK_THRESHOLD = 0.05;
 const LIGHT_THRESHOLD = 0.95;
 
 const avg = (xs: number[]): number => xs.reduce((s, x) => s + x, 0) / xs.length;
 
-type Spec = [number, number, number]; // [hue, sat, val]
+type Spec = [hue: number, sat: number, val: number];
 
 const drainBucket = (specs: Spec[], range: HueRange): { hues: number[]; sats: number[]; vals: number[] } => {
     const hues: number[] = [];
     const sats: number[] = [];
     const vals: number[] = [];
-    // wallust の `specs.retain` 相当: range に入る要素を取り出して specs から消す
     let writeIdx = 0;
     for (let i = 0; i < specs.length; i++) {
         const spec = specs[i];
@@ -96,12 +86,6 @@ const synthGray = (specs: Spec[]): Rgb => {
     return hsvToRgb({ h: avg(hues), s, v });
 };
 
-/**
- * RGBA バイト列から ANSI 6 hue バケットの代表色と black / gray を抽出する。
- *
- * 戻り値の構造体は `AnsiOutput` で、後段の Colors 組み立て (`#043` / palette-design)
- * が背景・前景・cursor などにこの値を割り当てる。
- */
 export const extractAnsi = (rgba: ArrayLike<number>, style: AnsiStyle): AnsiOutput => {
     const specs = rgbaToHsvTuples(rgba);
     const black = synthBlack(specs);

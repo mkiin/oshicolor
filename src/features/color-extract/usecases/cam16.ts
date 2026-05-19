@@ -1,15 +1,9 @@
-// sRGB から CAM16-UCS Jmh への変換。
-// 元実装: palette クレート 0.7.6 の `src/cam16/math.rs::xyz_to_cam16` と
-// `src/cam16/ucs_jmh.rs::FromColorUnclamped<Cam16Jmh>` を TS に移植。
-
 import type { BakedParameters, Cam16UcsJmh } from "../types/cam16";
 import { internals } from "./baked-parameters";
 
-// sRGB ガンマ補正の逆変換 (sRGB 0..1 → linear sRGB 0..1)。
 const linearizeChannel = (c: number): number =>
     c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
 
-// linear sRGB → XYZ (D65) の標準変換行列。
 const SRGB_TO_XYZ = [
     [0.4124564, 0.3575761, 0.1804375],
     [0.2126729, 0.7151522, 0.072175],
@@ -29,12 +23,10 @@ const srgbToXyz = (r: number, g: number, b: number): [number, number, number] =>
     ];
 };
 
-// 0..255 の sRGB バイト列を 0..1 に正規化。
 const normalizeByte = (b: number): number => b / 255.0;
 
 const radToDeg = (rad: number): number => (rad * 180.0) / Math.PI;
 
-// palette クレートの hue は -180..180 度で返るため、揃える。
 const wrapHue = (deg: number): number => {
     let h = deg;
     while (h > 180.0) h -= 360.0;
@@ -42,8 +34,6 @@ const wrapHue = (deg: number): number => {
     return h;
 };
 
-// XYZ (0..1 スケール、D65) と焼き込み済みパラメータから CAM16 lightness/colorfulness/hue を導く。
-// palette クレートと同じく XYZ は内部で 0..100 に変換してから処理する。
 const xyzToCam16Jmh = (
     xyz: [number, number, number],
     baked: BakedParameters,
@@ -53,9 +43,6 @@ const xyzToCam16Jmh = (
     const z = xyz[2] * 100.0;
 
     const rgb = internals.m16xyz(x, y, z);
-    // d_rgb を baked からそのまま使うわけにはいかないので、ここで再計算する。
-    // BakedParameters から外に持ち出していない理由は型を簡素に保つため。
-    // 性能上のホットパスではないので素直に再計算する。
     const rgbW = internals.m16xyz(
         baked.whitePoint.x * 100.0,
         baked.whitePoint.y * 100.0,
@@ -98,17 +85,11 @@ const xyzToCam16Jmh = (
     return { j, m, hDeg };
 };
 
-// CAM16 の J/M を CAM16-UCS の J'/M' に変換。ucs_jmh.rs:184-195 と同じ式。
 const toUcs = (j: number, m: number): { jPrime: number; mPrime: number } => ({
     jPrime: (1.7 * j) / (1.0 + 0.007 * j),
     mPrime: Math.log(1.0 + 0.0228 * m) / 0.0228,
 });
 
-/**
- * 24-bit sRGB バイトトリプル (0..255) を CAM16-UCS Jmh に変換する。
- * @param rgb 入力色 (r, g, b それぞれ 0..255)
- * @param baked 焼き込み済みの観察条件
- */
 export const srgbToCam16UcsJmh = (
     rgb: readonly [number, number, number] | { 0: number; 1: number; 2: number },
     baked: BakedParameters,

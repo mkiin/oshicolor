@@ -1,16 +1,9 @@
-// sRGB から CIE Lab (D65 white point) への変換と Lab 上の色差 DeltaE 76 の実装。
-//
-// 経路: sRGB (u8) → linear RGB → XYZ (D65) → Lab (D65)。
-// wallust v4 の `palette::Lab<D65, f32>` と同じ white point / 行列係数を使う。
-
 import type { Lab } from "../types/lab.ts";
 
-// D65 standard observer 2° white point の XYZ。palette クレート D65 と同値。
 const D65_X = 0.95047;
 const D65_Y = 1.0;
 const D65_Z = 1.08883;
 
-// CIE Lab で使う閾値 (epsilon = 216/24389、kappa = 24389/27)。
 const LAB_EPSILON = 216 / 24389;
 const LAB_KAPPA = 24389 / 27;
 
@@ -20,7 +13,6 @@ const srgbChannelToLinear = (c: number): number => {
 };
 
 const linearRgbToXyz = (r: number, g: number, b: number): [number, number, number] => [
-    // sRGB → XYZ (D65) 行列 (Bruce Lindbloom)
     0.4124564 * r + 0.3575761 * g + 0.1804375 * b,
     0.2126729 * r + 0.7151522 * g + 0.072175 * b,
     0.0193339 * r + 0.119192 * g + 0.9503041 * b,
@@ -44,10 +36,6 @@ export const srgbToLab = (rgb: [number, number, number]): Lab => {
     };
 };
 
-/**
- * RGBA バイト列 (Uint8ClampedArray など) を Lab 配列に一括変換する。
- * Alpha チャネルは無視する。
- */
 export const rgbaToLabArray = (rgba: ArrayLike<number>): Lab[] => {
     const pixels = rgba.length >>> 2;
     return Array.from({ length: pixels }, (_, i) => {
@@ -56,10 +44,6 @@ export const rgbaToLabArray = (rgba: ArrayLike<number>): Lab[] => {
     });
 };
 
-/**
- * CIEDE76 (CIE 1976) の DeltaE。Lab 上の単純ユークリッド距離。
- * wallust の `palette::color_difference::DeltaE` は Lab に対してこの式を使う。
- */
 export const deltaE76 = (a: Lab, b: Lab): number => {
     const dl = a.l - b.l;
     const da = a.a - b.a;

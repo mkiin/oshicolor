@@ -1,12 +1,7 @@
-// CAM16 観察条件パラメータの "焼き込み" 処理。
-// 元実装: palette クレート 0.7.6 の `src/cam16/math.rs::prepare_parameters` を TS に移植。
-
 import type { BakedParameters, Parameters, Surround } from "../types/cam16";
 
-// D65 white point の XYZ (Y = 1.0 正規化)。palette クレートの `white_point::D65` と一致。
 const D65_XYZ = { x: 0.95047, y: 1.0, z: 1.08883 } as const;
 
-// CAT16 行列 (XYZ → 錐体応答 RGB)。palette クレート src/cam16/math.rs::m16 と同値。
 const M16 = [
     [0.401288, 0.650173, -0.051461],
     [-0.250268, 1.204414, 0.045854],
@@ -39,7 +34,6 @@ const adaptComponent = (component: number, fL: number): number => {
 };
 
 export const bake = (p: Parameters): BakedParameters => {
-    // palette クレート参照系は XYZ を 0..100 スケールで扱うため、白点も 100 倍する。
     const xyzW = { x: D65_XYZ.x * 100.0, y: D65_XYZ.y * 100.0, z: D65_XYZ.z * 100.0 };
     const lA = p.lA;
     const yB = p.yB * 100.0;
@@ -66,11 +60,9 @@ export const bake = (p: Parameters): BakedParameters => {
     const nbb = 0.725 * Math.pow(n, -0.2);
     const ncb = nbb;
 
-    // Discounting::Auto の D 計算。
     const dRaw = f * (1.0 - (1.0 / 3.6) * Math.exp((-lA - 42.0) / 92.0));
     const d = Math.max(0.0, Math.min(1.0, dRaw));
 
-    // 白点を錐体応答に変換し、各色チャネルで適応係数 d_rgb を求める。
     const rgbW = m16xyz(xyzW.x, xyzW.y, xyzW.z);
     const dRgb: [number, number, number] = [
         lerp(1.0, yW / rgbW[0], d),
@@ -78,7 +70,6 @@ export const bake = (p: Parameters): BakedParameters => {
         lerp(1.0, yW / rgbW[2], d),
     ];
 
-    // 白点 (chromatic adaptation 後の RGB) に対する achromatic response Aw を計算。
     const rgbCw: [number, number, number] = [rgbW[0] * dRgb[0], rgbW[1] * dRgb[1], rgbW[2] * dRgb[2]];
     const rgbAw: [number, number, number] = [
         adaptComponent(rgbCw[0], fl),
@@ -103,8 +94,6 @@ export const bake = (p: Parameters): BakedParameters => {
     };
 };
 
-// 後段の cam16 変換が同じ adapt / d_rgb / m16 行列を再利用できるように
-// export しておく (Worker でも同じ実装を使えるよう純粋関数のまま)。
 export const internals = {
     M16,
     D65_XYZ,

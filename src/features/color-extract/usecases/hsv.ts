@@ -1,9 +1,3 @@
-// sRGB と HSV の相互変換。wallust の `palette::Hsv` と数値挙動が一致する。
-//
-// 入出力は次のとおりに揃える。
-//   - sRGB は 0..1 の Rgb 型
-//   - HSV の hue は 0..360 (degree、負にならない)、saturation と value は 0..1
-
 import type { Hsv } from "../types/hsv.ts";
 import type { Rgb } from "../types/rgb.ts";
 
@@ -60,10 +54,6 @@ export const hsvToRgb = (hsv: Hsv): Rgb => {
     return { r: r + m, g: g + m, b: b + m };
 };
 
-/**
- * RGBA バイト列を HSV タプル配列に一括変換する。Alpha は無視する。
- * 戻り値は wallust の `(hue_degrees, saturation, value)` と同じ並びで返す。
- */
 export const rgbaToHsvTuples = (rgba: ArrayLike<number>): [number, number, number][] => {
     const pixels = rgba.length >>> 2;
     return Array.from({ length: pixels }, (_, i) => {
