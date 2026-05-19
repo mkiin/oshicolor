@@ -1,9 +1,3 @@
-// wallust v4 の kmeans pipeline (library/wallust/src/histogram/kmeans.rs) を TS に移植する。
-//
-// 設計判断: kmeans コアは ml-kmeans の Lloyd's アルゴリズムを使い、wallust の Hamerly Kmeans とは
-// 異なる実装になるが、収束点は数学的に同じになり、後段の min_dist dedup でばらつきを吸収できる。
-// シードは ml-kmeans の `seed` オプションで固定するため、同じ入力に対して同じ重心が返る。
-
 import { kmeans as runMlKmeans } from "ml-kmeans";
 
 import type { KmeansConfig } from "../types/kmeans.ts";
@@ -11,11 +5,8 @@ import type { Lab } from "../types/lab.ts";
 import { deltaE76 } from "./lab.ts";
 
 export type KmeansResult = {
-    /** lightness 昇順 + DeltaE min_dist で dedup 済みの重心列 */
     dominantSortedByLightness: Lab[];
-    /** ml-kmeans が収束したか */
     converged: boolean;
-    /** 実行された反復回数 */
     iterations: number;
 };
 
@@ -32,13 +23,14 @@ const dedupByMinDist = (sorted: Lab[], minDist: number): Lab[] => {
     return out;
 };
 
-/**
- * Lab 画素配列に対して kmeans を 1 回だけ走らせ、lightness 昇順 + min_dist dedup 済みの
- * 重心列を返す。
- *
- * wallust の `kmeans(bytes, config)` のうち「重心算出 → ソート → dedup」までを担当する。
- * 8 個等間隔サンプル + 16 色展開は #043 (ExtractedPalette 統合) で行う。
- */
+export const sampleEvenly = (dominant: Lab[]): Lab[] => {
+    const n = Math.max(dominant.length, 1);
+    return Array.from({ length: 8 }, (_, i) => {
+        const idx = n === 1 ? 0 : Math.floor((i * (n - 1)) / 7);
+        return dominant[idx];
+    });
+};
+
 export const runKmeans = (pixels: Lab[], config: KmeansConfig): KmeansResult => {
     const data = pixels.map((p) => [p.l, p.a, p.b]);
     const result = runMlKmeans(data, config.k, {
