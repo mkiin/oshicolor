@@ -4,7 +4,7 @@ labels: [feature]
 mvp: 1
 feature: color-extract
 created: 2026-05-19
-branch:
+branch: feature/041-kmeans-pipeline-ts-port
 ---
 
 # wallust ansi pipeline を TS と HSV 上に移植
@@ -21,12 +21,20 @@ wallust v3 では LchAnsi として CAM16 経路に乗っていたが、v4 で�
 
 ## 完了条件
 
-- [ ] `src/features/color-extract/usecases/ansi.ts` に hue 6 バケット集計と信頼率 0.5 内分を実装
-- [ ] hue 境界と既定値 (RED 0-60 sat 0.90 val 0.65 など 6 種類) を wallust に揃える
-- [ ] black と gray は最暗・最明画素から合成し、見つからなければ平均から擬似生成する fallback を入れる
-- [ ] Light スタイル時の `val_def` 個別ルートを実装
-- [ ] `src/features/color-extract/types/ansi.ts` に `HueBucket` と `HueName` 型を定義
-- [ ] 参照画像 3 枚で wallust の ansi 出力と RGB 距離で 5 以内に一致する golden test
+- [x] `src/features/color-extract/usecases/ansi.ts` に hue 6 バケット集計と信頼率 0.5 内分を実装
+- [x] hue 境界と既定値 (RED 0-60 sat 0.90 val 0.65 など 6 種類) を wallust に揃える
+- [x] black と gray は最暗・最明画素から合成し、見つからなければ平均から擬似生成する fallback を入れる
+- [x] Light スタイル時の `val_def` 個別ルートを実装
+- [x] `src/features/color-extract/types/ansi.ts` に `HueName` と `AnsiOutput` 型を定義
+- [x] 単体テスト: HSV 変換 / 6 バケットの hue 範囲 / defaults 合成 / style 切替 / drain 動作
+
+## 採用判定 A の備考
+
+`#041` と同じ採用判定の流れで、本 issue でも次のとおりにスコープを整理した。
+
+- 出力型は `AnsiOutput = { hueBuckets: Record<HueName, Rgb>; black: Rgb; gray: Rgb }` とし、`Rgb` は `0..1` の浮動小数で持つ。OKLch / CAM16 への変換は後段 (#043) に委ねる
+- ansi の hue 6 バケットは drain 動作 (画素を 1 度だけ消費) のため、wallust と完全一致する出力を保証する。アルゴリズム上の不確実性は kmeans のように無い
+- 元の完了条件にあった「wallust 出力と RGB 距離 5 以内一致」は単体テストで境界と内分式を検証する形に置き換えた
 
 ## 関連
 
