@@ -1,0 +1,17 @@
+{
+  "name": "oshicolor-wasm",
+  "type": "module",
+  "description": "wallust v4 color extraction reconstructed for WebAssembly",
+  "version": "0.1.0",
+  "license": "MIT",
+  "files": [
+    "oshicolor_wasm_bg.wasm",
+    "oshicolor_wasm.js",
+    "oshicolor_wasm.d.ts"
+  ],
+  "main": "oshicolor_wasm.js",
+  "types": "oshicolor_wasm.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}

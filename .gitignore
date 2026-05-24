@@ -23,9 +23,10 @@ debug/img/
 # rust build
 target/
 
-# wasm-pack 生成物。中身は無視し .gitkeep だけ追跡する
-generated/wasm/*
-!generated/wasm/.gitkeep
+# wasm-pack 生成物はビルド済みでコミットする。
+# Cloudflare のビルド環境に Rust/wasm-pack が無く CI で再生成できないため。
+# wasm-pack が吐く内部 .gitignore だけは無視する。
+generated/wasm/.gitignore
 
 # vitest browser の生成物（失敗スクショ・添付）
 .vitest-attachments/
