@@ -19,3 +19,14 @@ library/
 
 # debug iamges
 debug/img/
+
+# rust build
+target/
+
+# wasm-pack 生成物。中身は無視し .gitkeep だけ追跡する
+generated/wasm/*
+!generated/wasm/.gitkeep
+
+# vitest browser の生成物（失敗スクショ・添付）
+.vitest-attachments/
+**/__screenshots__/
