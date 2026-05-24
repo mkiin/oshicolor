@@ -1,0 +1,8 @@
+[workspace]
+resolver = "2"
+members = ["crates/*"]
+exclude = ["library"]
+
+[profile.release]
+opt-level = "s"
+lto = true

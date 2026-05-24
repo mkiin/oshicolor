@@ -1,167 +1,147 @@
 ---
 feature: color-extract
 status: planned
-last-updated: 2026-05-19
+last-updated: 2026-05-24
 ---
 
 # color-extract 仕様
 
 ## 概要
 
-`color-extract` feature は、画像から 16 色のカラーパレットを取り出して `Colors` 構造体として返すレイヤにあたる。wallust v4 の Salience pipeline を CAM16-UCS Jmh 上で再現する形で実装し、後段の `palette-design` feature が semantic ロールを派生させる前提の中間出力を担う。
+`color-extract` feature は、画像から 16 色のカラーパレットを取り出して `Colors` として返すレイヤにあたる。中身は wallust v4 の色抽出ロジックを Rust のまま自前クレート `crates/wasm` に再構築し、それを WebAssembly にコンパイルしたモジュールで、TypeScript からはこの wasm を呼ぶ薄いラッパだけを持つ。後段の `palette-design` feature が semantic ロールを派生させる前提の中間出力を担う。
 
-色空間として CAM16-UCS Jmh を選ぶ理由は、観察条件 (`L_A` と `Y_b` と surround) をパラメータで切り替えられるためで、dark テーマと light テーマで別の `BakedParameters` を焼いて顕著性計算を組むという wallust の中核機能をそのまま TS に持ち込める。OKLch ではこの観察条件切替を再現できないため、PoC (#040) の採用判定を経て CAM16-UCS Jmh の自前実装に踏み切ることが決まった。
+抽出ロジックを TypeScript に移植せず Rust のまま wasm として動かすのは、保守コストを下げるためである。パイプラインごとに Rust から TypeScript へ書き写すと、wallust 側の更新に追従するたびに移植とテストをやり直すことになり、しかも浮動小数の処理差で出力が完全には一致しない。Rust ソースを再構築して wasm にすれば、wallust の出力と byte レベルで一致し、ロジックの追従はソースを取り込み直してビルドするだけで済む。
+
+vendored の `library/wallust` を直接いじらず、抽出に要る部分だけ自前クレートに再構築するのは、wallust が OSS だからである。上流の OSS ツリーに我々の wasm 用コードを混ぜると、上流のどこを変えたのかが追いにくくなり管理がややこしくなる。`library/wallust` は再構築の参照元として無改変のまま残し、`crates/wasm` を我々が保守する資産として切り分ける。
 
 ## 入出力
 
-入力は画像データと style 指定で、出力は 16 色 + 背景・前景・カーソル色を含む `Colors` 構造体になる。
+入力は画像の生バイト列と抽出設定で、出力は 16 色に背景と前景とカーソル色を加えた `Colors` になる。色は sRGB の hex 文字列で返す。
 
-- 入力: `HTMLImageElement` / `ImageBitmap` / `Blob` (PNG / JPEG / WebP) と `Style`
+入力画像はブラウザ側で `Blob` から `Uint8Array` に変換してから wasm に渡す。デコードとリサイズは wasm 内の `image` クレートが担うため、JavaScript 側は画像の中身に触れない。
+
+- 入力: 画像の生バイト列 `Uint8Array`（PNG / JPEG / WebP）と `ExtractConfig`
 - 出力: `Colors`
 
 ```ts
+type Palette = "salience" | "ansi" | "kmeans";
 type Style = "dark" | "light";
 
-type Cam16UcsJmh = { j: number; m: number; h: number };
+type ExtractConfig = {
+  palette: Palette;
+  style: Style;
+  use16cols: boolean;
+  dynamic: boolean;
+  checkContrast: boolean;
+  saturation?: number;
+};
 
 type Colors = {
-  background: Cam16UcsJmh;
-  foreground: Cam16UcsJmh;
-  cursor: Cam16UcsJmh;
-  color0: Cam16UcsJmh; color1: Cam16UcsJmh; color2: Cam16UcsJmh; color3: Cam16UcsJmh;
-  color4: Cam16UcsJmh; color5: Cam16UcsJmh; color6: Cam16UcsJmh; color7: Cam16UcsJmh;
-  color8: Cam16UcsJmh; color9: Cam16UcsJmh; color10: Cam16UcsJmh; color11: Cam16UcsJmh;
-  color12: Cam16UcsJmh; color13: Cam16UcsJmh; color14: Cam16UcsJmh; color15: Cam16UcsJmh;
-  source: { width: number; height: number; hash: string };
-  meta: { threshold: number; style: Style; extractedAt: string };
+  background: string;
+  foreground: string;
+  cursor: string;
+  color0: string; color1: string; color2: string; color3: string;
+  color4: string; color5: string; color6: string; color7: string;
+  color8: string; color9: string; color10: string; color11: string;
+  color12: string; color13: string; color14: string; color15: string;
 };
 
 const extractColors = (
-  image: HTMLImageElement | ImageBitmap | Blob,
-  style: Style,
+  image: Blob,
+  config: ExtractConfig,
 ): Promise<Colors> => {
-  /* ... */
+  /* Blob を Uint8Array にして wasm の genColorsFromBytes を呼ぶ */
 };
 ```
 
-公開 API は `extractColors(image, style)` 1 本にする。`style` は CAM16 の観察条件選択に直結する引数なので、palette-design 側がテーマ種別を判定した上で渡す前提になる。
+公開 API は `extractColors(image, config)` 1 本にする。`style` は dark と light で観察条件の白色点と背景輝度を切り替える引数なので、palette-design 側がテーマ種別を判定した上で渡す前提になる。
 
-## アルゴリズムの全体像
+## アルゴリズム / 処理フロー
 
-wallust v4 (Rust) の `src/histogram/` と `src/lib.rs::gen_colors` の `Palette::Salience` 経路を 6 段の TypeScript パイプラインに移植する。色空間の変換は CAM16-UCS Jmh への置換で、それ以外の dedup / 顕著性スコア / 16 色割り当ては wallust と同じ重み構造を踏襲する。
+処理は wasm の境界をまたいで進む。JavaScript 側はバイト列を渡して結果を受け取るだけで、色抽出の本体は wasm 内で完結する。ここで言う本体とは、画像のデコードからリサイズ、ヒストグラム構築、16 色割り当て、最終補正までを指す。本体のロジックは `crates/wasm` に再構築済みで、`library/wallust` のソースと同じ計算をする。
 
-### 1. 画像読み込みとリサイズ
+### 1. バイト列の受け渡し
 
-入力画像を `OffscreenCanvas` 上で長辺 512px に揃え、アスペクト比を保ったままリサイズする。1920x1080 なら 512x288 になり、800x800 なら 512x512 のままで、1080x1920 なら 288x512 になる。`ImageData.data` から sRGB バイト列の `Uint8ClampedArray` を取り出して次段に渡す。
+ブラウザ側で `image.arrayBuffer()` を呼んで `Uint8Array` を作り、wasm の `genColorsFromBytes(bytes, config)` に渡す。リサイズもデコードも wasm 内で行うため、ブラウザ側に `OffscreenCanvas` や Web Worker は要らない。これにより画素変換の並列化や転送コストの設計をすべて Rust 側に寄せられる。
 
-アスペクト比を保つのは、画像中の色面の相対面積を維持して顕著性スコアに偏りが入らないようにするためで、歪めると同じ色面でも縦横比が変わる場所で画素数の重みが変わる。
+### 2. デコードとリサイズ
 
-### 2. BakedParameters の焼き込みと CAM16-UCS Jmh への並列変換
+wasm 内で `image::load_from_memory` がバイト列をデコードし、wallust の `resized` バックエンドと同じ縮小をかける。縮小は長辺が 1024px 以上のとき縦横を半分にし、Gaussian フィルタを使う。アスペクト比を保つのは、画像中の色面の相対面積を維持して顕著性スコアに偏りが入らないようにするためである。
 
-`style` 引数から `Parameters` を組み立てて 1 度だけ `bake` する。dark なら `L_A = 140 cd/m²`, `Y_b = 0.2`, surround `Average`、light なら `L_A = 500 cd/m²`, `Y_b = 0.8`, surround `Average` で、これは wallust の `Histogram::new_empty` と同じ値になる。
+リサイズに `image` の純スカラー Gaussian を使い、wallust のデフォルトである `fast_image_resize` を採らないのは、parity をビットレベルで保つためである。`fast_image_resize` は SIMD バックエンドが環境依存で、native の x86 と wasm の SIMD128 やスカラーで結果が一致する保証がない。リサイズで数 LSB ずれるとヒストグラムのバケット境界で画素の振り分けが変わり、最終 16 色が変わりうる。純スカラーの Gaussian なら環境に依らず同じ結果になり、native CLI を `backend=resized` で動かした出力と完全に一致させられる。バックエンドの選択は `crates/wasm` 内で `resized` に固定し、`ExtractConfig` には出さない。
 
-`BakedParameters` は画像非依存で `style` のみに依存するため、メインスレッドで 1 度作って Web Worker に渡せばすべての画素変換で使い回せる。Worker 1 つに 1 個ずつ送り、Worker 内では画素単位で `srgbToCam16UcsJmh` を呼び出して `Float32Array` の `[J, M, h, J, M, h, ...]` を返す形にする。
+### 3. ヒストグラムと 16 色割り当て
 
-並列化の判断は画像サイズで切り替える。総画素数が 256k 以下のときはメインスレッドで同期実行し、Worker の起動と Transferable 転送のオーバーヘッドが利得を上回る区間を避ける。256k より大きいときは `navigator.hardwareConcurrency - 1` 個の Worker を立ち上げて RGBA バイト列を chunk に分割し、`postMessage(req, [chunk.buffer])` で transfer する。
+`gen_colors` の中で palette 分岐ごとに走るパイプラインを再構築して呼ぶ。`config.palette` が salience なら `Histogram` を組んで dedup と post_dedup と salience_palette を通し、ansi なら ANSI 順の割り当て、kmeans なら Lab 空間のクラスタリングに進む。dark と light の違いは wallust の `ColorOrder` を経由して白色点と背景輝度に反映される。
 
-chunk 分割の段で元 `Uint8ClampedArray` から各 Worker 用 `ArrayBuffer` への 1 回のコピーが発生する。これは `ArrayBuffer` 単位でしか transfer できない制約から来る最小コストで、本 feature ではこの形で運用する。将来 SharedArrayBuffer を導入する場合は COOP / COEP ヘッダの設定が前提になるので、専用の issue を立てて検討する。
+各段のアルゴリズムの正本は `library/wallust/src/histogram/` とする。`crates/wasm` 側はこのソースを再構築したものなので、アルゴリズムを独自に変えず、上流の計算と一致させ続けることを原則にする。
 
-### 3. threshold histogram
+### 4. 最終補正と hex 化
 
-`gather` 関数で画素を「色バケット」に集計する。
+`postcolor` で `use16cols` と `checkContrast` と `saturation` に応じた補正をかけたあと、19 個の `Myrgb` を `#RRGGBB` の文字列に変換して `Colors` として返す。hex で返すのは、後段の palette-design と Neovim カラースキーム生成が sRGB の hex を直接扱うためで、中間で別の色空間を経由する必要がない。
 
-```ts
-function gather(pixels: Cam16UcsJmh[], threshold: number): Histo[] {
-  const histo: Histo[] = [];
-  for (const p of pixels) {
-    let merged = false;
-    for (const h of histo) {
-      if (canBucket(p, h.color, threshold)) {
-        h.count += 1;
-        merged = true;
-        break;
-      }
-    }
-    if (!merged) histo.push({ color: p, count: 1, score: 0 });
-  }
-  return histo;
-}
+## フォルダ構成と wasm ビルド
+
+Rust のコードはルート直下の `crates/wasm` 1 クレートにまとめ、wasm-pack の生成物は `generated/wasm` に出す。この置き方は wasm を内包する Vite プロジェクトの一般的な慣習に沿っていて、Rust ソースとビルド成果物とアプリ本体を物理的に分ける。
+
+```
+oshicolor/
+├── Cargo.toml              # [workspace] members = ["crates/*"]
+├── crates/
+│   └── wasm/               # 我々のクレート。cdylib
+│       ├── Cargo.toml
+│       ├── LICENSE         # wallust の MIT を継承して明記する
+│       └── src/
+│           ├── lib.rs      # #[wasm_bindgen] genColorsFromBytes
+│           ├── histogram/  # library/wallust から再構築
+│           ├── colors.rs
+│           ├── backends.rs # デコードとリサイズだけ
+│           └── config.rs   # 抽出に要る設定だけ
+├── generated/wasm/         # wasm-pack の出力先。中身は gitignore し .gitkeep だけ追跡
+├── library/wallust/        # OSS 原本。再構築の参照元として無改変で残す
+└── src/features/color-extract/
 ```
 
-`canBucket` は CAM16-UCS Jmh 上の重み付きユークリッド距離が threshold 以下なら true を返す。重みは `WEIGHTS_BUCKETING = [1.0, 1.0, 1.5]` を `[J, M, h]` の順で適用し、各軸を `[100, 40, 180]` で正規化してから距離を取る。正規化定数は wallust と同じ値で、これによりユーザーから見た threshold のスケールが Rust 版と互換になる。
+`crates/wasm` は wallust の抽出ロジックを再構築した自前クレートで、CLI 専用モジュール（`main` / `template` / `cache` / `sequences` / `args` / `pick`）は取り込まない。これらは端末出力やファイルキャッシュを扱うもので、ブラウザ内の色抽出には不要であり、しかも wasm32 が非 unix のため `sequences.rs` のように cfg ボディが空になって型が合わなくなる。要る部分だけ再構築することで、ビルドが通り、バイナリも小さくなる。
 
-### 4. auto_threshold
+wallust は MIT ライセンスの OSS なので、ソースを再構築して取り込む `crates/wasm` にも MIT のライセンス表記と帰属を残す。
 
-固定列 `[14, 16, 13, 17, 12, 18, ..., 2, 38..44]` の各 threshold で並列に `gather` から `scoreHistogram` まで走らせ、スコアが最大になる histogram を採用する。固定列は wallust の `salience.rs::auto_threshold` と同じ 42 要素を使う。
+ビルドと依存の要点を次に示す。
 
-スコア式は色対の顕著性を count 重み平均で集計する形で、wallust の `score_histogram` の式と一致させる。
+- `crates/wasm/Cargo.toml` で `crate-type = ["cdylib"]` を指定し、`image` / `palette` / `kmeans_colors` を直接依存にする
+- リサイズは `image` の Gaussian に固定し、`fast_image_resize` は依存に入れない
+- `getrandom` を `wasm_js` feature 付きで依存に加え、ビルド時に `--cfg getrandom_backend="wasm_js"` を渡す
+- `jxl-oxide` は取り込まない。JPEG XL はキャラクターイラスト用途で使わないので、バイナリサイズを抑える方を優先する
+- `wasm-pack build crates/wasm --target web --out-dir ../../generated/wasm` で生成物を出し、`vite-plugin-wasm` と `vite-plugin-top-level-await` を通して import する
 
-```text
-score = Σ_{i<j} salience(c_i, c_j) × w_ij / Σ_{i<j} w_ij
-w_ij = (count_i × count_j) ^ (1/4)
-```
+## 主要な型・定数
 
-並列実行は段 2 と同じ Web Worker pool を使い回し、`navigator.hardwareConcurrency` を上限 8 にキャップする。連続 2 回スコアが下がったら探索を打ち切る打ち切り条件も wallust に揃える。
+公開する型は最小限にして、数値定数や重みは wallust 側に閉じる。
 
-### 5. dedup と post_dedup
-
-dedup は `gather` と同じ閾値で隣接バケットを再統合し、post_dedup は最低顕著色を背景仮置きに選んで各バケットの salience スコアを計算し直してソートする。
-
-salience スコアは「背景仮置きに対する full salience」で、重み `WEIGHTS_FULL = [1.0, 1.0, 1.0]` を使う。背景候補の選定にだけ `WEIGHTS_NAIVE = [1.0, 5.0, 0.0]` を使い、hue を無視して colorfulness を重視する形で「画面で目立たない暗めの色」を当てる。この使い分けは wallust の `Weights` プリセットの定義そのままになる。
-
-### 6. salience_palette
-
-ソート済みヒストグラムから 16 色を作る。本 spec では wallust の `salience_palette` を balanced sampling と Normal intensity の組み合わせで移植し、その他のサンプリングモードや intensity は別 issue (`#036` `#037`) で扱う。
-
-- `background`: 背景仮置きを `constrainColAsBg` で範囲補正
-- `color0`: 背景に最も近い色
-- `color1` から `color6`: 中央付近からサンプリング (balanced)
-- `color7`: 最顕著色の lightness を 25% 上げる
-- `color8`: `color7` の lightness を 30% 下げる
-- `color9` から `color14`: `color1` から `color6` と同色 (`use16cols` off の挙動)
-- `color15`: 最顕著色と白の blend
-- `cursor`: foreground と `color5` の中間色
-
-## 主要な型と定数
-
-`Cam16UcsJmh`, `Histo`, `Colors` を中心とした型と、wallust と互換な数値定数を 1 箇所にまとめて保持する。
-
-- `Cam16UcsJmh`: `{ j: number; m: number; h: number }`
-- `Histo`: `{ color: Cam16UcsJmh; count: number; score: number }`
-- `Colors`: 16 色 + bg/fg/cursor + source/meta
+- `Palette`: `"salience" | "ansi" | "kmeans"`
 - `Style`: `"dark" | "light"`
-- `Parameters`: `{ lA: number; yB: number; surround: "average" | "dim" | "dark" }`
-- `BakedParameters`: `Parameters` から導出した CAM16 計算用の係数群
-- `RESIZE_LONG_EDGE = 512`
-- `PARALLEL_PIXEL_THRESHOLD = 256_000` (これ以下は同期実行)
-- `THRESHOLD_SEQUENCE`: wallust と同じ 42 要素の固定列
-- `WEIGHTS_NAIVE = [1.0, 5.0, 0.0] as const`
-- `WEIGHTS_FULL = [1.0, 1.0, 1.0] as const`
-- `WEIGHTS_BUCKETING = [1.0, 1.0, 1.5] as const`
-- `J_MAX = 100`, `M_MAX = 40`, `H_MAX = 180`
-- dark 用パラメータ: `{ lA: 140, yB: 0.2, surround: "average" }`
-- light 用パラメータ: `{ lA: 500, yB: 0.8, surround: "average" }`
+- `ExtractConfig`: 上記の入力設定
+- `Colors`: 19 個の hex 文字列フィールド
+- リサイズ縮小の境界は wallust の `shrink` に従い、長辺 1024px 以上で半分にする
 
 ## 依存
 
-CAM16-UCS Jmh の TS 実装を提供する既存ライブラリは無いので、変換は本 feature 内の純粋関数として持つ。
+色抽出のロジックはすべて wasm 側にあるため、TypeScript 側の依存は最小限になる。
 
-- パッケージ: `culori` (Srgb の取り扱いと sRGB ↔ linearRGB 変換のみ。CAM16 変換は自前)
+- wasm クレート `crates/wasm`: `image` / `palette` / `kmeans_colors` / `getrandom`
+- ビルド: `wasm-pack` と `wasm32-unknown-unknown` target
+- パッケージ: ランタイムの追加依存はなく、Vite の `vite-plugin-wasm` と `vite-plugin-top-level-await` のみ
 - 他 feature: なし
 
 ## 設計の前提と制約
 
-メモリキャッシュは `Map<hash, Colors>` の LRU で持ち、永続化は対象外にする。`hash` は画像バイト列の FNV-1a で取り、`style` 違いは別エントリとして扱う。
+メモリキャッシュは `Map<key, Colors>` の LRU で TypeScript 側に持ち、永続化は対象外にする。キーは画像バイト列のハッシュと `ExtractConfig` の組で取り、設定違いは別エントリとして扱う。
 
-intensity 補正 (Pastel / Vibrant) と sampling mode (high / distributed / low) は別 issue で実装するため、本 spec では balanced + Normal の組み合わせ 1 種類に固定する。WCAG コントラスト補正と背景マスキングも本 feature の責務外で、palette-design feature 側で行う。
+wasm は単一スレッドで動かす。リサイズ後の画像は長辺が高々 512px 程度に収まり、抽出は短時間で終わるため、現時点ではスレッド並列を入れない。将来ベンチマークで不足が出たら、wasm threads と SharedArrayBuffer の導入を専用 issue で検討する。その場合は COOP と COEP のヘッダ設定が前提になる。
 
-`style` (dark / light) は本 feature の入力として受け取るが、どちらを採用するかの判定そのものは palette-design の責務になる。color-extract は与えられた style に対して観察条件を組み立てて 1 セットの `Colors` を返すことに専念する。
-
-auto_threshold の Web Worker 並列実行は探索順とスコア計算の独立性により再現性を保てるが、ベンチマークで揺らぎが出る場合は固定シードや決定的な順序で結果を集約する追加対応を入れる。
+intensity 補正や sampling mode といった抽出のバリエーションは wallust の config を通すだけで切り替わるため、本 feature 側で再実装しない。`ExtractConfig` に項目を足して wasm に渡す形で拡張する。
 
 ## 関連
 
-- PoC: docs/issue/done/040-cam16-ucs-ts-poc.md
-- PoC の採用判定レポート: docs/references/cam16/ts-port-feasibility.md
-- 移植元: library/wallust/src/histogram/{mod,salience,diff}.rs
-- 後続 issue: #036 intensity (Pastel / Vibrant)、#037 sampling mode、#038 WCAG コントラスト、#039 idea 3 系統割り当て
+- 再構築元: library/wallust/src/{lib.rs, histogram/, backends/, colors.rs, config.rs}
+- 後続 issue: #036 intensity、#037 sampling mode、#038 WCAG コントラスト
