@@ -1,4 +1,4 @@
-import type { Colors } from "../types/colors";
+import type { Colors } from "../../types/colors";
 
 import { cn } from "@/shared/lib/utils";
 import { useState } from "react";

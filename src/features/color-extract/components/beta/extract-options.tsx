@@ -1,4 +1,4 @@
-import type { ExtractConfig, Palette } from "../types/colors";
+import type { ExtractConfig, Palette } from "../../types/colors";
 
 import { Button } from "@/shared/components/ui/button";
 import { Label } from "@/shared/components/ui/label";

@@ -1,11 +1,11 @@
-import type { ExtractConfig } from "../types/colors";
+import type { ExtractConfig } from "../../types/colors";
 
 import { ImagePreview } from "@/shared/components/ui/dropzone";
 import { Spinner } from "@/shared/components/ui/spinner";
 import { useEffect, useMemo, useState } from "react";
 
-import { useDebouncedValue } from "../hooks/use-debounced-value";
-import { useExtractColors } from "../hooks/use-extract-colors";
+import { useDebouncedValue } from "../../hooks/use-debounced-value";
+import { useExtractColors } from "../../hooks/use-extract-colors";
 import { ExtractOptions } from "./extract-options";
 import { PaletteDisplay } from "./palette-display";
 
